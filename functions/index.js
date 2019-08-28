@@ -64,3 +64,12 @@ exports.addCity = functions.https.onCall((data, context) => {
       console.error("Error adding document: ", error);
     });
 });
+
+exports.sendWelcomeEmail = functions.auth.user().onCreate(user => {
+  const userObject = {
+    displayName: user.displayName,
+    email: user.email
+  };
+
+  return db.doc("users/" + user.uid).set(userObject);
+});

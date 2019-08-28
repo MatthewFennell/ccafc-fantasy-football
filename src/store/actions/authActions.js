@@ -26,10 +26,19 @@ export const signUp = newUser => ({
   newUser
 });
 
+export const signUpWithGoogle = () => ({
+  type: "SIGNUP_WITH_GOOGLE"
+});
+
 export const signUpSuccess = () => ({
   type: "SIGN_UP_SUCCESS"
 });
 
 export const signUpError = error => ({
   type: "SIGN_UP_ERROR"
+});
+
+export const createUser = user => ({
+  type: "CREATE_USER",
+  user
 });

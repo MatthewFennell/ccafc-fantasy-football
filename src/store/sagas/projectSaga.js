@@ -49,6 +49,7 @@ function* signIn(action) {
 function* signOut(action) {
   try {
     yield firebase.auth().signOut();
+    // yield firebase.logout();
     yield put(signOutSuccess());
   } catch (error) {
     console.log("error", error);
@@ -77,11 +78,32 @@ function* signUp(action) {
   }
 }
 
+function* signUpWithGoogle(action) {
+  try {
+    console.log("sign up with google action", action);
+  } catch (error) {
+    console.log("error", error);
+  }
+}
+
+function* createUser(action) {
+  console.log("create action", action);
+  try {
+    yield call(rsf.firestore.setDocument, `users/${action.user.uid}`, {
+      displayName: action.user.displayName
+    });
+  } catch (error) {
+    console.log("error", error);
+  }
+}
+
 export default function* functionRootSaga() {
   yield all([
     takeEvery("CREATE_PROJECT", ping),
     takeEvery("SIGN_IN", signIn),
     takeEvery("LOGOUT", signOut),
-    takeEvery("SIGNUP", signUp)
+    takeEvery("SIGNUP", signUp),
+    takeEvery("SIGNUP_WITH_GOOGLE", signUpWithGoogle),
+    takeEvery("CREATE_USER", createUser)
   ]);
 }
