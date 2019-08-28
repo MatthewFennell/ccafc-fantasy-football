@@ -1,6 +1,5 @@
 const admin = require("firebase-admin");
 const functions = require("firebase-functions");
-const nodemailer = require("nodemailer");
 const cors = require("cors")({ origin: true });
 
 admin.initializeApp(functions.config().firebase);
@@ -10,7 +9,7 @@ admin.firestore().settings(settings);
 const db = admin.firestore();
 
 exports.ping = functions
-  .region("europe-west1")
+  .region("europe-west2")
   .https.onRequest((request, response) => {
     cors(request, response, () => {
       response.json({
@@ -20,7 +19,7 @@ exports.ping = functions
   });
 
 exports.addMessage = functions
-  .region("europe-west1")
+  .region("europe-west2")
   .https.onCall((data, context) => {
     // Message text passed from the client.
     const text = data.text;
@@ -41,7 +40,7 @@ exports.addMessage = functions
   });
 
 exports.test = functions
-  .region("europe-west1")
+  .region("europe-west2")
   .https.onCall((request, response) => {
     cors(request, response, () => {
       response.json({
@@ -51,7 +50,7 @@ exports.test = functions
   });
 
 exports.getDatabase = functions
-  .region("europe-west1")
+  .region("europe-west2")
   .https.onCall((data, context) => {
     return db
       .collection("projects")
@@ -60,7 +59,7 @@ exports.getDatabase = functions
   });
 
 exports.addCity = functions
-  .region("europe-west1")
+  .region("europe-west2")
   .https.onCall((data, context) => {
     return db
       .collection("cities")
@@ -77,7 +76,7 @@ exports.addCity = functions
   });
 
 exports.userSignUp = functions
-  .region("europe-west1")
+  .region("europe-west2")
   .auth.user()
   .onCreate(user => {
     const userObject = {

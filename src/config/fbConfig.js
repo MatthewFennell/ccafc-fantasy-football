@@ -13,6 +13,7 @@ const firebaseApp = firebase.initializeApp({
 });
 
 const rsf = new ReduxSagaFirebase(firebaseApp);
+rsf.region = "europe-west2";
 
 firebaseApp.firestore();
 
