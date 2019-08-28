@@ -13,10 +13,8 @@ const firebaseApp = firebase.initializeApp({
 });
 
 const rsf = new ReduxSagaFirebase(firebaseApp);
-const functions = firebaseApp.functions();
 
-firebaseApp.firestore().settings({ timestampsInSnapshots: true });
 firebaseApp.firestore();
 
-export { functions, firebaseApp };
+export { firebaseApp };
 export default rsf;
