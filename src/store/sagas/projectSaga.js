@@ -23,13 +23,16 @@ function* ping(action) {
   const test = yield api.addMessage({ data: "data" });
   console.log("received", test);
 
-  const addMessage = firebase.functions().httpsCallable("addMessage");
-  yield addMessage({ data: "data" });
-
-  const databaseStuff = firebase.functions().httpsCallable("getDatabase");
+  const databaseStuff = firebase
+    .app()
+    .functions("europe-west2")
+    .httpsCallable("getDatabase");
   yield databaseStuff();
 
-  const addCity = firebase.functions().httpsCallable("addCity");
+  const addCity = firebase
+    .app()
+    .functions("europe-west2")
+    .httpsCallable("addCity");
   yield addCity();
 }
 
