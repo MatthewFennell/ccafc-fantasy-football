@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const ProjectSummary = ({ project }) => (
   <div className="card z-depth-0 project-summary">
@@ -9,5 +10,15 @@ const ProjectSummary = ({ project }) => (
     </div>
   </div>
 );
+
+ProjectSummary.defaultProps = {
+  project: {}
+};
+
+ProjectSummary.propTypes = {
+  project: PropTypes.objectOf(PropTypes.shape({
+    title: PropTypes.string
+  }))
+};
 
 export default ProjectSummary;

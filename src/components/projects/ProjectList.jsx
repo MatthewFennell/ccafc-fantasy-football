@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ProjectSummary from './ProjectSummary';
 
 const ProjectList = ({ projects }) => (
@@ -8,5 +9,16 @@ const ProjectList = ({ projects }) => (
     ))}
   </div>
 );
+
+ProjectList.defaultProps = {
+  projects: []
+};
+
+ProjectList.propTypes = {
+  projects: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.shape({
+    title: PropTypes.string,
+    id: PropTypes.string
+  })))
+};
 
 export default ProjectList;

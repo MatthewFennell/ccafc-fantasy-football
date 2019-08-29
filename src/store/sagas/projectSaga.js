@@ -6,9 +6,7 @@ import * as api from '../../api/api';
 import {
   loginSuccess,
   loginError,
-  signOutSuccess,
-  signUpSuccess,
-  signUpError
+  signOutSuccess
 } from '../actions/authActions';
 
 import rsf from '../../config/fbConfig';
@@ -54,7 +52,6 @@ function* signIn(action) {
 function* signOut(action) {
   try {
     yield firebase.auth().signOut();
-    // yield firebase.logout();
     yield put(signOutSuccess());
   } catch (error) {
     console.log('error', error);
