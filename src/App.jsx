@@ -1,21 +1,24 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Navbar from './components/layout/Navbar';
+import { Switch, Route } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
+import PropTypes from 'prop-types';
 import Dashboard from './components/dashboard/Dashboard';
 import ProjectDetails from './components/projects/ProjectDetails';
-// import SignIn from './components/auth/SignIn';
 import SignIn from './auth/SignIn';
 import SignUp from './auth/SignUp';
 import CreateProject from './components/projects/CreateProject';
 import AuthenticatedRoute from './auth/AuthenticatedRoute';
 import Test from './test';
+import NavbarTwo from './navbar/Navbar';
+import DashboardTwo from './dashboard/Dashboard';
 
-const App = () => (
-  <BrowserRouter>
+const App = ({ history }) => (
+  <ConnectedRouter history={history}>
     <div className="App">
-      <Navbar />
+      <NavbarTwo />
       <Switch>
         <Route exact path="/" component={Dashboard} />
+        <Route exact path="/dashboard" component={DashboardTwo} />
         <Route path="/project/:id" component={ProjectDetails} />
         <Route path="/signin" component={SignIn} />
         <Route path="/signup" component={SignUp} />
@@ -23,7 +26,15 @@ const App = () => (
         <AuthenticatedRoute path="/protected" component={Test} />
       </Switch>
     </div>
-  </BrowserRouter>
+  </ConnectedRouter>
 );
+
+App.defaultProps = {
+  history: {}
+};
+
+App.propTypes = {
+  history: PropTypes.shape({})
+};
 
 export default App;
