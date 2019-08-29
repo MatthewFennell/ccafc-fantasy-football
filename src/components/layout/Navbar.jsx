@@ -6,7 +6,6 @@ import SignedOutLinks from './SignedOutLinks';
 
 const Navbar = props => {
   const { auth } = props;
-  console.log('auth', auth);
   return (
     <nav className="nav-wrapper grey darken-3">
       <div className="container">
@@ -19,11 +18,8 @@ const Navbar = props => {
   );
 };
 
-const mapStateToProps = state => {
-  console.log(state);
-  return {
+const mapStateToProps = state => ({
     auth: state.firebase.auth
-  };
-};
+  });
 
 export default connect(mapStateToProps)(Navbar);

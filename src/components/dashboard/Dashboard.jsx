@@ -4,7 +4,6 @@ import ProjectList from '../projects/ProjectList';
 import Notifications from './Notifications';
 
 const Dashboard = props => {
-  // console.log(this.props);
   const { projects } = props;
 
   return (
