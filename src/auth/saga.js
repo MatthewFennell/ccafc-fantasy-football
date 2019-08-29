@@ -3,6 +3,7 @@ import {
 } from 'redux-saga/effects';
 import firebase from 'firebase';
 import { push } from 'connected-react-router';
+import { constants } from 'react-redux-firebase';
 import * as actions from './actions';
 
 function* signOut() {
@@ -13,10 +14,6 @@ function* signOut() {
   } catch (error) {
     yield put(actions.signOutError(error));
   }
-}
-
-function* signInSuccess() {
-  yield put(push('/dashboard'));
 }
 
 function* signOutSuccess() {
@@ -31,12 +28,16 @@ function* redirectToSignUp() {
   yield put(push('/signup'));
 }
 
+function* loggingIn() {
+  yield put(push('/dashboard'));
+}
+
 export default function* authSaga() {
   yield all([
     takeEvery(actions.SIGN_OUT, signOut),
-    takeEvery(actions.SIGN_IN_SUCCESS, signInSuccess),
     takeEvery(actions.SIGN_OUT_SUCCESS, signOutSuccess),
     takeEvery(actions.REDIRECT_TO_SIGN_IN, redirectToSignIn),
-    takeEvery(actions.REDIRECT_TO_SIGN_UP, redirectToSignUp)
+    takeEvery(actions.REDIRECT_TO_SIGN_UP, redirectToSignUp),
+    takeEvery(constants.actionTypes.LOGIN, loggingIn)
   ]);
 }
