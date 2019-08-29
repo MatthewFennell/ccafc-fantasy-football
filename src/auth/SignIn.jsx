@@ -2,9 +2,9 @@ import React from 'react';
 import firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { noop } from 'lodash';
-import defaultStyles from "./SignIn.module.scss";
+import defaultStyles from './SignIn.module.scss';
 
-const SignIn = (props) => {
+const SignIn = props => {
   const uiConfig = {
     signInFlow: 'popup',
     signInOptions: [
@@ -31,6 +31,6 @@ const SignIn = (props) => {
 
 SignIn.defaultProps = {
   styles: defaultStyles
-}
+};
 
 export default SignIn;
