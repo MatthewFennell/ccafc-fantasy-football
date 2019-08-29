@@ -23,6 +23,7 @@ module.exports = {
     "object-curly-spacing": ["error", "always"],
     "array-bracket-spacing": ["warn", "never"],
     "comma-spacing": "error",
-    "linebreak-style": ["error", "windows"]
+    "linebreak-style": ["error", "windows"],
+    "react/jsx-props-no-spreading": [0]
   }
 };

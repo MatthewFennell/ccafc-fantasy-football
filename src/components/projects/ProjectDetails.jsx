@@ -5,13 +5,6 @@ const ProjectDetails = props => {
 
   const { match, match: { params, params: { id } } } = props;
 
-
-  console.log('props', props);
-  console.log('match', match);
-  console.log('params', params);
-  console.log('id', id);
-
-
   return (
     <div className="container section project-details">
       <div className="card z-depth-0">
