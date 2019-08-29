@@ -1,8 +1,10 @@
 import React from 'react';
 import firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import { noop } from 'lodash';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import defaultStyles from './SignIn.module.scss';
+import { signInSuccess } from './actions';
 
 const SignIn = props => {
   const uiConfig = {
@@ -14,7 +16,9 @@ const SignIn = props => {
       firebase.auth.EmailAuthProvider.PROVIDER_ID
     ],
     callbacks: {
-      signInSuccess: noop
+      signInSuccess: () => {
+        props.signInSuccess();
+      }
     }
   };
 
@@ -33,4 +37,13 @@ SignIn.defaultProps = {
   styles: defaultStyles
 };
 
-export default SignIn;
+SignIn.propTypes = {
+  signInSuccess: PropTypes.func.isRequired,
+  styles: PropTypes.objectOf(PropTypes.string)
+};
+
+const mapDispatchToProps = {
+  signInSuccess
+};
+
+export default connect(null, mapDispatchToProps)(SignIn);
