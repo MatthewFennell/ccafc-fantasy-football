@@ -2,6 +2,7 @@ import {
   all, takeEvery, put
 } from 'redux-saga/effects';
 import firebase from 'firebase';
+import { push } from 'connected-react-router';
 import * as actions from './actions';
 import rsf from '../config/fbConfig';
 
@@ -16,6 +17,7 @@ function* signOut() {
 
 function* signInSuccess() {
   console.log('sign in success');
+  yield put(push('/dashboard'));
 }
 
 export default function* authSaga() {

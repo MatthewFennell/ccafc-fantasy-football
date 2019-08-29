@@ -6,10 +6,15 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { reactReduxFirebase, getFirebase } from 'react-redux-firebase';
 import { reduxFirestore } from 'redux-firestore';
+import { createBrowserHistory } from 'history';
+import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
+import { Route, Switch } from 'react-router';
 import { firebaseApp } from './config/fbConfig';
-import reducer from './store/reducers/rootReducer';
+import createRootReducer from './store/reducers/rootReducer';
 import rootSaga from './store/sagas/rootSaga';
 import App from './App';
+
+const history = createBrowserHistory();
 
 const reduxFirebase = {
   userProfile: 'users',
@@ -30,20 +35,20 @@ const sagaMiddleware = createSagaMiddleware();
 const enhancers = compose(
   reactReduxFirebase(firebaseApp, rrfConfig, reduxFirebase),
   reduxFirestore(firebaseApp),
-  applyMiddleware(sagaMiddleware),
+  applyMiddleware(routerMiddleware(history), sagaMiddleware),
   window.__REDUX_DEVTOOLS_EXTENSION__
     ? window.__REDUX_DEVTOOLS_EXTENSION__()
     : f => f
 );
 
-const store = createStore(reducer, enhancers);
+const store = createStore(createRootReducer(history), enhancers);
 
 sagaMiddleware.run(rootSaga, getFirebase);
 
 store.firebaseAuthIsReady.then(() => {
   ReactDOM.render(
     <Provider store={store}>
-      <App />
+      <App history={history} />
     </Provider>,
     document.getElementById('root')
   );

@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router';
+import { ConnectedRouter } from 'connected-react-router';
 import Navbar from './components/layout/Navbar';
 import Dashboard from './components/dashboard/Dashboard';
 import ProjectDetails from './components/projects/ProjectDetails';
@@ -11,8 +12,8 @@ import Test from './test';
 import NavbarTwo from './navbar/Navbar';
 import DashboardTwo from './dashboard/Dashboard';
 
-const App = () => (
-  <BrowserRouter>
+const App = ({ history }) => (
+  <ConnectedRouter history={history}>
     <div className="App">
       <Navbar />
       <NavbarTwo />
@@ -26,7 +27,7 @@ const App = () => (
         <AuthenticatedRoute path="/protected" component={Test} />
       </Switch>
     </div>
-  </BrowserRouter>
+  </ConnectedRouter>
 );
 
 export default App;
