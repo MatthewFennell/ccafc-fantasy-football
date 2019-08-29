@@ -8,19 +8,26 @@ const SignedOutLinks = props => (
   <div>
     Signed Out
     <Button
-      onClick={props.signIn}
+      onClick={props.redirectToSignIn}
       styles={NavbarButtonStyles}
       text="Sign in"
+    />
+    <Button
+      onClick={props.redirectToSignUp}
+      styles={NavbarButtonStyles}
+      text="Sign up"
     />
   </div>
 );
 
 SignedOutLinks.defaultProps = {
-  signIn: noop
+  redirectToSignIn: noop,
+  redirectToSignUp: noop
 };
 
 SignedOutLinks.propTypes = {
-  signIn: PropTypes.func
+  redirectToSignIn: PropTypes.func,
+  redirectToSignUp: PropTypes.func
 };
 
 export default SignedOutLinks;

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Switch, Route } from 'react-router';
+import { Switch, Route } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
-import Navbar from './components/layout/Navbar';
+import PropTypes from 'prop-types';
 import Dashboard from './components/dashboard/Dashboard';
 import ProjectDetails from './components/projects/ProjectDetails';
 import SignIn from './auth/SignIn';
@@ -15,7 +15,6 @@ import DashboardTwo from './dashboard/Dashboard';
 const App = ({ history }) => (
   <ConnectedRouter history={history}>
     <div className="App">
-      <Navbar />
       <NavbarTwo />
       <Switch>
         <Route exact path="/" component={Dashboard} />
@@ -29,5 +28,13 @@ const App = ({ history }) => (
     </div>
   </ConnectedRouter>
 );
+
+App.defaultProps = {
+  history: {}
+};
+
+App.propTypes = {
+  history: PropTypes.shape({})
+};
 
 export default App;

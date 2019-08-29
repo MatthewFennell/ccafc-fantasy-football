@@ -1,3 +1,8 @@
+@import "../common/Styles.scss";
 .navBar{
-  background-color: black;
+  background-color: $color-black;
+
+  .displayName{
+    color: $color-white;
+  }
 }

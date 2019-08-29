@@ -8,6 +8,17 @@ export const SIGN_IN = `${pre}SIGN_IN`;
 export const SIGN_IN_SUCCESS = `${pre}SIGN_IN_SUCCESS`;
 export const SIGN_IN_ERROR = `${pre}SIGN_IN_ERROR`;
 
+export const REDIRECT_TO_SIGN_IN = `${pre}REDIRECT_TO_SIGN_IN`;
+export const REDIRECT_TO_SIGN_UP = `${pre}REDIRECT_TO_SIGN_UP`;
+
+export const redirectToSignUp = () => ({
+  type: REDIRECT_TO_SIGN_UP
+});
+
+export const redirectToSignIn = () => ({
+  type: REDIRECT_TO_SIGN_IN
+});
+
 export const signOut = () => ({
   type: SIGN_OUT
 });
