@@ -23,5 +23,6 @@ module.exports = {
     "object-curly-spacing": ["error", "always"],
     "array-bracket-spacing": ["warn", "never"],
     "comma-spacing": "error",
+    "linebreak-style": ["error", "windows"]
   }
 };
