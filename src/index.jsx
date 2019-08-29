@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
@@ -7,8 +8,7 @@ import createSagaMiddleware from 'redux-saga';
 import { reactReduxFirebase, getFirebase } from 'react-redux-firebase';
 import { reduxFirestore } from 'redux-firestore';
 import { createBrowserHistory } from 'history';
-import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
-import { Route, Switch } from 'react-router';
+import { routerMiddleware } from 'connected-react-router';
 import { firebaseApp } from './config/fbConfig';
 import createRootReducer from './store/reducers/rootReducer';
 import rootSaga from './store/sagas/rootSaga';

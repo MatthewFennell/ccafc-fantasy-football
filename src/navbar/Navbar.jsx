@@ -8,7 +8,7 @@ import { redirectToSignIn, redirectToSignUp, signOut } from '../auth/actions';
 
 const Navbar = props => {
   const { auth, profile } = props;
-  console.log('auth', auth);
+
   return (
     <div className={props.styles.navBar}>
     Navbar
@@ -40,7 +40,9 @@ Navbar.defaultProps = {
 };
 
 Navbar.propTypes = {
-  auth: PropTypes.shape({}),
+  auth: PropTypes.shape({
+    uid: PropTypes.string
+  }),
   profile: PropTypes.shape({
     displayName: PropTypes.string
   }),
@@ -52,7 +54,8 @@ Navbar.propTypes = {
 
 const mapStateToProps = state => ({
   auth: state.firebase.auth,
-  profile: state.firebase.profile
+  profile: state.firebase.profile,
+  pathname: state.router.location.pathname
 });
 
 const mapDispatchToProps = {

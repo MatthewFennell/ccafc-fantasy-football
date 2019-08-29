@@ -20,10 +20,10 @@ AuthenticatedRoute.defaultProps = {
 };
 
 AuthenticatedRoute.propTypes = {
-  component: PropTypes.element,
-  auth: PropTypes.objectOf(PropTypes.shape({
-    id: PropTypes.string
-  }))
+  component: PropTypes.elementType,
+  auth: PropTypes.PropTypes.shape({
+    uid: PropTypes.string
+  })
 };
 
 export default connect(mapStateToProps)(AuthenticatedRoute);
