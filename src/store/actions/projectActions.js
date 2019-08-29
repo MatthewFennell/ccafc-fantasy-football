@@ -1,4 +1,4 @@
 export const create = project => ({
-  type: "CREATE_PROJECT",
+  type: 'CREATE_PROJECT',
   project
 });

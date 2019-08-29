@@ -1,12 +1,12 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import SignedInLinks from "./SignedInLinks";
-import SignedOutLinks from "./SignedOutLinks";
-import { connect } from "react-redux";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import SignedInLinks from './SignedInLinks';
+import SignedOutLinks from './SignedOutLinks';
 
 const Navbar = props => {
   const { auth } = props;
-  console.log("auth", auth);
+  console.log('auth', auth);
   return (
     <nav className="nav-wrapper grey darken-3">
       <div className="container">

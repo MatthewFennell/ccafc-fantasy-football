@@ -1,50 +1,52 @@
-import { all, call, takeEvery, put } from "redux-saga/effects";
-import firebase from "firebase";
-import * as api from "../../api/api";
+import {
+  all, call, takeEvery, put
+} from 'redux-saga/effects';
+import firebase from 'firebase';
+import * as api from '../../api/api';
 import {
   loginSuccess,
   loginError,
   signOutSuccess,
   signUpSuccess,
   signUpError
-} from "../actions/authActions";
+} from '../actions/authActions';
 
-import rsf from "../../config/fbConfig";
+import rsf from '../../config/fbConfig';
 
-console.log("rsf", rsf);
+console.log('rsf', rsf);
 
 function* ping(action) {
-  const { pong } = yield call(rsf.functions.call, "ping", {
-    ping: "newTodo",
-    token: "registrationToken"
+  const { pong } = yield call(rsf.functions.call, 'ping', {
+    ping: 'newTodo',
+    token: 'registrationToken'
   });
-  console.log("ping", pong);
+  console.log('ping', pong);
 
-  const test = yield api.addMessage({ data: "data" });
-  console.log("received", test);
+  const test = yield api.addMessage({ data: 'data' });
+  console.log('received', test);
 
   const databaseStuff = firebase
     .app()
-    .functions("europe-west2")
-    .httpsCallable("getDatabase");
+    .functions('europe-west2')
+    .httpsCallable('getDatabase');
   yield databaseStuff();
 
   const addCity = firebase
     .app()
-    .functions("europe-west2")
-    .httpsCallable("addCity");
+    .functions('europe-west2')
+    .httpsCallable('addCity');
   yield addCity();
 }
 
 function* signIn(action) {
   try {
-    console.log("signing in");
+    console.log('signing in');
     yield firebase
       .auth()
       .signInWithEmailAndPassword(action.email, action.password);
     yield put(loginSuccess());
   } catch (error) {
-    console.log("error", error);
+    console.log('error', error);
     yield put(loginError(error));
   }
 }
@@ -55,21 +57,21 @@ function* signOut(action) {
     // yield firebase.logout();
     yield put(signOutSuccess());
   } catch (error) {
-    console.log("error", error);
+    console.log('error', error);
   }
 }
 
 function* signUp(action) {
   try {
-    console.log("action", action);
+    console.log('action', action);
 
     const response = yield firebase
       .auth()
       .createUserWithEmailAndPassword(
         action.newUser.email,
-        action.newUser.password
+        action.newUser.password,
       );
-    console.log("response", response);
+    console.log('response', response);
 
     // Need to use 'setDocument' in order to set the ID - https://n6g7.github.io/redux-saga-firebase/guides/custom-keys
     yield call(rsf.firestore.setDocument, `users/${response.user.uid}`, {
@@ -77,36 +79,27 @@ function* signUp(action) {
       lastName: action.newUser.lastName
     });
   } catch (error) {
-    console.log("error", error);
-  }
-}
-
-function* signUpWithGoogle(action) {
-  try {
-    console.log("sign up with google action", action);
-  } catch (error) {
-    console.log("error", error);
+    console.log('error', error);
   }
 }
 
 function* createUser(action) {
-  console.log("create action", action);
+  console.log('create action', action);
   try {
     yield call(rsf.firestore.setDocument, `users/${action.user.uid}`, {
       displayName: action.user.displayName
     });
   } catch (error) {
-    console.log("error", error);
+    console.log('error', error);
   }
 }
 
 export default function* functionRootSaga() {
   yield all([
-    takeEvery("CREATE_PROJECT", ping),
-    takeEvery("SIGN_IN", signIn),
-    takeEvery("LOGOUT", signOut),
-    takeEvery("SIGNUP", signUp),
-    takeEvery("SIGNUP_WITH_GOOGLE", signUpWithGoogle),
-    takeEvery("CREATE_USER", createUser)
+    takeEvery('CREATE_PROJECT', ping),
+    takeEvery('SIGN_IN', signIn),
+    takeEvery('LOGOUT', signOut),
+    takeEvery('SIGNUP', signUp),
+    takeEvery('CREATE_USER', createUser)
   ]);
 }
