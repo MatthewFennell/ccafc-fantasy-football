@@ -20,22 +20,27 @@ const Navbar = props => {
 
   return (
     <div className={props.styles.navBar}>
-    Navbar
       {auth.uid
         ? (
           <>
-            <SignedInLinks signOut={props.signOut} />
-            <div className={props.styles.displayName}>
-              {profile.displayName}
+            <div className={props.styles.signedInLinks}>
+              <SignedInLinks signOut={props.signOut} />
+              <div className={props.styles.displayName}>
+                {profile.displayName}
+              </div>
             </div>
 
           </>
         )
         : (
-          <SignedOutLinks
-            redirectToSignIn={redirectToSignIn}
-            redirectToSignUp={redirectToSignUp}
-          />
+          <>
+            <div className={props.styles.signedOutLinks}>
+              <SignedOutLinks
+                redirectToSignIn={redirectToSignIn}
+                redirectToSignUp={redirectToSignUp}
+              />
+            </div>
+          </>
         )}
 
     </div>

@@ -30,7 +30,6 @@ const SignIn = props => {
 
   return (
     <div className={props.styles.signIn}>
-      Sign In!
       <StyledFirebaseAuth
         uiConfig={uiConfig}
         firebaseAuth={firebase.auth()}

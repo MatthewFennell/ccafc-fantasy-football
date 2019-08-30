@@ -6,7 +6,6 @@ import NavbarButtonStyles from './NavbarButtonStyles.module.scss';
 
 const SignedOutLinks = props => (
   <div>
-    Signed Out
     <Button
       onClick={props.redirectToSignIn}
       styles={NavbarButtonStyles}

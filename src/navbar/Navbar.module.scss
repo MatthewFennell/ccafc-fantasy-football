@@ -1,8 +1,13 @@
 @import "../common/Styles.scss";
 .navBar{
-  background-color: $color-black;
+  // background-color: $color-black;
 
   .displayName{
     color: $color-white;
+  }
+
+  .signedInLinks, .signedOutLinks{
+    text-align: right;
+    margin-right: 10%; 
   }
 }
