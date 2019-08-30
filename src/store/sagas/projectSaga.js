@@ -11,17 +11,14 @@ import {
 
 import rsf from '../../config/fbConfig';
 
-console.log('rsf', rsf);
 
-function* ping(action) {
+function* ping() {
   const { pong } = yield call(rsf.functions.call, 'ping', {
     ping: 'newTodo',
     token: 'registrationToken'
   });
-  console.log('ping', pong);
 
   const test = yield api.addMessage({ data: 'data' });
-  console.log('received', test);
 
   const databaseStuff = firebase
     .app()
@@ -38,37 +35,31 @@ function* ping(action) {
 
 function* signIn(action) {
   try {
-    console.log('signing in');
     yield firebase
       .auth()
       .signInWithEmailAndPassword(action.email, action.password);
     yield put(loginSuccess());
   } catch (error) {
-    console.log('error', error);
     yield put(loginError(error));
   }
 }
 
-function* signOut(action) {
+function* signOut() {
   try {
     yield firebase.auth().signOut();
     yield put(signOutSuccess());
   } catch (error) {
-    console.log('error', error);
   }
 }
 
 function* signUp(action) {
   try {
-    console.log('action', action);
-
     const response = yield firebase
       .auth()
       .createUserWithEmailAndPassword(
         action.newUser.email,
         action.newUser.password,
       );
-    console.log('response', response);
 
     // Need to use 'setDocument' in order to set the ID - https://n6g7.github.io/redux-saga-firebase/guides/custom-keys
     yield call(rsf.firestore.setDocument, `users/${response.user.uid}`, {
@@ -76,7 +67,6 @@ function* signUp(action) {
       lastName: action.newUser.lastName
     });
   } catch (error) {
-    console.log('error', error);
   }
 }
 
