@@ -5,20 +5,22 @@ import PropTypes from 'prop-types';
 import SignIn from './auth/SignIn';
 import SignUp from './auth/SignUp';
 import AuthenticatedRoute from './auth/AuthenticatedRoute';
+import UnauthenticatedRoute from './auth/UnauthenticatedRoute';
 import Test from './test';
-import NavbarTwo from './navbar/Navbar';
+import Navbar from './navbar/Navbar';
 import Dashboard from './dashboard/Dashboard';
 
 const App = ({ history }) => (
   <ConnectedRouter history={history}>
     <div className="App">
-      <NavbarTwo />
+      <Navbar />
       <Switch>
         <AuthenticatedRoute exact path="/" component={Dashboard} />
         <AuthenticatedRoute exact path="/dashboard" component={Dashboard} />
-        <Route path="/signin" component={SignIn} />
-        <Route path="/signup" component={SignUp} />
         <AuthenticatedRoute path="/protected" component={Test} />
+        <UnauthenticatedRoute path="/signin" component={SignIn} redirect="/dashboard" />
+        <UnauthenticatedRoute path="/signup" component={SignUp} redirect="/dashboard" />
+        <Route path="/needToVerifyEmail" component={() => <div>You need to verify your email address</div>} />
         <Route render={() => <Redirect to="/" />} />
       </Switch>
     </div>
