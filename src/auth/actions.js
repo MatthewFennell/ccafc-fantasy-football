@@ -1,6 +1,7 @@
 const pre = 'AUTH/';
 
 export const SIGN_UP = `${pre}SIGN_UP`;
+export const SIGN_UP_ERROR = `${pre}SIGN_UP_ERROR`;
 export const VERIFY_EMAIL_ADDRESS = `${pre}VERIFY_EMAIL_ADDRESS`;
 
 export const SIGN_OUT = `${pre}SIGN_OUT`;
@@ -10,6 +11,11 @@ export const SIGN_OUT_ERROR = `${pre}SIGN_OUT_ERROR`;
 export const SIGN_IN = `${pre}SIGN_IN`;
 export const SIGN_IN_SUCCESS = `${pre}SIGN_IN_SUCCESS`;
 export const SIGN_IN_ERROR = `${pre}SIGN_IN_ERROR`;
+
+export const signUpError = error => ({
+  type: SIGN_UP_ERROR,
+  error
+});
 
 export const signUp = (email, password, firstName, lastName) => ({
   type: SIGN_UP,

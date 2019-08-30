@@ -43,7 +43,7 @@ function* signUp(action) {
     });
     yield firebase.auth().currentUser.sendEmailVerification(actionCodeSettings);
   } catch (error) {
-    console.log('sign up error', error);
+    yield put(actions.signUpError(error));
   }
 }
 
