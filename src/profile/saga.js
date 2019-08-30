@@ -7,9 +7,11 @@ import * as actions from './actions';
 
 function* linkProfileToGoogle() {
   try {
+    console.log('user', firebase.auth().currentUser);
     const provider = new firebase.auth.GoogleAuthProvider();
     yield firebase.auth().currentUser.linkWithPopup(provider);
   } catch (error) {
+    console.log('error', error);
     yield put(actions.linkProfileToGoogleError(error));
   }
 }
