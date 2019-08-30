@@ -10,6 +10,7 @@ import {
 } from '../actions/authActions';
 
 import rsf from '../../config/fbConfig';
+import { signOutError } from '../../auth/actions';
 
 
 function* ping() {
@@ -49,6 +50,7 @@ function* signOut() {
     yield firebase.auth().signOut();
     yield put(signOutSuccess());
   } catch (error) {
+    yield put(signOutError());
   }
 }
 
