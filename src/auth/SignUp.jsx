@@ -30,8 +30,6 @@ const SignUp = props => {
     props.signUp(email, password, firstName, surname);
   };
 
-  console.log('process', process.env);
-
   return (
     <div>
       Sign Up!

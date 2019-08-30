@@ -25,8 +25,6 @@ const SignIn = props => {
   };
 
   const handleSubmit = () => {
-    console.log('email', email);
-    console.log('password', password);
     props.signIn(email, password);
   };
 
