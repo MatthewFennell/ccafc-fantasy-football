@@ -11,9 +11,6 @@ export const SIGN_IN = `${pre}SIGN_IN`;
 export const SIGN_IN_SUCCESS = `${pre}SIGN_IN_SUCCESS`;
 export const SIGN_IN_ERROR = `${pre}SIGN_IN_ERROR`;
 
-export const REDIRECT_TO_SIGN_IN = `${pre}REDIRECT_TO_SIGN_IN`;
-export const REDIRECT_TO_SIGN_UP = `${pre}REDIRECT_TO_SIGN_UP`;
-
 export const signUp = (email, password, firstName, lastName) => ({
   type: SIGN_UP,
   email,
@@ -24,14 +21,6 @@ export const signUp = (email, password, firstName, lastName) => ({
 
 export const verifyEmailAddress = () => ({
   type: VERIFY_EMAIL_ADDRESS
-});
-
-export const redirectToSignUp = () => ({
-  type: REDIRECT_TO_SIGN_UP
-});
-
-export const redirectToSignIn = () => ({
-  type: REDIRECT_TO_SIGN_IN
 });
 
 export const signOut = () => ({

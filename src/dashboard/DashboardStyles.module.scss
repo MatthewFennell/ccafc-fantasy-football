@@ -1,0 +1,16 @@
+.dashBoard{
+  margin-left: 10%;
+  margin-right: 10%;
+
+  .dashboardHeader{
+    text-align: center;
+    color: black;
+    font-size: 50px;
+    margin-bottom: 50px;
+    margin-top: 50px;
+  }
+
+  .dashboardItems{
+    display: flex;
+  }
+}

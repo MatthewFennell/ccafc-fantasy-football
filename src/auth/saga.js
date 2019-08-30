@@ -18,18 +18,6 @@ function* signOut() {
   }
 }
 
-function* signOutSuccess() {
-  yield put(push('/sigin'));
-}
-
-function* redirectToSignIn() {
-  yield put(push('/signin'));
-}
-
-function* redirectToSignUp() {
-  yield put(push('/signup'));
-}
-
 function* loggingIn(action) {
   if (action.auth) {
     if (action.auth.emailVerified) {
@@ -73,9 +61,6 @@ function* signIn(action) {
 export default function* authSaga() {
   yield all([
     takeEvery(actions.SIGN_OUT, signOut),
-    takeEvery(actions.SIGN_OUT_SUCCESS, signOutSuccess),
-    takeEvery(actions.REDIRECT_TO_SIGN_IN, redirectToSignIn),
-    takeEvery(actions.REDIRECT_TO_SIGN_UP, redirectToSignUp),
     takeEvery(constants.actionTypes.LOGIN, loggingIn),
     takeEvery(actions.SIGN_UP, signUp),
     takeEvery(actions.SIGN_IN, signIn)

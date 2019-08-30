@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import defaultStyles from './Navbar.module.scss';
 import SignedInLinks from './SignedInLinks';
 import SignedOutLinks from './SignedOutLinks';
-import { redirectToSignIn, redirectToSignUp, signOut } from '../auth/actions';
+import { signOut } from '../auth/actions';
 
 const Navbar = props => {
   const { auth, profile } = props;
+
+  const redirectToSignIn = useCallback(() => {
+    props.history.push('/signin');
+  }, [props.history]);
+
+  const redirectToSignUp = useCallback(() => {
+    props.history.push('/signup');
+  }, [props.history]);
 
   return (
     <div className={props.styles.navBar}>
@@ -24,8 +33,8 @@ const Navbar = props => {
         )
         : (
           <SignedOutLinks
-            redirectToSignIn={props.redirectToSignIn}
-            redirectToSignUp={props.redirectToSignUp}
+            redirectToSignIn={redirectToSignIn}
+            redirectToSignUp={redirectToSignUp}
           />
         )}
 
@@ -43,11 +52,12 @@ Navbar.propTypes = {
   auth: PropTypes.shape({
     uid: PropTypes.string
   }),
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired,
   profile: PropTypes.shape({
     displayName: PropTypes.string
   }),
-  redirectToSignIn: PropTypes.func.isRequired,
-  redirectToSignUp: PropTypes.func.isRequired,
   signOut: PropTypes.func.isRequired,
   styles: PropTypes.objectOf(PropTypes.string)
 };
@@ -59,9 +69,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  redirectToSignIn,
-  redirectToSignUp,
   signOut
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar));
