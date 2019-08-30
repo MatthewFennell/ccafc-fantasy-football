@@ -4,7 +4,7 @@ module.exports = {
     es6: true,
   },
   extends: [
-    'airbnb',
+    'airbnb',"plugin:jest/recommended"
   ],
   globals: {
     Atomics: 'readonly',
@@ -17,7 +17,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: ["react", "jsx-a11y", "import"],
+  plugins: ["react", "jsx-a11y", "import", "jest"],
   rules: {
     quotes: ["error", "single"],
     "arrow-parens": ["error", "as-needed"],
@@ -28,5 +28,5 @@ module.exports = {
     "linebreak-style": ["error", "windows"],
     "react/jsx-props-no-spreading": [0],
     "react/destructuring-assignment": [0]
-  },
+  }
 };
