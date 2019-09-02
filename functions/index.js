@@ -80,3 +80,7 @@ exports.userSignUp = functions
 
     return db.doc(`users/${user.uid}`).set(userObject);
   });
+
+exports.league = require('./src/leagues');
+
+// export { functions, db };

@@ -1,11 +1,12 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 import defaultStyles from './Testing.module.scss';
 import Button from '../common/Button';
 import TextInput from '../common/TextInput';
 import { createLeague } from './actions';
-
 
 const Testing = props => {
   const [leagueName, setLeagueName] = useState('');
@@ -40,4 +41,11 @@ const mapDispatchToProps = {
   createLeague
 };
 
-export default connect(null, mapDispatchToProps)(Testing);
+const mapStateToProps = {
+
+};
+
+export default compose(
+  firestoreConnect(() => ['leagues']), // sync todos collection from Firestore into redux
+  connect(null, mapDispatchToProps)
+)(Testing);
