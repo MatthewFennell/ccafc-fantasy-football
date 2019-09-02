@@ -15,6 +15,8 @@ const Testing = props => {
     props.createLeague(leagueName);
   }, [leagueName, props]);
 
+  console.log('props', Object.values(props.leagues));
+
   return (
     <div className={props.styles.testingWrapper}>
       <Button
@@ -24,16 +26,29 @@ const Testing = props => {
       <div className={props.styles.textInputWrapper}>
         <TextInput onChange={setLeagueName} />
       </div>
+
+      {Object.values(props.leagues).map(league => (
+        <div>
+      Name:
+          {' '}
+          {league.leagueName}
+        </div>
+      ))}
+
     </div>
   );
 };
 
 Testing.defaultProps = {
+  leagues: {},
   styles: defaultStyles
 };
 
 Testing.propTypes = {
   createLeague: PropTypes.func.isRequired,
+  leagues: PropTypes.arrayOf(PropTypes.shape({
+    leagueName: PropTypes.string
+  })),
   styles: PropTypes.objectOf(PropTypes.string)
 };
 
@@ -44,7 +59,8 @@ const mapDispatchToProps = {
 const mapStateToProps = state => {
   console.log(state);
   return {
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    leagues: state.firestore.data.leagues
   };
 };
 
