@@ -41,11 +41,16 @@ const mapDispatchToProps = {
   createLeague
 };
 
-const mapStateToProps = {
-
+const mapStateToProps = state => {
+  console.log(state);
+  return {
+    auth: state.firebase.auth
+  };
 };
 
 export default compose(
-  firestoreConnect(() => ['leagues']), // sync todos collection from Firestore into redux
-  connect(null, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect([
+    { collection: 'leagues' }
+  ])
 )(Testing);
