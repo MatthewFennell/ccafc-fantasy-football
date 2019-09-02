@@ -1,12 +1,16 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import defaultStyles from './DashboardStyles.module.scss';
+import defaultStyles from './Dashboard.module.scss';
 import DashboardItem from './DashboardItem';
 
 const Dashboard = props => {
   const redirectToProfile = useCallback(() => {
     props.history.push('/profile');
+  }, [props.history]);
+
+  const redirectToTesting = useCallback(() => {
+    props.history.push('/testing');
   }, [props.history]);
 
   return (
@@ -17,7 +21,7 @@ const Dashboard = props => {
 
       <div className={props.styles.dashboardItems}>
         <DashboardItem title="Stuff" />
-        <DashboardItem />
+        <DashboardItem redirect={redirectToTesting} title="Testing" />
         <DashboardItem redirect={redirectToProfile} title="Profile" />
       </div>
 

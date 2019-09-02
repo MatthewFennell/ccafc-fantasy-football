@@ -9,6 +9,7 @@ import UnauthenticatedRoute from './auth/routes/UnauthenticatedRoute';
 import Navbar from './navbar/Navbar';
 import Dashboard from './dashboard/Dashboard';
 import Profile from './profile/Profile';
+import Testing from './testing/Testing';
 
 const App = ({ history }) => (
   <ConnectedRouter history={history}>
@@ -18,6 +19,7 @@ const App = ({ history }) => (
         <AuthenticatedRoute exact path="/" component={Dashboard} />
         <AuthenticatedRoute exact path="/dashboard" component={Dashboard} />
         <AuthenticatedRoute exact path="/profile" component={Profile} />
+        <AuthenticatedRoute exact path="/testing" component={Testing} />
         <UnauthenticatedRoute path="/signin" component={SignIn} redirect="/dashboard" />
         <UnauthenticatedRoute path="/signup" component={SignUp} redirect="/dashboard" />
         <Route path="/needToVerifyEmail" component={() => <div>You need to verify your email address</div>} />

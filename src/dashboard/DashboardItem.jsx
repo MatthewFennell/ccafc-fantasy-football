@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
-import defaultStyles from './DashboardItemStyles.module.scss';
+import defaultStyles from './DashboardItem.module.scss';
 
 const DashboardItem = props => (
   <div

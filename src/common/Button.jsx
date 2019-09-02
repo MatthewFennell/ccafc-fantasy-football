@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
-import defaultStyles from './ButtonStyles.module.scss';
+import defaultStyles from './Button.module.scss';
 
 const Button = props => (
   <button

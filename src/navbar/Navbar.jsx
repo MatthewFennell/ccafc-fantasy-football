@@ -18,13 +18,20 @@ const Navbar = props => {
     props.history.push('/signup');
   }, [props.history]);
 
+  const redirectToDashboard = useCallback(() => {
+    props.history.push('/signup');
+  }, [props.history]);
+
   return (
     <div className={props.styles.navBar}>
       {auth.uid
         ? (
           <>
             <div className={props.styles.signedInLinks}>
-              <SignedInLinks signOut={props.signOut} />
+              <SignedInLinks
+                goToDashboard={redirectToDashboard}
+                signOut={props.signOut}
+              />
               <div className={props.styles.displayName}>
                 {profile.displayName}
               </div>
