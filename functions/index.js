@@ -77,8 +77,11 @@ exports.userSignUp = functions
       displayName: user.displayName,
       email: user.email
     };
-
-    return db.doc(`users/${user.uid}`).set(userObject);
+    // If Facebook provider, assume the email is verified
+    return db.doc(`users/${user.uid}`).set(userObject).then(() => (user.providerData.length
+      && user.providerData[0].providerId === 'facebook.com' ? admin.auth().updateUser(user.uid, {
+        emailVerified: true
+      }) : false));
   });
 
 exports.league = require('./src/leagues');
