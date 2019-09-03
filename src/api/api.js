@@ -13,3 +13,7 @@ export const addMessage = data => functionToCall('addMessage')(data).then(data =
   ...data.data,
   test: 'testing'
 }));
+
+export const getLeagues = () => functionToCall('league-getLeagues')().then(data => ({
+  ...data.data
+}));

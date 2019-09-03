@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
@@ -6,16 +6,21 @@ import { compose } from 'redux';
 import defaultStyles from './Testing.module.scss';
 import Button from '../common/Button';
 import TextInput from '../common/TextInput';
-import { createLeague } from './actions';
+import { createLeague , fetchLeagues } from './actions';
+
 
 const Testing = props => {
   const [leagueName, setLeagueName] = useState('');
+
+  useEffect(() => {
+    props.fetchLeagues();
+  }, [props.fetchLeagues]);
 
   const makeLeague = useCallback(() => {
     props.createLeague(leagueName);
   }, [leagueName, props]);
 
-  console.log('props', Object.values(props.leagues));
+  // console.log('props', Object.values(props.leagues));
 
   return (
     <div className={props.styles.testingWrapper}>
@@ -28,7 +33,7 @@ const Testing = props => {
       </div>
 
       {Object.values(props.leagues).map(league => (
-        <div>
+        <div key={league.leagueName}>
       Name:
           {' '}
           {league.leagueName}
@@ -46,21 +51,21 @@ Testing.defaultProps = {
 
 Testing.propTypes = {
   createLeague: PropTypes.func.isRequired,
-  leagues: PropTypes.arrayOf(PropTypes.shape({
-    leagueName: PropTypes.string
-  })),
+  fetchLeagues: PropTypes.func.isRequired,
+  leagues: PropTypes.objectOf(PropTypes.shape({})),
   styles: PropTypes.objectOf(PropTypes.string)
 };
 
 const mapDispatchToProps = {
-  createLeague
+  createLeague,
+  fetchLeagues
 };
 
 const mapStateToProps = state => {
   console.log(state);
   return {
     auth: state.firebase.auth,
-    leagues: state.firestore.data.leagues
+    leagues: state.firestore.data.leagues || {}
   };
 };
 

@@ -3,7 +3,7 @@ import {
 } from 'redux-saga/effects';
 import firebase from 'firebase';
 import * as actions from './actions';
-
+import * as api from '../api/api';
 
 function* createLeague(action) {
   try {
@@ -21,8 +21,19 @@ function* createLeague(action) {
   }
 }
 
+function* fetchLeagues() {
+  try {
+    console.log('fetching leagues');
+    const leagues = yield api.getLeagues({ data: 'data' });
+    console.log('leagues', leagues);
+  } catch (error) {
+    yield put(actions.fetchLeaguesError(error));
+  }
+}
+
 export default function* authSaga() {
   yield all([
-    takeEvery(actions.CREATE_LEAGUE, createLeague)
+    takeEvery(actions.CREATE_LEAGUE, createLeague),
+    takeEvery(actions.FETCH_LEAGUES, fetchLeagues)
   ]);
 }
