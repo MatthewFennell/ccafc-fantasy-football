@@ -28,3 +28,4 @@ exports.getLeagues = functions
     .collection('leagues')
     .get()
     .then(querySnapshot => querySnapshot.docs.map(doc => doc.data())));
+
