@@ -11,6 +11,7 @@ import Navbar from './navbar/Navbar';
 import Dashboard from './dashboard/Dashboard';
 import Profile from './profile/Profile';
 import Testing from './testing/Testing';
+import VerifyEmail from './auth/VerifyEmail';
 
 const App = props => (
 
@@ -25,7 +26,7 @@ const App = props => (
           <AuthenticatedRoute exact path="/testing" component={Testing} />
           <UnauthenticatedRoute path="/signin" component={SignIn} redirect="/dashboard" />
           <UnauthenticatedRoute path="/signup" component={SignUp} redirect="/dashboard" />
-          <Route path="/needToVerifyEmail" component={() => <div>You need to verify your email address</div>} />
+          <UnauthenticatedRoute path="/needToVerifyEmail" component={VerifyEmail} redirect="/dashboard" />
           <Route render={() => <Redirect to="/" />} />
         </Switch>
       </div>
