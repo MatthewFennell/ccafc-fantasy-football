@@ -6,17 +6,6 @@ import authReducer from './auth/reducer';
 import testingReducer from './testing/reducer';
 import * as authActions from './auth/actions';
 
-// const rootReducer = history => combineReducers({
-//   auth: authReducer,
-//   firestore: firestoreReducer,
-//   firebase: firebaseReducer,
-//   testing: testingReducer,
-//   router: connectRouter(history)
-// });
-
-// export default rootReducer;
-
-
 const appReducer = history => combineReducers({
   auth: authReducer,
   firestore: firestoreReducer,
