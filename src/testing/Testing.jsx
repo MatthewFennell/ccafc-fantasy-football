@@ -1,16 +1,16 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { firestoreConnect } from 'react-redux-firebase';
-import { compose } from 'redux';
 import defaultStyles from './Testing.module.scss';
 import Button from '../common/Button';
 import TextInput from '../common/TextInput';
-import { createLeague , fetchLeagues } from './actions';
-
+import { createLeague, fetchLeagues, joinLeague } from './actions';
+import * as selectors from './selectors';
 
 const Testing = props => {
   const [leagueName, setLeagueName] = useState('');
+
+  console.log('props', props.allLeagues);
 
   useEffect(() => {
     props.fetchLeagues();
@@ -19,8 +19,6 @@ const Testing = props => {
   const makeLeague = useCallback(() => {
     props.createLeague(leagueName);
   }, [leagueName, props]);
-
-  // console.log('props', Object.values(props.leagues));
 
   return (
     <div className={props.styles.testingWrapper}>
@@ -32,46 +30,59 @@ const Testing = props => {
         <TextInput onChange={setLeagueName} />
       </div>
 
-      {Object.values(props.leagues).map(league => (
-        <div key={league.leagueName}>
-      Name:
-          {' '}
-          {league.leagueName}
-        </div>
-      ))}
+      <div className={props.styles.allLeagues}>
+      All leagues
+        {props.allLeagues.map(league => (
+          <div role="button" tabIndex={0} key={league.leagueName} onClick={() => props.joinLeague(league.id)}>
+        League:
+            {' '}
+            {league.leagueName}
+          </div>
+        ))}
+      </div>
+
+      <div className={props.styles.myLeagues}>
+        Leagues I am in
+        {props.leaguesIAmIn.map(league => (
+          <div key={league.leagueName}>
+          League:
+            {' '}
+            {league.leagueName}
+          </div>
+        ))}
+
+      </div>
+
 
     </div>
   );
 };
 
 Testing.defaultProps = {
-  leagues: {},
+  allLeagues: [],
+  leaguesIAmIn: [],
   styles: defaultStyles
 };
 
 Testing.propTypes = {
+  allLeagues: PropTypes.arrayOf(PropTypes.shape({})),
   createLeague: PropTypes.func.isRequired,
   fetchLeagues: PropTypes.func.isRequired,
-  leagues: PropTypes.objectOf(PropTypes.shape({})),
+  joinLeague: PropTypes.func.isRequired,
+  leaguesIAmIn: PropTypes.arrayOf(PropTypes.shape({})),
   styles: PropTypes.objectOf(PropTypes.string)
 };
 
 const mapDispatchToProps = {
   createLeague,
-  fetchLeagues
+  fetchLeagues,
+  joinLeague
 };
 
-const mapStateToProps = state => {
-  console.log(state);
-  return {
-    auth: state.firebase.auth,
-    leagues: state.firestore.data.leagues || {}
-  };
-};
+const mapStateToProps = state => ({
+  allLeagues: selectors.getAllLeagues(state),
+  auth: state.firebase.auth,
+  leaguesIAmIn: selectors.getLeagueIAmIn(state)
+});
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect([
-    { collection: 'leagues' }
-  ])
-)(Testing);
+export default connect(mapStateToProps, mapDispatchToProps)(Testing);

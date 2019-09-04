@@ -1,9 +1,10 @@
 import {
-  all, takeEvery, put
+  all, takeEvery, put, select
 } from 'redux-saga/effects';
 import firebase from 'firebase';
 import * as actions from './actions';
 import * as api from '../api/api';
+import * as selectors from './selectors';
 
 function* createLeague(action) {
   try {
@@ -23,10 +24,14 @@ function* createLeague(action) {
 
 function* fetchLeagues() {
   try {
-    console.log('fetching leagues');
-    const leagues = yield api.getLeagues({ data: 'data' });
-    console.log('leagues', leagues);
+    const fetchedLeagues = yield select(selectors.getFetchedLeagues);
+    if (!fetchedLeagues) {
+      const allLeagues = yield api.getAllLeagues({ data: 'data' });
+      const myLeagues = yield api.getLeaguesIAmIn();
+      yield put(actions.fetchLeaguesSuccess(allLeagues, myLeagues));
+    }
   } catch (error) {
+    console.log('error', error);
     yield put(actions.fetchLeaguesError(error));
   }
 }

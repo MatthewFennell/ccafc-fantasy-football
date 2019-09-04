@@ -12,6 +12,28 @@ export const SIGN_IN = `${pre}SIGN_IN`;
 export const SIGN_IN_SUCCESS = `${pre}SIGN_IN_SUCCESS`;
 export const SIGN_IN_ERROR = `${pre}SIGN_IN_ERROR`;
 
+export const LINK_PROFILE_TO_GOOGLE = `${pre}LINK_PROFILE_TO_GOOGLE`;
+export const LINK_PROFILE_TO_GOOGLE_ERROR = `${pre}LINK_PROFILE_TO_GOOGLE_ERROR`;
+
+export const LINK_PROFILE_TO_FACEBOOK = `${pre}LINK_PROFILE_TO_FACEBOOK`;
+export const LINK_PROFILE_TO_FACEBOOK_ERROR = `${pre}LINK_PROFILE_TO_FACEBOOK_ERROR`;
+
+export const linkProfileToGoogle = () => ({
+  type: LINK_PROFILE_TO_GOOGLE
+});
+
+export const linkProfileToGoogleError = () => ({
+  type: LINK_PROFILE_TO_GOOGLE_ERROR
+});
+
+export const linkProfileToFacebook = () => ({
+  type: LINK_PROFILE_TO_FACEBOOK
+});
+
+export const linkProfileToFacebookError = () => ({
+  type: LINK_PROFILE_TO_FACEBOOK_ERROR
+});
+
 export const signUpError = error => ({
   type: SIGN_UP_ERROR,
   error

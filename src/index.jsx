@@ -6,25 +6,22 @@ import { Provider } from 'react-redux';
 import { applyMiddleware, compose, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase';
-import { reduxFirestore, createFirestoreInstance } from 'redux-firestore';
+import { createFirestoreInstance } from 'redux-firestore';
 import { createBrowserHistory } from 'history';
 import { routerMiddleware } from 'connected-react-router';
 import { firebaseApp } from './config/fbConfig';
-import createRootReducer from './store/reducers/rootReducer';
-import rootSaga from './store/sagas/rootSaga';
+import createRootReducer from './rootReducer';
+import rootSaga from './rootSaga';
 import App from './App';
 
 const history = createBrowserHistory();
 
-
 // react-redux-firebase config
 const rrfConfig = {
   userProfile: 'users',
-  useFirestoreForProfile: true, // Firestore for Profile instead of Realtime DB
-  // attachAuthIsReady: true,
+  useFirestoreForProfile: true,
   logErrors: false
 };
-
 
 const sagaMiddleware = createSagaMiddleware();
 

@@ -10,22 +10,29 @@ exports.createLeague = functions
     .add({
       name: 'league',
       leagueName: data.leagueName,
-      owner: context.auth.uid
-    })
-    .then(docRef => {
-      db.collection('leagues').doc(docRef.id).collection('participants').add({
-        name: 'Somebody'
-      });
-      console.log('Document written with ID: ', docRef.id);
+      owner: context.auth.uid,
+      participants: [{
+        user_id: context.auth.uid,
+        username: context.auth.username || 'username',
+        points: 0
+      }],
+      user_ids: [context.auth.uid]
     })
     .catch(error => {
       console.error('Error adding document: ', error);
     }));
 
-exports.getLeagues = functions
+exports.getAllLeagues = functions
   .region('europe-west2')
   .https.onCall((data, context) => db
     .collection('leagues')
     .get()
-    .then(querySnapshot => querySnapshot.docs.map(doc => doc.data())));
+    .then(querySnapshot => querySnapshot.docs.map(doc => ({ data: doc.data(), id: doc.id }))));
 
+exports.getLeaguesIAmIn = functions
+  .region('europe-west2')
+  .https.onCall((data, context) => db
+    .collection('leagues')
+    .where('user_ids', 'array-contains', context.auth.uid)
+    .get()
+    .then(querySnapshot => querySnapshot.docs.map(doc => ({ data: doc.data(), id: doc.id }))));
