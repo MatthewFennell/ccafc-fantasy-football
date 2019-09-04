@@ -14,6 +14,16 @@ export const addMessage = data => functionToCall('addMessage')(data).then(data =
   test: 'testing'
 }));
 
-export const getLeagues = () => functionToCall('league-getLeagues')().then(data => ({
-  ...data.data
-}));
+export const getAllLeagues = () => functionToCall('league-getAllLeagues')().then(data => data.data.map(league => ({
+  id: league.id,
+  leagueName: league.data.leagueName,
+  participants: league.data.participants,
+  user_ids: league.data.user_ids
+})));
+
+export const getLeaguesIAmIn = () => functionToCall('league-getLeaguesIAmIn')().then(data => data.data.map(league => ({
+  id: league.id,
+  leagueName: league.data.leagueName,
+  participants: league.data.participants,
+  user_ids: league.data.user_ids
+})));

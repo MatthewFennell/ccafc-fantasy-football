@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { linkProfileToFacebook, linkProfileToGoogle } from './actions';
+import { linkProfileToFacebook, linkProfileToGoogle } from '../auth/actions';
 
 const Profile = props => (
   <div>
