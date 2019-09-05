@@ -18,6 +18,8 @@ const Testing = props => {
     props.createLeague(leagueName);
   }, [leagueName, props]);
 
+  console.log('props', props);
+
   return (
     <div className={props.styles.testingWrapper}>
       <Button
@@ -31,10 +33,10 @@ const Testing = props => {
       <div className={props.styles.allLeagues}>
       All leagues
         {props.allLeagues.map(league => (
-          <div role="button" tabIndex={0} key={league.leagueName} onClick={() => props.joinLeague(league.id)}>
+          <div role="button" tabIndex={0} key={league.league_name} onClick={() => props.joinLeague(league.league_id)}>
         League:
             {' '}
-            {league.leagueName}
+            {league.league_name}
           </div>
         ))}
       </div>
@@ -42,10 +44,10 @@ const Testing = props => {
       <div className={props.styles.myLeagues}>
         Leagues I am in
         {props.leaguesIAmIn.map(league => (
-          <div key={league.leagueName}>
+          <div key={league.league_name}>
           League:
             {' '}
-            {league.leagueName}
+            {league.league_name}
           </div>
         ))}
 
