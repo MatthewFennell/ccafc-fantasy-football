@@ -27,3 +27,5 @@ export const getLeaguesIAmIn = () => functionToCall('league-getLeaguesIAmIn')().
   participants: league.data.participants,
   user_ids: league.data.user_ids
 })));
+
+export const joinLeague = leagueId => functionToCall('league-addUserToLeague')(leagueId);

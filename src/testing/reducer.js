@@ -15,6 +15,11 @@ const authReducer = (state = initialState, action) => {
         myLeagues: action.myLeagues,
         fetchedLeague: true
       };
+    case actions.JOIN_LEAGUE_SUCCESS:
+      return {
+        ...state,
+        myLeagues: action.myLeagues
+      };
     default:
       return state;
   }

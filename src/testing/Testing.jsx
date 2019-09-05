@@ -10,8 +10,6 @@ import * as selectors from './selectors';
 const Testing = props => {
   const [leagueName, setLeagueName] = useState('');
 
-  console.log('props', props.allLeagues);
-
   useEffect(() => {
     props.fetchLeagues();
   }, [props.fetchLeagues]);

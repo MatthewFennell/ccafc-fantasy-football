@@ -19,12 +19,8 @@ function* signOut() {
 }
 
 function* loggingIn(action) {
-  if (action.auth) {
-    if (action.auth.emailVerified) {
-      yield put(push('/dashboard'));
-    } else {
-      yield put(push('/needToVerifyEmail'));
-    }
+  if (action.auth && !action.auth.emailVerified) {
+    yield put(push('/needToVerifyEmail'));
   }
 }
 

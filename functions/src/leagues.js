@@ -5,7 +5,7 @@ const db = admin.firestore();
 
 exports.createLeague = functions
   .region('europe-west2')
-  .https.onCall((data, context) => db
+  .https.onCall((data, context) => (data.leagueName.length ? db
     .collection('leagues')
     .add({
       name: 'league',
@@ -20,7 +20,7 @@ exports.createLeague = functions
     })
     .catch(error => {
       console.error('Error adding document: ', error);
-    }));
+    }) : false));
 
 exports.getAllLeagues = functions
   .region('europe-west2')
@@ -36,3 +36,11 @@ exports.getLeaguesIAmIn = functions
     .where('user_ids', 'array-contains', context.auth.uid)
     .get()
     .then(querySnapshot => querySnapshot.docs.map(doc => ({ data: doc.data(), id: doc.id }))));
+
+
+exports.addUserToLeague = functions
+  .region('europe-west2')
+  .https.onCall((data, context) => db
+    .collection('leagues')
+    .doc(data.leagueId)
+    .update({ user_ids: admin.firestore.FieldValue.arrayUnion(context.auth.uid) }));
