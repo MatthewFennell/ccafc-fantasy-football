@@ -20,6 +20,11 @@ const authReducer = (state = initialState, action) => {
         ...state,
         myLeagues: action.myLeagues
       };
+    case actions.INCREASE_SCORE_SUCCESS:
+      return {
+        ...state,
+        myLeagues: action.myLeagues
+      };
     default:
       return state;
   }

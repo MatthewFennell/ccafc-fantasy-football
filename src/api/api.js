@@ -33,3 +33,5 @@ export const getLeaguesIAmIn = () => functionToCall('league-getLeaguesIAmIn')().
 export const joinLeague = leagueId => functionToCall('league-addUserToLeague')(leagueId);
 
 export const addPointsInLeagueToUser = (leagueId, score) => functionToCall('league-addPointsInLeagueToUser')(leagueId, score);
+
+export const addPointsToMe = (score, userId) => functionToCall('league-addPointsToUser')(score, userId);

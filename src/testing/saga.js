@@ -58,11 +58,24 @@ function* increaseScore(action) {
   }
 }
 
+function* increaseMyScore(action) {
+  try {
+    console.log('trying to add points TO ME', action);
+    yield api.addPointsToMe({ score: action.score, user_id: firebase.auth().currentUser.uid });
+    const myLeagues = yield api.getLeaguesIAmIn();
+    yield put(actions.increaseScoreSuccess(myLeagues));
+  } catch (error) {
+    console.log('error', error);
+    yield put(actions.increaseScoreError(error));
+  }
+}
+
 export default function* authSaga() {
   yield all([
     takeEvery(actions.CREATE_LEAGUE, createLeague),
     takeEvery(actions.FETCH_LEAGUES, fetchLeagues),
     takeEvery(actions.JOIN_LEAGUE, joinLeague),
-    takeEvery(actions.INCREASE_SCORE, increaseScore)
+    takeEvery(actions.INCREASE_SCORE, increaseScore),
+    takeEvery(actions.INCREASE_MY_SCORE, increaseMyScore)
   ]);
 }
