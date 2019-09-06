@@ -48,10 +48,21 @@ function* joinLeague(action) {
   }
 }
 
+function* increaseScore(action) {
+  try {
+    console.log('trying to add points', action);
+    yield api.addPointsInLeagueToUser({ leagueId: action.leagueId, score: action.score });
+  } catch (error) {
+    console.log('error', error);
+    yield put(actions.increaseScoreError(error));
+  }
+}
+
 export default function* authSaga() {
   yield all([
     takeEvery(actions.CREATE_LEAGUE, createLeague),
     takeEvery(actions.FETCH_LEAGUES, fetchLeagues),
-    takeEvery(actions.JOIN_LEAGUE, joinLeague)
+    takeEvery(actions.JOIN_LEAGUE, joinLeague),
+    takeEvery(actions.INCREASE_SCORE, increaseScore)
   ]);
 }

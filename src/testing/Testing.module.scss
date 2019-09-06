@@ -12,5 +12,19 @@
   .myLeagues{
     margin-top: 20px;
     color: pink;
+    .myLeagueRow{
+      margin-bottom: 10px;
+      display: flex;
+      .textBoxForPoints{
+        width: 150px;
+        margin-left: 15px;
+      }
+    }
   }
+
+  .addPointsText{
+    text-align: center;
+    width: 200px;
+  }
+  
 }

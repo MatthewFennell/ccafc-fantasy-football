@@ -73,7 +73,23 @@ exports.addUserToLeague = functions
           start_week: 0,
           name: leagueDoc.data().name,
           user_points: 0
-        }) : false)) : false
-      .catch(error => console.log('error', error))
-    )).catch(err => console.log('err', err));
+        }) : false)).catch(error => console.log('error searching leagues collection for league_id ', data.leagueId, error))
+      : false)).catch(err => console.log('Error searching leagues-point for league_id ', data.leagueId, ' and user_id ', context.auth.uid, err));
+  });
+
+exports.addPointsInLeagueToUser = functions
+  .region('europe-west2')
+  .https.onCall((data, context) => {
+    const alreadyExistsRef = db.collection('leagues-points')
+      .where('league_id', '==', data.leagueId)
+      .where('user_id', '==', context.auth.uid);
+
+    return alreadyExistsRef.get().then(querySnapshot => {
+      for (const doc of querySnapshot.docs) {
+        return db.collection('leagues-points').doc(doc.id).update({
+          user_points: doc.data().user_points + data.score
+        });
+      }
+      return false;
+    });
   });

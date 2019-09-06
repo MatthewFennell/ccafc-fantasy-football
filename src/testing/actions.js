@@ -11,6 +11,21 @@ export const JOIN_LEAGUE = `${pre}JOIN_LEAGUE`;
 export const JOIN_LEAGUE_SUCCESS = `${pre}JOIN_LEAGUE_SUCCESS`;
 export const JOIN_LEAGUE_ERROR = `${pre}JOIN_LEAGUE_ERROR`;
 
+export const INCREASE_SCORE = `${pre}INCREASE_SCORE`;
+export const INCREASE_SCORE_SUCCESS = `${pre}INCREASE_SCORE_SUCCESS`;
+export const INCREASE_SCORE_ERROR = `${pre}INCREASE_SCORE_ERROR`;
+
+export const increaseScoreError = error => ({
+  type: INCREASE_SCORE_ERROR,
+  error
+});
+
+export const increaseScore = (score, leagueId) => ({
+  type: INCREASE_SCORE,
+  score,
+  leagueId
+});
+
 export const joinLeague = leagueId => ({
   type: JOIN_LEAGUE,
   leagueId
