@@ -15,6 +15,24 @@ export const INCREASE_SCORE = `${pre}INCREASE_SCORE`;
 export const INCREASE_SCORE_SUCCESS = `${pre}INCREASE_SCORE_SUCCESS`;
 export const INCREASE_SCORE_ERROR = `${pre}INCREASE_SCORE_ERROR`;
 
+export const INCREASE_MY_SCORE = `${pre}INCREASE_MY_SCORE`;
+export const INCREASE_MY_SCORE_ERROR = `${pre}INCREASE_MY_SCORE_ERROR`;
+
+export const increaseMyScore = score => ({
+  type: INCREASE_MY_SCORE,
+  score
+});
+
+export const increaseScoreSuccess = myLeagues => ({
+  type: INCREASE_SCORE_SUCCESS,
+  myLeagues
+});
+
+export const increaseMyScoreError = error => ({
+  type: INCREASE_MY_SCORE_ERROR,
+  error
+});
+
 export const increaseScoreError = error => ({
   type: INCREASE_SCORE_ERROR,
   error

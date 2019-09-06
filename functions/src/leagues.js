@@ -80,11 +80,28 @@ exports.addUserToLeague = functions
 exports.addPointsInLeagueToUser = functions
   .region('europe-west2')
   .https.onCall((data, context) => {
-    const alreadyExistsRef = db.collection('leagues-points')
+    const matchingLeagues = db.collection('leagues-points')
       .where('league_id', '==', data.leagueId)
       .where('user_id', '==', context.auth.uid);
 
-    return alreadyExistsRef.get().then(querySnapshot => {
+    return matchingLeagues.get().then(querySnapshot => {
+      for (const doc of querySnapshot.docs) {
+        return db.collection('leagues-points').doc(doc.id).update({
+          user_points: doc.data().user_points + data.score
+        });
+      }
+      return false;
+    });
+  });
+
+exports.addPointsToUser = functions
+  .region('europe-west2')
+  .https.onCall((data, context) => {
+    const leaguesForUser = db.collection('leagues-points')
+      .where('user_id', '==', context.auth.uid);
+
+    return leaguesForUser.get().then(querySnapshot => {
+      console.log('number of docs', querySnapshot.docs.length);
       for (const doc of querySnapshot.docs) {
         return db.collection('leagues-points').doc(doc.id).update({
           user_points: doc.data().user_points + data.score

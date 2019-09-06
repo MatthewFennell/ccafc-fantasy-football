@@ -5,7 +5,7 @@ import defaultStyles from './Testing.module.scss';
 import Button from '../common/Button';
 import TextInput from '../common/TextInput';
 import {
-  createLeague, fetchLeagues, joinLeague, increaseScore
+  createLeague, fetchLeagues, joinLeague, increaseScore, increaseMyScore
 } from './actions';
 import * as selectors from './selectors';
 
@@ -56,7 +56,10 @@ const Testing = props => {
               {league.user_points}
               <div className={props.styles.textBoxForPoints}>
                 <Button
-                  onClick={() => props.increaseScore(parseInt(pointsToIncrease, 10), league.league_id)}
+                  onClick={() => props.increaseScore(parseInt(
+                    pointsToIncrease, 10
+                  ), league.league_id)}
+                  text="Add points to this league"
                 />
               </div>
             </div>
@@ -66,8 +69,11 @@ const Testing = props => {
       </div>
       <div className={props.styles.addPointsText}>
         <TextInput onChange={setPointsToIncrease} />
-
       </div>
+      <Button
+        onClick={() => props.increaseMyScore(parseInt(pointsToIncrease, 10))}
+        text="Add points to me"
+      />
     </div>
   );
 };
@@ -82,6 +88,7 @@ Testing.propTypes = {
   allLeagues: PropTypes.arrayOf(PropTypes.shape({})),
   createLeague: PropTypes.func.isRequired,
   fetchLeagues: PropTypes.func.isRequired,
+  increaseMyScore: PropTypes.func.isRequired,
   increaseScore: PropTypes.func.isRequired,
   joinLeague: PropTypes.func.isRequired,
   leaguesIAmIn: PropTypes.arrayOf(PropTypes.shape({})),
@@ -91,6 +98,7 @@ Testing.propTypes = {
 const mapDispatchToProps = {
   createLeague,
   fetchLeagues,
+  increaseMyScore,
   increaseScore,
   joinLeague
 };
