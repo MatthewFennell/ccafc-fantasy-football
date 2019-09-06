@@ -36,9 +36,33 @@ function* fetchLeagues() {
   }
 }
 
+function* joinLeague(action) {
+  try {
+    console.log('Trying to join league ', action.leagueId);
+    yield api.joinLeague({ leagueId: action.leagueId });
+    const myNewLeagues = yield api.getLeaguesIAmIn();
+    yield put(actions.joinLeagueSuccess(myNewLeagues));
+  } catch (error) {
+    console.log('error', error);
+    yield put(actions.joinLeagueError(error));
+  }
+}
+
+function* increaseScore(action) {
+  try {
+    console.log('trying to add points', action);
+    yield api.addPointsInLeagueToUser({ leagueId: action.leagueId, score: action.score });
+  } catch (error) {
+    console.log('error', error);
+    yield put(actions.increaseScoreError(error));
+  }
+}
+
 export default function* authSaga() {
   yield all([
     takeEvery(actions.CREATE_LEAGUE, createLeague),
-    takeEvery(actions.FETCH_LEAGUES, fetchLeagues)
+    takeEvery(actions.FETCH_LEAGUES, fetchLeagues),
+    takeEvery(actions.JOIN_LEAGUE, joinLeague),
+    takeEvery(actions.INCREASE_SCORE, increaseScore)
   ]);
 }

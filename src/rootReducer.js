@@ -18,7 +18,6 @@ const rootReducer = history => (state, action) => {
   if (action.type === authActions.SIGN_OUT_SUCCESS) {
     state = undefined;
   }
-  console.log('action', action);
   return appReducer(history)(state, action);
 };
 

@@ -16,14 +16,20 @@ export const addMessage = data => functionToCall('addMessage')(data).then(data =
 
 export const getAllLeagues = () => functionToCall('league-getAllLeagues')().then(data => data.data.map(league => ({
   id: league.id,
-  leagueName: league.data.leagueName,
-  participants: league.data.participants,
-  user_ids: league.data.user_ids
+  league_id: league.data.league_id,
+  league_name: league.data.name,
+  start_week: league.data.start_week,
+  user_points: league.data.user_points
 })));
 
 export const getLeaguesIAmIn = () => functionToCall('league-getLeaguesIAmIn')().then(data => data.data.map(league => ({
   id: league.id,
-  leagueName: league.data.leagueName,
-  participants: league.data.participants,
-  user_ids: league.data.user_ids
+  league_id: league.data.league_id,
+  league_name: league.data.name,
+  start_week: league.data.start_week,
+  user_points: league.data.user_points
 })));
+
+export const joinLeague = leagueId => functionToCall('league-addUserToLeague')(leagueId);
+
+export const addPointsInLeagueToUser = (leagueId, score) => functionToCall('league-addPointsInLeagueToUser')(leagueId, score);

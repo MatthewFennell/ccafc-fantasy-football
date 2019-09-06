@@ -4,13 +4,14 @@ import { connect } from 'react-redux';
 import defaultStyles from './Testing.module.scss';
 import Button from '../common/Button';
 import TextInput from '../common/TextInput';
-import { createLeague, fetchLeagues, joinLeague } from './actions';
+import {
+  createLeague, fetchLeagues, joinLeague, increaseScore
+} from './actions';
 import * as selectors from './selectors';
 
 const Testing = props => {
   const [leagueName, setLeagueName] = useState('');
-
-  console.log('props', props.allLeagues);
+  const [pointsToIncrease, setPointsToIncrease] = useState(0);
 
   useEffect(() => {
     props.fetchLeagues();
@@ -33,10 +34,10 @@ const Testing = props => {
       <div className={props.styles.allLeagues}>
       All leagues
         {props.allLeagues.map(league => (
-          <div role="button" tabIndex={0} key={league.leagueName} onClick={() => props.joinLeague(league.id)}>
+          <div role="button" tabIndex={0} key={league.league_name} onClick={() => props.joinLeague(league.league_id)}>
         League:
             {' '}
-            {league.leagueName}
+            {league.league_name}
           </div>
         ))}
       </div>
@@ -44,16 +45,29 @@ const Testing = props => {
       <div className={props.styles.myLeagues}>
         Leagues I am in
         {props.leaguesIAmIn.map(league => (
-          <div key={league.leagueName}>
+          <>
+            <div className={props.styles.myLeagueRow} key={league.league_name}>
           League:
-            {' '}
-            {league.leagueName}
-          </div>
+              {' '}
+              {league.league_name}
+              {' '}
+          Points:
+              {' '}
+              {league.user_points}
+              <div className={props.styles.textBoxForPoints}>
+                <Button
+                  onClick={() => props.increaseScore(parseInt(pointsToIncrease, 10), league.league_id)}
+                />
+              </div>
+            </div>
+
+          </>
         ))}
+      </div>
+      <div className={props.styles.addPointsText}>
+        <TextInput onChange={setPointsToIncrease} />
 
       </div>
-
-
     </div>
   );
 };
@@ -68,6 +82,7 @@ Testing.propTypes = {
   allLeagues: PropTypes.arrayOf(PropTypes.shape({})),
   createLeague: PropTypes.func.isRequired,
   fetchLeagues: PropTypes.func.isRequired,
+  increaseScore: PropTypes.func.isRequired,
   joinLeague: PropTypes.func.isRequired,
   leaguesIAmIn: PropTypes.arrayOf(PropTypes.shape({})),
   styles: PropTypes.objectOf(PropTypes.string)
@@ -76,6 +91,7 @@ Testing.propTypes = {
 const mapDispatchToProps = {
   createLeague,
   fetchLeagues,
+  increaseScore,
   joinLeague
 };
 
