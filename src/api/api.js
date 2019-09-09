@@ -6,14 +6,6 @@ const functionToCall = func => firebase
     .functions('europe-west2')
     .httpsCallable(func);
 
-// Data here is the data that should be sent to the function
-// Can add adapters to transform data here
-// eslint-disable-next-line import/prefer-default-export
-export const addMessage = data => functionToCall('addMessage')(data).then(data => ({
-    ...data.data,
-    test: 'testing'
-}));
-
 export const getAllLeagues = () => functionToCall('league-getAllLeagues')().then(data => data.data.map(league => ({
     id: league.id,
     league_id: league.data.league_id,
@@ -37,3 +29,15 @@ export const addPointsInLeagueToUser = (leagueId, score) => functionToCall('leag
 export const addPointsToMe = (score, userId) => functionToCall('league-addPointsToUser')(score, userId);
 
 export const createTeam = teamName => functionToCall('team-createTeam')(teamName);
+
+export const createPlayer = (name, position, price, team) => functionToCall('player-createPlayer')(name, position, price, team);
+
+export const getAllPlayers = () => functionToCall('player-getAllPlayers')().then(data => data.data.map(player => ({
+    id: player.id,
+    name: player.data.name,
+    position: player.data.position,
+    price: player.data.price,
+    team: player.data.team
+})));
+
+export const addPlayerToActiveTeam = playerId => functionToCall('activeTeam-addPlayerToActiveTeam')(playerId);

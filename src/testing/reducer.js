@@ -2,7 +2,9 @@ import * as actions from './actions';
 
 const initialState = {
     allLeagues: [],
+    allPlayers: [],
     fetchedLeague: false,
+    fetchedPlayers: false,
     myLeagues: []
 };
 
@@ -24,6 +26,11 @@ const authReducer = (state = initialState, action) => {
         return {
             ...state,
             myLeagues: action.myLeagues
+        };
+    case actions.FETCH_PLAYERS_SUCCESS:
+        return {
+            ...state,
+            allPlayers: action.allPlayers
         };
     default:
         return state;

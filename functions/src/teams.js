@@ -1,18 +1,13 @@
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
+const commonFunctions = require('./common');
 
 const db = admin.firestore();
-
-const isAuthenticated = context => {
-    if (!context.auth) {
-        throw new functions.https.HttpsError('unauthenticated', 'You must be authenticated to call this function');
-    }
-};
 
 exports.createTeam = functions
     .region('europe-west2')
     .https.onCall((data, context) => {
-        isAuthenticated(context);
+        commonFunctions.isAuthenticated(context);
         if (!data.teamName) {
             throw new functions.https.HttpsError('invalid-argument', 'Cannot have an empty team name');
         }

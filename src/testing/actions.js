@@ -22,6 +22,45 @@ export const CREATE_TEAM = `${pre}CREATE_TEAM`;
 export const CREATE_TEAM_SUCCESS = `${pre}CREATE_TEAM_SUCCESS`;
 export const CREATE_TEAM_ERROR = `${pre}CREATE_TEAM_ERROR`;
 
+export const CREATE_PLAYER = `${pre}CREATE_PLAYER`;
+export const CREATE_PLAYER_SUCCESS = `${pre}CREATE_PLAYER_SUCCESS`;
+export const CREATE_PLAYER_ERROR = `${pre}CREATE_PLAYER_ERROR`;
+
+export const FETCH_PLAYERS = `${pre}FETCH_PLAYERS`;
+export const FETCH_PLAYERS_SUCCESS = `${pre}FETCH_PLAYERS_SUCCESS`;
+export const FETCH_PLAYERS_ERROR = `${pre}FETCH_PLAYERS_ERROR`;
+
+export const ADD_PLAYER_TO_ACTIVE_TEAM = `${pre}ADD_PLAYER_TO_ACTIVE_TEAM`;
+export const ADD_PLAYER_TO_ACTIVE_TEAM_SUCCESS = `${pre}ADD_PLAYER_TO_ACTIVE_TEAM_SUCCESS`;
+export const ADD_PLAYER_TO_ACTIVE_TEAM_ERROR = `${pre}ADD_PLAYER_TO_ACTIVE_TEAM_ERROR`;
+
+export const addPlayerToActiveTeam = playerId => ({
+    type: ADD_PLAYER_TO_ACTIVE_TEAM,
+    playerId
+});
+
+export const fetchPlayers = () => ({
+    type: FETCH_PLAYERS
+});
+
+export const fetchPlayersSuccess = allPlayers => ({
+    type: FETCH_PLAYERS_SUCCESS,
+    allPlayers
+});
+
+export const createPlayer = (name, position, price, team) => ({
+    type: CREATE_PLAYER,
+    name,
+    position,
+    price,
+    team
+});
+
+export const createPlayerError = error => ({
+    type: CREATE_PLAYER_ERROR,
+    error
+});
+
 export const createTeam = teamName => ({
     type: CREATE_TEAM,
     teamName
