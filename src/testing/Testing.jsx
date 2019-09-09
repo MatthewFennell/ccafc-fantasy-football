@@ -6,7 +6,7 @@ import Button from '../common/Button';
 import TextInput from '../common/TextInput';
 import {
     createLeague, fetchLeagues, joinLeague, increaseScore, increaseMyScore, createTeam,
-    createPlayer, fetchPlayers, addPlayerToActiveTeam
+    createPlayer, fetchPlayers, addPlayerToActiveTeam, triggerWeeklyTeams
 } from './actions';
 import * as selectors from './selectors';
 
@@ -18,6 +18,7 @@ const Testing = props => {
     const [playerPrice, setPlayerPrice] = useState('');
     const [playerTeam, setPlayerTeam] = useState('');
     const [teamName, setTeamName] = useState('');
+    const [currentWeek, setCurrentWeek] = useState(0);
 
     useEffect(() => {
         props.fetchLeagues();
@@ -144,6 +145,18 @@ const Testing = props => {
                     </div>
                 ))}
             </div>
+            <hr />
+            <div className={props.styles.triggerWeeklyTeams}>
+                <Button
+                    onClick={() => props.triggerWeeklyTeams(parseInt(currentWeek, 10))}
+                    text="Trigger Weekly Teams"
+                />
+                <div className={props.styles.triggerWeeklyTeamsInput}>
+                Current week
+                    {' '}
+                    <TextInput onChange={setCurrentWeek} />
+                </div>
+            </div>
         </div>
     );
 };
@@ -168,7 +181,8 @@ Testing.propTypes = {
     increaseScore: PropTypes.func.isRequired,
     joinLeague: PropTypes.func.isRequired,
     leaguesIAmIn: PropTypes.arrayOf(PropTypes.shape({})),
-    styles: PropTypes.objectOf(PropTypes.string)
+    styles: PropTypes.objectOf(PropTypes.string),
+    triggerWeeklyTeams: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = {
@@ -180,7 +194,8 @@ const mapDispatchToProps = {
     fetchPlayers,
     increaseMyScore,
     increaseScore,
-    joinLeague
+    joinLeague,
+    triggerWeeklyTeams
 };
 
 const mapStateToProps = state => ({

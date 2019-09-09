@@ -53,3 +53,4 @@ exports.league = require('./src/leagues');
 exports.team = require('./src/teams');
 exports.player = require('./src/players');
 exports.activeTeam = require('./src/activeTeam');
+exports.weeklyTeam = require('./src/weeklyTeams');
