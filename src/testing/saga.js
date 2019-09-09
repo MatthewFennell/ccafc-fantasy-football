@@ -97,7 +97,15 @@ function* addPlayerToActiveTeam(action) {
     try {
         yield api.addPlayerToActiveTeam({ playerId: action.playerId });
     } catch (error) {
-        yield put(actions.fetchLeaguesError(error));
+        yield put(actions.addPlayerToActiveTeamError(error));
+    }
+}
+
+function* triggerWeeklyTeams(action) {
+    try {
+        yield api.triggerWeeklyTeams({ week: action.week });
+    } catch (error) {
+        yield put(actions.triggerWeeklyTeamsError(error));
     }
 }
 
@@ -111,6 +119,7 @@ export default function* authSaga() {
         takeEvery(actions.CREATE_TEAM, createTeam),
         takeEvery(actions.CREATE_PLAYER, createPlayer),
         takeEvery(actions.FETCH_PLAYERS, fetchPlayers),
-        takeEvery(actions.ADD_PLAYER_TO_ACTIVE_TEAM, addPlayerToActiveTeam)
+        takeEvery(actions.ADD_PLAYER_TO_ACTIVE_TEAM, addPlayerToActiveTeam),
+        takeEvery(actions.TRIGGER_WEEKLY_TEAMS, triggerWeeklyTeams)
     ]);
 }

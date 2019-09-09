@@ -31,8 +31,26 @@ export const FETCH_PLAYERS_SUCCESS = `${pre}FETCH_PLAYERS_SUCCESS`;
 export const FETCH_PLAYERS_ERROR = `${pre}FETCH_PLAYERS_ERROR`;
 
 export const ADD_PLAYER_TO_ACTIVE_TEAM = `${pre}ADD_PLAYER_TO_ACTIVE_TEAM`;
-export const ADD_PLAYER_TO_ACTIVE_TEAM_SUCCESS = `${pre}ADD_PLAYER_TO_ACTIVE_TEAM_SUCCESS`;
 export const ADD_PLAYER_TO_ACTIVE_TEAM_ERROR = `${pre}ADD_PLAYER_TO_ACTIVE_TEAM_ERROR`;
+
+export const TRIGGER_WEEKLY_TEAMS = `${pre}TRIGGER_WEEKLY_TEAMS`;
+export const TRIGGER_WEEKLY_TEAMS_ERROR = `${pre}TRIGGER_WEEKLY_TEAMS_ERROR`;
+
+export const triggerWeeklyTeams = week => ({
+    type: TRIGGER_WEEKLY_TEAMS,
+    week
+});
+
+export const triggerWeeklyTeamsError = error => ({
+    type: TRIGGER_WEEKLY_TEAMS_ERROR,
+    error
+});
+
+export const addPlayerToActiveTeamError = error => ({
+    type: ADD_PLAYER_TO_ACTIVE_TEAM_ERROR,
+    error
+});
+
 
 export const addPlayerToActiveTeam = playerId => ({
     type: ADD_PLAYER_TO_ACTIVE_TEAM,

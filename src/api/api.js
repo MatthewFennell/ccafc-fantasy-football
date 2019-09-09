@@ -41,3 +41,5 @@ export const getAllPlayers = () => functionToCall('player-getAllPlayers')().then
 })));
 
 export const addPlayerToActiveTeam = playerId => functionToCall('activeTeam-addPlayerToActiveTeam')(playerId);
+
+export const triggerWeeklyTeams = week => functionToCall('weeklyTeam-triggerWeeklyTeams')(week);
