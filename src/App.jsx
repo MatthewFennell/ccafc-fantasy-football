@@ -15,44 +15,44 @@ import VerifyEmail from './auth/VerifyEmail';
 
 const App = props => (
 
-  props.auth && props.auth.isLoaded ? (
-    <ConnectedRouter history={props.history}>
-      <div className="App">
-        <Navbar />
-        <Switch>
-          <AuthenticatedRoute exact path="/" component={Dashboard} />
-          <AuthenticatedRoute exact path="/dashboard" component={Dashboard} />
-          <AuthenticatedRoute exact path="/profile" component={Profile} />
-          <AuthenticatedRoute exact path="/testing" component={Testing} />
-          <UnauthenticatedRoute path="/signin" component={SignIn} redirect="/dashboard" />
-          <UnauthenticatedRoute path="/signup" component={SignUp} redirect="/dashboard" />
-          <UnauthenticatedRoute path="/needToVerifyEmail" component={VerifyEmail} redirect="/dashboard" />
-          <Route render={() => <Redirect to="/" />} />
-        </Switch>
-      </div>
-    </ConnectedRouter>
-  ) : null
+    props.auth && props.auth.isLoaded ? (
+        <ConnectedRouter history={props.history}>
+            <div className="App">
+                <Navbar />
+                <Switch>
+                    <AuthenticatedRoute exact path="/" component={Dashboard} />
+                    <AuthenticatedRoute exact path="/dashboard" component={Dashboard} />
+                    <AuthenticatedRoute exact path="/profile" component={Profile} />
+                    <AuthenticatedRoute exact path="/testing" component={Testing} />
+                    <UnauthenticatedRoute path="/signin" component={SignIn} redirect="/dashboard" />
+                    <UnauthenticatedRoute path="/signup" component={SignUp} redirect="/dashboard" />
+                    <UnauthenticatedRoute path="/needToVerifyEmail" component={VerifyEmail} redirect="/dashboard" />
+                    <Route render={() => <Redirect to="/" />} />
+                </Switch>
+            </div>
+        </ConnectedRouter>
+    ) : null
 
 );
 
 App.defaultProps = {
-  auth: {
-    isLoaded: false
-  },
-  history: {}
+    auth: {
+        isLoaded: false
+    },
+    history: {}
 };
 
 App.propTypes = {
-  auth: PropTypes.shape({
-    isLoaded: PropTypes.bool
-  }),
-  history: PropTypes.shape({})
+    auth: PropTypes.shape({
+        isLoaded: PropTypes.bool
+    }),
+    history: PropTypes.shape({})
 };
 
 const mapStateToProps = state => (
-  {
-    auth: state.firebase.auth
-  }
+    {
+        auth: state.firebase.auth
+    }
 );
 
 export default connect(mapStateToProps)(App);
