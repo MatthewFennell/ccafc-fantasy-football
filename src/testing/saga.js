@@ -8,15 +8,12 @@ import * as selectors from './selectors';
 
 function* createLeague(action) {
     try {
-        console.log('action', action);
-        console.log('user id', firebase.auth().currentUser.uid);
-        const result = yield firebase
+        yield firebase
             .app()
             .functions('europe-west2')
             .httpsCallable('league-createLeague')({
                 leagueName: action.leagueName
             });
-        console.log('result', result);
     } catch (error) {
         yield put(actions.createLeagueError(error));
     }
@@ -31,41 +28,34 @@ function* fetchLeagues() {
             yield put(actions.fetchLeaguesSuccess(allLeagues, myLeagues));
         }
     } catch (error) {
-        console.log('error', error);
         yield put(actions.fetchLeaguesError(error));
     }
 }
 
 function* joinLeague(action) {
     try {
-        console.log('Trying to join league ', action.leagueId);
         yield api.joinLeague({ leagueId: action.leagueId });
         const myNewLeagues = yield api.getLeaguesIAmIn();
         yield put(actions.joinLeagueSuccess(myNewLeagues));
     } catch (error) {
-        console.log('error', error);
         yield put(actions.joinLeagueError(error));
     }
 }
 
 function* increaseScore(action) {
     try {
-        console.log('trying to add points', action);
         yield api.addPointsInLeagueToUser({ leagueId: action.leagueId, score: action.score });
     } catch (error) {
-        console.log('error', error);
         yield put(actions.increaseScoreError(error));
     }
 }
 
 function* increaseMyScore(action) {
     try {
-        console.log('trying to add points TO ME', action);
         yield api.addPointsToMe({ score: action.score, userId: firebase.auth().currentUser.uid });
         const myLeagues = yield api.getLeaguesIAmIn();
         yield put(actions.increaseScoreSuccess(myLeagues));
     } catch (error) {
-        console.log('error', error);
         yield put(actions.increaseScoreError(error));
     }
 }
@@ -78,6 +68,39 @@ function* createTeam(action) {
     }
 }
 
+function* createPlayer(action) {
+    try {
+        yield api.createPlayer({
+            name: action.name,
+            position: action.position,
+            price: action.price,
+            team: action.team
+        });
+    } catch (error) {
+        yield put(actions.createPlayerError(error));
+    }
+}
+
+function* fetchPlayers() {
+    try {
+        const fetchedPlayers = yield select(selectors.getFetchedPlayers);
+        if (!fetchedPlayers) {
+            const allPlayers = yield api.getAllPlayers();
+            yield put(actions.fetchPlayersSuccess(allPlayers));
+        }
+    } catch (error) {
+        yield put(actions.fetchLeaguesError(error));
+    }
+}
+
+function* addPlayerToActiveTeam(action) {
+    try {
+        yield api.addPlayerToActiveTeam({ playerId: action.playerId });
+    } catch (error) {
+        yield put(actions.fetchLeaguesError(error));
+    }
+}
+
 export default function* authSaga() {
     yield all([
         takeEvery(actions.CREATE_LEAGUE, createLeague),
@@ -85,6 +108,9 @@ export default function* authSaga() {
         takeEvery(actions.JOIN_LEAGUE, joinLeague),
         takeEvery(actions.INCREASE_SCORE, increaseScore),
         takeEvery(actions.INCREASE_MY_SCORE, increaseMyScore),
-        takeEvery(actions.CREATE_TEAM, createTeam)
+        takeEvery(actions.CREATE_TEAM, createTeam),
+        takeEvery(actions.CREATE_PLAYER, createPlayer),
+        takeEvery(actions.FETCH_PLAYERS, fetchPlayers),
+        takeEvery(actions.ADD_PLAYER_TO_ACTIVE_TEAM, addPlayerToActiveTeam)
     ]);
 }

@@ -1,18 +1,13 @@
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
+const commonFunctions = require('./common');
 
 const db = admin.firestore();
-
-const isAuthenticated = context => {
-    if (!context.auth) {
-        throw new functions.https.HttpsError('unauthenticated', 'You must be authenticated to call this function');
-    }
-};
 
 exports.createLeague = functions
     .region('europe-west2')
     .https.onCall((data, context) => {
-        isAuthenticated(context);
+        commonFunctions.isAuthenticated(context);
         return (data.leagueName.length ? db
             .collection('leagues')
             .add({
@@ -36,7 +31,7 @@ exports.createLeague = functions
 exports.getAllLeagues = functions
     .region('europe-west2')
     .https.onCall((data, context) => {
-        isAuthenticated(context);
+        commonFunctions.isAuthenticated(context);
         return db
             .collection('leagues-points')
             .get()
@@ -47,7 +42,7 @@ exports.getAllLeagues = functions
 exports.getLeaguesIAmIn = functions
     .region('europe-west2')
     .https.onCall((data, context) => {
-        isAuthenticated(context);
+        commonFunctions.isAuthenticated(context);
         return db
             .collection('leagues-points')
             .where('user_id', '==', context.auth.uid)
@@ -62,7 +57,7 @@ exports.getLeaguesIAmIn = functions
 exports.addUserToLeague = functions
     .region('europe-west2')
     .https.onCall((data, context) => {
-        isAuthenticated(context);
+        commonFunctions.isAuthenticated(context);
         const leagueRef = db.collection('leagues').doc(data.leagueId);
         const alreadyExistsRef = db.collection('leagues-points')
             .where('league_id', '==', data.leagueId)
@@ -83,7 +78,7 @@ exports.addUserToLeague = functions
 exports.addPointsInLeagueToUser = functions
     .region('europe-west2')
     .https.onCall((data, context) => {
-        isAuthenticated(context);
+        commonFunctions.isAuthenticated(context);
         const matchingLeagues = db.collection('leagues-points')
             .where('league_id', '==', data.leagueId)
             .where('user_id', '==', context.auth.uid);
@@ -98,7 +93,7 @@ exports.addPointsInLeagueToUser = functions
 exports.addPointsToUser = functions
     .region('europe-west2')
     .https.onCall((data, context) => {
-        isAuthenticated(context);
+        commonFunctions.isAuthenticated(context);
         const leaguesForUser = db.collection('leagues-points')
             .where('user_id', '==', data.userId);
         return leaguesForUser.get().then(querySnapshot => {

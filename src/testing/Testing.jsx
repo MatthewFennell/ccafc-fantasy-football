@@ -5,7 +5,8 @@ import defaultStyles from './Testing.module.scss';
 import Button from '../common/Button';
 import TextInput from '../common/TextInput';
 import {
-    createLeague, fetchLeagues, joinLeague, increaseScore, increaseMyScore, createTeam
+    createLeague, fetchLeagues, joinLeague, increaseScore, increaseMyScore, createTeam,
+    createPlayer, fetchPlayers, addPlayerToActiveTeam
 } from './actions';
 import * as selectors from './selectors';
 
@@ -20,7 +21,8 @@ const Testing = props => {
 
     useEffect(() => {
         props.fetchLeagues();
-    }, [props.fetchLeagues]);
+        props.fetchPlayers();
+    }, [props.fetchLeagues, props.fetchPlayers]);
 
     const makeLeague = useCallback(() => {
         props.createLeague(leagueName);
@@ -29,6 +31,10 @@ const Testing = props => {
     const makeTeam = useCallback(() => {
         props.createTeam(teamName);
     }, [teamName, props.createTeam]);
+
+    const makePlayer = useCallback(() => {
+        props.createPlayer(playerName, playerPosition, playerPrice, playerTeam);
+    }, [playerName, playerPosition, playerPrice, playerTeam, props.createPlayer]);
 
     return (
         <div className={props.styles.testingWrapper}>
@@ -107,6 +113,10 @@ const Testing = props => {
                     {' '}
                     <TextInput onChange={setPlayerTeam} />
                 </div>
+                <Button
+                    onClick={makePlayer}
+                    text="Create Player"
+                />
             </div>
             <hr />
             <div className={props.styles.createPlayerName}>
@@ -121,21 +131,39 @@ const Testing = props => {
                     text="Create Team"
                 />
             </div>
+            <hr />
+            <div className={props.styles.allPlayers}>
+                All players
+                {props.allPlayers.map(player => (
+                    <div role="button" tabIndex={0} key={player.id} onClick={() => props.addPlayerToActiveTeam(player.id)}>
+                    Player:
+                        {' '}
+                        {player.name}
+                        {' Team - '}
+                        {player.team}
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
 
 Testing.defaultProps = {
     allLeagues: [],
+    allPlayers: [],
     leaguesIAmIn: [],
     styles: defaultStyles
 };
 
 Testing.propTypes = {
+    addPlayerToActiveTeam: PropTypes.func.isRequired,
     allLeagues: PropTypes.arrayOf(PropTypes.shape({})),
+    allPlayers: PropTypes.arrayOf(PropTypes.shape({})),
     createLeague: PropTypes.func.isRequired,
+    createPlayer: PropTypes.func.isRequired,
     createTeam: PropTypes.func.isRequired,
     fetchLeagues: PropTypes.func.isRequired,
+    fetchPlayers: PropTypes.func.isRequired,
     increaseMyScore: PropTypes.func.isRequired,
     increaseScore: PropTypes.func.isRequired,
     joinLeague: PropTypes.func.isRequired,
@@ -144,9 +172,12 @@ Testing.propTypes = {
 };
 
 const mapDispatchToProps = {
+    addPlayerToActiveTeam,
     createLeague,
+    createPlayer,
     createTeam,
     fetchLeagues,
+    fetchPlayers,
     increaseMyScore,
     increaseScore,
     joinLeague
@@ -154,6 +185,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
     allLeagues: selectors.getAllLeagues(state),
+    allPlayers: selectors.getAllPlayers(state),
     auth: state.firebase.auth,
     leaguesIAmIn: selectors.getLeagueIAmIn(state)
 });

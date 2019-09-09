@@ -1,51 +1,11 @@
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
-const cors = require('cors')({ origin: true });
 
 admin.initializeApp(functions.config().firebase);
 
 const settings = { timestampsInSnapshots: true };
 admin.firestore().settings(settings);
 const db = admin.firestore();
-
-exports.ping = functions
-    .region('europe-west2')
-    .https.onRequest((request, response) => {
-        cors(request, response, () => {
-            response.json({
-                pong: request.query.ping
-            });
-        });
-    });
-
-exports.addMessage = functions
-    .region('europe-west2')
-    .https.onCall((data, context) => {
-    // Message text passed from the client.
-        const { text } = data;
-        // Authentication / user information is automatically added to the request.
-        const { uid } = context.auth;
-        const name = context.auth.token.name || null;
-        const picture = context.auth.token.picture || null;
-        const email = context.auth.token.email || null;
-
-        return {
-            firstNumber: 5,
-            secondNumber: 6,
-            operator: '+',
-            operationResult: 5 + 6
-        };
-    });
-
-exports.test = functions
-    .region('europe-west2')
-    .https.onCall((request, response) => {
-        cors(request, response, () => {
-            response.json({
-                pong: request.query.ping
-            });
-        });
-    });
 
 exports.getDatabase = functions
     .region('europe-west2')
@@ -81,8 +41,15 @@ exports.userSignUp = functions
         return db.doc(`users/${user.uid}`).set(userObject).then(() => (user.providerData.length
       && user.providerData[0].providerId === 'facebook.com' ? admin.auth().updateUser(user.uid, {
                 emailVerified: true
-            }) : false));
+            }) : false)).then(() => {
+            db.collection('active-teams').add({
+                user_id: user.uid,
+                participants: []
+            });
+        });
     });
 
 exports.league = require('./src/leagues');
 exports.team = require('./src/teams');
+exports.player = require('./src/players');
+exports.activeTeam = require('./src/activeTeam');
