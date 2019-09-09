@@ -1,12 +1,12 @@
 const initState = {
-  authError: null
+    authError: null
 };
 
 const authReducer = (state = initState, action) => {
-  switch (action.type) {
+    switch (action.type) {
     default:
-      return state;
-  }
+        return state;
+    }
 };
 
 export default authReducer;

@@ -18,66 +18,80 @@ export const INCREASE_SCORE_ERROR = `${pre}INCREASE_SCORE_ERROR`;
 export const INCREASE_MY_SCORE = `${pre}INCREASE_MY_SCORE`;
 export const INCREASE_MY_SCORE_ERROR = `${pre}INCREASE_MY_SCORE_ERROR`;
 
+export const CREATE_TEAM = `${pre}CREATE_TEAM`;
+export const CREATE_TEAM_SUCCESS = `${pre}CREATE_TEAM_SUCCESS`;
+export const CREATE_TEAM_ERROR = `${pre}CREATE_TEAM_ERROR`;
+
+export const createTeam = teamName => ({
+    type: CREATE_TEAM,
+    teamName
+});
+
+export const createTeamError = error => ({
+    type: CREATE_TEAM_ERROR,
+    error
+});
+
 export const increaseMyScore = score => ({
-  type: INCREASE_MY_SCORE,
-  score
+    type: INCREASE_MY_SCORE,
+    score
 });
 
 export const increaseScoreSuccess = myLeagues => ({
-  type: INCREASE_SCORE_SUCCESS,
-  myLeagues
+    type: INCREASE_SCORE_SUCCESS,
+    myLeagues
 });
 
 export const increaseMyScoreError = error => ({
-  type: INCREASE_MY_SCORE_ERROR,
-  error
+    type: INCREASE_MY_SCORE_ERROR,
+    error
 });
 
 export const increaseScoreError = error => ({
-  type: INCREASE_SCORE_ERROR,
-  error
+    type: INCREASE_SCORE_ERROR,
+    error
 });
 
 export const increaseScore = (score, leagueId) => ({
-  type: INCREASE_SCORE,
-  score,
-  leagueId
+    type: INCREASE_SCORE,
+    score,
+    leagueId
 });
 
 export const joinLeague = leagueId => ({
-  type: JOIN_LEAGUE,
-  leagueId
+    type: JOIN_LEAGUE,
+    leagueId
 });
 
 export const joinLeagueSuccess = myLeagues => ({
-  type: JOIN_LEAGUE_SUCCESS,
-  myLeagues
+    type: JOIN_LEAGUE_SUCCESS,
+    myLeagues
 });
 
 export const joinLeagueError = error => ({
-  type: JOIN_LEAGUE_ERROR,
-  error
+    type: JOIN_LEAGUE_ERROR,
+    error
 });
 
 export const createLeague = leagueName => ({
-  type: CREATE_LEAGUE,
-  leagueName
+    type: CREATE_LEAGUE,
+    leagueName
 });
 
 export const createLeagueError = () => ({
-  type: CREATE_LEAGUE_ERROR
+    type: CREATE_LEAGUE_ERROR
 });
 
 export const fetchLeaguesError = () => ({
-  type: FETCH_LEAGUES_ERROR
+    type: FETCH_LEAGUES_ERROR
 });
 
 export const fetchLeagues = () => ({
-  type: FETCH_LEAGUES
+    type: FETCH_LEAGUES
 });
 
 export const fetchLeaguesSuccess = (allLeagues, myLeagues) => ({
-  type: FETCH_LEAGUES_SUCCESS,
-  allLeagues,
-  myLeagues
+    type: FETCH_LEAGUES_SUCCESS,
+    allLeagues,
+    myLeagues
 });

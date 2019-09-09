@@ -11,20 +11,20 @@ const mockStore = configureMockStore();
 const store = mockStore({});
 
 beforeAll(() => {
-  firebase.auth = jest.fn().mockReturnValue({
-    currentUser: true
-  });
-  firebase.auth.GoogleAuthProvider = 'GoogleProvider';
-  firebase.auth.FacebookAuthProvider = 'FacebookProvider';
-  firebase.auth.TwitterAuthProvider = 'TwitterProvider';
+    firebase.auth = jest.fn().mockReturnValue({
+        currentUser: true
+    });
+    firebase.auth.GoogleAuthProvider = 'GoogleProvider';
+    firebase.auth.FacebookAuthProvider = 'FacebookProvider';
+    firebase.auth.TwitterAuthProvider = 'TwitterProvider';
 });
 
 describe('SignIn', () => {
-  it('The SignIn component renders with crashing', () => {
-    expect(() => mount(
-      <Provider store={store}>
-        <SignIn />
-      </Provider>
-    )).not.toThrow();
-  });
+    it('The SignIn component renders with crashing', () => {
+        expect(() => mount(
+            <Provider store={store}>
+                <SignIn />
+            </Provider>
+        )).not.toThrow();
+    });
 });

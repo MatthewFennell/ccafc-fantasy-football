@@ -18,36 +18,36 @@ const history = createBrowserHistory();
 
 // react-redux-firebase config
 const rrfConfig = {
-  userProfile: 'users',
-  useFirestoreForProfile: true,
-  logErrors: false
+    userProfile: 'users',
+    useFirestoreForProfile: true,
+    logErrors: false
 };
 
 const sagaMiddleware = createSagaMiddleware();
 
 const enhancers = compose(
-  applyMiddleware(routerMiddleware(history), sagaMiddleware),
-  window.__REDUX_DEVTOOLS_EXTENSION__
-    ? window.__REDUX_DEVTOOLS_EXTENSION__()
-    : f => f
+    applyMiddleware(routerMiddleware(history), sagaMiddleware),
+    window.__REDUX_DEVTOOLS_EXTENSION__
+        ? window.__REDUX_DEVTOOLS_EXTENSION__()
+        : f => f
 );
 
 const store = createStore(createRootReducer(history), enhancers);
 
 const rrfProps = {
-  firebase: firebaseApp,
-  config: rrfConfig,
-  dispatch: store.dispatch,
-  createFirestoreInstance
+    firebase: firebaseApp,
+    config: rrfConfig,
+    dispatch: store.dispatch,
+    createFirestoreInstance
 };
 
 sagaMiddleware.run(rootSaga, getFirebase);
 
 ReactDOM.render(
-  <Provider store={store}>
-    <ReactReduxFirebaseProvider {...rrfProps}>
-      <App history={history} />
-    </ReactReduxFirebaseProvider>
-  </Provider>,
-  document.getElementById('root')
+    <Provider store={store}>
+        <ReactReduxFirebaseProvider {...rrfProps}>
+            <App history={history} />
+        </ReactReduxFirebaseProvider>
+    </Provider>,
+    document.getElementById('root')
 );
