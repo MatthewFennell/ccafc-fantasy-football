@@ -8,31 +8,31 @@ import ProfileIcon from '../icons/profile.png';
 import defaultStyles from './SignedInLinks.module.scss';
 
 const SignedInLinks = props => (
-  <div>
-    <Button
-      onClick={props.goToDashboard}
-      styles={NavbarButtonStyles}
-      text="Home"
-    />
-    <Button
-      onClick={props.signOut}
-      styles={NavbarButtonStyles}
-      text="Logout"
-    />
-    {/* <img className={props.styles.profileIcon} src={MaleIcon} alt="Profile" /> */}
-  </div>
+    <div>
+        <Button
+            onClick={props.goToDashboard}
+            styles={NavbarButtonStyles}
+            text="Home"
+        />
+        <Button
+            onClick={props.signOut}
+            styles={NavbarButtonStyles}
+            text="Logout"
+        />
+        {/* <img className={props.styles.profileIcon} src={MaleIcon} alt="Profile" /> */}
+    </div>
 );
 
 SignedInLinks.defaultProps = {
-  goToDashboard: noop,
-  signOut: noop,
-  styles: defaultStyles
+    goToDashboard: noop,
+    signOut: noop,
+    styles: defaultStyles
 };
 
 SignedInLinks.propTypes = {
-  goToDashboard: PropTypes.func,
-  signOut: PropTypes.func,
-  styles: PropTypes.objectOf(PropTypes.string)
+    goToDashboard: PropTypes.func,
+    signOut: PropTypes.func,
+    styles: PropTypes.objectOf(PropTypes.string)
 };
 
 export default SignedInLinks;

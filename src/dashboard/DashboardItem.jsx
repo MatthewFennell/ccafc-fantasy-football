@@ -4,26 +4,26 @@ import { noop } from 'lodash';
 import defaultStyles from './DashboardItem.module.scss';
 
 const DashboardItem = props => (
-  <div
-    role="button"
-    tabIndex={0}
-    onClick={props.redirect}
-    className={props.styles.dashboardItem}
-  >
-    {props.title}
-  </div>
+    <div
+        role="button"
+        tabIndex={0}
+        onClick={props.redirect}
+        className={props.styles.dashboardItem}
+    >
+        {props.title}
+    </div>
 );
 
 DashboardItem.defaultProps = {
-  redirect: noop,
-  styles: defaultStyles,
-  title: 'No title provided'
+    redirect: noop,
+    styles: defaultStyles,
+    title: 'No title provided'
 };
 
 DashboardItem.propTypes = {
-  redirect: PropTypes.func,
-  styles: PropTypes.objectOf(PropTypes.string),
-  title: PropTypes.string
+    redirect: PropTypes.func,
+    styles: PropTypes.objectOf(PropTypes.string),
+    title: PropTypes.string
 };
 
 export default DashboardItem;

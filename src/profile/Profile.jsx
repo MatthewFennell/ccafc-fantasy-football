@@ -4,29 +4,29 @@ import PropTypes from 'prop-types';
 import { linkProfileToFacebook, linkProfileToGoogle } from '../auth/actions';
 
 const Profile = props => (
-  <div>
+    <div>
     Profile
-    <div
-      role="button"
-      tabIndex={0}
-      onClick={props.linkProfileToGoogle}
-    >
+        <div
+            role="button"
+            tabIndex={0}
+            onClick={props.linkProfileToGoogle}
+        >
     Link your google account
-    </div>
+        </div>
 
-    <div
-      role="button"
-      tabIndex={0}
-      onClick={props.linkProfileToFacebook}
-    >
+        <div
+            role="button"
+            tabIndex={0}
+            onClick={props.linkProfileToFacebook}
+        >
     Link your Facebook account
+        </div>
     </div>
-  </div>
 );
 
 const mapDispatchToProps = {
-  linkProfileToFacebook,
-  linkProfileToGoogle
+    linkProfileToFacebook,
+    linkProfileToGoogle
 };
 
 Profile.defaultProps = {
@@ -34,8 +34,8 @@ Profile.defaultProps = {
 };
 
 Profile.propTypes = {
-  linkProfileToFacebook: PropTypes.func.isRequired,
-  linkProfileToGoogle: PropTypes.func.isRequired
+    linkProfileToFacebook: PropTypes.func.isRequired,
+    linkProfileToGoogle: PropTypes.func.isRequired
 };
 
 export default connect(null, mapDispatchToProps)(Profile);

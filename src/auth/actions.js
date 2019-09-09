@@ -19,62 +19,62 @@ export const LINK_PROFILE_TO_FACEBOOK = `${pre}LINK_PROFILE_TO_FACEBOOK`;
 export const LINK_PROFILE_TO_FACEBOOK_ERROR = `${pre}LINK_PROFILE_TO_FACEBOOK_ERROR`;
 
 export const linkProfileToGoogle = () => ({
-  type: LINK_PROFILE_TO_GOOGLE
+    type: LINK_PROFILE_TO_GOOGLE
 });
 
 export const linkProfileToGoogleError = () => ({
-  type: LINK_PROFILE_TO_GOOGLE_ERROR
+    type: LINK_PROFILE_TO_GOOGLE_ERROR
 });
 
 export const linkProfileToFacebook = () => ({
-  type: LINK_PROFILE_TO_FACEBOOK
+    type: LINK_PROFILE_TO_FACEBOOK
 });
 
 export const linkProfileToFacebookError = () => ({
-  type: LINK_PROFILE_TO_FACEBOOK_ERROR
+    type: LINK_PROFILE_TO_FACEBOOK_ERROR
 });
 
 export const signUpError = error => ({
-  type: SIGN_UP_ERROR,
-  error
+    type: SIGN_UP_ERROR,
+    error
 });
 
 export const signUp = (email, password, firstName, lastName) => ({
-  type: SIGN_UP,
-  email,
-  password,
-  firstName,
-  lastName
+    type: SIGN_UP,
+    email,
+    password,
+    firstName,
+    lastName
 });
 
 export const verifyEmailAddress = () => ({
-  type: VERIFY_EMAIL_ADDRESS
+    type: VERIFY_EMAIL_ADDRESS
 });
 
 export const signOut = () => ({
-  type: SIGN_OUT
+    type: SIGN_OUT
 });
 
 export const signOutSuccess = () => ({
-  type: SIGN_OUT_SUCCESS
+    type: SIGN_OUT_SUCCESS
 });
 
 export const signOutError = error => ({
-  type: SIGN_OUT_ERROR,
-  error
+    type: SIGN_OUT_ERROR,
+    error
 });
 
 export const signIn = (email, password) => ({
-  type: SIGN_IN,
-  email,
-  password
+    type: SIGN_IN,
+    email,
+    password
 });
 
 export const signInSuccess = () => ({
-  type: SIGN_IN_SUCCESS
+    type: SIGN_IN_SUCCESS
 });
 
 export const signInError = error => ({
-  type: SIGN_IN_ERROR,
-  error
+    type: SIGN_IN_ERROR,
+    error
 });

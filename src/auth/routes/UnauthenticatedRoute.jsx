@@ -4,32 +4,32 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 const UnauthenticatedRoute = ({
-  component: Component, auth, redirect, ...rest
+    component: Component, auth, redirect, ...rest
 }) => (
-  <Route
-    {...rest}
-    render={props => (auth.uid && auth.emailVerified
-      ? <Redirect to={redirect} /> : <Component {...props} />)}
-  />
+    <Route
+        {...rest}
+        render={props => (auth.uid && auth.emailVerified
+            ? <Redirect to={redirect} /> : <Component {...props} />)}
+    />
 );
 
 const mapStateToProps = state => ({
-  auth: state.firebase.auth
+    auth: state.firebase.auth
 });
 
 UnauthenticatedRoute.defaultProps = {
-  auth: {},
-  component: {},
-  redirect: '/dashboard'
+    auth: {},
+    component: {},
+    redirect: '/dashboard'
 };
 
 UnauthenticatedRoute.propTypes = {
-  auth: PropTypes.PropTypes.shape({
-    emailVerified: PropTypes.bool,
-    uid: PropTypes.string
-  }),
-  component: PropTypes.elementType,
-  redirect: PropTypes.string
+    auth: PropTypes.PropTypes.shape({
+        emailVerified: PropTypes.bool,
+        uid: PropTypes.string
+    }),
+    component: PropTypes.elementType,
+    redirect: PropTypes.string
 };
 
 export default connect(mapStateToProps)(UnauthenticatedRoute);
