@@ -88,25 +88,3 @@ exports.addPointsToPlayerInWeek = functions
             }));
         }));
     });
-
-
-// exports.triggerWeeklyTeams = functions
-// .region('europe-west2')
-// .https.onCall((data, context) => {
-//     commonFunctions.isAuthenticated(context);
-//     const batch = db.batch();
-//     return db
-//         .collection('active-teams')
-//         .get()
-//         .then(querySnapshot => querySnapshot.docs
-//             .map(doc => {
-//                 const weekRef = db.collection('weekly-teams').doc();
-//                 return batch.set(weekRef, {
-//                     user_id: doc.data().user_id,
-//                     week: data.week,
-//                     player_ids: doc.data().player_ids,
-//                     points: 0,
-//                     players: doc.data().players.map(p => ({ ...p, points: 0 }))
-//                 });
-//             })).then(() => batch.commit());
-// });
