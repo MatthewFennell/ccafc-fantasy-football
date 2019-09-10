@@ -6,7 +6,8 @@ import Button from '../common/Button';
 import TextInput from '../common/TextInput';
 import {
     createLeague, fetchLeagues, joinLeague, increaseScore, increaseMyScore, createTeam,
-    createPlayer, fetchPlayers, addPlayerToActiveTeam, triggerWeeklyTeams
+    createPlayer, fetchPlayers, addPlayerToActiveTeam, triggerWeeklyTeams, fetchWeeklyTeams,
+    addPointsToPlayer
 } from './actions';
 import * as selectors from './selectors';
 
@@ -19,11 +20,14 @@ const Testing = props => {
     const [playerTeam, setPlayerTeam] = useState('');
     const [teamName, setTeamName] = useState('');
     const [currentWeek, setCurrentWeek] = useState(0);
+    const [pointsToAddToPlayer, setPointsToAddToPlayer] = useState(0);
+    const [weekToAddPointsTo, setWeekToAddPointsTo] = useState(0);
 
     useEffect(() => {
         props.fetchLeagues();
         props.fetchPlayers();
-    }, [props.fetchLeagues, props.fetchPlayers]);
+        props.fetchWeeklyTeams();
+    }, [props.fetchLeagues, props.fetchPlayers, props.fetchWeeklyTeams]);
 
     const makeLeague = useCallback(() => {
         props.createLeague(leagueName);
@@ -50,7 +54,7 @@ const Testing = props => {
             <div className={props.styles.allLeagues}>
       All leagues
                 {props.allLeagues.map(league => (
-                    <div role="button" tabIndex={0} key={league.league_name} onClick={() => props.joinLeague(league.league_id)}>
+                    <div role="button" tabIndex={0} key={league.id} onClick={() => props.joinLeague(league.league_id)}>
         League:
                         {' '}
                         {league.league_name}
@@ -62,7 +66,7 @@ const Testing = props => {
         Leagues I am in
                 {props.leaguesIAmIn.map(league => (
                     <>
-                        <div className={props.styles.myLeagueRow} key={league.league_name}>
+                        <div className={props.styles.myLeagueRow} key={league.id}>
           League:
                             {' '}
                             {league.league_name}
@@ -151,11 +155,53 @@ const Testing = props => {
                     onClick={() => props.triggerWeeklyTeams(parseInt(currentWeek, 10))}
                     text="Trigger Weekly Teams"
                 />
+
+                <div className={props.styles.addPointsToPlayerTextInput}>
+                Points to add to player
+                    <TextInput onChange={setPointsToAddToPlayer} />
+                </div>
+                <div className={props.styles.addPointsToPlayerTextInput}>
+                Week to add points to
+                    <TextInput onChange={setWeekToAddPointsTo} />
+                </div>
                 <div className={props.styles.triggerWeeklyTeamsInput}>
                 Current week
                     {' '}
                     <TextInput onChange={setCurrentWeek} />
                 </div>
+            </div>
+            <div className={props.styles.myWeeklyTeams}>
+
+                {props.myWeeklyTeams.map(weeklyTeam => (
+                    <div key={weeklyTeam.id}>
+
+                    Week:
+                        {' '}
+                        {weeklyTeam.week}
+
+                        <div>
+                            {weeklyTeam.players.map(player => (
+                                <div className={props.styles.weeklyTeamPlayer} key={player.player_Id}>
+                                Player Name:
+                                    {' '}
+                                    {player.name}
+                                    , Points -
+                                    {' '}
+                                    {player.points}
+                                    <Button
+                                        onClick={() => props.addPointsToPlayer(
+                                            player.player_Id,
+                                            parseInt(weekToAddPointsTo, 10),
+                                            parseInt(pointsToAddToPlayer, 10)
+                                        )}
+                                        text="Add points"
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                        <hr />
+                    </div>
+                ))}
             </div>
         </div>
     );
@@ -165,11 +211,13 @@ Testing.defaultProps = {
     allLeagues: [],
     allPlayers: [],
     leaguesIAmIn: [],
+    myWeeklyTeams: [],
     styles: defaultStyles
 };
 
 Testing.propTypes = {
     addPlayerToActiveTeam: PropTypes.func.isRequired,
+    addPointsToPlayer: PropTypes.func.isRequired,
     allLeagues: PropTypes.arrayOf(PropTypes.shape({})),
     allPlayers: PropTypes.arrayOf(PropTypes.shape({})),
     createLeague: PropTypes.func.isRequired,
@@ -177,21 +225,25 @@ Testing.propTypes = {
     createTeam: PropTypes.func.isRequired,
     fetchLeagues: PropTypes.func.isRequired,
     fetchPlayers: PropTypes.func.isRequired,
+    fetchWeeklyTeams: PropTypes.func.isRequired,
     increaseMyScore: PropTypes.func.isRequired,
     increaseScore: PropTypes.func.isRequired,
     joinLeague: PropTypes.func.isRequired,
     leaguesIAmIn: PropTypes.arrayOf(PropTypes.shape({})),
+    myWeeklyTeams: PropTypes.arrayOf(PropTypes.shape({})),
     styles: PropTypes.objectOf(PropTypes.string),
     triggerWeeklyTeams: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = {
     addPlayerToActiveTeam,
+    addPointsToPlayer,
     createLeague,
     createPlayer,
     createTeam,
     fetchLeagues,
     fetchPlayers,
+    fetchWeeklyTeams,
     increaseMyScore,
     increaseScore,
     joinLeague,
@@ -202,7 +254,8 @@ const mapStateToProps = state => ({
     allLeagues: selectors.getAllLeagues(state),
     allPlayers: selectors.getAllPlayers(state),
     auth: state.firebase.auth,
-    leaguesIAmIn: selectors.getLeagueIAmIn(state)
+    leaguesIAmIn: selectors.getLeagueIAmIn(state),
+    myWeeklyTeams: selectors.getWeeklyTeams(state)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Testing);

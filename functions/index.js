@@ -44,7 +44,7 @@ exports.userSignUp = functions
             }) : false)).then(() => {
             db.collection('active-teams').add({
                 user_id: user.uid,
-                participants: []
+                player_ids: []
             });
         });
     });
