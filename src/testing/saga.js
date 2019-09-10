@@ -109,6 +109,27 @@ function* triggerWeeklyTeams(action) {
     }
 }
 
+function* fetchWeeklyTeams() {
+    try {
+        const myTeams = yield api.getAllWeeklyPlayers();
+        yield put(actions.fetchWeeklyTeamsSuccess(myTeams));
+    } catch (error) {
+        yield put(actions.fetchWeeklyTeamsError(error));
+    }
+}
+
+function* addPointsToPlayer(action) {
+    try {
+        const myTeams = yield api.addPointsToPlayerInWeek({
+            playerId: action.playerId,
+            week: action.week,
+            points: action.points
+        });
+    } catch (error) {
+        yield put(actions.fetchWeeklyTeamsError(error));
+    }
+}
+
 export default function* authSaga() {
     yield all([
         takeEvery(actions.CREATE_LEAGUE, createLeague),
@@ -120,6 +141,8 @@ export default function* authSaga() {
         takeEvery(actions.CREATE_PLAYER, createPlayer),
         takeEvery(actions.FETCH_PLAYERS, fetchPlayers),
         takeEvery(actions.ADD_PLAYER_TO_ACTIVE_TEAM, addPlayerToActiveTeam),
-        takeEvery(actions.TRIGGER_WEEKLY_TEAMS, triggerWeeklyTeams)
+        takeEvery(actions.TRIGGER_WEEKLY_TEAMS, triggerWeeklyTeams),
+        takeEvery(actions.FETCH_WEEKLY_PLAYERS, fetchWeeklyTeams),
+        takeEvery(actions.ADD_POINTS_TO_PLAYER, addPointsToPlayer)
     ]);
 }

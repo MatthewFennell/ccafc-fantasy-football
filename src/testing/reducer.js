@@ -5,7 +5,8 @@ const initialState = {
     allPlayers: [],
     fetchedLeague: false,
     fetchedPlayers: false,
-    myLeagues: []
+    myLeagues: [],
+    myWeeklyTeams: []
 };
 
 const authReducer = (state = initialState, action) => {
@@ -31,6 +32,11 @@ const authReducer = (state = initialState, action) => {
         return {
             ...state,
             allPlayers: action.allPlayers
+        };
+    case actions.FETCH_WEEKLY_PLAYERS_SUCCESS:
+        return {
+            ...state,
+            myWeeklyTeams: action.myWeeklyTeams
         };
     default:
         return state;

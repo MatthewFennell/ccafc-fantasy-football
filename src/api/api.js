@@ -43,3 +43,17 @@ export const getAllPlayers = () => functionToCall('player-getAllPlayers')().then
 export const addPlayerToActiveTeam = playerId => functionToCall('activeTeam-addPlayerToActiveTeam')(playerId);
 
 export const triggerWeeklyTeams = week => functionToCall('weeklyTeam-triggerWeeklyTeams')(week);
+
+export const getAllWeeklyPlayers = () => functionToCall('weeklyTeam-getAllMyWeeklyPlayers')().then(response => response.data.map(weeklyPlayer => ({
+    id: weeklyPlayer.id,
+    name: weeklyPlayer.data.name,
+    player_id: weeklyPlayer.data.player_id,
+    points: weeklyPlayer.data.points,
+    position: weeklyPlayer.data.positionk,
+    price: weeklyPlayer.data.price,
+    team: weeklyPlayer.data.team,
+    user_id: weeklyPlayer.data.user_id,
+    week: weeklyPlayer.data.week
+})));
+
+export const addPointsToPlayerInWeek = (playerId, week, points) => functionToCall('weeklyTeam-addPointsToPlayerInWeek')(playerId, week, points);

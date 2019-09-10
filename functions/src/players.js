@@ -24,7 +24,10 @@ exports.createPlayer = functions
                     name: data.name,
                     position: data.position,
                     price: data.price,
-                    team: data.team
+                    team: data.team,
+                    points: 0,
+                    goals: 0,
+                    assists: 0
                 }) : {
                 error: true,
                 message: 'There is no team with that name',

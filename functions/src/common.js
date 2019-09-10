@@ -5,3 +5,5 @@ module.exports.isAuthenticated = context => {
         throw new functions.https.HttpsError('unauthenticated', 'You must be authenticated to call this function');
     }
 };
+
+// https://firebase.google.com/docs/reference/functions/functions.https.HttpsError

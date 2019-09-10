@@ -36,6 +36,41 @@ export const ADD_PLAYER_TO_ACTIVE_TEAM_ERROR = `${pre}ADD_PLAYER_TO_ACTIVE_TEAM_
 export const TRIGGER_WEEKLY_TEAMS = `${pre}TRIGGER_WEEKLY_TEAMS`;
 export const TRIGGER_WEEKLY_TEAMS_ERROR = `${pre}TRIGGER_WEEKLY_TEAMS_ERROR`;
 
+export const FETCH_WEEKLY_PLAYERS = `${pre}FETCH_WEEKLY_PLAYERS`;
+export const FETCH_WEEKLY_PLAYERS_SUCCESS = `${pre}FETCH_WEEKLY_PLAYERS_SUCCESS`;
+export const FETCH_WEEKLY_PLAYERS_ERROR = `${pre}FETCH_WEEKLY_PLAYERS_ERROR`;
+
+export const ADD_POINTS_TO_PLAYER = `${pre}ADD_POINTS_TO_PLAYER`;
+export const ADD_POINTS_TO_PLAYER_SUCCESS = `${pre}ADD_POINTS_TO_PLAYER_SUCCESS`;
+export const ADD_POINTS_TO_PLAYER_ERROR = `${pre}ADD_POINTS_TO_PLAYER_ERROR`;
+
+export const addPointsToPlayer = (playerId, week, points) => ({
+    type: ADD_POINTS_TO_PLAYER,
+    playerId,
+    week,
+    points
+});
+
+export const addPointsToPlayerError = error => ({
+    type: ADD_POINTS_TO_PLAYER_ERROR,
+    error
+});
+
+export const fetchWeeklyTeams = () => ({
+    type: FETCH_WEEKLY_PLAYERS
+});
+
+export const fetchWeeklyTeamsSuccess = myWeeklyTeams => ({
+    type: FETCH_WEEKLY_PLAYERS_SUCCESS,
+    myWeeklyTeams
+});
+
+export const fetchWeeklyTeamsError = error => ({
+    type: FETCH_WEEKLY_PLAYERS_ERROR,
+    error
+});
+
+
 export const triggerWeeklyTeams = week => ({
     type: TRIGGER_WEEKLY_TEAMS,
     week
