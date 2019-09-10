@@ -33,7 +33,7 @@ const authReducer = (state = initialState, action) => {
             ...state,
             allPlayers: action.allPlayers
         };
-    case actions.FETCH_WEEKLY_TEAMS_SUCCESS:
+    case actions.FETCH_WEEKLY_PLAYERS_SUCCESS:
         return {
             ...state,
             myWeeklyTeams: action.myWeeklyTeams

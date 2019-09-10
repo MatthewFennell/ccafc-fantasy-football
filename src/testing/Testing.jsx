@@ -170,39 +170,6 @@ const Testing = props => {
                     <TextInput onChange={setCurrentWeek} />
                 </div>
             </div>
-            <div className={props.styles.myWeeklyTeams}>
-
-                {props.myWeeklyTeams.map(weeklyTeam => (
-                    <div key={weeklyTeam.id}>
-
-                    Week:
-                        {' '}
-                        {weeklyTeam.week}
-
-                        <div>
-                            {weeklyTeam.players.map(player => (
-                                <div className={props.styles.weeklyTeamPlayer} key={player.player_Id}>
-                                Player Name:
-                                    {' '}
-                                    {player.name}
-                                    , Points -
-                                    {' '}
-                                    {player.points}
-                                    <Button
-                                        onClick={() => props.addPointsToPlayer(
-                                            player.player_Id,
-                                            parseInt(weekToAddPointsTo, 10),
-                                            parseInt(pointsToAddToPlayer, 10)
-                                        )}
-                                        text="Add points"
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                        <hr />
-                    </div>
-                ))}
-            </div>
         </div>
     );
 };

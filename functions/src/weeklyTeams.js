@@ -13,19 +13,20 @@ exports.triggerWeeklyTeams = functions
         return activeTeamsRef.get().then(querySnapshot => {
             querySnapshot.docs.map(doc => db.collection('weekly-teams').add({
                 user_id: doc.data().user_id,
-                player_ids: doc.data().player_ids,
                 week: data.week,
                 points: 0
-            }).then(weekDoc => {
+            }).then(() => {
                 const activeTeamPlayersRef = db.collection('active-teams').doc(doc.id).collection('players');
                 activeTeamPlayersRef.get().then(playerDocs => {
-                    playerDocs.docs.map(player => db.collection('weekly-teams').doc(weekDoc.id).collection('players').add({
+                    playerDocs.docs.map(player => db.collection('weekly-players').add({
                         name: player.data().name,
                         player_id: player.data().player_id,
+                        week: data.week,
                         position: player.data().position,
                         price: player.data().price,
                         team: player.data().team,
-                        points: 0
+                        points: 0,
+                        user_id: doc.data().user_id
                     }));
                 });
             }));
@@ -33,16 +34,18 @@ exports.triggerWeeklyTeams = functions
     });
 
 
-exports.getAllMyWeeklyTeams = functions
+exports.getAllMyWeeklyPlayers = functions
     .region('europe-west2')
     .https.onCall((data, context) => {
         commonFunctions.isAuthenticated(context);
-        return db
-            .collection('weekly-teams')
+        return db.collection('weekly-players')
             .where('user_id', '==', context.auth.uid)
             .get()
             .then(querySnapshot => querySnapshot.docs
-                .map(doc => ({ data: doc.data(), id: doc.id })));
+                .map(doc => ({
+                    data: doc.data(),
+                    id: doc.id
+                })));
     });
 
 exports.addPointsToPlayerInWeek = functions
