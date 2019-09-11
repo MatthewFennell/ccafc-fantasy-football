@@ -5,4 +5,4 @@ module.exports.positions = {
     GOALKEEPER: 'GOALKEEPER'
 };
 
-module.exports.maxPlayersPerTeam = 4;
+module.exports.maxPlayersPerTeam = 11;

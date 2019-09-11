@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 const commonFunctions = require('./common');
@@ -14,7 +15,10 @@ const isValidFormation = players => {
     };
 
     players.forEach(player => {
-        positionsCounts[player.data.position.toUpperCase()] = (positionsCounts[player.data.position.toUpperCase()] || 0) + 1;
+        positionsCounts[player.data.position.toUpperCase()] = (positionsCounts[player
+            .data
+            .position
+            .toUpperCase()] || 0) + 1;
     });
 
     if (positionsCounts[constants.positions.GOALKEEPER] !== 1) {
@@ -52,9 +56,28 @@ const isValidNumberInEachTeam = players => {
     });
 };
 
+const hasNoRepeatedPlayers = players => {
+    const playersAdded = [];
+    players.forEach(player => {
+        if (playersAdded.includes(player.id)) {
+            throw new functions.https.HttpsError('invalid-argument', `You cannot have a player in your team more than once (${player.data.name})`);
+        }
+        playersAdded.push(player.id);
+    });
+};
+
+const isCorrectTeamLength = players => {
+    if (players.length !== 11) {
+        throw new functions.https.HttpsError('invalid-argument', `Your team must only include 11 players. Yours has ${players.length}`);
+    }
+};
+
 const teamIsValid = players => {
+    isCorrectTeamLength(players);
+    hasNoRepeatedPlayers(players);
     isValidNumberInEachTeam(players);
     isValidFormation(players);
+    return true;
 };
 
 
@@ -89,10 +112,40 @@ exports.setActiveTeam = functions
 
         // Push the promises to an array
         const promises = [];
-        data.activeTeam.map(playerId => promises.push(db.collection('players').doc(playerId).get().then(doc => ({ data: doc.data(), id: doc.id }))));
+        data.activeTeam.map(playerId => promises.push(db.collection('players').doc(playerId).get()
+            .then(doc => {
+                if (doc.exists) return ({ data: doc.data(), id: doc.id });
+                throw new functions.https.HttpsError('not-found', 'Invalid player ID');
+            })));
 
         // Once all of the promises are resolved, then operate on them
-        return Promise.all(promises).then(players => teamIsValid(players))
+        return Promise.all(promises)
+            .then(players => {
+                if (teamIsValid(players)) {
+                    const usersActiveTeamRef = db.collection('active-teams')
+                        .where('user_id', '==', context.auth.uid);
+                    usersActiveTeamRef.get().then(teamRef => {
+                        teamRef.docs.map(doc => db.collection('active-teams').doc(doc.id).update({
+                            player_ids: players.map(player => player.id)
+                        }).then(() => {
+                            players.forEach(player => {
+                                db.collection('active-teams').doc(doc.id).collection('players').add({
+                                    name: player.data.name,
+                                    position: player.data.position,
+                                    price: player.data.price,
+                                    team: player.data.team,
+                                    player_id: player.id
+                                });
+                            });
+                        }));
+                    }).then(() => {
+                        const sum = players.reduce((acc, curVal) => acc + curVal.data.price, 0);
+                        db.collection('users').doc(context.auth.uid).update({
+                            remaining_budget: admin.firestore.FieldValue.increment(sum * -1)
+                        });
+                    });
+                }
+            })
             .catch(error => {
                 throw new functions.https.HttpsError(error.code, error.message);
             });
