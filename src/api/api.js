@@ -6,21 +6,23 @@ const functionToCall = func => firebase
     .functions('europe-west2')
     .httpsCallable(func);
 
-export const getAllLeagues = () => functionToCall('league-getAllLeagues')().then(data => data.data.map(league => ({
-    id: league.id,
-    league_id: league.data.league_id,
-    league_name: league.data.name,
-    start_week: league.data.start_week,
-    user_points: league.data.user_points
-})));
+export const getAllLeagues = () => functionToCall('league-getAllLeagues')()
+    .then(data => data.data.map(league => ({
+        id: league.id,
+        league_id: league.data.league_id,
+        league_name: league.data.name,
+        start_week: league.data.start_week,
+        user_points: league.data.user_points
+    })));
 
-export const getLeaguesIAmIn = () => functionToCall('league-getLeaguesIAmIn')().then(data => data.data.map(league => ({
-    id: league.id,
-    league_id: league.data.league_id,
-    league_name: league.data.name,
-    start_week: league.data.start_week,
-    user_points: league.data.user_points
-})));
+export const getLeaguesIAmIn = () => functionToCall('league-getLeaguesIAmIn')()
+    .then(data => data.data.map(league => ({
+        id: league.id,
+        league_id: league.data.league_id,
+        league_name: league.data.name,
+        start_week: league.data.start_week,
+        user_points: league.data.user_points
+    })));
 
 export const joinLeague = leagueId => functionToCall('league-addUserToLeague')(leagueId);
 
@@ -32,28 +34,45 @@ export const createTeam = teamName => functionToCall('team-createTeam')(teamName
 
 export const createPlayer = (name, position, price, team) => functionToCall('player-createPlayer')(name, position, price, team);
 
-export const getAllPlayers = () => functionToCall('player-getAllPlayers')().then(data => data.data.map(player => ({
-    id: player.id,
-    name: player.data.name,
-    position: player.data.position,
-    price: player.data.price,
-    team: player.data.team
-})));
+export const getAllPlayers = () => functionToCall('player-getAllPlayers')()
+    .then(data => data.data.map(player => ({
+        id: player.id,
+        name: player.data.name,
+        position: player.data.position,
+        price: player.data.price,
+        team: player.data.team
+    })));
 
 export const addPlayerToActiveTeam = playerId => functionToCall('activeTeam-addPlayerToActiveTeam')(playerId);
 
 export const triggerWeeklyTeams = week => functionToCall('weeklyTeam-triggerWeeklyTeams')(week);
 
-export const getAllWeeklyPlayers = () => functionToCall('weeklyTeam-getAllMyWeeklyPlayers')().then(response => response.data.map(weeklyPlayer => ({
-    id: weeklyPlayer.id,
-    name: weeklyPlayer.data.name,
-    player_id: weeklyPlayer.data.player_id,
-    points: weeklyPlayer.data.points,
-    position: weeklyPlayer.data.positionk,
-    price: weeklyPlayer.data.price,
-    team: weeklyPlayer.data.team,
-    user_id: weeklyPlayer.data.user_id,
-    week: weeklyPlayer.data.week
-})));
+export const getAllWeeklyPlayers = () => functionToCall('weeklyTeam-getAllMyWeeklyPlayers')()
+    .then(response => response.data.map(weeklyPlayer => ({
+        id: weeklyPlayer.id,
+        name: weeklyPlayer.data.name,
+        player_id: weeklyPlayer.data.player_id,
+        points: weeklyPlayer.data.points,
+        position: weeklyPlayer.data.positionk,
+        price: weeklyPlayer.data.price,
+        team: weeklyPlayer.data.team,
+        user_id: weeklyPlayer.data.user_id,
+        week: weeklyPlayer.data.week
+    })));
+
+export const getWeeklyPlayersForUserInWeek = (userId, week) => functionToCall('weeklyTeam-getWeeklyPlayersForUserInWeek')(userId, week)
+    .then(response => response.data.map(weeklyPlayer => ({
+        id: weeklyPlayer.id,
+        name: weeklyPlayer.data.name,
+        player_id: weeklyPlayer.data.player_id,
+        points: weeklyPlayer.data.points,
+        position: weeklyPlayer.data.positionk,
+        price: weeklyPlayer.data.price,
+        team: weeklyPlayer.data.team,
+        user_id: weeklyPlayer.data.user_id,
+        week: weeklyPlayer.data.week
+    })));
 
 export const addPointsToPlayerInWeek = (playerId, week, points) => functionToCall('weeklyTeam-addPointsToPlayerInWeek')(playerId, week, points);
+
+export const setActiveTeam = activeTeam => functionToCall('activeTeam-setActiveTeam')(activeTeam);
