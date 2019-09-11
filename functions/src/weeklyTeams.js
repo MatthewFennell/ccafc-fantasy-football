@@ -48,6 +48,21 @@ exports.getAllMyWeeklyPlayers = functions
                 })));
     });
 
+exports.getWeeklyPlayersForUserInWeek = functions
+    .region('europe-west2')
+    .https.onCall((data, context) => {
+        commonFunctions.isAuthenticated(context);
+        return db.collection('weekly-players')
+            .where('user_id', '==', data.userId)
+            .where('week', '==', data.week)
+            .get()
+            .then(querySnapshot => querySnapshot.docs
+                .map(doc => ({
+                    data: doc.data(),
+                    id: doc.id
+                })));
+    });
+
 exports.addPointsToPlayerInWeek = functions
     .region('europe-west2')
     .https.onCall((data, context) => {

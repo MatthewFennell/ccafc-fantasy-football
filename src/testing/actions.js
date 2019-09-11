@@ -44,6 +44,30 @@ export const ADD_POINTS_TO_PLAYER = `${pre}ADD_POINTS_TO_PLAYER`;
 export const ADD_POINTS_TO_PLAYER_SUCCESS = `${pre}ADD_POINTS_TO_PLAYER_SUCCESS`;
 export const ADD_POINTS_TO_PLAYER_ERROR = `${pre}ADD_POINTS_TO_PLAYER_ERROR`;
 
+export const FETCH_WEEKLY_PLAYERS_FOR_USER_FOR_WEEK = `${pre}FETCH_WEEKLY_PLAYERS_FOR_USER_FOR_WEEK`;
+export const FETCH_WEEKLY_PLAYERS_FOR_USER_FOR_WEEK_SUCCESS = `${pre}FETCH_WEEKLY_PLAYERS_FOR_USER_FOR_WEEK_SUCCESS`;
+
+export const SET_ACTIVE_TEAM = `${pre}SET_ACTIVE_TEAM`;
+
+export const setActiveTeam = activeTeam => ({
+    type: SET_ACTIVE_TEAM,
+    activeTeam
+});
+
+export const fetchWeeklyPlayersForUserForWeek = (userId, week) => ({
+    type: FETCH_WEEKLY_PLAYERS_FOR_USER_FOR_WEEK,
+    userId,
+    week
+});
+
+export const fetchWeeklyPlayersForUserForWeekSuccess = (userId, week, weeklyPlayers) => ({
+    type: FETCH_WEEKLY_PLAYERS_FOR_USER_FOR_WEEK_SUCCESS,
+    userId,
+    week,
+    weeklyPlayers
+});
+
+
 export const addPointsToPlayer = (playerId, week, points) => ({
     type: ADD_POINTS_TO_PLAYER,
     playerId,

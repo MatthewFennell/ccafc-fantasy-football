@@ -1,13 +1,14 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import defaultStyles from './Testing.module.scss';
 import Button from '../common/Button';
 import TextInput from '../common/TextInput';
 import {
     createLeague, fetchLeagues, joinLeague, increaseScore, increaseMyScore, createTeam,
     createPlayer, fetchPlayers, addPlayerToActiveTeam, triggerWeeklyTeams, fetchWeeklyTeams,
-    addPointsToPlayer
+    addPointsToPlayer, fetchWeeklyPlayersForUserForWeek, setActiveTeam
 } from './actions';
 import * as selectors from './selectors';
 
@@ -22,12 +23,14 @@ const Testing = props => {
     const [currentWeek, setCurrentWeek] = useState(0);
     const [pointsToAddToPlayer, setPointsToAddToPlayer] = useState(0);
     const [weekToAddPointsTo, setWeekToAddPointsTo] = useState(0);
+    const [playersForActiveTeam, setPlayersForActiveTeam] = useState([]);
 
     useEffect(() => {
         props.fetchLeagues();
         props.fetchPlayers();
         props.fetchWeeklyTeams();
-    }, [props.fetchLeagues, props.fetchPlayers, props.fetchWeeklyTeams]);
+        props.fetchWeeklyPlayersForUserForWeek('replacemeinsaga', 0);
+    }, [props.fetchLeagues, props.fetchPlayers, props.fetchWeeklyTeams, props.fetchWeeklyPlayersForUserForWeek]);
 
     const makeLeague = useCallback(() => {
         props.createLeague(leagueName);
@@ -38,8 +41,16 @@ const Testing = props => {
     }, [teamName, props.createTeam]);
 
     const makePlayer = useCallback(() => {
-        props.createPlayer(playerName, playerPosition, playerPrice, playerTeam);
+        props.createPlayer(playerName, playerPosition, parseInt(playerPrice, 10), playerTeam);
     }, [playerName, playerPosition, playerPrice, playerTeam, props.createPlayer]);
+
+    const addOrRemovePlayerForActiveTeam = playerId => {
+        if (playersForActiveTeam.includes(playerId)) {
+            setPlayersForActiveTeam(playersForActiveTeam.filter(x => x !== playerId));
+        } else {
+            setPlayersForActiveTeam(playersForActiveTeam.concat([playerId]));
+        }
+    };
 
     return (
         <div className={props.styles.testingWrapper}>
@@ -139,14 +150,36 @@ const Testing = props => {
             <hr />
             <div className={props.styles.allPlayers}>
                 All players
+                Number of players to add =
+                {' '}
+                {playersForActiveTeam.length}
+                <Button
+                    onClick={() => props.setActiveTeam(playersForActiveTeam)}
+                    text="Set Active Team"
+                />
                 {props.allPlayers.map(player => (
-                    <div role="button" tabIndex={0} key={player.id} onClick={() => props.addPlayerToActiveTeam(player.id)}>
-                    Player:
-                        {' '}
-                        {player.name}
-                        {' Team - '}
-                        {player.team}
-                    </div>
+                    <>
+                        <div
+                            className={classNames({
+                                [props.styles.selected]: playersForActiveTeam.includes(player.id),
+                                [props.styles.not]: !playersForActiveTeam.includes(player.id)
+                            })}
+                            role="button"
+                            tabIndex={0}
+                            key={player.id}
+                            onClick={() => addOrRemovePlayerForActiveTeam(player.id)}
+                        >
+                            {' '}
+                            {player.name}
+                            {', '}
+                            {player.team}
+                            {', '}
+                            {player.position}
+                            {', '}
+                            {player.price}
+
+                        </div>
+                    </>
                 ))}
             </div>
             <hr />
@@ -194,12 +227,14 @@ Testing.propTypes = {
     fetchPlayers: PropTypes.func.isRequired,
     fetchWeeklyTeams: PropTypes.func.isRequired,
     increaseMyScore: PropTypes.func.isRequired,
+    fetchWeeklyPlayersForUserForWeek: PropTypes.func.isRequired,
     increaseScore: PropTypes.func.isRequired,
     joinLeague: PropTypes.func.isRequired,
     leaguesIAmIn: PropTypes.arrayOf(PropTypes.shape({})),
     myWeeklyTeams: PropTypes.arrayOf(PropTypes.shape({})),
     styles: PropTypes.objectOf(PropTypes.string),
-    triggerWeeklyTeams: PropTypes.func.isRequired
+    triggerWeeklyTeams: PropTypes.func.isRequired,
+    setActiveTeam: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = {
@@ -212,9 +247,11 @@ const mapDispatchToProps = {
     fetchPlayers,
     fetchWeeklyTeams,
     increaseMyScore,
+    fetchWeeklyPlayersForUserForWeek,
     increaseScore,
     joinLeague,
-    triggerWeeklyTeams
+    triggerWeeklyTeams,
+    setActiveTeam
 };
 
 const mapStateToProps = state => ({
