@@ -3,6 +3,8 @@ const functions = require('firebase-functions');
 
 admin.initializeApp(functions.config().firebase);
 
+const db = admin.firestore();
+
 exports.auth = require('./src/auth');
 exports.league = require('./src/leagues');
 exports.team = require('./src/teams');

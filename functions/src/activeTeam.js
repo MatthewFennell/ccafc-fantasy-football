@@ -104,7 +104,6 @@ exports.updateActiveTeam = functions
                 const myActiveTeamIds = currentTeam[0].player_ids;
                 const activeTeamId = currentTeam[0].id;
 
-                // Players being added that aren't already in the active team
                 const newPlayers = data.playersToAdd
                     .filter(p => !myActiveTeamIds.includes(p));
 
@@ -115,7 +114,6 @@ exports.updateActiveTeam = functions
                     .filter(p => !data.playersToRemove
                         .includes(p)).concat(newPlayers);
 
-                // Push the promises to an array
                 const promises = [];
                 newTeam.map(playerId => promises.push(db.collection('players').doc(playerId).get()
                     .then(doc => {
@@ -192,4 +190,21 @@ exports.updateActiveTeam = functions
                         }));
                 });
             }).then(players => players);
+    });
+
+exports.fetchMyActiveTeam = functions
+    .region('europe-west2')
+    .https.onCall((data, context) => {
+        const activeTeamRef = db.collection('active-teams').where('user_id', '==', context.auth.uid);
+        return activeTeamRef.get()
+            .then(activeDocs => activeDocs.docs
+                .map(doc => (doc.id)))
+            .then(documentIds => {
+                if (documentIds.length !== 1) {
+                    throw new functions.https.HttpsError('not-found', 'Something has gone wrong with your active team');
+                }
+                return db.collection('active-teams').doc(documentIds[0]).collection('players').get()
+                    .then(playerDocs => playerDocs.docs
+                        .map(player => ({ data: player.data(), id: player.id })));
+            });
     });
