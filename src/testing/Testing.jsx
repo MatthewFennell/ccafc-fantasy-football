@@ -8,7 +8,7 @@ import TextInput from '../common/TextInput';
 import {
     createLeague, fetchLeagues, joinLeague, increaseScore, increaseMyScore, createTeam,
     createPlayer, fetchPlayers, addPlayerToActiveTeam, triggerWeeklyTeams, fetchWeeklyTeams,
-    addPointsToPlayer, fetchWeeklyPlayersForUserForWeek, setActiveTeam
+    addPointsToPlayer, fetchWeeklyPlayersForUserForWeek, setActiveTeam, fetchMyActiveTeam
 } from './actions';
 import * as selectors from './selectors';
 
@@ -33,7 +33,9 @@ const Testing = props => {
         props.fetchPlayers();
         props.fetchWeeklyTeams();
         props.fetchWeeklyPlayersForUserForWeek('replacemeinsaga', 0);
-    }, [props.fetchLeagues, props.fetchPlayers, props.fetchWeeklyTeams, props.fetchWeeklyPlayersForUserForWeek]);
+        props.fetchMyActiveTeam();
+    }, [props.fetchLeagues, props.fetchPlayers, props.fetchWeeklyTeams,
+        props.fetchWeeklyPlayersForUserForWeek, props.fetchMyActiveTeam]);
 
     const makeLeague = useCallback(() => {
         props.createLeague(leagueName);
@@ -221,6 +223,19 @@ const Testing = props => {
                     <TextInput onChange={setCurrentWeek} />
                 </div>
             </div>
+            <div className={props.styles.myActiveTeam}>
+                My Active team
+                {props.activeTeam.map(player => (
+                    <div>
+                        {player.name}
+                        {', '}
+                        {player.position}
+                        {', '}
+                        {player.price}
+
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
@@ -236,6 +251,7 @@ Testing.defaultProps = {
 Testing.propTypes = {
     addPlayerToActiveTeam: PropTypes.func.isRequired,
     addPointsToPlayer: PropTypes.func.isRequired,
+    activeTeam: PropTypes.arrayOf(PropTypes.shape({})),
     allLeagues: PropTypes.arrayOf(PropTypes.shape({})),
     allPlayers: PropTypes.arrayOf(PropTypes.shape({})),
     createLeague: PropTypes.func.isRequired,
@@ -252,6 +268,7 @@ Testing.propTypes = {
     myWeeklyTeams: PropTypes.arrayOf(PropTypes.shape({})),
     styles: PropTypes.objectOf(PropTypes.string),
     triggerWeeklyTeams: PropTypes.func.isRequired,
+    fetchMyActiveTeam: PropTypes.func.isRequired,
     setActiveTeam: PropTypes.func.isRequired
 };
 
@@ -262,6 +279,7 @@ const mapDispatchToProps = {
     createPlayer,
     createTeam,
     fetchLeagues,
+    fetchMyActiveTeam,
     fetchPlayers,
     fetchWeeklyTeams,
     increaseMyScore,
@@ -273,6 +291,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
+    activeTeam: selectors.getActiveTeam(state),
     allLeagues: selectors.getAllLeagues(state),
     allPlayers: selectors.getAllPlayers(state),
     auth: state.firebase.auth,

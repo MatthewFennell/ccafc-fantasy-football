@@ -148,8 +148,19 @@ function* setActiveTeam(action) {
     try {
         // yield api.setActiveTeam({ activeTeam: action.activeTeam });
         yield api.updateWeeklyTeam({ playersToAdd: action.activeTeam, playersToRemove: action.playersToRemove });
+        const myActiveTeam = yield api.fetchMyActiveTeam();
+        yield put(actions.fetchMyActiveTeamSuccess(myActiveTeam));
     } catch (error) {
         yield put(actions.fetchWeeklyTeamsError(error));
+    }
+}
+
+function* fetchMyActiveTeam() {
+    try {
+        const myActiveTeam = yield api.fetchMyActiveTeam();
+        yield put(actions.fetchMyActiveTeamSuccess(myActiveTeam));
+    } catch (error) {
+        yield put(actions.fetchMyActiveTeamError(error));
     }
 }
 
@@ -168,6 +179,7 @@ export default function* authSaga() {
         takeEvery(actions.FETCH_WEEKLY_PLAYERS, fetchWeeklyTeams),
         takeEvery(actions.ADD_POINTS_TO_PLAYER, addPointsToPlayer),
         takeEvery(actions.FETCH_WEEKLY_PLAYERS_FOR_USER_FOR_WEEK, fetchWeeklyPlayerForUserInWeek),
-        takeEvery(actions.SET_ACTIVE_TEAM, setActiveTeam)
+        takeEvery(actions.SET_ACTIVE_TEAM, setActiveTeam),
+        takeEvery(actions.FETCH_MY_ACTIVE_TEAM, fetchMyActiveTeam)
     ]);
 }

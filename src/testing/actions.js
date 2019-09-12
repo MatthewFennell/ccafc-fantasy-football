@@ -49,6 +49,24 @@ export const FETCH_WEEKLY_PLAYERS_FOR_USER_FOR_WEEK_SUCCESS = `${pre}FETCH_WEEKL
 
 export const SET_ACTIVE_TEAM = `${pre}SET_ACTIVE_TEAM`;
 
+
+export const FETCH_MY_ACTIVE_TEAM = `${pre}FETCH_MY_ACTIVE_TEAM`;
+export const FETCH_MY_ACTIVE_TEAM_SUCCESS = `${pre}FETCH_MY_ACTIVE_TEAM_SUCCESS`;
+export const FETCH_MY_ACTIVE_TEAM_ERROR = `${pre}FETCH_MY_ACTIVE_TEAM_ERROR`;
+
+export const fetchMyActiveTeam = () => ({
+    type: FETCH_MY_ACTIVE_TEAM
+});
+
+export const fetchMyActiveTeamSuccess = activeTeam => ({
+    type: FETCH_MY_ACTIVE_TEAM_SUCCESS,
+    activeTeam
+});
+
+export const fetchMyActiveTeamError = () => ({
+    type: FETCH_MY_ACTIVE_TEAM_ERROR
+});
+
 export const setActiveTeam = (activeTeam, playersToRemove) => ({
     type: SET_ACTIVE_TEAM,
     activeTeam,

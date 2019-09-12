@@ -78,3 +78,13 @@ export const addPointsToPlayerInWeek = (playerId, week, points) => functionToCal
 export const setActiveTeam = activeTeam => functionToCall('activeTeam-setActiveTeam')(activeTeam);
 
 export const updateWeeklyTeam = playersToAdd => functionToCall('activeTeam-updateActiveTeam')(playersToAdd);
+
+export const fetchMyActiveTeam = () => functionToCall('activeTeam-fetchMyActiveTeam')()
+    .then(response => response.data.map(player => ({
+        id: player.id,
+        name: player.data.name,
+        player_id: player.data.player_id,
+        position: player.data.position,
+        price: player.data.price,
+        team: player.data.team
+    })));
