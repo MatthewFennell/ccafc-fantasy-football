@@ -72,81 +72,124 @@ const isCorrectTeamLength = players => {
     }
 };
 
+const isValidPrice = players => {
+    const totalPrice = players.reduce((acc, curVal) => acc + curVal.data.price, 0);
+    if (totalPrice > 100) {
+        throw new functions.https.HttpsError('invalid-argument', `Too expensive. The budget is £100 mil, your team costs £${totalPrice} mil`);
+    }
+};
+
 const teamIsValid = players => {
     isCorrectTeamLength(players);
     hasNoRepeatedPlayers(players);
+    isValidPrice(players);
     isValidNumberInEachTeam(players);
     isValidFormation(players);
     return true;
 };
 
-
-exports.addPlayerToActiveTeam = functions
+exports.updateActiveTeam = functions
     .region('europe-west2')
     .https.onCall((data, context) => {
         commonFunctions.isAuthenticated(context);
-        const usersActiveTeam = db.collection('active-teams')
-            .where('user_id', '==', context.auth.uid);
-        const playerRef = db.collection('players').doc(data.playerId);
-        return playerRef.get().then(player => (player.exists ? usersActiveTeam.get()
-            .then(querySnapshot => {
-                querySnapshot.docs.map(doc => db.collection('active-teams').doc(doc.id)
-                    .update({
-                        player_ids: admin.firestore.FieldValue.arrayUnion(data.playerId)
-                    })
-                    .then(() => db.collection('active-teams').doc(doc.id).collection('players').add({
-                        name: player.data().name,
-                        position: player.data().position,
-                        price: player.data().price,
-                        team: player.data().team,
-                        player_id: data.playerId
+        const activeTeamRef = db.collection('active-teams').where('user_id', '==', context.auth.uid);
+        return activeTeamRef.get()
+            .then(activeDocs => activeDocs.docs
+                .map(doc => ({ player_ids: doc.data().player_ids, id: doc.id })))
+            .then(currentTeam => {
+                if (currentTeam.length !== 1) {
+                    throw new functions.https.HttpsError('not-found', 'Something has gone wrong with your active team');
+                }
+
+                const myActiveTeamIds = currentTeam[0].player_ids;
+                const activeTeamId = currentTeam[0].id;
+
+                // Players being added that aren't already in the active team
+                const newPlayers = data.playersToAdd
+                    .filter(p => !myActiveTeamIds.includes(p));
+
+                const removedPlayers = data.playersToRemove
+                    .filter(p => myActiveTeamIds.includes(p));
+
+                const newTeam = myActiveTeamIds
+                    .filter(p => !data.playersToRemove
+                        .includes(p)).concat(newPlayers);
+
+                // Push the promises to an array
+                const promises = [];
+                newTeam.map(playerId => promises.push(db.collection('players').doc(playerId).get()
+                    .then(doc => {
+                        if (doc.exists) return ({ data: doc.data(), id: doc.id });
+                        throw new functions.https.HttpsError('not-found', 'Invalid player ID');
                     })));
-            })
-            : false));
-    });
 
-exports.setActiveTeam = functions
-    .region('europe-west2')
-    .https.onCall((data, context) => {
-        commonFunctions.isAuthenticated(context);
+                return Promise.all(promises).then(players => {
+                    teamIsValid(players);
 
-        // Push the promises to an array
-        const promises = [];
-        data.activeTeam.map(playerId => promises.push(db.collection('players').doc(playerId).get()
-            .then(doc => {
-                if (doc.exists) return ({ data: doc.data(), id: doc.id });
-                throw new functions.https.HttpsError('not-found', 'Invalid player ID');
-            })));
+                    // Set the player_ids of the active team
+                    return db.collection('active-teams').doc(activeTeamId).update({
+                        player_ids: newTeam
+                    }).then(() => db.collection('active-teams').doc(activeTeamId).collection('players').get()
 
-        // Once all of the promises are resolved, then operate on them
-        return Promise.all(promises)
-            .then(players => {
-                if (teamIsValid(players)) {
-                    const usersActiveTeamRef = db.collection('active-teams')
-                        .where('user_id', '==', context.auth.uid);
-                    usersActiveTeamRef.get().then(teamRef => {
-                        teamRef.docs.map(doc => db.collection('active-teams').doc(doc.id).update({
-                            player_ids: players.map(player => player.id)
-                        }).then(() => {
-                            players.forEach(player => {
-                                db.collection('active-teams').doc(doc.id).collection('players').add({
-                                    name: player.data.name,
-                                    position: player.data.position,
-                                    price: player.data.price,
-                                    team: player.data.team,
-                                    player_id: player.id
+                    // For each player in the active team, remove if they aren't in the new team
+                        .then(activePlayerDocs => activePlayerDocs.docs.forEach(p => {
+                            if (!newTeam.includes(p.data().player_id)) {
+                                db.collection('active-teams').doc(activeTeamId).collection('players').doc(p.id)
+                                    .delete();
+                            }
+                        }))
+                        .then(() => {
+                            // Filter players for just the new players being added and add them
+                            players.filter(p => newPlayers.includes(p.id)).forEach(p => {
+                                db.collection('active-teams').doc(activeTeamId).collection('players').add({
+                                    name: p.data.name,
+                                    position: p.data.position,
+                                    price: p.data.price,
+                                    team: p.data.team,
+                                    player_id: p.id
                                 });
                             });
+                        })
+                        .then(() => {
+                            // Find all of the removed players
+                            const playersToRemovePromises = [];
+                            removedPlayers.map(playerId => playersToRemovePromises.push(db.collection('players').doc(playerId).get()
+                                .then(doc => {
+                                    if (doc.exists) return (doc.data().price);
+                                    throw new functions.https.HttpsError('not-found', 'Invalid player ID');
+                                })));
+                            return Promise.all(playersToRemovePromises).then(prices => {
+                                const newPlayersPrice = players
+                                    .filter(p => newPlayers.includes(p.id))
+                                    .reduce((acc, curVal) => acc + curVal.data.price, 0);
+
+                                const removedPlayersPrice = prices
+                                    .reduce((acc, curVal) => acc + curVal, 0);
+
+                                db.collection('users').doc(context.auth.uid).get().then(
+                                    user => {
+                                        // Update the points / transfers / budget of the user
+                                        const remainingTransfers = user.data().remaining_transfers;
+                                        const numberOfTransfers = removedPlayers.length;
+                                        const pointsPenalty = Math.max(
+                                            (numberOfTransfers - remainingTransfers)
+                                            * constants.transferPointPenalty, 0
+                                        );
+
+                                        db.collection('users').doc(context.auth.uid).update({
+                                            remaining_budget: admin.firestore.FieldValue
+                                                .increment(removedPlayersPrice - newPlayersPrice),
+                                            total_points: admin.firestore.FieldValue
+                                                .increment(pointsPenalty * -1),
+                                            remaining_transfers: Math.max(
+                                                0, remainingTransfers - numberOfTransfers
+                                            )
+                                        });
+                                    }
+                                );
+                                return players;
+                            });
                         }));
-                    }).then(() => {
-                        const sum = players.reduce((acc, curVal) => acc + curVal.data.price, 0);
-                        db.collection('users').doc(context.auth.uid).update({
-                            remaining_budget: admin.firestore.FieldValue.increment(sum * -1)
-                        });
-                    });
-                }
-            })
-            .catch(error => {
-                throw new functions.https.HttpsError(error.code, error.message);
-            });
+                });
+            }).then(players => players);
     });

@@ -25,6 +25,9 @@ const Testing = props => {
     const [weekToAddPointsTo, setWeekToAddPointsTo] = useState(0);
     const [playersForActiveTeam, setPlayersForActiveTeam] = useState([]);
 
+    const [playersToRemoveFromActiveTeam, setPlayersToRemoveFromActiveTeam] = useState([]);
+
+
     useEffect(() => {
         props.fetchLeagues();
         props.fetchPlayers();
@@ -45,10 +48,20 @@ const Testing = props => {
     }, [playerName, playerPosition, playerPrice, playerTeam, props.createPlayer]);
 
     const addOrRemovePlayerForActiveTeam = playerId => {
+        setPlayersToRemoveFromActiveTeam(playersToRemoveFromActiveTeam.filter(x => x !== playerId));
         if (playersForActiveTeam.includes(playerId)) {
             setPlayersForActiveTeam(playersForActiveTeam.filter(x => x !== playerId));
         } else {
             setPlayersForActiveTeam(playersForActiveTeam.concat([playerId]));
+        }
+    };
+
+    const doubleClickRemove = playerId => {
+        setPlayersForActiveTeam(playersForActiveTeam.filter(x => x !== playerId));
+        if (playersToRemoveFromActiveTeam.includes(playerId)) {
+            setPlayersToRemoveFromActiveTeam(playersToRemoveFromActiveTeam.filter(x => x !== playerId));
+        } else {
+            setPlayersToRemoveFromActiveTeam(playersToRemoveFromActiveTeam.concat([playerId]));
         }
     };
 
@@ -153,8 +166,12 @@ const Testing = props => {
                 Number of players to add =
                 {' '}
                 {playersForActiveTeam.length}
+                <br />
+                Number of players to remove =
+                {' '}
+                {playersToRemoveFromActiveTeam.length}
                 <Button
-                    onClick={() => props.setActiveTeam(playersForActiveTeam)}
+                    onClick={() => props.setActiveTeam(playersForActiveTeam, playersToRemoveFromActiveTeam)}
                     text="Set Active Team"
                 />
                 {props.allPlayers.map(player => (
@@ -162,12 +179,13 @@ const Testing = props => {
                         <div
                             className={classNames({
                                 [props.styles.selected]: playersForActiveTeam.includes(player.id),
-                                [props.styles.not]: !playersForActiveTeam.includes(player.id)
+                                [props.styles.remove]: playersToRemoveFromActiveTeam.includes(player.id)
                             })}
                             role="button"
                             tabIndex={0}
                             key={player.id}
                             onClick={() => addOrRemovePlayerForActiveTeam(player.id)}
+                            onDoubleClick={() => doubleClickRemove(player.id)}
                         >
                             {' '}
                             {player.name}

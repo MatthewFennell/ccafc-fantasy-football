@@ -16,6 +16,7 @@ const appReducer = history => combineReducers({
 
 const rootReducer = history => (state, action) => {
     if (action.type === authActions.SIGN_OUT_SUCCESS) {
+        // eslint-disable-next-line no-param-reassign
         state = undefined;
     }
     return appReducer(history)(state, action);

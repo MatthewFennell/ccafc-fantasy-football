@@ -120,7 +120,7 @@ function* fetchWeeklyTeams() {
 
 function* addPointsToPlayer(action) {
     try {
-        const myTeams = yield api.addPointsToPlayerInWeek({
+        yield api.addPointsToPlayerInWeek({
             playerId: action.playerId,
             week: action.week,
             points: action.points
@@ -146,7 +146,8 @@ function* fetchWeeklyPlayerForUserInWeek(action) {
 
 function* setActiveTeam(action) {
     try {
-        yield api.setActiveTeam({ activeTeam: action.activeTeam });
+        // yield api.setActiveTeam({ activeTeam: action.activeTeam });
+        yield api.updateWeeklyTeam({ playersToAdd: action.activeTeam, playersToRemove: action.playersToRemove });
     } catch (error) {
         yield put(actions.fetchWeeklyTeamsError(error));
     }
