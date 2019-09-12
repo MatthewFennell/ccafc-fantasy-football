@@ -6,3 +6,5 @@ module.exports.positions = {
 };
 
 module.exports.maxPlayersPerTeam = 11;
+
+module.exports.transferPointPenalty = 4;

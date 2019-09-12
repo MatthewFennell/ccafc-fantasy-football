@@ -76,3 +76,5 @@ export const getWeeklyPlayersForUserInWeek = (userId, week) => functionToCall('w
 export const addPointsToPlayerInWeek = (playerId, week, points) => functionToCall('weeklyTeam-addPointsToPlayerInWeek')(playerId, week, points);
 
 export const setActiveTeam = activeTeam => functionToCall('activeTeam-setActiveTeam')(activeTeam);
+
+export const updateWeeklyTeam = playersToAdd => functionToCall('updateTeam')(playersToAdd);

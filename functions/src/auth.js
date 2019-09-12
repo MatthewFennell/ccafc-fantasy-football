@@ -9,7 +9,10 @@ exports.userSignUp = functions
     .onCreate(user => {
         const userObject = {
             displayName: user.displayName,
-            email: user.email
+            email: user.email,
+            total_points: 0,
+            remaining_transfers: 0,
+            remaining_budget: 100
         };
         // If Facebook provider, assume the email is verified
         return db.doc(`users/${user.uid}`).set(userObject).then(() => (user.providerData.length
@@ -18,10 +21,7 @@ exports.userSignUp = functions
             }) : false)).then(() => {
             db.collection('active-teams').add({
                 user_id: user.uid,
-                player_ids: [],
-                total_points: 0,
-                remaining_transfers: 0,
-                remaining_budget: 100
+                player_ids: []
             });
         });
     });

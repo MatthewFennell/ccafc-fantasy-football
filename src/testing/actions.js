@@ -49,9 +49,10 @@ export const FETCH_WEEKLY_PLAYERS_FOR_USER_FOR_WEEK_SUCCESS = `${pre}FETCH_WEEKL
 
 export const SET_ACTIVE_TEAM = `${pre}SET_ACTIVE_TEAM`;
 
-export const setActiveTeam = activeTeam => ({
+export const setActiveTeam = (activeTeam, playersToRemove) => ({
     type: SET_ACTIVE_TEAM,
-    activeTeam
+    activeTeam,
+    playersToRemove
 });
 
 export const fetchWeeklyPlayersForUserForWeek = (userId, week) => ({
