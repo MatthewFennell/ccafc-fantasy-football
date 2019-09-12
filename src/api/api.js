@@ -77,4 +77,4 @@ export const addPointsToPlayerInWeek = (playerId, week, points) => functionToCal
 
 export const setActiveTeam = activeTeam => functionToCall('activeTeam-setActiveTeam')(activeTeam);
 
-export const updateWeeklyTeam = playersToAdd => functionToCall('updateTeam')(playersToAdd);
+export const updateWeeklyTeam = playersToAdd => functionToCall('activeTeam-updateActiveTeam')(playersToAdd);
