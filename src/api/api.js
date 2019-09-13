@@ -79,7 +79,7 @@ export const setActiveTeam = activeTeam => functionToCall('activeTeam-setActiveT
 
 export const updateWeeklyTeam = playersToAdd => functionToCall('activeTeam-updateActiveTeam')(playersToAdd);
 
-export const addPointsForTeamInWeek = request => functionToCall('submitResult')(request);
+export const addPointsForTeamInWeek = request => functionToCall('points-submitResult')(request);
 
 export const fetchMyActiveTeam = () => functionToCall('activeTeam-fetchMyActiveTeam')()
     .then(response => response.data.map(player => ({

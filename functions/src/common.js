@@ -7,10 +7,19 @@ module.exports.isAuthenticated = context => {
     }
 };
 
-module.exports.calculatePoints = (goals, assists, position) => {
+module.exports.calculatePoints = (position, goals, assists, cleanSheet, redCard, yellowCard) => {
     let total = 0;
     total += goals * constants.points.GOAL[position];
     total += assists * constants.points.ASSIST;
+    if (cleanSheet) {
+        total += constants.points.CLEAN_SHEET[position];
+    }
+    if (redCard) {
+        total += constants.points.RED_CARD;
+    }
+    if (yellowCard) {
+        total += constants.points.YELLOW_CARD;
+    }
     return total;
 };
 

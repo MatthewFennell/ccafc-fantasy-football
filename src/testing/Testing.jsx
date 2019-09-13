@@ -78,20 +78,6 @@ const Testing = props => {
         setResultObject(fp.set(`${playerId}.goals`, fp.getOr(0, `${playerId}.goals`, resultObject) + 1, resultObject));
     };
 
-    const test = [[{
-        data: { obj: 'obj' },
-        id: 'Chx4EmQQFm2rY31ni9uc',
-        player_id: 'feedcSIuX9nxShIWgshg'
-    }],
-    [{
-        data: { obj: 'object' },
-        id: 'Chx4EmQQFm2rY31ni9uc',
-        player_id: 'yP5KewlJ8Fm4uP59lkJx'
-    }]];
-
-    const result = test.flat();
-    console.log('result', result);
-
     return (
         <div className={props.styles.testingWrapper}>
             <Button
