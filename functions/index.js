@@ -57,11 +57,25 @@ exports.submitResult = functions
                     wins: operations.increment(data.goalsFor > data.goalsAgainst ? 1 : 0),
                     draws: operations.increment(data.goalsFor === data.goalsAgainst ? 1 : 0),
                     losses: operations.increment(data.goalsFor < data.goalsAgainst ? 1 : 0)
-                }).then(() => {
+                });
+            })
+                .then(() => {
+                    playerIds.forEach(playerId => {
+                        const { goals, assists, position } = playerStats[playerId];
+                        const points = common.calculatePoints(goals, assists, position);
+                        db.collection('player-points').add({
+                            player_id: playerId,
+                            week: data.week,
+                            goals,
+                            assists,
+                            points
+                        });
+                    });
+                })
+                .then(() => {
                     const weeklyTeamsPromises = [];
 
                     // All weekly teams that contain a player for a given week
-                    // Returns array of arrays
                     playerIds.map(playerId => weeklyTeamsPromises.push(db.collection('weekly-teams')
                         .where('player_ids', 'array-contains', playerId).where('week', '==', data.week).get()
                         .then(weeklyTeamDocs => weeklyTeamDocs.docs
@@ -81,7 +95,8 @@ exports.submitResult = functions
                             });
                         });
                     });
-                }).then(() => {
+                })
+                .then(() => {
                     // Update the players table
                     playerPositionsArray.forEach(player => {
                         const { goals, assists, position } = playerStats[player.id];
@@ -92,7 +107,8 @@ exports.submitResult = functions
                             points: operations.increment(pointsIncrease)
                         });
                     });
-                }).then(() => {
+                })
+                .then(() => {
                     const weeklyPlayerPromises = [];
                     playerIds.map(playerId => weeklyPlayerPromises.push(db.collection('weekly-players')
                         .where('player_id', '==', playerId).where('week', '==', data.week).get()
@@ -106,7 +122,6 @@ exports.submitResult = functions
 
                     // Update all weekly players
                     Promise.all(weeklyPlayerPromises).then(weeklyPlayers => {
-                        // find all of the leagues the user is in
                         const userLeaguesPromises = [];
                         fp.flattenDeep(weeklyPlayers).forEach(weekPlayer => {
                             const { goals, assists, position } = playerStats[weekPlayer.player_id];
@@ -138,6 +153,8 @@ exports.submitResult = functions
                                     )
                                 ));
                         });
+
+                        // Update all the leagues for each user
                         Promise.all(userLeaguesPromises).then(userLeagues => {
                             fp.flattenDeep(userLeagues).forEach(league => {
                                 const { goals, assists, position } = playerStats[league.player_id];
@@ -146,20 +163,6 @@ exports.submitResult = functions
                                     user_points: operations.increment(incr)
                                 });
                             });
-                        });
-                    });
-                });
-            })
-                .then(() => {
-                    playerIds.forEach(playerId => {
-                        const { goals, assists, position } = playerStats[playerId];
-                        const points = common.calculatePoints(goals, assists, position);
-                        db.collection('player-points').add({
-                            player_id: playerId,
-                            week: data.week,
-                            goals,
-                            assists,
-                            points
                         });
                     });
                 });
