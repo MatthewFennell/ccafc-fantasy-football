@@ -14,7 +14,8 @@ exports.triggerWeeklyTeams = functions
             querySnapshot.docs.map(doc => db.collection('weekly-teams').add({
                 user_id: doc.data().user_id,
                 week: data.week,
-                points: 0
+                points: 0,
+                player_ids: doc.data().player_ids
             }).then(() => {
                 const activeTeamPlayersRef = db.collection('active-teams').doc(doc.id).collection('players');
                 activeTeamPlayersRef.get().then(playerDocs => {
