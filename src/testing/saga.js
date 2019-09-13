@@ -42,24 +42,6 @@ function* joinLeague(action) {
     }
 }
 
-function* increaseScore(action) {
-    try {
-        yield api.addPointsInLeagueToUser({ leagueId: action.leagueId, score: action.score });
-    } catch (error) {
-        yield put(actions.increaseScoreError(error));
-    }
-}
-
-function* increaseMyScore(action) {
-    try {
-        yield api.addPointsToMe({ score: action.score, userId: firebase.auth().currentUser.uid });
-        const myLeagues = yield api.getLeaguesIAmIn();
-        yield put(actions.increaseScoreSuccess(myLeagues));
-    } catch (error) {
-        yield put(actions.increaseScoreError(error));
-    }
-}
-
 function* createTeam(action) {
     try {
         yield api.createTeam({ teamName: action.teamName });
@@ -196,8 +178,6 @@ export default function* authSaga() {
         takeEvery(actions.CREATE_LEAGUE, createLeague),
         takeEvery(actions.FETCH_LEAGUES, fetchLeagues),
         takeEvery(actions.JOIN_LEAGUE, joinLeague),
-        takeEvery(actions.INCREASE_SCORE, increaseScore),
-        takeEvery(actions.INCREASE_MY_SCORE, increaseMyScore),
         takeEvery(actions.CREATE_TEAM, createTeam),
         takeEvery(actions.CREATE_PLAYER, createPlayer),
         takeEvery(actions.FETCH_PLAYERS, fetchPlayers),

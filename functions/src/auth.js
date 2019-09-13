@@ -15,13 +15,18 @@ exports.userSignUp = functions
             remaining_budget: 100
         };
         // If Facebook provider, assume the email is verified
-        return db.doc(`users/${user.uid}`).set(userObject).then(() => (user.providerData.length
-      && user.providerData[0].providerId === 'facebook.com' ? admin.auth().updateUser(user.uid, {
-                emailVerified: true
-            }) : false)).then(() => {
-            db.collection('active-teams').add({
-                user_id: user.uid,
-                player_ids: []
+        return db.doc(`users/${user.uid}`).set(userObject)
+            .then(() => {
+                if (user.providerData.length && user.providerData[0].providerId === 'facebook.com') {
+                    admin.auth().updateUser(user.uid, {
+                        emailVerified: true
+                    });
+                }
+            })
+            .then(() => {
+                db.collection('active-teams').add({
+                    user_id: user.uid,
+                    player_ids: []
+                });
             });
-        });
     });
