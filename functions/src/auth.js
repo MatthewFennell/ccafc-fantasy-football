@@ -3,6 +3,8 @@ const functions = require('firebase-functions');
 
 const db = admin.firestore();
 
+const config = functions.config();
+
 exports.userSignUp = functions
     .region('europe-west2')
     .auth.user()
@@ -15,7 +17,7 @@ exports.userSignUp = functions
             remaining_budget: 100
         };
         // If Facebook provider, assume the email is verified
-        return db.doc(`users/${user.uid}`).set(userObject)
+        db.doc(`users/${user.uid}`).set(userObject)
             .then(() => {
                 if (user.providerData.length && user.providerData[0].providerId === 'facebook.com') {
                     admin.auth().updateUser(user.uid, {
@@ -29,4 +31,10 @@ exports.userSignUp = functions
                     player_ids: []
                 });
             });
+        if (user.email === config.admin.email) {
+            return admin.auth().setCustomUserClaims(user.uid, {
+                admin: true
+            });
+        }
+        return false;
     });
