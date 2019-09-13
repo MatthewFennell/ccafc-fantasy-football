@@ -1,6 +1,8 @@
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 const fp = require('lodash');
+const constants = require('./src/constants');
+const common = require('./src/common');
 
 admin.initializeApp(functions.config().firebase);
 
@@ -28,12 +30,22 @@ exports.submitResult = functions
                 if (!player.exists) {
                     throw new functions.https.HttpsError('not-found', `There is no player with that id (${player})`);
                 }
-                return ({ id: playerId, position: player.data().position });
+                return ({ id: playerId, position: player.data().position, ref: player.ref });
             })));
 
         Promise.all(playerPromises).then(playerPositionsArray => {
             const playerPositions = playerPositionsArray
                 .reduce((acc, cur) => ({ ...acc, [cur.id]: cur.position.toUpperCase() }), {});
+
+            // Get the goals, assists and position of each player having points added to them
+            const playerStats = playerPositionsArray.reduce((acc, cur) => ({
+                ...acc,
+                [cur.id]: ({
+                    goals: data.players[cur.id].goals || 0,
+                    assists: data.players[cur.id].assists || 0,
+                    position: playerPositions[cur.id]
+                })
+            }), {});
 
             return db.collection('teams').doc(data.team).get().then(doc => {
                 if (!doc.exists) {
@@ -53,17 +65,50 @@ exports.submitResult = functions
                     playerIds.map(playerId => weeklyTeamsPromises.push(db.collection('weekly-teams')
                         .where('player_ids', 'array-contains', playerId).where('week', '==', data.week).get()
                         .then(weeklyTeamDocs => weeklyTeamDocs.docs
-                            .map(weeklyDoc => ({ data: weeklyDoc.data(), id: weeklyDoc.id, player_id: playerId })))));
+                            .map(weeklyDoc => ({
+                                data: weeklyDoc.data(),
+                                id: weeklyDoc.id,
+                                player_id: playerId
+                            })))));
 
+                    // Update all weekly teams points
                     Promise.all(weeklyTeamsPromises).then(weeklyTeams => {
-                        console.log('Number of weekly teams', weeklyTeams.length);
-                        console.log('weekly TEAMS pre flat', weeklyTeams);
-                        console.log('weekly TEAMS post flat', fp.flattenDeep(weeklyTeams));
-                        fp.flattenDeep(weeklyTeams).map(weeklyTeam => {
-                            console.log('weekly team', weeklyTeam);
-                            console.log('data', data);
-                            const numberOfGoals = data.players[weeklyTeam.player_id].goals;
-                            console.log('Number of goals = ', numberOfGoals, ' by ', weeklyTeam.player_id);
+                        fp.flattenDeep(weeklyTeams).forEach(weeklyTeam => {
+                            const { goals, assists, position } = playerStats[weeklyTeam.player_id];
+                            const pointsIncrease = common.calculatePoints(goals, assists, position);
+                            db.collection('weekly-teams').doc(weeklyTeam.id).update({
+                                points: admin.firestore.FieldValue.increment(pointsIncrease)
+                            });
+                        });
+                    });
+                }).then(() => {
+                    // Update the players table
+                    playerPositionsArray.forEach(player => {
+                        const { goals, assists, position } = playerStats[player.id];
+                        const pointsIncrease = common.calculatePoints(goals, assists, position);
+                        player.ref.update({
+                            goals: admin.firestore.FieldValue.increment(goals),
+                            assists: admin.firestore.FieldValue.increment(assists),
+                            points: admin.firestore.FieldValue.increment(pointsIncrease)
+                        });
+                    });
+                }).then(() => {
+                    const weeklyPlayerPromises = [];
+                    playerIds.map(playerId => weeklyPlayerPromises.push(db.collection('weekly-players')
+                        .where('player_id', '==', playerId).where('week', '==', data.week).get()
+                        .then(weeklyPlayerDoc => weeklyPlayerDoc.docs
+                            .map(weeklyDoc => ({
+                                data: weeklyDoc.data(),
+                                id: weeklyDoc.id,
+                                player_id: playerId
+                            })))));
+                    Promise.all(weeklyPlayerPromises).then(weeklyPlayers => {
+                        fp.flattenDeep(weeklyPlayers).forEach(weekPlayer => {
+                            const { goals, assists, position } = playerStats[weekPlayer.player_id];
+                            const pointsIncrease = common.calculatePoints(goals, assists, position);
+                            db.collection('weekly-players').doc(weekPlayer.id).update({
+                                points: admin.firestore.FieldValue.increment(pointsIncrease)
+                            });
                         });
                     });
                 });
