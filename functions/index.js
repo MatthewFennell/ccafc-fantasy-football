@@ -77,7 +77,7 @@ exports.submitResult = functions
                             const { goals, assists, position } = playerStats[weeklyTeam.player_id];
                             const pointsIncrease = common.calculatePoints(goals, assists, position);
                             db.collection('weekly-teams').doc(weeklyTeam.id).update({
-                                points: admin.firestore.FieldValue.increment(pointsIncrease)
+                                points: operations.increment(pointsIncrease)
                             });
                         });
                     });
@@ -87,9 +87,9 @@ exports.submitResult = functions
                         const { goals, assists, position } = playerStats[player.id];
                         const pointsIncrease = common.calculatePoints(goals, assists, position);
                         player.ref.update({
-                            goals: admin.firestore.FieldValue.increment(goals),
-                            assists: admin.firestore.FieldValue.increment(assists),
-                            points: admin.firestore.FieldValue.increment(pointsIncrease)
+                            goals: operations.increment(goals),
+                            assists: operations.increment(assists),
+                            points: operations.increment(pointsIncrease)
                         });
                     });
                 }).then(() => {
@@ -106,11 +106,13 @@ exports.submitResult = functions
 
                     // Update all weekly players
                     Promise.all(weeklyPlayerPromises).then(weeklyPlayers => {
+                        // find all of the leagues the user is in
+                        const userLeaguesPromises = [];
                         fp.flattenDeep(weeklyPlayers).forEach(weekPlayer => {
                             const { goals, assists, position } = playerStats[weekPlayer.player_id];
                             const pointsIncrease = common.calculatePoints(goals, assists, position);
                             db.collection('weekly-players').doc(weekPlayer.id).update({
-                                points: admin.firestore.FieldValue.increment(pointsIncrease)
+                                points: operations.increment(pointsIncrease)
                             });
                             // Add points to the user
                             db.collection('users').doc(weekPlayer.user_id).get().then(
@@ -119,13 +121,47 @@ exports.submitResult = functions
                                         throw new functions.https.HttpsError('not-found', 'User does not exist');
                                     }
                                     user.ref.update({
-                                        total_points: admin.firestore.FieldValue.increment(pointsIncrease)
+                                        total_points: operations.increment(pointsIncrease)
                                     });
                                 }
                             );
+                            userLeaguesPromises.push(db.collection('leagues-points')
+                                .where('user_id', '==', weekPlayer.user_id).where('start_week', '<=', data.week).get()
+                                .then(
+                                    userLeagues => userLeagues.docs.map(
+                                        leagueDoc => ({
+                                            data: leagueDoc.data(),
+                                            id: leagueDoc.id,
+                                            player_id: weekPlayer.player_id,
+                                            ref: leagueDoc.ref
+                                        })
+                                    )
+                                ));
+                        });
+                        Promise.all(userLeaguesPromises).then(userLeagues => {
+                            fp.flattenDeep(userLeagues).forEach(league => {
+                                const { goals, assists, position } = playerStats[league.player_id];
+                                const incr = common.calculatePoints(goals, assists, position);
+                                league.ref.update({
+                                    user_points: operations.increment(incr)
+                                });
+                            });
                         });
                     });
                 });
-            });
+            })
+                .then(() => {
+                    playerIds.forEach(playerId => {
+                        const { goals, assists, position } = playerStats[playerId];
+                        const points = common.calculatePoints(goals, assists, position);
+                        db.collection('player-points').add({
+                            player_id: playerId,
+                            week: data.week,
+                            goals,
+                            assists,
+                            points
+                        });
+                    });
+                });
         });
     });
