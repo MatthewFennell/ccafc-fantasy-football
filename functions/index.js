@@ -100,8 +100,11 @@ exports.submitResult = functions
                             .map(weeklyDoc => ({
                                 data: weeklyDoc.data(),
                                 id: weeklyDoc.id,
-                                player_id: playerId
+                                player_id: playerId,
+                                user_id: weeklyDoc.data().user_id
                             })))));
+
+                    // Update all weekly players
                     Promise.all(weeklyPlayerPromises).then(weeklyPlayers => {
                         fp.flattenDeep(weeklyPlayers).forEach(weekPlayer => {
                             const { goals, assists, position } = playerStats[weekPlayer.player_id];
@@ -109,6 +112,17 @@ exports.submitResult = functions
                             db.collection('weekly-players').doc(weekPlayer.id).update({
                                 points: admin.firestore.FieldValue.increment(pointsIncrease)
                             });
+                            // Add points to the user
+                            db.collection('users').doc(weekPlayer.user_id).get().then(
+                                user => {
+                                    if (!user.exists) {
+                                        throw new functions.https.HttpsError('not-found', 'User does not exist');
+                                    }
+                                    user.ref.update({
+                                        total_points: admin.firestore.FieldValue.increment(pointsIncrease)
+                                    });
+                                }
+                            );
                         });
                     });
                 });
