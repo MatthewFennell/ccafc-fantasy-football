@@ -147,7 +147,10 @@ function* fetchWeeklyPlayerForUserInWeek(action) {
 function* setActiveTeam(action) {
     try {
         // yield api.setActiveTeam({ activeTeam: action.activeTeam });
-        yield api.updateWeeklyTeam({ playersToAdd: action.activeTeam, playersToRemove: action.playersToRemove });
+        yield api.updateWeeklyTeam({
+            playersToAdd: action.activeTeam,
+            playersToRemove: action.playersToRemove
+        });
         const myActiveTeam = yield api.fetchMyActiveTeam();
         yield put(actions.fetchMyActiveTeamSuccess(myActiveTeam));
     } catch (error) {
@@ -161,6 +164,30 @@ function* fetchMyActiveTeam() {
         yield put(actions.fetchMyActiveTeamSuccess(myActiveTeam));
     } catch (error) {
         yield put(actions.fetchMyActiveTeamError(error));
+    }
+}
+
+function* addPointsForTeamInWeek(action) {
+    try {
+        yield api.addPointsForTeamInWeek({
+            team: action.team,
+            goalsFor: action.goalsFor,
+            goalsAgainst: action.goalsAgainst,
+            week: action.week,
+            players: action.players
+        });
+    } catch (error) {
+        yield put(actions.addPointsForTeamInWeekError(error));
+    }
+}
+
+function* fetchTeams() {
+    try {
+        const allTeams = yield api.fetchTeams();
+        console.log('all teams', allTeams);
+        yield put(actions.fetchTeamsSuccess(allTeams));
+    } catch (error) {
+        yield put(actions.fetchTeamsError(error));
     }
 }
 
@@ -180,6 +207,8 @@ export default function* authSaga() {
         takeEvery(actions.ADD_POINTS_TO_PLAYER, addPointsToPlayer),
         takeEvery(actions.FETCH_WEEKLY_PLAYERS_FOR_USER_FOR_WEEK, fetchWeeklyPlayerForUserInWeek),
         takeEvery(actions.SET_ACTIVE_TEAM, setActiveTeam),
-        takeEvery(actions.FETCH_MY_ACTIVE_TEAM, fetchMyActiveTeam)
+        takeEvery(actions.FETCH_MY_ACTIVE_TEAM, fetchMyActiveTeam),
+        takeEvery(actions.ADD_POINTS_FOR_TEAM_IN_WEEK, addPointsForTeamInWeek),
+        takeEvery(actions.FETCH_TEAMS, fetchTeams)
     ]);
 }

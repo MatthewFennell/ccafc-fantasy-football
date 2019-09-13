@@ -6,3 +6,4 @@ export const getFetchedLeagues = state => state.testing.fetchedLeague;
 export const getFetchedPlayers = state => state.testing.fetchedPlayers;
 export const getWeeklyTeams = state => state.testing.myWeeklyTeams;
 export const getActiveTeam = state => state.testing.myActiveTeam;
+export const getAllTeams = state => state.testing.allTeams;

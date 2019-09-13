@@ -49,14 +49,49 @@ export const FETCH_WEEKLY_PLAYERS_FOR_USER_FOR_WEEK_SUCCESS = `${pre}FETCH_WEEKL
 
 export const SET_ACTIVE_TEAM = `${pre}SET_ACTIVE_TEAM`;
 
-
 export const FETCH_MY_ACTIVE_TEAM = `${pre}FETCH_MY_ACTIVE_TEAM`;
 export const FETCH_MY_ACTIVE_TEAM_SUCCESS = `${pre}FETCH_MY_ACTIVE_TEAM_SUCCESS`;
 export const FETCH_MY_ACTIVE_TEAM_ERROR = `${pre}FETCH_MY_ACTIVE_TEAM_ERROR`;
 
+export const ADD_POINTS_FOR_TEAM_IN_WEEK = `${pre}ADD_POINTS_FOR_TEAM_IN_WEEK`;
+export const ADD_POINTS_FOR_TEAM_IN_WEEK_ERROR = `${pre}ADD_POINTS_FOR_TEAM_IN_WEEK_ERROR`;
+
+export const FETCH_TEAMS = `${pre}FETCH_TEAMS`;
+export const FETCH_TEAMS_SUCCESS = `${pre}FETCH_TEAMS_SUCCESS`;
+export const FETCH_TEAMS_ERROR = `${pre}FETCH_TEAMS_ERROR`;
+
+export const fetchTeams = () => ({
+    type: FETCH_TEAMS
+});
+
+export const fetchTeamsError = error => ({
+    type: FETCH_TEAMS_ERROR,
+    error
+});
+
+export const fetchTeamsSuccess = allTeams => ({
+    type: FETCH_TEAMS_SUCCESS,
+    allTeams
+});
+
+export const addPointsForTeamInWeek = (team, goalsFor, goalsAgainst, week, players) => ({
+    type: ADD_POINTS_FOR_TEAM_IN_WEEK,
+    team,
+    goalsFor,
+    goalsAgainst,
+    week,
+    players
+});
+
 export const fetchMyActiveTeam = () => ({
     type: FETCH_MY_ACTIVE_TEAM
 });
+
+export const addPointsForTeamInWeekError = error => ({
+    type: ADD_POINTS_FOR_TEAM_IN_WEEK_ERROR,
+    error
+});
+
 
 export const fetchMyActiveTeamSuccess = activeTeam => ({
     type: FETCH_MY_ACTIVE_TEAM_SUCCESS,

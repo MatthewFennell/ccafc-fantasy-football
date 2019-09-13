@@ -79,6 +79,8 @@ export const setActiveTeam = activeTeam => functionToCall('activeTeam-setActiveT
 
 export const updateWeeklyTeam = playersToAdd => functionToCall('activeTeam-updateActiveTeam')(playersToAdd);
 
+export const addPointsForTeamInWeek = request => functionToCall('points-submitResult')(request);
+
 export const fetchMyActiveTeam = () => functionToCall('activeTeam-fetchMyActiveTeam')()
     .then(response => response.data.map(player => ({
         id: player.id,
@@ -87,4 +89,15 @@ export const fetchMyActiveTeam = () => functionToCall('activeTeam-fetchMyActiveT
         position: player.data.position,
         price: player.data.price,
         team: player.data.team
+    })));
+
+export const fetchTeams = () => functionToCall('team-getAllTeams')()
+    .then(response => response.data.map(team => ({
+        id: team.id,
+        team_name: team.data.team_name,
+        wins: team.data.wins,
+        draws: team.data.draws,
+        losses: team.data.losses,
+        goalsAgainst: team.data.goalsAgainst,
+        goalsFor: team.data.goalsFor
     })));

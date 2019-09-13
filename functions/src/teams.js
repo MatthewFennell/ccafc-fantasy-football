@@ -27,3 +27,15 @@ exports.createTeam = functions
             throw new functions.https.HttpsError('invalid-argument', 'A team with that name already exists');
         });
     });
+
+
+exports.getAllTeams = functions
+    .region('europe-west2')
+    .https.onCall((data, context) => {
+        commonFunctions.isAuthenticated(context);
+        return db
+            .collection('teams')
+            .get()
+            .then(querySnapshot => querySnapshot.docs
+                .map(doc => ({ data: doc.data(), id: doc.id })));
+    });
