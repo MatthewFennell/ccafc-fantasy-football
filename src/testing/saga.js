@@ -205,8 +205,7 @@ function* fetchPositionsOfUserInLeagues() {
 
 function* calculatePositions() {
     try {
-        // const result = yield api.calculatePositions();
-        // console.log('result', result);
+        const result = yield api.calculatePositions();
     } catch (error) {
         yield put(actions.fetchUserMostPointsError(error));
     }

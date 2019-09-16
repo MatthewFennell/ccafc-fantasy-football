@@ -11,7 +11,6 @@ import { signIn } from './actions';
 import Button from '../common/Button';
 
 const SignIn = props => {
-    console.log('loaded');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
