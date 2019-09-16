@@ -1,13 +1,13 @@
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
-const commonFunctions = require('./common');
+const common = require('./common');
 
 const db = admin.firestore();
 
 exports.createLeague = functions
     .region('europe-west2')
     .https.onCall((data, context) => {
-        commonFunctions.isAuthenticated(context);
+        common.isAuthenticated(context);
         if (!data.leagueName) {
             throw new functions.https.HttpsError('invalid-argument', 'Cannot create a league with an empty name');
         }
@@ -22,7 +22,8 @@ exports.createLeague = functions
                     user_id: context.auth.uid,
                     start_week: 0,
                     name: data.leagueName,
-                    user_points: 0
+                    user_points: 0,
+                    username: data.username
                 });
             });
     });
@@ -30,7 +31,7 @@ exports.createLeague = functions
 exports.getAllLeagues = functions
     .region('europe-west2')
     .https.onCall((data, context) => {
-        commonFunctions.isAuthenticated(context);
+        common.isAuthenticated(context);
         return db
             .collection('leagues-points')
             .get()
@@ -41,7 +42,7 @@ exports.getAllLeagues = functions
 exports.getLeaguesIAmIn = functions
     .region('europe-west2')
     .https.onCall((data, context) => {
-        commonFunctions.isAuthenticated(context);
+        common.isAuthenticated(context);
         return db
             .collection('leagues-points')
             .where('user_id', '==', context.auth.uid)
@@ -56,7 +57,7 @@ exports.getLeaguesIAmIn = functions
 exports.addUserToLeague = functions
     .region('europe-west2')
     .https.onCall((data, context) => {
-        commonFunctions.isAuthenticated(context);
+        common.isAuthenticated(context);
 
         return db.collection('leagues').doc(data.leagueId).get().then(
             league => {
@@ -74,9 +75,69 @@ exports.addUserToLeague = functions
                             user_id: context.auth.uid,
                             start_week: 0,
                             name: league.data().name,
-                            user_points: 0
+                            user_points: 0,
+                            username: data.username
                         });
                     });
             }
         );
+    });
+
+
+exports.orderedUsers = functions
+    .region('europe-west2')
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db
+            .collection('leagues-points')
+            .where('league_id', '==', data.leagueId)
+            .orderBy('user_points', 'desc')
+            .get()
+            .then(querySnapshot => querySnapshot.docs
+                .map(doc => ({ data: doc.data(), id: doc.id })));
+    });
+
+
+// Adds a position tag to each league to order them correctly
+exports.calculatePositions = functions
+    .region('europe-west2')
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db
+            .collection('leagues-points')
+            .get()
+            .then(querySnapshot => querySnapshot.docs
+                .map(doc => ({ data: doc.data(), id: doc.id })))
+            .then(result => {
+                const leaguesAndUsers = {};
+                const positions = [];
+
+                result.forEach(league => {
+                    const entry = {
+                        id: league.id,
+                        points: league.data.user_points
+                    };
+
+                    if (leaguesAndUsers[league.data.league_id]) {
+                        leaguesAndUsers[league.data.league_id].push(entry);
+                    } else {
+                        leaguesAndUsers[league.data.league_id] = [entry];
+                    }
+                });
+
+                Object.keys(leaguesAndUsers).forEach(key => {
+                    leaguesAndUsers[key] = fp.sortBy('points')(leaguesAndUsers[key]).reverse();
+                    leaguesAndUsers[key].forEach((pos, index) => {
+                        positions.push({ id: pos.id, position: index + 1 });
+                    });
+                });
+
+                const leagueUpdatePromises = [];
+                positions.map(pos => leagueUpdatePromises.push(db.collection('leagues-points')
+                    .doc(pos.id).update({
+                        position: pos.position
+                    })));
+
+                return Promise.all(leagueUpdatePromises).then(() => 'Successfully updated');
+            });
     });

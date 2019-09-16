@@ -22,8 +22,6 @@ function* loggingIn(action) {
     if (action.auth && !action.auth.emailVerified) {
         yield put(push('/needToVerifyEmail'));
     }
-    const answer = yield firebase.auth().currentUser.getIdTokenResult();
-    console.log('answer', answer);
 }
 
 function* signUp(action) {

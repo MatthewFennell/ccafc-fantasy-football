@@ -5,15 +5,15 @@ import firebase from 'firebase';
 import * as actions from './actions';
 import * as api from '../api/api';
 import * as selectors from './selectors';
+import { getDisplayName } from '../common/selectors/selectors';
 
 function* createLeague(action) {
+    const username = yield select(getDisplayName);
     try {
-        yield firebase
-            .app()
-            .functions('europe-west2')
-            .httpsCallable('league-createLeague')({
-                leagueName: action.leagueName
-            });
+        yield api.createLeague({
+            leagueName: action.leagueName,
+            username
+        });
     } catch (error) {
         yield put(actions.createLeagueError(error));
     }
@@ -34,7 +34,11 @@ function* fetchLeagues() {
 
 function* joinLeague(action) {
     try {
-        yield api.joinLeague({ leagueId: action.leagueId });
+        const username = yield select(getDisplayName);
+        yield api.joinLeague({
+            leagueId: action.leagueId,
+            username
+        });
         const myNewLeagues = yield api.getLeaguesIAmIn();
         yield put(actions.joinLeagueSuccess(myNewLeagues));
     } catch (error) {
@@ -166,10 +170,45 @@ function* addPointsForTeamInWeek(action) {
 function* fetchTeams() {
     try {
         const allTeams = yield api.fetchTeams();
-        console.log('all teams', allTeams);
         yield put(actions.fetchTeamsSuccess(allTeams));
     } catch (error) {
         yield put(actions.fetchTeamsError(error));
+    }
+}
+
+function* fetchUserWithMostPoints() {
+    try {
+        const userWithMostPoints = yield api.userWithMostPoints();
+    } catch (error) {
+        yield put(actions.fetchUserMostPointsError(error));
+    }
+}
+
+function* fetchOrderedUsersInLeague() {
+    try {
+        const orderedUsers = yield api.fetchOrderedUsersInLeague({
+            leagueId: 'XzJFAlIEonl0E6eWaR0L'
+        });
+    } catch (error) {
+        yield put(actions.fetchUserMostPointsError(error));
+    }
+}
+
+function* fetchPositionsOfUserInLeagues() {
+    try {
+        const myPositions = yield api.fetchPositionOfUserInLeagues({ userId: firebase.auth().currentUser.uid });
+        console.log('my positions', myPositions);
+    } catch (error) {
+        yield put(actions.fetchUserMostPointsError(error));
+    }
+}
+
+function* calculatePositions() {
+    try {
+        // const result = yield api.calculatePositions();
+        // console.log('result', result);
+    } catch (error) {
+        yield put(actions.fetchUserMostPointsError(error));
     }
 }
 
@@ -189,6 +228,10 @@ export default function* authSaga() {
         takeEvery(actions.SET_ACTIVE_TEAM, setActiveTeam),
         takeEvery(actions.FETCH_MY_ACTIVE_TEAM, fetchMyActiveTeam),
         takeEvery(actions.ADD_POINTS_FOR_TEAM_IN_WEEK, addPointsForTeamInWeek),
-        takeEvery(actions.FETCH_TEAMS, fetchTeams)
+        takeEvery(actions.FETCH_TEAMS, fetchTeams),
+        takeEvery(actions.FETCH_USER_WITH_MOST_POINTS, fetchUserWithMostPoints),
+        takeEvery(actions.FETCH_ORDERED_USERS_IN_LEAGUE, fetchOrderedUsersInLeague),
+        takeEvery(actions.FETCH_POSITION_OF_USER_IN_LEAGUES, fetchPositionsOfUserInLeagues),
+        takeEvery(actions.CALCULATE_POSITIONS, calculatePositions)
     ]);
 }
