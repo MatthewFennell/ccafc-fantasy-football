@@ -1,6 +1,7 @@
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 const fp = require('lodash/fp');
+const lodash = require('lodash');
 const common = require('./src/common');
 
 admin.initializeApp(functions.config().firebase);
@@ -17,14 +18,11 @@ exports.points = require('./src/points');
 
 const operations = admin.firestore.FieldValue;
 
-exports.positionsOfUserInLeagues = functions
+exports.getUserProfile = functions
     .region('europe-west2')
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
         return db
-            .collection('leagues-points')
-            .where('user_id', '==', data.userId)
-            .get()
-            .then(querySnapshot => querySnapshot.docs
-                .map(doc => ({ data: doc.data(), id: doc.id })));
+            .collection('users').doc(context.auth.uid).get()
+            .then(user => ({ data: user.data(), id: user.id }));
     });

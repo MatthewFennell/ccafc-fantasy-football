@@ -80,11 +80,19 @@ export const updateWeeklyTeam = playersToAdd => functionToCall('activeTeam-updat
 
 export const addPointsForTeamInWeek = request => functionToCall('points-submitResult')(request);
 
-export const fetchPositionOfUserInLeagues = request => functionToCall('positionsOfUserInLeagues')(request).then(
+export const fetchPositionOfUserInLeagues = request => functionToCall('league-positionsOfUserInLeagues')(request).then(
     response => response.data.map(league => ({ data: league.data, id: league.id }))
 );
 
 export const calculatePositions = () => functionToCall('league-calculatePositions')();
+
+export const fetchUserProfile = () => functionToCall('getUserProfile')().then(
+    response => ({ data: response.data.data, id: response.data.id })
+);
+
+export const fetchPlayerWithMostPointsInWeek = request => functionToCall('points-playerWithMostPointsInWeek')(request).then(
+    response => ({ name: response.data.name, points: response.data.points })
+);
 
 export const fetchOrderedUsersInLeague = request => functionToCall('league-orderedUsers')(request).then(
     response => response.data.map(user => ({ data: user.data, id: user.id }))
