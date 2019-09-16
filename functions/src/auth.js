@@ -10,7 +10,6 @@ exports.userSignUp = functions
     .region('europe-west2')
     .auth.user()
     .onCreate(user => {
-        console.log('user', user);
         const userObject = {
             displayName: user.displayName,
             email: user.email,
@@ -41,7 +40,6 @@ exports.userSignUp = functions
         return false;
     });
 
-
 exports.updateDisplayName = functions
     .region('europe-west2')
     .https.onCall((data, context) => {
@@ -49,4 +47,13 @@ exports.updateDisplayName = functions
         return db.collection('users').doc(context.auth.uid).update({
             displayName: data.displayName
         });
+    });
+
+exports.getUserProfile = functions
+    .region('europe-west2')
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db
+            .collection('users').doc(context.auth.uid).get()
+            .then(user => ({ data: user.data(), id: user.id }));
     });

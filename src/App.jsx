@@ -7,6 +7,7 @@ import SignIn from './auth/SignIn';
 import SignUp from './auth/SignUp';
 import AuthenticatedRoute from './auth/routes/AuthenticatedRoute';
 import UnauthenticatedRoute from './auth/routes/UnauthenticatedRoute';
+import UnauthenticatedEmailRoute from './auth/routes/UnauthenticatedEmailRoute';
 import Navbar from './navbar/Navbar';
 import Dashboard from './dashboard/Dashboard';
 import Profile from './profile/Profile';
@@ -15,7 +16,6 @@ import VerifyEmail from './auth/VerifyEmail';
 import PasswordReset from './auth/PasswordReset';
 
 const App = props => (
-
     props.auth && props.auth.isLoaded ? (
         <ConnectedRouter history={props.history}>
             <div className="App">
@@ -27,14 +27,13 @@ const App = props => (
                     <AuthenticatedRoute exact path="/testing" component={Testing} />
                     <UnauthenticatedRoute path="/signin" component={SignIn} redirect="/dashboard" />
                     <UnauthenticatedRoute path="/signup" component={SignUp} redirect="/dashboard" />
-                    <UnauthenticatedRoute path="/needToVerifyEmail" component={VerifyEmail} redirect="/dashboard" />
+                    <UnauthenticatedEmailRoute path="/needToVerifyEmail" component={VerifyEmail} redirect="/dashboard" />
                     <UnauthenticatedRoute path="/password-reset" component={PasswordReset} redirect="/dashboard" />
                     <Route render={() => <Redirect to="/" />} />
                 </Switch>
             </div>
         </ConnectedRouter>
     ) : null
-
 );
 
 App.defaultProps = {
