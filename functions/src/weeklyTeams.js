@@ -10,7 +10,16 @@ exports.triggerWeeklyTeams = functions
         commonFunctions.isAuthenticated(context);
         const activeTeamsRef = db.collection('active-teams');
 
-        return activeTeamsRef.get().then(querySnapshot => {
+        return db.collection('application-info').get().then(appInfo => appInfo.docs.map(doc => {
+            if (doc.data().total_weeks + 1 !== data.week) {
+                throw new functions.https.HttpsError('invalid-argument', `Invalid week. The next week should be ${doc.data().total_weeks + 1}`);
+            }
+            return false;
+        })).then(() => activeTeamsRef.get().then(querySnapshot => {
+            db.collection('application-info').get().then(docs => docs.docs.map(doc => doc.ref.update({
+                total_weeks: admin.firestore.FieldValue.increment(1)
+            })));
+
             querySnapshot.docs.map(doc => db.collection('weekly-teams').add({
                 user_id: doc.data().user_id,
                 week: data.week,
@@ -31,7 +40,7 @@ exports.triggerWeeklyTeams = functions
                     }));
                 });
             }));
-        });
+        }));
     });
 
 

@@ -3,13 +3,27 @@ const functions = require('firebase-functions');
 const common = require('./common');
 
 const db = admin.firestore();
-
 const config = functions.config();
 
 exports.userSignUp = functions
     .region('europe-west2')
     .auth.user()
     .onCreate(user => {
+        db.collection('application-info').get().then(
+            appInfo => {
+                if (appInfo.empty) {
+                    db.collection('application-info').add({
+                        total_weeks: 0,
+                        number_of_users: 1
+                    });
+                } else {
+                    appInfo.docs.map(doc => doc.ref.update({
+                        number_of_users: admin.firestore.FieldValue.increment(1)
+                    }));
+                }
+            }
+        );
+
         const userObject = {
             displayName: user.displayName,
             email: user.email,
