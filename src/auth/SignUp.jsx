@@ -1,12 +1,14 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
+import { withRouter } from 'react-router-dom';
 import { signUp } from './actions';
 import defaultStyles from './SignUp.module.scss';
+import Button from '../common/Button';
 
 const SignUp = props => {
     const [email, setEmail] = useState('');
@@ -29,6 +31,10 @@ const SignUp = props => {
     const handleSubmit = () => {
         props.signUp(email, password, firstName, surname);
     };
+
+    const redirectToPasswordReset = useCallback(() => {
+        props.history.push('/password-reset');
+    }, [props.history]);
 
     return (
         <div>
@@ -62,6 +68,10 @@ const SignUp = props => {
                     </div>
                 </form>
             </div>
+            <Button
+                text="Reset password"
+                onClick={redirectToPasswordReset}
+            />
         </div>
     );
 };
@@ -75,8 +85,11 @@ SignUp.defaultProps = {
 };
 
 SignUp.propTypes = {
+    history: PropTypes.shape({
+        push: PropTypes.func.isRequired
+    }).isRequired,
     signUp: PropTypes.func.isRequired,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 
-export default connect(null, mapDispatchToProps)(SignUp);
+export default withRouter(connect(null, mapDispatchToProps)(SignUp));

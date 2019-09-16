@@ -5,8 +5,7 @@ import firebase from 'firebase';
 import { push } from 'connected-react-router';
 import { constants } from 'react-redux-firebase';
 import * as actions from './actions';
-
-import rsf from '../config/fbConfig';
+import * as api from '../api/api';
 
 function* signOut() {
     try {
@@ -30,13 +29,8 @@ function* signUp(action) {
         handleCodeInApp: true
     };
     try {
-        const response = yield firebase
-            .auth()
-            .createUserWithEmailAndPassword(action.email, action.password);
-        yield call(rsf.firestore.setDocument, `users/${response.user.uid}`, {
-            firstName: action.firstName,
-            lastName: action.lastName
-        });
+        yield firebase.auth().createUserWithEmailAndPassword(action.email, action.password);
+        yield call(api.updateDisplayName, ({ displayName: `${action.firstName} ${action.lastName}` }));
         yield firebase.auth().currentUser.sendEmailVerification(actionCodeSettings);
     } catch (error) {
         yield put(actions.signUpError(error));
@@ -72,6 +66,14 @@ function* linkProfileToFacebook() {
     }
 }
 
+function* sendResetPasswordEmail(action) {
+    try {
+        yield firebase.auth().sendPasswordResetEmail(action.email);
+    } catch (error) {
+        yield put(actions.sendPasswordResetEmailError(error));
+    }
+}
+
 export default function* authSaga() {
     yield all([
         takeEvery(actions.SIGN_OUT, signOut),
@@ -79,6 +81,7 @@ export default function* authSaga() {
         takeEvery(actions.SIGN_UP, signUp),
         takeEvery(actions.SIGN_IN, signIn),
         takeEvery(actions.LINK_PROFILE_TO_GOOGLE, linkProfileToGoogle),
-        takeEvery(actions.LINK_PROFILE_TO_FACEBOOK, linkProfileToFacebook)
+        takeEvery(actions.LINK_PROFILE_TO_FACEBOOK, linkProfileToFacebook),
+        takeEvery(actions.SEND_PASSWORD_RESET_EMAIL, sendResetPasswordEmail)
     ]);
 }
