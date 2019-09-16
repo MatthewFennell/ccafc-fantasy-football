@@ -12,6 +12,7 @@ import Dashboard from './dashboard/Dashboard';
 import Profile from './profile/Profile';
 import Testing from './testing/Testing';
 import VerifyEmail from './auth/VerifyEmail';
+import PasswordReset from './auth/PasswordReset';
 
 const App = props => (
 
@@ -27,6 +28,7 @@ const App = props => (
                     <UnauthenticatedRoute path="/signin" component={SignIn} redirect="/dashboard" />
                     <UnauthenticatedRoute path="/signup" component={SignUp} redirect="/dashboard" />
                     <UnauthenticatedRoute path="/needToVerifyEmail" component={VerifyEmail} redirect="/dashboard" />
+                    <UnauthenticatedRoute path="/password-reset" component={PasswordReset} redirect="/dashboard" />
                     <Route render={() => <Redirect to="/" />} />
                 </Switch>
             </div>

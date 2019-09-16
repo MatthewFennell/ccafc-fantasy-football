@@ -18,12 +18,39 @@ export const LINK_PROFILE_TO_GOOGLE_ERROR = `${pre}LINK_PROFILE_TO_GOOGLE_ERROR`
 export const LINK_PROFILE_TO_FACEBOOK = `${pre}LINK_PROFILE_TO_FACEBOOK`;
 export const LINK_PROFILE_TO_FACEBOOK_ERROR = `${pre}LINK_PROFILE_TO_FACEBOOK_ERROR`;
 
+export const UPDATE_DISPLAY_NAME = `${pre}UPDATE_DISPLAY_NAME`;
+export const UPDATE_DISPLAY_NAME_ERROR = `${pre}UPDATE_DISPLAY_NAME_ERROR`;
+
+export const SEND_PASSWORD_RESET_EMAIL = `${pre}SEND_PASSWORD_RESET_EMAIL`;
+export const SEND_PASSWORD_RESET_EMAIL_ERROR = `${pre}SEND_PASSWORD_RESET_EMAIL_ERROR`;
+
+export const updateDisplayName = displayName => ({
+    type: UPDATE_DISPLAY_NAME,
+    displayName
+});
+
+export const updateDisplayNameError = error => ({
+    type: UPDATE_DISPLAY_NAME,
+    error
+});
+
+export const sendPasswordResetEmail = email => ({
+    type: SEND_PASSWORD_RESET_EMAIL,
+    email
+});
+
+export const sendPasswordResetEmailError = error => ({
+    type: SEND_PASSWORD_RESET_EMAIL_ERROR,
+    error
+});
+
 export const linkProfileToGoogle = () => ({
     type: LINK_PROFILE_TO_GOOGLE
 });
 
-export const linkProfileToGoogleError = () => ({
-    type: LINK_PROFILE_TO_GOOGLE_ERROR
+export const linkProfileToGoogleError = error => ({
+    type: LINK_PROFILE_TO_GOOGLE_ERROR,
+    error
 });
 
 export const linkProfileToFacebook = () => ({
