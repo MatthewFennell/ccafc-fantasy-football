@@ -1,12 +1,44 @@
 /* eslint-disable max-len */
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
-const fp = require('lodash');
+const lodash = require('lodash');
 const common = require('./common');
 
 const db = admin.firestore();
 
 const operations = admin.firestore.FieldValue;
+
+exports.userWithMostPoints = functions
+    .region('europe-west2')
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db
+            .collection('users')
+            .orderBy('total_points', 'desc').limit(1)
+            .get()
+            .then(querySnapshot => querySnapshot.docs
+                .map(doc => ({ data: doc.data(), id: doc.id })));
+    });
+
+exports.playerWithMostPointsInWeek = functions
+    .region('europe-west2')
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db
+            .collection('player-points')
+            .where('week', '==', data.week)
+            .orderBy('points', 'desc')
+            .limit(1)
+            .get()
+            .then(querySnapshot => querySnapshot.docs
+                .map(doc => ({ data: doc.data(), id: doc.id })))
+            .then(result => db.collection('players').doc(lodash.head(result).data.player_id).get()
+                .then(player => ({
+                    name: player.data().name,
+                    points: lodash.head(result).data.points
+                })));
+    });
+
 
 exports.submitResult = functions
     .region('europe-west2')
@@ -102,7 +134,7 @@ exports.submitResult = functions
 
                     // Update all weekly teams points
                     Promise.all(weeklyTeamsPromises).then(weeklyTeams => {
-                        fp.flattenDeep(weeklyTeams).forEach(weeklyTeam => {
+                        lodash.flattenDeep(weeklyTeams).forEach(weeklyTeam => {
                             const {
                                 position, goals, assists, cleanSheet, redCard, yellowCard
                             } = playerStats[weeklyTeam.player_id];
@@ -144,7 +176,7 @@ exports.submitResult = functions
                     // Update all weekly players
                     Promise.all(weeklyPlayerPromises).then(weeklyPlayers => {
                         const userLeaguesPromises = [];
-                        fp.flattenDeep(weeklyPlayers).forEach(weekPlayer => {
+                        lodash.flattenDeep(weeklyPlayers).forEach(weekPlayer => {
                             const {
                                 position, goals, assists, cleanSheet, redCard, yellowCard
                             } = playerStats[weekPlayer.player_id];
@@ -180,7 +212,7 @@ exports.submitResult = functions
 
                         // Update all the leagues for each user
                         Promise.all(userLeaguesPromises).then(userLeagues => {
-                            fp.flattenDeep(userLeagues).forEach(league => {
+                            lodash.flattenDeep(userLeagues).forEach(league => {
                                 const {
                                     position, goals, assists, cleanSheet, redCard, yellowCard
                                 } = playerStats[league.player_id];
@@ -194,16 +226,4 @@ exports.submitResult = functions
                     });
                 });
         });
-    });
-
-exports.userWithMostPoints = functions
-    .region('europe-west2')
-    .https.onCall((data, context) => {
-        common.isAuthenticated(context);
-        return db
-            .collection('users')
-            .orderBy('total_points', 'desc').limit(1)
-            .get()
-            .then(querySnapshot => querySnapshot.docs
-                .map(doc => ({ data: doc.data(), id: doc.id })));
     });

@@ -212,6 +212,15 @@ function* calculatePositions() {
     }
 }
 
+function* fetchPlayerWithMostPointsInWeek() {
+    try {
+        const result = yield api.fetchPlayerWithMostPointsInWeek({ week: 0 });
+        console.log('result', result);
+    } catch (error) {
+        yield put(actions.fetchUserMostPointsError(error));
+    }
+}
+
 export default function* authSaga() {
     yield all([
         takeEvery(actions.CREATE_LEAGUE, createLeague),
@@ -232,6 +241,7 @@ export default function* authSaga() {
         takeEvery(actions.FETCH_USER_WITH_MOST_POINTS, fetchUserWithMostPoints),
         takeEvery(actions.FETCH_ORDERED_USERS_IN_LEAGUE, fetchOrderedUsersInLeague),
         takeEvery(actions.FETCH_POSITION_OF_USER_IN_LEAGUES, fetchPositionsOfUserInLeagues),
-        takeEvery(actions.CALCULATE_POSITIONS, calculatePositions)
+        takeEvery(actions.CALCULATE_POSITIONS, calculatePositions),
+        takeEvery(actions.FETCH_PLAYER_WITH_MOST_POINTS_IN_WEEK, fetchPlayerWithMostPointsInWeek)
     ]);
 }

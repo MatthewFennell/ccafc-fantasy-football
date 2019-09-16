@@ -12,7 +12,7 @@ import {
     createPlayer, fetchPlayers, addPlayerToActiveTeam, triggerWeeklyTeams, fetchWeeklyTeams,
     addPointsToPlayer, fetchWeeklyPlayersForUserForWeek, setActiveTeam, fetchMyActiveTeam,
     addPointsForTeamInWeek, fetchTeams, fetchUserMostPoints, fetchOrderedUsersInLeague,
-    fetchPositionofUserInLeagues, calculatePositions
+    fetchPositionofUserInLeagues, calculatePositions, fetchPlayerWithMostPointsInWeek
 } from './actions';
 import * as selectors from './selectors';
 
@@ -41,14 +41,16 @@ const Testing = props => {
         props.fetchWeeklyPlayersForUserForWeek('replacemeinsaga', 0);
         props.fetchMyActiveTeam();
         props.fetchTeams();
-        props.fetchUserMostPoints();
-        props.fetchOrderedUsersInLeague();
-        props.fetchPositionofUserInLeagues();
-        props.calculatePositions();
+        // props.fetchUserMostPoints();
+        // props.fetchOrderedUsersInLeague();
+        // props.fetchPositionofUserInLeagues();
+        // props.calculatePositions();
+        props.fetchPlayerWithMostPointsInWeek();
     }, [props.fetchLeagues, props.fetchPlayers, props.fetchWeeklyTeams,
         props.fetchWeeklyPlayersForUserForWeek, props.fetchMyActiveTeam,
         props.fetchTeams, props.fetchUserMostPoints, props.fetchOrderedUsersInLeague,
-        props.fetchPositionofUserInLeagues, props.calculatePositions]);
+        props.fetchPositionofUserInLeagues, props.calculatePositions,
+        props.fetchPlayerWithMostPointsInWeek]);
 
     const makeLeague = useCallback(() => {
         props.createLeague(leagueName);
@@ -413,6 +415,7 @@ Testing.propTypes = {
     fetchUserMostPoints: PropTypes.func.isRequired,
     fetchOrderedUsersInLeague: PropTypes.func.isRequired,
     calculatePositions: PropTypes.func.isRequired,
+    fetchPlayerWithMostPointsInWeek: PropTypes.func.isRequired,
     fetchPositionofUserInLeagues: PropTypes.func.isRequired
 };
 
@@ -437,7 +440,8 @@ const mapDispatchToProps = {
     fetchUserMostPoints,
     fetchOrderedUsersInLeague,
     fetchPositionofUserInLeagues,
-    calculatePositions
+    calculatePositions,
+    fetchPlayerWithMostPointsInWeek
 };
 
 const mapStateToProps = state => ({

@@ -74,6 +74,12 @@ export const FETCH_POSITION_OF_USER_IN_LEAGUES_ERROR = `${pre}FETCH_POSITION_OF_
 
 export const CALCULATE_POSITIONS = `${pre}CALCULATE_POSITIONS`;
 
+export const FETCH_PLAYER_WITH_MOST_POINTS_IN_WEEK = `${pre}FETCH_PLAYER_WITH_MOST_POINTS_IN_WEEK`;
+
+export const fetchPlayerWithMostPointsInWeek = () => ({
+    type: FETCH_PLAYER_WITH_MOST_POINTS_IN_WEEK
+});
+
 export const calculatePositions = () => ({
     type: CALCULATE_POSITIONS
 });
