@@ -17,3 +17,12 @@ exports.weeklyTeam = require('./src/weeklyTeams');
 exports.points = require('./src/points');
 
 const operations = admin.firestore.FieldValue;
+
+exports.getUserProfile = functions
+    .region('europe-west2')
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db
+            .collection('users').doc(context.auth.uid).get()
+            .then(user => ({ data: user.data(), id: user.id }));
+    });

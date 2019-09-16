@@ -86,6 +86,10 @@ export const fetchPositionOfUserInLeagues = request => functionToCall('league-po
 
 export const calculatePositions = () => functionToCall('league-calculatePositions')();
 
+export const fetchUserProfile = () => functionToCall('getUserProfile')().then(
+    response => ({ data: response.data.data, id: response.data.id })
+);
+
 export const fetchPlayerWithMostPointsInWeek = request => functionToCall('points-playerWithMostPointsInWeek')(request).then(
     response => ({ name: response.data.name, points: response.data.points })
 );
