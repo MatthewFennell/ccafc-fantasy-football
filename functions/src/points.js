@@ -195,3 +195,15 @@ exports.submitResult = functions
                 });
         });
     });
+
+exports.userWithMostPoints = functions
+    .region('europe-west2')
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db
+            .collection('users')
+            .orderBy('total_points', 'desc').limit(1)
+            .get()
+            .then(querySnapshot => querySnapshot.docs
+                .map(doc => ({ data: doc.data(), id: doc.id })));
+    });

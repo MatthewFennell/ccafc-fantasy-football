@@ -19,7 +19,7 @@ const history = createBrowserHistory();
 // react-redux-firebase config
 const rrfConfig = {
     userProfile: 'users',
-    useFirestoreForProfile: true,
+    // useFirestoreForProfile: true,
     logErrors: false
 };
 

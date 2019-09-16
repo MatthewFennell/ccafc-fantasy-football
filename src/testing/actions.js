@@ -60,6 +60,41 @@ export const FETCH_TEAMS = `${pre}FETCH_TEAMS`;
 export const FETCH_TEAMS_SUCCESS = `${pre}FETCH_TEAMS_SUCCESS`;
 export const FETCH_TEAMS_ERROR = `${pre}FETCH_TEAMS_ERROR`;
 
+export const FETCH_USER_WITH_MOST_POINTS = `${pre}FETCH_USER_WITH_MOST_POINTS`;
+export const FETCH_USER_WITH_MOST_POINTS_SUCCESS = `${pre}FETCH_USER_WITH_MOST_POINTS_SUCCESS`;
+export const FETCH_USER_WITH_MOST_POINTS_ERROR = `${pre}FETCH_USER_WITH_MOST_POINTS_ERROR`;
+
+export const FETCH_ORDERED_USERS_IN_LEAGUE = `${pre}FETCH_ORDERED_USERS_IN_LEAGUE`;
+export const FETCH_ORDERED_USERS_IN_LEAGUE_SUCCESS = `${pre}FETCH_ORDERED_USERS_IN_LEAGUE_SUCCESS`;
+export const FETCH_ORDERED_USERS_IN_LEAGUE_ERROR = `${pre}FETCH_ORDERED_USERS_IN_LEAGUE_ERROR`;
+
+export const FETCH_POSITION_OF_USER_IN_LEAGUES = `${pre}FETCH_POSITION_OF_USER_IN_LEAGUES`;
+export const FETCH_POSITION_OF_USER_IN_LEAGUES_SUCCESS = `${pre}FETCH_POSITION_OF_USER_IN_LEAGUES_SUCCESS`;
+export const FETCH_POSITION_OF_USER_IN_LEAGUES_ERROR = `${pre}FETCH_POSITION_OF_USER_IN_LEAGUES_ERROR`;
+
+export const CALCULATE_POSITIONS = `${pre}CALCULATE_POSITIONS`;
+
+export const calculatePositions = () => ({
+    type: CALCULATE_POSITIONS
+});
+
+export const fetchPositionofUserInLeagues = () => ({
+    type: FETCH_POSITION_OF_USER_IN_LEAGUES
+});
+
+export const fetchOrderedUsersInLeague = () => ({
+    type: FETCH_ORDERED_USERS_IN_LEAGUE
+});
+
+export const fetchUserMostPoints = () => ({
+    type: FETCH_USER_WITH_MOST_POINTS
+});
+
+export const fetchUserMostPointsError = error => ({
+    type: FETCH_USER_WITH_MOST_POINTS_ERROR,
+    error
+});
+
 export const fetchTeams = () => ({
     type: FETCH_TEAMS
 });

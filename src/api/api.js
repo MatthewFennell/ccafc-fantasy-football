@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import lodash from 'lodash';
 
 // Param func is the NAME of the function to call
 const functionToCall = func => firebase
@@ -24,9 +25,11 @@ export const getLeaguesIAmIn = () => functionToCall('league-getLeaguesIAmIn')()
         user_points: league.data.user_points
     })));
 
-export const joinLeague = leagueId => functionToCall('league-addUserToLeague')(leagueId);
+export const joinLeague = request => functionToCall('league-addUserToLeague')(request);
 
 export const createTeam = teamName => functionToCall('team-createTeam')(teamName);
+
+export const createLeague = request => functionToCall('league-createLeague')(request);
 
 export const createPlayer = (name, position, price, team) => functionToCall('player-createPlayer')(name, position, price, team);
 
@@ -76,6 +79,19 @@ export const setActiveTeam = activeTeam => functionToCall('activeTeam-setActiveT
 export const updateWeeklyTeam = playersToAdd => functionToCall('activeTeam-updateActiveTeam')(playersToAdd);
 
 export const addPointsForTeamInWeek = request => functionToCall('points-submitResult')(request);
+
+export const fetchPositionOfUserInLeagues = request => functionToCall('positionsOfUserInLeagues')(request).then(
+    response => response.data.map(league => ({ data: league.data, id: league.id }))
+);
+
+export const calculatePositions = () => functionToCall('league-calculatePositions')();
+
+export const fetchOrderedUsersInLeague = request => functionToCall('league-orderedUsers')(request).then(
+    response => response.data.map(user => ({ data: user.data, id: user.id }))
+);
+
+export const userWithMostPoints = () => functionToCall('points-userWithMostPoints')()
+    .then(response => lodash.head(response.data.map(user => ({ data: user.data, id: user.id }))));
 
 export const fetchMyActiveTeam = () => functionToCall('activeTeam-fetchMyActiveTeam')()
     .then(response => response.data.map(player => ({

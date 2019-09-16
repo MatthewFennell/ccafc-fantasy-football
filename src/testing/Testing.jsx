@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import fp from 'lodash/fp';
+import lodash from 'lodash';
 import defaultStyles from './Testing.module.scss';
 import Button from '../common/Button';
 import TextInput from '../common/TextInput';
@@ -10,7 +11,8 @@ import {
     createLeague, fetchLeagues, joinLeague, increaseScore, increaseMyScore, createTeam,
     createPlayer, fetchPlayers, addPlayerToActiveTeam, triggerWeeklyTeams, fetchWeeklyTeams,
     addPointsToPlayer, fetchWeeklyPlayersForUserForWeek, setActiveTeam, fetchMyActiveTeam,
-    addPointsForTeamInWeek, fetchTeams
+    addPointsForTeamInWeek, fetchTeams, fetchUserMostPoints, fetchOrderedUsersInLeague,
+    fetchPositionofUserInLeagues, calculatePositions
 } from './actions';
 import * as selectors from './selectors';
 
@@ -39,9 +41,14 @@ const Testing = props => {
         props.fetchWeeklyPlayersForUserForWeek('replacemeinsaga', 0);
         props.fetchMyActiveTeam();
         props.fetchTeams();
+        props.fetchUserMostPoints();
+        props.fetchOrderedUsersInLeague();
+        props.fetchPositionofUserInLeagues();
+        props.calculatePositions();
     }, [props.fetchLeagues, props.fetchPlayers, props.fetchWeeklyTeams,
         props.fetchWeeklyPlayersForUserForWeek, props.fetchMyActiveTeam,
-        props.fetchTeams]);
+        props.fetchTeams, props.fetchUserMostPoints, props.fetchOrderedUsersInLeague,
+        props.fetchPositionofUserInLeagues, props.calculatePositions]);
 
     const makeLeague = useCallback(() => {
         props.createLeague(leagueName);
@@ -77,6 +84,111 @@ const Testing = props => {
         setNumberOfGoals(numberOfGoals + 1);
         setResultObject(fp.set(`${playerId}.goals`, fp.getOr(0, `${playerId}.goals`, resultObject) + 1, resultObject));
     };
+
+    const data = [{
+        data:
+        {
+            name: 'Google league',
+            username: 'Matthew Fennell',
+            start_week: 0,
+            user_points: 150,
+            user_id: 'DBSAz7RXYpgm7ZIusWDhrfdXb342',
+            league_id: 'XzJFAlIEonl0E6eWaR0L'
+        },
+        id: 'LS7D9Xs9q2Ca0UwbmVly'
+    },
+    {
+        data:
+        {
+            username: 'Matthew Fennell',
+            start_week: 0,
+            user_points: 0,
+            user_id: 'DBSAz7RXYpgm7ZIusWDhrfdXb342',
+            league_id: 'ltWFLS9oQM71RfRlJxMk',
+            name: 'Another league'
+        },
+        id: 'MniBDixptkeH2hCBXSvp'
+    },
+    {
+        data:
+        {
+            name: 'Google league',
+            username: 'Matthew Fennell',
+            start_week: 0,
+            user_points: 234,
+            user_id: 'fdhnXmEIvRSPyx2FQBoMOW9GFyf2',
+            league_id: 'XzJFAlIEonl0E6eWaR0L'
+        },
+        id: 'RrTRdTCeGRP4c5ghsvnq'
+    },
+    {
+        data:
+        {
+            name: 'Google league',
+            username: 'Matthew Fennell',
+            start_week: 0,
+            user_points: 200,
+            user_id: 'fdhnXmEIvRSPyx2FQBoMOW9GFyf2',
+            league_id: 'XzJFAlIEonl0E6eWaR0L'
+        },
+        id: 'RrTRdTCeGRP4c5ghsvnq'
+    },
+    {
+        data:
+        {
+            name: 'Google league',
+            username: 'Matthew Fennell',
+            start_week: 0,
+            user_points: 212,
+            user_id: 'fdhnXmEIvRSPyx2FQBoMOW9GFyf2',
+            league_id: 'XzJFAlIEonl0E6eWaR0L'
+        },
+        id: 'RrTRdTCeGRP4c5ghsvnq'
+    },
+    {
+        data:
+        {
+            name: 'Different League',
+            username: 'Matthew Fennell',
+            start_week: 0,
+            user_points: 0,
+            user_id: 'DBSAz7RXYpgm7ZIusWDhrfdXb342',
+            league_id: 'NtihNW5zuqVcGkMYQSZo'
+        },
+        id: 'aydZ5LPWyWEX8Sn95WtU'
+    }];
+
+    const leaguesAndUsers = {};
+    const positions = [];
+
+    data.forEach(league => {
+        const entry = {
+            id: league.id,
+            points: league.data.user_points
+        };
+
+        if (leaguesAndUsers[league.data.league_id]) {
+            leaguesAndUsers[league.data.league_id].push(entry);
+        } else {
+            leaguesAndUsers[league.data.league_id] = [entry];
+        }
+    });
+
+    Object.keys(leaguesAndUsers).forEach(key => {
+        leaguesAndUsers[key] = fp.sortBy('points')(leaguesAndUsers[key]).reverse();
+        leaguesAndUsers[key].forEach((pos, index) => {
+            positions.push({ id: pos.id, position: index + 1 });
+        });
+    });
+
+    // console.log('leagues and users', leaguesAndUsers);
+    // console.log('positions', positions);
+
+    // let test = [{ points: 5 }, { points: 10 }, { points: 7 }];
+
+    // test = fp.sortBy('points')(test);
+
+    // console.log('test', test);
 
     return (
         <div className={props.styles.testingWrapper}>
@@ -297,7 +409,11 @@ Testing.propTypes = {
     addPointsForTeamInWeek: PropTypes.func.isRequired,
     fetchMyActiveTeam: PropTypes.func.isRequired,
     setActiveTeam: PropTypes.func.isRequired,
-    fetchTeams: PropTypes.func.isRequired
+    fetchTeams: PropTypes.func.isRequired,
+    fetchUserMostPoints: PropTypes.func.isRequired,
+    fetchOrderedUsersInLeague: PropTypes.func.isRequired,
+    calculatePositions: PropTypes.func.isRequired,
+    fetchPositionofUserInLeagues: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = {
@@ -317,7 +433,11 @@ const mapDispatchToProps = {
     joinLeague,
     setActiveTeam,
     fetchTeams,
-    triggerWeeklyTeams
+    triggerWeeklyTeams,
+    fetchUserMostPoints,
+    fetchOrderedUsersInLeague,
+    fetchPositionofUserInLeagues,
+    calculatePositions
 };
 
 const mapStateToProps = state => ({
