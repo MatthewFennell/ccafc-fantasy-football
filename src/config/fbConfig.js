@@ -3,13 +3,13 @@ import 'firebase/firestore';
 import ReduxSagaFirebase from 'redux-saga-firebase';
 
 const firebaseApp = firebase.initializeApp({
-    apiKey: 'AIzaSyCq0EJ8pclY1KsGjSUjHKQKCZwF7geoJX8',
-    authDomain: 'marioplan-d6d16.firebaseapp.com',
-    databaseURL: 'https://marioplan-d6d16.firebaseio.com',
-    projectId: 'marioplan-d6d16',
-    storageBucket: 'marioplan-d6d16.appspot.com',
-    messagingSenderId: '912910368222',
-    appId: '1:912910368222:web:716e2d7a9d5f4022'
+    apiKey: 'AIzaSyArktv4W770vR8c1hOJaOH7WyQBqSKOnWY',
+    authDomain: 'collingwood-fantasy.firebaseapp.com',
+    databaseURL: 'https://collingwood-fantasy.firebaseio.com',
+    projectId: 'collingwood-fantasy',
+    storageBucket: 'collingwood-fantasy.appspot.com',
+    messagingSenderId: '575173597017',
+    appId: '1:575173597017:web:7e80762308873758d65e48'
 });
 
 const rsf = new ReduxSagaFirebase(firebaseApp);
