@@ -1,53 +1,13 @@
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
-const commonFunctions = require('./common');
+const common = require('./common');
 
 const db = admin.firestore();
-
-exports.triggerWeeklyTeams = functions
-    .region('europe-west2')
-    .https.onCall((data, context) => {
-        commonFunctions.isAuthenticated(context);
-        const activeTeamsRef = db.collection('active-teams');
-
-        return db.collection('application-info').get().then(appInfo => appInfo.docs.map(doc => {
-            if (doc.data().total_weeks + 1 !== data.week) {
-                throw new functions.https.HttpsError('invalid-argument', `Invalid week. The next week should be ${doc.data().total_weeks + 1}`);
-            }
-            return false;
-        })).then(() => activeTeamsRef.get().then(querySnapshot => {
-            db.collection('application-info').get().then(docs => docs.docs.map(doc => doc.ref.update({
-                total_weeks: admin.firestore.FieldValue.increment(1)
-            })));
-
-            querySnapshot.docs.map(doc => db.collection('weekly-teams').add({
-                user_id: doc.data().user_id,
-                week: data.week,
-                points: 0,
-                player_ids: doc.data().player_ids
-            }).then(() => {
-                const activeTeamPlayersRef = db.collection('active-teams').doc(doc.id).collection('players');
-                activeTeamPlayersRef.get().then(playerDocs => {
-                    playerDocs.docs.map(player => db.collection('weekly-players').add({
-                        name: player.data().name,
-                        player_id: player.data().player_id,
-                        week: data.week,
-                        position: player.data().position,
-                        price: player.data().price,
-                        team: player.data().team,
-                        points: 0,
-                        user_id: doc.data().user_id
-                    }));
-                });
-            }));
-        }));
-    });
-
 
 exports.getAllMyWeeklyPlayers = functions
     .region('europe-west2')
     .https.onCall((data, context) => {
-        commonFunctions.isAuthenticated(context);
+        common.isAuthenticated(context);
         return db.collection('weekly-players')
             .where('user_id', '==', context.auth.uid)
             .get()
@@ -61,7 +21,7 @@ exports.getAllMyWeeklyPlayers = functions
 exports.getWeeklyPlayersForUserInWeek = functions
     .region('europe-west2')
     .https.onCall((data, context) => {
-        commonFunctions.isAuthenticated(context);
+        common.isAuthenticated(context);
         return db.collection('weekly-players')
             .where('user_id', '==', data.userId)
             .where('week', '==', data.week)
@@ -76,7 +36,7 @@ exports.getWeeklyPlayersForUserInWeek = functions
 exports.addPointsToPlayerInWeek = functions
     .region('europe-west2')
     .https.onCall((data, context) => {
-        commonFunctions.isAuthenticated(context);
+        common.isAuthenticated(context);
         const matchingPlayer = db.collection('players').doc(data.playerId);
         const matchingWeeklyTeams = db.collection('weekly-teams')
             .where('player_ids', 'array-contains', data.playerId)
@@ -112,4 +72,44 @@ exports.addPointsToPlayerInWeek = functions
                 });
             }));
         }));
+    });
+
+exports.triggerWeeklyTeams = functions
+    .region('europe-west2')
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return common.isAdmin(context.auth.uid).then(() => {
+            const activeTeamsRef = db.collection('active-teams');
+            return db.collection('application-info').get().then(appInfo => appInfo.docs.map(doc => {
+                if (doc.data().total_weeks + 1 !== data.week) {
+                    throw new functions.https.HttpsError('invalid-argument', `Invalid week. The next week should be ${doc.data().total_weeks + 1}`);
+                }
+                return false;
+            })).then(() => activeTeamsRef.get().then(querySnapshot => {
+                db.collection('application-info').get().then(docs => docs.docs.map(doc => doc.ref.update({
+                    total_weeks: admin.firestore.FieldValue.increment(1)
+                })));
+
+                querySnapshot.docs.map(doc => db.collection('weekly-teams').add({
+                    user_id: doc.data().user_id,
+                    week: data.week,
+                    points: 0,
+                    player_ids: doc.data().player_ids
+                }).then(() => {
+                    const activeTeamPlayersRef = db.collection('active-teams').doc(doc.id).collection('players');
+                    activeTeamPlayersRef.get().then(playerDocs => {
+                        playerDocs.docs.map(player => db.collection('weekly-players').add({
+                            name: player.data().name,
+                            player_id: player.data().player_id,
+                            week: data.week,
+                            position: player.data().position,
+                            price: player.data().price,
+                            team: player.data().team,
+                            points: 0,
+                            user_id: doc.data().user_id
+                        }));
+                    });
+                }));
+            }));
+        });
     });

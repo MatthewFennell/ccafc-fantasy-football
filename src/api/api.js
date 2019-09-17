@@ -88,7 +88,7 @@ export const calculatePositions = () => functionToCall('league-calculatePosition
 
 export const updateDisplayName = request => functionToCall('auth-updateDisplayName')(request);
 
-export const fetchUserProfile = () => functionToCall('user-getUserProfile')().then(
+export const fetchUserProfile = () => functionToCall('auth-getUserProfile')().then(
     response => ({ data: response.data.data, id: response.data.id })
 );
 

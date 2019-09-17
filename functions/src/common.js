@@ -1,4 +1,6 @@
 const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+const fp = require('lodash/fp');
 const constants = require('./constants');
 
 module.exports.isAuthenticated = context => {
@@ -6,6 +8,12 @@ module.exports.isAuthenticated = context => {
         throw new functions.https.HttpsError('unauthenticated', 'You must be authenticated to call this function');
     }
 };
+
+module.exports.isAdmin = uid => admin.auth().getUser(uid).then(user => {
+    if (!fp.getOr(false, 'customClaims.admin')(user)) {
+        throw new functions.https.HttpsError('unauthenticated', 'You are not authorized to perform this operation');
+    }
+});
 
 module.exports.calculatePoints = (position, goals, assists, cleanSheet, redCard, yellowCard) => {
     let total = 0;
