@@ -3,6 +3,7 @@ const pre = 'AUTH/';
 export const SIGN_UP = `${pre}SIGN_UP`;
 export const SIGN_UP_ERROR = `${pre}SIGN_UP_ERROR`;
 export const VERIFY_EMAIL_ADDRESS = `${pre}VERIFY_EMAIL_ADDRESS`;
+export const CLOSE_SIGN_UP_ERROR = `${pre}CLOSE_SIGN_UP_ERROR`;
 
 export const SIGN_OUT = `${pre}SIGN_OUT`;
 export const SIGN_OUT_SUCCESS = `${pre}SIGN_OUT_SUCCESS`;
@@ -23,6 +24,10 @@ export const UPDATE_DISPLAY_NAME_ERROR = `${pre}UPDATE_DISPLAY_NAME_ERROR`;
 
 export const SEND_PASSWORD_RESET_EMAIL = `${pre}SEND_PASSWORD_RESET_EMAIL`;
 export const SEND_PASSWORD_RESET_EMAIL_ERROR = `${pre}SEND_PASSWORD_RESET_EMAIL_ERROR`;
+
+export const closeSignUpError = () => ({
+    type: CLOSE_SIGN_UP_ERROR
+});
 
 export const updateDisplayName = displayName => ({
     type: UPDATE_DISPLAY_NAME,

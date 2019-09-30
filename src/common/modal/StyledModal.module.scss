@@ -1,0 +1,9 @@
+@import "../Styles.scss";
+
+.modalWrapper:last-child{
+  background-color: transparent !important;
+}
+
+.modalWrapper:first-child{
+  margin-top: 100px;
+}

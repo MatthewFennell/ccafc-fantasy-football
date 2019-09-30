@@ -1,6 +1,7 @@
 @import "../common//Styles.scss";
 
 .signUpWrapper{
+  position: relative;
   color: $color-amber;
   .signUpForm{
     width: 50%;
