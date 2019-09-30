@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import fp from 'lodash/fp';
-import lodash from 'lodash';
+import {
+    MDBBtn
+} from 'mdbreact';
 import defaultStyles from './Testing.module.scss';
-import Button from '../common/Button';
-import TextInput from '../common/TextInput';
+import Button from '../common/Button/Button';
+import TextInput from '../common/TextInput/TextInput';
 import {
     createLeague, fetchLeagues, joinLeague, increaseScore, increaseMyScore, createTeam,
     createPlayer, fetchPlayers, addPlayerToActiveTeam, triggerWeeklyTeams, fetchWeeklyTeams,
@@ -16,6 +18,7 @@ import {
     fetchUserProfile
 } from './actions';
 import * as selectors from './selectors';
+
 
 const Testing = props => {
     const [leagueName, setLeagueName] = useState('');
@@ -34,7 +37,7 @@ const Testing = props => {
     const [numberOfGoals, setNumberOfGoals] = useState(0);
     const [resultObject, setResultObject] = useState({});
 
-
+    // USE MD BOODSTRAP https://mdbootstrap.com/docs/jquery/css/skins/
     useEffect(() => {
         props.fetchLeagues();
         props.fetchPlayers();
@@ -91,6 +94,22 @@ const Testing = props => {
 
     return (
         <div className={props.styles.testingWrapper}>
+            <MDBBtn onClick={() => console.log('clicked elegant')} color="elegant">Elegant</MDBBtn>
+            <MDBBtn color="unique">Unique</MDBBtn>
+            <MDBBtn color="pink">Pink</MDBBtn>
+            <MDBBtn color="purple">Purple</MDBBtn>
+            <MDBBtn color="deep-purple">Deep-purple</MDBBtn>
+            <MDBBtn color="indigo">Indigo</MDBBtn>
+            <MDBBtn color="light-blue">Light blue</MDBBtn>
+            <MDBBtn color="cyan">Cyan</MDBBtn>
+            <MDBBtn color="dark-green">Dark-green</MDBBtn>
+            <MDBBtn color="light-green">Light-green</MDBBtn>
+            <MDBBtn color="yellow">Yellow</MDBBtn>
+            <MDBBtn color="amber">Amber</MDBBtn>
+            <MDBBtn color="deep-orange">Deep-orange</MDBBtn>
+            <MDBBtn color="brown">Brown</MDBBtn>
+            <MDBBtn color="blue-grey">Blue-grey</MDBBtn>
+            <MDBBtn color="mdb-color">MDB</MDBBtn>
             <Button
                 onClick={makeLeague}
                 text="CreateLeague"
