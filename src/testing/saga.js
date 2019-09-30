@@ -222,7 +222,6 @@ function* fetchPlayerWithMostPointsInWeek() {
 function* fetchUserProfile() {
     try {
         const result = yield api.fetchUserProfile();
-        console.log('user profile', result);
     } catch (error) {
         yield put(actions.fetchUserMostPointsError(error));
     }

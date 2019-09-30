@@ -3,20 +3,19 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import defaultStyles from './PasswordReset.module.scss';
 import { sendPasswordResetEmail } from './actions';
-import TextInput from '../common/TextInput/TextInput';
-import Button from '../common/Button/Button';
+import StyledInput from '../common/StyledInput/StyledInput';
+import StyledButton from '../common/StyledButton/StyledButton';
 
 const PasswordReset = props => {
     const [email, setEmail] = useState('');
     return (
         <div className={props.styles.passwordReset}>
-      Password reset
-            <TextInput
-                onChange={setEmail}
-            />
-            <Button
-                text="Send reset password email"
+            <div className={props.styles.passwordResetHeader}>Password reset</div>
+            <StyledInput icon="envelope" label="Email" onChange={setEmail} />
+            <StyledButton
+                color="primary"
                 onClick={() => props.sendPasswordResetEmail(email)}
+                text="Send reset password email"
             />
         </div>
     );

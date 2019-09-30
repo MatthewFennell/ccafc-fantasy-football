@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import defaultStyles from './Navbar.module.scss';
 import SignedInLinks from './SignedInLinks';
-import SignedOutLinks from './SignedOutLinks';
 import { signOut } from '../auth/actions';
+import SignedOutLinks from './SignedOutLinks';
 
 const Navbar = props => {
-    const { auth, profile } = props;
+    const { auth } = props;
 
     const redirectToSignIn = useCallback(() => {
         props.history.push('/signin');
@@ -26,30 +26,19 @@ const Navbar = props => {
         <div className={props.styles.navBar}>
             {auth.uid
                 ? (
-                    <>
-                        <div className={props.styles.signedInLinks}>
-                            <SignedInLinks
-                                goToDashboard={redirectToDashboard}
-                                signOut={props.signOut}
-                            />
-                            <div className={props.styles.displayName}>
-                                {profile.displayName}
-                            </div>
-                        </div>
-
-                    </>
+                    <SignedInLinks
+                        activeRoute={props.history.location.pathname}
+                        goToDashboard={redirectToDashboard}
+                        signOut={props.signOut}
+                    />
                 )
                 : (
-                    <>
-                        <div className={props.styles.signedOutLinks}>
-                            <SignedOutLinks
-                                redirectToSignIn={redirectToSignIn}
-                                redirectToSignUp={redirectToSignUp}
-                            />
-                        </div>
-                    </>
+                    <SignedOutLinks
+                        activeRoute={props.history.location.pathname}
+                        redirectToSignIn={redirectToSignIn}
+                        redirectToSignUp={redirectToSignUp}
+                    />
                 )}
-
         </div>
     );
 };
@@ -65,7 +54,10 @@ Navbar.propTypes = {
         uid: PropTypes.string
     }),
     history: PropTypes.shape({
-        push: PropTypes.func.isRequired
+        push: PropTypes.func.isRequired,
+        location: PropTypes.shape({
+            pathname: PropTypes.string
+        })
     }).isRequired,
     profile: PropTypes.shape({
         displayName: PropTypes.string

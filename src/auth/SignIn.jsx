@@ -38,10 +38,6 @@ const SignIn = props => {
 
     return (
         <div className={props.styles.signInWrapper}>
-            <StyledFirebaseAuth
-                uiConfig={uiConfig}
-                firebaseAuth={firebase.auth()}
-            />
             <form
                 className={classNames({
                     [props.styles.signUpForm]: true
@@ -60,7 +56,8 @@ const SignIn = props => {
                 <div className={props.styles.submitButtons}>
                     <StyledButton
                         color="primary"
-                        text="Sign up"
+                        onClick={handleSubmit}
+                        text="Sign in"
                     />
                     <StyledButton
                         color="amber"
@@ -69,6 +66,10 @@ const SignIn = props => {
                     />
                 </div>
             </form>
+            <StyledFirebaseAuth
+                uiConfig={uiConfig}
+                firebaseAuth={firebase.auth()}
+            />
         </div>
     );
 };

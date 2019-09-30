@@ -8,5 +8,18 @@ $color-white: white;
 $color-black: black;
 $color-green: green;
 $color-amber: #ffa000;
+$color-blue: #4285f4;
+$color-light-blue: #78a5ee;
+
+$spacing-huge: 40px;
+$spacing-medium: 16px;
+$spacing-small: 12px;
 
 $font-family: "Courier New", Courier, monospace;
+$font-weight-normal: 400;
+
+@mixin vertical-center-div() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

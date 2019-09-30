@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { connect } from 'react-redux';
@@ -34,16 +34,8 @@ const SignUp = props => {
         props.signUp(email, password, firstName, surname);
     };
 
-    const redirectToPasswordReset = useCallback(() => {
-        props.history.push('/password-reset');
-    }, [props.history]);
-
     return (
         <div className={props.styles.signUpWrapper}>
-            <StyledFirebaseAuth
-                uiConfig={uiConfig}
-                firebaseAuth={firebase.auth()}
-            />
             <form
                 className={classNames({
                     [props.styles.signUpForm]: true
@@ -53,27 +45,26 @@ const SignUp = props => {
             >
 
                 <div className={props.styles.signUpMessage}>
-                    Sign up with email
+                    Sign up
                 </div>
 
                 <StyledInput label="Email" icon="envelope" onChange={e => setEmail(e)} />
-                <StyledInput label="Password" icon="lock" onChange={e => setPassword(e)} />
+                <StyledInput label="Password" type="password" icon="lock" onChange={e => setPassword(e)} />
                 <StyledInput label="First Name" onChange={e => setFirstName(e)} />
                 <StyledInput label="Surname" onChange={e => setSurname(e)} />
 
                 <div className={props.styles.submitButtons}>
                     <StyledButton
                         color="primary"
+                        onClick={handleSubmit}
                         text="Sign up"
                     />
-                    <StyledButton
-                        color="amber"
-                        onClick={redirectToPasswordReset}
-                        text="Forgot your password?"
-                    />
                 </div>
-
             </form>
+            <StyledFirebaseAuth
+                uiConfig={uiConfig}
+                firebaseAuth={firebase.auth()}
+            />
         </div>
     );
 };
