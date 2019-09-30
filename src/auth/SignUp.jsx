@@ -6,9 +6,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import { withRouter } from 'react-router-dom';
+import classNames from 'classnames';
 import { signUp } from './actions';
 import defaultStyles from './SignUp.module.scss';
-import Button from '../common/Button';
+import StyledInput from '../common/StyledInput/StyledInput';
+import StyledButton from '../common/StyledButton/StyledButton';
 
 const SignUp = props => {
     const [email, setEmail] = useState('');
@@ -37,41 +39,41 @@ const SignUp = props => {
     }, [props.history]);
 
     return (
-        <div>
-      Sign Up!
+        <div className={props.styles.signUpWrapper}>
             <StyledFirebaseAuth
                 uiConfig={uiConfig}
                 firebaseAuth={firebase.auth()}
             />
-            <div className={props.styles.emailSignIn}>
-      Sign up with email!
-                <form className="white" onSubmit={handleSubmit}>
-                    <h5 className="grey-text text-darken-3">Sign Up</h5>
-                    <div className="input-field">
-                        <label htmlFor="email">Email</label>
-                        <input type="email" id="email" onChange={e => setEmail(e.target.value)} />
-                    </div>
-                    <div className="input-field">
-                        <label htmlFor="password">Password</label>
-                        <input type="password" id="password" onChange={e => setPassword(e.target.value)} />
-                    </div>
-                    <div className="input-field">
-                        <label htmlFor="firstName">First Name</label>
-                        <input type="text" id="firstName" onChange={e => setFirstName(e.target.value)} />
-                    </div>
-                    <div className="input-field">
-                        <label htmlFor="lastName">Last Name</label>
-                        <input type="text" id="lastName" onChange={e => setSurname(e.target.value)} />
-                    </div>
-                    <div className="input-field">
-                        <button onClick={handleSubmit} type="button" className="btn pink lighten-1 z-depth-0">Sign Up</button>
-                    </div>
-                </form>
-            </div>
-            <Button
-                text="Reset password"
-                onClick={redirectToPasswordReset}
-            />
+            <form
+                className={classNames({
+                    [props.styles.signUpForm]: true
+                })}
+                action="#!"
+                onSubmit={handleSubmit}
+            >
+
+                <div className={props.styles.signUpMessage}>
+                    Sign up with email
+                </div>
+
+                <StyledInput label="Email" icon="envelope" onChange={e => setEmail(e)} />
+                <StyledInput label="Password" icon="lock" onChange={e => setPassword(e)} />
+                <StyledInput label="First Name" onChange={e => setFirstName(e)} />
+                <StyledInput label="Surname" onChange={e => setSurname(e)} />
+
+                <div className={props.styles.submitButtons}>
+                    <StyledButton
+                        color="primary"
+                        text="Sign up"
+                    />
+                    <StyledButton
+                        color="amber"
+                        onClick={redirectToPasswordReset}
+                        text="Forgot your password?"
+                    />
+                </div>
+
+            </form>
         </div>
     );
 };

@@ -1,5 +1,19 @@
-.emailSignIn{
-  text-align: center;
-  margin-left: 25%;
-  margin-right: 25%;
+@import "../common//Styles.scss";
+
+.signUpWrapper{
+  color: $color-amber;
+  .signUpForm{
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+    .signUpMessage{
+      margin-top: 10%;
+      text-align: center;
+      color: $color-white;
+      font-size: $font-size-large;
+    }
+    .submitButtons{
+      text-align: center;
+    }
+  }
 }

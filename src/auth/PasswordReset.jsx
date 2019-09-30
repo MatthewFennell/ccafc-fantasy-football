@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import defaultStyles from './PasswordReset.module.scss';
 import { sendPasswordResetEmail } from './actions';
-import TextInput from '../common/TextInput';
-import Button from '../common/Button';
+import TextInput from '../common/TextInput/TextInput';
+import Button from '../common/Button/Button';
 
 const PasswordReset = props => {
     const [email, setEmail] = useState('');

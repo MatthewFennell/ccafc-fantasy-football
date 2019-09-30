@@ -6,9 +6,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import { withRouter } from 'react-router-dom';
+import classNames from 'classnames';
 import defaultStyles from './SignIn.module.scss';
 import { signIn } from './actions';
-import Button from '../common/Button';
+import StyledInput from '../common/StyledInput/StyledInput';
+import StyledButton from '../common/StyledButton/StyledButton';
 
 const SignIn = props => {
     const [email, setEmail] = useState('');
@@ -35,31 +37,38 @@ const SignIn = props => {
     }, [props.history]);
 
     return (
-        <div className={props.styles.signIn}>
+        <div className={props.styles.signInWrapper}>
             <StyledFirebaseAuth
                 uiConfig={uiConfig}
                 firebaseAuth={firebase.auth()}
             />
-            <div className={props.styles.signInForm}>
-                <form className="white" onSubmit={handleSubmit}>
-                    <h5 className="grey-text text-darken-3">Sign In</h5>
-                    <div className="input-field">
-                        <label htmlFor="email">Email</label>
-                        <input type="email" id="email" onChange={e => setEmail(e.target.value)} />
-                    </div>
-                    <div className="input-field">
-                        <label htmlFor="password">Password</label>
-                        <input type="password" id="password" onChange={e => setPassword(e.target.value)} />
-                    </div>
-                    <div className="input-field">
-                        <button onClick={handleSubmit} type="button" className="btn pink lighten-1 z-depth-0">Login</button>
-                    </div>
-                </form>
-            </div>
-            <Button
-                text="Reset password"
-                onClick={redirectToPasswordReset}
-            />
+            <form
+                className={classNames({
+                    [props.styles.signUpForm]: true
+                })}
+                action="#!"
+                onSubmit={handleSubmit}
+            >
+
+                <div className={props.styles.signInMessage}>
+                    Sign in
+                </div>
+
+                <StyledInput label="Email" icon="envelope" onChange={e => setEmail(e)} />
+                <StyledInput label="Password" icon="lock" onChange={e => setPassword(e)} />
+
+                <div className={props.styles.submitButtons}>
+                    <StyledButton
+                        color="primary"
+                        text="Sign up"
+                    />
+                    <StyledButton
+                        color="amber"
+                        onClick={redirectToPasswordReset}
+                        text="Forgot your password?"
+                    />
+                </div>
+            </form>
         </div>
     );
 };

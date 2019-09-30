@@ -1,7 +1,7 @@
 import React from 'react';
 import { noop } from 'lodash';
 import PropTypes from 'prop-types';
-import Button from '../common/Button';
+import Button from '../common/Button/Button';
 import NavbarButtonStyles from './NavbarButton.module.scss';
 
 const SignedOutLinks = props => (

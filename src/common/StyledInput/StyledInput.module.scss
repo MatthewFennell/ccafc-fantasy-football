@@ -1,0 +1,9 @@
+@import "../Styles.scss";
+
+.styledInput{
+  color: $color-white;  
+}
+
+.styledInput:focus{
+  color: $color-white;;
+}
