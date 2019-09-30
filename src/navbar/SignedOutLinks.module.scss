@@ -1,6 +1,6 @@
 @import "../common/Styles.scss";
 
-.signedInLinks{
+.signedOutLinks{
   height: 100%;
   display: flex;
 
@@ -12,7 +12,7 @@
     cursor: pointer;
   }
 
-  .dashboard{
+  .signIn{
     margin-left: auto;
     padding-left: 2.5%;
     padding-right: 2.5%;

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import { MDBBtn } from 'mdbreact';
+import defaultStyles from './StyledButton.module.scss';
 
 const StyledButton = props => (
     <MDBBtn
@@ -16,7 +17,7 @@ const StyledButton = props => (
 StyledButton.defaultProps = {
     color: 'primary',
     onClick: noop,
-    styles: {},
+    styles: defaultStyles,
     text: 'Button'
 };
 
