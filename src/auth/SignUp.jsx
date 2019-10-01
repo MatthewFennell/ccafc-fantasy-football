@@ -33,7 +33,8 @@ const SignUp = props => {
         }
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = e => {
+        e.preventDefault();
         if (password === passwordTwo) {
             props.signUp(email, password, firstName, surname);
         } else {
@@ -51,7 +52,6 @@ const SignUp = props => {
                 action="#!"
                 onSubmit={handleSubmit}
             >
-
                 <div className={props.styles.signUpMessage}>
                     Sign up
                 </div>
@@ -67,6 +67,7 @@ const SignUp = props => {
                         color="primary"
                         onClick={handleSubmit}
                         text="Sign up"
+                        type="submit"
                     />
                 </div>
             </form>

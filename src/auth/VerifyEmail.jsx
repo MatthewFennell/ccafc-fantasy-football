@@ -4,8 +4,8 @@ import defaultStyles from './VerifyEmail.module.scss';
 
 const VerifyEmail = props => (
     <div className={props.styles.verifyEmailMessage}>
-        You need to verify your email. If you signed up with Facebook,
-        you may just need to refresh your page
+        A verification link has been sent to your email account.
+        Please click on the link to verify your account.
     </div>
 );
 

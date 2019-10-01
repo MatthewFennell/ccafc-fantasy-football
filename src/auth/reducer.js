@@ -2,6 +2,7 @@ import * as actions from './actions';
 
 const initState = {
     authError: null,
+    passwordResetError: '',
     signUpError: '',
     signInError: ''
 };
@@ -20,11 +21,15 @@ const authReducer = (state = initState, action) => {
             signInError: action.error.message
         };
     }
-    case actions.CLOSE_AUTH_ERROR: {
+    case actions.SEND_PASSWORD_RESET_EMAIL_ERROR: {
         return {
             ...state,
-            signInError: '',
-            signUpError: ''
+            passwordResetError: action.error.message
+        };
+    }
+    case actions.CLOSE_AUTH_ERROR: {
+        return {
+            initState
         };
     }
     default:
