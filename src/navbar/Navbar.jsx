@@ -23,12 +23,18 @@ const Navbar = props => {
         props.history.push('/dashboard');
     }, [props.history]);
 
+    const redirectToProfile = useCallback(() => {
+        props.history.push('/profile');
+    }, [props.history]);
+
     const renderLinks = signOutMethod => {
         if (auth.uid && auth.emailVerified) {
             return (
                 <SignedInLinks
                     activeRoute={props.history.location.pathname}
                     goToDashboard={redirectToDashboard}
+                    goToProfile={redirectToProfile}
+                    photoURL={props.auth.photoURL}
                     signOut={signOutMethod}
                 />
             );
@@ -66,7 +72,8 @@ Navbar.defaultProps = {
 Navbar.propTypes = {
     auth: PropTypes.shape({
         uid: PropTypes.string,
-        emailVerified: PropTypes.bool
+        emailVerified: PropTypes.bool,
+        photoURL: PropTypes.string
     }),
     history: PropTypes.shape({
         push: PropTypes.func.isRequired,

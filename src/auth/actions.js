@@ -62,8 +62,9 @@ export const linkProfileToFacebook = () => ({
     type: LINK_PROFILE_TO_FACEBOOK
 });
 
-export const linkProfileToFacebookError = () => ({
-    type: LINK_PROFILE_TO_FACEBOOK_ERROR
+export const linkProfileToFacebookError = error => ({
+    type: LINK_PROFILE_TO_FACEBOOK_ERROR,
+    error
 });
 
 export const signUpError = error => ({

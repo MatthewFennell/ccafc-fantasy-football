@@ -62,7 +62,7 @@ function* linkProfileToFacebook() {
         const provider = new firebase.auth.FacebookAuthProvider();
         yield firebase.auth().currentUser.linkWithPopup(provider);
     } catch (error) {
-        yield put(actions.linkProfileToGoogleError(error));
+        yield put(actions.linkProfileToFacebookError(error));
     }
 }
 
