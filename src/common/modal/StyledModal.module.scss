@@ -1,9 +1,18 @@
 @import "../Styles.scss";
 
-.modalWrapper:last-child{
+.modalWrapper:last-child {
   background-color: transparent !important;
 }
 
-.modalWrapper:first-child{
+.modalWrapper:first-child {
   margin-top: 100px;
+}
+
+.modalHeader {
+  text-align: center;
+  color: $color-blue;
+  font-weight: $font-weight-normal;
+  :first-child {
+    width: 100%;
+  }  
 }

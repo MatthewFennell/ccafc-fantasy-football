@@ -6,8 +6,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import { withRouter } from 'react-router-dom';
-import classNames from 'classnames';
-import { signUp, closeSignUpError } from './actions';
+import { signUp, closeAuthError, signUpError } from './actions';
 import defaultStyles from './SignUp.module.scss';
 import StyledInput from '../common/StyledInput/StyledInput';
 import StyledButton from '../common/StyledButton/StyledButton';
@@ -18,6 +17,7 @@ import * as selectors from './selectors';
 const SignUp = props => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordTwo, setPasswordTwo] = useState('');
     const [firstName, setFirstName] = useState('');
     const [surname, setSurname] = useState('');
 
@@ -34,19 +34,20 @@ const SignUp = props => {
     };
 
     const handleSubmit = () => {
-        props.signUp(email, password, firstName, surname);
+        if (password === passwordTwo) {
+            props.signUp(email, password, firstName, surname);
+        } else {
+            props.signUpError({
+                code: 'auth/mismatching passwords',
+                message: 'The passwords do not match'
+            });
+        }
     };
-
-    const [modalOpen, setModalOpen] = useState(false);
-
-    console.log('sign up error', props.signUpError);
 
     return (
         <div className={props.styles.signUpWrapper}>
             <form
-                className={classNames({
-                    [props.styles.signUpForm]: true
-                })}
+                className={props.styles.signUpForm}
                 action="#!"
                 onSubmit={handleSubmit}
             >
@@ -56,7 +57,8 @@ const SignUp = props => {
                 </div>
 
                 <StyledInput label="Email" icon="envelope" onChange={e => setEmail(e)} />
-                <StyledInput label="Password" type="password" icon="lock" onChange={e => setPassword(e)} />
+                <StyledInput label="Password" type="password" icon="lock" onChange={setPassword} />
+                <StyledInput label="Password" type="password" icon="lock" onChange={setPasswordTwo} />
                 <StyledInput label="First Name" onChange={e => setFirstName(e)} />
                 <StyledInput label="Surname" onChange={e => setSurname(e)} />
 
@@ -72,34 +74,45 @@ const SignUp = props => {
                 uiConfig={uiConfig}
                 firebaseAuth={firebase.auth()}
             />
-            <StyledModal closeModal={props.closeSignUpError} isOpen={props.signUpError.length > 0}>
-                {props.signUpError}
+            <StyledModal
+                backdrop
+                closeModal={props.closeAuthError}
+                error
+                isOpen={props.signUpErrorMessage.length > 0}
+                headerMessage="Sign Up Error"
+                toggleModal={props.closeAuthError}
+            >
+                <div className={props.styles.modalWrapper}>
+                    {props.signUpErrorMessage}
+                </div>
             </StyledModal>
         </div>
     );
 };
 
 const mapDispatchToProps = {
-    closeSignUpError,
-    signUp
+    closeAuthError,
+    signUp,
+    signUpError
 };
 
 const mapStateToProps = state => ({
-    signUpError: selectors.getSignUpError(state)
+    signUpErrorMessage: selectors.getSignUpError(state)
 });
 
 SignUp.defaultProps = {
-    signUpError: '',
+    signUpErrorMessage: '',
     styles: defaultStyles
 };
 
 SignUp.propTypes = {
-    closeSignUpError: PropTypes.func.isRequired,
+    closeAuthError: PropTypes.func.isRequired,
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired,
     signUp: PropTypes.func.isRequired,
-    signUpError: PropTypes.string,
+    signUpError: PropTypes.func.isRequired,
+    signUpErrorMessage: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 

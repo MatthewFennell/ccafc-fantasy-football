@@ -3,6 +3,7 @@
 .signedOutLinks{
   height: 100%;
   display: flex;
+  white-space: nowrap;
 
   >div{
     @include vertical-center-div();
@@ -24,8 +25,6 @@
   }
 
   .active{
-    color: $color-blue;
-    background-color: bisque;
-    opacity: 0.5;
+    font-weight: bold;
   }
 }
