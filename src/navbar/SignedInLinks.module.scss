@@ -5,6 +5,14 @@
   display: flex;
   white-space: nowrap;
 
+  .photoURL{
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: $spacing-small;
+    height: $spacing-large;
+    width: $spacing-large;
+  }
+
   >div{
     @include vertical-center-div();
     font-size: $font-size-large;

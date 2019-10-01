@@ -83,7 +83,17 @@ const SignIn = props => {
                 toggleModal={props.closeAuthError}
             >
                 <div className={props.styles.modalWrapper}>
-                    {props.signInErrorMessage}
+                    <div>
+                        Code:
+                        {' '}
+                        {props.signInErrorCode}
+                    </div>
+                    <div>
+                        Message:
+                        {' '}
+                        {props.signInErrorMessage}
+                    </div>
+
                 </div>
             </StyledModal>
         </div>
@@ -91,6 +101,7 @@ const SignIn = props => {
 };
 
 SignIn.defaultProps = {
+    signInErrorCode: '',
     signInErrorMessage: '',
     styles: defaultStyles
 };
@@ -101,6 +112,7 @@ SignIn.propTypes = {
         push: PropTypes.func.isRequired
     }).isRequired,
     signIn: PropTypes.func.isRequired,
+    signInErrorCode: PropTypes.string,
     signInErrorMessage: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string)
 };
@@ -111,6 +123,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
+    signInErrorCode: selectors.getSignInErrorCode(state),
     signInErrorMessage: selectors.getSignInError(state)
 });
 

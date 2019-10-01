@@ -14,11 +14,12 @@ import Profile from './profile/Profile';
 import Testing from './testing/Testing';
 import VerifyEmail from './auth/VerifyEmail';
 import PasswordReset from './auth/PasswordReset';
+import defaultStyles from './App.module.scss';
 
 const App = props => (
     props.auth && props.auth.isLoaded ? (
         <ConnectedRouter history={props.history}>
-            <div className="App">
+            <div className={props.styles.app}>
                 <Navbar />
                 <Switch>
                     <AuthenticatedRoute exact path="/" component={Dashboard} />
@@ -40,14 +41,16 @@ App.defaultProps = {
     auth: {
         isLoaded: false
     },
-    history: {}
+    history: {},
+    styles: defaultStyles
 };
 
 App.propTypes = {
     auth: PropTypes.shape({
         isLoaded: PropTypes.bool
     }),
-    history: PropTypes.shape({})
+    history: PropTypes.shape({}),
+    styles: PropTypes.objectOf(PropTypes.string)
 };
 
 const mapStateToProps = state => (

@@ -31,7 +31,17 @@ const PasswordReset = props => {
                 toggleModal={props.closeAuthError}
             >
                 <div className={props.styles.modalWrapper}>
-                    {props.passwordResetErrorMessage}
+                    <div>
+                        Code:
+                        {' '}
+                        {props.passwordResetErrorCode}
+                    </div>
+                    <div>
+                        Message:
+                        {' '}
+                        {props.passwordResetErrorMessage}
+                    </div>
+
                 </div>
             </StyledModal>
         </div>
@@ -39,12 +49,14 @@ const PasswordReset = props => {
 };
 
 PasswordReset.defaultProps = {
+    passwordResetErrorCode: '',
     passwordResetErrorMessage: '',
     styles: defaultStyles
 };
 
 PasswordReset.propTypes = {
     closeAuthError: PropTypes.func.isRequired,
+    passwordResetErrorCode: PropTypes.string,
     passwordResetErrorMessage: PropTypes.string,
     sendPasswordResetEmail: PropTypes.func.isRequired,
     styles: PropTypes.objectOf(PropTypes.string)
@@ -56,6 +68,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
+    passwordResetErrorCode: selectors.getPasswordResetErrorCode(state),
     passwordResetErrorMessage: selectors.getPasswordResetError(state)
 });
 
