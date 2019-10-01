@@ -8,9 +8,11 @@ import { noop } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import classNames from 'classnames';
 import defaultStyles from './SignIn.module.scss';
-import { signIn } from './actions';
+import { signIn, closeAuthError } from './actions';
 import StyledInput from '../common/StyledInput/StyledInput';
 import StyledButton from '../common/StyledButton/StyledButton';
+import * as selectors from './selectors';
+import StyledModal from '../common/modal/StyledModal';
 
 const SignIn = props => {
     const [email, setEmail] = useState('');
@@ -51,7 +53,7 @@ const SignIn = props => {
                 </div>
 
                 <StyledInput label="Email" icon="envelope" onChange={e => setEmail(e)} />
-                <StyledInput label="Password" icon="lock" onChange={e => setPassword(e)} />
+                <StyledInput label="Password" icon="lock" type="password" onChange={e => setPassword(e)} />
 
                 <div className={props.styles.submitButtons}>
                     <StyledButton
@@ -70,24 +72,44 @@ const SignIn = props => {
                 uiConfig={uiConfig}
                 firebaseAuth={firebase.auth()}
             />
+            <StyledModal
+                backdrop
+                closeModal={props.closeAuthError}
+                error
+                isOpen={props.signInErrorMessage.length > 0}
+                headerMessage="Sign in Error"
+                toggleModal={props.closeAuthError}
+            >
+                <div className={props.styles.modalWrapper}>
+                    {props.signInErrorMessage}
+                </div>
+            </StyledModal>
         </div>
     );
 };
 
 SignIn.defaultProps = {
+    signInErrorMessage: '',
     styles: defaultStyles
 };
 
 SignIn.propTypes = {
+    closeAuthError: PropTypes.func.isRequired,
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired,
     signIn: PropTypes.func.isRequired,
+    signInErrorMessage: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 
 const mapDispatchToProps = {
+    closeAuthError,
     signIn
 };
 
-export default withRouter(connect(null, mapDispatchToProps)(SignIn));
+const mapStateToProps = state => ({
+    signInErrorMessage: selectors.getSignInError(state)
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignIn));

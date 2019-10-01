@@ -2,6 +2,7 @@
 
 .signUpWrapper{
   color: $color-amber;
+  padding-top: $spacing-huge;
   .signUpForm{
     width: 50%;
     margin-left: auto;
@@ -11,10 +12,15 @@
       text-align: center;
       color: $color-amber;
       font-weight: $font-weight-normal;
-      font-size: $font-size-large;
+      font-size: $font-size-huge;
     }
     .submitButtons{
       text-align: center;
     }
+  }
+  .modalWrapper{
+    text-align: center;
+    color: $color-danger-red;
+    font-weight: $font-weight-normal;
   }
 }

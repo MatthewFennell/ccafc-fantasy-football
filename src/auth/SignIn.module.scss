@@ -2,6 +2,7 @@
 
 .signInWrapper{
   color: $color-amber;
+  padding-top: $spacing-huge;
   .signUpForm{
     width: 50%;
     margin-left: auto;
@@ -9,11 +10,17 @@
     .signInMessage{
       margin-top: 10%;
       text-align: center;
-      color: $color-white;
-      font-size: $font-size-large;
+      color: $color-amber;
+      font-size: $font-size-huge;
+      font-weight: $font-weight-normal;
     }
     .submitButtons{
       text-align: center;
     }
+  }
+  .modalWrapper{
+    text-align: center;
+    color: $color-danger-red;
+    font-weight: $font-weight-normal;
   }
 }
