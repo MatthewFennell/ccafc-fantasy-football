@@ -1,8 +1,10 @@
 @import "../common//Styles.scss";
 
 .verifyEmailMessage{
+  padding-top: $spacing-huge;
   color: $color-light-blue;
-  font-size: $font-size-large;
+  font-size: $font-size-huge;
+  font-weight: $font-weight-normal;
   text-align: center;
   margin-top: 5%;
 }

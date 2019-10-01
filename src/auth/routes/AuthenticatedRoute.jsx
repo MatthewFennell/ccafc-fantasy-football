@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 const AuthenticatedRoute = ({ component: Component, auth, ...rest }) => (
     <Route
         {...rest}
-        render={props => (auth.uid && auth.emailVerified ? <Component {...props} /> : <Redirect to="/signin" />)}
+        render={props => (auth.uid && auth.emailVerified ? <Component {...props} /> : <Redirect to="/needToVerifyEmail" />)}
     />
 );
 

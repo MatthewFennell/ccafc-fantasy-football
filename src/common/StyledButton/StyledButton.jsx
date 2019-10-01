@@ -9,6 +9,7 @@ const StyledButton = props => (
         color={props.color}
         className={props.styles.styledButton}
         onClick={props.onClick}
+        type={props.type}
     >
         {props.text}
     </MDBBtn>
@@ -18,14 +19,16 @@ StyledButton.defaultProps = {
     color: 'primary',
     onClick: noop,
     styles: defaultStyles,
-    text: 'Button'
+    text: 'Button',
+    type: ''
 };
 
 StyledButton.propTypes = {
     color: PropTypes.string,
     onClick: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string),
-    text: PropTypes.string
+    text: PropTypes.string,
+    type: PropTypes.string
 };
 
 export default StyledButton;

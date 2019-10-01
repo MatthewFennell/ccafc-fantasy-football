@@ -30,7 +30,8 @@ const SignIn = props => {
         }
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = e => {
+        e.preventDefault();
         props.signIn(email, password);
     };
 
@@ -52,7 +53,7 @@ const SignIn = props => {
                     Sign in
                 </div>
 
-                <StyledInput label="Email" icon="envelope" onChange={e => setEmail(e)} />
+                <StyledInput label="Email" icon="envelope" onChange={e => setEmail(e)} type="email" />
                 <StyledInput label="Password" icon="lock" type="password" onChange={e => setPassword(e)} />
 
                 <div className={props.styles.submitButtons}>
@@ -60,6 +61,7 @@ const SignIn = props => {
                         color="primary"
                         onClick={handleSubmit}
                         text="Sign in"
+                        type="submit"
                     />
                     <StyledButton
                         color="amber"

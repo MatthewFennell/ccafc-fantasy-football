@@ -6,6 +6,7 @@ import defaultStyles from './Navbar.module.scss';
 import SignedInLinks from './SignedInLinks';
 import { signOut } from '../auth/actions';
 import SignedOutLinks from './SignedOutLinks';
+import EmailVerifyLinks from './EmailVerifyLinks';
 
 const Navbar = props => {
     const { auth } = props;
@@ -19,26 +20,39 @@ const Navbar = props => {
     }, [props.history]);
 
     const redirectToDashboard = useCallback(() => {
-        props.history.push('/signup');
+        props.history.push('/dashboard');
     }, [props.history]);
+
+    const renderLinks = signOutMethod => {
+        if (auth.uid && auth.emailVerified) {
+            return (
+                <SignedInLinks
+                    activeRoute={props.history.location.pathname}
+                    goToDashboard={redirectToDashboard}
+                    signOut={signOutMethod}
+                />
+            );
+        }
+        if (auth.uid && !auth.emailVerified) {
+            return (
+                <EmailVerifyLinks
+                    signOut={signOutMethod}
+                />
+            );
+        }
+
+        return (
+            <SignedOutLinks
+                activeRoute={props.history.location.pathname}
+                redirectToSignIn={redirectToSignIn}
+                redirectToSignUp={redirectToSignUp}
+            />
+        );
+    };
 
     return (
         <div className={props.styles.navBar}>
-            {auth.uid
-                ? (
-                    <SignedInLinks
-                        activeRoute={props.history.location.pathname}
-                        goToDashboard={redirectToDashboard}
-                        signOut={props.signOut}
-                    />
-                )
-                : (
-                    <SignedOutLinks
-                        activeRoute={props.history.location.pathname}
-                        redirectToSignIn={redirectToSignIn}
-                        redirectToSignUp={redirectToSignUp}
-                    />
-                )}
+            {renderLinks(props.signOut)}
         </div>
     );
 };
@@ -51,7 +65,8 @@ Navbar.defaultProps = {
 
 Navbar.propTypes = {
     auth: PropTypes.shape({
-        uid: PropTypes.string
+        uid: PropTypes.string,
+        emailVerified: PropTypes.bool
     }),
     history: PropTypes.shape({
         push: PropTypes.func.isRequired,
