@@ -50,7 +50,7 @@ const SignIn = props => {
             >
 
                 <div className={props.styles.signInMessage}>
-                    Sign in
+                    Sign in here
                 </div>
 
                 <StyledInput label="Email" icon="envelope" onChange={e => setEmail(e)} type="email" />
