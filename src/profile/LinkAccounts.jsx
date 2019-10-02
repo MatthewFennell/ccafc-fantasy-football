@@ -3,8 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import defaultStyles from './LinkAccounts.module.scss';
-import GoogleImage from '../common/images/google-image.png';
-import FacebookImage from '../common/images/facebook-image.png';
+import GoogleImage from '../common/images/google-image.jpg';
+import FacebookImage from '../common/images/facebook-image.jpg';
 
 const LinkAccounts = props => (
     <div className={props.styles.profileWrapper}>
