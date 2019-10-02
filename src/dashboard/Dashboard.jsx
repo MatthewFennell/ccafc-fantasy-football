@@ -14,16 +14,43 @@ const Dashboard = props => {
     }, [props.history]);
 
     return (
-        <div className={props.styles.dashBoard}>
+        <div className={props.styles.dashBoardWrapper}>
             <div className={props.styles.dashboardHeader}>
-      Dashboard
+                Gameweek 10
             </div>
 
-            <div className={props.styles.dashboardItems}>
+            <div className={props.styles.stats}>
+                <div>
+                    <div className={props.styles.yourScore}>
+                        50
+                    </div>
+                    <div>
+                        Your Score
+                    </div>
+                </div>
+                <div>
+                    <div className={props.styles.average}>
+                        50
+                    </div>
+                    <div>
+                        Average
+                    </div>
+                </div>
+                <div>
+                    <div className={props.styles.highest}>
+                        50
+                    </div>
+                    <div>
+                        Highest
+                    </div>
+                </div>
+            </div>
+
+            {/* <div className={props.styles.dashboardItems}>
                 <DashboardItem title="Stuff" />
                 <DashboardItem redirect={redirectToTesting} title="Testing" />
                 <DashboardItem redirect={redirectToProfile} title="Profile" />
-            </div>
+            </div> */}
 
         </div>
     );
