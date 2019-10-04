@@ -2,11 +2,12 @@ const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 const fp = require('lodash/fp');
 const common = require('./common');
+const constants = require('./constants');
 
 const db = admin.firestore();
 
 exports.createLeague = functions
-    .region('europe-west2')
+    .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
         if (!data.leagueName) {
@@ -30,7 +31,7 @@ exports.createLeague = functions
     });
 
 exports.getAllLeagues = functions
-    .region('europe-west2')
+    .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
         return db
@@ -41,7 +42,7 @@ exports.getAllLeagues = functions
     });
 
 exports.getLeaguesIAmIn = functions
-    .region('europe-west2')
+    .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
         return db
@@ -56,7 +57,7 @@ exports.getLeaguesIAmIn = functions
 // First check if they are already in that league
 // Then check that the league does exist
 exports.addUserToLeague = functions
-    .region('europe-west2')
+    .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
 
@@ -86,7 +87,7 @@ exports.addUserToLeague = functions
 
 
 exports.orderedUsers = functions
-    .region('europe-west2')
+    .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
         return db
@@ -99,7 +100,7 @@ exports.orderedUsers = functions
     });
 
 exports.positionsOfUserInLeagues = functions
-    .region('europe-west2')
+    .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
         return db
@@ -113,7 +114,7 @@ exports.positionsOfUserInLeagues = functions
 
 // Adds a position tag to each league to order them correctly
 exports.calculatePositions = functions
-    .region('europe-west2')
+    .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
         return db

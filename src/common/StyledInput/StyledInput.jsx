@@ -14,6 +14,7 @@ const StyledInput = props => (
         className={props.styles.styledInput}
         onChange={e => props.onChange(e.target.value)}
         type={props.type}
+        disabled={props.disabled}
     />
 );
 
@@ -23,7 +24,8 @@ StyledInput.defaultProps = {
     icon: '',
     onChange: noop,
     styles: defaultStyles,
-    type: 'text'
+    type: 'text',
+    disabled: false
 };
 
 StyledInput.propTypes = {
@@ -32,7 +34,8 @@ StyledInput.propTypes = {
     icon: PropTypes.string,
     onChange: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string),
-    type: PropTypes.string
+    type: PropTypes.string,
+    disabled: PropTypes.bool
 };
 
 export default StyledInput;

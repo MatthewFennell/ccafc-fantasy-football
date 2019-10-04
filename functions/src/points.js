@@ -3,13 +3,14 @@ const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 const lodash = require('lodash');
 const common = require('./common');
+const constants = require('./constants');
 
 const db = admin.firestore();
 
 const operations = admin.firestore.FieldValue;
 
 exports.userWithMostPoints = functions
-    .region('europe-west2')
+    .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
         return db
@@ -21,7 +22,7 @@ exports.userWithMostPoints = functions
     });
 
 exports.playerWithMostPointsInWeek = functions
-    .region('europe-west2')
+    .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
         return db
@@ -45,7 +46,7 @@ exports.playerWithMostPointsInWeek = functions
     });
 
 exports.submitResult = functions
-    .region('europe-west2')
+    .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
         return common.isAdmin(context.auth.uid).then(() => {

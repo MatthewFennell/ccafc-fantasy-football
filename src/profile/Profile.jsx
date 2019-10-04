@@ -8,7 +8,6 @@ import LinkAccounts from './LinkAccounts';
 import * as selectors from '../auth/selectors';
 import StyledModal from '../common/modal/StyledModal';
 
-
 const Profile = props => (
     <div className={props.styles.profileWrapper}>
         <LinkAccounts
@@ -26,22 +25,18 @@ const Profile = props => (
             <div className={props.styles.modalWrapper}>
                 <div>
                         Code:
-                    {' '}
                     {props.linkAccountErrorCode}
                 </div>
                 <div>
                         Message
-                    {' '}
                     {props.linkAccountErrorMessage}
                 </div>
                 {props.attemptedEmailToLink && (
                     <div>
                         Attempted Email:
-                        {' '}
                         {props.attemptedEmailToLink}
                     </div>
                 )}
-
             </div>
         </StyledModal>
     </div>

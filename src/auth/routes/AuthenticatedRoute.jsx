@@ -2,11 +2,13 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import * as constants from '../../constants';
 
 const AuthenticatedRoute = ({ component: Component, auth, ...rest }) => (
     <Route
         {...rest}
-        render={props => (auth.uid && auth.emailVerified ? <Component {...props} /> : <Redirect to="/needToVerifyEmail" />)}
+        render={props => (auth.uid && auth.emailVerified
+            ? <Component {...props} /> : <Redirect to={constants.URL.VERIFY_EMAIL} />)}
     />
 );
 

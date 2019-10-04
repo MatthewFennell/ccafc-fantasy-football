@@ -1,11 +1,12 @@
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 const commonFunctions = require('./common');
+const constants = require('./constants');
 
 const db = admin.firestore();
 
 exports.createTeam = functions
-    .region('europe-west2')
+    .region(constants.region)
     .https.onCall((data, context) => {
         commonFunctions.isAuthenticated(context);
         if (!data.teamName) {
@@ -30,7 +31,7 @@ exports.createTeam = functions
 
 
 exports.getAllTeams = functions
-    .region('europe-west2')
+    .region(constants.region)
     .https.onCall((data, context) => {
         commonFunctions.isAuthenticated(context);
         return db
