@@ -1,11 +1,12 @@
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 const common = require('./common');
+const constants = require('./constants');
 
 const db = admin.firestore();
 
 exports.getAllMyWeeklyPlayers = functions
-    .region('europe-west2')
+    .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
         return db.collection('weekly-players')
@@ -19,7 +20,7 @@ exports.getAllMyWeeklyPlayers = functions
     });
 
 exports.getWeeklyPlayersForUserInWeek = functions
-    .region('europe-west2')
+    .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
         return db.collection('weekly-players')
@@ -34,7 +35,7 @@ exports.getWeeklyPlayersForUserInWeek = functions
     });
 
 exports.addPointsToPlayerInWeek = functions
-    .region('europe-west2')
+    .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
         const matchingPlayer = db.collection('players').doc(data.playerId);
@@ -75,7 +76,7 @@ exports.addPointsToPlayerInWeek = functions
     });
 
 exports.triggerWeeklyTeams = functions
-    .region('europe-west2')
+    .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
         return common.isAdmin(context.auth.uid).then(() => {

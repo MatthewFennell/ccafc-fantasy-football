@@ -8,7 +8,6 @@ import StyledButton from '../common/StyledButton/StyledButton';
 import * as selectors from './selectors';
 import StyledModal from '../common/modal/StyledModal';
 
-
 const PasswordReset = props => {
     const [email, setEmail] = useState('');
     return (

@@ -1,12 +1,13 @@
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 const common = require('./common');
+const constants = require('./constants');
 
 const db = admin.firestore();
 const config = functions.config();
 
 exports.userSignUp = functions
-    .region('europe-west2')
+    .region(constants.region)
     .auth.user()
     .onCreate(user => {
         db.collection('application-info').get().then(
@@ -55,7 +56,7 @@ exports.userSignUp = functions
     });
 
 exports.updateDisplayName = functions
-    .region('europe-west2')
+    .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
         return db.collection('users').doc(context.auth.uid).update({
@@ -64,7 +65,7 @@ exports.updateDisplayName = functions
     });
 
 exports.getUserProfile = functions
-    .region('europe-west2')
+    .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
         return db

@@ -89,7 +89,7 @@ const teamIsValid = players => {
 };
 
 exports.updateActiveTeam = functions
-    .region('europe-west2')
+    .region(constants.region)
     .https.onCall((data, context) => {
         commonFunctions.isAuthenticated(context);
         const activeTeamRef = db.collection('active-teams').where('user_id', '==', context.auth.uid);
@@ -193,7 +193,7 @@ exports.updateActiveTeam = functions
     });
 
 exports.fetchMyActiveTeam = functions
-    .region('europe-west2')
+    .region(constants.region)
     .https.onCall((data, context) => {
         const activeTeamRef = db.collection('active-teams').where('user_id', '==', context.auth.uid);
         return activeTeamRef.get()

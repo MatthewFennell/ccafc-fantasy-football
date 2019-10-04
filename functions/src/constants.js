@@ -27,3 +27,5 @@ module.exports.points = {
     YELLOW_CARD: -1,
     MOTM: 3
 };
+
+module.exports.region = 'europe-west2';

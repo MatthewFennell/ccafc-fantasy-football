@@ -1,9 +1,0 @@
-@import "../common//Styles.scss"; 
-
-.dashboardItem{
-  @include vertical-center-div();
-  flex-grow: 1;
-  background-color: red;
-  margin: 30px;
-  height: 100px;
-}
