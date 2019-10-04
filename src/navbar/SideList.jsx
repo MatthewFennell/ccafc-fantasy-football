@@ -11,11 +11,12 @@ import DetailsIcon from '@material-ui/icons/Details';
 import GradeIcon from '@material-ui/icons/Grade';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import LayersIcon from '@material-ui/icons/Layers';
+import * as constants from '../constants';
 
 const sidebarLinks = [
     {
         title: 'Overview',
-        redirect: '/overview',
+        redirect: constants.URL.OVERVIEW,
         component: <DetailsIcon />
     },
     {

@@ -20,6 +20,7 @@ import PasswordReset from './auth/PasswordReset';
 import defaultStyles from './App.module.scss';
 import NewNavbar from './navbar/NewNavbar';
 import * as constants from './constants';
+import Overview from './overview/Overview';
 
 const App = props => (
     props.auth && props.auth.isLoaded ? (
@@ -32,6 +33,7 @@ const App = props => (
                     <Container className={props.styles.appContainer}>
                         <Switch>
                             <UnauthenticatedRoute exact path="/" component={SignIn} redirect={constants.URL.PROFILE} />
+                            <AuthenticatedRoute exact path={constants.URL.OVERVIEW} component={Overview} />
                             <AuthenticatedRoute exact path={constants.URL.PROFILE} component={Profile} />
                             <UnauthenticatedRoute path={constants.URL.SIGN_IN} component={SignIn} redirect={constants.URL.PROFILE} />
                             <UnauthenticatedRoute path={constants.URL.SIGN_UP} component={SignUp} redirect={constants.URL.PROFILE} />
