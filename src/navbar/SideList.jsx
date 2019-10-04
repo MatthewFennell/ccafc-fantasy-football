@@ -4,22 +4,42 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import FlashOnIcon from '@material-ui/icons/FlashOn';
-import ShuffleIcon from '@material-ui/icons/Shuffle';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
+import DetailsIcon from '@material-ui/icons/Details';
+import GradeIcon from '@material-ui/icons/Grade';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import LayersIcon from '@material-ui/icons/Layers';
 
 const sidebarLinks = [
     {
-        title: 'Join Game',
-        redirect: '/join-game',
-        component: <FlashOnIcon />
+        title: 'Overview',
+        redirect: '/overview',
+        component: <DetailsIcon />
     },
     {
-        title: 'Create Game',
-        redirect: '/create-game',
-        component: <ShuffleIcon />
+        title: 'Current Team',
+        redirect: '/current-team',
+        component: <PeopleAltIcon />
+    }
+];
+
+const sidebarLinksTwo = [
+    {
+        title: 'Transfers',
+        redirect: '/transfers',
+        component: <PersonAddIcon />
+    },
+    {
+        title: 'Points',
+        redirect: '/points',
+        component: <GradeIcon />
+    },
+    {
+        title: 'Leagues',
+        redirect: '/leagues',
+        component: <LayersIcon />
     }
 ];
 
@@ -39,10 +59,10 @@ const SideList = props => (
         </List>
         <Divider />
         <List>
-            {['All mail', 'Trash', 'Spam'].map(text => (
-                <ListItem button key={text}>
-                    <ListItemIcon><InboxIcon /></ListItemIcon>
-                    <ListItemText primary={text} />
+            {sidebarLinksTwo.map(item => (
+                <ListItem button key={item.title} onClick={() => props.redirect(item.redirect)}>
+                    <ListItemIcon>{item.component}</ListItemIcon>
+                    <ListItemText primary={item.title} />
                 </ListItem>
             ))}
         </List>
