@@ -21,6 +21,8 @@ import defaultStyles from './App.module.scss';
 import NewNavbar from './navbar/NewNavbar';
 import * as constants from './constants';
 import Overview from './overview/Overview';
+import Testing from './testing/Testing';
+import Leagues from './leagues/Leagues';
 
 const App = props => (
     props.auth && props.auth.isLoaded ? (
@@ -34,7 +36,9 @@ const App = props => (
                         <Switch>
                             <UnauthenticatedRoute exact path="/" component={SignIn} redirect={constants.URL.PROFILE} />
                             <AuthenticatedRoute exact path={constants.URL.OVERVIEW} component={Overview} />
+                            <AuthenticatedRoute exact path="/testing" component={Testing} />
                             <AuthenticatedRoute exact path={constants.URL.PROFILE} component={Profile} />
+                            <AuthenticatedRoute exact path={constants.URL.LEAGUES} component={Leagues} />
                             <UnauthenticatedRoute path={constants.URL.SIGN_IN} component={SignIn} redirect={constants.URL.PROFILE} />
                             <UnauthenticatedRoute path={constants.URL.SIGN_UP} component={SignUp} redirect={constants.URL.PROFILE} />
                             <UnauthenticatedEmailRoute path={constants.URL.VERIFY_EMAIL} component={VerifyEmail} redirect={constants.URL.PROFILE} />

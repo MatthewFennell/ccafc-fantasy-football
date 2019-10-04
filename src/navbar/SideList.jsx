@@ -39,7 +39,7 @@ const sidebarLinksTwo = [
     },
     {
         title: 'Leagues',
-        redirect: '/leagues',
+        redirect: constants.URL.LEAGUES,
         component: <LayersIcon />
     }
 ];
