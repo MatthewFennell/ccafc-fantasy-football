@@ -46,7 +46,7 @@ StyledButton.defaultProps = {
     color: 'primary',
     onClick: noop,
     text: 'Button',
-    type: ''
+    type: 'submit'
 };
 
 StyledButton.propTypes = {

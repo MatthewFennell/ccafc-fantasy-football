@@ -40,7 +40,7 @@ const Grid = props => {
     return (
         <Paper className={classes.root}>
             <div className={classes.tableWrapper}>
-                <Typography id="tableTitle" className={props.styles.gridHeader}>
+                <div id="tableTitle" className={props.styles.gridHeader}>
                     {props.renderBackButton
                             && (
                                 <div className={props.styles.backButton}>
@@ -51,7 +51,7 @@ const Grid = props => {
                     <div className={props.styles.gridHeaderText}>
                         {props.gridHeader ? props.gridHeader : ''}
                     </div>
-                </Typography>
+                </div>
                 <Table stickyHeader>
                     <TableHead>
                         <TableRow>

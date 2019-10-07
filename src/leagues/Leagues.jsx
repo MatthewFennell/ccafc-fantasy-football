@@ -1,12 +1,15 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import defaultStyles from './Leagues.module.scss';
-import { fetchLeaguesRequest } from './actions';
+import { fetchLeaguesRequest, createLeagueRequest } from './actions';
 import * as selectors from './selectors';
 import Grid from '../common/grid/Grid';
 import * as constants from '../constants';
+import StyledButton from '../common/StyledButton/StyledButton';
+import StyledModal from '../common/modal/StyledModal';
+import CreateLeagueForm from './CreateLeagueForm';
 
 const columns = [
     {
@@ -22,6 +25,15 @@ const columns = [
 ];
 
 const Leagues = props => {
+    const [createLeagueOpen, setCreateLeagueOpen] = useState(false);
+    const [leagueName, setLeagueName] = useState('');
+    const [startWeek, setStartWeek] = useState(0);
+
+    const onLeagueCreate = useCallback(() => {
+        setCreateLeagueOpen(false);
+        props.createLeagueRequest(leagueName, startWeek);
+    }, [leagueName, startWeek, props.createLeagueRequest]);
+
     useEffect(() => {
         props.fetchLeaguesRequest();
     }, [props.fetchLeaguesRequest]);
@@ -31,18 +43,38 @@ const Leagues = props => {
     }, [props.history]);
 
     return (
-        <div className={props.styles.leaguesWrapper}>
-            <div className={props.styles.myLeaguesWrapper}>
-                <div className={props.styles.myLeaguesTable}>
-                    <Grid
-                        columns={columns}
-                        gridHeader="Leagues"
-                        onRowClick={onRowClick}
-                        rows={props.leagues}
+        <>
+            <div className={props.styles.myLeaguesTable}>
+                <Grid
+                    columns={columns}
+                    gridHeader="Leagues"
+                    onRowClick={onRowClick}
+                    rows={props.leagues}
+                />
+            </div>
+            <div className={props.styles.createLeagueWrapper}>
+                <StyledButton
+                    color="primary"
+                    onClick={() => setCreateLeagueOpen(true)}
+                    text="Create league"
+                />
+            </div>
+            <StyledModal
+                backdrop
+                closeModal={() => setCreateLeagueOpen(false)}
+                isOpen={createLeagueOpen}
+                headerMessage="Creating League!"
+                toggleModal={() => setCreateLeagueOpen(false)}
+            >
+                <div className={props.styles.modalWrapper}>
+                    <CreateLeagueForm
+                        setLeagueName={setLeagueName}
+                        setStartWeek={setStartWeek}
+                        onCreate={onLeagueCreate}
                     />
                 </div>
-            </div>
-        </div>
+            </StyledModal>
+        </>
     );
 };
 
@@ -52,6 +84,7 @@ Leagues.defaultProps = {
 };
 
 Leagues.propTypes = {
+    createLeagueRequest: PropTypes.func.isRequired,
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired,
@@ -68,6 +101,7 @@ Leagues.propTypes = {
 };
 
 const mapDispatchToProps = {
+    createLeagueRequest,
     fetchLeaguesRequest
 };
 
