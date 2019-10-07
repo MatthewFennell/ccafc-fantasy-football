@@ -8,6 +8,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import { noop } from 'lodash';
+import Typography from '@material-ui/core/Typography';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import defaultStyles from './Grid.module.scss';
 
 const defaultGridStyles = {
@@ -35,60 +38,62 @@ const Grid = props => {
     };
 
     return (
-        <>
-            <div className={props.styles.gridHeader}>
-                {props.gridHeader}
+        <Paper className={classes.root}>
+            <div className={classes.tableWrapper}>
+
+                <Typography id="tableTitle" className={props.styles.gridHeader}>
+                    <ArrowBackIcon />
+                    <div className={props.styles.gridHeaderText}>
+                        {props.gridHeader ? props.gridHeader : ''}
+                    </div>
+                </Typography>
+                <Table stickyHeader>
+                    <TableHead>
+                        <TableRow>
+                            {props.columns.map(column => (
+                                <TableCell
+                                    key={column.id}
+                                    align={column.align}
+                                    style={{ minWidth: column.minWidth }}
+                                >
+                                    {column.label}
+                                </TableCell>
+                            ))}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {props.rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map(row => (
+                                <TableRow hover role="checkbox" tabIndex={-1} key={row.id} onClick={() => props.onRowClick(row)}>
+                                    {props.columns.map(column => {
+                                        const value = row[column.id];
+                                        return (
+                                            <TableCell key={column.id} align={column.align}>
+                                                {column.format && typeof value === 'number' ? column.format(value) : value}
+                                            </TableCell>
+                                        );
+                                    })}
+                                </TableRow>
+                            ))}
+                    </TableBody>
+                </Table>
             </div>
-            <Paper className={classes.root}>
-                <div className={classes.tableWrapper}>
-                    <Table stickyHeader>
-                        <TableHead>
-                            <TableRow>
-                                {props.columns.map(column => (
-                                    <TableCell
-                                        key={column.id}
-                                        align={column.align}
-                                        style={{ minWidth: column.minWidth }}
-                                    >
-                                        {column.label}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {props.rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map(row => (
-                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                        {props.columns.map(column => {
-                                            const value = row[column.id];
-                                            return (
-                                                <TableCell key={column.id} align={column.align}>
-                                                    {column.format && typeof value === 'number' ? column.format(value) : value}
-                                                </TableCell>
-                                            );
-                                        })}
-                                    </TableRow>
-                                ))}
-                        </TableBody>
-                    </Table>
-                </div>
-                <TablePagination
-                    rowsPerPageOptions={props.rowsPerPageOptions}
-                    component="div"
-                    count={props.rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    backIconButtonProps={{
-                        'aria-label': 'previous page'
-                    }}
-                    nextIconButtonProps={{
-                        'aria-label': 'next page'
-                    }}
-                    onChangePage={handleChangePage}
-                    onChangeRowsPerPage={handleChangeRowsPerPage}
-                />
-            </Paper>
-        </>
+            <TablePagination
+                rowsPerPageOptions={props.rowsPerPageOptions}
+                component="div"
+                count={props.rows.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                backIconButtonProps={{
+                    'aria-label': 'previous page'
+                }}
+                nextIconButtonProps={{
+                    'aria-label': 'next page'
+                }}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+            />
+        </Paper>
     );
 };
 
@@ -96,6 +101,7 @@ Grid.defaultProps = {
     columns: [],
     gridHeader: '',
     gridStyles: defaultGridStyles,
+    onRowClick: noop,
     rows: [],
     rowsPerPageOptions: [10, 25, 100],
     styles: defaultStyles
@@ -112,6 +118,7 @@ Grid.propTypes = {
     })),
     gridHeader: PropTypes.string,
     gridStyles: PropTypes.objectOf(PropTypes.shape({})),
+    onRowClick: PropTypes.func,
     rows: PropTypes.arrayOf(PropTypes.shape({})),
     rowsPerPageOptions: PropTypes.arrayOf(PropTypes.number),
     styles: PropTypes.objectOf(PropTypes.string)

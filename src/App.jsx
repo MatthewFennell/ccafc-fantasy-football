@@ -23,6 +23,7 @@ import * as constants from './constants';
 import Overview from './overview/Overview';
 import Testing from './testing/Testing';
 import Leagues from './leagues/Leagues';
+import UsersInLeague from './leagues/UsersInLeague';
 
 const App = props => (
     props.auth && props.auth.isLoaded ? (
@@ -38,6 +39,7 @@ const App = props => (
                             <AuthenticatedRoute exact path={constants.URL.OVERVIEW} component={Overview} />
                             <AuthenticatedRoute exact path="/testing" component={Testing} />
                             <AuthenticatedRoute exact path={constants.URL.PROFILE} component={Profile} />
+                            <AuthenticatedRoute path={`${constants.URL.LEAGUES}/:leagueId`} component={UsersInLeague} />
                             <AuthenticatedRoute exact path={constants.URL.LEAGUES} component={Leagues} />
                             <UnauthenticatedRoute path={constants.URL.SIGN_IN} component={SignIn} redirect={constants.URL.PROFILE} />
                             <UnauthenticatedRoute path={constants.URL.SIGN_UP} component={SignUp} redirect={constants.URL.PROFILE} />
