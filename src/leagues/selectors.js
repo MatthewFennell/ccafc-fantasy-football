@@ -1,1 +1,1 @@
-export const getLeagues = state => state.auth.leagues;
+export const getLeagues = state => state.leagues.leagues;
