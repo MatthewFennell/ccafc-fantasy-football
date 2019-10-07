@@ -2,7 +2,6 @@
 
 .signUpWrapper{
   color: $color-amber;
-  padding-top: $spacing-huge;
   .signUpForm{
     width: 50%;
     margin-left: auto;
@@ -10,7 +9,7 @@
     .signUpMessage{
       margin-top: 10%;
       text-align: center;
-      color: $color-amber;
+      color: $color-white;
       font-weight: $font-weight-normal;
       font-size: $font-size-huge;
     }
