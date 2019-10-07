@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import fp from 'lodash/fp';
-import {
-    MDBBtn
-} from 'mdbreact';
 import defaultStyles from './Testing.module.scss';
 import Button from '../common/Button/Button';
 import TextInput from '../common/TextInput/TextInput';

@@ -45,7 +45,6 @@ const TopNavbar = props => {
 
     return (
         <AppBar
-            // position="fixed"
             className={props.styles.topNavbar}
         >
             <Toolbar>

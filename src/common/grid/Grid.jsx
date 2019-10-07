@@ -40,9 +40,14 @@ const Grid = props => {
     return (
         <Paper className={classes.root}>
             <div className={classes.tableWrapper}>
-
                 <Typography id="tableTitle" className={props.styles.gridHeader}>
-                    <ArrowBackIcon />
+                    {props.renderBackButton
+                            && (
+                                <div className={props.styles.backButton}>
+                                    <ArrowBackIcon onClick={props.backButtonLink} />
+                                </div>
+                            )}
+
                     <div className={props.styles.gridHeaderText}>
                         {props.gridHeader ? props.gridHeader : ''}
                     </div>
@@ -98,16 +103,19 @@ const Grid = props => {
 };
 
 Grid.defaultProps = {
+    backButtonLink: noop,
     columns: [],
     gridHeader: '',
     gridStyles: defaultGridStyles,
     onRowClick: noop,
+    renderBackButton: false,
     rows: [],
     rowsPerPageOptions: [10, 25, 100],
     styles: defaultStyles
 };
 
 Grid.propTypes = {
+    backButtonLink: PropTypes.func,
     columns: PropTypes.arrayOf(PropTypes.shape({
         align: PropTypes.string,
         format: PropTypes.func,
@@ -119,6 +127,7 @@ Grid.propTypes = {
     gridHeader: PropTypes.string,
     gridStyles: PropTypes.objectOf(PropTypes.shape({})),
     onRowClick: PropTypes.func,
+    renderBackButton: PropTypes.bool,
     rows: PropTypes.arrayOf(PropTypes.shape({})),
     rowsPerPageOptions: PropTypes.arrayOf(PropTypes.number),
     styles: PropTypes.objectOf(PropTypes.string)
