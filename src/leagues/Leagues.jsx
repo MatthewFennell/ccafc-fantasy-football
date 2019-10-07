@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import defaultStyles from './Leagues.module.scss';
 import { fetchLeaguesRequest } from './actions';
 import * as selectors from './selectors';
-import Table from '../common/grid/Grid';
+import Grid from '../common/grid/Grid';
+import * as constants from '../constants';
 
 const columns = [
     {
@@ -24,11 +26,20 @@ const Leagues = props => {
         props.fetchLeaguesRequest();
     }, [props.fetchLeaguesRequest]);
 
+    const onRowClick = useCallback(row => {
+        props.history.push(`${constants.URL.LEAGUES}/${row.leagueId}`);
+    }, [props.history]);
+
     return (
         <div className={props.styles.leaguesWrapper}>
             <div className={props.styles.myLeaguesWrapper}>
                 <div className={props.styles.myLeaguesTable}>
-                    <Table columns={columns} gridHeader="Leagues" rows={props.leagues} />
+                    <Grid
+                        columns={columns}
+                        gridHeader="Leagues"
+                        onRowClick={onRowClick}
+                        rows={props.leagues}
+                    />
                 </div>
             </div>
         </div>
@@ -41,6 +52,9 @@ Leagues.defaultProps = {
 };
 
 Leagues.propTypes = {
+    history: PropTypes.shape({
+        push: PropTypes.func.isRequired
+    }).isRequired,
     leagues: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string,
         leagueId: PropTypes.string,
@@ -63,4 +77,4 @@ const mapStateToProps = state => (
     }
 );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Leagues);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Leagues));

@@ -1,8 +1,17 @@
 @import "../Styles.scss";
 
 .gridHeader{
-  text-align: center;
-  color: $color-gray;
-  margin-bottom: $spacing-medium;
-  font-size: $font-size-huge;
+  display: flex;
+  font-size: $font-size-huge !important;
+  margin-top: $spacing-small !important;
+  margin-bottom: $spacing-small !important;
+
+  .backButton{
+    margin-left: $spacing-small;
+    cursor: pointer;
+  }
+
+  .gridHeaderText{
+    margin-left: $spacing-medium;
+  }
 }

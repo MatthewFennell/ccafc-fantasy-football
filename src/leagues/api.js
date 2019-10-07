@@ -9,3 +9,13 @@ export const getLeaguesIAmIn = () => functionToCall('league-getLeaguesIAmIn')()
         userPoints: league.data.user_points,
         position: league.data.position
     })));
+
+
+export const getUsersInLeague = request => functionToCall('league-orderedUsers')(request)
+    .then(data => data.data.map(league => ({
+        id: league.id,
+        name: league.data.name,
+        username: league.data.username,
+        userPoints: league.data.user_points,
+        position: league.data.position
+    })));
