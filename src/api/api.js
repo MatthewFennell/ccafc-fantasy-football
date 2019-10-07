@@ -2,7 +2,7 @@ import firebase from 'firebase';
 import lodash from 'lodash';
 
 // Param func is the NAME of the function to call
-const functionToCall = func => firebase
+export const functionToCall = func => firebase
     .app()
     .functions('europe-west2')
     .httpsCallable(func);

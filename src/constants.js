@@ -1,6 +1,7 @@
 export const REGION = 'europe-west2';
 
 export const URL = {
+    LEAGUES: '/leagues',
     OVERVIEW: '/overview',
     PROFILE: '/profile',
     RESET_PASSWORD: '/reset-password',
