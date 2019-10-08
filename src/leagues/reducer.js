@@ -16,6 +16,18 @@ const authReducer = (state = initState, action) => {
             leagues: action.leagues
         };
     }
+    case actions.CREATE_LEAGUE_SUCCESS: {
+        return {
+            ...state,
+            leagues: action.leagues
+        };
+    }
+    case actions.JOIN_LEAGUE_SUCCESS: {
+        return {
+            ...state,
+            leagues: action.leagues
+        };
+    }
     case actions.FETCH_USERS_IN_LEAGUE_SUCCESS: {
         return {
             ...state,

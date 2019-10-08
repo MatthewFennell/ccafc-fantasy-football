@@ -13,6 +13,11 @@ export const CREATE_LEAGUE_SUCCESS = `${pre}CREATE_LEAGUE_SUCCESS`;
 export const CREATE_LEAGUE_ERROR = `${pre}CREATE_LEAGUE_ERROR`;
 export const CLOSE_CREATE_LEAGUE_ERROR = `${pre}CLOSE_CREATE_LEAGUE_ERROR`;
 
+export const JOIN_LEAGUE_REQUEST = `${pre}JOIN_LEAGUE_REQUEST`;
+export const JOIN_LEAGUE_SUCCESS = `${pre}JOIN_LEAGUE_SUCCESS`;
+export const JOIN_LEAGUE_ERROR = `${pre}JOIN_LEAGUE_ERROR`;
+export const CLOSE_JOIN_LEAGUE_ERROR = `${pre}CLOSE_JOIN_LEAGUE_ERROR`;
+
 export const fetchLeaguesRequest = () => ({
     type: FETCH_LEAGUES_REQUEST
 });
@@ -49,8 +54,9 @@ export const createLeagueRequest = (leagueName, startWeek) => ({
     startWeek
 });
 
-export const createLeagueSuccess = () => ({
-    type: CREATE_LEAGUE_SUCCESS
+export const createLeagueSuccess = leagues => ({
+    type: CREATE_LEAGUE_SUCCESS,
+    leagues
 });
 
 export const createLeagueError = error => ({
@@ -60,4 +66,19 @@ export const createLeagueError = error => ({
 
 export const closeCreateLeagueError = () => ({
     type: CLOSE_CREATE_LEAGUE_ERROR
+});
+
+export const joinLeagueRequest = leagueName => ({
+    type: JOIN_LEAGUE_REQUEST,
+    leagueName
+});
+
+export const joinLeagueSuccess = leagues => ({
+    type: JOIN_LEAGUE_SUCCESS,
+    leagues
+});
+
+export const joinLeagueError = error => ({
+    type: JOIN_LEAGUE_ERROR,
+    error
 });

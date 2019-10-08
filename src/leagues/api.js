@@ -22,3 +22,5 @@ export const getUsersInLeague = request => functionToCall('league-orderedUsers')
 
 
 export const createLeague = request => functionToCall('league-createLeague')(request);
+
+export const joinLeague = request => functionToCall('league-joinLeague')(request);
