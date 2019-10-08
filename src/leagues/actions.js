@@ -88,6 +88,10 @@ export const joinLeagueError = error => ({
     error
 });
 
+export const closeJoinLeagueError = () => ({
+    type: CLOSE_JOIN_LEAGUE_ERROR
+});
+
 export const leaveLeagueRequest = leagueId => ({
     type: LEAVE_LEAGUE_REQUEST,
     leagueId
@@ -101,4 +105,8 @@ export const leaveLeagueSuccess = leagues => ({
 export const leaveLeagueError = error => ({
     type: LEAVE_LEAGUE_ERROR,
     error
+});
+
+export const closeLeaveLeagueError = () => ({
+    type: CLOSE_LEAVE_LEAGUE_ERROR
 });
