@@ -1,12 +1,16 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import defaultStyles from './Leagues.module.scss';
-import { fetchLeaguesRequest } from './actions';
+import { fetchLeaguesRequest, createLeagueRequest, closeCreateLeagueError } from './actions';
 import * as selectors from './selectors';
 import Grid from '../common/grid/Grid';
 import * as constants from '../constants';
+import StyledButton from '../common/StyledButton/StyledButton';
+import StyledModal from '../common/modal/StyledModal';
+import CreateLeagueForm from './CreateLeagueForm';
+import ErrorModal from '../common/modal/ErrorModal';
 
 const columns = [
     {
@@ -22,6 +26,15 @@ const columns = [
 ];
 
 const Leagues = props => {
+    const [createLeagueOpen, setCreateLeagueOpen] = useState(false);
+    const [leagueName, setLeagueName] = useState('');
+    const [startWeek, setStartWeek] = useState(0);
+
+    const onLeagueCreate = useCallback(() => {
+        setCreateLeagueOpen(false);
+        props.createLeagueRequest(leagueName, parseInt(startWeek, 10));
+    }, [leagueName, startWeek, props.createLeagueRequest]);
+
     useEffect(() => {
         props.fetchLeaguesRequest();
     }, [props.fetchLeaguesRequest]);
@@ -31,27 +44,60 @@ const Leagues = props => {
     }, [props.history]);
 
     return (
-        <div className={props.styles.leaguesWrapper}>
-            <div className={props.styles.myLeaguesWrapper}>
-                <div className={props.styles.myLeaguesTable}>
-                    <Grid
-                        columns={columns}
-                        gridHeader="Leagues"
-                        onRowClick={onRowClick}
-                        rows={props.leagues}
+        <>
+            <div className={props.styles.myLeaguesTable}>
+                <Grid
+                    columns={columns}
+                    gridHeader="Leagues"
+                    onRowClick={onRowClick}
+                    rows={props.leagues}
+                />
+            </div>
+            <div className={props.styles.createLeagueWrapper}>
+                <StyledButton
+                    color="primary"
+                    onClick={() => setCreateLeagueOpen(true)}
+                    text="Create league"
+                />
+            </div>
+            <StyledModal
+                backdrop
+                closeModal={() => setCreateLeagueOpen(false)}
+                isOpen={createLeagueOpen}
+                headerMessage="Creating League!"
+                toggleModal={() => setCreateLeagueOpen(false)}
+            >
+                <div className={props.styles.modalWrapper}>
+                    <CreateLeagueForm
+                        setLeagueName={setLeagueName}
+                        setStartWeek={setStartWeek}
+                        onCreate={onLeagueCreate}
                     />
                 </div>
-            </div>
-        </div>
+            </StyledModal>
+            <ErrorModal
+                closeModal={props.closeCreateLeagueError}
+                headerMessage="Error creating league"
+                isOpen={props.createLeagueError.length > 0}
+                errorCode={props.createLeagueErrorCode}
+                errorMessage={props.createLeagueError}
+            />
+        </>
     );
 };
 
 Leagues.defaultProps = {
+    createLeagueError: '',
+    createLeagueErrorCode: '',
     leagues: [],
     styles: defaultStyles
 };
 
 Leagues.propTypes = {
+    closeCreateLeagueError: PropTypes.func.isRequired,
+    createLeagueError: PropTypes.string,
+    createLeagueErrorCode: PropTypes.string,
+    createLeagueRequest: PropTypes.func.isRequired,
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired,
@@ -68,13 +114,16 @@ Leagues.propTypes = {
 };
 
 const mapDispatchToProps = {
+    closeCreateLeagueError,
+    createLeagueRequest,
     fetchLeaguesRequest
 };
 
-const mapStateToProps = state => (
-    {
-        leagues: selectors.getLeagues(state)
-    }
-);
+const mapStateToProps = state => ({
+    createLeagueError: selectors.getCreateLeagueError(state),
+    createLeagueErrorCode: selectors.getCreateLeagueErrorCode(state),
+    leagues: selectors.getLeagues(state)
+});
+
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Leagues));

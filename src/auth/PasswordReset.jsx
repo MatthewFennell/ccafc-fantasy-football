@@ -6,7 +6,7 @@ import { sendPasswordResetEmail, closeAuthError } from './actions';
 import StyledInput from '../common/StyledInput/StyledInput';
 import StyledButton from '../common/StyledButton/StyledButton';
 import * as selectors from './selectors';
-import StyledModal from '../common/modal/StyledModal';
+import ErrorModal from '../common/modal/ErrorModal';
 
 const PasswordReset = props => {
     const [email, setEmail] = useState('');
@@ -21,28 +21,13 @@ const PasswordReset = props => {
                     text="Send reset password email"
                 />
             </div>
-            <StyledModal
-                backdrop
+            <ErrorModal
                 closeModal={props.closeAuthError}
-                error
+                headerMessage="Password Reset Error"
                 isOpen={props.passwordResetErrorMessage.length > 0}
-                headerMessage="Sign Up Error"
-                toggleModal={props.closeAuthError}
-            >
-                <div className={props.styles.modalWrapper}>
-                    <div>
-                        Code:
-                        {' '}
-                        {props.passwordResetErrorCode}
-                    </div>
-                    <div>
-                        Message:
-                        {' '}
-                        {props.passwordResetErrorMessage}
-                    </div>
-
-                </div>
-            </StyledModal>
+                errorCode={props.passwordResetErrorCode}
+                errorMessage={props.passwordResetErrorMessage}
+            />
         </div>
     );
 };

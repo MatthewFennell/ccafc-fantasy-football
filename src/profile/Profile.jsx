@@ -25,10 +25,12 @@ const Profile = props => (
             <div className={props.styles.modalWrapper}>
                 <div>
                         Code:
+                    {' '}
                     {props.linkAccountErrorCode}
                 </div>
                 <div>
-                        Message
+                        Message:
+                    {' '}
                     {props.linkAccountErrorMessage}
                 </div>
                 {props.attemptedEmailToLink && (

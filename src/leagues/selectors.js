@@ -1,5 +1,8 @@
 import fp from 'lodash/fp';
 
+export const getCreateLeagueError = state => state.leagues.createLeagueError;
+export const getCreateLeagueErrorCode = state => state.leagues.createLeagueErrorCode;
+
 export const getLeagues = state => state.leagues.leagues;
 export const getLeagueId = props => fp.flow(fp.get('match'), fp.get('params'), fp.get('leagueId'))(props);
 

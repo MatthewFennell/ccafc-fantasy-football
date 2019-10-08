@@ -10,9 +10,8 @@ import { signUp, closeAuthError, signUpError } from './actions';
 import defaultStyles from './SignUp.module.scss';
 import StyledInput from '../common/StyledInput/StyledInput';
 import StyledButton from '../common/StyledButton/StyledButton';
-import StyledModal from '../common/modal/StyledModal';
 import * as selectors from './selectors';
-
+import ErrorModal from '../common/modal/ErrorModal';
 
 const SignUp = props => {
     const [email, setEmail] = useState('');
@@ -75,28 +74,13 @@ const SignUp = props => {
                 uiConfig={uiConfig}
                 firebaseAuth={firebase.auth()}
             />
-            <StyledModal
-                backdrop
+            <ErrorModal
                 closeModal={props.closeAuthError}
-                error
-                isOpen={props.signUpErrorMessage.length > 0}
                 headerMessage="Sign Up Error"
-                toggleModal={props.closeAuthError}
-            >
-                <div className={props.styles.modalWrapper}>
-                    <div>
-                        Code:
-                        {' '}
-                        {props.signUpErrorCode}
-                    </div>
-                    <div>
-                        Message:
-                        {' '}
-                        {props.signUpErrorMessage}
-                    </div>
-
-                </div>
-            </StyledModal>
+                isOpen={props.signUpErrorMessage.length > 0}
+                errorCode={props.signUpErrorCode}
+                errorMessage={props.signUpErrorMessage}
+            />
         </div>
     );
 };

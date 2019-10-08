@@ -1,32 +1,57 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+import Button from '@material-ui/core/Button';
+import { red, indigo } from '@material-ui/core/colors';
 import { noop } from 'lodash';
-import { MDBBtn } from 'mdbreact';
-import defaultStyles from './StyledButton.module.scss';
+import PropTypes from 'prop-types';
 
-const StyledButton = props => (
-    <MDBBtn
-        color={props.color}
-        className={props.styles.styledButton}
-        onClick={props.onClick}
-        type={props.type}
-    >
-        {props.text}
-    </MDBBtn>
-);
+const useStyles = makeStyles(theme => ({
+    margin: {
+        margin: theme.spacing(1)
+    }
+}));
+
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: indigo[500]
+        },
+        secondary: {
+            main: red[500]
+        }
+    }
+});
+
+const StyledButton = props => {
+    const classes = useStyles();
+
+    return (
+        <ThemeProvider theme={theme}>
+            <Button
+                variant="contained"
+                color={props.color}
+                className={classes.margin}
+                onClick={props.onClick}
+                type={props.type}
+            >
+                {props.text}
+            </Button>
+        </ThemeProvider>
+    );
+};
+
 
 StyledButton.defaultProps = {
     color: 'primary',
     onClick: noop,
-    styles: defaultStyles,
     text: 'Button',
-    type: ''
+    type: 'submit'
 };
 
 StyledButton.propTypes = {
     color: PropTypes.string,
     onClick: PropTypes.func,
-    styles: PropTypes.objectOf(PropTypes.string),
     text: PropTypes.string,
     type: PropTypes.string
 };

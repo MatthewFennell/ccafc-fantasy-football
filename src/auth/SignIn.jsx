@@ -12,7 +12,8 @@ import { signIn, closeAuthError } from './actions';
 import StyledInput from '../common/StyledInput/StyledInput';
 import StyledButton from '../common/StyledButton/StyledButton';
 import * as selectors from './selectors';
-import StyledModal from '../common/modal/StyledModal';
+import * as constants from '../constants';
+import ErrorModal from '../common/modal/ErrorModal';
 
 const SignIn = props => {
     const [email, setEmail] = useState('');
@@ -36,7 +37,7 @@ const SignIn = props => {
     };
 
     const redirectToPasswordReset = useCallback(() => {
-        props.history.push('/password-reset');
+        props.history.push(constants.URL.RESET_PASSWORD);
     }, [props.history]);
 
     return (
@@ -63,39 +64,29 @@ const SignIn = props => {
                         text="Sign in"
                         type="submit"
                     />
-                    <StyledButton
-                        color="amber"
+                </div>
+                <div className={props.styles.passwordWrapper}>
+                    <div
+                        className={props.styles.forgotPasswordLink}
+                        role="button"
+                        tabIndex={0}
                         onClick={redirectToPasswordReset}
-                        text="Forgot your password?"
-                    />
+                    >
+                        Forgot your password?
+                    </div>
                 </div>
             </form>
             <StyledFirebaseAuth
                 uiConfig={uiConfig}
                 firebaseAuth={firebase.auth()}
             />
-            <StyledModal
-                backdrop
+            <ErrorModal
                 closeModal={props.closeAuthError}
-                error
+                headerMessage="Sign In Error"
                 isOpen={props.signInErrorMessage.length > 0}
-                headerMessage="Sign in Error"
-                toggleModal={props.closeAuthError}
-            >
-                <div className={props.styles.modalWrapper}>
-                    <div>
-                        Code:
-                        {' '}
-                        {props.signInErrorCode}
-                    </div>
-                    <div>
-                        Message:
-                        {' '}
-                        {props.signInErrorMessage}
-                    </div>
-
-                </div>
-            </StyledModal>
+                errorCode={props.signInErrorCode}
+                errorMessage={props.signInErrorMessage}
+            />
         </div>
     );
 };

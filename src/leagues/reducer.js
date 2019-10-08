@@ -2,6 +2,8 @@ import fp from 'lodash/fp';
 import * as actions from './actions';
 
 const initState = {
+    createLeagueError: '',
+    createLeagueErrorCode: '',
     leagues: [],
     usersInLeague: {}
 };
@@ -18,6 +20,20 @@ const authReducer = (state = initState, action) => {
         return {
             ...state,
             usersInLeague: fp.set(action.leagueId, action.usersInLeague)(state.usersInLeague)
+        };
+    }
+    case actions.CREATE_LEAGUE_ERROR: {
+        return {
+            ...state,
+            createLeagueError: action.error.message,
+            createLeagueErrorCode: action.error.code
+        };
+    }
+    case actions.CLOSE_CREATE_LEAGUE_ERROR: {
+        return {
+            ...state,
+            createLeagueError: '',
+            createLeagueErrorCode: ''
         };
     }
     default:

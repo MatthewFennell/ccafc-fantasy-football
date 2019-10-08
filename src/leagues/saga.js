@@ -29,9 +29,21 @@ function* fetchUsersInLeague(action) {
     }
 }
 
+function* createLeague(action) {
+    try {
+        yield api.createLeague({
+            leagueName: action.leagueName,
+            startWeek: action.startWeek
+        });
+    } catch (error) {
+        yield put(actions.createLeagueError(error));
+    }
+}
+
 export default function* leaguesSaga() {
     yield all([
         takeEvery(actions.FETCH_LEAGUES_REQUEST, fetchLeagues),
-        takeEvery(actions.FETCH_USERS_IN_LEAGUE_REQUEST, fetchUsersInLeague)
+        takeEvery(actions.FETCH_USERS_IN_LEAGUE_REQUEST, fetchUsersInLeague),
+        takeEvery(actions.CREATE_LEAGUE_REQUEST, createLeague)
     ]);
 }

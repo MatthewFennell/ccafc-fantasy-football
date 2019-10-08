@@ -14,6 +14,7 @@ const StyledModal = props => (
             backdrop={props.backdrop}
             isOpen={props.isOpen}
             toggle={props.toggleModal}
+            className={props.styles.modalContent}
         >
             <MDBModalHeader
                 className={props.styles.modalHeader}

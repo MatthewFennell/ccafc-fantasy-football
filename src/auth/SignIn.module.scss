@@ -10,12 +10,20 @@
     .signInMessage{
       margin-top: 10%;
       text-align: center;
-      color: $color-amber;
+      color: $color-white;
       font-size: $font-size-huge;
       font-weight: $font-weight-normal;
     }
     .submitButtons{
       text-align: center;
+    }
+  }
+  .passwordWrapper{
+    text-align: center;
+    .forgotPasswordLink{
+      justify-content: center;
+      display: inline-block;
+      cursor: pointer;
     }
   }
   .modalWrapper{
