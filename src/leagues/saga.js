@@ -21,7 +21,7 @@ function* fetchUsersInLeague(action) {
     try {
         const usersForThatLeague = yield select(selectors.getUsersInLeagueWithId, action.leagueId);
         if (!usersForThatLeague) {
-            const usersInLeague = yield api.getUsersInLeague({ leagueId: action.leagueId });
+            const usersInLeague = yield call(api.getUsersInLeague, { leagueId: action.leagueId });
             yield put(actions.fetchUsersInLeagueSuccess(action.leagueId, usersInLeague));
         }
     } catch (error) {
@@ -31,12 +31,24 @@ function* fetchUsersInLeague(action) {
 
 function* createLeague(action) {
     try {
-        yield api.createLeague({
+        yield call(api.createLeague, {
             leagueName: action.leagueName,
             startWeek: action.startWeek
         });
+        const myLeagues = yield call(api.getLeaguesIAmIn);
+        yield put(actions.createLeagueSuccess(myLeagues));
     } catch (error) {
         yield put(actions.createLeagueError(error));
+    }
+}
+
+function* joinLeague(action) {
+    try {
+        yield call(api.joinLeague, { leagueName: action.leagueName });
+        const myLeagues = yield call(api.getLeaguesIAmIn);
+        yield put(actions.joinLeagueSuccess(myLeagues));
+    } catch (error) {
+        yield put(actions.joinLeagueError(error));
     }
 }
 
@@ -44,6 +56,7 @@ export default function* leaguesSaga() {
     yield all([
         takeEvery(actions.FETCH_LEAGUES_REQUEST, fetchLeagues),
         takeEvery(actions.FETCH_USERS_IN_LEAGUE_REQUEST, fetchUsersInLeague),
-        takeEvery(actions.CREATE_LEAGUE_REQUEST, createLeague)
+        takeEvery(actions.CREATE_LEAGUE_REQUEST, createLeague),
+        takeEvery(actions.JOIN_LEAGUE_REQUEST, joinLeague)
     ]);
 }

@@ -6,31 +6,28 @@ import inputOverrideStyles from './InputOverride.module.scss';
 import StyledButton from '../common/StyledButton/StyledButton';
 import defaultStyles from './LeagueForm.module.scss';
 
-const CreateLeague = props => (
-    <div className={props.styles.createLeagueWrapper}>
+const JoinLeague = props => (
+    <div className={props.styles.joinLeagueWrapper}>
         <StyledInput label="League Name" onChange={props.setLeagueName} styles={inputOverrideStyles} />
-        <StyledInput label="Start Week" onChange={props.setStartWeek} styles={inputOverrideStyles} type="number" />
         <StyledButton
             color="primary"
-            onClick={props.onCreate}
-            text="Create"
+            onClick={props.onJoin}
+            text="Join"
             type="submit"
         />
     </div>
 );
 
-CreateLeague.defaultProps = {
-    onCreate: noop,
+JoinLeague.defaultProps = {
+    onJoin: noop,
     setLeagueName: noop,
-    setStartWeek: noop,
     styles: defaultStyles
 };
 
-CreateLeague.propTypes = {
-    onCreate: PropTypes.func,
+JoinLeague.propTypes = {
+    onJoin: PropTypes.func,
     setLeagueName: PropTypes.func,
-    setStartWeek: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 
-export default CreateLeague;
+export default JoinLeague;

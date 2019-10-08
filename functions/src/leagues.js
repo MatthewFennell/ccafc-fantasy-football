@@ -16,21 +16,32 @@ exports.createLeague = functions
             throw new functions.https.HttpsError('invalid-argument', 'Cannot create a league with an empty name');
         }
 
-        return getDisplayName(context.auth.uid).then(displayName => db.collection('leagues')
-            .add({
-                owner: context.auth.uid,
-                start_week: data.startWeek || 0,
-                name: data.leagueName
-            }).then(docRef => {
-                db.collection('leagues-points').add({
-                    league_id: docRef.id,
-                    user_id: context.auth.uid,
-                    start_week: data.startWeek || 0,
-                    name: data.leagueName,
-                    user_points: 0,
-                    username: displayName
-                });
-            }));
+        if (!common.isIntegerGreaterThanEqualZero(data.startWeek)) {
+            throw new functions.https.HttpsError('invalid-argument', 'Start week must be a positive integer');
+        }
+
+        const leagueWithThatName = name => db.collection('leagues').where('name', '==', name);
+
+        return leagueWithThatName(data.leagueName).get().then(docs => {
+            if (docs.empty) {
+                return getDisplayName(context.auth.uid).then(displayName => db.collection('leagues')
+                    .add({
+                        owner: context.auth.uid,
+                        start_week: data.startWeek || 0,
+                        name: data.leagueName
+                    }).then(docRef => {
+                        db.collection('leagues-points').add({
+                            league_id: docRef.id,
+                            user_id: context.auth.uid,
+                            start_week: data.startWeek || 0,
+                            name: data.leagueName,
+                            user_points: 0,
+                            username: displayName
+                        });
+                    }));
+            }
+            throw new functions.https.HttpsError('already-exists', 'League with that name already exists');
+        });
     });
 
 exports.getAllLeagues = functions
@@ -56,33 +67,35 @@ exports.getLeaguesIAmIn = functions
                 .map(doc => ({ data: doc.data(), id: doc.id })));
     });
 
-
-// First check if they are already in that league
-// Then check that the league does exist
-exports.addUserToLeague = functions
+exports.joinLeague = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
+        const getDisplayName = id => db.collection('users').doc(id).get().then(user => user.data().displayName);
 
-        return db.collection('leagues').doc(data.leagueId).get().then(
-            league => {
-                if (!league.exists) {
-                    throw new functions.https.HttpsError('not-found', `Invalid league id (${data.leagueId})`);
+        return db.collection('leagues').where('name', '==', data.leagueName).get().then(
+            docs => {
+                if (docs.empty) {
+                    throw new functions.https.HttpsError('not-found', 'There is no league with that name');
                 }
-                return db.collection('leagues-points')
-                    .where('league_id', '==', data.leagueId).where('user_id', '==', context.auth.uid).get()
+                if (docs.docs.length > 1) {
+                    throw new functions.https.HttpsError('invalid-argument', 'Server Error');
+                }
+                const doc = docs.docs[0];
+                return db.collection('leagues-points').where('name', '==', data.leagueName).where('user_id', '==', context.auth.uid)
+                    .get()
                     .then(leagues => {
                         if (!leagues.empty) {
-                            throw new functions.https.HttpsError('already-exists', 'User already exists in that league');
+                            throw new functions.https.HttpsError('already-exists', 'You are already in that league');
                         }
-                        db.collection('leagues-points').add({
-                            league_id: data.leagueId,
+                        return getDisplayName(context.auth.uid).then(displayName => db.collection('leagues-points').add({
+                            league_id: doc.id,
                             user_id: context.auth.uid,
-                            start_week: 0,
-                            name: league.data().name,
+                            start_week: doc.data().start_week,
+                            name: data.leagueName,
                             user_points: 0,
-                            username: data.username
-                        });
+                            username: displayName
+                        }));
                     });
             }
         );

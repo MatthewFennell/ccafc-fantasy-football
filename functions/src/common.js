@@ -31,4 +31,6 @@ module.exports.calculatePoints = (position, goals, assists, cleanSheet, redCard,
     return total;
 };
 
+module.exports.isIntegerGreaterThanEqualZero = value => Number.isInteger(value) && value >= 0;
+
 // https://firebase.google.com/docs/reference/functions/functions.https.HttpsError

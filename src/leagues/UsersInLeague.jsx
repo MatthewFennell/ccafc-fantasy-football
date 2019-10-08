@@ -10,8 +10,8 @@ import * as constants from '../constants';
 
 const columns = [
     {
-        id: 'name',
-        label: 'Name',
+        id: 'username',
+        label: 'Username',
         align: 'center'
     },
     {
