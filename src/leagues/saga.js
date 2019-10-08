@@ -1,9 +1,11 @@
 import {
     all, call, takeEvery, put, select
 } from 'redux-saga/effects';
+import { push } from 'connected-react-router';
 import * as actions from './actions';
 import * as api from './api';
 import * as selectors from './selectors';
+import * as constants from '../constants';
 
 function* fetchLeagues() {
     try {
@@ -57,6 +59,7 @@ function* leaveLeague(action) {
         yield call(api.leaveLeague, { leagueId: action.leagueId });
         const myLeagues = yield call(api.getLeaguesIAmIn);
         yield put(actions.leaveLeagueSuccess(myLeagues));
+        yield put(push(constants.URL.LEAGUES));
     } catch (error) {
         yield put(actions.leaveLeagueError(error));
     }
