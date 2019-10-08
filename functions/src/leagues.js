@@ -68,6 +68,38 @@ exports.getLeaguesIAmIn = functions
                 .map(doc => ({ data: doc.data(), id: doc.id })));
     });
 
+exports.leaveLeague = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db
+            .collection('leagues-points').where('user_id', '==', context.auth.uid).where('league_id', '==', data.leagueId).get()
+            .then(docs => {
+                if (docs.empty) {
+                    throw new functions.https.HttpsError('not-found', `You are not in a league with that ID (${data.leagueId})`);
+                }
+                if (docs.docs.length > 1) {
+                    throw new functions.https.HttpsError('invalid-argument', 'Server Error (somehow in the same league twice)');
+                }
+                const docToDelete = docs.docs[0];
+                return docToDelete.ref.delete().then(() => db.collection('leagues-points').where('league_id', '==', data.leagueId).get()
+                    .then(query => query.docs
+                        .map(leagueDoc => ({ data: leagueDoc.data(), id: leagueDoc.id })))
+                    .then(result => {
+                        const positions = [];
+                        const sortedResult = fp.sortBy('data.user_points')(result).reverse();
+                        sortedResult.forEach((pos, index) => {
+                            positions.push({ id: pos.id, position: index + 1 });
+                        });
+                        const leagueUpdatePromises = [];
+                        positions.map(pos => leagueUpdatePromises.push(db.collection('leagues-points')
+                            .doc(pos.id).update({
+                                position: pos.position
+                            })));
+                    }));
+            });
+    });
+
 exports.joinLeague = functions
     .region(constants.region)
     .https.onCall((data, context) => {

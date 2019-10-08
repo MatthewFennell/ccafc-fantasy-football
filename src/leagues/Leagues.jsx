@@ -65,7 +65,7 @@ const Leagues = props => {
                     rows={props.leagues}
                 />
             </div>
-            <div className={props.styles.createLeagueWrapper}>
+            <div className={props.styles.leagueButtonsWrapper}>
                 <StyledButton
                     color="primary"
                     onClick={() => setCreateLeagueOpen(true)}
