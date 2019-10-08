@@ -52,11 +52,22 @@ function* joinLeague(action) {
     }
 }
 
+function* leaveLeague(action) {
+    try {
+        yield call(api.leaveLeague, { leagueId: action.leagueId });
+        const myLeagues = yield call(api.getLeaguesIAmIn);
+        yield put(actions.leaveLeagueSuccess(myLeagues));
+    } catch (error) {
+        yield put(actions.leaveLeagueError(error));
+    }
+}
+
 export default function* leaguesSaga() {
     yield all([
         takeEvery(actions.FETCH_LEAGUES_REQUEST, fetchLeagues),
         takeEvery(actions.FETCH_USERS_IN_LEAGUE_REQUEST, fetchUsersInLeague),
         takeEvery(actions.CREATE_LEAGUE_REQUEST, createLeague),
-        takeEvery(actions.JOIN_LEAGUE_REQUEST, joinLeague)
+        takeEvery(actions.JOIN_LEAGUE_REQUEST, joinLeague),
+        takeEvery(actions.LEAVE_LEAGUE_REQUEST, leaveLeague)
     ]);
 }

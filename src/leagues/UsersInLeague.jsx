@@ -1,12 +1,14 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchUsersInLeagueRequest } from './actions';
+import { fetchUsersInLeagueRequest, leaveLeagueRequest } from './actions';
 import * as selectors from './selectors';
 import Grid from '../common/grid/Grid';
 import defaultStyles from './Leagues.module.scss';
 import * as constants from '../constants';
+import StyledButton from '../common/StyledButton/StyledButton';
+import ConfirmModal from '../common/modal/ConfirmModal';
 
 const columns = [
     {
@@ -31,9 +33,16 @@ const UsersInLeague = props => {
         props.fetchUsersInLeagueRequest(props.leagueId);
     }, [props.fetchUsersInLeagueRequest]);
 
+    const [leaveLeagueOpen, setLeaveLeagueOpen] = useState(false);
+
     const redirect = useCallback(() => {
         props.history.push(constants.URL.LEAGUES);
     }, [props.history]);
+
+    const leaveLeague = useCallback(() => {
+        setLeaveLeagueOpen(false);
+        props.leaveLeagueRequest(props.leagueId);
+    }, [props.leaveLeagueRequest, props.leagueId, setLeaveLeagueOpen]);
 
     return (
         <div className={props.styles.leaguesWrapper}>
@@ -48,12 +57,26 @@ const UsersInLeague = props => {
                     />
                 </div>
             </div>
+            <div className={props.styles.leagueButtonsWrapper}>
+                <StyledButton
+                    color="primary"
+                    onClick={() => setLeaveLeagueOpen(true)}
+                    text="Leave league"
+                />
+            </div>
+            <ConfirmModal
+                cancel={() => setLeaveLeagueOpen(false)}
+                closeModal={() => setLeaveLeagueOpen(false)}
+                isOpen={leaveLeagueOpen}
+                submit={leaveLeague}
+            />
         </div>
     );
 };
 
 const mapDispatchToProps = {
-    fetchUsersInLeagueRequest
+    fetchUsersInLeagueRequest,
+    leaveLeagueRequest
 };
 
 const mapStateToProps = (state, props) => ({
@@ -76,6 +99,7 @@ UsersInLeague.propTypes = {
     }).isRequired,
     leagueId: PropTypes.string,
     leagueName: PropTypes.string,
+    leaveLeagueRequest: PropTypes.func.isRequired,
     styles: PropTypes.objectOf(PropTypes.string),
     usersInLeague: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string,

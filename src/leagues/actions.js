@@ -18,6 +18,11 @@ export const JOIN_LEAGUE_SUCCESS = `${pre}JOIN_LEAGUE_SUCCESS`;
 export const JOIN_LEAGUE_ERROR = `${pre}JOIN_LEAGUE_ERROR`;
 export const CLOSE_JOIN_LEAGUE_ERROR = `${pre}CLOSE_JOIN_LEAGUE_ERROR`;
 
+export const LEAVE_LEAGUE_REQUEST = `${pre}LEAVE_LEAGUE_REQUEST`;
+export const LEAVE_LEAGUE_SUCCESS = `${pre}LEAVE_LEAGUE_SUCCESS`;
+export const LEAVE_LEAGUE_ERROR = `${pre}LEAVE_LEAGUE_ERROR`;
+export const CLOSE_LEAVE_LEAGUE_ERROR = `${pre}CLOSE_LEAVE_LEAGUE_ERROR`;
+
 export const fetchLeaguesRequest = () => ({
     type: FETCH_LEAGUES_REQUEST
 });
@@ -80,5 +85,20 @@ export const joinLeagueSuccess = leagues => ({
 
 export const joinLeagueError = error => ({
     type: JOIN_LEAGUE_ERROR,
+    error
+});
+
+export const leaveLeagueRequest = leagueId => ({
+    type: LEAVE_LEAGUE_REQUEST,
+    leagueId
+});
+
+export const leaveLeagueSuccess = leagues => ({
+    type: LEAVE_LEAGUE_SUCCESS,
+    leagues
+});
+
+export const leaveLeagueError = error => ({
+    type: LEAVE_LEAGUE_ERROR,
     error
 });
