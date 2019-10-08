@@ -227,6 +227,25 @@ function* fetchUserProfile() {
     }
 }
 
+function* createFullTeam() {
+    try {
+        const names = ['Pickford', 'Terry', 'Young', 'Maguire', 'Shaw', 'Henderson', 'Scholes', 'Giggs', 'Mata', 'Rashford', 'Sterling'];
+        const positions = ['GOALKEEPER', 'DEFENDER', 'DEFENDER', 'DEFENDER', 'DEFENDER', 'MIDFIELDER', 'MIDFIELDER', 'MIDFIELDER', 'MIDFIELDER', 'ATTACKER', 'ATTACKER'];
+        const team = 'England';
+        names.forEach((val, index) => {
+            api.createPlayer({
+                name: val,
+                position: positions[index],
+                price: 5,
+                team
+            });
+        });
+        console.log('Team made');
+    } catch (error) {
+        yield put(actions.fetchUserMostPointsError(error));
+    }
+}
+
 export default function* authSaga() {
     yield all([
         takeEvery(actions.CREATE_LEAGUE, createLeague),
@@ -249,6 +268,7 @@ export default function* authSaga() {
         takeEvery(actions.FETCH_POSITION_OF_USER_IN_LEAGUES, fetchPositionsOfUserInLeagues),
         takeEvery(actions.CALCULATE_POSITIONS, calculatePositions),
         takeEvery(actions.FETCH_PLAYER_WITH_MOST_POINTS_IN_WEEK, fetchPlayerWithMostPointsInWeek),
-        takeEvery(actions.FETCH_USER_PROFILE, fetchUserProfile)
+        takeEvery(actions.FETCH_USER_PROFILE, fetchUserProfile),
+        takeEvery(actions.CREATE_FULL_TEAM, createFullTeam)
     ]);
 }

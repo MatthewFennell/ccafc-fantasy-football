@@ -36,7 +36,8 @@ exports.createLeague = functions
                             start_week: data.startWeek || 0,
                             name: data.leagueName,
                             user_points: 0,
-                            username: displayName
+                            username: displayName,
+                            position: 1
                         });
                     }));
             }
@@ -82,25 +83,43 @@ exports.joinLeague = functions
                     throw new functions.https.HttpsError('invalid-argument', 'Server Error');
                 }
                 const doc = docs.docs[0];
-                return db.collection('leagues-points').where('name', '==', data.leagueName).where('user_id', '==', context.auth.uid)
-                    .get()
-                    .then(leagues => {
-                        if (!leagues.empty) {
-                            throw new functions.https.HttpsError('already-exists', 'You are already in that league');
-                        }
-                        return getDisplayName(context.auth.uid).then(displayName => db.collection('leagues-points').add({
-                            league_id: doc.id,
-                            user_id: context.auth.uid,
-                            start_week: doc.data().start_week,
-                            name: data.leagueName,
-                            user_points: 0,
-                            username: displayName
+
+                return db.collection('weekly-teams').where('user_id', '==', context.auth.uid).where('week', '>=', doc.data().start_week).get()
+                    .then(weeklyDocs => weeklyDocs.docs
+                        .reduce((acc, curVal) => acc + curVal.data().points, 0))
+                    .then(result => db.collection('leagues-points').where('name', '==', data.leagueName).where('user_id', '==', context.auth.uid)
+                        .get()
+                        .then(leagues => {
+                            if (!leagues.empty) {
+                                throw new functions.https.HttpsError('already-exists', 'You are already in that league');
+                            }
+                            return getDisplayName(context.auth.uid).then(displayName => db.collection('leagues-points').add({
+                                league_id: doc.id,
+                                user_id: context.auth.uid,
+                                start_week: doc.data().start_week,
+                                name: data.leagueName,
+                                user_points: result,
+                                username: displayName
+                            }));
+                        }))
+                    .then(() => db.collection('leagues-points').where('league_id', '==', doc.id).get()
+                        .then(query => query.docs
+                            .map(leagueDoc => ({ data: leagueDoc.data(), id: leagueDoc.id })))
+                        .then(result => {
+                            const positions = [];
+                            const sortedResult = fp.sortBy('data.user_points')(result).reverse();
+                            sortedResult.forEach((pos, index) => {
+                                positions.push({ id: pos.id, position: index + 1 });
+                            });
+                            const leagueUpdatePromises = [];
+                            positions.map(pos => leagueUpdatePromises.push(db.collection('leagues-points')
+                                .doc(pos.id).update({
+                                    position: pos.position
+                                })));
                         }));
-                    });
             }
         );
     });
-
 
 exports.orderedUsers = functions
     .region(constants.region)

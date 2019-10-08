@@ -12,7 +12,7 @@ import {
     addPointsToPlayer, fetchWeeklyPlayersForUserForWeek, setActiveTeam, fetchMyActiveTeam,
     addPointsForTeamInWeek, fetchTeams, fetchUserMostPoints, fetchOrderedUsersInLeague,
     fetchPositionofUserInLeagues, calculatePositions, fetchPlayerWithMostPointsInWeek,
-    fetchUserProfile
+    fetchUserProfile, createFullTeam
 } from './actions';
 import * as selectors from './selectors';
 
@@ -36,18 +36,18 @@ const Testing = props => {
 
     // USE MD BOODSTRAP https://mdbootstrap.com/docs/jquery/css/skins/
     useEffect(() => {
-        props.fetchLeagues();
+        // props.fetchLeagues();
         props.fetchPlayers();
         props.fetchWeeklyTeams();
-        props.fetchWeeklyPlayersForUserForWeek('replacemeinsaga', 0);
+        // props.fetchWeeklyPlayersForUserForWeek('replacemeinsaga', 0);
         props.fetchMyActiveTeam();
         props.fetchTeams();
         // props.fetchUserMostPoints();
         // props.fetchOrderedUsersInLeague();
         // props.fetchPositionofUserInLeagues();
         props.calculatePositions();
-        props.fetchUserProfile();
-        props.fetchPlayerWithMostPointsInWeek();
+        // props.fetchUserProfile();
+        // props.fetchPlayerWithMostPointsInWeek();
     }, [props.fetchLeagues, props.fetchPlayers, props.fetchWeeklyTeams,
         props.fetchWeeklyPlayersForUserForWeek, props.fetchMyActiveTeam,
         props.fetchTeams, props.fetchUserMostPoints, props.fetchOrderedUsersInLeague,
@@ -264,9 +264,14 @@ const Testing = props => {
                     </div>
                 ))}
                 <Button
-                    onClick={() => props.addPointsForTeamInWeek(props.allTeams[0].id, numberOfGoals, 0, 0, resultObject)}
+                    onClick={() => props.addPointsForTeamInWeek(props.allTeams[0].id, numberOfGoals, 0, 3, resultObject)}
                     text="Add result"
                 />
+                <Button
+                    onClick={() => props.createFullTeam()}
+                    text="Create full team"
+                />
+
             </div>
         </div>
     );
@@ -283,6 +288,7 @@ Testing.defaultProps = {
 };
 
 Testing.propTypes = {
+    createFullTeam: PropTypes.func.isRequired,
     addPlayerToActiveTeam: PropTypes.func.isRequired,
     addPointsToPlayer: PropTypes.func.isRequired,
     activeTeam: PropTypes.arrayOf(PropTypes.shape({})),
@@ -318,6 +324,7 @@ Testing.propTypes = {
 };
 
 const mapDispatchToProps = {
+    createFullTeam,
     addPointsForTeamInWeek,
     addPlayerToActiveTeam,
     addPointsToPlayer,
