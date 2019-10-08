@@ -1,3 +1,4 @@
+import fp from 'lodash/fp';
 import * as actions from './actions';
 
 const initState = {
@@ -6,6 +7,7 @@ const initState = {
     linkAccountError: '',
 
     authError: null,
+    isAdmin: false,
 
     passwordResetErrorCode: '',
     passwordResetError: '',
@@ -25,6 +27,9 @@ const authReducer = (state = initState, action) => {
             signUpError: action.error.message,
             signUpErrorCode: action.error.code
         };
+    }
+    case actions.SET_ADMIN: {
+        return fp.set('isAdmin', action.isAdmin)(state);
     }
     case actions.SIGN_IN_ERROR: {
         return {

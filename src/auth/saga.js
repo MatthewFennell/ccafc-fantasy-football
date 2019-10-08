@@ -6,6 +6,7 @@ import { push } from 'connected-react-router';
 import { constants } from 'react-redux-firebase';
 import * as actions from './actions';
 import * as api from '../api/api';
+import * as consts from '../constants';
 
 function* signOut() {
     try {
@@ -19,8 +20,11 @@ function* signOut() {
 
 function* loggingIn(action) {
     if (action.auth && !action.auth.emailVerified) {
-        yield put(push('/needToVerifyEmail'));
+        yield put(push(consts.URL.VERIFY_EMAIL));
     }
+    const user = yield firebase.auth().currentUser.getIdTokenResult();
+    const isAdmin = user.claims.admin || false;
+    yield put(actions.setAdmin(isAdmin));
 }
 
 function* signUp(action) {

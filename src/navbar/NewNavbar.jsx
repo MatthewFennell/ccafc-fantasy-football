@@ -18,6 +18,8 @@ const NewNavbar = props => {
         props.history.push(redirectLocation);
     }, [props.history]);
 
+    console.log('admin', props.isAdmin);
+
     return (
         <>
             <TopNavbar
@@ -30,6 +32,7 @@ const NewNavbar = props => {
             />
             <SideNavbar
                 auth={props.auth}
+                isAdmin={props.isAdmin}
                 isOpen={sidebarOpen}
                 openNavbar={openSidebar}
                 closeNavbar={closeSidebar}
@@ -52,15 +55,18 @@ NewNavbar.propTypes = {
             pathname: PropTypes.string
         })
     }).isRequired,
+    isAdmin: PropTypes.bool,
     signOut: PropTypes.func.isRequired
 };
 
 NewNavbar.defaultProps = {
-    auth: {}
+    auth: {},
+    isAdmin: false
 };
 
 const mapStateToProps = state => ({
     auth: state.firebase.auth,
+    isAdmin: state.auth.isAdmin,
     profile: state.firebase.profile,
     pathname: state.router.location.pathname
 });
