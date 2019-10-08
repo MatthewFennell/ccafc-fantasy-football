@@ -2,10 +2,10 @@ import React, { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import defaultStyles from './Leagues.module.scss';
+import defaultStyles from './styles/Leagues.module.scss';
 import {
     fetchLeaguesRequest, createLeagueRequest, closeCreateLeagueError,
-    joinLeagueRequest
+    joinLeagueRequest, closeJoinLeagueError
 } from './actions';
 import * as selectors from './selectors';
 import Grid from '../common/grid/Grid';
@@ -15,6 +15,8 @@ import StyledModal from '../common/modal/StyledModal';
 import CreateLeagueForm from './CreateLeagueForm';
 import JoinLeagueForm from './JoinLeagueForm';
 import ErrorModal from '../common/modal/ErrorModal';
+import Spinner from '../common/spinner/Spinner';
+import LoadingText from '../common/spinner/LoadingText';
 
 const columns = [
     {
@@ -113,6 +115,27 @@ const Leagues = props => {
                 errorCode={props.createLeagueErrorCode}
                 errorMessage={props.createLeagueError}
             />
+            <ErrorModal
+                closeModal={props.closeJoinLeagueError}
+                headerMessage="Error joinning league"
+                isOpen={props.joinLeagueError.length > 0}
+                errorCode={props.joinLeagueErrorCode}
+                errorMessage={props.joinLeagueError}
+            />
+            {props.creatingLeague
+            && (
+                <div className={props.styles.spinnerWrapper}>
+                    <Spinner color="secondary" />
+                    <LoadingText loadingText="Creating League" />
+                </div>
+            )}
+            {props.joiningLeague
+                && (
+                    <div className={props.styles.spinnerWrapper}>
+                        <Spinner color="secondary" />
+                        <LoadingText loadingText="Joining League" />
+                    </div>
+                )}
         </>
     );
 };
@@ -120,19 +143,28 @@ const Leagues = props => {
 Leagues.defaultProps = {
     createLeagueError: '',
     createLeagueErrorCode: '',
+    creatingLeague: false,
+    joinLeagueError: '',
+    joinLeagueErrorCode: '',
+    joiningLeague: false,
     leagues: [],
     styles: defaultStyles
 };
 
 Leagues.propTypes = {
     closeCreateLeagueError: PropTypes.func.isRequired,
+    closeJoinLeagueError: PropTypes.func.isRequired,
     createLeagueError: PropTypes.string,
     createLeagueErrorCode: PropTypes.string,
     createLeagueRequest: PropTypes.func.isRequired,
+    creatingLeague: PropTypes.bool,
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired,
+    joinLeagueError: PropTypes.string,
+    joinLeagueErrorCode: PropTypes.string,
     joinLeagueRequest: PropTypes.func.isRequired,
+    joiningLeague: PropTypes.bool,
     leagues: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string,
         leagueId: PropTypes.string,
@@ -147,6 +179,7 @@ Leagues.propTypes = {
 
 const mapDispatchToProps = {
     closeCreateLeagueError,
+    closeJoinLeagueError,
     createLeagueRequest,
     joinLeagueRequest,
     fetchLeaguesRequest
@@ -155,6 +188,10 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
     createLeagueError: selectors.getCreateLeagueError(state),
     createLeagueErrorCode: selectors.getCreateLeagueErrorCode(state),
+    creatingLeague: selectors.getCreatingLeague(state),
+    joinLeagueError: selectors.getJoinLeagueError(state),
+    joinLeagueErrorCode: selectors.getJoinLeagueErrorCode(state),
+    joiningLeague: selectors.getJoiningLeague(state),
     leagues: selectors.getLeagues(state)
 });
 

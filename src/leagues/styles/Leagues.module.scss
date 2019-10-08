@@ -1,4 +1,4 @@
-@import "../common//styles.scss";
+@import "../../common/styles.scss";
 
 .myLeaguesTable{
   margin-left: auto;
@@ -9,4 +9,10 @@
 
 .leagueButtonsWrapper{
   text-align: center;
+}
+
+.spinnerWrapper{
+  text-align: center;
+  color: $color-pink;
+  font-size: $font-size-small;
 }

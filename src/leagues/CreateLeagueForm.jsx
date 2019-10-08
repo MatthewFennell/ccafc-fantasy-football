@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import StyledInput from '../common/StyledInput/StyledInput';
-import inputOverrideStyles from './InputOverride.module.scss';
+import inputOverrideStyles from './styles/InputOverride.module.scss';
 import StyledButton from '../common/StyledButton/StyledButton';
-import defaultStyles from './LeagueForm.module.scss';
+import defaultStyles from './styles/LeagueForm.module.scss';
 
 const CreateLeague = props => (
     <div className={props.styles.createLeagueWrapper}>
