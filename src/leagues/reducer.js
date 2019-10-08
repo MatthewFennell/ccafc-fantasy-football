@@ -2,6 +2,8 @@ import fp from 'lodash/fp';
 import * as actions from './actions';
 
 const initState = {
+    createLeagueError: '',
+    createLeagueErrorCode: '',
     leagues: [],
     usersInLeague: {}
 };

@@ -31,7 +31,7 @@ const Leagues = props => {
 
     const onLeagueCreate = useCallback(() => {
         setCreateLeagueOpen(false);
-        props.createLeagueRequest(leagueName, startWeek);
+        props.createLeagueRequest(leagueName, parseInt(startWeek, 10));
     }, [leagueName, startWeek, props.createLeagueRequest]);
 
     useEffect(() => {

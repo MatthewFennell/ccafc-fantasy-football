@@ -19,3 +19,6 @@ export const getUsersInLeague = request => functionToCall('league-orderedUsers')
         userPoints: league.data.user_points,
         position: league.data.position
     })));
+
+
+export const createLeague = request => functionToCall('league-createLeague')(request);
