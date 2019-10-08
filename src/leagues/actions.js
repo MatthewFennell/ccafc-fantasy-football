@@ -11,6 +11,7 @@ export const FETCH_USERS_IN_LEAGUE_ERROR = `${pre}FETCH_USERS_IN_LEAGUE_ERROR`;
 export const CREATE_LEAGUE_REQUEST = `${pre}CREATE_LEAGUE_REQUEST`;
 export const CREATE_LEAGUE_SUCCESS = `${pre}CREATE_LEAGUE_SUCCESS`;
 export const CREATE_LEAGUE_ERROR = `${pre}CREATE_LEAGUE_ERROR`;
+export const CLOSE_CREATE_LEAGUE_ERROR = `${pre}CLOSE_CREATE_LEAGUE_ERROR`;
 
 export const fetchLeaguesRequest = () => ({
     type: FETCH_LEAGUES_REQUEST
@@ -55,4 +56,8 @@ export const createLeagueSuccess = () => ({
 export const createLeagueError = error => ({
     type: CREATE_LEAGUE_ERROR,
     error
+});
+
+export const closeCreateLeagueError = () => ({
+    type: CLOSE_CREATE_LEAGUE_ERROR
 });

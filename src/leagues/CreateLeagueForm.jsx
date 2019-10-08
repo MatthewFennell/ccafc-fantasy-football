@@ -6,22 +6,18 @@ import inputOverrideStyles from './InputOverride.module.scss';
 import StyledButton from '../common/StyledButton/StyledButton';
 import defaultStyles from './CreateLeague.module.scss';
 
-const CreateLeague = props => {
-    console.log('create league');
-
-    return (
-        <div className={props.styles.createLeagueWrapper}>
-            <StyledInput label="League Name" onChange={props.setLeagueName} styles={inputOverrideStyles} />
-            <StyledInput label="Start Week" onChange={props.setStartWeek} styles={inputOverrideStyles} type="number" />
-            <StyledButton
-                color="primary"
-                onClick={props.onCreate}
-                text="Create"
-                type="submit"
-            />
-        </div>
-    );
-};
+const CreateLeague = props => (
+    <div className={props.styles.createLeagueWrapper}>
+        <StyledInput label="League Name" onChange={props.setLeagueName} styles={inputOverrideStyles} />
+        <StyledInput label="Start Week" onChange={props.setStartWeek} styles={inputOverrideStyles} type="number" />
+        <StyledButton
+            color="primary"
+            onClick={props.onCreate}
+            text="Create"
+            type="submit"
+        />
+    </div>
+);
 
 CreateLeague.defaultProps = {
     onCreate: noop,

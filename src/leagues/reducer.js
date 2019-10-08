@@ -22,6 +22,20 @@ const authReducer = (state = initState, action) => {
             usersInLeague: fp.set(action.leagueId, action.usersInLeague)(state.usersInLeague)
         };
     }
+    case actions.CREATE_LEAGUE_ERROR: {
+        return {
+            ...state,
+            createLeagueError: action.error.message,
+            createLeagueErrorCode: action.error.code
+        };
+    }
+    case actions.CLOSE_CREATE_LEAGUE_ERROR: {
+        return {
+            ...state,
+            createLeagueError: '',
+            createLeagueErrorCode: ''
+        };
+    }
     default:
         return state;
     }

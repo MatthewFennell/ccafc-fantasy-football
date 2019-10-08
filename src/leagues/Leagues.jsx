@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import defaultStyles from './Leagues.module.scss';
-import { fetchLeaguesRequest, createLeagueRequest } from './actions';
+import { fetchLeaguesRequest, createLeagueRequest, closeCreateLeagueError } from './actions';
 import * as selectors from './selectors';
 import Grid from '../common/grid/Grid';
 import * as constants from '../constants';
 import StyledButton from '../common/StyledButton/StyledButton';
 import StyledModal from '../common/modal/StyledModal';
 import CreateLeagueForm from './CreateLeagueForm';
+import ErrorModal from '../common/modal/ErrorModal';
 
 const columns = [
     {
@@ -74,16 +75,28 @@ const Leagues = props => {
                     />
                 </div>
             </StyledModal>
+            <ErrorModal
+                closeModal={props.closeCreateLeagueError}
+                headerMessage="Error creating league"
+                isOpen={props.createLeagueError.length > 0}
+                errorCode={props.createLeagueErrorCode}
+                errorMessage={props.createLeagueError}
+            />
         </>
     );
 };
 
 Leagues.defaultProps = {
+    createLeagueError: '',
+    createLeagueErrorCode: '',
     leagues: [],
     styles: defaultStyles
 };
 
 Leagues.propTypes = {
+    closeCreateLeagueError: PropTypes.func.isRequired,
+    createLeagueError: PropTypes.string,
+    createLeagueErrorCode: PropTypes.string,
     createLeagueRequest: PropTypes.func.isRequired,
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
@@ -101,14 +114,16 @@ Leagues.propTypes = {
 };
 
 const mapDispatchToProps = {
+    closeCreateLeagueError,
     createLeagueRequest,
     fetchLeaguesRequest
 };
 
-const mapStateToProps = state => (
-    {
-        leagues: selectors.getLeagues(state)
-    }
-);
+const mapStateToProps = state => ({
+    createLeagueError: selectors.getCreateLeagueError(state),
+    createLeagueErrorCode: selectors.getCreateLeagueErrorCode(state),
+    leagues: selectors.getLeagues(state)
+});
+
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Leagues));
