@@ -76,9 +76,16 @@ export const CALCULATE_POSITIONS = `${pre}CALCULATE_POSITIONS`;
 export const FETCH_PLAYER_WITH_MOST_POINTS_IN_WEEK = `${pre}FETCH_PLAYER_WITH_MOST_POINTS_IN_WEEK`;
 export const FETCH_USER_PROFILE = `${pre}FETCH_USER_PROFILE`;
 
+export const CREATE_FULL_TEAM = `${pre}CREATE_FULL_TEAM`;
+
+export const createFullTeam = () => ({
+    type: CREATE_FULL_TEAM
+});
+
 export const fetchUserProfile = () => ({
     type: FETCH_USER_PROFILE
 });
+
 export const fetchPlayerWithMostPointsInWeek = () => ({
     type: FETCH_PLAYER_WITH_MOST_POINTS_IN_WEEK
 });
