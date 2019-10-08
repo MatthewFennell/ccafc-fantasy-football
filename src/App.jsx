@@ -25,7 +25,7 @@ import Testing from './testing/Testing';
 import Leagues from './leagues/Leagues';
 import UsersInLeague from './leagues/UsersInLeague';
 import AdminRoute from './auth/routes/AdminRoute';
-import CreatePlayer from './admin/CreatePlayer';
+import CreatePlayer from './admin/createplayer/CreatePlayer';
 
 const App = props => (
     props.auth && props.auth.isLoaded ? (

@@ -9,7 +9,8 @@ const AdminRoute = ({
 }) => (
     <Route
         {...rest}
-        render={props => (auth.uid && auth.emailVerified && isAdmin
+        // render={props => (auth.uid && auth.emailVerified && isAdmin
+        render={props => (auth.uid && auth.emailVerified
             ? <Component {...props} /> : <Redirect to={constants.URL.OVERVIEW} />)}
     />
 );

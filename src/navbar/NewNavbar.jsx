@@ -18,8 +18,6 @@ const NewNavbar = props => {
         props.history.push(redirectLocation);
     }, [props.history]);
 
-    console.log('admin', props.isAdmin);
-
     return (
         <>
             <TopNavbar
