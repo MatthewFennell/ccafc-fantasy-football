@@ -25,8 +25,18 @@ function* createPlayer(action) {
             position: action.position,
             team: action.team
         });
+        yield put(actions.createPlayerSuccess());
     } catch (error) {
         yield put(actions.createPlayerError(error));
+    }
+}
+
+function* createTeam(action) {
+    try {
+        yield call(api.createTeam, ({ teamName: action.teamName }));
+        yield put(actions.createTeamSuccess());
+    } catch (error) {
+        yield put(actions.createTeamError(error));
     }
 }
 
@@ -34,6 +44,7 @@ function* createPlayer(action) {
 export default function* adminSaga() {
     yield all([
         takeEvery(actions.FETCH_TEAMS_REQUEST, fetchTeams),
-        takeEvery(actions.CREATE_PLAYER_REQUEST, createPlayer)
+        takeEvery(actions.CREATE_PLAYER_REQUEST, createPlayer),
+        takeEvery(actions.CREATE_TEAM_REQUEST, createTeam)
     ]);
 }

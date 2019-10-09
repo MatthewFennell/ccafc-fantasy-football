@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import defaultStyles from './CreatePlayer.module.scss';
 import StyledInput from '../../common/StyledInput/StyledInput';
 import Dropdown from '../../common/dropdown/Dropdown';
@@ -8,6 +9,7 @@ import { closeCreatePlayerError, createPlayerRequest, fetchTeamsRequest } from '
 import * as selectors from '../selectors';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import ErrorModal from '../../common/modal/ErrorModal';
+import Spinner from '../../common/spinner/Spinner';
 
 const options = [
     { value: 'GOALKEEPER', text: 'Goalkeeper', id: 'GOALKEEPER' },
@@ -54,6 +56,13 @@ const CreatePlayer = props => {
                 errorCode={props.createPlayerErrorCode}
                 errorMessage={props.createPlayerError}
             />
+
+            <div className={classNames({
+                [props.styles.hidden]: !props.creatingPlayer
+            })}
+            >
+                <Spinner color="secondary" />
+            </div>
         </div>
     );
 };
@@ -66,6 +75,7 @@ CreatePlayer.defaultProps = {
 CreatePlayer.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     closeCreatePlayerError: PropTypes.func.isRequired,
+    creatingPlayer: PropTypes.bool.isRequired,
     createPlayerError: PropTypes.string.isRequired,
     createPlayerErrorCode: PropTypes.string.isRequired,
     createPlayerRequest: PropTypes.func.isRequired,
@@ -81,6 +91,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
     allTeams: selectors.getAllTeams(state),
+    creatingPlayer: selectors.getCreatingPlayer(state),
     createPlayerError: selectors.getCreatePlayerError(state),
     createPlayerErrorCode: selectors.getCreatePlayerErrorCode(state)
 });
