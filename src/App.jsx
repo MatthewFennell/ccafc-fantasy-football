@@ -27,6 +27,7 @@ import UsersInLeague from './leagues/UsersInLeague';
 import AdminRoute from './auth/routes/AdminRoute';
 import CreatePlayer from './admin/createplayer/CreatePlayer';
 import CreateTeam from './admin/createteam/CreateTeam';
+import SubmitResult from './admin/submitresult/SubmitResult';
 
 const App = props => (
     props.auth && props.auth.isLoaded ? (
@@ -53,6 +54,7 @@ const App = props => (
 
                             <AdminRoute exact path={constants.ADMIN_URL.CREATE_PLAYER} component={CreatePlayer} />
                             <AdminRoute exact path={constants.ADMIN_URL.CREATE_TEAM} component={CreateTeam} />
+                            <AdminRoute exact path={constants.ADMIN_URL.SUBMIT_RESULT} component={SubmitResult} />
 
                             <Route render={() => <Redirect to="/" />} />
                         </Switch>

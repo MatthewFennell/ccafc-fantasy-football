@@ -66,6 +66,11 @@ const adminLinks = [
         title: 'Create Team',
         redirect: constants.ADMIN_URL.CREATE_TEAM,
         component: <PersonAddIcon />
+    },
+    {
+        title: 'Submit Result',
+        redirect: constants.ADMIN_URL.SUBMIT_RESULT,
+        component: <PersonAddIcon />
     }
 ];
 

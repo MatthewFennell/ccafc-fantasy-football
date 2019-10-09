@@ -1,6 +1,6 @@
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
-const commonFunctions = require('./common');
+const common = require('./common');
 const constants = require('./constants');
 
 const db = admin.firestore();
@@ -8,7 +8,7 @@ const db = admin.firestore();
 exports.createTeam = functions
     .region(constants.region)
     .https.onCall((data, context) => {
-        commonFunctions.isAuthenticated(context);
+        common.isAuthenticated(context);
         if (!data.teamName) {
             throw new functions.https.HttpsError('invalid-argument', 'Cannot have an empty team name');
         }
@@ -33,7 +33,7 @@ exports.createTeam = functions
 exports.getAllTeams = functions
     .region(constants.region)
     .https.onCall((data, context) => {
-        commonFunctions.isAuthenticated(context);
+        common.isAuthenticated(context);
         return db
             .collection('teams')
             .get()
