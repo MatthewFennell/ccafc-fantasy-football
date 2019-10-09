@@ -1,5 +1,8 @@
+@import "./common//Styles.scss";
+
 .app{
   height: 100%;
+  background-color: $color-light-gray;
   
   .appContainer{
     width: 100%;

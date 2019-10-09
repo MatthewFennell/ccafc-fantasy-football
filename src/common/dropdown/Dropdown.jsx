@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
+import { noop } from 'lodash';
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -17,13 +18,12 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function ControlledOpenSelect() {
+const Dropdopwn = props => {
     const classes = useStyles();
-    const [age, setAge] = React.useState('');
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
     const handleChange = event => {
-        setAge(event.target.value);
+        props.onChange(event.target.value);
     };
 
     const handleClose = () => {
@@ -36,16 +36,13 @@ export default function ControlledOpenSelect() {
 
     return (
         <form autoComplete="off">
-            <Button className={classes.button} onClick={handleOpen}>
-        Open the select
-            </Button>
             <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="demo-controlled-open-select">Age</InputLabel>
+                <InputLabel htmlFor="demo-controlled-open-select">{props.title}</InputLabel>
                 <Select
                     open={open}
                     onClose={handleClose}
                     onOpen={handleOpen}
-                    value={age}
+                    value={props.activeValue}
                     onChange={handleChange}
                     inputProps={{
                         id: 'demo-controlled-open-select'
@@ -54,11 +51,29 @@ export default function ControlledOpenSelect() {
                     <MenuItem value="">
                         <em>None</em>
                     </MenuItem>
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
+                    {props.options.map(x => <MenuItem key={x.id} value={x.value}>{x.text}</MenuItem>)}
                 </Select>
             </FormControl>
         </form>
     );
-}
+};
+
+Dropdopwn.defaultProps = {
+    activeValue: '',
+    onChange: noop,
+    options: [],
+    title: ''
+};
+
+Dropdopwn.propTypes = {
+    activeValue: PropTypes.string,
+    onChange: PropTypes.func,
+    options: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string,
+        value: PropTypes.string,
+        text: PropTypes.string
+    })),
+    title: PropTypes.string
+};
+
+export default Dropdopwn;
