@@ -52,11 +52,27 @@ function* getPlayersForTeam(action) {
     }
 }
 
+function* submitResult(action) {
+    try {
+        yield call(api.submitResult,
+            {
+                team: action.teamId,
+                goalsFor: action.goalsFor,
+                goalsAgainst: action.goalsAgainst,
+                week: action.week,
+                players: action.players
+            });
+    } catch (error) {
+        yield put(actions.submitResultError(error));
+    }
+}
+
 export default function* adminSaga() {
     yield all([
         takeEvery(actions.FETCH_TEAMS_REQUEST, fetchTeams),
         takeEvery(actions.CREATE_PLAYER_REQUEST, createPlayer),
         takeEvery(actions.CREATE_TEAM_REQUEST, createTeam),
-        takeEvery(actions.FETCH_PLAYERS_FOR_TEAM_REQUEST, getPlayersForTeam)
+        takeEvery(actions.FETCH_PLAYERS_FOR_TEAM_REQUEST, getPlayersForTeam),
+        takeEvery(actions.SUBMIT_RESULT_REQUEST, submitResult)
     ]);
 }

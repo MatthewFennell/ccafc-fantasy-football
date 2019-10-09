@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import fp from 'lodash/fp';
 import defaultStyles from './SubmitResult.module.scss';
-import { fetchTeamsRequest, fetchPlayersForTeamRequest } from '../actions';
+import { fetchTeamsRequest, fetchPlayersForTeamRequest, submitResultRequest } from '../actions';
 import * as selectors from '../selectors';
 import Dropdown from '../../common/dropdown/Dropdown';
 import StyledInput from '../../common/StyledInput/StyledInput';
 import { isDefensive } from '../../helperFunctions';
+import StyledButton from '../../common/StyledButton/StyledButton';
 
 const SubmitResult = props => {
     useEffect(() => {
@@ -42,6 +43,33 @@ const SubmitResult = props => {
 
     const unSelectedCleanSheets = defensivePlayersForActiveTeam
         .filter(x => !Object.values(cleanSheets).includes(x.value));
+
+    const nameToId = name => playersForActiveTeam.find(a => a.value === name).id;
+
+    const submitResult = useCallback(() => {
+        let resultObject = {};
+        const goalScorerIds = Object.values(goalScorers).map(x => nameToId(x));
+        const assistsIds = Object.values(assisters).map(x => nameToId(x));
+        const cleanSheetIds = Object.values(cleanSheets).map(x => nameToId(x));
+
+        goalScorerIds.forEach(playerId => {
+            resultObject = fp.set(`${playerId}.goals`, fp.getOr(0, `${playerId}.goals`, resultObject) + 1, resultObject);
+        });
+
+        assistsIds.forEach(playerId => {
+            resultObject = fp.set(`${playerId}.assists`, fp.getOr(0, `${playerId}.assists`, resultObject) + 1, resultObject);
+        });
+
+        cleanSheetIds.forEach(playerId => {
+            resultObject = fp.set(`${playerId}.cleanSheet`, true, resultObject);
+        });
+
+        const teamId = props.allTeams.find(x => x.value === teamName).id;
+
+        props.submitResultRequest(teamId, parseInt(goalsFor, 10), parseInt(goalsAgainst, 10),
+            parseInt(gameWeek, 10), resultObject);
+    }, [teamName, goalsFor, goalsAgainst, gameWeek, goalScorers,
+        assisters, cleanSheets, props.submitResultRequest]);
 
     const scorers = [];
     for (let x = 0; x < goalsFor; x += 1) {
@@ -102,6 +130,13 @@ const SubmitResult = props => {
                     </div>
                 ) }
             </div>
+            <div className={props.styles.submitButtonWrapper}>
+                <StyledButton
+                    color="primary"
+                    onClick={submitResult}
+                    text="Submit Result"
+                />
+            </div>
         </div>
     );
 };
@@ -116,12 +151,14 @@ SubmitResult.propTypes = {
     fetchTeamsRequest: PropTypes.func.isRequired,
     fetchPlayersForTeamRequest: PropTypes.func.isRequired,
     styles: PropTypes.objectOf(PropTypes.string),
+    submitResultRequest: PropTypes.func.isRequired,
     teamsWithPlayers: PropTypes.objectOf(PropTypes.array).isRequired
 };
 
 const mapDispatchToProps = {
     fetchTeamsRequest,
-    fetchPlayersForTeamRequest
+    fetchPlayersForTeamRequest,
+    submitResultRequest
 };
 
 const mapStateToprops = state => ({
