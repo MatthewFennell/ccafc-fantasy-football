@@ -20,3 +20,5 @@ export const getPlayersInTeam = request => functionToCall('getPlayersInTeam')(re
         value: player.name,
         position: player.position
     })));
+
+export const submitResult = request => functionToCall('submitResult')(request);

@@ -15,8 +15,6 @@ exports.createPlayer = functions
             .where('team_name', '==', data.team);
         const playerAlreadyExistsRef = db.collection('players')
             .where('name', '==', data.name)
-            .where('position', '==', data.position)
-            .where('price', '==', data.price)
             .where('team', '==', data.team);
         return playerAlreadyExistsRef.get().then(doc => {
             if (doc.empty) {

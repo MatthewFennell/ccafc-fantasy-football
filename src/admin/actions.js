@@ -81,13 +81,18 @@ export const closeCreateTeamError = () => ({
 
 // -------------------------------------------------------------------- \\
 
-export const submitResult = (teamId, goalsFor, goalsAgainst, week, players) => ({
+export const submitResultRequest = (teamId, goalsFor, goalsAgainst, week, players) => ({
     type: SUBMIT_RESULT_REQUEST,
     teamId,
     goalsFor,
     goalsAgainst,
     week,
     players
+});
+
+export const submitResultError = error => ({
+    type: SUBMIT_RESULT_ERROR,
+    error
 });
 
 // -------------------------------------------------------------------- \\
