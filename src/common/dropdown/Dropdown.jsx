@@ -37,7 +37,11 @@ const Dropdopwn = props => {
     return (
         <form autoComplete="off">
             <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="demo-controlled-open-select">{props.title}</InputLabel>
+                <InputLabel
+                    htmlFor="demo-controlled-open-select"
+                >
+                    {props.title}
+                </InputLabel>
                 <Select
                     open={open}
                     onClose={handleClose}
@@ -51,7 +55,14 @@ const Dropdopwn = props => {
                     <MenuItem value="">
                         <em>None</em>
                     </MenuItem>
-                    {props.options.map(x => <MenuItem key={x.id} value={x.value}>{x.text}</MenuItem>)}
+                    {props.options.map(entry => (
+                        <MenuItem
+                            key={entry.id}
+                            value={entry.value}
+                        >
+                            {entry.text}
+                        </MenuItem>
+                    ))}
                 </Select>
             </FormControl>
         </form>

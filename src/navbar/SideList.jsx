@@ -49,6 +49,11 @@ const adminLinks = [
         title: 'Create Player',
         redirect: constants.ADMIN_URL.CREATE_PLAYER,
         component: <PersonAddIcon />
+    },
+    {
+        title: 'Create Team',
+        redirect: constants.ADMIN_URL.CREATE_TEAM,
+        component: <PersonAddIcon />
     }
 ];
 

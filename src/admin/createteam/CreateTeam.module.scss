@@ -1,6 +1,6 @@
 @import "../../common//Styles.scss";
 
-.createPlayerWrapper{
+.createTeamWrapper{
   text-align: center;
   margin: $spacing-huge;
   width: 80%;
@@ -8,23 +8,22 @@
   margin-right: auto;
   padding-top: $spacing-medium;
   padding-bottom: $spacing-medium;
-  
   @include light-box-shadow();
-  .createPlayerHeader{
+  .createTeamHeader{
     font-size: $font-size-gigantic;
     color: $color-dark-gray;    
   }
-  .createPlayerForm{
+  .createTeamForm{
     margin-left: auto;
     margin-right: auto;
     width: 50%;
   }
-  .createPlayerDropdowns{
+  .createTeamDropdowns{
     display: flex;
     justify-content: center;
   }
 
-  .createPlayerButton{
+  .createTeamButton{
     margin-top: $spacing-small;
   }
 
@@ -32,4 +31,3 @@
     visibility: hidden;
   }
 }
-

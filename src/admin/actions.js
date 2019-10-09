@@ -9,6 +9,11 @@ export const CREATE_PLAYER_SUCCESS = `${pre}CREATE_PLAYER_SUCCESS`;
 export const CREATE_PLAYER_ERROR = `${pre}CREATE_PLAYER_ERROR`;
 export const CLOSE_CREATE_PLAYER_ERROR = `${pre}CLOSE_CREATE_PLAYER_ERROR`;
 
+export const CREATE_TEAM_REQUEST = `${pre}CREATE_TEAM_REQUEST`;
+export const CREATE_TEAM_SUCCESS = `${pre}CREATE_TEAM_SUCCESS`;
+export const CREATE_TEAM_ERROR = `${pre}CREATE_TEAM_ERROR`;
+export const CLOSE_CREATE_TEAM_ERROR = `${pre}CLOSE_CREATE_TEAM_ERROR`;
+
 export const fetchTeamsRequest = () => ({
     type: FETCH_TEAMS_REQUEST
 });
@@ -23,7 +28,7 @@ export const fetchTeamsError = error => ({
     error
 });
 
-// ------------------------------------------- \\
+// -------------------------------------------------------------------- \\
 
 export const createPlayerRequest = (name, position, price, team) => ({
     type: CREATE_PLAYER_REQUEST,
@@ -33,6 +38,10 @@ export const createPlayerRequest = (name, position, price, team) => ({
     team
 });
 
+export const createPlayerSuccess = () => ({
+    type: CREATE_PLAYER_SUCCESS
+});
+
 export const createPlayerError = error => ({
     type: CREATE_PLAYER_ERROR,
     error
@@ -40,4 +49,25 @@ export const createPlayerError = error => ({
 
 export const closeCreatePlayerError = () => ({
     type: CLOSE_CREATE_PLAYER_ERROR
+});
+
+// -------------------------------------------------------------------- \\
+
+export const createTeamRequest = teamName => ({
+    type: CREATE_TEAM_REQUEST,
+    teamName
+});
+
+export const createTeamSuccess = () => ({
+    type: CREATE_TEAM_SUCCESS
+});
+
+export const createTeamError = error => ({
+    type: CREATE_TEAM_ERROR,
+    error
+});
+
+
+export const closeCreateTeamError = () => ({
+    type: CLOSE_CREATE_TEAM_ERROR
 });
