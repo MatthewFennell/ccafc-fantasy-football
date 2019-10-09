@@ -44,10 +44,10 @@ const App = props => (
                             <AuthenticatedRoute path={`${constants.URL.LEAGUES}/:leagueId`} component={UsersInLeague} />
                             <AuthenticatedRoute exact path={constants.URL.LEAGUES} component={Leagues} />
 
-                            <UnauthenticatedRoute path={constants.URL.SIGN_IN} component={SignIn} redirect={constants.URL.PROFILE} />
-                            <UnauthenticatedRoute path={constants.URL.SIGN_UP} component={SignUp} redirect={constants.URL.PROFILE} />
-                            <UnauthenticatedRoute path={constants.URL.RESET_PASSWORD} component={PasswordReset} redirect={constants.URL.PROFILE} />
-                            <UnauthenticatedRoute exact path="/" component={SignIn} redirect={constants.URL.PROFILE} />
+                            <UnauthenticatedRoute path={constants.URL.SIGN_IN} component={SignIn} redirect={constants.URL.OVERVIEW} />
+                            <UnauthenticatedRoute path={constants.URL.SIGN_UP} component={SignUp} redirect={constants.URL.OVERVIEW} />
+                            <UnauthenticatedRoute path={constants.URL.RESET_PASSWORD} component={PasswordReset} redirect={constants.URL.OVERVIEW} />
+                            <UnauthenticatedRoute exact path="/" component={SignIn} redirect={constants.URL.OVERVIEW} />
 
                             <UnauthenticatedEmailRoute path={constants.URL.VERIFY_EMAIL} component={VerifyEmail} redirect={constants.URL.PROFILE} />
 
