@@ -14,6 +14,13 @@ export const CREATE_TEAM_SUCCESS = `${pre}CREATE_TEAM_SUCCESS`;
 export const CREATE_TEAM_ERROR = `${pre}CREATE_TEAM_ERROR`;
 export const CLOSE_CREATE_TEAM_ERROR = `${pre}CLOSE_CREATE_TEAM_ERROR`;
 
+export const SUBMIT_RESULT_REQUEST = `${pre}SUBMIT_RESULT_REQUEST`;
+export const SUBMIT_RESULT_SUCCESS = `${pre}SUBMIT_RESULT_SUCCESS`;
+export const SUBMIT_RESULT_ERROR = `${pre}SUBMIT_RESULT_ERROR`;
+
+export const FETCH_PLAYERS_FOR_TEAM_REQUEST = `${pre}FETCH_PLAYERS_FOR_TEAM_REQUEST`;
+export const FETCH_PLAYERS_FOR_TEAM_SUCCESS = `${pre}FETCH_PLAYERS_FOR_TEAM_SUCCESS`;
+
 export const fetchTeamsRequest = () => ({
     type: FETCH_TEAMS_REQUEST
 });
@@ -70,4 +77,29 @@ export const createTeamError = error => ({
 
 export const closeCreateTeamError = () => ({
     type: CLOSE_CREATE_TEAM_ERROR
+});
+
+// -------------------------------------------------------------------- \\
+
+export const submitResult = (teamId, goalsFor, goalsAgainst, week, players) => ({
+    type: SUBMIT_RESULT_REQUEST,
+    teamId,
+    goalsFor,
+    goalsAgainst,
+    week,
+    players
+});
+
+// -------------------------------------------------------------------- \\
+
+
+export const fetchPlayersForTeamRequest = teamName => ({
+    type: FETCH_PLAYERS_FOR_TEAM_REQUEST,
+    teamName
+});
+
+export const fetchPlayersForTeamSuccess = (teamName, players) => ({
+    type: FETCH_PLAYERS_FOR_TEAM_SUCCESS,
+    teamName,
+    players
 });

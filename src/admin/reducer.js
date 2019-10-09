@@ -10,7 +10,9 @@ const initState = {
 
     creatingTeam: '',
     createTeamError: '',
-    createTeamErrorCode: ''
+    createTeamErrorCode: '',
+
+    teamsWithPlayers: {}
 };
 
 const adminReducer = (state = initState, action) => {
@@ -61,6 +63,12 @@ const adminReducer = (state = initState, action) => {
             ...state,
             createTeamError: '',
             createTeamErrorCode: ''
+        };
+    }
+    case actions.FETCH_PLAYERS_FOR_TEAM_SUCCESS: {
+        return {
+            ...state,
+            teamsWithPlayers: fp.set(action.teamName, action.players)(state.teamsWithPlayers)
         };
     }
     default:
