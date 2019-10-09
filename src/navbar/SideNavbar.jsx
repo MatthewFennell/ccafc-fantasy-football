@@ -10,18 +10,20 @@ const SideNavbar = props => (
         onClose={props.closeNavbar}
         onOpen={props.closeNavbar}
     >
-        <SideList redirect={props.redirect} />
+        <SideList redirect={props.redirect} isAdmin={props.isAdmin} />
     </SwipeableDrawer>
 );
 
 SideNavbar.defaultProps = {
     closeNavbar: noop,
+    isAdmin: false,
     isOpen: false,
     redirect: noop
 };
 
 SideNavbar.propTypes = {
     closeNavbar: PropTypes.func,
+    isAdmin: PropTypes.bool,
     isOpen: PropTypes.bool,
     redirect: PropTypes.func
 };

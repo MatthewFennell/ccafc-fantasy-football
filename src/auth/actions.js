@@ -25,6 +25,13 @@ export const UPDATE_DISPLAY_NAME_ERROR = `${pre}UPDATE_DISPLAY_NAME_ERROR`;
 export const SEND_PASSWORD_RESET_EMAIL = `${pre}SEND_PASSWORD_RESET_EMAIL`;
 export const SEND_PASSWORD_RESET_EMAIL_ERROR = `${pre}SEND_PASSWORD_RESET_EMAIL_ERROR`;
 
+export const SET_ADMIN = `${pre}SET_ADMIN`;
+
+export const setAdmin = isAdmin => ({
+    type: SET_ADMIN,
+    isAdmin
+});
+
 export const closeAuthError = () => ({
     type: CLOSE_AUTH_ERROR
 });

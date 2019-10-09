@@ -42,44 +42,46 @@ const SignIn = props => {
 
     return (
         <div className={props.styles.signInWrapper}>
-            <form
-                className={classNames({
-                    [props.styles.signUpForm]: true
-                })}
-                action="#!"
-                onSubmit={handleSubmit}
-            >
+            <div className={props.styles.shadowWrapper}>
+                <form
+                    className={classNames({
+                        [props.styles.signUpForm]: true
+                    })}
+                    action="#!"
+                    onSubmit={handleSubmit}
+                >
 
-                <div className={props.styles.signInMessage}>
-                    Sign in here
-                </div>
-
-                <StyledInput label="Email" icon="envelope" onChange={e => setEmail(e)} type="email" />
-                <StyledInput label="Password" icon="lock" type="password" onChange={e => setPassword(e)} />
-
-                <div className={props.styles.submitButtons}>
-                    <StyledButton
-                        color="primary"
-                        onClick={handleSubmit}
-                        text="Sign in"
-                        type="submit"
-                    />
-                </div>
-                <div className={props.styles.passwordWrapper}>
-                    <div
-                        className={props.styles.forgotPasswordLink}
-                        role="button"
-                        tabIndex={0}
-                        onClick={redirectToPasswordReset}
-                    >
-                        Forgot your password?
+                    <div className={props.styles.signInMessage}>
+                    Sign In
                     </div>
-                </div>
-            </form>
-            <StyledFirebaseAuth
-                uiConfig={uiConfig}
-                firebaseAuth={firebase.auth()}
-            />
+
+                    <StyledInput label="Email" icon="envelope" onChange={e => setEmail(e)} type="email" />
+                    <StyledInput label="Password" icon="lock" type="password" onChange={e => setPassword(e)} />
+
+                    <div className={props.styles.submitButtons}>
+                        <StyledButton
+                            color="primary"
+                            onClick={handleSubmit}
+                            text="Sign in"
+                            type="submit"
+                        />
+                    </div>
+                    <div className={props.styles.passwordWrapper}>
+                        <div
+                            className={props.styles.forgotPasswordLink}
+                            role="button"
+                            tabIndex={0}
+                            onClick={redirectToPasswordReset}
+                        >
+                        Forgot your password?
+                        </div>
+                    </div>
+                </form>
+                <StyledFirebaseAuth
+                    uiConfig={uiConfig}
+                    firebaseAuth={firebase.auth()}
+                />
+            </div>
             <ErrorModal
                 closeModal={props.closeAuthError}
                 headerMessage="Sign In Error"

@@ -21,6 +21,8 @@ $color-elegant-dark: #212121;
 $color-gray: #bdbdbd ;
 $color-red: #f44336 ;
 $color-pink: #f50057 ;
+$color-light-gray: #fafafa ;
+$color-dark-gray: #757575 ;
 
 $profile-hover: #686585;
 $profile-sidebar-text: #00C851;
@@ -41,4 +43,8 @@ $font-weight-normal: 400;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@mixin light-box-shadow() {
+  box-shadow: 0px 0px 11px 1px rgba(0,0,0,0.3);
 }

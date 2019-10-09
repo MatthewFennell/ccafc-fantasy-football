@@ -9,12 +9,11 @@ module.exports.isAuthenticated = context => {
     }
 };
 
-module.exports.isAdmin = uid => admin.auth().getUser(uid).then(user =>
-    true
-    // if (!fp.getOr(false, 'customClaims.admin')(user)) {
-    //     throw new functions.https.HttpsError('unauthenticated', 'You are not authorized to perform this operation');
-    // }
-);
+module.exports.isAdmin = uid => admin.auth().getUser(uid).then(user => {
+    if (!fp.getOr(false, 'customClaims.admin')(user)) {
+        throw new functions.https.HttpsError('unauthenticated', 'You are not authorized to perform this operation');
+    }
+});
 
 module.exports.calculatePoints = (position, goals, assists, cleanSheet, redCard, yellowCard) => {
     let total = 0;

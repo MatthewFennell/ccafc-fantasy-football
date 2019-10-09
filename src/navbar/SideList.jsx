@@ -44,6 +44,14 @@ const sidebarLinksTwo = [
     }
 ];
 
+const adminLinks = [
+    {
+        title: 'Create Player',
+        redirect: constants.ADMIN_URL.CREATE_PLAYER,
+        component: <PersonAddIcon />
+    }
+];
+
 const SideList = props => (
     <div
         role="presentation"
@@ -67,16 +75,31 @@ const SideList = props => (
                 </ListItem>
             ))}
         </List>
+        {props.isAdmin && (
+        <>
+            <Divider />
+            <List>
+                {adminLinks.map(item => (
+                    <ListItem button key={item.title} onClick={() => props.redirect(item.redirect)}>
+                        <ListItemIcon>{item.component}</ListItemIcon>
+                        <ListItemText primary={item.title} />
+                    </ListItem>
+                ))}
+            </List>
+        </>
+        )}
     </div>
 );
 
 SideList.defaultProps = {
     closeNavbar: noop,
+    isAdmin: false,
     redirect: noop
 };
 
 SideList.propTypes = {
     closeNavbar: PropTypes.func,
+    isAdmin: PropTypes.bool,
     redirect: PropTypes.func
 };
 

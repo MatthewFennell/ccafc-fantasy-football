@@ -9,3 +9,7 @@ export const URL = {
     SIGN_UP: '/sign-up',
     VERIFY_EMAIL: '/need-to-verify-email'
 };
+
+export const ADMIN_URL = {
+    CREATE_PLAYER: '/create-player'
+};
