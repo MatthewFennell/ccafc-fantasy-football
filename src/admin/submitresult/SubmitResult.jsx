@@ -7,15 +7,12 @@ import { fetchTeamsRequest, fetchPlayersForTeamRequest } from '../actions';
 import * as selectors from '../selectors';
 import Dropdown from '../../common/dropdown/Dropdown';
 import StyledInput from '../../common/StyledInput/StyledInput';
-import Toggle from '../../common/Toggle/Toggle';
 import { isDefensive } from '../../helperFunctions';
 
 const SubmitResult = props => {
     useEffect(() => {
         props.fetchTeamsRequest();
     }, [props.fetchTeamsRequest]);
-
-    const [cleanSheet, setCleanSheet] = useState(false);
 
     const [teamName, setTeamName] = useState('');
     const [goalsFor, setGoalsFor] = useState(0);
@@ -72,6 +69,7 @@ const SubmitResult = props => {
     defensivePlayersForActiveTeam.forEach((player, x) => {
         cleanSheetsRender.push(
             <Dropdown
+                key={player.id}
                 activeValue={getNthCleanSheet(x)}
                 onChange={name => setNthCleanSheet(name, x)}
                 options={unSelectedCleanSheets.concat(defensivePlayersForActiveTeam
