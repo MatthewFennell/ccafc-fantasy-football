@@ -32,6 +32,7 @@ const NewNavbar = props => {
                 auth={props.auth}
                 isAdmin={props.isAdmin}
                 isOpen={sidebarOpen}
+                isSignedIn={props.auth.uid && props.auth.emailVerified}
                 openNavbar={openSidebar}
                 closeNavbar={closeSidebar}
                 redirect={redirect}

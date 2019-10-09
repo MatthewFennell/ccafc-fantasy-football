@@ -11,9 +11,11 @@ import DetailsIcon from '@material-ui/icons/Details';
 import GradeIcon from '@material-ui/icons/Grade';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import LayersIcon from '@material-ui/icons/Layers';
+import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import * as constants from '../constants';
 
-const sidebarLinks = [
+const signedInLinks = [
     {
         title: 'Overview',
         redirect: constants.URL.OVERVIEW,
@@ -23,10 +25,7 @@ const sidebarLinks = [
         title: 'Current Team',
         redirect: '/current-team',
         component: <PeopleAltIcon />
-    }
-];
-
-const sidebarLinksTwo = [
+    },
     {
         title: 'Transfers',
         redirect: '/transfers',
@@ -44,6 +43,19 @@ const sidebarLinksTwo = [
     }
 ];
 
+const signedOutLinks = [
+    {
+        title: 'Sign In',
+        redirect: constants.URL.SIGN_IN,
+        component: <DoubleArrowIcon />
+    },
+    {
+        title: 'Sign Up',
+        redirect: constants.URL.SIGN_UP,
+        component: <AccountBoxIcon />
+    }
+];
+
 const adminLinks = [
     {
         title: 'Create Player',
@@ -57,54 +69,54 @@ const adminLinks = [
     }
 ];
 
-const SideList = props => (
-    <div
-        role="presentation"
-        onClick={props.closeNavbar}
-        onKeyDown={props.closeNavbar}
-    >
-        <List>
-            {sidebarLinks.map(item => (
-                <ListItem button key={item.title} onClick={() => props.redirect(item.redirect)}>
-                    <ListItemIcon>{item.component}</ListItemIcon>
-                    <ListItemText primary={item.title} />
-                </ListItem>
-            ))}
-        </List>
-        <Divider />
-        <List>
-            {sidebarLinksTwo.map(item => (
-                <ListItem button key={item.title} onClick={() => props.redirect(item.redirect)}>
-                    <ListItemIcon>{item.component}</ListItemIcon>
-                    <ListItemText primary={item.title} />
-                </ListItem>
-            ))}
-        </List>
-        {props.isAdmin && (
-        <>
-            <Divider />
+const SideList = props => {
+    const linksToRender = props.isSignedIn ? signedInLinks : signedOutLinks;
+    return (
+        <div
+            role="presentation"
+            onClick={props.closeNavbar}
+            onKeyDown={props.closeNavbar}
+        >
             <List>
-                {adminLinks.map(item => (
+                {linksToRender.map(item => (
                     <ListItem button key={item.title} onClick={() => props.redirect(item.redirect)}>
                         <ListItemIcon>{item.component}</ListItemIcon>
                         <ListItemText primary={item.title} />
                     </ListItem>
                 ))}
             </List>
-        </>
-        )}
-    </div>
-);
+            {props.isAdmin && (
+            <>
+                <Divider />
+                <List>
+                    {adminLinks.map(item => (
+                        <ListItem
+                            button
+                            key={item.title}
+                            onClick={() => props.redirect(item.redirect)}
+                        >
+                            <ListItemIcon>{item.component}</ListItemIcon>
+                            <ListItemText primary={item.title} />
+                        </ListItem>
+                    ))}
+                </List>
+            </>
+            )}
+        </div>
+    );
+};
 
 SideList.defaultProps = {
     closeNavbar: noop,
     isAdmin: false,
+    isSignedIn: false,
     redirect: noop
 };
 
 SideList.propTypes = {
     closeNavbar: PropTypes.func,
     isAdmin: PropTypes.bool,
+    isSignedIn: PropTypes.bool,
     redirect: PropTypes.func
 };
 
