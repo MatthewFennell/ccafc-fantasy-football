@@ -7,18 +7,24 @@ import { fetchTeamsRequest, fetchPlayersForTeamRequest } from '../actions';
 import * as selectors from '../selectors';
 import Dropdown from '../../common/dropdown/Dropdown';
 import StyledInput from '../../common/StyledInput/StyledInput';
+import Toggle from '../../common/Toggle/Toggle';
+import { isDefensive } from '../../helperFunctions';
 
 const SubmitResult = props => {
     useEffect(() => {
         props.fetchTeamsRequest();
     }, [props.fetchTeamsRequest]);
 
+    const [cleanSheet, setCleanSheet] = useState(false);
+
     const [teamName, setTeamName] = useState('');
     const [goalsFor, setGoalsFor] = useState(0);
     const [goalsAgainst, setGoalsAgainst] = useState('');
+    const [gameWeek, setGameWeek] = useState(0);
 
     const [goalScorers, setGoalscorers] = useState({});
     const [assisters, setAssisters] = useState({});
+    const [cleanSheets, setCleanSheets] = useState({});
 
     const setTeam = useCallback(name => {
         setTeamName(name);
@@ -30,7 +36,15 @@ const SubmitResult = props => {
 
     const getNthAssister = n => fp.get(n)(assisters);
     const setNthAssister = (val, n) => setAssisters(fp.set(n, val)(assisters));
-    const playersForActiveTeam = fp.get(teamName)(props.teamsWithPlayers);
+
+    const getNthCleanSheet = n => fp.get(n)(cleanSheets);
+    const setNthCleanSheet = (val, n) => setCleanSheets(fp.set(n, val)(cleanSheets));
+
+    const playersForActiveTeam = fp.getOr([], teamName)(props.teamsWithPlayers);
+    const defensivePlayersForActiveTeam = playersForActiveTeam.filter(p => isDefensive(p.position));
+
+    const unSelectedCleanSheets = defensivePlayersForActiveTeam
+        .filter(x => !Object.values(cleanSheets).includes(x.value));
 
     const scorers = [];
     for (let x = 0; x < goalsFor; x += 1) {
@@ -54,15 +68,26 @@ const SubmitResult = props => {
         />);
     }
 
+    const cleanSheetsRender = [];
+    defensivePlayersForActiveTeam.forEach((player, x) => {
+        cleanSheetsRender.push(
+            <Dropdown
+                activeValue={getNthCleanSheet(x)}
+                onChange={name => setNthCleanSheet(name, x)}
+                options={unSelectedCleanSheets.concat(defensivePlayersForActiveTeam
+                    .filter(y => y.value === getNthCleanSheet(x)))}
+                title={`Clean Sheet ${x + 1}`}
+            />
+        );
+    });
 
     return (
         <div className={props.styles.submitResultWrapper}>
-            <div className={props.styles.teamDropdownWrapper}>
-                <Dropdown activeValue={teamName} onChange={setTeam} options={props.allTeams} title="Team" />
-            </div>
+            <Dropdown activeValue={teamName} onChange={setTeam} options={props.allTeams} title="Team" />
             <div className={props.styles.goalsForWrapper}>
                 <StyledInput label="Goals For" onChange={setGoalsFor} type="number" />
                 <StyledInput label="Goals Against" onChange={setGoalsAgainst} type="number" />
+                <StyledInput label="Gameweek" onChange={setGameWeek} type="number" />
             </div>
 
             <div className={props.styles.goalScorersWrapper}>
@@ -70,6 +95,14 @@ const SubmitResult = props => {
             </div>
             <div className={props.styles.assistsWrapper}>
                 {assists}
+            </div>
+
+            <div className={props.styles.cleanSheetWrapper}>
+                {parseInt(goalsAgainst, 10) === 0 && (
+                    <div className={props.styles.cleanSheetDropdowns}>
+                        {cleanSheetsRender}
+                    </div>
+                ) }
             </div>
         </div>
     );

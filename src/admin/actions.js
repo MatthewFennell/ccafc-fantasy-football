@@ -92,7 +92,6 @@ export const submitResult = (teamId, goalsFor, goalsAgainst, week, players) => (
 
 // -------------------------------------------------------------------- \\
 
-
 export const fetchPlayersForTeamRequest = teamName => ({
     type: FETCH_PLAYERS_FOR_TEAM_REQUEST,
     teamName
