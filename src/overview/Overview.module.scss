@@ -39,6 +39,16 @@
     .gameWeekText{
       font-size: $font-size-large;
       color: $color-gray;
+      display: flex;
+      justify-content: center;
+      .arrowBackWrapper{
+        margin-right: $spacing-medium;
+        cursor: pointer;
+      }
+      .arrowForwardWrapper{
+        margin-left: $spacing-medium;
+        cursor: pointer;
+      }
     }
 
     .gameweekStats {

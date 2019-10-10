@@ -1,18 +1,31 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import fp from 'lodash/fp';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import defaultStyles from './Overview.module.scss';
-import { fetchUserInfoRequest } from './actions';
+import { fetchInitialUserWeekInfoRequest, fetchUserInfoForWeekRequest, fetchUserStatsRequest } from './actions';
 import * as selectors from './selectors';
 import Spinner from '../common/spinner/Spinner';
 
 const Overview = props => {
     useEffect(() => {
-        props.fetchUserInfoRequest();
-    }, [props.fetchUserInfoRequest]);
+        props.fetchInitialUserWeekInfoRequest();
+        props.fetchUserStatsRequest();
+    }, [props.fetchInitialUserWeekInfoRequest, props.fetchUserStatsRequest]);
 
-    console.log('user info for week', props.userInfoForWeek);
+    const fetchUserInfoForPreviousWeek = useCallback(() => {
+        if (props.currentGameWeek > 1) {
+            props.fetchUserInfoForWeekRequest(props.currentGameWeek - 1);
+        }
+    }, [props.fetchUserInfoForWeekRequest, props.currentGameWeek]);
+
+    const fetchUserInfoForNextWeek = useCallback(() => {
+        if (props.currentGameWeek < props.maxGameWeek) {
+            props.fetchUserInfoForWeekRequest(props.currentGameWeek + 1);
+        }
+    }, [props.fetchUserInfoForWeekRequest, props.currentGameWeek]);
 
     return (
         <div className={props.styles.overviewWrapper}>
@@ -33,7 +46,15 @@ const Overview = props => {
                 {props.fetchingUserInfo ? <Spinner color="secondary" /> : (
                     <>
                         <div className={props.styles.gameWeekText}>
-                            {!props.fetchingUserInfo && `Gameweek ${props.currentGameWeek}`}
+                            <div className={props.styles.arrowBackWrapper}>
+                                <ArrowBackIcon color={props.currentGameWeek === 1 ? 'NOTHING' : 'secondary'} onClick={fetchUserInfoForPreviousWeek} />
+                            </div>
+                            <div className={props.styles.gameWeekTextWrapper}>
+                                {!props.fetchingUserInfo && `Gameweek ${props.currentGameWeek}`}
+                            </div>
+                            <div className={props.styles.arrowForwardWrapper}>
+                                <ArrowForwardIcon color={props.currentGameWeek === props.maxGameWeek ? 'NOTHING' : 'secondary'} onClick={fetchUserInfoForNextWeek} />
+                            </div>
                         </div>
                         <div className={props.styles.gameweekStats}>
                             <div className={props.styles.averagePointsWrapper}>
@@ -90,7 +111,10 @@ Overview.defaultProps = {
 Overview.propTypes = {
     currentGameWeek: PropTypes.number,
     fetchingUserInfo: PropTypes.bool.isRequired,
-    fetchUserInfoRequest: PropTypes.func.isRequired,
+    fetchInitialUserWeekInfoRequest: PropTypes.func.isRequired,
+    fetchUserInfoForWeekRequest: PropTypes.func.isRequired,
+    fetchUserStatsRequest: PropTypes.func.isRequired,
+    maxGameWeek: PropTypes.number.isRequired,
     remainingBudget: PropTypes.number.isRequired,
     remainingTransfers: PropTypes.number.isRequired,
     styles: PropTypes.objectOf(PropTypes.string),
@@ -106,12 +130,15 @@ Overview.propTypes = {
 };
 
 const mapDispatchToProps = {
-    fetchUserInfoRequest
+    fetchInitialUserWeekInfoRequest,
+    fetchUserInfoForWeekRequest,
+    fetchUserStatsRequest
 };
 
 const mapStateToProps = state => ({
     currentGameWeek: selectors.getCurrentGameWeek(state),
     fetchingUserInfo: selectors.getFetchingUserInfo(state),
+    maxGameWeek: selectors.getMaxGameWeek(state),
     remainingBudget: selectors.getRemainingBudget(state),
     remainingTransfers: selectors.getRemainingTransfers(state),
     totalPoints: selectors.getTotalPoints(state),
