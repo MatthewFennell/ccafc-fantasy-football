@@ -11,6 +11,8 @@ function* getUserInfo() {
         if (!alreadyFetched) {
             const result = yield call(api.getUserInfo);
             yield put(actions.fetchUserInfoSuccess(result));
+        } else {
+            yield put(actions.alreadyFetchedUserInfo());
         }
     } catch (error) {
         yield put(actions.fetchUserInfoError(error));
