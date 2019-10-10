@@ -7,5 +7,7 @@ export const getUserInfo = request => functionToCall('users-userInfo')(request)
         gameWeek: data.data.game_week,
         remainingBudget: data.data.remaining_budget,
         remainingTransfers: data.data.remaining_transfers,
-        weekPoints: data.data.week_points
+        weekPoints: data.data.week_points,
+        averagePoints: data.data.average_points,
+        highestPoints: data.data.highest_points
     }));

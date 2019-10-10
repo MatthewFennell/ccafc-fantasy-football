@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import fp from 'lodash/fp';
 import defaultStyles from './Overview.module.scss';
 import { fetchUserInfoRequest } from './actions';
 import * as selectors from './selectors';
@@ -11,6 +12,8 @@ const Overview = props => {
         props.fetchUserInfoRequest();
     }, [props.fetchUserInfoRequest]);
 
+    console.log('user info for week', props.userInfoForWeek);
+
     return (
         <div className={props.styles.overviewWrapper}>
             <div className={props.styles.pointsWrapper}>
@@ -18,7 +21,7 @@ const Overview = props => {
                     {props.fetchingUserInfo ? <Spinner color="secondary" /> : (
                         <>
                             <div className={props.styles.totalPointsValue}>
-                                {props.userInfo.totalPoints}
+                                {props.totalPoints}
                             </div>
                             <div className={props.styles.totalPointsText}>Total Points</div>
                         </>
@@ -30,24 +33,25 @@ const Overview = props => {
                 {props.fetchingUserInfo ? <Spinner color="secondary" /> : (
                     <>
                         <div className={props.styles.gameWeekText}>
-                            {!props.fetchingUserInfo && `Gameweek ${props.userInfo.gameWeek}`}
+                            {!props.fetchingUserInfo && `Gameweek ${props.currentGameWeek}`}
                         </div>
                         <div className={props.styles.gameweekStats}>
                             <div className={props.styles.averagePointsWrapper}>
                                 <div className={props.styles.averagePointsValue}>
-                                    {!props.fetchingUserInfo && props.userInfo.totalPoints}
+                                    {!props.fetchingUserInfo && props.userInfoForWeek.averagePoints}
                                 </div>
                                 <div>Average Points</div>
                             </div>
                             <div className={props.styles.yourPointsWrapper}>
                                 <div className={props.styles.yourPointsValue}>
-                                    {props.userInfo.weekPoints}
+                                    {props.userInfoForWeek.weekPoints}
                                 </div>
                                 <div>Your Points</div>
                             </div>
                             <div className={props.styles.highestPointsWrapper}>
                                 <div className={props.styles.highestPointsValue}>
-                                    {!props.fetchingUserInfo && props.userInfo.totalPoints}
+                                    {!props.fetchingUserInfo && fp.flow(fp.get('userInfoForWeek'),
+                                        fp.get('highestPoints'), fp.get('points'))(props)}
                                 </div>
                                 <div>Highest Points</div>
                             </div>
@@ -60,13 +64,14 @@ const Overview = props => {
                     <>
                         <div className={props.styles.remainingTransfersWrapper}>
                             <div className={props.styles.remainingTransfersValue}>
-                                {!props.fetchingUserInfo && props.userInfo.remainingTransfers}
+                                {!props.fetchingUserInfo
+                                    && props.remainingTransfers}
                             </div>
                             <div>Remaining Transfers</div>
                         </div>
                         <div className={props.styles.remainingBudgetWrapper}>
                             <div className={props.styles.remainingBudgetValue}>
-                                {!props.fetchingUserInfo && `£${props.userInfo.remainingBudget} mil`}
+                                {!props.fetchingUserInfo && `£${props.remainingBudget} mil`}
                             </div>
                             <div>Remaining Budget</div>
                         </div>
@@ -78,14 +83,20 @@ const Overview = props => {
 };
 
 Overview.defaultProps = {
+    currentGameWeek: null,
     styles: defaultStyles
 };
 
 Overview.propTypes = {
+    currentGameWeek: PropTypes.number,
     fetchingUserInfo: PropTypes.bool.isRequired,
     fetchUserInfoRequest: PropTypes.func.isRequired,
+    remainingBudget: PropTypes.number.isRequired,
+    remainingTransfers: PropTypes.number.isRequired,
     styles: PropTypes.objectOf(PropTypes.string),
-    userInfo: PropTypes.shape({
+    totalPoints: PropTypes.number.isRequired,
+    userInfoForWeek: PropTypes.shape({
+        averagePoints: PropTypes.number,
         totalPoints: PropTypes.number,
         gameWeek: PropTypes.number,
         remainingBudget: PropTypes.number,
@@ -99,8 +110,13 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
+    currentGameWeek: selectors.getCurrentGameWeek(state),
     fetchingUserInfo: selectors.getFetchingUserInfo(state),
-    userInfo: selectors.getUserInfo(state)
+    remainingBudget: selectors.getRemainingBudget(state),
+    remainingTransfers: selectors.getRemainingTransfers(state),
+    totalPoints: selectors.getTotalPoints(state),
+    userInfo: selectors.getUserInfo(state),
+    userInfoForWeek: selectors.getUserInfoForWeek(state)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Overview);

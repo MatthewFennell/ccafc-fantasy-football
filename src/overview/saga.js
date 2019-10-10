@@ -5,7 +5,7 @@ import * as actions from './actions';
 import * as selectors from './selectors';
 import * as api from './api';
 
-function* getUserInfo() {
+function* getInitialUserInfo() {
     try {
         const alreadyFetched = yield select(selectors.getFetchedUserInfo);
         if (!alreadyFetched) {
@@ -22,6 +22,6 @@ function* getUserInfo() {
 
 export default function* overviewSaga() {
     yield all([
-        takeEvery(actions.FETCH_USER_INFO_REQUEST, getUserInfo)
+        takeEvery(actions.FETCH_USER_INFO_REQUEST, getInitialUserInfo)
     ]);
 }

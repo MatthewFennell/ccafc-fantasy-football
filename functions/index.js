@@ -19,3 +19,9 @@ exports.points = require('./src/points');
 exports.users = require('./src/users');
 
 const operations = admin.firestore.FieldValue;
+
+exports.userInfoForWeek = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+    });
