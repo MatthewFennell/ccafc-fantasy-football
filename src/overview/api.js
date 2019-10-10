@@ -9,7 +9,7 @@ export const getUserInfo = request => functionToCall('users-initialUserWeekInfo'
         highestPoints: data.data.highest_points
     }));
 
-export const getUserInfoForWeek = request => functionToCall('userInfoForWeek')(request)
+export const getUserInfoForWeek = request => functionToCall('users-userInfoForWeek')(request)
     .then(data => ({
         weekPoints: data.data.week_points,
         averagePoints: data.data.average_points,
@@ -17,7 +17,7 @@ export const getUserInfoForWeek = request => functionToCall('userInfoForWeek')(r
     }));
 
 
-export const getUserStats = request => functionToCall('userStats')(request)
+export const getUserStats = request => functionToCall('users-userStats')(request)
     .then(data => ({
         remainingBudget: data.data.remaining_budget,
         remainingTransfers: data.data.remaining_transfers,
