@@ -47,13 +47,13 @@ const Overview = props => {
                     <>
                         <div className={props.styles.gameWeekText}>
                             <div className={props.styles.arrowBackWrapper}>
-                                <ArrowBackIcon color={props.currentGameWeek === 1 ? 'NOTHING' : 'secondary'} onClick={fetchUserInfoForPreviousWeek} />
+                                <ArrowBackIcon color={props.currentGameWeek === 1 ? 'disabled' : 'secondary'} onClick={fetchUserInfoForPreviousWeek} />
                             </div>
                             <div className={props.styles.gameWeekTextWrapper}>
                                 {!props.fetchingUserInfo && `Gameweek ${props.currentGameWeek}`}
                             </div>
                             <div className={props.styles.arrowForwardWrapper}>
-                                <ArrowForwardIcon color={props.currentGameWeek === props.maxGameWeek ? 'NOTHING' : 'secondary'} onClick={fetchUserInfoForNextWeek} />
+                                <ArrowForwardIcon color={props.currentGameWeek === props.maxGameWeek ? 'disabled' : 'secondary'} onClick={fetchUserInfoForNextWeek} />
                             </div>
                         </div>
                         <div className={props.styles.gameweekStats}>
@@ -105,7 +105,11 @@ const Overview = props => {
 
 Overview.defaultProps = {
     currentGameWeek: null,
-    styles: defaultStyles
+    maxGameWeek: null,
+    remainingBudget: null,
+    remainingTransfers: null,
+    styles: defaultStyles,
+    totalPoints: null
 };
 
 Overview.propTypes = {
@@ -114,11 +118,11 @@ Overview.propTypes = {
     fetchInitialUserWeekInfoRequest: PropTypes.func.isRequired,
     fetchUserInfoForWeekRequest: PropTypes.func.isRequired,
     fetchUserStatsRequest: PropTypes.func.isRequired,
-    maxGameWeek: PropTypes.number.isRequired,
-    remainingBudget: PropTypes.number.isRequired,
-    remainingTransfers: PropTypes.number.isRequired,
+    maxGameWeek: PropTypes.number,
+    remainingBudget: PropTypes.number,
+    remainingTransfers: PropTypes.number,
     styles: PropTypes.objectOf(PropTypes.string),
-    totalPoints: PropTypes.number.isRequired,
+    totalPoints: PropTypes.number,
     userInfoForWeek: PropTypes.shape({
         averagePoints: PropTypes.number,
         totalPoints: PropTypes.number,

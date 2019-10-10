@@ -55,6 +55,14 @@ const overviewReducer = (state = initialState, action) => {
     case actions.CHANGE_ACTIVE_GAME_WEEK: {
         return fp.set('currentGameWeek', action.week)(state);
     }
+    case actions.FETCH_USER_STATS_SUCCESS: {
+        return {
+            ...state,
+            totalPoints: action.stats.totalPoints,
+            remainingBudget: action.stats.remainingBudget,
+            remainingTransfers: action.stats.remainingTransfers
+        };
+    }
     default:
         return state;
     }
