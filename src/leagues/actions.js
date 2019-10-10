@@ -3,10 +3,12 @@ const pre = 'LEAGUES/';
 export const FETCH_LEAGUES_REQUEST = `${pre}FETCH_LEAGUES_REQUEST`;
 export const FETCH_LEAGUES_SUCCESS = `${pre}FETCH_LEAGUES_SUCCESS`;
 export const FETCH_LEAGUES_ERROR = `${pre}FETCH_LEAGUES_ERROR`;
+export const ALREADY_FETCHED_LEAGUES = `${pre}ALREADY_FETCHED_LEAGUES`;
 
 export const FETCH_USERS_IN_LEAGUE_REQUEST = `${pre}FETCH_USERS_IN_LEAGUE_REQUEST`;
 export const FETCH_USERS_IN_LEAGUE_SUCCESS = `${pre}FETCH_USERS_IN_LEAGUE_SUCCESS`;
 export const FETCH_USERS_IN_LEAGUE_ERROR = `${pre}FETCH_USERS_IN_LEAGUE_ERROR`;
+export const ALREADY_FETCHED_USERS_IN_LEAGUE = `${pre}ALREADY_FETCHED_USERS_IN_LEAGUE`;
 
 export const CREATE_LEAGUE_REQUEST = `${pre}CREATE_LEAGUE_REQUEST`;
 export const CREATE_LEAGUE_SUCCESS = `${pre}CREATE_LEAGUE_SUCCESS`;
@@ -23,6 +25,11 @@ export const LEAVE_LEAGUE_SUCCESS = `${pre}LEAVE_LEAGUE_SUCCESS`;
 export const LEAVE_LEAGUE_ERROR = `${pre}LEAVE_LEAGUE_ERROR`;
 export const CLOSE_LEAVE_LEAGUE_ERROR = `${pre}CLOSE_LEAVE_LEAGUE_ERROR`;
 
+export const alreadyFetchedLeagues = () => ({
+    type: ALREADY_FETCHED_LEAGUES
+});
+
+
 export const fetchLeaguesRequest = () => ({
     type: FETCH_LEAGUES_REQUEST
 });
@@ -36,6 +43,11 @@ export const fetchLeaguesError = error => ({
     type: FETCH_LEAGUES_ERROR,
     error
 });
+
+export const alreadyFetchedUsersInLeague = () => ({
+    type: ALREADY_FETCHED_USERS_IN_LEAGUE
+});
+
 
 export const fetchUsersInLeagueRequest = leagueId => ({
     type: FETCH_USERS_IN_LEAGUE_REQUEST,

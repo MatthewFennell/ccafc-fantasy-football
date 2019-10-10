@@ -54,6 +54,7 @@ const UsersInLeague = props => {
                         backButtonLink={redirect}
                         columns={columns}
                         gridHeader={props.leagueName}
+                        loading={props.fetchingUsersInLeague}
                         renderBackButton
                         rows={props.usersInLeague}
                     />
@@ -96,6 +97,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, props) => ({
+    fetchingUsersInLeague: selectors.getFetchingUsersInLeague(state),
     leagueId: selectors.getLeagueId(props),
     leagueName: selectors.getLeagueName(state, props),
     leavingLeague: selectors.getLeavingLeague(state),
@@ -116,6 +118,7 @@ UsersInLeague.defaultProps = {
 
 UsersInLeague.propTypes = {
     closeLeaveLeagueError: PropTypes.func.isRequired,
+    fetchingUsersInLeague: PropTypes.bool.isRequired,
     fetchUsersInLeagueRequest: PropTypes.func.isRequired,
     history: PropTypes.shape({
         push: PropTypes.func.isRequired

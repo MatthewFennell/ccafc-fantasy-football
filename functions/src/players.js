@@ -53,7 +53,6 @@ exports.createPlayer = functions
         });
     });
 
-
 exports.getAllPlayers = functions
     .region(constants.region)
     .https.onCall((data, context) => {

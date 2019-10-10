@@ -13,6 +13,8 @@ function* fetchLeagues() {
         if (alreadyFetched && alreadyFetched.length === 0) {
             const myLeagues = yield call(api.getLeaguesIAmIn);
             yield put(actions.fetchLeaguesSuccess(myLeagues));
+        } else {
+            yield put(actions.alreadyFetchedLeagues());
         }
     } catch (error) {
         yield put(actions.fetchLeaguesError(error));
@@ -25,6 +27,8 @@ function* fetchUsersInLeague(action) {
         if (!usersForThatLeague) {
             const usersInLeague = yield call(api.getUsersInLeague, { leagueId: action.leagueId });
             yield put(actions.fetchUsersInLeagueSuccess(action.leagueId, usersInLeague));
+        } else {
+            yield put(actions.alreadyFetchedUsersInLeague());
         }
     } catch (error) {
         yield put(actions.fetchUsersInLeagueError(error));

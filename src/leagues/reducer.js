@@ -16,13 +16,26 @@ const initState = {
     leaveLeagueErrorCode: '',
     leavingLeague: false,
 
-    usersInLeague: {}
+    usersInLeague: {},
+
+    fetchingLeague: false,
+    fetchingUsersInLeague: false
 };
 
 const authReducer = (state = initState, action) => {
     switch (action.type) {
     case actions.FETCH_LEAGUES_SUCCESS: {
-        return fp.set('leagues', action.leagues)(state);
+        return {
+            ...state,
+            leagues: action.leagues,
+            fetchingLeagues: false
+        };
+    }
+    case actions.fetchLeaguesError: {
+        return fp.set('fetchingLeagues', false)(state);
+    }
+    case actions.ALREADY_FETCHED_LEAGUES: {
+        return fp.set('fetchingLeagues', false)(state);
     }
     case actions.CREATE_LEAGUE_SUCCESS: {
         return {
@@ -80,7 +93,8 @@ const authReducer = (state = initState, action) => {
     case actions.FETCH_USERS_IN_LEAGUE_SUCCESS: {
         return {
             ...state,
-            usersInLeague: fp.set(action.leagueId, action.usersInLeague)(state.usersInLeague)
+            usersInLeague: fp.set(action.leagueId, action.usersInLeague)(state.usersInLeague),
+            fetchingUsersInLeague: false
         };
     }
     case actions.CREATE_LEAGUE_ERROR: {
@@ -97,6 +111,18 @@ const authReducer = (state = initState, action) => {
             createLeagueError: '',
             createLeagueErrorCode: ''
         };
+    }
+    case actions.FETCH_LEAGUES_REQUEST: {
+        return fp.set('fetchingLeagues', true)(state);
+    }
+    case actions.FETCH_USERS_IN_LEAGUE_REQUEST: {
+        return fp.set('fetchingUsersInLeague', true)(state);
+    }
+    case actions.FETCH_USERS_IN_LEAGUE_ERROR: {
+        return fp.set('fetchingUsersInLeague', false)(state);
+    }
+    case actions.ALREADY_FETCHED_USERS_IN_LEAGUE: {
+        return fp.set('fetchingUsersInLeague', false)(state);
     }
     default:
         return state;
