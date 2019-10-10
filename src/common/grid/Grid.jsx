@@ -9,9 +9,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import { noop } from 'lodash';
-import Typography from '@material-ui/core/Typography';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import defaultStyles from './Grid.module.scss';
+import Linear from '../spinner/LinearSpinner';
 
 const defaultGridStyles = {
     root: {
@@ -40,6 +40,7 @@ const Grid = props => {
     return (
         <Paper className={classes.root}>
             <div className={classes.tableWrapper}>
+
                 <div id="tableTitle" className={props.styles.gridHeader}>
                     {props.renderBackButton
                             && (
@@ -52,8 +53,11 @@ const Grid = props => {
                         {props.gridHeader ? props.gridHeader : ''}
                     </div>
                 </div>
+                {props.loading && <Linear color={props.loadingColor} />}
                 <Table stickyHeader>
+
                     <TableHead>
+
                         <TableRow>
                             {props.columns.map(column => (
                                 <TableCell
@@ -107,6 +111,8 @@ Grid.defaultProps = {
     columns: [],
     gridHeader: '',
     gridStyles: defaultGridStyles,
+    loading: false,
+    loadingColor: 'primary',
     onRowClick: noop,
     renderBackButton: false,
     rows: [],
@@ -126,6 +132,8 @@ Grid.propTypes = {
     })),
     gridHeader: PropTypes.string,
     gridStyles: PropTypes.objectOf(PropTypes.shape({})),
+    loading: PropTypes.bool,
+    loadingColor: PropTypes.string,
     onRowClick: PropTypes.func,
     renderBackButton: PropTypes.bool,
     rows: PropTypes.arrayOf(PropTypes.shape({})),

@@ -29,7 +29,6 @@ import SubmitResult from './admin/submitresult/SubmitResult';
 
 import * as routes from './routes';
 
-
 const App = props => (
     props.auth && props.auth.isLoaded ? (
         <ConnectedRouter history={props.history}>

@@ -20,7 +20,11 @@ const initState = {
 
     deletingTeam: false,
     deleteTeamError: false,
-    deleteTeamErrorCode: false
+    deleteTeamErrorCode: false,
+
+    submittingResult: false,
+    submitResultError: '',
+    submitResultErrorCode: ''
 };
 
 const adminReducer = (state = initState, action) => {
@@ -119,6 +123,27 @@ const adminReducer = (state = initState, action) => {
             ...state,
             deleteTeamError: '',
             deleteTeamErrorCode: ''
+        };
+    }
+    case actions.SUBMIT_RESULT_REQUEST: {
+        return fp.set('submittingResult', true)(state);
+    }
+    case actions.SUBMIT_RESULT_SUCCESS: {
+        return fp.set('submittingResult', false)(state);
+    }
+    case actions.SUBMIT_RESULT_ERROR: {
+        return {
+            ...state,
+            submitResultError: action.error.message,
+            submitResultErrorCode: action.error.code,
+            submittingResult: false
+        };
+    }
+    case actions.CLOSE_SUBMIT_RESULT_ERROR: {
+        return {
+            ...state,
+            submitResultError: '',
+            submitResultErrorCode: ''
         };
     }
     default:

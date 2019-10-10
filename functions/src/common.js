@@ -32,3 +32,6 @@ module.exports.calculatePoints = (position, goals, assists, cleanSheet, redCard,
 };
 
 module.exports.isIntegerGreaterThanEqualZero = value => Number.isInteger(value) && value >= 0;
+module.exports.isNumber = value => Boolean(Number(value) && value >= 0);
+
+module.exports.isValidPosition = pos => Boolean(fp.getOr(false, pos)(constants.positions));

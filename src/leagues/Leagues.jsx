@@ -62,6 +62,7 @@ const Leagues = props => {
                 <Grid
                     columns={columns}
                     gridHeader="Leagues"
+                    loading={props.fetchingLeagues}
                     onRowClick={onRowClick}
                     rows={props.leagues}
                 />
@@ -158,6 +159,7 @@ Leagues.propTypes = {
     createLeagueErrorCode: PropTypes.string,
     createLeagueRequest: PropTypes.func.isRequired,
     creatingLeague: PropTypes.bool,
+    fetchingLeagues: PropTypes.bool.isRequired,
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired,
@@ -189,6 +191,7 @@ const mapStateToProps = state => ({
     createLeagueError: selectors.getCreateLeagueError(state),
     createLeagueErrorCode: selectors.getCreateLeagueErrorCode(state),
     creatingLeague: selectors.getCreatingLeague(state),
+    fetchingLeagues: selectors.getFetchingLeagues(state),
     joinLeagueError: selectors.getJoinLeagueError(state),
     joinLeagueErrorCode: selectors.getJoinLeagueErrorCode(state),
     joiningLeague: selectors.getJoiningLeague(state),

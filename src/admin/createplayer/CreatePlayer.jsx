@@ -29,11 +29,7 @@ const CreatePlayer = props => {
     }, [props.fetchTeamsRequest]);
 
     const createPlayer = useCallback(() => {
-        props.createPlayerRequest(playerName, playerPrice, playerPosition, playerTeam);
-        setPlayerName('');
-        setPlayerPrice('');
-        setPlayerPosition('');
-        setPlayerTeam('');
+        props.createPlayerRequest(playerName, playerPosition, playerPrice, playerTeam);
     }, [playerName, playerPrice, playerPosition, playerTeam, props.createPlayerRequest]);
 
     return (

@@ -11,6 +11,19 @@ exports.createPlayer = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
+
+        if (!data.name) {
+            throw new functions.https.HttpsError('invalid-argument', 'Invalid player name');
+        }
+        if (!data.position) {
+            throw new functions.https.HttpsError('invalid-argument', 'Invalid player position');
+        }
+        if (!data.position || !common.isValidPosition(data.position.toUpperCase())) {
+            throw new functions.https.HttpsError('invalid-argument', 'Invalid player position');
+        }
+        if (!common.isNumber(data.price)) {
+            throw new functions.https.HttpsError('invalid-argument', 'Invalid price');
+        }
         const teamExistsRef = db.collection('teams')
             .where('team_name', '==', data.team);
         const playerAlreadyExistsRef = db.collection('players')
