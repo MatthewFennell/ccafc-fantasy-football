@@ -55,8 +55,8 @@ const SignIn = props => {
                     Sign In
                     </div>
 
-                    <StyledInput label="Email" icon="envelope" onChange={e => setEmail(e)} type="email" />
-                    <StyledInput label="Password" icon="lock" type="password" onChange={e => setPassword(e)} />
+                    <StyledInput label="Email" icon="envelope" onChange={e => setEmail(e)} type="email" value={email} />
+                    <StyledInput label="Password" icon="lock" type="password" onChange={e => setPassword(e)} value={password} />
 
                     <div className={props.styles.submitButtons}>
                         <StyledButton

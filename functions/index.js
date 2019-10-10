@@ -20,18 +20,18 @@ exports.users = require('./src/users');
 
 const operations = admin.firestore.FieldValue;
 
-exports.deletePlayer = functions
+exports.deleteTeam = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        if (!data.playerId) {
-            throw new functions.https.HttpsError('invalid-argument', 'Must provide a player id');
+        if (!data.teamName || !data.teamId) {
+            throw new functions.https.HttpsError('invalid-argument', 'Must provide a valid team id and name');
         }
-        return db.collection('weekly-teams').where('player_ids', 'array-contains', data.playerId).get()
+        return db.collection('players').where('team', '==', data.teamName).get()
             .then(docs => {
                 if (docs.size > 0) {
-                    throw new functions.https.HttpsError('invalid-argument', 'That player exists in somebodys team. Cannot be deleted');
+                    throw new functions.https.HttpsError('invalid-argument', 'A player is associated with that team, so it cannot be deleted');
                 }
-                return db.collection('players').doc(data.playerId).delete();
+                return db.collection('teams').doc(data.teamId).delete();
             });
     });

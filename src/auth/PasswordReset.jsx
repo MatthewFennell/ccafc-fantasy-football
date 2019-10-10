@@ -13,7 +13,7 @@ const PasswordReset = props => {
     return (
         <div className={props.styles.passwordReset}>
             <div className={props.styles.passwordResetHeader}>Password reset</div>
-            <StyledInput icon="envelope" label="Email" onChange={setEmail} />
+            <StyledInput icon="envelope" label="Email" onChange={setEmail} value={email} />
             <div className={props.styles.resetPasswordButton}>
                 <StyledButton
                     color="primary"

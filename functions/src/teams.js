@@ -57,3 +57,19 @@ exports.getPlayersInTeam = functions
                 id: doc.id
             })));
     });
+
+exports.deleteTeam = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        if (!data.teamName || !data.teamId) {
+            throw new functions.https.HttpsError('invalid-argument', 'Must provide a valid team id and name');
+        }
+        return db.collection('players').where('team', '==', data.teamName).get()
+            .then(docs => {
+                if (docs.size > 0) {
+                    throw new functions.https.HttpsError('invalid-argument', 'A player is associated with that team, so it cannot be deleted');
+                }
+                return db.collection('teams').doc(data.teamId).delete();
+            });
+    });

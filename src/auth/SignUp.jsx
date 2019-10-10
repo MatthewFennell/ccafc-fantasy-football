@@ -55,11 +55,11 @@ const SignUp = props => {
                     Sign up
                 </div>
 
-                <StyledInput label="Email" icon="envelope" onChange={e => setEmail(e)} />
-                <StyledInput label="Password" type="password" icon="lock" onChange={setPassword} />
-                <StyledInput label="Password" type="password" icon="lock" onChange={setPasswordTwo} />
-                <StyledInput label="First Name" onChange={e => setFirstName(e)} />
-                <StyledInput label="Surname" onChange={e => setSurname(e)} />
+                <StyledInput label="Email" icon="envelope" onChange={e => setEmail(e)} value={email} />
+                <StyledInput label="Password" type="password" icon="lock" onChange={setPassword} value={password} />
+                <StyledInput label="Password" type="password" icon="lock" onChange={setPasswordTwo} value={passwordTwo} />
+                <StyledInput label="First Name" onChange={e => setFirstName(e)} value={firstName} />
+                <StyledInput label="Surname" onChange={e => setSurname(e)} value={surname} />
 
                 <div className={props.styles.submitButtons}>
                     <StyledButton

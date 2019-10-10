@@ -30,6 +30,10 @@ const CreatePlayer = props => {
 
     const createPlayer = useCallback(() => {
         props.createPlayerRequest(playerName, playerPrice, playerPosition, playerTeam);
+        setPlayerName('');
+        setPlayerPrice('');
+        setPlayerPosition('');
+        setPlayerTeam('');
     }, [playerName, playerPrice, playerPosition, playerTeam, props.createPlayerRequest]);
 
     return (
@@ -42,8 +46,8 @@ const CreatePlayer = props => {
                 />
             </div>
             <div className={props.styles.createPlayerForm}>
-                <StyledInput label="Name" onChange={setPlayerName} />
-                <StyledInput label="Price" onChange={setPlayerPrice} type="number" />
+                <StyledInput label="Name" onChange={setPlayerName} value={playerName} />
+                <StyledInput label="Price" onChange={setPlayerPrice} type="number" value={playerPrice} />
                 <div className={props.styles.createPlayerDropdowns}>
                     <Dropdown activeValue={playerPosition} onChange={setPlayerPosition} options={options} title="Position" />
                     <Dropdown activeValue={playerTeam} onChange={setPlayerTeam} options={props.allTeams} title="Team" />

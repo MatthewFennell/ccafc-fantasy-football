@@ -16,3 +16,7 @@ export const getTeamsWithPlayers = state => state.admin.teamsWithPlayers;
 export const getDeletingPlayer = state => state.admin.deletingPlayer;
 export const getDeletePlayerError = state => state.admin.deletePlayerError;
 export const getDeletePlayerErrorCode = state => state.admin.deletePlayerErrorCode;
+
+export const getDeletingTeam = state => state.admin.deletingTeam;
+export const getDeleteTeamError = state => state.admin.deleteTeamError;
+export const getDeleteTeamErrorCode = state => state.admin.deleteTeamErrorCode;
