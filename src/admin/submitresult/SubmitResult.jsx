@@ -1,14 +1,20 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import fp from 'lodash/fp';
 import defaultStyles from './SubmitResult.module.scss';
-import { fetchTeamsRequest, fetchPlayersForTeamRequest, submitResultRequest } from '../actions';
+import {
+    fetchTeamsRequest, fetchPlayersForTeamRequest, submitResultRequest,
+    closeSubmitResultError
+} from '../actions';
 import * as selectors from '../selectors';
 import Dropdown from '../../common/dropdown/Dropdown';
 import StyledInput from '../../common/StyledInput/StyledInput';
 import { isDefensive } from '../../helperFunctions';
 import StyledButton from '../../common/StyledButton/StyledButton';
+import Spinner from '../../common/spinner/Spinner';
+import ErrorModal from '../../common/modal/ErrorModal';
 
 const SubmitResult = props => {
     useEffect(() => {
@@ -16,9 +22,9 @@ const SubmitResult = props => {
     }, [props.fetchTeamsRequest]);
 
     const [teamName, setTeamName] = useState('');
-    const [goalsFor, setGoalsFor] = useState(0);
+    const [goalsFor, setGoalsFor] = useState('');
     const [goalsAgainst, setGoalsAgainst] = useState('');
-    const [gameWeek, setGameWeek] = useState(0);
+    const [gameWeek, setGameWeek] = useState('');
 
     const [goalScorers, setGoalscorers] = useState({});
     const [assisters, setAssisters] = useState({});
@@ -64,12 +70,18 @@ const SubmitResult = props => {
             resultObject = fp.set(`${playerId}.cleanSheet`, true, resultObject);
         });
 
-        const teamId = props.allTeams.find(x => x.value === teamName).id;
+        const teamId = fp.get('id')(props.allTeams.find(x => x.value === teamName)) || null;
 
-        props.submitResultRequest(teamId, parseInt(goalsFor, 10), parseInt(goalsAgainst, 10),
-            parseInt(gameWeek, 10), resultObject);
-        setGoalsFor(0);
-        setGoalsAgainst(0);
+        props.submitResultRequest(
+            teamId,
+            parseInt(goalsFor, 10) || '',
+            parseInt(goalsAgainst, 10) || '',
+            parseInt(gameWeek, 10) || '',
+            resultObject
+        );
+
+        setGoalsFor('');
+        setGoalsAgainst('');
         setGameWeek('');
     }, [teamName, goalsFor, goalsAgainst, gameWeek, goalScorers,
         assisters, cleanSheets, props.submitResultRequest]);
@@ -140,6 +152,19 @@ const SubmitResult = props => {
                     text="Submit Result"
                 />
             </div>
+            <ErrorModal
+                closeModal={props.closeSubmitResultError}
+                headerMessage="Submit Result Error"
+                isOpen={props.submitResultError.length > 0}
+                errorCode={props.submitResultErrorCode}
+                errorMessage={props.submitResultError}
+            />
+            <div className={classNames({
+                [props.styles.hidden]: !props.submittingResult
+            })}
+            >
+                <Spinner color="secondary" />
+            </div>
         </div>
     );
 };
@@ -151,14 +176,19 @@ SubmitResult.defaultProps = {
 
 SubmitResult.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
+    closeSubmitResultError: PropTypes.func.isRequired,
     fetchTeamsRequest: PropTypes.func.isRequired,
     fetchPlayersForTeamRequest: PropTypes.func.isRequired,
     styles: PropTypes.objectOf(PropTypes.string),
+    submitResultError: PropTypes.string.isRequired,
+    submitResultErrorCode: PropTypes.string.isRequired,
     submitResultRequest: PropTypes.func.isRequired,
+    submittingResult: PropTypes.bool.isRequired,
     teamsWithPlayers: PropTypes.objectOf(PropTypes.array).isRequired
 };
 
 const mapDispatchToProps = {
+    closeSubmitResultError,
     fetchTeamsRequest,
     fetchPlayersForTeamRequest,
     submitResultRequest
@@ -166,6 +196,9 @@ const mapDispatchToProps = {
 
 const mapStateToprops = state => ({
     allTeams: selectors.getAllTeams(state),
+    submittingResult: selectors.getSubmittingResult(state),
+    submitResultError: selectors.getSubmitResultError(state),
+    submitResultErrorCode: selectors.getSubmitResultErrorCode(state),
     teamsWithPlayers: selectors.getTeamsWithPlayers(state)
 });
 

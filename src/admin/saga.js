@@ -64,6 +64,7 @@ function* submitResult(action) {
                 week: action.week,
                 players: action.players
             });
+        yield put(actions.submitResultSuccess());
     } catch (error) {
         yield put(actions.submitResultError(error));
     }

@@ -20,3 +20,7 @@ export const getDeletePlayerErrorCode = state => state.admin.deletePlayerErrorCo
 export const getDeletingTeam = state => state.admin.deletingTeam;
 export const getDeleteTeamError = state => state.admin.deleteTeamError;
 export const getDeleteTeamErrorCode = state => state.admin.deleteTeamErrorCode;
+
+export const getSubmittingResult = state => state.admin.submittingResult;
+export const getSubmitResultError = state => state.admin.submitResultError;
+export const getSubmitResultErrorCode = state => state.admin.submitResultErrorCode;

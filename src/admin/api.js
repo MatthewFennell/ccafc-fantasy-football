@@ -7,7 +7,7 @@ export const getAllTeams = () => functionToCall('team-getAllTeams')()
         value: team.data.team_name
     })));
 
-export const createPlayer = request => functionToCall('player-createPlayer')(request);
+export const createPlayer = request => functionToCall('createPlayer')(request);
 export const deletePlayer = request => functionToCall('player-deletePlayer')(request);
 
 export const createTeam = request => functionToCall('team-createTeam')(request);

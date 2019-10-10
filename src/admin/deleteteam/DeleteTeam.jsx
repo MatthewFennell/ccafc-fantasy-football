@@ -49,7 +49,6 @@ const DeleteTeam = props => {
                 errorCode={props.deleteTeamErrorCode}
                 errorMessage={props.deleteTeamError}
             />
-
             <div className={classNames({
                 [props.styles.hidden]: !props.deletingTeam
             })}

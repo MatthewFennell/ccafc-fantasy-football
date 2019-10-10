@@ -17,6 +17,7 @@ export const CLOSE_CREATE_TEAM_ERROR = `${pre}CLOSE_CREATE_TEAM_ERROR`;
 export const SUBMIT_RESULT_REQUEST = `${pre}SUBMIT_RESULT_REQUEST`;
 export const SUBMIT_RESULT_SUCCESS = `${pre}SUBMIT_RESULT_SUCCESS`;
 export const SUBMIT_RESULT_ERROR = `${pre}SUBMIT_RESULT_ERROR`;
+export const CLOSE_SUBMIT_RESULT_ERROR = `${pre}CLOSE_SUBMIT_RESULT_ERROR`;
 
 export const FETCH_PLAYERS_FOR_TEAM_REQUEST = `${pre}FETCH_PLAYERS_FOR_TEAM_REQUEST`;
 export const FETCH_PLAYERS_FOR_TEAM_SUCCESS = `${pre}FETCH_PLAYERS_FOR_TEAM_SUCCESS`;
@@ -100,9 +101,17 @@ export const submitResultRequest = (teamId, goalsFor, goalsAgainst, week, player
     players
 });
 
+export const submitResultSuccess = () => ({
+    type: SUBMIT_RESULT_SUCCESS
+});
+
 export const submitResultError = error => ({
     type: SUBMIT_RESULT_ERROR,
     error
+});
+
+export const closeSubmitResultError = () => ({
+    type: CLOSE_SUBMIT_RESULT_ERROR
 });
 
 // -------------------------------------------------------------------- \\
@@ -158,3 +167,5 @@ export const deleteTeamError = error => ({
 export const closeDeleteTeamError = () => ({
     type: CLOSE_DELETE_TEAM_ERROR
 });
+
+// -------------------------------------------------------------------- \\
