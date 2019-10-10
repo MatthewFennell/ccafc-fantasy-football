@@ -4,78 +4,12 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
-import DetailsIcon from '@material-ui/icons/Details';
-import GradeIcon from '@material-ui/icons/Grade';
-import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-import LayersIcon from '@material-ui/icons/Layers';
-import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import * as constants from '../constants';
-
-const signedInLinks = [
-    {
-        title: 'Overview',
-        redirect: constants.URL.OVERVIEW,
-        component: <DetailsIcon />
-    },
-    {
-        title: 'Current Team',
-        redirect: '/current-team',
-        component: <PeopleAltIcon />
-    },
-    {
-        title: 'Transfers',
-        redirect: '/transfers',
-        component: <PersonAddIcon />
-    },
-    {
-        title: 'Points',
-        redirect: '/points',
-        component: <GradeIcon />
-    },
-    {
-        title: 'Leagues',
-        redirect: constants.URL.LEAGUES,
-        component: <LayersIcon />
-    }
-];
-
-const signedOutLinks = [
-    {
-        title: 'Sign In',
-        redirect: constants.URL.SIGN_IN,
-        component: <DoubleArrowIcon />
-    },
-    {
-        title: 'Sign Up',
-        redirect: constants.URL.SIGN_UP,
-        component: <AccountBoxIcon />
-    }
-];
-
-const adminLinks = [
-    {
-        title: 'Create Player',
-        redirect: constants.ADMIN_URL.CREATE_PLAYER,
-        component: <PersonAddIcon />
-    },
-    {
-        title: 'Create Team',
-        redirect: constants.ADMIN_URL.CREATE_TEAM,
-        component: <PersonAddIcon />
-    },
-    {
-        title: 'Submit Result',
-        redirect: constants.ADMIN_URL.SUBMIT_RESULT,
-        component: <PersonAddIcon />
-    }
-];
+import * as routes from '../routes';
 
 const SideList = props => {
-    const linksToRender = props.isSignedIn ? signedInLinks : signedOutLinks;
+    const linksToRender = props.isSignedIn ? routes.signedInLinks : routes.signedOutLinks;
     return (
         <div
             role="presentation"
@@ -84,8 +18,8 @@ const SideList = props => {
         >
             <List>
                 {linksToRender.map(item => (
-                    <ListItem button key={item.title} onClick={() => props.redirect(item.redirect)}>
-                        <ListItemIcon>{item.component}</ListItemIcon>
+                    <ListItem button key={item.title} onClick={() => props.redirect(item.path)}>
+                        <ListItemIcon>{item.icon}</ListItemIcon>
                         <ListItemText primary={item.title} />
                     </ListItem>
                 ))}
@@ -94,13 +28,13 @@ const SideList = props => {
             <>
                 <Divider />
                 <List>
-                    {adminLinks.map(item => (
+                    {routes.adminLinks.map(item => (
                         <ListItem
                             button
                             key={item.title}
-                            onClick={() => props.redirect(item.redirect)}
+                            onClick={() => props.redirect(item.path)}
                         >
-                            <ListItemIcon>{item.component}</ListItemIcon>
+                            <ListItemIcon>{item.icon}</ListItemIcon>
                             <ListItemText primary={item.title} />
                         </ListItem>
                     ))}

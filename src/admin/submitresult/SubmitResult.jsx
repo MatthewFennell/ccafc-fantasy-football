@@ -44,7 +44,7 @@ const SubmitResult = props => {
     const unSelectedCleanSheets = defensivePlayersForActiveTeam
         .filter(x => !Object.values(cleanSheets).includes(x.value));
 
-    const nameToId = name => playersForActiveTeam.find(a => a.value === name).id;
+    const nameToId = name => fp.get('id')(playersForActiveTeam.find(a => a.value === name));
 
     const submitResult = useCallback(() => {
         let resultObject = {};

@@ -25,9 +25,10 @@ import Testing from './testing/Testing';
 import Leagues from './leagues/Leagues';
 import UsersInLeague from './leagues/UsersInLeague';
 import AdminRoute from './auth/routes/AdminRoute';
-import CreatePlayer from './admin/createplayer/CreatePlayer';
-import CreateTeam from './admin/createteam/CreateTeam';
 import SubmitResult from './admin/submitresult/SubmitResult';
+
+import * as routes from './routes';
+
 
 const App = props => (
     props.auth && props.auth.isLoaded ? (
@@ -52,8 +53,8 @@ const App = props => (
 
                             <UnauthenticatedEmailRoute path={constants.URL.VERIFY_EMAIL} component={VerifyEmail} redirect={constants.URL.PROFILE} />
 
-                            <AdminRoute exact path={constants.ADMIN_URL.CREATE_PLAYER} component={CreatePlayer} />
-                            <AdminRoute exact path={constants.ADMIN_URL.CREATE_TEAM} component={CreateTeam} />
+                            {routes.adminLinks.map(link => <AdminRoute exact path={link.path} component={link.component} />)}
+
                             <AdminRoute exact path={constants.ADMIN_URL.SUBMIT_RESULT} component={SubmitResult} />
 
                             <Route render={() => <Redirect to="/" />} />

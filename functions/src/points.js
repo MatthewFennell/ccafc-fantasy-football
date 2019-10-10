@@ -62,7 +62,7 @@ exports.submitResult = functions
                     return ({ id: playerId, position: player.data().position, ref: player.ref });
                 })));
 
-            Promise.all(playerPromises).then(playerPositionsArray => {
+            return Promise.all(playerPromises).then(playerPositionsArray => {
                 const playerPositions = playerPositionsArray
                     .reduce((acc, cur) => ({ ...acc, [cur.id]: cur.position.toUpperCase() }), {});
 

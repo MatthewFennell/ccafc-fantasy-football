@@ -40,3 +40,20 @@ exports.getAllTeams = functions
             .then(querySnapshot => querySnapshot.docs
                 .map(doc => ({ data: doc.data(), id: doc.id })));
     });
+
+
+exports.getPlayersInTeam = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        if (!data.teamName) {
+            throw new functions.https.HttpsError('invalid-argument', 'You must enter a team name');
+        }
+        common.isAuthenticated(context);
+        return db
+            .collection('players').where('team', '==', data.teamName).get()
+            .then(docs => docs.docs.map(doc => ({
+                name: doc.data().name,
+                position: doc.data().position,
+                id: doc.id
+            })));
+    });

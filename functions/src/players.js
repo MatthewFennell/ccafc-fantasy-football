@@ -1,6 +1,6 @@
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
-const commonFunctions = require('./common');
+const common = require('./common');
 const constants = require('./constants');
 
 const db = admin.firestore();
@@ -10,7 +10,7 @@ const db = admin.firestore();
 exports.createPlayer = functions
     .region(constants.region)
     .https.onCall((data, context) => {
-        commonFunctions.isAuthenticated(context);
+        common.isAuthenticated(context);
         const teamExistsRef = db.collection('teams')
             .where('team_name', '==', data.team);
         const playerAlreadyExistsRef = db.collection('players')
@@ -43,7 +43,7 @@ exports.createPlayer = functions
 exports.getAllPlayers = functions
     .region(constants.region)
     .https.onCall((data, context) => {
-        commonFunctions.isAuthenticated(context);
+        common.isAuthenticated(context);
         return db
             .collection('players')
             .get()

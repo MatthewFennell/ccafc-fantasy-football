@@ -12,6 +12,7 @@ export const URL = {
 
 export const ADMIN_URL = {
     CREATE_PLAYER: '/create-player',
+    DELETE_PLAYER: '/delete-player',
     CREATE_TEAM: '/create-team',
     SUBMIT_RESULT: '/submit-result'
 };
