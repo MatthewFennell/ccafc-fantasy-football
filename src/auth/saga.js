@@ -12,7 +12,6 @@ function* signOut() {
     try {
         yield firebase.auth().signOut();
         yield put(actions.signOutSuccess());
-        yield put(push('/tes'));
     } catch (error) {
         yield put(actions.signOutError(error));
     }
