@@ -8,12 +8,13 @@ export const getAllTeams = () => functionToCall('team-getAllTeams')()
     })));
 
 export const createPlayer = request => functionToCall('player-createPlayer')(request);
+export const deletePlayer = request => functionToCall('deletePlayer')(request);
 
 export const createTeam = teamName => functionToCall('team-createTeam')(teamName);
 
 export const addPointsForTeamInWeek = request => functionToCall('points-submitResult')(request);
 
-export const getPlayersInTeam = request => functionToCall('getPlayersInTeam')(request)
+export const getPlayersInTeam = request => functionToCall('team-getPlayersInTeam')(request)
     .then(response => response.data.map(player => ({
         id: player.id,
         text: player.name,
@@ -21,4 +22,4 @@ export const getPlayersInTeam = request => functionToCall('getPlayersInTeam')(re
         position: player.position
     })));
 
-export const submitResult = request => functionToCall('submitResult')(request);
+export const submitResult = request => functionToCall('points-submitResult')(request);

@@ -21,6 +21,11 @@ export const SUBMIT_RESULT_ERROR = `${pre}SUBMIT_RESULT_ERROR`;
 export const FETCH_PLAYERS_FOR_TEAM_REQUEST = `${pre}FETCH_PLAYERS_FOR_TEAM_REQUEST`;
 export const FETCH_PLAYERS_FOR_TEAM_SUCCESS = `${pre}FETCH_PLAYERS_FOR_TEAM_SUCCESS`;
 
+export const DELETE_PLAYER_REQUEST = `${pre}DELETE_PLAYER_REQUEST`;
+export const DELETE_PLAYER_SUCCESS = `${pre}DELETE_PLAYER_SUCCESS`;
+export const DELETE_PLAYER_ERROR = `${pre}DELETE_PLAYER_ERROR`;
+export const CLOSE_DELETE_PLAYER_ERROR = `${pre}CLOSE_DELETE_PLAYER_ERROR`;
+
 export const fetchTeamsRequest = () => ({
     type: FETCH_TEAMS_REQUEST
 });
@@ -106,4 +111,24 @@ export const fetchPlayersForTeamSuccess = (teamName, players) => ({
     type: FETCH_PLAYERS_FOR_TEAM_SUCCESS,
     teamName,
     players
+});
+
+// -------------------------------------------------------------------- \\
+
+export const deletePlayerRequest = playerId => ({
+    type: DELETE_PLAYER_REQUEST,
+    playerId
+});
+
+export const deletePlayerSuccess = () => ({
+    type: DELETE_PLAYER_SUCCESS
+});
+
+export const deletePlayerError = error => ({
+    type: DELETE_PLAYER_ERROR,
+    error
+});
+
+export const closeDeletePlayerError = () => ({
+    type: CLOSE_DELETE_PLAYER_ERROR
 });

@@ -12,3 +12,7 @@ export const getCreatingTeam = state => state.admin.creatingTeam;
 
 export const getPlayersInTeam = (state, teamName) => fp.get(teamName)(state.admin.teamsWithPlayers);
 export const getTeamsWithPlayers = state => state.admin.teamsWithPlayers;
+
+export const getDeletingPlayer = state => state.admin.deletingPlayer;
+export const getDeletePlayerError = state => state.admin.deletePlayerError;
+export const getDeletePlayerErrorCode = state => state.admin.deletePlayerErrorCode;
