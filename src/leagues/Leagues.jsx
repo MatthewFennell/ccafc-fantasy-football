@@ -16,7 +16,6 @@ import CreateLeagueForm from './CreateLeagueForm';
 import JoinLeagueForm from './JoinLeagueForm';
 import ErrorModal from '../common/modal/ErrorModal';
 import Spinner from '../common/spinner/Spinner';
-import LoadingText from '../common/spinner/LoadingText';
 
 const columns = [
     {
@@ -34,7 +33,7 @@ const columns = [
 const Leagues = props => {
     const [createLeagueOpen, setCreateLeagueOpen] = useState(false);
     const [leagueName, setLeagueName] = useState('');
-    const [startWeek, setStartWeek] = useState(0);
+    const [startWeek, setStartWeek] = useState('');
 
     const [joinLeagueOpen, setJoinLeagueOpen] = useState(false);
     const [leagueNameToJoin, setLeagueNameToJoin] = useState('');
@@ -88,8 +87,10 @@ const Leagues = props => {
             >
                 <div className={props.styles.modalWrapper}>
                     <CreateLeagueForm
+                        leagueName={leagueName}
                         setLeagueName={setLeagueName}
                         setStartWeek={setStartWeek}
+                        startWeek={startWeek}
                         onCreate={onLeagueCreate}
                     />
                 </div>
@@ -103,6 +104,7 @@ const Leagues = props => {
             >
                 <div className={props.styles.modalWrapper}>
                     <JoinLeagueForm
+                        leagueNameToJoin={leagueNameToJoin}
                         setLeagueName={setLeagueNameToJoin}
                         onJoin={onLeagueJoin}
                     />
@@ -126,14 +128,12 @@ const Leagues = props => {
             && (
                 <div className={props.styles.spinnerWrapper}>
                     <Spinner color="secondary" />
-                    <LoadingText loadingText="Creating League" />
                 </div>
             )}
             {props.joiningLeague
                 && (
                     <div className={props.styles.spinnerWrapper}>
                         <Spinner color="secondary" />
-                        <LoadingText loadingText="Joining League" />
                     </div>
                 )}
         </>

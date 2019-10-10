@@ -68,6 +68,9 @@ const SubmitResult = props => {
 
         props.submitResultRequest(teamId, parseInt(goalsFor, 10), parseInt(goalsAgainst, 10),
             parseInt(gameWeek, 10), resultObject);
+        setGoalsFor(0);
+        setGoalsAgainst(0);
+        setGameWeek('');
     }, [teamName, goalsFor, goalsAgainst, gameWeek, goalScorers,
         assisters, cleanSheets, props.submitResultRequest]);
 
@@ -111,9 +114,9 @@ const SubmitResult = props => {
         <div className={props.styles.submitResultWrapper}>
             <Dropdown activeValue={teamName} onChange={setTeam} options={props.allTeams} title="Team" />
             <div className={props.styles.goalsForWrapper}>
-                <StyledInput label="Goals For" onChange={setGoalsFor} type="number" />
-                <StyledInput label="Goals Against" onChange={setGoalsAgainst} type="number" />
-                <StyledInput label="Gameweek" onChange={setGameWeek} type="number" />
+                <StyledInput label="Goals For" onChange={setGoalsFor} type="number" value={goalsFor} />
+                <StyledInput label="Goals Against" onChange={setGoalsAgainst} type="number" value={goalsAgainst} />
+                <StyledInput label="Gameweek" onChange={setGameWeek} type="number" value={gameWeek} />
             </div>
 
             <div className={props.styles.goalScorersWrapper}>

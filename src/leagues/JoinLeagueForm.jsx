@@ -8,7 +8,7 @@ import defaultStyles from './styles/LeagueForm.module.scss';
 
 const JoinLeague = props => (
     <div className={props.styles.joinLeagueWrapper}>
-        <StyledInput label="League Name" onChange={props.setLeagueName} styles={inputOverrideStyles} />
+        <StyledInput label="League Name" onChange={props.setLeagueName} styles={inputOverrideStyles} value={props.leagueNameToJoin} />
         <StyledButton
             color="primary"
             onClick={props.onJoin}
@@ -19,12 +19,14 @@ const JoinLeague = props => (
 );
 
 JoinLeague.defaultProps = {
+    leagueNameToJoin: '',
     onJoin: noop,
     setLeagueName: noop,
     styles: defaultStyles
 };
 
 JoinLeague.propTypes = {
+    leagueNameToJoin: PropTypes.string,
     onJoin: PropTypes.func,
     setLeagueName: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string)

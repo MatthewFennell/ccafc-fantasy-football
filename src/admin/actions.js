@@ -26,6 +26,11 @@ export const DELETE_PLAYER_SUCCESS = `${pre}DELETE_PLAYER_SUCCESS`;
 export const DELETE_PLAYER_ERROR = `${pre}DELETE_PLAYER_ERROR`;
 export const CLOSE_DELETE_PLAYER_ERROR = `${pre}CLOSE_DELETE_PLAYER_ERROR`;
 
+export const DELETE_TEAM_REQUEST = `${pre}DELETE_TEAM_REQUEST`;
+export const DELETE_TEAM_SUCCESS = `${pre}DELETE_TEAM_SUCCESS`;
+export const DELETE_TEAM_ERROR = `${pre}DELETE_TEAM_ERROR`;
+export const CLOSE_DELETE_TEAM_ERROR = `${pre}CLOSE_DELETE_TEAM_ERROR`;
+
 export const fetchTeamsRequest = () => ({
     type: FETCH_TEAMS_REQUEST
 });
@@ -131,4 +136,25 @@ export const deletePlayerError = error => ({
 
 export const closeDeletePlayerError = () => ({
     type: CLOSE_DELETE_PLAYER_ERROR
+});
+
+// -------------------------------------------------------------------- \\
+
+export const deleteTeamRequest = (teamId, teamName) => ({
+    type: DELETE_TEAM_REQUEST,
+    teamId,
+    teamName
+});
+
+export const deleteTeamSuccess = () => ({
+    type: DELETE_TEAM_SUCCESS
+});
+
+export const deleteTeamError = error => ({
+    type: DELETE_TEAM_ERROR,
+    error
+});
+
+export const closeDeleteTeamError = () => ({
+    type: CLOSE_DELETE_TEAM_ERROR
 });

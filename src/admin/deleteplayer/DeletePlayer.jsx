@@ -32,6 +32,8 @@ const DeletePlayer = props => {
 
     const deletePlayer = useCallback(() => {
         props.deletePlayerRequest(nameToId(playerName));
+        setPlayerName('');
+        setPlayerTeam('');
     }, [playerName, props.deletePlayerRequest]);
 
     return (

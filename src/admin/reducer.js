@@ -16,7 +16,11 @@ const initState = {
 
     deletingPlayer: false,
     deletePlayerError: '',
-    deletePlayerErrorCode: ''
+    deletePlayerErrorCode: '',
+
+    deletingTeam: false,
+    deleteTeamError: false,
+    deleteTeamErrorCode: false
 };
 
 const adminReducer = (state = initState, action) => {
@@ -94,6 +98,27 @@ const adminReducer = (state = initState, action) => {
             ...state,
             deletePlayerError: '',
             deletePlayerErrorCode: ''
+        };
+    }
+    case actions.DELETE_TEAM_REQUEST: {
+        return fp.set('deletingTeam', true)(state);
+    }
+    case actions.DELETE_TEAM_SUCCESS: {
+        return fp.set('deletingTeam', false)(state);
+    }
+    case actions.DELETE_TEAM_ERROR: {
+        return {
+            ...state,
+            deleteTeamError: action.error.message,
+            deleteTeamErrorCode: action.error.code,
+            deletingTeam: false
+        };
+    }
+    case actions.CLOSE_DELETE_TEAM_ERROR: {
+        return {
+            ...state,
+            deleteTeamError: '',
+            deleteTeamErrorCode: ''
         };
     }
     default:

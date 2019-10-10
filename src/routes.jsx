@@ -15,6 +15,7 @@ import SubmitResult from './admin/submitresult/SubmitResult';
 import DeletePlayer from './admin/deleteplayer/DeletePlayer';
 import SignIn from './auth/SignIn';
 import SignUp from './auth/SignUp';
+import DeleteTeam from './admin/deleteteam/DeleteTeam';
 
 import Overview from './overview/Overview';
 import Leagues from './leagues/Leagues';
@@ -41,11 +42,18 @@ export const adminLinks = [
         component: CreateTeam
     },
     {
+        title: 'Delete Team',
+        path: constants.ADMIN_URL.DELETE_TEAM,
+        icon: <DeleteIcon />,
+        component: DeleteTeam
+    },
+    {
         title: 'Submit Result',
         path: constants.ADMIN_URL.SUBMIT_RESULT,
         icon: <PersonAddIcon />,
         component: SubmitResult
     }
+
 ];
 
 export const signedOutLinks = [

@@ -8,9 +8,10 @@ export const getAllTeams = () => functionToCall('team-getAllTeams')()
     })));
 
 export const createPlayer = request => functionToCall('player-createPlayer')(request);
-export const deletePlayer = request => functionToCall('deletePlayer')(request);
+export const deletePlayer = request => functionToCall('player-deletePlayer')(request);
 
-export const createTeam = teamName => functionToCall('team-createTeam')(teamName);
+export const createTeam = request => functionToCall('team-createTeam')(request);
+export const deleteTeam = request => functionToCall('team-deleteTeam')(request);
 
 export const addPointsForTeamInWeek = request => functionToCall('points-submitResult')(request);
 

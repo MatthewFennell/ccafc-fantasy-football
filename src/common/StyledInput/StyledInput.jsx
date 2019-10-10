@@ -8,6 +8,7 @@ import defaultStyles from './StyledInput.module.scss';
 
 const StyledInput = props => (
     <MDBInput
+        value={props.value}
         hint={props.hint}
         label={props.label}
         icon={props.icon}
@@ -25,7 +26,8 @@ StyledInput.defaultProps = {
     onChange: noop,
     styles: defaultStyles,
     type: 'text',
-    disabled: false
+    disabled: false,
+    value: ''
 };
 
 StyledInput.propTypes = {
@@ -35,7 +37,8 @@ StyledInput.propTypes = {
     onChange: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string),
     type: PropTypes.string,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    value: PropTypes.string
 };
 
 export default StyledInput;

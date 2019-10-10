@@ -15,6 +15,7 @@ const CreateTeam = props => {
 
     const createTeam = useCallback(() => {
         props.createTeamRequest(teamName);
+        setTeamName('');
     }, [teamName]);
 
     return (
@@ -27,7 +28,7 @@ const CreateTeam = props => {
                 />
             </div>
             <div className={props.styles.createTeamForm}>
-                <StyledInput label="Team Name" onChange={setTeamName} />
+                <StyledInput label="Team Name" onChange={setTeamName} value={teamName} />
             </div>
             <ErrorModal
                 closeModal={props.closeCreateTeamError}

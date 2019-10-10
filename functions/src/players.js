@@ -50,3 +50,20 @@ exports.getAllPlayers = functions
             .then(querySnapshot => querySnapshot.docs
                 .map(doc => ({ data: doc.data(), id: doc.id })));
     });
+
+
+exports.deletePlayer = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        if (!data.playerId) {
+            throw new functions.https.HttpsError('invalid-argument', 'Must provide a valid player id');
+        }
+        return db.collection('weekly-teams').where('player_ids', 'array-contains', data.playerId).get()
+            .then(docs => {
+                if (docs.size > 0) {
+                    throw new functions.https.HttpsError('invalid-argument', 'That player exists in somebodys team. Cannot be deleted');
+                }
+                return db.collection('players').doc(data.playerId).delete();
+            });
+    });

@@ -35,6 +35,8 @@ function* createTeam(action) {
     try {
         yield call(api.createTeam, ({ teamName: action.teamName }));
         yield put(actions.createTeamSuccess());
+        const allTeams = yield call(api.getAllTeams);
+        yield put(actions.fetchTeamsSuccess(allTeams));
     } catch (error) {
         yield put(actions.createTeamError(error));
     }
@@ -76,6 +78,20 @@ function* deletePlayer(action) {
     }
 }
 
+function* deleteTeam(action) {
+    try {
+        yield call(api.deleteTeam, {
+            teamId: action.teamId,
+            teamName: action.teamName
+        });
+        yield put(actions.deleteTeamSuccess());
+        const allTeams = yield call(api.getAllTeams);
+        yield put(actions.fetchTeamsSuccess(allTeams));
+    } catch (error) {
+        yield put(actions.deleteTeamError(error));
+    }
+}
+
 export default function* adminSaga() {
     yield all([
         takeEvery(actions.FETCH_TEAMS_REQUEST, fetchTeams),
@@ -83,6 +99,7 @@ export default function* adminSaga() {
         takeEvery(actions.CREATE_TEAM_REQUEST, createTeam),
         takeEvery(actions.FETCH_PLAYERS_FOR_TEAM_REQUEST, getPlayersForTeam),
         takeEvery(actions.SUBMIT_RESULT_REQUEST, submitResult),
-        takeEvery(actions.DELETE_PLAYER_REQUEST, deletePlayer)
+        takeEvery(actions.DELETE_PLAYER_REQUEST, deletePlayer),
+        takeEvery(actions.DELETE_TEAM_REQUEST, deleteTeam)
     ]);
 }

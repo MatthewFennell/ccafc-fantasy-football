@@ -53,7 +53,7 @@ const App = props => (
 
                             <UnauthenticatedEmailRoute path={constants.URL.VERIFY_EMAIL} component={VerifyEmail} redirect={constants.URL.PROFILE} />
 
-                            {routes.adminLinks.map(link => <AdminRoute exact path={link.path} component={link.component} />)}
+                            {routes.adminLinks.map(link => <AdminRoute exact path={link.path} component={link.component} key={link.path} />)}
 
                             <AdminRoute exact path={constants.ADMIN_URL.SUBMIT_RESULT} component={SubmitResult} />
 

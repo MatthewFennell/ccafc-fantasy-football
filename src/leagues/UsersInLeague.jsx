@@ -10,7 +10,6 @@ import * as constants from '../constants';
 import StyledButton from '../common/StyledButton/StyledButton';
 import ConfirmModal from '../common/modal/ConfirmModal';
 import Spinner from '../common/spinner/Spinner';
-import LoadingText from '../common/spinner/LoadingText';
 import ErrorModal from '../common/modal/ErrorModal';
 
 const columns = [
@@ -84,7 +83,6 @@ const UsersInLeague = props => {
                 && (
                     <div className={props.styles.spinnerWrapper}>
                         <Spinner color="secondary" />
-                        <LoadingText loadingText="Leaving League" />
                     </div>
                 )}
         </div>
