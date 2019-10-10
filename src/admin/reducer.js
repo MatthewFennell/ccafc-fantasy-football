@@ -8,7 +8,7 @@ const initState = {
     createPlayerError: '',
     createPlayerErrorCode: '',
 
-    creatingTeam: '',
+    creatingTeam: false,
     createTeamError: '',
     createTeamErrorCode: '',
 
