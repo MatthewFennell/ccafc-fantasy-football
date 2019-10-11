@@ -21,11 +21,10 @@ const CurrentTeam = props => {
                 additionalInfo={player.team}
                 name={player.name}
                 shirtStyles={styles}
+                size="3x"
                 key={player.name}
             />
         ));
-
-    console.log('fetching', props.fetchingForUser);
 
     return (
         <div className={props.styles.currentTeamWrapper}>
