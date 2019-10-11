@@ -14,6 +14,7 @@ const SideNavbar = props => (
             redirect={props.redirect}
             isAdmin={props.isAdmin}
             isSignedIn={props.isSignedIn}
+            userId={props.userId}
         />
     </SwipeableDrawer>
 );
@@ -23,7 +24,8 @@ SideNavbar.defaultProps = {
     isAdmin: false,
     isOpen: false,
     isSignedIn: false,
-    redirect: noop
+    redirect: noop,
+    userId: ''
 };
 
 SideNavbar.propTypes = {
@@ -31,7 +33,8 @@ SideNavbar.propTypes = {
     isAdmin: PropTypes.bool,
     isOpen: PropTypes.bool,
     isSignedIn: PropTypes.bool,
-    redirect: PropTypes.func
+    redirect: PropTypes.func,
+    userId: PropTypes.string
 };
 
 export default SideNavbar;

@@ -7,11 +7,13 @@ import authReducer from './auth/reducer';
 import leagueReducer from './leagues/reducer';
 import testingReducer from './testing/reducer';
 import overviewReducer from './overview/reducer';
+import currentTeamReducer from './currentteam/reducer';
 import * as authActions from './auth/actions';
 
 const appReducer = history => combineReducers({
     admin: adminReducer,
     auth: authReducer,
+    currentTeam: currentTeamReducer,
     leagues: leagueReducer,
     firestore: firestoreReducer,
     firebase: firebaseReducer,

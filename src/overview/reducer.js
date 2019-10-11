@@ -7,7 +7,8 @@ const initialState = {
     remainingBudget: null,
     remainingTransfers: null,
     userInfo: { },
-    fetchedUserInfo: false,
+    fetchedUserStats: false,
+    fetchedInitialUserInfo: false,
     fetchingUserInfo: false,
     maxGameWeek: null
 };
@@ -29,7 +30,8 @@ const overviewReducer = (state = initialState, action) => {
                 ...rest
             }))(state.userInfo),
             fetchingUserInfo: false,
-            maxGameWeek: gameWeek
+            maxGameWeek: gameWeek,
+            fetchedInitialUserInfo: true
         };
     }
     case actions.FETCH_INITIAL_USER_WEEK_INFO_ERROR: {
@@ -60,7 +62,8 @@ const overviewReducer = (state = initialState, action) => {
             ...state,
             totalPoints: action.stats.totalPoints,
             remainingBudget: action.stats.remainingBudget,
-            remainingTransfers: action.stats.remainingTransfers
+            remainingTransfers: action.stats.remainingTransfers,
+            fetchedUserStats: true
         };
     }
     default:
