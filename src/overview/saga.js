@@ -7,7 +7,7 @@ import * as api from './api';
 
 function* getInitialUserInfo() {
     try {
-        const alreadyFetched = yield select(selectors.getFetchedUserInfo);
+        const alreadyFetched = yield select(selectors.getFetchedInitialUserInfo);
         if (!alreadyFetched) {
             const result = yield call(api.getUserInfo);
             yield put(actions.fetchInitialUserWeekInfoSuccess(result));
@@ -35,8 +35,11 @@ function* getUserInfoForWeek(action) {
 
 function* getUserStats() {
     try {
-        const stats = yield call(api.getUserStats);
-        yield put(actions.fetchUserStatsSuccess(stats));
+        const fetchedStats = yield select(selectors.getFetchedUserStats);
+        if (!fetchedStats) {
+            const stats = yield call(api.getUserStats);
+            yield put(actions.fetchUserStatsSuccess(stats));
+        }
     } catch (error) {
         yield put(actions.fetchUserStatsError(error));
     }

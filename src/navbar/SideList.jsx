@@ -18,7 +18,7 @@ const SideList = props => {
         >
             <List>
                 {linksToRender.map(item => (
-                    <ListItem button key={item.title} onClick={() => props.redirect(item.path)}>
+                    <ListItem button key={item.title} onClick={() => props.redirect(item.addUserId ? `${item.path}/${props.userId}` : item.path)}>
                         <ListItemIcon>{item.icon}</ListItemIcon>
                         <ListItemText primary={item.title} />
                     </ListItem>
@@ -49,14 +49,16 @@ SideList.defaultProps = {
     closeNavbar: noop,
     isAdmin: false,
     isSignedIn: false,
-    redirect: noop
+    redirect: noop,
+    userId: ''
 };
 
 SideList.propTypes = {
     closeNavbar: PropTypes.func,
     isAdmin: PropTypes.bool,
     isSignedIn: PropTypes.bool,
-    redirect: PropTypes.func
+    redirect: PropTypes.func,
+    userId: PropTypes.string
 };
 
 

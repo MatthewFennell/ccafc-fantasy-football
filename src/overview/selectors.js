@@ -2,7 +2,9 @@ import fp from 'lodash/fp';
 
 export const getUserInfo = state => state.overview.userInfo;
 
-export const getFetchedUserInfo = state => state.overview.fetchedUserInfo;
+export const getFetchedUserStats = state => state.overview.fetchedUserStats;
+
+export const getFetchedInitialUserInfo = state => state.overview.fetchedInitialUserInfo;
 export const getFetchingUserInfo = state => state.overview.fetchingUserInfo;
 
 export const getCurrentGameWeek = state => state.overview.currentGameWeek;

@@ -76,30 +76,35 @@ export const signedInLinks = [
         title: 'Overview',
         path: constants.URL.OVERVIEW,
         icon: <DetailsIcon />,
-        component: Overview
+        component: Overview,
+        addUserId: false
     },
     {
         title: 'Current Team',
-        path: '/current-team',
+        path: constants.URL.CURRENT_TEAM,
         icon: <PeopleAltIcon />,
-        component: Overview
+        component: Overview,
+        addUserId: true
     },
     {
         title: 'Transfers',
         path: '/transfers',
         icon: <PersonAddIcon />,
-        component: Overview
+        component: Overview,
+        addUserId: false
     },
     {
         title: 'Points',
         path: '/points',
         icon: <GradeIcon />,
-        component: Overview
+        component: Overview,
+        addUserId: false
     },
     {
         title: 'Leagues',
         path: constants.URL.LEAGUES,
         icon: <LayersIcon />,
-        component: Leagues
+        component: Leagues,
+        addUserId: false
     }
 ];

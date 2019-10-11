@@ -7,7 +7,8 @@ export const URL = {
     RESET_PASSWORD: '/reset-password',
     SIGN_IN: '/sign-in',
     SIGN_UP: '/sign-up',
-    VERIFY_EMAIL: '/need-to-verify-email'
+    VERIFY_EMAIL: '/need-to-verify-email',
+    CURRENT_TEAM: '/current-team'
 };
 
 export const ADMIN_URL = {

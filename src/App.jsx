@@ -26,6 +26,7 @@ import Leagues from './leagues/Leagues';
 import UsersInLeague from './leagues/UsersInLeague';
 import AdminRoute from './auth/routes/AdminRoute';
 import SubmitResult from './admin/submitresult/SubmitResult';
+import CurrentTeam from './currentteam/CurrentTeam';
 
 import * as routes from './routes';
 
@@ -44,6 +45,7 @@ const App = props => (
                             <AuthenticatedRoute exact path={constants.URL.PROFILE} component={Profile} />
                             <AuthenticatedRoute path={`${constants.URL.LEAGUES}/:leagueId`} component={UsersInLeague} />
                             <AuthenticatedRoute exact path={constants.URL.LEAGUES} component={Leagues} />
+                            <AuthenticatedRoute exact path={`${constants.URL.CURRENT_TEAM}/:userId`} component={CurrentTeam} />
 
                             <UnauthenticatedRoute path={constants.URL.SIGN_IN} component={SignIn} redirect={constants.URL.OVERVIEW} />
                             <UnauthenticatedRoute path={constants.URL.SIGN_UP} component={SignUp} redirect={constants.URL.OVERVIEW} />
