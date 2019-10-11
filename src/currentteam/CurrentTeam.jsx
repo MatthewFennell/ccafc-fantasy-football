@@ -6,38 +6,52 @@ import defaultStyles from './CurrentTeam.module.scss';
 import * as selectors from './selectors';
 import { fetchActiveTeamRequest } from './actions';
 import Player from '../common/player/Player';
-import ShirtStyles from './ShirtStyles.module.scss';
+import goalkeeperStyles from './ShirtStyles/Goalkeeper.module.scss';
+import activePlayerStyles from './ShirtStyles/ActivePlayer.module.scss';
+import Spinner from '../common/spinner/Spinner';
 
 const CurrentTeam = props => {
     useEffect(() => {
         props.fetchActiveTeamRequest(props.userId);
     }, [props.fetchActiveTeamRequest, props.userId]);
 
+    const renderPlayers = (position, styles) => props.activeTeam
+        .filter(player => player.position === position).map(player => (
+            <Player
+                additionalInfo={player.team}
+                name={player.name}
+                shirtStyles={styles}
+                key={player.name}
+            />
+        ));
+
+    console.log('fetching', props.fetchingForUser);
+
     return (
         <div className={props.styles.currentTeamWrapper}>
             <div className={props.styles.pitchBackground}>
-                <div className={props.styles.goalKeepers}>
-                    <Player name="De Bruyne" shirtStyles={ShirtStyles} />
-                </div>
-                <div className={props.styles.defenders}>
-                    <Player name="De Bruyne" shirtStyles={ShirtStyles} />
-                    <Player name="De Bruyne" shirtStyles={ShirtStyles} />
-                    <Player name="De Bruyne" shirtStyles={ShirtStyles} />
-                    <Player name="De Bruyne" shirtStyles={ShirtStyles} />
-                    <Player name="De Bruyne" shirtStyles={ShirtStyles} />
-                </div>
-                <div className={props.styles.midfielders}>
-                    <Player name="De Bruyne" shirtStyles={ShirtStyles} />
-                    <Player name="De Bruyne" shirtStyles={ShirtStyles} />
-                    {/* <Player name="De Bruyne" shirtStyles={ShirtStyles} /> */}
-                    <Player name="De Bruyne" shirtStyles={ShirtStyles} />
-                    <Player name="De Bruyne" shirtStyles={ShirtStyles} />
-                </div>
+                {props.fetchingForUser ? (
+                    <div className={props.styles.loadingSpinner}>
+                        <Spinner color="secondary" />
+                    </div>
+                )
+                    : (
+                        <>
+                            <div className={props.styles.goalKeepers}>
+                                {renderPlayers('GOALKEEPER', goalkeeperStyles)}
+                            </div>
+                            <div className={props.styles.defenders}>
+                                {renderPlayers('DEFENDER', activePlayerStyles)}
+                            </div>
+                            <div className={props.styles.midfielders}>
+                                {renderPlayers('MIDFIELDER', activePlayerStyles)}
+                            </div>
 
-                <div className={props.styles.attackers}>
-                    <Player name="De Bruyne" shirtStyles={ShirtStyles} />
-                    <Player name="De Bruyne" shirtStyles={ShirtStyles} />
-                </div>
+                            <div className={props.styles.attackers}>
+                                {renderPlayers('ATTACKER', activePlayerStyles)}
+                            </div>
+                        </>
+                    )}
             </div>
         </div>
     );
@@ -55,6 +69,7 @@ CurrentTeam.propTypes = {
         team: PropTypes.string
     })),
     fetchActiveTeamRequest: PropTypes.func.isRequired,
+    fetchingForUser: PropTypes.bool.isRequired,
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired,
@@ -64,6 +79,7 @@ CurrentTeam.propTypes = {
 
 const mapStateToProps = (state, props) => ({
     activeTeam: selectors.getActiveTeam(state, props),
+    fetchingForUser: selectors.getFetchingForUser(state, props),
     userId: selectors.getUserId(props)
 });
 

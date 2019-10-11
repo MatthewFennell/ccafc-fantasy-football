@@ -11,6 +11,8 @@ function* fetchActiveTeam(action) {
         if (!fetchedAlready) {
             const activeTeam = yield call(api.fetchActiveTeam, { userId: action.userId });
             yield put(actions.fetchActiveTeamSuccess(action.userId, activeTeam));
+        } else {
+            yield put(actions.alreadyFetchedActiveTeam(action.userId));
         }
     } catch (error) {
         yield put(actions.fetchActiveTeamError(error));

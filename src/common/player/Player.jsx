@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { MDBIcon } from 'mdbreact';
+import { noop } from 'lodash';
 import defaultStyles from './Player.module.scss';
 import defaultShirtStyles from './ShirtStyles.module.scss';
 
-
-const Player = props => {
-    console.log('player');
-    return (
-        <div className={props.styles.playerWrapper}>
+const Player = props => (
+    <div className={props.styles.playerWrapper} onClick={props.onClick} role="button" tabIndex={0}>
+        <div className={props.styles.hover}>
             <div>
                 <MDBIcon icon="tshirt" size={props.size} className={props.shirtStyles.shirt} />
             </div>
@@ -17,27 +16,29 @@ const Player = props => {
                     {props.name}
                 </div>
                 <div className={props.styles.additionalInfo}>
-                  Test
+                    {props.additionalInfo}
                 </div>
             </div>
         </div>
-    );
-};
+    </div>
+);
 
 Player.defaultProps = {
+    additionalInfo: '',
     name: '',
+    onClick: noop,
     shirtStyles: defaultShirtStyles,
     size: '3x',
-    styles: defaultStyles,
-    team: ''
+    styles: defaultStyles
 };
 
 Player.propTypes = {
+    additionalInfo: PropTypes.string,
     name: PropTypes.string,
-    shirtStyles: PropTypes.string,
+    onClick: PropTypes.func,
+    shirtStyles: PropTypes.objectOf(PropTypes.string),
     size: PropTypes.string,
-    styles: PropTypes.objectOf(PropTypes.string),
-    team: PropTypes.string
+    styles: PropTypes.objectOf(PropTypes.string)
 };
 
 export default Player;
