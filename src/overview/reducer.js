@@ -41,21 +41,29 @@ const overviewReducer = (state = initialState, action) => {
         return fp.set('fetchingUserInfo', false)(state);
     }
     case actions.FETCH_USER_INFO_FOR_WEEK_REQUEST: {
-        return fp.set(`userInfo.${action.gameWeek}.fetching`, true)(state);
+        return fp.flow(
+            fp.set(`userInfo.${action.week}.fetching`, true),
+            fp.set('currentGameWeek', action.week)
+        )(state);
+
+        // return fp.set(`userInfo.${action.gameWeek}.fetching`, true)(state);
     }
     case actions.FETCH_USER_INFO_FOR_WEEK_SUCCESS: {
         return fp.flow(
             fp.set(`userInfo.${action.gameWeek}`, action.usersWeeklyInfo),
             fp.set(`userInfo.${action.gameWeek}.fetching`, false),
             fp.set(`userInfo.${action.gameWeek}.fetched`, true),
-            fp.set('currentGameWeek', action.gameWeek),
         )(state);
     }
     case actions.FETCH_USER_INFO_FOR_WEEK_ERROR: {
         return fp.set(`userInfo.${action.gameWeek}.fetching`, false)(state);
     }
     case actions.CHANGE_ACTIVE_GAME_WEEK: {
-        return fp.set('currentGameWeek', action.week)(state);
+        return fp.flow(
+            fp.set('currentGameWeek', action.week),
+            fp.set(`userInfo.${action.week}.fetching`, false)
+        )(state);
+        // return fp.set('currentGameWeek', action.week)(state);
     }
     case actions.FETCH_USER_STATS_SUCCESS: {
         return {

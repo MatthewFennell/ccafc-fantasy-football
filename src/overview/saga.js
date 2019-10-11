@@ -19,13 +19,13 @@ function* getInitialUserInfo() {
     }
 }
 
-function* getUserInfoForWeek(action) {
+function* getUserInfoForWeek(updateGameWeek, action) {
     try {
         const alreadyFetched = yield select(selectors.getAlreadyFetchedForWeek, action.week);
         if (!alreadyFetched) {
             const result = yield call(api.getUserInfoForWeek, { week: action.week });
             yield put(actions.fetchUserInfoForWeekSuccess(action.week, result));
-        } else {
+        } else if (updateGameWeek) {
             yield put(actions.changeActiveGameWeek(action.week));
         }
     } catch (error) {
@@ -48,7 +48,8 @@ function* getUserStats() {
 export default function* overviewSaga() {
     yield all([
         takeEvery(actions.FETCH_INITIAL_USER_WEEK_INFO_REQUEST, getInitialUserInfo),
-        takeEvery(actions.FETCH_USER_INFO_FOR_WEEK_REQUEST, getUserInfoForWeek),
-        takeEvery(actions.FETCH_USER_STATS_REQUEST, getUserStats)
+        takeEvery(actions.FETCH_USER_INFO_FOR_WEEK_REQUEST, getUserInfoForWeek, true),
+        takeEvery(actions.FETCH_USER_STATS_REQUEST, getUserStats),
+        takeEvery(actions.FETCH_USER_INFO_FOR_WEEK_BACKGROUND_REQUEST, getUserInfoForWeek, false)
     ]);
 }

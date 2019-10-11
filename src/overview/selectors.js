@@ -19,3 +19,9 @@ export const getRemainingTransfers = state => state.overview.remainingTransfers;
 export const getMaxGameWeek = state => state.overview.maxGameWeek;
 
 export const getAlreadyFetchedForWeek = (state, week) => fp.get(`userInfo.${week}.fetched`)(state.overview);
+
+export const getFetchingUserInfoForWeek = state => fp.flow(
+    fp.get('userInfo'),
+    fp.get(state.overview.currentGameWeek),
+    fp.get('fetching')
+)(state.overview);

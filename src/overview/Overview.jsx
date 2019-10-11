@@ -5,7 +5,10 @@ import fp from 'lodash/fp';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import defaultStyles from './Overview.module.scss';
-import { fetchInitialUserWeekInfoRequest, fetchUserInfoForWeekRequest, fetchUserStatsRequest } from './actions';
+import {
+    fetchInitialUserWeekInfoRequest, fetchUserInfoForWeekRequest, fetchUserStatsRequest,
+    fetchUserInfoForWeekBackgroundRequest
+} from './actions';
 import * as selectors from './selectors';
 import Spinner from '../common/spinner/Spinner';
 
@@ -14,6 +17,12 @@ const Overview = props => {
         props.fetchInitialUserWeekInfoRequest();
         props.fetchUserStatsRequest();
     }, [props.fetchInitialUserWeekInfoRequest, props.fetchUserStatsRequest]);
+
+    useEffect(() => {
+        if (props.currentGameWeek > 1) {
+            props.fetchUserInfoForWeekBackgroundRequest(props.currentGameWeek - 1);
+        }
+    }, [props.fetchUserInfoForWeekBackgroundRequest, props.currentGameWeek]);
 
     const fetchUserInfoForPreviousWeek = useCallback(() => {
         if (props.currentGameWeek > 1) {
@@ -26,6 +35,8 @@ const Overview = props => {
             props.fetchUserInfoForWeekRequest(props.currentGameWeek + 1);
         }
     }, [props.fetchUserInfoForWeekRequest, props.currentGameWeek]);
+
+    console.log('fetching for week', props.fetchingUserInfoForWeek);
 
     return (
         <div className={props.styles.overviewWrapper}>
@@ -43,7 +54,7 @@ const Overview = props => {
             </div>
 
             <div className={props.styles.gameweekPointsWrapper}>
-                {props.fetchingUserInfo ? <Spinner color="secondary" /> : (
+                {props.fetchingUserInfo || props.fetchingUserInfoForWeek ? <Spinner color="secondary" /> : (
                     <>
                         <div className={props.styles.gameWeekText}>
                             <div className={props.styles.arrowBackWrapper}>
@@ -115,8 +126,10 @@ Overview.defaultProps = {
 Overview.propTypes = {
     currentGameWeek: PropTypes.number,
     fetchingUserInfo: PropTypes.bool.isRequired,
+    fetchUserInfoForWeekBackgroundRequest: PropTypes.func.isRequired,
     fetchInitialUserWeekInfoRequest: PropTypes.func.isRequired,
     fetchUserInfoForWeekRequest: PropTypes.func.isRequired,
+    fetchingUserInfoForWeek: PropTypes.bool.isRequired,
     fetchUserStatsRequest: PropTypes.func.isRequired,
     maxGameWeek: PropTypes.number,
     remainingBudget: PropTypes.number,
@@ -136,12 +149,14 @@ Overview.propTypes = {
 const mapDispatchToProps = {
     fetchInitialUserWeekInfoRequest,
     fetchUserInfoForWeekRequest,
-    fetchUserStatsRequest
+    fetchUserStatsRequest,
+    fetchUserInfoForWeekBackgroundRequest
 };
 
 const mapStateToProps = state => ({
     currentGameWeek: selectors.getCurrentGameWeek(state),
     fetchingUserInfo: selectors.getFetchingUserInfo(state),
+    fetchingUserInfoForWeek: selectors.getFetchingUserInfoForWeek(state),
     maxGameWeek: selectors.getMaxGameWeek(state),
     remainingBudget: selectors.getRemainingBudget(state),
     remainingTransfers: selectors.getRemainingTransfers(state),
