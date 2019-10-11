@@ -6,7 +6,9 @@
 
 .playerInfoWrapper{
   color: $color-white;
-  font-size: $font-size-tiny;
+  font-size: 10px;
+  margin: 2px;
+  display: inline-block;
 
   .nameText{
     background-color: $color-dark-green;
@@ -16,7 +18,7 @@
 
   .additionalInfo{
     background-color: $color-nearly-dark-green;
-    padding-left: $spacing-small;
-    padding-right: $spacing-small;
+    padding-left: $spacing-tiny;
+    padding-right: $spacing-tiny;
   }
 }

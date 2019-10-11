@@ -16,10 +16,25 @@
     background-image: url("../common//images/CCAFC.png");
     background-size: 100% 100%;
   }
+
+  .defenders, .midfielders, .attackers{
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: $spacing-huge;
+    display: flex;
+    justify-content: center;
+    > div {
+      flex-grow: 1;
+    }
+  }
 }
 
 @media only screen and (max-width: 600px) {
   .currentTeamWrapper{
-    width: 100%;
+    width: 130%;
+    position: absolute;
+    left: -15%;
+    overflow-x: hidden;
   }
 }

@@ -13,14 +13,31 @@ const CurrentTeam = props => {
         props.fetchActiveTeamRequest(props.userId);
     }, [props.fetchActiveTeamRequest, props.userId]);
 
-    console.log('players', props.activeTeam);
-
-    console.log('activeTeam', props.activeTeam);
-
     return (
         <div className={props.styles.currentTeamWrapper}>
             <div className={props.styles.pitchBackground}>
-                <Player name="De Bruyne" shirtStyles={ShirtStyles} />
+                <div className={props.styles.goalKeepers}>
+                    <Player name="De Bruyne" shirtStyles={ShirtStyles} />
+                </div>
+                <div className={props.styles.defenders}>
+                    <Player name="De Bruyne" shirtStyles={ShirtStyles} />
+                    <Player name="De Bruyne" shirtStyles={ShirtStyles} />
+                    <Player name="De Bruyne" shirtStyles={ShirtStyles} />
+                    <Player name="De Bruyne" shirtStyles={ShirtStyles} />
+                    <Player name="De Bruyne" shirtStyles={ShirtStyles} />
+                </div>
+                <div className={props.styles.midfielders}>
+                    <Player name="De Bruyne" shirtStyles={ShirtStyles} />
+                    <Player name="De Bruyne" shirtStyles={ShirtStyles} />
+                    {/* <Player name="De Bruyne" shirtStyles={ShirtStyles} /> */}
+                    <Player name="De Bruyne" shirtStyles={ShirtStyles} />
+                    <Player name="De Bruyne" shirtStyles={ShirtStyles} />
+                </div>
+
+                <div className={props.styles.attackers}>
+                    <Player name="De Bruyne" shirtStyles={ShirtStyles} />
+                    <Player name="De Bruyne" shirtStyles={ShirtStyles} />
+                </div>
             </div>
         </div>
     );

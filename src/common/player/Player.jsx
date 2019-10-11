@@ -9,7 +9,9 @@ const Player = props => {
     console.log('player');
     return (
         <div className={props.styles.playerWrapper}>
-            <MDBIcon icon="tshirt" size={props.size} className={props.shirtStyles.shirt} />
+            <div>
+                <MDBIcon icon="tshirt" size={props.size} className={props.shirtStyles.shirt} />
+            </div>
             <div className={props.styles.playerInfoWrapper}>
                 <div className={props.styles.nameText}>
                     {props.name}
