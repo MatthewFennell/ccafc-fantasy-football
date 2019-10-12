@@ -5,53 +5,24 @@ import { connect } from 'react-redux';
 import defaultStyles from './CurrentTeam.module.scss';
 import * as selectors from './selectors';
 import { fetchActiveTeamRequest } from './actions';
-import Player from '../common/player/Player';
 import goalkeeperStyles from './ShirtStyles/Goalkeeper.module.scss';
 import activePlayerStyles from './ShirtStyles/ActivePlayer.module.scss';
-import Spinner from '../common/spinner/Spinner';
+import Pitch from '../common/pitch/Pitch';
 
 const CurrentTeam = props => {
     useEffect(() => {
         props.fetchActiveTeamRequest(props.userId);
     }, [props.fetchActiveTeamRequest, props.userId]);
 
-    const renderPlayers = (position, styles) => props.activeTeam
-        .filter(player => player.position === position).map(player => (
-            <Player
-                additionalInfo={player.team}
-                name={player.name}
-                shirtStyles={styles}
-                size="3x"
-                key={player.name}
-            />
-        ));
-
     return (
         <div className={props.styles.currentTeamWrapper}>
-            <div className={props.styles.pitchBackground}>
-                {props.fetchingForUser ? (
-                    <div className={props.styles.loadingSpinner}>
-                        <Spinner color="secondary" />
-                    </div>
-                )
-                    : (
-                        <>
-                            <div className={props.styles.goalKeepers}>
-                                {renderPlayers('GOALKEEPER', goalkeeperStyles)}
-                            </div>
-                            <div className={props.styles.defenders}>
-                                {renderPlayers('DEFENDER', activePlayerStyles)}
-                            </div>
-                            <div className={props.styles.midfielders}>
-                                {renderPlayers('MIDFIELDER', activePlayerStyles)}
-                            </div>
-
-                            <div className={props.styles.attackers}>
-                                {renderPlayers('ATTACKER', activePlayerStyles)}
-                            </div>
-                        </>
-                    )}
-            </div>
+            <Pitch
+                additionalInfo={player => player.team}
+                activeTeam={props.activeTeam}
+                activePlayerStyles={activePlayerStyles}
+                loading={props.fetchingForUser}
+                goalkeeperStyles={goalkeeperStyles}
+            />
         </div>
     );
 };
