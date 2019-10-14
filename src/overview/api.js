@@ -23,3 +23,6 @@ export const getUserStats = request => functionToCall('users-userStats')(request
         remainingTransfers: data.data.remaining_transfers,
         totalPoints: data.data.total_points
     }));
+
+export const getMaxGameWeek = request => functionToCall('users-maxGameWeek')(request)
+    .then(data => data.data);

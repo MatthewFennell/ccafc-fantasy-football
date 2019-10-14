@@ -111,3 +111,19 @@ exports.userStats = functions
             })
         );
     });
+
+
+exports.maxGameWeek = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db.collection('application-info').get().then(
+            result => {
+                if (result.size !== 1) {
+                    throw new functions.https.HttpsError('invalid-argument', 'Server Error. Something has gone terribly wrong');
+                }
+                const doc = result.docs[0];
+                return doc.data().total_weeks;
+            }
+        );
+    });

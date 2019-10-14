@@ -8,7 +8,8 @@ export const URL = {
     SIGN_IN: '/sign-in',
     SIGN_UP: '/sign-up',
     VERIFY_EMAIL: '/need-to-verify-email',
-    CURRENT_TEAM: '/current-team'
+    CURRENT_TEAM: '/current-team',
+    POINTS: '/points'
 };
 
 export const ADMIN_URL = {

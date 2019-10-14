@@ -7,6 +7,7 @@ import { constants } from 'react-redux-firebase';
 import * as actions from './actions';
 import * as api from '../api/api';
 import * as consts from '../constants';
+import { fetchMaxGameWeekRequest } from '../overview/actions';
 
 function* signOut() {
     try {
@@ -24,6 +25,7 @@ function* loggingIn(action) {
     const user = yield firebase.auth().currentUser.getIdTokenResult();
     const isAdmin = user.claims.admin || false;
     yield put(actions.setAdmin(isAdmin));
+    yield put(fetchMaxGameWeekRequest());
 }
 
 function* signUp(action) {

@@ -1,20 +1,38 @@
 const pre = 'OVERVIEW/';
 
-export const FETCH_INITIAL_USER_WEEK_INFO_REQUEST = `${pre}FETCH_INITIAL_USER_WEEK_INFO_REQUEST`;
-export const FETCH_INITIAL_USER_WEEK_INFO_SUCCESS = `${pre}FETCH_INITIAL_USER_WEEK_INFO_SUCCESS`;
-export const FETCH_INITIAL_USER_WEEK_INFO_ERROR = `${pre}FETCH_INITIAL_USER_WEEK_INFO_ERROR`;
-export const ALREADY_FETCHED_USER_INFO = `${pre}ALREADY_FETCHED_USER_INFO`;
-
-export const FETCH_USER_INFO_FOR_WEEK_REQUEST = `${pre}FETCH_USER_INFO_FOR_WEEK_REQUEST`;
-export const FETCH_USER_INFO_FOR_WEEK_BACKGROUND_REQUEST = `${pre}FETCH_USER_INFO_FOR_WEEK_BACKGROUND_REQUEST`;
-export const FETCH_USER_INFO_FOR_WEEK_ERROR = `${pre}FETCH_USER_INFO_FOR_WEEK_ERROR`;
-export const FETCH_USER_INFO_FOR_WEEK_SUCCESS = `${pre}FETCH_USER_INFO_FOR_WEEK_SUCCESS`;
+export const FETCH_MAX_GAMEWEEK_REQUEST = `${pre}FETCH_MAX_GAMEWEEK_REQUEST`;
+export const FETCH_MAX_GAMEWEEK_SUCCESS = `${pre}FETCH_MAX_GAMEWEEK_SUCCESS`;
+export const FETCH_MAX_GAMEWEEK_ERROR = `${pre}FETCH_MAX_GAMEWEEK_ERROR`;
 
 export const CHANGE_ACTIVE_GAME_WEEK = `${pre}CHANGE_ACTIVE_GAME_WEEK`;
 
 export const FETCH_USER_STATS_REQUEST = `${pre}FETCH_USER_STATS_REQUEST`;
 export const FETCH_USER_STATS_SUCCESS = `${pre}FETCH_USER_STATS_SUCCESS`;
 export const FETCH_USER_STATS_ERROR = `${pre}FETCH_USER_STATS_ERROR`;
+
+export const FETCH_INFO_FOR_WEEK_REQUEST = `${pre}FETCH_INFO_FOR_WEEK_REQUEST`;
+
+export const fetchUserInfoForWeekRequest = (userId, week) => ({
+    type: FETCH_INFO_FOR_WEEK_REQUEST,
+    userId,
+    week
+});
+
+// -------------------------------------------------------------------- \\
+
+export const fetchMaxGameWeekRequest = () => ({
+    type: FETCH_MAX_GAMEWEEK_REQUEST
+});
+
+export const fetchMaxGameWeekSuccess = gameWeek => ({
+    type: FETCH_MAX_GAMEWEEK_SUCCESS,
+    gameWeek
+});
+
+export const fetchMaxGameWeekError = error => ({
+    type: FETCH_MAX_GAMEWEEK_ERROR,
+    error
+});
 
 export const fetchUserStatsRequest = () => ({
     type: FETCH_USER_STATS_REQUEST
@@ -28,47 +46,6 @@ export const fetchUserStatsSuccess = stats => ({
 export const fetchUserStatsError = error => ({
     type: FETCH_USER_STATS_ERROR,
     error
-});
-
-export const fetchInitialUserWeekInfoRequest = () => ({
-    type: FETCH_INITIAL_USER_WEEK_INFO_REQUEST
-});
-
-export const fetchInitialUserWeekInfoSuccess = userInfo => ({
-    type: FETCH_INITIAL_USER_WEEK_INFO_SUCCESS,
-    userInfo
-});
-
-export const fetchInitialUserWeekInfoError = error => ({
-    type: FETCH_INITIAL_USER_WEEK_INFO_ERROR,
-    error
-});
-
-export const alreadyFetchedUserInfo = () => ({
-    type: ALREADY_FETCHED_USER_INFO
-});
-
-export const fetchUserInfoForWeekRequest = week => ({
-    type: FETCH_USER_INFO_FOR_WEEK_REQUEST,
-    week
-});
-
-export const fetchUserInfoForWeekBackgroundRequest = week => ({
-    type: FETCH_USER_INFO_FOR_WEEK_BACKGROUND_REQUEST,
-    week
-});
-
-export const fetchUserInfoForWeekSuccess = (gameWeek, usersWeeklyInfo) => ({
-    type: FETCH_USER_INFO_FOR_WEEK_SUCCESS,
-    gameWeek,
-    usersWeeklyInfo
-});
-
-
-export const fetchUserInfoForWeekError = (error, week) => ({
-    type: FETCH_USER_INFO_FOR_WEEK_ERROR,
-    error,
-    week
 });
 
 export const changeActiveGameWeek = week => ({

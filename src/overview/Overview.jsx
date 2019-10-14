@@ -6,43 +6,25 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import defaultStyles from './Overview.module.scss';
 import {
-    fetchInitialUserWeekInfoRequest, fetchUserInfoForWeekRequest, fetchUserStatsRequest,
-    fetchUserInfoForWeekBackgroundRequest
+    fetchUserStatsRequest, fetchUserInfoForWeekRequest
 } from './actions';
 import * as selectors from './selectors';
 import Spinner from '../common/spinner/Spinner';
 
 const Overview = props => {
+    // useEffect(() => {
+    //     props.fetchUserInfoForWeekRequest(props.userId, props.currentGameWeek);
+    // }, [props.userId, props.currentGameWeek, props.fetchUserInfoForWeekRequest]);
+
     useEffect(() => {
-        props.fetchInitialUserWeekInfoRequest();
         props.fetchUserStatsRequest();
-    }, [props.fetchInitialUserWeekInfoRequest, props.fetchUserStatsRequest]);
-
-    useEffect(() => {
-        if (props.currentGameWeek > 1) {
-            props.fetchUserInfoForWeekBackgroundRequest(props.currentGameWeek - 1);
-        }
-    }, [props.fetchUserInfoForWeekBackgroundRequest, props.currentGameWeek]);
-
-    const fetchUserInfoForPreviousWeek = useCallback(() => {
-        if (props.currentGameWeek > 1) {
-            props.fetchUserInfoForWeekRequest(props.currentGameWeek - 1);
-        }
-    }, [props.fetchUserInfoForWeekRequest, props.currentGameWeek]);
-
-    const fetchUserInfoForNextWeek = useCallback(() => {
-        if (props.currentGameWeek < props.maxGameWeek) {
-            props.fetchUserInfoForWeekRequest(props.currentGameWeek + 1);
-        }
-    }, [props.fetchUserInfoForWeekRequest, props.currentGameWeek]);
-
-    console.log('fetching for week', props.fetchingUserInfoForWeek);
+    }, [props.fetchUserStatsRequest]);
 
     return (
         <div className={props.styles.overviewWrapper}>
             <div className={props.styles.pointsWrapper}>
                 <div className={props.styles.totalPointsWrapper}>
-                    {props.fetchingUserInfo ? <Spinner color="secondary" /> : (
+                    {props.fetchingUserStats ? <Spinner color="secondary" /> : (
                         <>
                             <div className={props.styles.totalPointsValue}>
                                 {props.totalPoints}
@@ -58,32 +40,31 @@ const Overview = props => {
                     <>
                         <div className={props.styles.gameWeekText}>
                             <div className={props.styles.arrowBackWrapper}>
-                                <ArrowBackIcon color={props.currentGameWeek === 1 ? 'disabled' : 'secondary'} onClick={fetchUserInfoForPreviousWeek} />
+                                <ArrowBackIcon color={props.currentGameWeek === 1 ? 'disabled' : 'secondary'} onClick={() => {}} />
                             </div>
                             <div className={props.styles.gameWeekTextWrapper}>
-                                {!props.fetchingUserInfo && `Gameweek ${props.currentGameWeek}`}
+                            Gameweek 5
                             </div>
                             <div className={props.styles.arrowForwardWrapper}>
-                                <ArrowForwardIcon color={props.currentGameWeek === props.maxGameWeek ? 'disabled' : 'secondary'} onClick={fetchUserInfoForNextWeek} />
+                                <ArrowForwardIcon color={props.currentGameWeek === props.maxGameWeek ? 'disabled' : 'secondary'} onClick={() => {}} />
                             </div>
                         </div>
                         <div className={props.styles.gameweekStats}>
                             <div className={props.styles.averagePointsWrapper}>
                                 <div className={props.styles.averagePointsValue}>
-                                    {!props.fetchingUserInfo && props.userInfoForWeek.averagePoints}
+                                15
                                 </div>
                                 <div>Average Points</div>
                             </div>
                             <div className={props.styles.yourPointsWrapper}>
                                 <div className={props.styles.yourPointsValue}>
-                                    {props.userInfoForWeek.weekPoints}
+                                25
                                 </div>
                                 <div>Your Points</div>
                             </div>
                             <div className={props.styles.highestPointsWrapper}>
                                 <div className={props.styles.highestPointsValue}>
-                                    {!props.fetchingUserInfo && fp.flow(fp.get('userInfoForWeek'),
-                                        fp.get('highestPoints'), fp.get('points'))(props)}
+                                25
                                 </div>
                                 <div>Highest Points</div>
                             </div>
@@ -92,18 +73,17 @@ const Overview = props => {
                 )}
             </div>
             <div className={props.styles.userInfoWrapper}>
-                {props.fetchingUserInfo ? <Spinner color="secondary" /> : (
+                {props.fetchingUserStats ? <Spinner color="secondary" /> : (
                     <>
                         <div className={props.styles.remainingTransfersWrapper}>
                             <div className={props.styles.remainingTransfersValue}>
-                                {!props.fetchingUserInfo
-                                    && props.remainingTransfers}
+                                {props.remainingTransfers}
                             </div>
                             <div>Remaining Transfers</div>
                         </div>
                         <div className={props.styles.remainingBudgetWrapper}>
                             <div className={props.styles.remainingBudgetValue}>
-                                {!props.fetchingUserInfo && `£${props.remainingBudget} mil`}
+                                {`£${props.remainingBudget} mil`}
                             </div>
                             <div>Remaining Budget</div>
                         </div>
@@ -116,53 +96,41 @@ const Overview = props => {
 
 Overview.defaultProps = {
     currentGameWeek: null,
+    fetchingUserStats: false,
     maxGameWeek: null,
     remainingBudget: null,
     remainingTransfers: null,
     styles: defaultStyles,
-    totalPoints: null
+    totalPoints: null,
+    userId: ''
 };
 
 Overview.propTypes = {
     currentGameWeek: PropTypes.number,
-    fetchingUserInfo: PropTypes.bool.isRequired,
-    fetchUserInfoForWeekBackgroundRequest: PropTypes.func.isRequired,
-    fetchInitialUserWeekInfoRequest: PropTypes.func.isRequired,
+    fetchingUserStats: PropTypes.bool,
     fetchUserInfoForWeekRequest: PropTypes.func.isRequired,
-    fetchingUserInfoForWeek: PropTypes.bool.isRequired,
     fetchUserStatsRequest: PropTypes.func.isRequired,
     maxGameWeek: PropTypes.number,
     remainingBudget: PropTypes.number,
     remainingTransfers: PropTypes.number,
     styles: PropTypes.objectOf(PropTypes.string),
     totalPoints: PropTypes.number,
-    userInfoForWeek: PropTypes.shape({
-        averagePoints: PropTypes.number,
-        totalPoints: PropTypes.number,
-        gameWeek: PropTypes.number,
-        remainingBudget: PropTypes.number,
-        remainingTransfers: PropTypes.number,
-        weekPoints: PropTypes.number
-    }).isRequired
+    userId: PropTypes.string
 };
 
 const mapDispatchToProps = {
-    fetchInitialUserWeekInfoRequest,
     fetchUserInfoForWeekRequest,
-    fetchUserStatsRequest,
-    fetchUserInfoForWeekBackgroundRequest
+    fetchUserStatsRequest
 };
 
-const mapStateToProps = state => ({
-    currentGameWeek: selectors.getCurrentGameWeek(state),
-    fetchingUserInfo: selectors.getFetchingUserInfo(state),
-    fetchingUserInfoForWeek: selectors.getFetchingUserInfoForWeek(state),
+const mapStateToProps = (state, props) => ({
+    currentGameWeek: selectors.getCurrentGameWeek(props),
+    fetchingUserStats: selectors.getFetchingUserStats(state),
     maxGameWeek: selectors.getMaxGameWeek(state),
     remainingBudget: selectors.getRemainingBudget(state),
     remainingTransfers: selectors.getRemainingTransfers(state),
     totalPoints: selectors.getTotalPoints(state),
-    userInfo: selectors.getUserInfo(state),
-    userInfoForWeek: selectors.getUserInfoForWeek(state)
+    userId: selectors.getUserId(props)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Overview);
