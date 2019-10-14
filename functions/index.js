@@ -20,33 +20,43 @@ exports.users = require('./src/users');
 
 const operations = admin.firestore.FieldValue;
 
-exports.getActiveTeam = functions
+exports.userInfoForWeek = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('active-teams').where('user_id', '==', data.userId).get().then(
-            result => {
-                if (result.size > 1) {
-                    throw new functions.https.HttpsError('invalid-argument', 'Somehow you have multiple active teams');
-                }
-                if (result.size === 0) {
-                    return [];
-                }
-                const activeTeam = result.docs[0];
-                return activeTeam.data().player_ids;
-            }
-        )
+        return db.collection('weekly-teams').where('week', '==', data.week).where('user_id', '==', data.userId).get()
             .then(
-                playerIds => {
-                    const playerPromises = [];
-
-                    playerIds.map(playerId => playerPromises.push(db.collection('players').doc(playerId).get().then(doc => ({
-                        name: doc.data().name,
-                        position: doc.data().position,
-                        team: doc.data().team
-                    }))));
-
-                    return Promise.all(playerPromises).then(result => result);
+                query => {
+                    if (query.size > 1) {
+                        throw new functions.https.HttpsError('invalid-argument', 'Server Error. You should not have more than 1 entry in weekly-teams');
+                    }
+                    if (query.size === 0) {
+                        return ({
+                            week_points: 0
+                        });
+                    }
+                    const weekOfInterest = query.docs[0];
+                    return ({
+                        week_points: weekOfInterest.data().points
+                    });
                 }
-            );
+            )
+            .then(result => db.collection('weekly-teams').where('week', '==', data.week).get().then(weeklyDocs => {
+                if (weeklyDocs.size === 0) {
+                    return result;
+                }
+                const averagePoints = weeklyDocs.docs
+                    .reduce((acc, curVal) => acc + curVal.data().points, 0) / weeklyDocs.size;
+
+                const maxPoints = weeklyDocs.docs.reduce((prev, current) => (
+                    (prev.data().points > current.data().points) ? prev : current));
+                return {
+                    ...result,
+                    average_points: averagePoints,
+                    highest_points: {
+                        points: maxPoints.data().points,
+                        id: maxPoints.id
+                    }
+                };
+            }));
     });

@@ -10,12 +10,42 @@ export const FETCH_USER_STATS_REQUEST = `${pre}FETCH_USER_STATS_REQUEST`;
 export const FETCH_USER_STATS_SUCCESS = `${pre}FETCH_USER_STATS_SUCCESS`;
 export const FETCH_USER_STATS_ERROR = `${pre}FETCH_USER_STATS_ERROR`;
 
-export const FETCH_INFO_FOR_WEEK_REQUEST = `${pre}FETCH_INFO_FOR_WEEK_REQUEST`;
+export const FETCH_USER_INFO_FOR_WEEK_REQUEST = `${pre}FETCH_USER_INFO_FOR_WEEK_REQUEST`;
+export const FETCH_USER_INFO_FOR_WEEK_SUCCESS = `${pre}FETCH_USER_INFO_FOR_WEEK_SUCCESS`;
+export const FETCH_USER_INFO_FOR_WEEK_ERROR = `${pre}FETCH_USER_INFO_FOR_WEEK_ERROR`;
+export const ALREADY_FETCHED_USER_INFO_FOR_WEEK = `${pre}ALREADY_FETCHED_USER_INFO_FOR_WEEK`;
 
-export const fetchUserInfoForWeekRequest = (userId, week) => ({
-    type: FETCH_INFO_FOR_WEEK_REQUEST,
+export const FETCH_USER_INFO_FOR_WEEK_REQUEST_BACKGROUND = `${pre}FETCH_USER_INFO_FOR_WEEK_REQUEST_BACKGROUND`;
+
+export const fetchUserInfoForWeekRequestBackground = (userId, week) => ({
+    type: FETCH_USER_INFO_FOR_WEEK_REQUEST_BACKGROUND,
     userId,
     week
+});
+
+export const alreadyFetchedUserInfoForWeek = (userId, week) => ({
+    type: ALREADY_FETCHED_USER_INFO_FOR_WEEK,
+    userId,
+    week
+});
+
+
+export const fetchUserInfoForWeekRequest = (userId, week) => ({
+    type: FETCH_USER_INFO_FOR_WEEK_REQUEST,
+    userId,
+    week
+});
+
+export const fetchUserInfoForWeekSuccess = (userId, week, userInfo) => ({
+    type: FETCH_USER_INFO_FOR_WEEK_SUCCESS,
+    userId,
+    week,
+    userInfo
+});
+
+export const fetchUserInfoForWeekError = (userId, week, error) => ({
+    type: FETCH_USER_INFO_FOR_WEEK_ERROR,
+    error
 });
 
 // -------------------------------------------------------------------- \\

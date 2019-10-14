@@ -30,6 +30,24 @@ const overviewReducer = (state = initialState, action) => {
     case actions.FETCH_MAX_GAMEWEEK_SUCCESS: {
         return fp.set('maxGameWeek', action.gameWeek)(state);
     }
+    case actions.FETCH_USER_INFO_FOR_WEEK_REQUEST: {
+        return fp.set(`userInfo.${action.userId}.week-${action.week}.fetching`, true)(state);
+    }
+    case actions.FETCH_USER_INFO_FOR_WEEK_SUCCESS: {
+        return fp.flow(
+            fp.set(`userInfo.${action.userId}.week-${action.week}.weekPoints`, action.userInfo.weekPoints),
+            fp.set(`userInfo.${action.userId}.week-${action.week}.averagePoints`, action.userInfo.averagePoints),
+            fp.set(`userInfo.${action.userId}.week-${action.week}.highestPoints`, action.userInfo.highestPoints),
+            fp.set(`userInfo.${action.userId}.week-${action.week}.fetched`, true),
+            fp.set(`userInfo.${action.userId}.week-${action.week}.fetching`, false)
+        )(state);
+    }
+    case actions.ALREADY_FETCHED_USER_INFO_FOR_WEEK: {
+        return fp.set(`userInfo.${action.userId}.week-${action.week}.fetching`, false)(state);
+    }
+    case actions.FETCH_USER_INFO_FOR_WEEK_ERROR: {
+        return fp.set(`userInfo.${action.userId}.week-${action.week}.fetching`, false)(state);
+    }
     default:
         return state;
     }
