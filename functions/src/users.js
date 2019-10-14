@@ -62,7 +62,7 @@ exports.userInfoForWeek = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('weekly-teams').where('week', '==', data.week).where('user_id', '==', context.auth.uid).get()
+        return db.collection('weekly-teams').where('week', '==', data.week).where('user_id', '==', data.userId).get()
             .then(
                 query => {
                     if (query.size > 1) {

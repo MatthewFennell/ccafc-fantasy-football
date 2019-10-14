@@ -100,29 +100,30 @@ exports.submitResult = functions
                             } = playerStats[playerId];
                             const points = common.calculatePoints(position,
                                 goals, assists, cleanSheet, redCard, yellowCard);
-                            db.collection('player-points').where('player_id', '==', playerId).get().then(
-                                playerDocs => (playerDocs.empty
-                                    ? db.collection('player-points').add({
-                                        player_id: playerId,
-                                        week: data.week,
-                                        goals,
-                                        assists,
-                                        points,
-                                        cleanSheet,
-                                        redCard,
-                                        yellowCard
-                                    })
-                                    : playerDocs.docs.forEach(doc => {
-                                        doc.ref.update({
-                                            goals: operations.increment(goals),
-                                            assists: operations.increment(assists),
-                                            points: operations.increment(points),
+                            db.collection('player-points').where('player_id', '==', playerId).where('week', '==', data.week).get()
+                                .then(
+                                    playerDocs => (playerDocs.empty
+                                        ? db.collection('player-points').add({
+                                            player_id: playerId,
+                                            week: data.week,
+                                            goals,
+                                            assists,
+                                            points,
                                             cleanSheet,
                                             redCard,
                                             yellowCard
-                                        });
-                                    }))
-                            );
+                                        })
+                                        : playerDocs.docs.forEach(doc => {
+                                            doc.ref.update({
+                                                goals: operations.increment(goals),
+                                                assists: operations.increment(assists),
+                                                points: operations.increment(points),
+                                                cleanSheet,
+                                                redCard,
+                                                yellowCard
+                                            });
+                                        }))
+                                );
                         });
                     })
                     .then(() => {

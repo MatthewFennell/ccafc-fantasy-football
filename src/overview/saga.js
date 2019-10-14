@@ -11,6 +11,8 @@ function* getUserStats() {
         if (!fetchedStats) {
             const stats = yield call(api.getUserStats);
             yield put(actions.fetchUserStatsSuccess(stats));
+        } else {
+            yield put(actions.alreadyFetchedUserStats());
         }
     } catch (error) {
         yield put(actions.fetchUserStatsError(error));

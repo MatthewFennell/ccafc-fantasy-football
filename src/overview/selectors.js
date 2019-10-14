@@ -12,16 +12,11 @@ export const getUserInfo = (state, props, property) => fp.flow(
     fp.get(property)
 )(state.overview.userInfo);
 
-export const alreadyFetchedUserInfo = (state, userId, week) => {
-    console.log('user id', userId);
-    console.log('week', week);
-    console.log('state', state.overview);
-    return fp.flow(
-        fp.get(userId),
-        fp.get(`week-${week}`),
-        fp.get('fetched')
-    )(state.overview.userInfo);
-};
+export const alreadyFetchedUserInfo = (state, userId, week) => fp.flow(
+    fp.get(userId),
+    fp.get(`week-${week}`),
+    fp.get('fetched')
+)(state.overview.userInfo);
 
 
 export const getTotalPoints = state => state.overview.totalPoints;
