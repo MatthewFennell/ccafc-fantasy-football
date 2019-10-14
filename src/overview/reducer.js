@@ -2,77 +2,51 @@ import fp from 'lodash/fp';
 import * as actions from './actions';
 
 const initialState = {
-    currentGameWeek: null,
+    fetchedUserStats: false,
+    fetchingUserStats: false,
+
     totalPoints: null,
     remainingBudget: null,
     remainingTransfers: null,
     userInfo: { },
-    fetchedUserStats: false,
-    fetchedInitialUserInfo: false,
-    fetchingUserInfo: false,
     maxGameWeek: null
 };
 
 const overviewReducer = (state = initialState, action) => {
     switch (action.type) {
-    case actions.FETCH_INITIAL_USER_WEEK_INFO_REQUEST: {
-        return fp.set('fetchingUserInfo', true)(state);
-    }
-    case actions.FETCH_INITIAL_USER_WEEK_INFO_SUCCESS: {
-        const {
-            gameWeek, ...rest
-        } = action.userInfo;
-        return {
-            ...state,
-            currentGameWeek: gameWeek,
-            userInfo: fp.set(gameWeek, ({
-                fetched: true,
-                ...rest
-            }))(state.userInfo),
-            fetchingUserInfo: false,
-            maxGameWeek: gameWeek,
-            fetchedInitialUserInfo: true
-        };
-    }
-    case actions.FETCH_INITIAL_USER_WEEK_INFO_ERROR: {
-        return fp.set('fetchingUserInfo', false)(state);
-    }
-    case actions.ALREADY_FETCHED_USER_INFO: {
-        return fp.set('fetchingUserInfo', false)(state);
-    }
-    case actions.FETCH_USER_INFO_FOR_WEEK_REQUEST: {
-        return fp.flow(
-            fp.set(`userInfo.${action.week}.fetching`, true),
-            fp.set('currentGameWeek', action.week)
-        )(state);
-
-        // return fp.set(`userInfo.${action.gameWeek}.fetching`, true)(state);
-    }
-    case actions.FETCH_USER_INFO_FOR_WEEK_SUCCESS: {
-        return fp.flow(
-            fp.set(`userInfo.${action.gameWeek}`, action.usersWeeklyInfo),
-            fp.set(`userInfo.${action.gameWeek}.fetching`, false),
-            fp.set(`userInfo.${action.gameWeek}.fetched`, true),
-        )(state);
-    }
-    case actions.FETCH_USER_INFO_FOR_WEEK_ERROR: {
-        return fp.set(`userInfo.${action.gameWeek}.fetching`, false)(state);
-    }
-    case actions.CHANGE_ACTIVE_GAME_WEEK: {
-        return fp.flow(
-            fp.set('currentGameWeek', action.week),
-            fp.set(`userInfo.${action.week}.fetching`, false)
-        )(state);
-        // return fp.set('currentGameWeek', action.week)(state);
+    case actions.FETCH_USER_STATS_REQUEST: {
+        return fp.set('fetchingUserStats', true)(state);
     }
     case actions.FETCH_USER_STATS_SUCCESS: {
         return {
             ...state,
-            totalPoints: action.stats.totalPoints,
             remainingBudget: action.stats.remainingBudget,
             remainingTransfers: action.stats.remainingTransfers,
+            totalPoints: action.stats.totalPoints,
+            fetchingUserStats: false,
             fetchedUserStats: true
         };
+    }
+    case actions.FETCH_MAX_GAMEWEEK_SUCCESS: {
+        return fp.set('maxGameWeek', action.gameWeek)(state);
+    }
+    case actions.FETCH_USER_INFO_FOR_WEEK_REQUEST: {
+        return fp.set(`userInfo.${action.userId}.week-${action.week}.fetching`, true)(state);
+    }
+    case actions.FETCH_USER_INFO_FOR_WEEK_SUCCESS: {
+        return fp.flow(
+            fp.set(`userInfo.${action.userId}.week-${action.week}.weekPoints`, action.userInfo.weekPoints),
+            fp.set(`userInfo.${action.userId}.week-${action.week}.averagePoints`, action.userInfo.averagePoints),
+            fp.set(`userInfo.${action.userId}.week-${action.week}.highestPoints`, action.userInfo.highestPoints),
+            fp.set(`userInfo.${action.userId}.week-${action.week}.fetched`, true),
+            fp.set(`userInfo.${action.userId}.week-${action.week}.fetching`, false)
+        )(state);
+    }
+    case actions.ALREADY_FETCHED_USER_INFO_FOR_WEEK: {
+        return fp.set(`userInfo.${action.userId}.week-${action.week}.fetching`, false)(state);
+    }
+    case actions.FETCH_USER_INFO_FOR_WEEK_ERROR: {
+        return fp.set(`userInfo.${action.userId}.week-${action.week}.fetching`, false)(state);
     }
     default:
         return state;

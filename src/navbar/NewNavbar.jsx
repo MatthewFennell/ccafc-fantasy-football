@@ -38,6 +38,7 @@ const NewNavbar = props => {
                 redirect={redirect}
                 toggleNavbar={toggleSidebar}
                 userId={props.auth.uid}
+                maxGameWeek={props.maxGameWeek}
             />
         </>
     );
@@ -55,18 +56,21 @@ NewNavbar.propTypes = {
             pathname: PropTypes.string
         })
     }).isRequired,
+    maxGameWeek: PropTypes.number,
     isAdmin: PropTypes.bool,
     signOut: PropTypes.func.isRequired
 };
 
 NewNavbar.defaultProps = {
     auth: {},
+    maxGameWeek: null,
     isAdmin: false
 };
 
 const mapStateToProps = state => ({
     auth: state.firebase.auth,
     isAdmin: state.auth.isAdmin,
+    maxGameWeek: state.overview.maxGameWeek,
     profile: state.firebase.profile,
     pathname: state.router.location.pathname
 });
