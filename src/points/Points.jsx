@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -10,8 +10,13 @@ import Pitch from '../common/pitch/Pitch';
 import activePlayerStyles from './ShirtStyles/ActivePlayer.module.scss';
 import goalkeeperStyles from './ShirtStyles/Goalkeeper.module.scss';
 import * as constants from '../constants';
+import StyledModal from '../common/modal/StyledModal';
+import PointsTable from './PointsTable/PointsTable';
 
 const Points = props => {
+    const [playerModalOpen, setPlayerModalOpen] = useState(false);
+    const [playerObj, setPlayerObj] = useState({});
+
     useEffect(() => {
         props.fetchUserPointsForWeekRequest(props.userId, props.currentGameWeek);
     }, [props.userId, props.currentGameWeek, props.fetchUserPointsForWeekRequest]);
@@ -36,6 +41,11 @@ const Points = props => {
         }
     }, [props.userId, props.currentGameWeek, props.fetchUserPointsForWeekRequestBackground]);
 
+    const playerClick = useCallback(player => {
+        setPlayerObj(player);
+        setPlayerModalOpen(true);
+    }, [playerModalOpen, playerObj, setPlayerModalOpen, setPlayerObj]);
+
     return (
         <div>
             <div className={props.styles.gameWeekWrapper}>
@@ -58,9 +68,22 @@ const Points = props => {
                     activePlayerStyles={activePlayerStyles}
                     goalkeeperStyles={goalkeeperStyles}
                     loading={props.loading}
+                    onPlayerClick={playerClick}
                     renderEmptyPlayers
                 />
             </div>
+            <StyledModal
+                backdrop
+                closeModal={() => setPlayerModalOpen(false)}
+                error
+                isOpen={playerModalOpen}
+                headerMessage="Player Stats"
+                toggleModal={() => setPlayerModalOpen(false)}
+            >
+                <div className={props.styles.modalWrapper}>
+                    <PointsTable player={playerObj} />
+                </div>
+            </StyledModal>
         </div>
     );
 };

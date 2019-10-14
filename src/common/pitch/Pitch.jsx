@@ -14,6 +14,7 @@ const Pitch = props => {
             <Player
                 additionalInfo={props.additionalInfo(player)}
                 name={player.name}
+                onClick={() => props.onPlayerClick(player)}
                 shirtStyles={styles}
                 size="4x"
                 key={player.name}
@@ -73,6 +74,7 @@ Pitch.defaultProps = {
     additionalInfo: noop,
     goalkeeperStyles: defaultGoalkeeperStyles,
     loading: false,
+    onPlayerClick: noop,
     renderEmptyPlayers: false,
     styles: defaultStyles
 };
@@ -87,6 +89,7 @@ Pitch.propTypes = {
     additionalInfo: PropTypes.func,
     goalkeeperStyles: PropTypes.objectOf(PropTypes.string),
     loading: PropTypes.bool,
+    onPlayerClick: PropTypes.func,
     renderEmptyPlayers: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string)
 };

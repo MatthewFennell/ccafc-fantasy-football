@@ -19,3 +19,22 @@ export const ADMIN_URL = {
     DELETE_TEAM: '/delete-team',
     SUBMIT_RESULT: '/submit-result'
 };
+
+export const POINTS = {
+    GOAL: {
+        ATTACKER: 4,
+        MIDFIELDER: 5,
+        DEFENDER: 6,
+        GOALKEEPER: 6
+    },
+    ASSIST: 3,
+    CLEAN_SHEET: {
+        GOALKEEPER: 6,
+        DEFENDER: 4,
+        MIDFIELDER: 1,
+        ATTACKER: 0
+    },
+    RED_CARD: -3,
+    YELLOW_CARD: -1,
+    MOTM: 3
+};

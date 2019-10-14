@@ -87,21 +87,24 @@ const Grid = props => {
                     </TableBody>
                 </Table>
             </div>
-            <TablePagination
-                rowsPerPageOptions={props.rowsPerPageOptions}
-                component="div"
-                count={props.rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                backIconButtonProps={{
-                    'aria-label': 'previous page'
-                }}
-                nextIconButtonProps={{
-                    'aria-label': 'next page'
-                }}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-            />
+            {props.showPagination
+            && (
+                <TablePagination
+                    rowsPerPageOptions={props.rowsPerPageOptions}
+                    component="div"
+                    count={props.rows.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    backIconButtonProps={{
+                        'aria-label': 'previous page'
+                    }}
+                    nextIconButtonProps={{
+                        'aria-label': 'next page'
+                    }}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                />
+            )}
         </Paper>
     );
 };
@@ -117,6 +120,7 @@ Grid.defaultProps = {
     renderBackButton: false,
     rows: [],
     rowsPerPageOptions: [10, 25, 100],
+    showPagination: true,
     styles: defaultStyles
 };
 
@@ -138,6 +142,7 @@ Grid.propTypes = {
     renderBackButton: PropTypes.bool,
     rows: PropTypes.arrayOf(PropTypes.shape({})),
     rowsPerPageOptions: PropTypes.arrayOf(PropTypes.number),
+    showPagination: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 
