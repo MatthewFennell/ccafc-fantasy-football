@@ -13,7 +13,9 @@ export const FETCH_USER_STATS_ERROR = `${pre}FETCH_USER_STATS_ERROR`;
 export const FETCH_USER_INFO_FOR_WEEK_REQUEST = `${pre}FETCH_USER_INFO_FOR_WEEK_REQUEST`;
 export const FETCH_USER_INFO_FOR_WEEK_SUCCESS = `${pre}FETCH_USER_INFO_FOR_WEEK_SUCCESS`;
 export const FETCH_USER_INFO_FOR_WEEK_ERROR = `${pre}FETCH_USER_INFO_FOR_WEEK_ERROR`;
+
 export const ALREADY_FETCHED_USER_INFO_FOR_WEEK = `${pre}ALREADY_FETCHED_USER_INFO_FOR_WEEK`;
+export const ALREADY_FETCHED_USER_STATS = `${pre}ALREADY_FETCHED_USER_STATS`;
 
 export const FETCH_USER_INFO_FOR_WEEK_REQUEST_BACKGROUND = `${pre}FETCH_USER_INFO_FOR_WEEK_REQUEST_BACKGROUND`;
 
@@ -27,6 +29,10 @@ export const alreadyFetchedUserInfoForWeek = (userId, week) => ({
     type: ALREADY_FETCHED_USER_INFO_FOR_WEEK,
     userId,
     week
+});
+
+export const alreadyFetchedUserStats = () => ({
+    type: ALREADY_FETCHED_USER_STATS
 });
 
 

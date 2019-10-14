@@ -8,6 +8,7 @@ import leagueReducer from './leagues/reducer';
 import testingReducer from './testing/reducer';
 import overviewReducer from './overview/reducer';
 import currentTeamReducer from './currentteam/reducer';
+import pointsReducer from './points/reducer';
 import * as authActions from './auth/actions';
 
 const appReducer = history => combineReducers({
@@ -18,6 +19,7 @@ const appReducer = history => combineReducers({
     firestore: firestoreReducer,
     firebase: firebaseReducer,
     overview: overviewReducer,
+    points: pointsReducer,
     testing: testingReducer,
     router: connectRouter(history)
 });

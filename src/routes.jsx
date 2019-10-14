@@ -28,38 +28,33 @@ import CurrentTeam from './currentteam/CurrentTeam';
 export const adminLinks = [
     {
         title: 'Create Player',
-        path: constants.ADMIN_URL.CREATE_PLAYER,
         icon: <PersonAddIcon />,
         component: CreatePlayer,
-        newPath: () => constants.ADMIN_URL.CREATE_PLAYER
+        path: () => constants.ADMIN_URL.CREATE_PLAYER
     },
     {
         title: 'Delete Player',
-        path: constants.ADMIN_URL.DELETE_PLAYER,
         icon: <DeleteIcon />,
         component: DeletePlayer,
-        newPath: () => constants.ADMIN_URL.DELETE_PLAYER
+        path: () => constants.ADMIN_URL.DELETE_PLAYER
     },
     {
         title: 'Create Team',
-        path: constants.ADMIN_URL.CREATE_TEAM,
         icon: <PersonAddIcon />,
         component: CreateTeam,
-        newPath: () => constants.ADMIN_URL.CREATE_TEAM
+        path: () => constants.ADMIN_URL.CREATE_TEAM
     },
     {
         title: 'Delete Team',
-        path: constants.ADMIN_URL.DELETE_TEAM,
         icon: <DeleteIcon />,
         component: DeleteTeam,
-        newPath: () => constants.ADMIN_URL.DELETE_TEAM
+        path: () => constants.ADMIN_URL.DELETE_TEAM
     },
     {
         title: 'Submit Result',
-        path: constants.ADMIN_URL.SUBMIT_RESULT,
         icon: <PersonAddIcon />,
         component: SubmitResult,
-        newPath: () => constants.ADMIN_URL.SUBMIT_RESULT
+        path: () => constants.ADMIN_URL.SUBMIT_RESULT
     }
 
 ];
@@ -67,59 +62,52 @@ export const adminLinks = [
 export const signedOutLinks = [
     {
         title: 'Sign In',
-        path: constants.URL.SIGN_IN,
         icon: <DoubleArrowIcon />,
         component: SignIn,
-        newPath: () => constants.URL.SIGN_IN
+        path: () => constants.URL.SIGN_IN
     },
     {
         title: 'Sign Up',
-        path: constants.URL.SIGN_UP,
         icon: <AccountBoxIcon />,
         component: SignUp,
-        newPath: () => constants.URL.SIGN_UP
+        path: () => constants.URL.SIGN_UP
     }
 ];
 
 export const signedInLinks = [
     {
         title: 'Overview',
-        path: constants.URL.OVERVIEW,
         icon: <DetailsIcon />,
         component: Overview,
         addUserId: false,
-        newPath: props => `${constants.URL.OVERVIEW}/${fp.get('userId')(props)}/${fp.get('maxGameWeek')(props)}`
+        path: props => `${constants.URL.OVERVIEW}/${fp.get('userId')(props)}/${fp.get('maxGameWeek')(props)}`
     },
     {
         title: 'Current Team',
-        path: constants.URL.CURRENT_TEAM,
         icon: <PeopleAltIcon />,
         component: CurrentTeam,
         addUserId: true,
-        newPath: props => `${constants.URL.SIGN_IN}/${fp.get('userId')(props)}`
+        path: props => `${constants.URL.CURRENT_TEAM}/${fp.get('userId')(props)}`
     },
     {
         title: 'Transfers',
-        path: '/transfers',
         icon: <PersonAddIcon />,
         component: Overview,
         addUserId: false,
-        newPath: () => constants.URL.OVERVIEW
+        path: () => constants.URL.OVERVIEW
     },
     {
         title: 'Points',
-        path: '/points',
         icon: <GradeIcon />,
         component: Points,
         addUserId: false,
-        newPath: props => `${constants.URL.POINTS}/${fp.get('userId')(props)}/${fp.get('week')(props)}`
+        path: props => `${constants.URL.POINTS}/${fp.get('userId')(props)}/${fp.get('maxGameWeek')(props)}`
     },
     {
         title: 'Leagues',
-        path: constants.URL.LEAGUES,
         icon: <LayersIcon />,
         component: Leagues,
         addUserId: false,
-        newPath: () => constants.URL.LEAGUES
+        path: () => constants.URL.LEAGUES
     }
 ];

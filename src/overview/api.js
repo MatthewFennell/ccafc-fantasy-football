@@ -1,6 +1,6 @@
 import { functionToCall } from '../api/api';
 
-export const getUserInfoForWeek = request => functionToCall('userInfoForWeek')(request)
+export const getUserInfoForWeek = request => functionToCall('users-userInfoForWeek')(request)
     .then(data => ({
         weekPoints: data.data.week_points,
         averagePoints: data.data.average_points,

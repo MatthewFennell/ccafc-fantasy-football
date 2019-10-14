@@ -1,0 +1,33 @@
+@import "../common/Styles.scss";
+
+.pointsWrapper{
+  height: 70vh;
+  margin-left: auto;;
+  margin-right: auto;;
+  width: 70%;  
+}
+
+@media only screen and (max-width: 600px) {
+  .pointsWrapper{
+    width: 130%;
+    position: absolute;
+    left: -15%;
+    overflow-x: hidden;
+  }
+}
+
+.gameWeekText{
+  margin: $spacing-average;
+  font-size: $font-size-large;
+  color: $color-gray;
+  display: flex;
+  justify-content: center;
+  .arrowBackWrapper{
+    margin-right: $spacing-medium;
+    cursor: pointer;
+  }
+  .arrowForwardWrapper{
+    margin-left: $spacing-medium;
+    cursor: pointer;
+  }
+}

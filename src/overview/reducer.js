@@ -4,7 +4,6 @@ import * as actions from './actions';
 const initialState = {
     fetchedUserStats: false,
     fetchingUserStats: false,
-
     totalPoints: null,
     remainingBudget: null,
     remainingTransfers: null,
@@ -16,6 +15,9 @@ const overviewReducer = (state = initialState, action) => {
     switch (action.type) {
     case actions.FETCH_USER_STATS_REQUEST: {
         return fp.set('fetchingUserStats', true)(state);
+    }
+    case actions.ALREADY_FETCHED_USER_STATS: {
+        return fp.set('fetchingUserStats', false)(state);
     }
     case actions.FETCH_USER_STATS_SUCCESS: {
         return {

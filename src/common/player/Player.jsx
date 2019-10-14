@@ -33,7 +33,10 @@ Player.defaultProps = {
 };
 
 Player.propTypes = {
-    additionalInfo: PropTypes.string,
+    additionalInfo: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+    ]),
     name: PropTypes.string,
     onClick: PropTypes.func,
     shirtStyles: PropTypes.objectOf(PropTypes.string),

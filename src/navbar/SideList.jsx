@@ -21,7 +21,7 @@ const SideList = props => {
                     <ListItem
                         button
                         key={item.title}
-                        onClick={() => props.redirect(item.newPath(props))}
+                        onClick={() => props.redirect(item.path(props))}
                     >
                         <ListItemIcon>{item.icon}</ListItemIcon>
                         <ListItemText primary={item.title} />
@@ -36,7 +36,7 @@ const SideList = props => {
                         <ListItem
                             button
                             key={item.title}
-                            onClick={() => props.redirect(item.newPath(props))}
+                            onClick={() => props.redirect(item.path(props))}
                         >
                             <ListItemIcon>{item.icon}</ListItemIcon>
                             <ListItemText primary={item.title} />

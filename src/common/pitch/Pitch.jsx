@@ -6,6 +6,7 @@ import Player from '../player/Player';
 import Spinner from '../spinner/Spinner';
 import defaultActivePlayerStyles from './ActivePlayer.module.scss';
 import defaultGoalkeeperStyles from './Goalkeeper.module.scss';
+import inactivePlayerStyles from './InactivePlayer.module.scss';
 
 const Pitch = props => {
     const renderPlayers = (position, styles) => props.activeTeam
@@ -14,10 +15,25 @@ const Pitch = props => {
                 additionalInfo={props.additionalInfo(player)}
                 name={player.name}
                 shirtStyles={styles}
-                size="3x"
+                size="4x"
                 key={player.name}
             />
         ));
+
+    const renderEmptyPlayer = (position, maxPlayers) => {
+        const players = [];
+        const numInPos = props.activeTeam.filter(x => x.position === position).length;
+        for (let x = numInPos; x < maxPlayers; x++) {
+            players.push(<Player
+                additionalInfo=""
+                name="No player selected"
+                shirtStyles={inactivePlayerStyles}
+                size="4x"
+                key={x}
+            />);
+        }
+        return players;
+    };
 
     return (
         <div className={props.styles.pitchBackground}>
@@ -30,16 +46,20 @@ const Pitch = props => {
                     <>
                         <div className={props.styles.goalKeepers}>
                             {renderPlayers('GOALKEEPER', props.goalkeeperStyles)}
+                            {props.renderEmptyPlayers && renderEmptyPlayer('GOALKEEPER', 1)}
                         </div>
                         <div className={props.styles.defenders}>
                             {renderPlayers('DEFENDER', props.activePlayerStyles)}
+                            {props.renderEmptyPlayers && renderEmptyPlayer('DEFENDER', 4)}
                         </div>
                         <div className={props.styles.midfielders}>
                             {renderPlayers('MIDFIELDER', props.activePlayerStyles)}
+                            {props.renderEmptyPlayers && renderEmptyPlayer('MIDFIELDER', 4)}
                         </div>
 
                         <div className={props.styles.attackers}>
                             {renderPlayers('ATTACKER', props.activePlayerStyles)}
+                            {props.renderEmptyPlayers && renderEmptyPlayer('ATTACKER', 2)}
                         </div>
                     </>
                 )}
@@ -53,6 +73,7 @@ Pitch.defaultProps = {
     additionalInfo: noop,
     goalkeeperStyles: defaultGoalkeeperStyles,
     loading: false,
+    renderEmptyPlayers: false,
     styles: defaultStyles
 };
 
@@ -66,6 +87,7 @@ Pitch.propTypes = {
     additionalInfo: PropTypes.func,
     goalkeeperStyles: PropTypes.objectOf(PropTypes.string),
     loading: PropTypes.bool,
+    renderEmptyPlayers: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 

@@ -17,29 +17,7 @@
     background-size: 100% 100%;
   }
 
-  .defenders, .midfielders, .attackers{
-    width: 75%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: $spacing-large;
-    display: flex;
-    justify-content: center;
-    > div {
-      flex-grow: 1;
-    }
-  }
 
-  .loadingSpinner{
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    > div {
-      height: $spacing-massive !important;
-      width: $spacing-massive !important;
-    }
-  }
 }
 
 @media only screen and (max-width: 600px) {

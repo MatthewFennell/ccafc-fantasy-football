@@ -5,6 +5,7 @@ import leagueSaga from './leagues/saga';
 import adminSaga from './admin/saga';
 import overviewSaga from './overview/saga';
 import currentTeamSaga from './currentteam/saga';
+import pointsSaga from './points/saga';
 
 export default function* rootSaga() {
     yield all([
@@ -13,6 +14,7 @@ export default function* rootSaga() {
         currentTeamSaga(),
         leagueSaga(),
         overviewSaga(),
+        pointsSaga(),
         testingSaga()
     ]);
 }
