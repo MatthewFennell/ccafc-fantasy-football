@@ -7,7 +7,7 @@ import defaultStyles from './Overview.module.scss';
 import { fetchUserStatsRequest, fetchUserInfoForWeekRequest, fetchUserInfoForWeekRequestBackground } from './actions';
 import * as selectors from './selectors';
 import Spinner from '../common/spinner/Spinner';
-import * as constants from '../constants';
+import { generateOverviewRoute } from '../helperFunctions';
 
 const Overview = props => {
     useEffect(() => {
@@ -25,16 +25,14 @@ const Overview = props => {
     }, [props.userId, props.currentGameWeek, props.fetchUserInfoForWeekRequestBackground]);
 
     const loadPreviousWeek = useCallback(() => {
-        const redirect = `${constants.URL.OVERVIEW}/${props.userId}/${props.currentGameWeek - 1}`;
         if (props.currentGameWeek > 1) {
-            props.history.push(redirect);
+            props.history.push(generateOverviewRoute(props.userId, props.currentGameWeek - 1));
         }
     }, [props.history, props.currentGameWeek, props.userId]);
 
     const loadNextWeek = useCallback(() => {
-        const redirect = `${constants.URL.OVERVIEW}/${props.userId}/${props.currentGameWeek + 1}`;
         if (props.currentGameWeek < props.maxGameWeek) {
-            props.history.push(redirect);
+            props.history.push(generateOverviewRoute(props.userId, props.currentGameWeek + 1));
         }
     }, [props.history, props.currentGameWeek, props.userId]);
 
