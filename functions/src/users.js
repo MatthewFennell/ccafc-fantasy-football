@@ -51,7 +51,7 @@ exports.userStats = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('users').doc(context.auth.uid).get().then(
+        return db.collection('users').doc(data.userId).get().then(
             user => ({
                 remaining_budget: user.data().remaining_budget,
                 remaining_transfers: user.data().remaining_transfers,

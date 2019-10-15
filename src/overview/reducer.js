@@ -2,32 +2,27 @@ import fp from 'lodash/fp';
 import * as actions from './actions';
 
 const initialState = {
-    fetchedUserStats: false,
-    fetchingUserStats: false,
-    totalPoints: null,
-    remainingBudget: null,
-    remainingTransfers: null,
     userInfo: { },
+    userStats: { },
     maxGameWeek: null
 };
 
 const overviewReducer = (state = initialState, action) => {
     switch (action.type) {
     case actions.FETCH_USER_STATS_REQUEST: {
-        return fp.set('fetchingUserStats', true)(state);
+        return fp.set(`userStats.${action.userId}.fetching`, true)(state);
     }
     case actions.ALREADY_FETCHED_USER_STATS: {
-        return fp.set('fetchingUserStats', false)(state);
+        return fp.set(`userStats.${action.userId}.fetching`, false)(state);
     }
     case actions.FETCH_USER_STATS_SUCCESS: {
-        return {
-            ...state,
-            remainingBudget: action.stats.remainingBudget,
-            remainingTransfers: action.stats.remainingTransfers,
-            totalPoints: action.stats.totalPoints,
-            fetchingUserStats: false,
-            fetchedUserStats: true
-        };
+        return fp.flow(
+            fp.set(`userStats.${action.userId}.remainingBudget`, action.stats.remainingBudget),
+            fp.set(`userStats.${action.userId}.remainingTransfers`, action.stats.remainingTransfers),
+            fp.set(`userStats.${action.userId}.totalPoints`, action.stats.totalPoints),
+            fp.set(`userStats.${action.userId}.fetching`, false),
+            fp.set(`userStats.${action.userId}.fetched`, true),
+        )(state);
     }
     case actions.FETCH_MAX_GAMEWEEK_SUCCESS: {
         return fp.set('maxGameWeek', action.gameWeek)(state);
