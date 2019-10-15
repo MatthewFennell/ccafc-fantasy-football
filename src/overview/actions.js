@@ -31,8 +31,9 @@ export const alreadyFetchedUserInfoForWeek = (userId, week) => ({
     week
 });
 
-export const alreadyFetchedUserStats = () => ({
-    type: ALREADY_FETCHED_USER_STATS
+export const alreadyFetchedUserStats = userId => ({
+    type: ALREADY_FETCHED_USER_STATS,
+    userId
 });
 
 
@@ -72,12 +73,14 @@ export const fetchMaxGameWeekError = error => ({
     error
 });
 
-export const fetchUserStatsRequest = () => ({
-    type: FETCH_USER_STATS_REQUEST
+export const fetchUserStatsRequest = userId => ({
+    type: FETCH_USER_STATS_REQUEST,
+    userId
 });
 
-export const fetchUserStatsSuccess = stats => ({
+export const fetchUserStatsSuccess = (userId, stats) => ({
     type: FETCH_USER_STATS_SUCCESS,
+    userId,
     stats
 });
 

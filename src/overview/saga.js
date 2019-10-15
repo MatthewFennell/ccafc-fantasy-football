@@ -5,14 +5,16 @@ import * as actions from './actions';
 import * as selectors from './selectors';
 import * as api from './api';
 
-function* getUserStats() {
+function* getUserStats(action) {
     try {
-        const fetchedStats = yield select(selectors.getFetchedUserStats);
+        const fetchedStats = yield select(selectors.alreadyFetchedUserStats, action.userId);
         if (!fetchedStats) {
-            const stats = yield call(api.getUserStats);
-            yield put(actions.fetchUserStatsSuccess(stats));
+            const stats = yield call(api.getUserStats, {
+                userId: action.userId
+            });
+            yield put(actions.fetchUserStatsSuccess(action.userId, stats));
         } else {
-            yield put(actions.alreadyFetchedUserStats());
+            yield put(actions.alreadyFetchedUserStats(action.userId));
         }
     } catch (error) {
         yield put(actions.fetchUserStatsError(error));

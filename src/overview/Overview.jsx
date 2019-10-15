@@ -17,8 +17,10 @@ const Overview = props => {
     }, [props.userId, props.currentGameWeek, props.fetchUserInfoForWeekRequest, props.maxGameWeek]);
 
     useEffect(() => {
-        props.fetchUserStatsRequest();
-    }, [props.fetchUserStatsRequest]);
+        if (props.userId) {
+            props.fetchUserStatsRequest(props.userId);
+        }
+    }, [props.fetchUserStatsRequest, props.userId]);
 
     useEffect(() => {
         if (props.currentGameWeek > 1) {
@@ -43,6 +45,8 @@ const Overview = props => {
             props.history.push(generateOverviewRoute(props.userId, props.maxGameWeek));
         }
     }, [props.currentGameWeek, props.maxGameWeek]);
+
+    console.log('fetching', props.fetchingUserStats);
 
     return (
         <div className={props.styles.overviewWrapper}>
@@ -170,12 +174,12 @@ const mapStateToProps = (state, props) => ({
     averagePoints: selectors.getUserInfo(state, props, 'averagePoints'),
     currentGameWeek: selectors.getCurrentGameWeek(props),
     fetchingUserInfo: selectors.getUserInfo(state, props, 'fetching'),
-    fetchingUserStats: selectors.getFetchingUserStats(state),
+    fetchingUserStats: selectors.getUserStat(state, props, 'fetching'),
     highestPoints: selectors.getUserInfo(state, props, 'highestPoints'),
     maxGameWeek: selectors.getMaxGameWeek(state),
-    remainingBudget: selectors.getRemainingBudget(state),
-    remainingTransfers: selectors.getRemainingTransfers(state),
-    totalPoints: selectors.getTotalPoints(state),
+    remainingBudget: selectors.getUserStat(state, props, 'remainingBudget'),
+    remainingTransfers: selectors.getUserStat(state, props, 'remainingTransfers'),
+    totalPoints: selectors.getUserStat(state, props, 'totalPoints'),
     userId: selectors.getUserId(props),
     weekPoints: selectors.getUserInfo(state, props, 'weekPoints')
 });
