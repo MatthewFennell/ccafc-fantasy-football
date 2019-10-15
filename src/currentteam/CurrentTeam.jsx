@@ -15,15 +15,17 @@ const CurrentTeam = props => {
     }, [props.fetchActiveTeamRequest, props.userId]);
 
     return (
-        <div className={props.styles.currentTeamWrapper}>
-            <Pitch
-                additionalInfo={player => player.team}
-                activeTeam={props.activeTeam}
-                activePlayerStyles={activePlayerStyles}
-                loading={props.fetchingForUser}
-                goalkeeperStyles={goalkeeperStyles}
-                renderEmptyPlayers
-            />
+        <div className={props.styles.pitchWrapper}>
+            <div className={props.styles.currentTeamWrapper}>
+                <Pitch
+                    additionalInfo={player => player.team}
+                    activeTeam={props.activeTeam}
+                    activePlayerStyles={activePlayerStyles}
+                    loading={props.fetchingForUser}
+                    goalkeeperStyles={goalkeeperStyles}
+                    renderEmptyPlayers
+                />
+            </div>
         </div>
     );
 };

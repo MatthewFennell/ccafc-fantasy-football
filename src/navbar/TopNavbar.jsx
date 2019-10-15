@@ -133,8 +133,7 @@ TopNavbar.defaultProps = {
 TopNavbar.propTypes = {
     auth: PropTypes.shape({
         uid: PropTypes.string,
-        emailVerified: PropTypes.bool,
-        photoURL: PropTypes.string
+        emailVerified: PropTypes.bool
     }),
     redirect: PropTypes.func,
     signOut: PropTypes.func,

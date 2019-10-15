@@ -46,8 +46,6 @@ const Overview = props => {
         }
     }, [props.currentGameWeek, props.maxGameWeek]);
 
-    console.log('fetching', props.fetchingUserStats);
-
     return (
         <div className={props.styles.overviewWrapper}>
             <div className={props.styles.pointsWrapper}>
