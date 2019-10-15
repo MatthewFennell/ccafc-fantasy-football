@@ -25,14 +25,13 @@ import Testing from './testing/Testing';
 import Leagues from './leagues/Leagues';
 import UsersInLeague from './leagues/UsersInLeague';
 import AdminRoute from './auth/routes/AdminRoute';
-import SubmitResult from './admin/submitresult/SubmitResult';
 import CurrentTeam from './currentteam/CurrentTeam';
 import Points from './points/Points';
 
 import * as routes from './routes';
 
 const App = props => (
-    props.auth && props.auth.isLoaded && props.maxGameWeeK ? (
+    props.auth && props.auth.isLoaded ? (
         <ConnectedRouter history={props.history}>
             <>
                 <CssBaseline />
@@ -49,16 +48,14 @@ const App = props => (
                             <AuthenticatedRoute exact path={`${constants.URL.CURRENT_TEAM}/:userId`} component={CurrentTeam} />
                             <AuthenticatedRoute exact path={`${constants.URL.POINTS}/:userId/:week`} component={Points} />
 
-                            <UnauthenticatedRoute path={constants.URL.SIGN_IN} component={SignIn} redirect={`${constants.URL.OVERVIEW}/${props.auth.uid}/${props.maxGameWeeK}`} />
-                            <UnauthenticatedRoute path={constants.URL.SIGN_UP} component={SignUp} redirect={`${constants.URL.OVERVIEW}/${props.auth.uid}/${props.maxGameWeeK}`} />
-                            <UnauthenticatedRoute path={constants.URL.RESET_PASSWORD} component={PasswordReset} redirect={`${constants.URL.OVERVIEW}/${props.auth.uid}/${props.maxGameWeeK}`} />
-                            <UnauthenticatedRoute exact path="/" component={SignIn} redirect={`${constants.URL.OVERVIEW}/${props.auth.uid}/${props.maxGameWeeK}`} />
+                            <UnauthenticatedRoute path={constants.URL.SIGN_IN} component={SignIn} redirect={`${constants.URL.OVERVIEW}/${props.auth.uid}/${props.maxGameWeek}`} />
+                            <UnauthenticatedRoute path={constants.URL.SIGN_UP} component={SignUp} redirect={`${constants.URL.OVERVIEW}/${props.auth.uid}/${props.maxGameWeek}`} />
+                            <UnauthenticatedRoute path={constants.URL.RESET_PASSWORD} component={PasswordReset} redirect={`${constants.URL.OVERVIEW}/${props.auth.uid}/${props.maxGameWeek}`} />
+                            <UnauthenticatedRoute exact path="/" component={SignIn} redirect={`${constants.URL.OVERVIEW}/${props.auth.uid}/${props.maxGameWeek}`} />
 
                             <UnauthenticatedEmailRoute path={constants.URL.VERIFY_EMAIL} component={VerifyEmail} redirect={constants.URL.PROFILE} />
 
-                            {routes.adminLinks.map(link => <AdminRoute exact path={link.path} component={link.component} key={link.path} />)}
-
-                            <AdminRoute exact path={constants.ADMIN_URL.SUBMIT_RESULT} component={SubmitResult} />
+                            {routes.adminLinks.map(link => <AdminRoute exact path={link.path()} component={link.component} key={link.path} />)}
 
                             <Route render={() => <Redirect to="/" />} />
                         </Switch>
@@ -74,7 +71,7 @@ App.defaultProps = {
         isLoaded: false
     },
     history: {},
-    maxGameWeeK: null,
+    maxGameWeek: null,
     styles: defaultStyles
 };
 
@@ -84,13 +81,13 @@ App.propTypes = {
         uid: PropTypes.string
     }),
     history: PropTypes.shape({}),
-    maxGameWeeK: PropTypes.number,
+    maxGameWeek: PropTypes.number,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 
 const mapStateToProps = state => ({
     auth: state.firebase.auth,
-    maxGameWeeK: state.overview.maxGameWeek
+    maxGameWeek: state.overview.maxGameWeek
 });
 
 export default connect(mapStateToProps)(App);

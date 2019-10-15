@@ -18,10 +18,26 @@ const useStyles = makeStyles(theme => ({
         flexGrow: 1
     },
     menuButton: {
-        marginRight: theme.spacing(2)
+        marginRight: theme.spacing(2),
+        '&:focus': {
+            background: 'none',
+            outline: '0px'
+        },
+        '&:hover': {
+            backgroundColor: '#5c6bc0'
+        }
     },
     title: {
         flexGrow: 1
+    },
+    userProfile: {
+        '&:focus': {
+            backgroundColor: 'transparent',
+            outline: '0px'
+        },
+        '&:hover': {
+            backgroundColor: '#5c6bc0'
+        }
     }
 }));
 
@@ -61,6 +77,7 @@ const TopNavbar = props => {
                         aria-haspopup="true"
                         onClick={handleMenu}
                         color="inherit"
+                        className={classes.userProfile}
                     >
                         <AccountCircle />
                     </IconButton>

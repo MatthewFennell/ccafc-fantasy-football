@@ -11,8 +11,10 @@ import { generateOverviewRoute } from '../helperFunctions';
 
 const Overview = props => {
     useEffect(() => {
-        props.fetchUserInfoForWeekRequest(props.userId, props.currentGameWeek);
-    }, [props.userId, props.currentGameWeek, props.fetchUserInfoForWeekRequest]);
+        if (props.currentGameWeek) {
+            props.fetchUserInfoForWeekRequest(props.userId, props.currentGameWeek);
+        }
+    }, [props.userId, props.currentGameWeek, props.fetchUserInfoForWeekRequest, props.maxGameWeek]);
 
     useEffect(() => {
         props.fetchUserStatsRequest();
@@ -35,6 +37,12 @@ const Overview = props => {
             props.history.push(generateOverviewRoute(props.userId, props.currentGameWeek + 1));
         }
     }, [props.history, props.currentGameWeek, props.userId]);
+
+    useEffect(() => {
+        if (!props.currentGameWeek && props.maxGameWeek) {
+            props.history.push(generateOverviewRoute(props.userId, props.maxGameWeek));
+        }
+    }, [props.currentGameWeek, props.maxGameWeek]);
 
     return (
         <div className={props.styles.overviewWrapper}>

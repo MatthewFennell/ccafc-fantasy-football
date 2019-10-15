@@ -6,7 +6,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
+import classNames from 'classnames';
 import * as routes from '../routes';
+import defaultStyles from './SideList.module.scss';
 
 const SideList = props => {
     const linksToRender = props.isSignedIn ? routes.signedInLinks : routes.signedOutLinks;
@@ -22,6 +24,9 @@ const SideList = props => {
                         button
                         key={item.title}
                         onClick={() => props.redirect(item.path(props))}
+                        className={classNames({
+                            [props.styles.activeRoute]: props.currentPath.includes(item.urlIncludes)
+                        })}
                     >
                         <ListItemIcon>{item.icon}</ListItemIcon>
                         <ListItemText primary={item.title} />
@@ -37,6 +42,7 @@ const SideList = props => {
                             button
                             key={item.title}
                             onClick={() => props.redirect(item.path(props))}
+                            className={props.styles.test}
                         >
                             <ListItemIcon>{item.icon}</ListItemIcon>
                             <ListItemText primary={item.title} />
@@ -51,16 +57,20 @@ const SideList = props => {
 
 SideList.defaultProps = {
     closeNavbar: noop,
+    currentPath: '',
     isAdmin: false,
     isSignedIn: false,
-    redirect: noop
+    redirect: noop,
+    styles: defaultStyles
 };
 
 SideList.propTypes = {
     closeNavbar: PropTypes.func,
+    currentPath: PropTypes.string,
     isAdmin: PropTypes.bool,
     isSignedIn: PropTypes.bool,
-    redirect: PropTypes.func
+    redirect: PropTypes.func,
+    styles: PropTypes.objectOf(PropTypes.string)
 };
 
 

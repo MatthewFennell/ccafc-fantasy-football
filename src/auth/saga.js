@@ -19,13 +19,13 @@ function* signOut() {
 }
 
 function* loggingIn(action) {
+    yield put(fetchMaxGameWeekRequest());
     if (action.auth && !action.auth.emailVerified) {
         yield put(push(consts.URL.VERIFY_EMAIL));
     }
     const user = yield firebase.auth().currentUser.getIdTokenResult();
     const isAdmin = user.claims.admin || false;
     yield put(actions.setAdmin(isAdmin));
-    yield put(fetchMaxGameWeekRequest());
 }
 
 function* signUp(action) {
