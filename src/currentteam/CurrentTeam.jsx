@@ -22,6 +22,7 @@ const CurrentTeam = props => {
                 activePlayerStyles={activePlayerStyles}
                 loading={props.fetchingForUser}
                 goalkeeperStyles={goalkeeperStyles}
+                renderEmptyPlayers
             />
         </div>
     );
@@ -29,6 +30,7 @@ const CurrentTeam = props => {
 
 CurrentTeam.defaultProps = {
     activeTeam: [],
+    fetchingForUser: false,
     styles: defaultStyles
 };
 
@@ -39,7 +41,7 @@ CurrentTeam.propTypes = {
         team: PropTypes.string
     })),
     fetchActiveTeamRequest: PropTypes.func.isRequired,
-    fetchingForUser: PropTypes.bool.isRequired,
+    fetchingForUser: PropTypes.bool,
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired,

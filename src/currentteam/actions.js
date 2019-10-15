@@ -10,8 +10,9 @@ export const fetchActiveTeamRequest = userId => ({
     userId
 });
 
-export const fetchActiveTeamError = error => ({
+export const fetchActiveTeamError = (userId, error) => ({
     type: FETCH_ACTIVE_TEAM_ERROR,
+    userId,
     error
 });
 
