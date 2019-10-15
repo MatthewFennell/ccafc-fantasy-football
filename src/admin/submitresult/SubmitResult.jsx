@@ -80,11 +80,13 @@ const SubmitResult = props => {
             resultObject
         );
 
-        setGoalsFor('');
-        setGoalsAgainst('');
-        setGameWeek('');
+        // setGoalsFor('');
+        // setGoalsAgainst('');
+        // setGameWeek('');
     }, [teamName, goalsFor, goalsAgainst, gameWeek, goalScorers,
         assisters, cleanSheets, props.submitResultRequest]);
+
+    console.log('goalscorers', goalScorers);
 
     const scorers = [];
     for (let x = 0; x < goalsFor; x += 1) {
