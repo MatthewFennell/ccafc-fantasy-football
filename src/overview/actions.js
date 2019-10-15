@@ -51,6 +51,8 @@ export const fetchUserInfoForWeekSuccess = (userId, week, userInfo) => ({
 
 export const fetchUserInfoForWeekError = (userId, week, error) => ({
     type: FETCH_USER_INFO_FOR_WEEK_ERROR,
+    userId,
+    week,
     error
 });
 
