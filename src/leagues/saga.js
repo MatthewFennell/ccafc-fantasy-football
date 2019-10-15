@@ -25,7 +25,11 @@ function* fetchUsersInLeague(action) {
     try {
         const usersForThatLeague = yield select(selectors.getUsersInLeagueWithId, action.leagueId);
         if (!usersForThatLeague) {
-            const usersInLeague = yield call(api.getUsersInLeague, { leagueId: action.leagueId });
+            const usersInLeague = yield call(api.getUsersInLeague,
+                {
+                    leagueId: action.leagueId,
+                    week: action.maxGameWeek
+                });
             yield put(actions.fetchUsersInLeagueSuccess(action.leagueId, usersInLeague));
         } else {
             yield put(actions.alreadyFetchedUsersInLeague());

@@ -49,9 +49,10 @@ export const alreadyFetchedUsersInLeague = () => ({
 });
 
 
-export const fetchUsersInLeagueRequest = leagueId => ({
+export const fetchUsersInLeagueRequest = (leagueId, maxGameWeek) => ({
     type: FETCH_USERS_IN_LEAGUE_REQUEST,
-    leagueId
+    leagueId,
+    maxGameWeek
 });
 
 export const fetchUsersInLeagueSuccess = (leagueId, usersInLeague) => ({

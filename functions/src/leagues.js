@@ -163,7 +163,23 @@ exports.orderedUsers = functions
             .orderBy('user_points', 'desc')
             .get()
             .then(querySnapshot => querySnapshot.docs
-                .map(doc => ({ data: doc.data(), id: doc.id })));
+                .map(doc => ({ data: doc.data(), id: doc.id })))
+            .then(result => {
+                const leaguePromises = [];
+                result.map(user => leaguePromises.push(db.collection('weekly-teams').where('user_id', '==', user.data.user_id).where('week', '==', data.week)
+                    .get()
+                    .then(weeklyTeam => {
+                        if (weeklyTeam.size > 1) {
+                            throw new functions.https.HttpsError('invalid-argument', 'Somehow you have multiple weekly teams');
+                        }
+                        if (weeklyTeam.size === 0) {
+                            fp.set('data.week_points', 0)(user);
+                        }
+                        const weeklyTeamObj = weeklyTeam.docs[0];
+                        return fp.set('data.week_points', weeklyTeamObj.data().points)(user);
+                    })));
+                return Promise.all(leaguePromises).then(leagueRow => leagueRow);
+            });
     });
 
 exports.positionsOfUserInLeagues = functions

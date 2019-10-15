@@ -13,7 +13,7 @@ import Spinner from '../common/spinner/Spinner';
 import ErrorModal from '../common/modal/ErrorModal';
 import { generatePointsRoute } from '../helperFunctions';
 
-const columns = [
+const columns = gameWeek => [
     {
         id: 'username',
         label: 'Username',
@@ -25,16 +25,21 @@ const columns = [
         align: 'center'
     },
     {
+        id: 'weekPoints',
+        label: `Gameweek ${gameWeek}`,
+        align: 'center'
+    },
+    {
         id: 'userPoints',
-        label: 'Points',
+        label: 'Total',
         align: 'center'
     }
 ];
 
 const UsersInLeague = props => {
     useEffect(() => {
-        props.fetchUsersInLeagueRequest(props.leagueId);
-    }, [props.fetchUsersInLeagueRequest]);
+        props.fetchUsersInLeagueRequest(props.leagueId, props.maxGameWeek);
+    }, [props.fetchUsersInLeagueRequest, props.maxGameWeek]);
 
     const [leaveLeagueOpen, setLeaveLeagueOpen] = useState(false);
 
@@ -57,7 +62,7 @@ const UsersInLeague = props => {
                 <div className={props.styles.myLeaguesTable}>
                     <Grid
                         backButtonLink={redirect}
-                        columns={columns}
+                        columns={columns(props.maxGameWeek)}
                         gridHeader={props.leagueName}
                         loading={props.fetchingUsersInLeague}
                         onRowClick={loadUserPage}
