@@ -18,7 +18,6 @@ const NewNavbar = props => {
         props.history.push(redirectLocation);
     }, [props.history]);
 
-
     return (
         <>
             <TopNavbar
@@ -30,6 +29,7 @@ const NewNavbar = props => {
                 toggleNavbar={toggleSidebar}
             />
             <SideNavbar
+                currentPath={props.history.location.pathname}
                 isAdmin={props.isAdmin}
                 isOpen={sidebarOpen}
                 isSignedIn={props.auth.uid && props.auth.emailVerified}

@@ -11,6 +11,7 @@ const SideNavbar = props => (
         onOpen={props.closeNavbar}
     >
         <SideList
+            currentPath={props.currentPath}
             redirect={props.redirect}
             isAdmin={props.isAdmin}
             isSignedIn={props.isSignedIn}
@@ -22,6 +23,7 @@ const SideNavbar = props => (
 
 SideNavbar.defaultProps = {
     closeNavbar: noop,
+    currentPath: '',
     isAdmin: false,
     isOpen: false,
     isSignedIn: false,
@@ -32,6 +34,7 @@ SideNavbar.defaultProps = {
 
 SideNavbar.propTypes = {
     closeNavbar: PropTypes.func,
+    currentPath: PropTypes.string,
     isAdmin: PropTypes.bool,
     isOpen: PropTypes.bool,
     isSignedIn: PropTypes.bool,
