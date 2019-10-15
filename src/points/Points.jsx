@@ -9,9 +9,9 @@ import { fetchUserPointsForWeekRequest, fetchUserPointsForWeekRequestBackground 
 import Pitch from '../common/pitch/Pitch';
 import activePlayerStyles from './ShirtStyles/ActivePlayer.module.scss';
 import goalkeeperStyles from './ShirtStyles/Goalkeeper.module.scss';
-import * as constants from '../constants';
 import StyledModal from '../common/modal/StyledModal';
 import PointsTable from './PointsTable/PointsTable';
+import { generatePointsRoute } from '../helperFunctions';
 
 const Points = props => {
     const [playerModalOpen, setPlayerModalOpen] = useState(false);
@@ -22,16 +22,14 @@ const Points = props => {
     }, [props.userId, props.currentGameWeek, props.fetchUserPointsForWeekRequest]);
 
     const loadPreviousWeek = useCallback(() => {
-        const redirect = `${constants.URL.POINTS}/${props.userId}/${props.currentGameWeek - 1}`;
         if (props.currentGameWeek > 1) {
-            props.history.push(redirect);
+            props.history.push(generatePointsRoute(props.userId, props.currentGameWeek - 1));
         }
     }, [props.history, props.currentGameWeek, props.userId]);
 
     const loadNextWeek = useCallback(() => {
-        const redirect = `${constants.URL.POINTS}/${props.userId}/${props.currentGameWeek + 1}`;
         if (props.currentGameWeek < props.maxGameWeek) {
-            props.history.push(redirect);
+            props.history.push(generatePointsRoute(props.userId, props.currentGameWeek + 1));
         }
     }, [props.history, props.currentGameWeek, props.userId]);
 

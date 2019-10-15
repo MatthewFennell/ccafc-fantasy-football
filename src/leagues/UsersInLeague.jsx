@@ -11,6 +11,7 @@ import StyledButton from '../common/StyledButton/StyledButton';
 import ConfirmModal from '../common/modal/ConfirmModal';
 import Spinner from '../common/spinner/Spinner';
 import ErrorModal from '../common/modal/ErrorModal';
+import { generatePointsRoute } from '../helperFunctions';
 
 const columns = [
     {
@@ -46,6 +47,10 @@ const UsersInLeague = props => {
         props.leaveLeagueRequest(props.leagueId);
     }, [props.leaveLeagueRequest, props.leagueId, setLeaveLeagueOpen]);
 
+    const loadUserPage = useCallback(user => {
+        props.history.push(generatePointsRoute(user.userId, props.maxGameWeek));
+    }, [props.usersInLeague, props.maxGameWeek]);
+
     return (
         <div className={props.styles.leaguesWrapper}>
             <div className={props.styles.myLeaguesWrapper}>
@@ -55,6 +60,7 @@ const UsersInLeague = props => {
                         columns={columns}
                         gridHeader={props.leagueName}
                         loading={props.fetchingUsersInLeague}
+                        onRowClick={loadUserPage}
                         renderBackButton
                         rows={props.usersInLeague}
                     />
@@ -103,6 +109,7 @@ const mapStateToProps = (state, props) => ({
     leavingLeague: selectors.getLeavingLeague(state),
     leaveLeagueError: selectors.getLeaveLeagueError(state),
     leaveLeagueErrorCode: selectors.getLeaveLeagueErrorCode(state),
+    maxGameWeek: state.overview.maxGameWeek,
     usersInLeague: selectors.getUsersInLeague(state, props)
 });
 
@@ -112,6 +119,7 @@ UsersInLeague.defaultProps = {
     leaveLeagueError: '',
     leaveLeagueErrorCode: '',
     leavingLeague: false,
+    maxGameWeek: null,
     styles: defaultStyles,
     usersInLeague: []
 };
@@ -129,6 +137,7 @@ UsersInLeague.propTypes = {
     leaveLeagueError: PropTypes.string,
     leaveLeagueErrorCode: PropTypes.string,
     leavingLeague: PropTypes.bool,
+    maxGameWeek: PropTypes.number,
     styles: PropTypes.objectOf(PropTypes.string),
     usersInLeague: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string,

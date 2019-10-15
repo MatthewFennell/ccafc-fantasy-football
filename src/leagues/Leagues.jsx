@@ -56,9 +56,6 @@ const Leagues = props => {
         props.history.push(`${constants.URL.LEAGUES}/${row.leagueId}`);
     }, [props.history]);
 
-    console.log('rows', props.leagues);
-    console.log('columns', columns);
-
     return (
         <>
             <div className={props.styles.myLeaguesTable}>
@@ -148,6 +145,7 @@ Leagues.defaultProps = {
     createLeagueError: '',
     createLeagueErrorCode: '',
     creatingLeague: false,
+    fetchingLeagues: false,
     joinLeagueError: '',
     joinLeagueErrorCode: '',
     joiningLeague: false,
@@ -162,7 +160,7 @@ Leagues.propTypes = {
     createLeagueErrorCode: PropTypes.string,
     createLeagueRequest: PropTypes.func.isRequired,
     creatingLeague: PropTypes.bool,
-    fetchingLeagues: PropTypes.bool.isRequired,
+    fetchingLeagues: PropTypes.bool,
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired,
