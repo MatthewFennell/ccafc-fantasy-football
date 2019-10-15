@@ -45,7 +45,7 @@ const Points = props => {
     }, [playerModalOpen, playerObj, setPlayerModalOpen, setPlayerObj]);
 
     return (
-        <div>
+        <div className={props.styles.pageWrapper}>
             <div className={props.styles.gameWeekWrapper}>
                 <div className={props.styles.gameWeekText}>
                     <div className={props.styles.arrowBackWrapper}>

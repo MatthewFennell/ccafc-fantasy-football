@@ -10,6 +10,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import { noop } from 'lodash';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import classNames from 'classnames';
 import defaultStyles from './Grid.module.scss';
 import Linear from '../spinner/LinearSpinner';
 
@@ -55,9 +56,7 @@ const Grid = props => {
                 </div>
                 {props.loading && <Linear color={props.loadingColor} />}
                 <Table stickyHeader>
-
                     <TableHead>
-
                         <TableRow>
                             {props.columns.map(column => (
                                 <TableCell
@@ -73,7 +72,16 @@ const Grid = props => {
                     <TableBody>
                         {props.rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map(row => (
-                                <TableRow hover role="checkbox" tabIndex={-1} key={row.id} onClick={() => props.onRowClick(row)}>
+                                <TableRow
+                                    hover
+                                    role="checkbox"
+                                    tabIndex={-1}
+                                    key={row.id}
+                                    onClick={() => props.onRowClick(row)}
+                                    className={classNames({
+                                        [props.styles.active]: props.activeRow(row)
+                                    })}
+                                >
                                     {props.columns.map(column => {
                                         const value = row[column.id];
                                         return (
@@ -110,6 +118,7 @@ const Grid = props => {
 };
 
 Grid.defaultProps = {
+    activeRow: () => false,
     backButtonLink: noop,
     columns: [],
     gridHeader: '',
@@ -125,6 +134,7 @@ Grid.defaultProps = {
 };
 
 Grid.propTypes = {
+    activeRow: PropTypes.func,
     backButtonLink: PropTypes.func,
     columns: PropTypes.arrayOf(PropTypes.shape({
         align: PropTypes.string,

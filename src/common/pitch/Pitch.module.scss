@@ -10,11 +10,15 @@
     background-size: 100% 100%;
   }
 
+  .goalKeepers{
+    margin-top: $spacing-large;
+  }
+
   .defenders, .midfielders, .attackers{
     width: 75%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: $spacing-huge;
+    margin-top: $spacing-gigantic;
     display: flex;
     justify-content: center;
     > div {
@@ -36,6 +40,6 @@
 
   @media only screen and (max-width: 600px) {
     .defenders, .midfielders, .attackers{
-    margin-top: $spacing-average;
+    margin-top: $spacing-massive;
     }
   }

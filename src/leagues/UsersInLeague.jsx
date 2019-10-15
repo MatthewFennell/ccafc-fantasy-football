@@ -26,7 +26,7 @@ const columns = gameWeek => [
     },
     {
         id: 'weekPoints',
-        label: `Gameweek ${gameWeek}`,
+        label: `Week ${gameWeek}`,
         align: 'center'
     },
     {
@@ -61,6 +61,7 @@ const UsersInLeague = props => {
             <div className={props.styles.myLeaguesWrapper}>
                 <div className={props.styles.myLeaguesTable}>
                     <Grid
+                        activeRow={row => row.userId === props.auth.uid}
                         backButtonLink={redirect}
                         columns={columns(props.maxGameWeek)}
                         gridHeader={props.leagueName}
@@ -108,6 +109,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, props) => ({
+    auth: state.firebase.auth,
     fetchingUsersInLeague: selectors.getFetchingUsersInLeague(state),
     leagueId: selectors.getLeagueId(props),
     leagueName: selectors.getLeagueName(state, props),
@@ -119,6 +121,7 @@ const mapStateToProps = (state, props) => ({
 });
 
 UsersInLeague.defaultProps = {
+    auth: {},
     leagueId: '',
     leagueName: '',
     leaveLeagueError: '',
@@ -130,6 +133,10 @@ UsersInLeague.defaultProps = {
 };
 
 UsersInLeague.propTypes = {
+    auth: PropTypes.shape({
+        uid: PropTypes.string,
+        emailVerified: PropTypes.bool
+    }),
     closeLeaveLeagueError: PropTypes.func.isRequired,
     fetchingUsersInLeague: PropTypes.bool.isRequired,
     fetchUsersInLeagueRequest: PropTypes.func.isRequired,
