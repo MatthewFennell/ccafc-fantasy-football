@@ -32,6 +32,32 @@ export const DELETE_TEAM_SUCCESS = `${pre}DELETE_TEAM_SUCCESS`;
 export const DELETE_TEAM_ERROR = `${pre}DELETE_TEAM_ERROR`;
 export const CLOSE_DELETE_TEAM_ERROR = `${pre}CLOSE_DELETE_TEAM_ERROR`;
 
+export const TRIGGER_WEEK_REQUEST = `${pre}TRIGGER_WEEK_REQUEST`;
+export const TRIGGER_WEEK_SUCCESS = `${pre}TRIGGER_WEEK_SUCCESS`;
+export const TRIGGER_WEEK_ERROR = `${pre}TRIGGER_WEEK_ERROR`;
+export const CLOSE_TRIGGER_WEEK_ERROR = `${pre}CLOSE_TRIGGER_WEEK_ERROR`;
+
+export const triggerWeekRequest = week => ({
+    type: TRIGGER_WEEK_REQUEST,
+    week
+});
+
+export const triggerWeekSuccess = () => ({
+    type: TRIGGER_WEEK_SUCCESS
+});
+
+export const triggerWeekError = error => ({
+    type: TRIGGER_WEEK_ERROR,
+    error
+});
+
+export const closeTriggerWeekError = () => ({
+    type: CLOSE_TRIGGER_WEEK_ERROR
+});
+
+
+// -------------------------------------------------------------------- \\
+
 export const fetchTeamsRequest = () => ({
     type: FETCH_TEAMS_REQUEST
 });

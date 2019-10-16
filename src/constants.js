@@ -17,7 +17,8 @@ export const ADMIN_URL = {
     DELETE_PLAYER: '/delete-player',
     CREATE_TEAM: '/create-team',
     DELETE_TEAM: '/delete-team',
-    SUBMIT_RESULT: '/submit-result'
+    SUBMIT_RESULT: '/submit-result',
+    TRIGGER_WEEK: '/trigger-week'
 };
 
 export const POINTS = {
