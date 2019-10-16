@@ -17,5 +17,6 @@ exports.activeTeam = require('./src/activeTeam');
 exports.weeklyTeam = require('./src/weeklyTeams');
 exports.points = require('./src/points');
 exports.users = require('./src/users');
+exports.listeners = require('./src/listeners');
 
 const operations = admin.firestore.FieldValue;

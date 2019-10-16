@@ -36,13 +36,31 @@ const SubmitResult = props => {
     }, [props.fetchPlayersForTeamRequest, teamName, setTeamName]);
 
     const getNthGoalscorer = n => fp.get(n)(goalScorers);
-    const setNthGoalscorer = (val, n) => setGoalscorers(fp.set(n, val)(goalScorers));
+    const setNthGoalscorer = (val, n) => {
+        if (val) {
+            setGoalscorers(fp.set(n, val)(goalScorers));
+        } else {
+            setGoalscorers(fp.unset(n)(goalScorers));
+        }
+    };
 
     const getNthAssister = n => fp.get(n)(assisters);
-    const setNthAssister = (val, n) => setAssisters(fp.set(n, val)(assisters));
+    const setNthAssister = (val, n) => {
+        if (val) {
+            setAssisters(fp.set(n, val)(assisters));
+        } else {
+            setAssisters(fp.unset(n)(assisters));
+        }
+    };
 
     const getNthCleanSheet = n => fp.get(n)(cleanSheets);
-    const setNthCleanSheet = (val, n) => setCleanSheets(fp.set(n, val)(cleanSheets));
+    const setNthCleanSheet = (val, n) => {
+        if (val) {
+            setCleanSheets(fp.set(n, val)(cleanSheets));
+        } else {
+            setCleanSheets(fp.unset(n)(cleanSheets));
+        }
+    };
 
     const playersForActiveTeam = fp.getOr([], teamName)(props.teamsWithPlayers);
     const defensivePlayersForActiveTeam = playersForActiveTeam.filter(p => isDefensive(p.position));
@@ -80,11 +98,13 @@ const SubmitResult = props => {
             resultObject
         );
 
-        setGoalsFor('');
-        setGoalsAgainst('');
-        setGameWeek('');
+        // setGoalsFor('');
+        // setGoalsAgainst('');
+        // setGameWeek('');
     }, [teamName, goalsFor, goalsAgainst, gameWeek, goalScorers,
         assisters, cleanSheets, props.submitResultRequest]);
+
+    console.log('goalscorers', goalScorers);
 
     const scorers = [];
     for (let x = 0; x < goalsFor; x += 1) {
