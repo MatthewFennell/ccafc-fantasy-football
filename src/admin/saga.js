@@ -4,6 +4,7 @@ import {
 import * as actions from './actions';
 import * as api from './api';
 import * as selectors from './selectors';
+import { fetchMaxGameWeekRequest } from '../overview/actions';
 
 function* fetchTeams() {
     try {
@@ -93,6 +94,16 @@ function* deleteTeam(action) {
     }
 }
 
+function* triggerWeek(action) {
+    try {
+        yield call(api.triggerWeeklyTeams, { week: action.week });
+        yield put(actions.triggerWeekSuccess());
+        yield put(fetchMaxGameWeekRequest());
+    } catch (error) {
+        yield put(actions.triggerWeekError(error));
+    }
+}
+
 export default function* adminSaga() {
     yield all([
         takeEvery(actions.FETCH_TEAMS_REQUEST, fetchTeams),
@@ -101,6 +112,7 @@ export default function* adminSaga() {
         takeEvery(actions.FETCH_PLAYERS_FOR_TEAM_REQUEST, getPlayersForTeam),
         takeEvery(actions.SUBMIT_RESULT_REQUEST, submitResult),
         takeEvery(actions.DELETE_PLAYER_REQUEST, deletePlayer),
-        takeEvery(actions.DELETE_TEAM_REQUEST, deleteTeam)
+        takeEvery(actions.DELETE_TEAM_REQUEST, deleteTeam),
+        takeEvery(actions.TRIGGER_WEEK_REQUEST, triggerWeek)
     ]);
 }

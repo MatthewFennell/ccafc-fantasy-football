@@ -24,7 +24,11 @@ const initState = {
 
     submittingResult: false,
     submitResultError: '',
-    submitResultErrorCode: ''
+    submitResultErrorCode: '',
+
+    triggeringWeek: false,
+    triggerWeekError: '',
+    triggerWeekErrorCode: ''
 };
 
 const adminReducer = (state = initState, action) => {
@@ -144,6 +148,27 @@ const adminReducer = (state = initState, action) => {
             ...state,
             submitResultError: '',
             submitResultErrorCode: ''
+        };
+    }
+    case actions.TRIGGER_WEEK_SUCCESS: {
+        return fp.set('triggeringWeek', false)(state);
+    }
+    case actions.TRIGGER_WEEK_REQUEST: {
+        return fp.set('triggeringWeek', true)(state);
+    }
+    case actions.TRIGGER_WEEK_ERROR: {
+        return {
+            ...state,
+            triggeringWeek: false,
+            triggerWeekError: action.error.message,
+            triggerWeekErrorCode: action.error.code
+        };
+    }
+    case actions.CLOSE_TRIGGER_WEEK_ERROR: {
+        return {
+            ...state,
+            triggerWeekError: '',
+            triggerWeekErrorCode: ''
         };
     }
     default:

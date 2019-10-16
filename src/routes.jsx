@@ -8,6 +8,7 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import GradeIcon from '@material-ui/icons/Grade';
 import LayersIcon from '@material-ui/icons/Layers';
 import DeleteIcon from '@material-ui/icons/Delete';
+import WhatshotIcon from '@material-ui/icons/Whatshot';
 
 import fp from 'lodash/fp';
 import CreatePlayer from './admin/createplayer/CreatePlayer';
@@ -18,6 +19,7 @@ import SignIn from './auth/SignIn';
 import SignUp from './auth/SignUp';
 import DeleteTeam from './admin/deleteteam/DeleteTeam';
 import Points from './points/Points';
+import TriggerWeek from './admin/triggerweek/TriggerWeek';
 
 import Overview from './overview/Overview';
 import Leagues from './leagues/Leagues';
@@ -60,6 +62,13 @@ export const adminLinks = [
         component: SubmitResult,
         path: () => constants.ADMIN_URL.SUBMIT_RESULT,
         urlIncludes: constants.ADMIN_URL.SUBMIT_RESULT
+    },
+    {
+        title: 'Trigger Week',
+        icon: <WhatshotIcon />,
+        component: TriggerWeek,
+        path: () => constants.ADMIN_URL.TRIGGER_WEEK,
+        urlIncludes: constants.ADMIN_URL.TRIGGER_WEEK
     }
 
 ];
