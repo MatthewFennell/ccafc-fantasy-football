@@ -11,7 +11,7 @@ import { generateOverviewRoute } from '../helperFunctions';
 
 const Overview = props => {
     useEffect(() => {
-        if (props.currentGameWeek) {
+        if (props.currentGameWeek || props.currentGameWeek === 0) {
             props.fetchUserInfoForWeekRequest(props.userId, props.currentGameWeek);
         }
     }, [props.userId, props.currentGameWeek, props.fetchUserInfoForWeekRequest, props.maxGameWeek]);
@@ -41,7 +41,7 @@ const Overview = props => {
     }, [props.history, props.currentGameWeek, props.userId]);
 
     useEffect(() => {
-        if (!props.currentGameWeek && props.maxGameWeek) {
+        if ((!props.currentGameWeek && props.maxGameWeek) || props.maxGameWeek === 0) {
             props.history.push(generateOverviewRoute(props.userId, props.maxGameWeek));
         }
     }, [props.currentGameWeek, props.maxGameWeek]);

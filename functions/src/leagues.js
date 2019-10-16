@@ -157,6 +157,10 @@ exports.orderedUsers = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
+        if (!common.isIntegerGreaterThanEqualZero(data.week)) {
+            throw new functions.https.HttpsError('invalid-argument', `Invalid week of${data.week}`);
+        }
+
         return db
             .collection('leagues-points')
             .where('league_id', '==', data.leagueId)

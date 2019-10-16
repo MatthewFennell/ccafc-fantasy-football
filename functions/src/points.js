@@ -120,7 +120,15 @@ exports.submitResult = functions
         common.isAuthenticated(context);
 
         if (!common.isIntegerGreaterThanEqualZero(data.week)) {
-            throw new functions.https.HttpsError('invalid-argument', 'That is not a valid week');
+            throw new functions.https.HttpsError('invalid-argument', `That is not a valid week (${data.week})`);
+        }
+
+        if (!common.isIntegerGreaterThanEqualZero(data.goalsAgainst)) {
+            throw new functions.https.HttpsError('invalid-argument', `That is not a valid value goals against (${data.goalsAgainst})`);
+        }
+
+        if (!common.isIntegerGreaterThanEqualZero(data.goalsFor)) {
+            throw new functions.https.HttpsError('invalid-argument', `That is not a valid value goals for (${data.goalsFor})`);
         }
 
         return common.isAdmin(context.auth.uid).then(() => {

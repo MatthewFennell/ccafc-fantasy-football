@@ -38,7 +38,9 @@ const columns = gameWeek => [
 
 const UsersInLeague = props => {
     useEffect(() => {
-        props.fetchUsersInLeagueRequest(props.leagueId, props.maxGameWeek);
+        if (props.maxGameWeek || props.maxGameWeek === 0) {
+            props.fetchUsersInLeagueRequest(props.leagueId, props.maxGameWeek);
+        }
     }, [props.fetchUsersInLeagueRequest, props.maxGameWeek]);
 
     const [leaveLeagueOpen, setLeaveLeagueOpen] = useState(false);

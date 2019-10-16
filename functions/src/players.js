@@ -38,7 +38,7 @@ exports.createPlayer = functions
                                 .add({
                                     name: data.name,
                                     position: data.position,
-                                    price: data.price,
+                                    price: parseFloat(data.price, 10),
                                     team: data.team,
                                     points: 0,
                                     goals: 0,

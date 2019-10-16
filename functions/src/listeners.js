@@ -93,7 +93,7 @@ exports.updateLeaguesPoints = functions.region(constants.region).firestore
                     .where('user_id', '==', userId).where('start_week', '<=', change.after.data().week)
                     .get()
                     .then(leagues => leagues.docs.forEach(league => league.ref.update({
-                        points: operations.increment(points)
+                        user_points: operations.increment(points)
                     }))))
             );
     });
