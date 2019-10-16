@@ -12,6 +12,7 @@ const activeTeamReducer = (state = initState, action) => {
             fp.set(`activeTeam.${action.userId}.players`, action.activeTeam),
             fp.set(`activeTeam.${action.userId}.fetching`, false),
             fp.set(`activeTeam.${action.userId}.fetched`, true),
+            fp.set(`activeTeam.${action.userId}.captain`, action.captain),
         )(state);
     }
     case actions.FETCH_ACTIVE_TEAM_ERROR: {

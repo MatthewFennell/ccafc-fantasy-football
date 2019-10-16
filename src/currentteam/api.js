@@ -1,5 +1,6 @@
 import { functionToCall } from '../api/api';
 
-// eslint-disable-next-line import/prefer-default-export
-export const fetchActiveTeam = request => functionToCall('users-getActiveTeam')(request)
+export const fetchActiveTeam = request => functionToCall('fetchActiveTeam')(request)
     .then(data => data.data);
+
+export const makeCaptain = request => functionToCall('makeCaptain')(request);

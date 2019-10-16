@@ -13,9 +13,11 @@ const Pitch = props => {
         .filter(player => player.position === position).map(player => (
             <Player
                 additionalInfo={props.additionalInfo(player)}
+                isCaptain={props.captain === player.player_id}
                 name={player.name}
                 onClick={() => props.onPlayerClick(player)}
                 shirtStyles={styles}
+                showCaptain={props.showCaptain}
                 size="4x"
                 key={player.name}
             />
@@ -72,10 +74,12 @@ Pitch.defaultProps = {
     activePlayerStyles: defaultActivePlayerStyles,
     activeTeam: [],
     additionalInfo: noop,
+    captain: '',
     goalkeeperStyles: defaultGoalkeeperStyles,
     loading: false,
     onPlayerClick: noop,
     renderEmptyPlayers: false,
+    showCaptain: false,
     styles: defaultStyles
 };
 
@@ -87,10 +91,12 @@ Pitch.propTypes = {
         team: PropTypes.string
     })),
     additionalInfo: PropTypes.func,
+    captain: PropTypes.string,
     goalkeeperStyles: PropTypes.objectOf(PropTypes.string),
     loading: PropTypes.bool,
     onPlayerClick: PropTypes.func,
     renderEmptyPlayers: PropTypes.bool,
+    showCaptain: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 

@@ -14,7 +14,7 @@ const ConfirmModal = props => (
         toggleModal={props.closeModal}
     >
         <div className={props.styles.modalWrapper}>
-          Are you sure you?
+            {props.text}
             <div className={props.styles.buttonsWrapper}>
                 <StyledButton
                     color="secondary"
@@ -37,7 +37,8 @@ ConfirmModal.defaultProps = {
     headerMessage: '',
     isOpen: false,
     styles: defaultStyles,
-    submit: noop
+    submit: noop,
+    text: 'Are you sure?'
 };
 
 ConfirmModal.propTypes = {
@@ -46,7 +47,8 @@ ConfirmModal.propTypes = {
     headerMessage: PropTypes.string,
     isOpen: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),
-    submit: PropTypes.func
+    submit: PropTypes.func,
+    text: PropTypes.string
 };
 
 export default ConfirmModal;
