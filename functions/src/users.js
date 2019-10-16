@@ -8,7 +8,6 @@ const db = admin.firestore();
 exports.userInfoForWeek = functions
     .region(constants.region)
     .https.onCall((data, context) => {
-        console.log('data', data);
         common.isAuthenticated(context);
         return db.collection('weekly-teams').where('week', '==', data.week).where('user_id', '==', data.userId).get()
             .then(
@@ -29,7 +28,14 @@ exports.userInfoForWeek = functions
             )
             .then(result => db.collection('weekly-teams').where('week', '==', data.week).get().then(weeklyDocs => {
                 if (weeklyDocs.size === 0) {
-                    return result;
+                    return {
+                        ...result,
+                        average_points: 0,
+                        highest_points: {
+                            points: 0,
+                            id: null
+                        }
+                    };
                 }
                 const averagePoints = weeklyDocs.docs
                     .reduce((acc, curVal) => acc + curVal.data().points, 0) / weeklyDocs.size;

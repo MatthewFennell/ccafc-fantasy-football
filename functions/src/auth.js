@@ -10,6 +10,11 @@ exports.userSignUp = functions
     .region(constants.region)
     .auth.user()
     .onCreate(user => {
+        if (user.email === config.admin.email) {
+            admin.auth().setCustomUserClaims(user.uid, {
+                admin: true
+            });
+        }
         db.collection('application-info').get().then(
             appInfo => {
                 if (appInfo.empty) {
@@ -33,7 +38,7 @@ exports.userSignUp = functions
             remaining_budget: 100
         };
         // If Facebook provider, assume the email is verified
-        db.doc(`users/${user.uid}`).set(userObject)
+        return db.doc(`users/${user.uid}`).set(userObject)
             .then(() => {
                 if (user.providerData.length && user.providerData[0].providerId === 'facebook.com') {
                     admin.auth().updateUser(user.uid, {
@@ -47,12 +52,6 @@ exports.userSignUp = functions
                     player_ids: []
                 });
             });
-        if (user.email === config.admin.email) {
-            return admin.auth().setCustomUserClaims(user.uid, {
-                admin: true
-            });
-        }
-        return false;
     });
 
 exports.updateDisplayName = functions

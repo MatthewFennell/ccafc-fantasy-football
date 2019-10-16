@@ -92,9 +92,9 @@ const SubmitResult = props => {
 
         props.submitResultRequest(
             teamId,
-            parseInt(goalsFor, 10) || '',
-            parseInt(goalsAgainst, 10) || '',
-            parseInt(gameWeek, 10) || '',
+            parseFloat(goalsFor, 10) || '',
+            parseFloat(goalsAgainst, 10) || '',
+            parseFloat(gameWeek, 10) || '',
             resultObject
         );
 
