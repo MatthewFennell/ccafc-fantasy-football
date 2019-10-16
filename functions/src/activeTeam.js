@@ -204,7 +204,9 @@ exports.fetchMyActiveTeam = functions
                     throw new functions.https.HttpsError('not-found', 'Something has gone wrong with your active team');
                 }
                 return db.collection('active-teams').doc(documentIds[0]).collection('players').get()
-                    .then(playerDocs => playerDocs.docs
-                        .map(player => ({ data: player.data(), id: player.id })));
+                    .then(playerDocs => ({
+                        players: playerDocs.docs
+                            .map(player => ({ ...player.data() }))
+                    }));
             });
     });
