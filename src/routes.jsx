@@ -9,6 +9,7 @@ import GradeIcon from '@material-ui/icons/Grade';
 import LayersIcon from '@material-ui/icons/Layers';
 import DeleteIcon from '@material-ui/icons/Delete';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
+import EditIcon from '@material-ui/icons/Edit';
 
 import fp from 'lodash/fp';
 import CreatePlayer from './admin/createplayer/CreatePlayer';
@@ -20,6 +21,7 @@ import SignUp from './auth/SignUp';
 import DeleteTeam from './admin/deleteteam/DeleteTeam';
 import Points from './points/Points';
 import TriggerWeek from './admin/triggerweek/TriggerWeek';
+import EditPlayer from './admin/editplayer/EditPlayer';
 
 import Overview from './overview/Overview';
 import Leagues from './leagues/Leagues';
@@ -69,8 +71,15 @@ export const adminLinks = [
         component: TriggerWeek,
         path: () => constants.ADMIN_URL.TRIGGER_WEEK,
         urlIncludes: constants.ADMIN_URL.TRIGGER_WEEK
-    }
+    },
+    {
+        title: 'Edit Player',
+        icon: <EditIcon />,
+        component: EditPlayer,
+        path: () => constants.ADMIN_URL.EDIT_PLAYER,
+        urlIncludes: constants.ADMIN_URL.EDIT_PLAYER
 
+    }
 ];
 
 export const signedOutLinks = [

@@ -1,0 +1,26 @@
+@import "../../common/Styles.scss";
+
+.findPlayerDropdowns{
+  justify-content: center;
+  display: flex;
+  @include light-box-shadow();
+  padding: $spacing-small;
+  margin: $spacing-medium;
+  background-color: $color-white;
+  flex-wrap: wrap;
+  > div { 
+    justify-content: center;
+    text-align: center;
+    flex-grow: 1;
+  }
+}
+
+.oldStatsWrapper {
+  justify-content: center;
+  display: flex;
+  @include light-box-shadow();
+  padding: $spacing-small;
+  margin: $spacing-medium;
+  background-color: $color-white;
+  flex-wrap: wrap;
+}

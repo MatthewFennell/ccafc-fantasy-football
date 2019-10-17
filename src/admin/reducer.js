@@ -28,7 +28,9 @@ const initState = {
 
     triggeringWeek: false,
     triggerWeekError: '',
-    triggerWeekErrorCode: ''
+    triggerWeekErrorCode: '',
+
+    playerStats: {}
 };
 
 const adminReducer = (state = initState, action) => {
@@ -170,6 +172,13 @@ const adminReducer = (state = initState, action) => {
             triggerWeekError: '',
             triggerWeekErrorCode: ''
         };
+    }
+    case actions.FETCH_PLAYER_STATS_SUCCESS: {
+        return fp.flow(
+            fp.set(`playerStats.${action.playerId}.week-${action.week}.fetched`, true),
+            fp.set(`playerStats.${action.playerId}.week-${action.week}.fetching`, false),
+            fp.set(`playerStats.${action.playerId}.week-${action.week}.team`, action.team),
+        )(state);
     }
     default:
         return state;
