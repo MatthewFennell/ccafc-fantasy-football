@@ -66,3 +66,59 @@ exports.fetchActiveTeam = functions
                     );
             });
     });
+
+exports.addExtraCaptainPoints = functions.region(constants.region).firestore
+    .document('player-points/{id}')
+    .onWrite(change => {
+        const difference = common.calculateDifference(change.before.data(), change.after.data());
+        const points = common.calculatePointDifference(difference,
+            change.after.data().position);
+        return db.collection('weekly-teams').where('captain', '==', change.after.data().player_id)
+            .where('week', '==', change.after.data().week).get()
+            .then(result => result.docs.map(weeklyTeam => weeklyTeam.data().user_id))
+            .then(
+                userIds => {
+                    userIds.forEach(uid => {
+                        // Add score to user
+                        db.collection('users').doc(uid).update({
+                            total_points: operations.increment(points)
+                        });
+
+                        // Add score to their weekly team
+                        db.collection('weekly-teams').where('user_id', '==', uid).where('week', '==', change.after.data().week).get()
+                            .then(weeklyTeamDoc => {
+                                if (weeklyTeamDoc.size === 0) {
+                                    throw new functions.https.HttpsError('not-found', 'User has no weekly team in that week');
+                                }
+                                if (weeklyTeamDoc.size > 1) {
+                                    throw new functions.https.HttpsError('invalid-argument', 'User has too many weekly teams');
+                                }
+                                weeklyTeamDoc.docs[0].ref.update({
+                                    points: operations.increment(points)
+                                });
+                            });
+
+                        // Add score to their weekly player
+                        db.collection('weekly-players').where('user_id', '==', uid).where('player_id', '==', change.after.data().player_id)
+                            .where('week', '==', change.after.data().week)
+                            .get()
+                            .then(weeklyPlayerDoc => {
+                                if (weeklyPlayerDoc.size === 0) {
+                                    throw new functions.https.HttpsError('not-found', 'Captain was not found for week');
+                                }
+                                if (weeklyPlayerDoc.size > 1) {
+                                    throw new functions.https.HttpsError('invalid-argument', 'Too many captains');
+                                }
+                                weeklyPlayerDoc.docs[0].ref.update({
+                                    points: operations.increment(points)
+                                });
+                            });
+
+                        db.collection('leagues-points').where('user_id', '==', uid).where('start_week', '<=', change.after.data().week).get()
+                            .then(leagueDoc => leagueDoc.docs.forEach(doc => doc.ref.update({
+                                user_points: operations.increment(points)
+                            })));
+                    });
+                }
+            );
+    });

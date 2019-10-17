@@ -10,12 +10,18 @@ import Spinner from '../../common/spinner/Spinner';
 import Dropdown from '../../common/dropdown/Dropdown';
 
 const TriggerWeek = props => {
-    const [week, setWeek] = useState(null);
+    const [week, setWeek] = useState('');
 
     const triggerWeek = useCallback(() => {
         props.triggerWeekRequest(week);
-        setWeek(null);
+        setWeek('');
     }, [props.triggerWeekRequest, week]);
+
+    const calculateOptions = props.maxGameWeek ? [{
+        id: props.maxGameWeek + 1,
+        value: props.maxGameWeek + 1,
+        text: props.maxGameWeek + 1
+    }] : [];
 
     return (
         <div className={props.styles.triggerWeekWrapper}>
@@ -30,11 +36,7 @@ const TriggerWeek = props => {
                 <Dropdown
                     activeValue={week}
                     onChange={setWeek}
-                    options={[{
-                        id: props.maxGameWeek + 1,
-                        value: props.maxGameWeek + 1,
-                        text: props.maxGameWeek + 1
-                    }]}
+                    options={calculateOptions}
                     title="Week"
                     key="Week"
                 />
