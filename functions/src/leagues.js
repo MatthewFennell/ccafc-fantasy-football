@@ -177,7 +177,7 @@ exports.orderedUsers = functions
                             throw new functions.https.HttpsError('invalid-argument', 'Somehow you have multiple weekly teams');
                         }
                         if (weeklyTeam.size === 0) {
-                            fp.set('data.week_points', 0)(user);
+                            return fp.set('data.week_points', 0)(user);
                         }
                         const weeklyTeamObj = weeklyTeam.docs[0];
                         return fp.set('data.week_points', weeklyTeamObj.data().points)(user);

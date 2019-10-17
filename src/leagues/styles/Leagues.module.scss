@@ -16,3 +16,10 @@
   color: $color-pink;
   font-size: $font-size-small;
 }
+
+@media only screen and (max-width: 600px) {
+  .myLeaguesTable{
+    padding: 0px;
+    margin-bottom: $spacing-small;
+  }
+}

@@ -69,7 +69,7 @@ const Overview = props => {
                                 <ArrowBackIcon color={props.currentGameWeek > 1 ? 'secondary' : 'disabled'} onClick={loadPreviousWeek} />
                             </div>
                             <div className={props.styles.gameWeekTextWrapper}>
-                                {`Gameweek ${props.currentGameWeek}`}
+                                {`Gameweek ${props.currentGameWeek || ''}`}
                             </div>
                             <div className={props.styles.arrowForwardWrapper}>
                                 <ArrowForwardIcon color={props.currentGameWeek === props.maxGameWeek ? 'disabled' : 'secondary'} onClick={loadNextWeek} />
