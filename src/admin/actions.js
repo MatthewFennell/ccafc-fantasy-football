@@ -48,10 +48,8 @@ export const fetchPlayerStatsRequest = (playerId, week) => ({
     week
 });
 
-export const fetchPlayerStatsSuccess = (playerId, week, playerStats) => ({
-    type: FETCH_PLAYER_STATS_REQUEST,
-    playerId,
-    week,
+export const fetchPlayerStatsSuccess = playerStats => ({
+    type: FETCH_PLAYER_STATS_SUCCESS,
     playerStats
 });
 

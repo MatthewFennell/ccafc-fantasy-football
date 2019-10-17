@@ -175,9 +175,13 @@ const adminReducer = (state = initState, action) => {
     }
     case actions.FETCH_PLAYER_STATS_SUCCESS: {
         return fp.flow(
-            fp.set(`playerStats.${action.playerId}.week-${action.week}.fetched`, true),
-            fp.set(`playerStats.${action.playerId}.week-${action.week}.fetching`, false),
-            fp.set(`playerStats.${action.playerId}.week-${action.week}.team`, action.team),
+            fp.set('playerStats.fetching', false),
+            fp.set('playerStats.assists', action.playerStats.assists),
+            fp.set('playerStats.cleanSheet', action.playerStats.cleanSheet),
+            fp.set('playerStats.goals', action.playerStats.goals),
+            fp.set('playerStats.redCard', action.playerStats.redCard),
+            fp.set('playerStats.yellowCard', action.playerStats.yellowCard),
+            fp.set('playerStats.manOfTheMatch', action.playerStats.manOfTheMatch),
         )(state);
     }
     default:

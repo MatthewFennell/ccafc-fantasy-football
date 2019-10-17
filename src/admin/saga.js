@@ -108,8 +108,7 @@ function* getPlayerStats(action) {
     try {
         const playerStats = yield call(api.getPlayerStats,
             { playerId: action.playerId, week: action.week });
-        yield put(actions.fetchPlayerStatsSuccess(action.playerId, action.week, playerStats));
-        console.log('player stats', playerStats);
+        yield put(actions.fetchPlayerStatsSuccess(playerStats));
     } catch (error) {
         yield put(actions.fetchPlayerStatsError(error));
     }
