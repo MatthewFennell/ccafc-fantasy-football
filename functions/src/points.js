@@ -66,11 +66,12 @@ exports.pointsForWeek = functions
             .then(
                 playerIds => {
                     const playerPromises = [];
-                    playerIds.map(playerId => playerPromises.push(db.collection('player-points').where('player_id', '==', playerId).where('week', '==', data.week)
+                    playerIds.map(playerId => playerPromises.push(db.collection('weekly-players')
+                        .where('player_id', '==', playerId).where('week', '==', data.week).where('user_id', '==', data.userId)
                         .get()
                         .then(doc => {
                             if (doc.size > 1) {
-                                throw new functions.https.HttpsError('invalid-argument', 'Server Error. Cannot have two player points entries in a single week');
+                                throw new functions.https.HttpsError('invalid-argument', 'Server Error. Cannot have identical weekly player entries in a single week');
                             }
                             if (doc.size === 0) {
                                 return {
@@ -80,7 +81,9 @@ exports.pointsForWeek = functions
                                     redCard: false,
                                     yellowCard: false,
                                     cleanSheet: false,
-                                    playerId
+                                    player_id: playerId,
+                                    isCaptain: false,
+                                    manOfTheMatch: false
                                 };
                             }
                             const weeklyPoints = doc.docs[0];
@@ -91,7 +94,9 @@ exports.pointsForWeek = functions
                                 redCard: weeklyPoints.data().redCard,
                                 yellowCard: weeklyPoints.data().yellowCard,
                                 cleanSheet: weeklyPoints.data().cleanSheet,
-                                playerId
+                                player_id: playerId,
+                                isCaptain: weeklyPoints.data().isCaptain,
+                                manOfTheMatch: weeklyPoints.data().manOfTheMatch
                             });
                         })));
                     return Promise.all(playerPromises).then(result => result);
@@ -100,7 +105,7 @@ exports.pointsForWeek = functions
             .then(
                 players => {
                     const playerPromises = [];
-                    players.map(player => playerPromises.push(db.collection('players').doc(player.playerId).get()
+                    players.map(player => playerPromises.push(db.collection('players').doc(player.player_id).get()
                         .then(result => ({
                             ...player,
                             name: result.data().name,
