@@ -3,14 +3,15 @@
 .profileWrapper{  
   padding-top: $spacing-massive;
   text-align: center;
-  color: $color-white;
-  width: 75%;
-  margin-left: auto;
-  margin-right: auto;
 
   .modalWrapper{
     text-align: center;
     color: $color-danger-red;
     font-weight: $font-weight-normal;
   }
+}
+
+.profileHeader{
+  font-size: $font-size-huge;
+  color: $color-blue;
 }

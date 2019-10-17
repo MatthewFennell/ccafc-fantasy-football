@@ -17,8 +17,7 @@ const SignUp = props => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordTwo, setPasswordTwo] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [surname, setSurname] = useState('');
+    const [displayName, setDisplayName] = useState('');
 
     const uiConfig = {
         signInFlow: 'popup',
@@ -35,7 +34,7 @@ const SignUp = props => {
     const handleSubmit = e => {
         e.preventDefault();
         if (password === passwordTwo) {
-            props.signUp(email, password, firstName, surname);
+            props.signUp(email, password, displayName);
         } else {
             props.signUpError({
                 code: 'auth/mismatching passwords',
@@ -46,34 +45,35 @@ const SignUp = props => {
 
     return (
         <div className={props.styles.signUpWrapper}>
-            <form
-                className={props.styles.signUpForm}
-                action="#!"
-                onSubmit={handleSubmit}
-            >
-                <div className={props.styles.signUpMessage}>
+            <div className={props.styles.shadowWrapper}>
+                <form
+                    className={props.styles.signUpForm}
+                    action="#!"
+                    onSubmit={handleSubmit}
+                >
+                    <div className={props.styles.signUpMessage}>
                     Sign up
-                </div>
+                    </div>
 
-                <StyledInput label="Email" icon="envelope" onChange={e => setEmail(e)} value={email} />
-                <StyledInput label="Password" type="password" icon="lock" onChange={setPassword} value={password} />
-                <StyledInput label="Password" type="password" icon="lock" onChange={setPasswordTwo} value={passwordTwo} />
-                <StyledInput label="First Name" onChange={e => setFirstName(e)} value={firstName} />
-                <StyledInput label="Surname" onChange={e => setSurname(e)} value={surname} />
+                    <StyledInput label="Email" icon="envelope" onChange={e => setEmail(e)} value={email} />
+                    <StyledInput label="Password" type="password" icon="lock" onChange={setPassword} value={password} />
+                    <StyledInput label="Password" type="password" icon="lock" onChange={setPasswordTwo} value={passwordTwo} />
+                    <StyledInput label="Display Name" onChange={e => setDisplayName(e)} value={displayName} />
 
-                <div className={props.styles.submitButtons}>
-                    <StyledButton
-                        color="primary"
-                        onClick={handleSubmit}
-                        text="Sign up"
-                        type="submit"
-                    />
-                </div>
-            </form>
-            <StyledFirebaseAuth
-                uiConfig={uiConfig}
-                firebaseAuth={firebase.auth()}
-            />
+                    <div className={props.styles.submitButtons}>
+                        <StyledButton
+                            color="primary"
+                            onClick={handleSubmit}
+                            text="Sign up"
+                            type="submit"
+                        />
+                    </div>
+                </form>
+                <StyledFirebaseAuth
+                    uiConfig={uiConfig}
+                    firebaseAuth={firebase.auth()}
+                />
+            </div>
             <ErrorModal
                 closeModal={props.closeAuthError}
                 headerMessage="Sign Up Error"

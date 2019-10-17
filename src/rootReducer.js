@@ -10,6 +10,7 @@ import overviewReducer from './overview/reducer';
 import currentTeamReducer from './currentteam/reducer';
 import pointsReducer from './points/reducer';
 import * as authActions from './auth/actions';
+import profileReducer from './profile/reducer';
 
 const appReducer = history => combineReducers({
     admin: adminReducer,
@@ -21,6 +22,7 @@ const appReducer = history => combineReducers({
     overview: overviewReducer,
     points: pointsReducer,
     testing: testingReducer,
+    profile: profileReducer,
     router: connectRouter(history)
 });
 

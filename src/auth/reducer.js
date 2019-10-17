@@ -2,10 +2,6 @@ import fp from 'lodash/fp';
 import * as actions from './actions';
 
 const initState = {
-    attemptedEmailToLink: '',
-    linkAccountErrorCode: '',
-    linkAccountError: '',
-
     authError: null,
     isAdmin: false,
 
@@ -16,7 +12,9 @@ const initState = {
     signUpError: '',
 
     signInErrorCode: '',
-    signInError: ''
+    signInError: '',
+
+    sendingEmailVerification: false
 };
 
 const authReducer = (state = initState, action) => {
@@ -45,26 +43,14 @@ const authReducer = (state = initState, action) => {
             passwordResetErrorCode: action.error.code
         };
     }
-    case actions.LINK_PROFILE_TO_FACEBOOK_ERROR: {
-        return {
-            ...state,
-            attemptedEmailToLink: action.error.email,
-            linkAccountErrorCode: action.error.code,
-            linkAccountError: action.error.message
-        };
+    case actions.RESEND_VERIFICATION_EMAIL_REQUEST: {
+        return fp.set('sendingEmailVerification', true)(state);
     }
-    case actions.LINK_PROFILE_TO_GOOGLE_ERROR: {
-        return {
-            ...state,
-            attemptedEmailToLink: action.error.email,
-            linkAccountErrorCode: action.error.code,
-            linkAccountError: action.error.message
-        };
+    case actions.RESEND_VERIFICATION_EMAIL_SUCCESS: {
+        return fp.set('sendingEmailVerification', false)(state);
     }
-    case actions.CLOSE_AUTH_ERROR: {
-        return {
-            initState
-        };
+    case actions.RESEND_VERIFICATION_EMAIL_ERROR: {
+        return fp.set('sendingEmailVerification', false)(state);
     }
     default:
         return state;

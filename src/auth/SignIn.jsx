@@ -45,7 +45,7 @@ const SignIn = props => {
             <div className={props.styles.shadowWrapper}>
                 <form
                     className={classNames({
-                        [props.styles.signUpForm]: true
+                        [props.styles.signInForm]: true
                     })}
                     action="#!"
                     onSubmit={handleSubmit}
