@@ -2,21 +2,27 @@
 
 .signUpWrapper{
   color: $color-amber;
-  .signUpForm{
-    width: 50%;
+  padding-top: $spacing-huge;
+  padding-bottom: $spacing-huge;
+  .shadowWrapper{
     margin-left: auto;
     margin-right: auto;
-    .signUpMessage{
-      margin-top: 10%;
-      text-align: center;
-      color: $color-blue;
-      font-weight: $font-weight-normal;
-      font-size: $font-size-gigantic;
+    width: 80%;
+    padding: $spacing-large;
+    @include light-box-shadow();
+    .signUpForm{      
+      .signUpMessage{
+        margin-top: 10%;
+        text-align: center;
+        color: $color-blue;
+        font-size: $font-size-gigantic;
+        font-weight: $font-weight-normal;
+      }
+      .submitButtons{
+        text-align: center;
+      }
     }
-    .submitButtons{
-      text-align: center;
-    }
-  }
+}
   .modalWrapper{
     text-align: center;
     color: $color-danger-red;

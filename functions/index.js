@@ -21,21 +21,20 @@ exports.listeners = require('./src/listeners');
 
 const operations = admin.firestore.FieldValue;
 
-exports.makeCaptain = functions
+exports.updateDisplayName = functions
     .region(constants.region)
     .https.onCall((data, context) => {
+        if (!data.displayName) {
+            throw new functions.https.HttpsError('invalid-argument', 'Must provide a valid display name');
+        }
         common.isAuthenticated(context);
-        return db.collection('active-teams').where('user_id', '==', context.auth.uid).get().then(
-            result => {
-                if (result.size > 1) {
-                    throw new functions.https.HttpsError('invalid-argument', 'Server Error. You have multiple active teams');
-                }
-                if (result.size === 0) {
-                    throw new functions.https.HttpsError('invalid-argument', 'Server Error. You don\'t have an active team');
-                }
-                return result.docs[0].ref.update({
-                    captain: data.playerId
-                });
-            }
+        return db.collection('users').doc(context.auth.uid).update({
+            displayName: data.displayName
+        }).then(
+            () => db.collection('leagues-points').where('user_id', '==', context.auth.uid).get().then(
+                leagues => leagues.docs.map(league => league.ref.update({
+                    username: data.displayName
+                }))
+            )
         );
     });

@@ -1,9 +1,16 @@
-@import "../common//Styles.scss";
+@import "../../common//Styles.scss";
+
+.linkAccountsWrapper{
+  display: flex;
+  justify-content: center;
+}
 
 .googleLinkWrapper, .facebookLinkWrapper{
   display: flex;
   justify-content: center;
-  margin-top: $spacing-medium;
+  margin: $spacing-medium;
+  padding: $spacing-medium;
+  @include light-box-shadow();
   cursor: pointer;
   .googleLinkMessage, .facebookLinkMessage{
     @include vertical-center-div();
@@ -20,10 +27,6 @@
   .googleLinkMessage:hover, .facebookLinkMessage:hover{
     color: $color-light-blue;
   }
-}
-
-.facebookLinkWrapper{
-  margin-top: $spacing-massive;
 }
 
 .googleImage, .facebookImage{

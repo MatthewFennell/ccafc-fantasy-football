@@ -27,6 +27,23 @@ export const SEND_PASSWORD_RESET_EMAIL_ERROR = `${pre}SEND_PASSWORD_RESET_EMAIL_
 
 export const SET_ADMIN = `${pre}SET_ADMIN`;
 
+export const RESEND_VERIFICATION_EMAIL_REQUEST = `${pre}RESEND_VERIFICATION_EMAIL_REQUEST`;
+export const RESEND_VERIFICATION_EMAIL_SUCCESS = `${pre}RESEND_VERIFICATION_EMAIL_SUCCESS`;
+export const RESEND_VERIFICATION_EMAIL_ERROR = `${pre}RESEND_VERIFICATION_EMAIL_ERROR`;
+
+export const resendEmailVerificationRequest = () => ({
+    type: RESEND_VERIFICATION_EMAIL_REQUEST
+});
+
+export const resendEmailVerificationSuccess = () => ({
+    type: RESEND_VERIFICATION_EMAIL_REQUEST
+});
+
+export const resendEmailVerificationError = error => ({
+    type: RESEND_VERIFICATION_EMAIL_ERROR,
+    error
+});
+
 export const setAdmin = isAdmin => ({
     type: SET_ADMIN,
     isAdmin
@@ -79,12 +96,11 @@ export const signUpError = error => ({
     error
 });
 
-export const signUp = (email, password, firstName, lastName) => ({
+export const signUp = (email, password, displayName) => ({
     type: SIGN_UP,
     email,
     password,
-    firstName,
-    lastName
+    displayName
 });
 
 export const verifyEmailAddress = () => ({

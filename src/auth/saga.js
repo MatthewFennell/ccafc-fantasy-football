@@ -9,6 +9,11 @@ import * as api from '../api/api';
 import * as consts from '../constants';
 import { fetchMaxGameWeekRequest } from '../overview/actions';
 
+const actionCodeSettings = {
+    url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT,
+    handleCodeInApp: true
+};
+
 function* signOut() {
     try {
         yield firebase.auth().signOut();
@@ -29,13 +34,9 @@ function* loggingIn(action) {
 }
 
 function* signUp(action) {
-    const actionCodeSettings = {
-        url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT,
-        handleCodeInApp: true
-    };
     try {
         yield firebase.auth().createUserWithEmailAndPassword(action.email, action.password);
-        yield call(api.updateDisplayName, ({ displayName: `${action.firstName} ${action.lastName}` }));
+        yield call(api.updateDisplayName, ({ displayName: action.displayName }));
         yield firebase.auth().currentUser.sendEmailVerification(actionCodeSettings);
     } catch (error) {
         yield put(actions.signUpError(error));
@@ -53,29 +54,20 @@ function* signIn(action) {
     }
 }
 
-function* linkProfileToGoogle() {
-    try {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        yield firebase.auth().currentUser.linkWithPopup(provider);
-    } catch (error) {
-        yield put(actions.linkProfileToGoogleError(error));
-    }
-}
-
-function* linkProfileToFacebook() {
-    try {
-        const provider = new firebase.auth.FacebookAuthProvider();
-        yield firebase.auth().currentUser.linkWithPopup(provider);
-    } catch (error) {
-        yield put(actions.linkProfileToFacebookError(error));
-    }
-}
-
 function* sendResetPasswordEmail(action) {
     try {
         yield firebase.auth().sendPasswordResetEmail(action.email);
     } catch (error) {
         yield put(actions.sendPasswordResetEmailError(error));
+    }
+}
+
+function* resendVerificationEmall() {
+    try {
+        yield firebase.auth().currentUser.sendEmailVerification(actionCodeSettings);
+        yield put(actions.resendEmailVerificationSuccess());
+    } catch (error) {
+        yield put(actions.resendEmailVerificationError(error));
     }
 }
 
@@ -85,8 +77,7 @@ export default function* authSaga() {
         takeEvery(constants.actionTypes.LOGIN, loggingIn),
         takeEvery(actions.SIGN_UP, signUp),
         takeEvery(actions.SIGN_IN, signIn),
-        takeEvery(actions.LINK_PROFILE_TO_GOOGLE, linkProfileToGoogle),
-        takeEvery(actions.LINK_PROFILE_TO_FACEBOOK, linkProfileToFacebook),
-        takeEvery(actions.SEND_PASSWORD_RESET_EMAIL, sendResetPasswordEmail)
+        takeEvery(actions.SEND_PASSWORD_RESET_EMAIL, sendResetPasswordEmail),
+        takeEvery(actions.RESEND_VERIFICATION_EMAIL_REQUEST, resendVerificationEmall)
     ]);
 }
