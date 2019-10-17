@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Dropdopwn = props => {
+const Dropdown = props => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
 
@@ -69,22 +69,34 @@ const Dropdopwn = props => {
     );
 };
 
-Dropdopwn.defaultProps = {
+Dropdown.defaultProps = {
     activeValue: '',
     onChange: noop,
     options: [],
     title: ''
 };
 
-Dropdopwn.propTypes = {
-    activeValue: PropTypes.string,
+Dropdown.propTypes = {
+    activeValue: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+    ]),
     onChange: PropTypes.func,
     options: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string,
-        value: PropTypes.string,
-        text: PropTypes.string
+        id: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ]),
+        value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ]),
+        text: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ])
     })),
     title: PropTypes.string
 };
 
-export default Dropdopwn;
+export default Dropdown;

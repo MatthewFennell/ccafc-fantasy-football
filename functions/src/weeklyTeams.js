@@ -95,7 +95,8 @@ exports.triggerWeeklyTeams = functions
                     user_id: doc.data().user_id,
                     week: data.week,
                     points: 0,
-                    player_ids: doc.data().player_ids
+                    player_ids: doc.data().player_ids,
+                    captain: doc.data().captain
                 }).then(() => {
                     const activeTeamPlayersRef = db.collection('active-teams').doc(doc.id).collection('players');
                     activeTeamPlayersRef.get().then(playerDocs => {
@@ -107,7 +108,8 @@ exports.triggerWeeklyTeams = functions
                             price: player.data().price,
                             team: player.data().team,
                             points: 0,
-                            user_id: doc.data().user_id
+                            user_id: doc.data().user_id,
+                            isCaptain: doc.data().captain === player.data().player_id
                         }));
                     });
                 }));
