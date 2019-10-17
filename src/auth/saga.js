@@ -24,7 +24,6 @@ function* loggingIn(action) {
         yield put(push(consts.URL.VERIFY_EMAIL));
     }
     const user = yield firebase.auth().currentUser.getIdTokenResult();
-    console.log('claims', user.claims);
     const isAdmin = user.claims.admin || false;
     yield put(actions.setAdmin(isAdmin));
 }

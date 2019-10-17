@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import fp from 'lodash/fp';
 import defaultStyles from './Points.module.scss';
 import * as selectors from './selectors';
 import { fetchUserPointsForWeekRequest, fetchUserPointsForWeekRequestBackground } from './actions';
@@ -31,7 +32,7 @@ const Points = props => {
         if (props.currentGameWeek < props.maxGameWeek) {
             props.history.push(generatePointsRoute(props.userId, props.currentGameWeek + 1));
         }
-    }, [props.history, props.currentGameWeek, props.userId]);
+    }, [props.history, props.currentGameWeek, props.userId, props.maxGameWeek]);
 
     useEffect(() => {
         if (props.currentGameWeek > 1) {
@@ -43,6 +44,8 @@ const Points = props => {
         setPlayerObj(player);
         setPlayerModalOpen(true);
     }, [playerModalOpen, playerObj, setPlayerModalOpen, setPlayerObj]);
+
+    const captainId = fp.get('player_id')(props.currentPoints.find(x => x.isCaptain));
 
     return (
         <div className={props.styles.pageWrapper}>
@@ -64,10 +67,12 @@ const Points = props => {
                     additionalInfo={player => player.points}
                     activeTeam={props.currentPoints}
                     activePlayerStyles={activePlayerStyles}
+                    captain={captainId}
                     goalkeeperStyles={goalkeeperStyles}
                     loading={props.loading}
                     onPlayerClick={playerClick}
                     renderEmptyPlayers
+                    showCaptain
                 />
             </div>
             <StyledModal

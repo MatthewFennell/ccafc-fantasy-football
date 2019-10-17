@@ -5,31 +5,28 @@ import { noop } from 'lodash';
 import defaultStyles from './Player.module.scss';
 import defaultShirtStyles from './ShirtStyles.module.scss';
 
-const Player = props => {
-    console.log('captain', props.isCaptain);
-    return (
-        <div className={props.styles.playerWrapper} onClick={props.onClick} role="button" tabIndex={0}>
-            <div className={props.styles.hover}>
-                <div>
-                    <MDBIcon icon="tshirt" size={props.size} className={props.shirtStyles.shirt} />
+const Player = props => (
+    <div className={props.styles.playerWrapper} onClick={props.onClick} role="button" tabIndex={0}>
+        <div className={props.styles.hover}>
+            <div>
+                <MDBIcon icon="tshirt" size={props.size} className={props.shirtStyles.shirt} />
+            </div>
+            <div className={props.styles.playerInfoWrapper}>
+                <div className={props.styles.nameText}>
+                    {props.name}
                 </div>
-                <div className={props.styles.playerInfoWrapper}>
-                    <div className={props.styles.nameText}>
-                        {props.name}
-                    </div>
-                    <div className={props.styles.additionalInfo}>
-                        {props.additionalInfo}
-                    </div>
-                    {props.isCaptain && props.showCaptain && (
-                        <div className={props.styles.captain}>
+                <div className={props.styles.additionalInfo}>
+                    {props.additionalInfo}
+                </div>
+                {props.isCaptain && props.showCaptain && (
+                    <div className={props.styles.captain}>
                             C
-                        </div>
-                    )}
-                </div>
+                    </div>
+                )}
             </div>
         </div>
-    );
-};
+    </div>
+);
 
 Player.defaultProps = {
     additionalInfo: '',

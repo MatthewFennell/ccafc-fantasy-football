@@ -109,7 +109,13 @@ exports.triggerWeeklyTeams = functions
                             team: player.data().team,
                             points: 0,
                             user_id: doc.data().user_id,
-                            isCaptain: doc.data().captain === player.data().player_id
+                            isCaptain: doc.data().captain === player.data().player_id,
+                            goals: 0,
+                            assists: 0,
+                            cleanSheet: false,
+                            manOfTheMatch: false,
+                            redCard: false,
+                            yellowCard: false
                         }));
                     });
                 }));
