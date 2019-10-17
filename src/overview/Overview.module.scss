@@ -69,6 +69,7 @@
 
   .userInfoWrapper {
     margin-top: $spacing-huge;
+    margin-bottom: $spacing-huge;
     padding: $spacing-average;
     justify-content: center;
     @include light-box-shadow();
