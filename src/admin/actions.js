@@ -42,6 +42,23 @@ export const FETCH_PLAYER_STATS_SUCCESS = `${pre}FETCH_PLAYER_STATS_SUCCESS`;
 export const FETCH_PLAYER_STATS_ERROR = `${pre}FETCH_PLAYER_STATS_ERROR`;
 export const CLOSE_FETCH_PLAYER_STATS_ERROR = `${pre}CLOSE_FETCH_PLAYER_STATS_ERROR`;
 
+export const EDIT_PLAYER_STATS_REQUEST = `${pre}EDIT_PLAYER_STATS_REQUEST`;
+export const EDIT_PLAYER_STATS_ERROR = `${pre}EDIT_PLAYER_STATS_ERROR`;
+
+export const editPlayerStatsRequest = (playerId, week, difference) => ({
+    type: EDIT_PLAYER_STATS_REQUEST,
+    playerId,
+    week,
+    difference
+});
+
+export const editPlayerStatsError = error => ({
+    type: EDIT_PLAYER_STATS_ERROR,
+    error
+});
+
+// -------------------------------------------------------------------- \\
+
 export const fetchPlayerStatsRequest = (playerId, week) => ({
     type: FETCH_PLAYER_STATS_REQUEST,
     playerId,

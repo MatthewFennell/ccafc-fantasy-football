@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import { MDBInput } from 'mdbreact';
+import classNames from 'classnames';
 import defaultStyles from './StyledInput.module.scss';
 
 // https://mdbootstrap.com/docs/react/forms/basic/
@@ -12,7 +13,10 @@ const StyledInput = props => (
         hint={props.hint}
         label={props.label}
         icon={props.icon}
-        className={props.styles.styledInput}
+        className={classNames({
+            [props.styles.styledInput]: true,
+            [props.styles.centerText]: props.centerText
+        })}
         onChange={e => props.onChange(e.target.value)}
         type={props.type}
         disabled={props.disabled}
@@ -20,6 +24,7 @@ const StyledInput = props => (
 );
 
 StyledInput.defaultProps = {
+    centerText: false,
     hint: '',
     label: '',
     icon: '',
@@ -31,6 +36,7 @@ StyledInput.defaultProps = {
 };
 
 StyledInput.propTypes = {
+    centerText: PropTypes.bool,
     hint: PropTypes.string,
     label: PropTypes.string,
     icon: PropTypes.string,

@@ -53,3 +53,41 @@ exports.playerStats = functions
                 }
             );
     });
+
+exports.editPlayerStats = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        console.log('difference', data.difference);
+        return db.collection('player-points').where('player_id', '==', data.playerId).where('week', '==', data.week).get()
+            .then(
+                result => {
+                    if (result.size === 0) {
+                        db.collection('player-points').add({
+                            week: data.week,
+                            player_id: data.playerId,
+                            goals: fp.has('goals')(data.difference) ? data.difference.goals : 0,
+                            assists: fp.has('assists')(data.difference) ? data.difference.assists : 0,
+                            cleanSheet: fp.has('cleanSheet')(data.difference) ? data.difference.cleanSheet : false,
+                            redCard: fp.has('redCard')(data.difference) ? data.difference.redCard : false,
+                            yellowCard: fp.has('yellowCard')(data.difference) ? data.difference.yellowCard : false,
+                            manOfTheMatch: fp.has('manOfTheMatch')(data.difference) ? data.difference.manOfTheMatch : false
+                        });
+                    }
+                    if (result.size > 1) {
+                        throw new functions.https.HttpsError('invalid-argument', 'There are multiple player points entries');
+                    }
+
+                    const doc = result.docs[0];
+
+                    return result.docs[0].ref.update({
+                        goals: fp.has('goals')(data.difference) ? data.difference.goals : doc.data().goals,
+                        assists: fp.has('assists')(data.difference) ? data.difference.assists : doc.data().assists,
+                        cleanSheet: fp.has('cleanSheet')(data.difference) ? data.difference.cleanSheet : doc.data().cleanSheet,
+                        redCard: fp.has('redCard')(data.difference) ? data.difference.redCard : doc.data().redCard,
+                        yellowCard: fp.has('yellowCard')(data.difference) ? data.difference.yellowCard : doc.data().yellowCard,
+                        manOfTheMatch: fp.has('manOfTheMatch')(data.difference) ? data.difference.manOfTheMatch : doc.data().manOfTheMatch
+                    });
+                }
+            );
+    });

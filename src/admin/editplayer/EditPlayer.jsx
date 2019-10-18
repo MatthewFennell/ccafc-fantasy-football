@@ -4,13 +4,17 @@ import { connect } from 'react-redux';
 import fp from 'lodash/fp';
 import { withRouter } from 'react-router-dom';
 import defaultStyles from './EditPlayer.module.scss';
-import { fetchTeamsRequest, fetchPlayersForTeamRequest, fetchPlayerStatsRequest } from '../actions';
+import {
+    fetchTeamsRequest, fetchPlayersForTeamRequest, fetchPlayerStatsRequest, editPlayerStatsRequest
+} from '../actions';
 import Dropdown from '../../common/dropdown/Dropdown';
 import Grid from '../../common/grid/Grid';
+import StyledInput from '../../common/StyledInput/StyledInput';
+import StyledButton from '../../common/StyledButton/StyledButton';
 
 const generateWeekOptions = maxGameWeek => {
     const options = [];
-    for (let x = 0; x < maxGameWeek; x += 1) {
+    for (let x = 1; x < maxGameWeek + 1; x += 1) {
         options.push({
             id: x,
             text: x,
@@ -27,59 +31,114 @@ const columns = [
         align: 'center'
     },
     {
-        id: 'value',
-        label: 'Value',
+        id: 'oldValue',
+        label: 'Old Value',
         align: 'center'
     },
     {
-        id: 'edit',
-        label: 'Edit',
+        id: 'newValue',
+        label: 'New Value',
         align: 'center',
         renderCell: true
     }
 ];
 
-const generateRows = playerStats => {
-    const rows = [
-        {
-            id: 'goals',
-            stat: 'Goals',
-            value: playerStats.goals,
-            edit: <div>Edit</div>
-        },
-        {
-            id: 'assists',
-            stat: 'Assists',
-            value: playerStats.assists
-        },
-        {
-            id: 'cleanSheet',
-            stat: 'Clean Sheet',
-            value: playerStats.cleanSheet !== undefined ? playerStats.cleanSheet.toString() : ''
-        },
-        {
-            id: 'yellowCard',
-            stat: 'Yellow Card',
-            value: playerStats.yellowCard !== undefined ? playerStats.yellowCard.toString() : ''
-        },
-        {
-            id: 'redCard',
-            stat: 'Red Card',
-            value: playerStats.redCard !== undefined ? playerStats.redCard.toString() : ''
-        },
-        {
-            id: 'motm',
-            stat: 'MOTM',
-            value: playerStats.manOfTheMatch !== undefined ? playerStats.manOfTheMatch.toString() : ''
-        }
-    ];
-    return rows;
+const WithSmallDiv = Component => {
+    const divWrapper = props => (
+        <div style={{
+            width: '25%', marginLeft: 'auto', marginRight: 'auto', textAlign: 'center'
+        }}
+        >
+            <Component {...props} />
+        </div>
+    );
+    return divWrapper;
 };
+
+const SmallerInput = WithSmallDiv(StyledInput);
+const SmallerDropdown = WithSmallDiv(Dropdown);
+
+const booleanOptions = [
+    {
+        id: 'false',
+        value: 'false',
+        text: 'false'
+    },
+    {
+        id: 'true',
+        value: 'true',
+        text: 'true'
+    }
+];
 
 const EditPlayer = props => {
     const [playerTeam, setPlayerTeam] = useState('');
     const [playerToEdit, setPlayerToEdit] = useState('');
     const [week, setWeek] = useState('');
+    const [goals, setGoals] = useState('');
+    const [assists, setAssists] = useState('');
+    const [cleanSheet, setCleanSheet] = useState('');
+    const [yellowCard, setYellowCard] = useState('');
+    const [redCard, setRedCard] = useState('');
+    const [motm, setMotm] = useState('');
+
+    const generateRows = playerStats => {
+        const rows = [
+            {
+                id: 'goals',
+                stat: 'Goals',
+                oldValue: playerStats.goals,
+                newValue: <SmallerInput onChange={setGoals} value={goals} type="number" centerText />
+            },
+            {
+                id: 'assists',
+                stat: 'Assists',
+                oldValue: playerStats.assists,
+                newValue: <SmallerInput onChange={setAssists} value={assists} type="number" centerText />
+            },
+            {
+                id: 'cleanSheet',
+                stat: 'Clean Sheet',
+                oldValue: playerStats.cleanSheet !== undefined ? playerStats.cleanSheet.toString() : '',
+                newValue: <SmallerDropdown
+                    onChange={setCleanSheet}
+                    options={booleanOptions}
+                    activeValue={cleanSheet}
+                />
+            },
+            {
+                id: 'yellowCard',
+                stat: 'Yellow Card',
+                oldValue: playerStats.yellowCard !== undefined ? playerStats.yellowCard.toString() : '',
+                newValue: <SmallerDropdown
+                    onChange={setYellowCard}
+                    options={booleanOptions}
+                    activeValue={yellowCard}
+                />
+            },
+            {
+                id: 'redCard',
+                stat: 'Red Card',
+                oldValue: playerStats.redCard !== undefined ? playerStats.redCard.toString() : '',
+                newValue: <SmallerDropdown
+                    onChange={setRedCard}
+                    options={booleanOptions}
+                    activeValue={redCard}
+                />
+            },
+            {
+                id: 'motm',
+                stat: 'MOTM',
+                oldValue: playerStats.manOfTheMatch !== undefined ? playerStats.manOfTheMatch.toString() : '',
+                newValue: <SmallerDropdown
+                    onChange={setMotm}
+                    options={booleanOptions}
+                    activeValue={motm}
+                />
+            }
+        ];
+        return rows;
+    };
 
     useEffect(() => {
         if (playerTeam && playerToEdit && week) {
@@ -110,10 +169,29 @@ const EditPlayer = props => {
 
     const playersForActiveTeam = fp.getOr([], playerTeam)(props.teamsWithPlayers);
 
-    console.log('player stats', props.playerStats);
+    const editPlayer = useCallback(() => {
+        const isDifferent = (key, valBefore, valAfter) => {
+            if (valAfter !== '' && valBefore.toString() !== valAfter.toString()) {
+                return fp.set(key, valAfter);
+            }
+            return fp.identity;
+        };
+        const difference = fp.flow(
+            isDifferent('goals', props.playerStats.goals, parseInt(goals, 10) || ''),
+            isDifferent('assists', props.playerStats.assists, parseInt(assists, 10) || ''),
+            isDifferent('cleanSheet', props.playerStats.cleanSheet, cleanSheet === 'true'),
+            isDifferent('redCard', props.playerStats.redCard, redCard === 'true'),
+            isDifferent('yellowCard', props.playerStats.yellowCard, yellowCard === 'true'),
+            isDifferent('manOfTheMatch', props.playerStats.manOfTheMatch, motm === 'true'),
+        )({});
+        const playerId = fp.get('id')(props.teamsWithPlayers[playerTeam].find(x => x.value === playerToEdit));
+
+        props.editPlayerStatsRequest(playerId, week, difference);
+    }, [goals, assists, cleanSheet, redCard, yellowCard, motm,
+        props.teamsWithPlayers, props.editPlayerStatsRequest]);
 
     return (
-        <div>
+        <>
             <div className={props.styles.findPlayerDropdowns}>
                 <div className={props.styles.teamDropdown}>
                     <Dropdown activeValue={playerTeam} onChange={setTeam} options={props.allTeams} title="Team" />
@@ -131,16 +209,20 @@ const EditPlayer = props => {
                 </div>
             </div>
             <div className={props.styles.oldStatsWrapper}>
-                <div className={props.styles.oldStatsHeader}>
-                    Header
-                </div>
                 <Grid
                     columns={columns}
                     rows={generateRows(props.playerStats)}
                     showPagination={false}
                 />
+                <div className={props.styles.buttonWrapper}>
+                    <StyledButton
+                        color="primary"
+                        onClick={editPlayer}
+                        text="Edit Stats"
+                    />
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 
@@ -154,6 +236,7 @@ EditPlayer.defaultProps = {
 
 EditPlayer.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
+    editPlayerStatsRequest: PropTypes.func.isRequired,
     fetchPlayerStatsRequest: PropTypes.func.isRequired,
     fetchPlayersForTeamRequest: PropTypes.func.isRequired,
     fetchTeamsRequest: PropTypes.func.isRequired,
@@ -165,7 +248,7 @@ EditPlayer.propTypes = {
         fetching: PropTypes.bool,
         assists: PropTypes.number,
         cleanSheet: PropTypes.bool,
-        goal: PropTypes.number,
+        goals: PropTypes.number,
         redCard: PropTypes.bool,
         yellowCard: PropTypes.bool,
         manOfTheMatch: PropTypes.bool
@@ -175,6 +258,7 @@ EditPlayer.propTypes = {
 };
 
 const mapDispatchToProps = {
+    editPlayerStatsRequest,
     fetchPlayersForTeamRequest,
     fetchPlayerStatsRequest,
     fetchTeamsRequest

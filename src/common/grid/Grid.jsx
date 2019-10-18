@@ -19,7 +19,7 @@ const defaultGridStyles = {
         width: '100%'
     },
     tableWrapper: {
-        maxHeight: 440,
+        // maxHeight: 440,
         overflow: 'auto'
     }
 };

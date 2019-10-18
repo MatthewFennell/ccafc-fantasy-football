@@ -4,7 +4,7 @@
   justify-content: center;
   display: flex;
   @include light-box-shadow();
-  padding: $spacing-small;
+  padding: $spacing-medium;
   margin: $spacing-medium;
   background-color: $color-white;
   flex-wrap: wrap;
@@ -19,8 +19,12 @@
   justify-content: center;
   display: flex;
   @include light-box-shadow();
-  padding: $spacing-small;
   margin: $spacing-medium;
   background-color: $color-white;
   flex-wrap: wrap;
+
+  .buttonWrapper{
+    margin-top: $spacing-small;
+    margin-bottom: $spacing-small;
+  }
 }

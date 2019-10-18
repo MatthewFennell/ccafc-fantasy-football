@@ -28,3 +28,5 @@ export const submitResult = request => functionToCall('points-submitResult')(req
 export const triggerWeeklyTeams = request => functionToCall('weeklyTeam-triggerWeeklyTeams')(request);
 
 export const getPlayerStats = request => functionToCall('playerStats')(request).then(result => result.data);
+
+export const editStats = request => functionToCall('editPlayerStats')(request);
