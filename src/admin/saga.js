@@ -118,6 +118,9 @@ function* editPlayerStats(action) {
     try {
         yield call(api.editStats,
             { playerId: action.playerId, week: action.week, difference: action.difference });
+        const playerStats = yield call(api.getPlayerStats,
+            { playerId: action.playerId, week: action.week });
+        yield put(actions.fetchPlayerStatsSuccess(playerStats));
     } catch (error) {
         yield put(actions.editPlayerStatsError(error));
     }

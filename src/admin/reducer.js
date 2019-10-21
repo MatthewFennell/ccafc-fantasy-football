@@ -182,6 +182,8 @@ const adminReducer = (state = initState, action) => {
             fp.set('playerStats.redCard', action.playerStats.redCard),
             fp.set('playerStats.yellowCard', action.playerStats.yellowCard),
             fp.set('playerStats.manOfTheMatch', action.playerStats.manOfTheMatch),
+            fp.set('playerStats.dickOfTheDay', action.playerStats.dickOfTheDay),
+            fp.set('playerStats.ownGoals', action.playerStats.ownGoals),
         )(state);
     }
     default:

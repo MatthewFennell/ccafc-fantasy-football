@@ -17,7 +17,7 @@ const TriggerWeek = props => {
         setWeek('');
     }, [props.triggerWeekRequest, week]);
 
-    const calculateOptions = props.maxGameWeek ? [{
+    const calculateOptions = (props.maxGameWeek || props.maxGameWeek === 0) ? [{
         id: props.maxGameWeek + 1,
         value: props.maxGameWeek + 1,
         text: props.maxGameWeek + 1

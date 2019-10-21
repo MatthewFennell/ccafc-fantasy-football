@@ -81,6 +81,8 @@ const EditPlayer = props => {
     const [yellowCard, setYellowCard] = useState('');
     const [redCard, setRedCard] = useState('');
     const [motm, setMotm] = useState('');
+    const [dotd, setDotd] = useState('');
+    const [ownGoals, setOwnGoals] = useState('');
 
     const generateRows = playerStats => {
         const rows = [
@@ -135,6 +137,22 @@ const EditPlayer = props => {
                     options={booleanOptions}
                     activeValue={motm}
                 />
+            },
+            {
+                id: 'dotd',
+                stat: 'DOTD',
+                oldValue: playerStats.dickOfTheDay !== undefined ? playerStats.dickOfTheDay.toString() : '',
+                newValue: <SmallerDropdown
+                    onChange={setDotd}
+                    options={booleanOptions}
+                    activeValue={dotd}
+                />
+            },
+            {
+                id: 'ownGoals',
+                stat: 'Own Goals',
+                oldValue: playerStats.ownGoals,
+                newValue: <SmallerInput onChange={setOwnGoals} value={ownGoals} type="number" centerText />
             }
         ];
         return rows;
@@ -169,6 +187,18 @@ const EditPlayer = props => {
 
     const playersForActiveTeam = fp.getOr([], playerTeam)(props.teamsWithPlayers);
 
+    const getInteger = value => (Number.isInteger(value) && value >= 0 ? value : '');
+
+    const getBooleanVal = val => {
+        if (val === 'true') {
+            return true;
+        }
+        if (val === 'false') {
+            return false;
+        }
+        return '';
+    };
+
     const editPlayer = useCallback(() => {
         const isDifferent = (key, valBefore, valAfter) => {
             if (valAfter !== '' && valBefore.toString() !== valAfter.toString()) {
@@ -177,18 +207,30 @@ const EditPlayer = props => {
             return fp.identity;
         };
         const difference = fp.flow(
-            isDifferent('goals', props.playerStats.goals, parseInt(goals, 10) || ''),
-            isDifferent('assists', props.playerStats.assists, parseInt(assists, 10) || ''),
-            isDifferent('cleanSheet', props.playerStats.cleanSheet, cleanSheet === 'true'),
-            isDifferent('redCard', props.playerStats.redCard, redCard === 'true'),
-            isDifferent('yellowCard', props.playerStats.yellowCard, yellowCard === 'true'),
-            isDifferent('manOfTheMatch', props.playerStats.manOfTheMatch, motm === 'true'),
+            isDifferent('goals', props.playerStats.goals, getInteger(parseFloat(goals))),
+            isDifferent('assists', props.playerStats.assists, getInteger(parseFloat(assists))),
+            isDifferent('ownGoals', props.playerStats.ownGoals, getInteger(parseFloat(ownGoals))),
+            isDifferent('cleanSheet', props.playerStats.cleanSheet, getBooleanVal(cleanSheet)),
+            isDifferent('redCard', props.playerStats.redCard, getBooleanVal(redCard)),
+            isDifferent('yellowCard', props.playerStats.yellowCard, getBooleanVal(yellowCard)),
+            isDifferent('manOfTheMatch', props.playerStats.manOfTheMatch, getBooleanVal(motm)),
+            isDifferent('dickOfTheDay', props.playerStats.dickOfTheDay, getBooleanVal(dotd)),
         )({});
         const playerId = fp.get('id')(props.teamsWithPlayers[playerTeam].find(x => x.value === playerToEdit));
 
+        setGoals('');
+        setAssists('');
+        setCleanSheet('');
+        setRedCard('');
+        setYellowCard('');
+        setMotm('');
+        setDotd('');
+        setOwnGoals('');
         props.editPlayerStatsRequest(playerId, week, difference);
     }, [goals, assists, cleanSheet, redCard, yellowCard, motm,
-        props.teamsWithPlayers, props.editPlayerStatsRequest]);
+        props.teamsWithPlayers, props.editPlayerStatsRequest, dotd, ownGoals]);
+
+    console.log('editing', playerToEdit);
 
     return (
         <>
@@ -251,7 +293,9 @@ EditPlayer.propTypes = {
         goals: PropTypes.number,
         redCard: PropTypes.bool,
         yellowCard: PropTypes.bool,
-        manOfTheMatch: PropTypes.bool
+        manOfTheMatch: PropTypes.bool,
+        dickOfTheDay: PropTypes.bool,
+        ownGoals: PropTypes.number
     }),
     styles: PropTypes.objectOf(PropTypes.string),
     teamsWithPlayers: PropTypes.objectOf(PropTypes.array)

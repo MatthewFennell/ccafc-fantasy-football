@@ -25,7 +25,9 @@ module.exports.points = {
     },
     RED_CARD: -3,
     YELLOW_CARD: -1,
-    MOTM: 3
+    MOTM: 3,
+    DOTD: -3,
+    OWN_GOAL: -2
 };
 
 module.exports.region = 'europe-west2';
