@@ -25,13 +25,9 @@ exports.addStatsToPlayer = functions.region(constants.region).firestore
 exports.updateWeeklyTeams = functions.region(constants.region).firestore
     .document('player-points/{id}')
     .onWrite(change => {
-        console.log('before', change.before.data());
-        console.log('after', change.after.data());
         const difference = common.calculateDifference(change.before.data(), change.after.data());
         const points = common.calculatePointDifference(difference,
             change.after.data().position);
-        console.log('difference', difference);
-        console.log('points', points);
         return db.collection('weekly-teams').where('week', '==', change.after.data().week)
             .where('player_ids', 'array-contains', change.after.data().player_id)
             .get()

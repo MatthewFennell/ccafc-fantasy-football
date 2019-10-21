@@ -78,7 +78,8 @@ const Testing = props => {
     const doubleClickRemove = playerId => {
         setPlayersForActiveTeam(playersForActiveTeam.filter(x => x !== playerId));
         if (playersToRemoveFromActiveTeam.includes(playerId)) {
-            setPlayersToRemoveFromActiveTeam(playersToRemoveFromActiveTeam.filter(x => x !== playerId));
+            setPlayersToRemoveFromActiveTeam(playersToRemoveFromActiveTeam
+                .filter(x => x !== playerId));
         } else {
             setPlayersToRemoveFromActiveTeam(playersToRemoveFromActiveTeam.concat([playerId]));
         }

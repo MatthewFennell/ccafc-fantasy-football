@@ -6,7 +6,6 @@ import defaultStyles from './CreatePlayer.module.scss';
 import StyledInput from '../../common/StyledInput/StyledInput';
 import Dropdown from '../../common/dropdown/Dropdown';
 import { closeCreatePlayerError, createPlayerRequest, fetchTeamsRequest } from '../actions';
-import * as selectors from '../selectors';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import ErrorModal from '../../common/modal/ErrorModal';
 import Spinner from '../../common/spinner/Spinner';
@@ -90,10 +89,10 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-    allTeams: selectors.getAllTeams(state),
-    creatingPlayer: selectors.getCreatingPlayer(state),
-    createPlayerError: selectors.getCreatePlayerError(state),
-    createPlayerErrorCode: selectors.getCreatePlayerErrorCode(state)
+    allTeams: state.admin.allTeams,
+    creatingPlayer: state.admin.creatingPlayer,
+    createPlayerError: state.admin.createPlayerError,
+    createPlayerErrorCode: state.admin.createPlayerErrorCode
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePlayer);
