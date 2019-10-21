@@ -11,6 +11,7 @@ import Dropdown from '../../common/dropdown/Dropdown';
 import Grid from '../../common/grid/Grid';
 import StyledInput from '../../common/StyledInput/StyledInput';
 import StyledButton from '../../common/StyledButton/StyledButton';
+import Spinner from '../../common/spinner/Spinner';
 
 const generateWeekOptions = maxGameWeek => {
     const options = [];
@@ -84,24 +85,32 @@ const EditPlayer = props => {
     const [dotd, setDotd] = useState('');
     const [ownGoals, setOwnGoals] = useState('');
 
-    const generateRows = playerStats => {
+    const generateRows = (playerStats, fetching) => {
+        const renderOldValue = (oldVal, loading) => {
+            if (loading) {
+                return <Spinner color="secondary" />;
+            }
+
+            return oldVal !== undefined ? oldVal.toString() : '';
+        };
+
         const rows = [
             {
                 id: 'goals',
                 stat: 'Goals',
-                oldValue: playerStats.goals,
+                oldValue: renderOldValue(playerStats.goals, fetching),
                 newValue: <SmallerInput onChange={setGoals} value={goals} type="number" centerText />
             },
             {
                 id: 'assists',
                 stat: 'Assists',
-                oldValue: playerStats.assists,
+                oldValue: renderOldValue(playerStats.assists, fetching),
                 newValue: <SmallerInput onChange={setAssists} value={assists} type="number" centerText />
             },
             {
                 id: 'cleanSheet',
                 stat: 'Clean Sheet',
-                oldValue: playerStats.cleanSheet !== undefined ? playerStats.cleanSheet.toString() : '',
+                oldValue: renderOldValue(playerStats.cleanSheet, fetching),
                 newValue: <SmallerDropdown
                     onChange={setCleanSheet}
                     options={booleanOptions}
@@ -111,7 +120,7 @@ const EditPlayer = props => {
             {
                 id: 'yellowCard',
                 stat: 'Yellow Card',
-                oldValue: playerStats.yellowCard !== undefined ? playerStats.yellowCard.toString() : '',
+                oldValue: renderOldValue(playerStats.yellowCard, fetching),
                 newValue: <SmallerDropdown
                     onChange={setYellowCard}
                     options={booleanOptions}
@@ -121,7 +130,7 @@ const EditPlayer = props => {
             {
                 id: 'redCard',
                 stat: 'Red Card',
-                oldValue: playerStats.redCard !== undefined ? playerStats.redCard.toString() : '',
+                oldValue: renderOldValue(playerStats.redCard, fetching),
                 newValue: <SmallerDropdown
                     onChange={setRedCard}
                     options={booleanOptions}
@@ -131,7 +140,7 @@ const EditPlayer = props => {
             {
                 id: 'motm',
                 stat: 'MOTM',
-                oldValue: playerStats.manOfTheMatch !== undefined ? playerStats.manOfTheMatch.toString() : '',
+                oldValue: renderOldValue(playerStats.manOfTheMatch, fetching),
                 newValue: <SmallerDropdown
                     onChange={setMotm}
                     options={booleanOptions}
@@ -141,7 +150,7 @@ const EditPlayer = props => {
             {
                 id: 'dotd',
                 stat: 'DOTD',
-                oldValue: playerStats.dickOfTheDay !== undefined ? playerStats.dickOfTheDay.toString() : '',
+                oldValue: renderOldValue(playerStats.dickOfTheDay, fetching),
                 newValue: <SmallerDropdown
                     onChange={setDotd}
                     options={booleanOptions}
@@ -151,7 +160,7 @@ const EditPlayer = props => {
             {
                 id: 'ownGoals',
                 stat: 'Own Goals',
-                oldValue: playerStats.ownGoals,
+                oldValue: renderOldValue(playerStats.ownGoals, fetching),
                 newValue: <SmallerInput onChange={setOwnGoals} value={ownGoals} type="number" centerText />
             }
         ];
@@ -230,8 +239,6 @@ const EditPlayer = props => {
     }, [goals, assists, cleanSheet, redCard, yellowCard, motm,
         props.teamsWithPlayers, props.editPlayerStatsRequest, dotd, ownGoals]);
 
-    console.log('editing', playerToEdit);
-
     return (
         <>
             <div className={props.styles.findPlayerDropdowns}>
@@ -253,7 +260,7 @@ const EditPlayer = props => {
             <div className={props.styles.oldStatsWrapper}>
                 <Grid
                     columns={columns}
-                    rows={generateRows(props.playerStats)}
+                    rows={generateRows(props.playerStats, props.fetchingPlayerStats)}
                     showPagination={false}
                 />
                 <div className={props.styles.buttonWrapper}>
@@ -270,6 +277,7 @@ const EditPlayer = props => {
 
 EditPlayer.defaultProps = {
     allTeams: [],
+    fetchingPlayerStats: false,
     maxGameWeek: null,
     playerStats: {},
     styles: defaultStyles,
@@ -279,6 +287,7 @@ EditPlayer.defaultProps = {
 EditPlayer.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     editPlayerStatsRequest: PropTypes.func.isRequired,
+    fetchingPlayerStats: PropTypes.bool,
     fetchPlayerStatsRequest: PropTypes.func.isRequired,
     fetchPlayersForTeamRequest: PropTypes.func.isRequired,
     fetchTeamsRequest: PropTypes.func.isRequired,
@@ -310,6 +319,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
     allTeams: state.admin.allTeams,
+    fetchingPlayerStats: state.admin.fetchingPlayerStats,
     maxGameWeek: state.overview.maxGameWeek,
     playerStats: state.admin.playerStats,
     teamsWithPlayers: state.admin.teamsWithPlayers

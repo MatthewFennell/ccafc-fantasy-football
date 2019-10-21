@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import defaultStyles from './CreateTeam.module.scss';
 import StyledInput from '../../common/StyledInput/StyledInput';
 import { closeCreateTeamError, createTeamRequest } from '../actions';
-import * as selectors from '../selectors';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import ErrorModal from '../../common/modal/ErrorModal';
 import Spinner from '../../common/spinner/Spinner';
@@ -66,9 +65,9 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-    creatingTeam: selectors.getCreatingTeam(state),
-    createTeamError: selectors.getCreateTeamError(state),
-    createTeamErrorCode: selectors.getCreateTeamErrorCode(state)
+    creatingTeam: state.admin.creatingTeam,
+    createTeamError: state.admin.createTeamError,
+    createTeamErrorCode: state.admin.createTeamErrorCode
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateTeam);

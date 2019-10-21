@@ -8,7 +8,6 @@ import {
     fetchTeamsRequest, fetchPlayersForTeamRequest, submitResultRequest,
     closeSubmitResultError
 } from '../actions';
-import * as selectors from '../selectors';
 import Dropdown from '../../common/dropdown/Dropdown';
 import StyledInput from '../../common/StyledInput/StyledInput';
 import { isDefensive } from '../../helperFunctions';
@@ -248,12 +247,12 @@ const mapDispatchToProps = {
 };
 
 const mapStateToprops = state => ({
-    allTeams: selectors.getAllTeams(state),
+    allTeams: state.admin.allTeams,
     maxGameWeek: state.overview.maxGameWeek,
-    submittingResult: selectors.getSubmittingResult(state),
-    submitResultError: selectors.getSubmitResultError(state),
-    submitResultErrorCode: selectors.getSubmitResultErrorCode(state),
-    teamsWithPlayers: selectors.getTeamsWithPlayers(state)
+    submittingResult: state.admin.submittingResult,
+    submitResultError: state.admin.submitResultError,
+    submitResultErrorCode: state.admin.submitResultErrorCode,
+    teamsWithPlayers: state.admin.teamsWithPlayers
 });
 
 export default connect(mapStateToprops, mapDispatchToProps)(SubmitResult);

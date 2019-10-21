@@ -8,7 +8,6 @@ import Dropdown from '../../common/dropdown/Dropdown';
 import {
     closeDeleteTeamError, fetchTeamsRequest, fetchPlayersForTeamRequest, deleteTeamRequest
 } from '../actions';
-import * as selectors from '../selectors';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import ErrorModal from '../../common/modal/ErrorModal';
 import Spinner from '../../common/spinner/Spinner';
@@ -83,10 +82,10 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-    allTeams: selectors.getAllTeams(state),
-    deleteTeamError: selectors.getDeleteTeamError(state),
-    deleteTeamErrorCode: selectors.getDeleteTeamErrorCode(state),
-    deletingTeam: selectors.getDeletingTeam(state)
+    allTeams: state.admin.allTeams,
+    deleteTeamError: state.admin.deleteTeamError,
+    deleteTeamErrorCode: state.admin.deleteTeamErrorCode,
+    deletingTeam: state.admin.deletingTeam
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeleteTeam);
