@@ -16,6 +16,18 @@ import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
 import ErrorModal from '../../common/modal/ErrorModal';
 
+const generateWeekOptions = maxGameWeek => {
+    const options = [];
+    for (let x = 1; x < maxGameWeek + 1; x += 1) {
+        options.push({
+            id: x,
+            text: x,
+            value: x
+        });
+    }
+    return options;
+};
+
 const SubmitResult = props => {
     useEffect(() => {
         props.fetchTeamsRequest();
@@ -25,6 +37,8 @@ const SubmitResult = props => {
     const [goalsFor, setGoalsFor] = useState('');
     const [goalsAgainst, setGoalsAgainst] = useState('');
     const [gameWeek, setGameWeek] = useState('');
+    const [motm, setMotm] = useState('');
+    const [dotd, setDotd] = useState('');
 
     const [goalScorers, setGoalscorers] = useState({});
     const [assisters, setAssisters] = useState({});
@@ -90,15 +104,21 @@ const SubmitResult = props => {
 
         const teamId = fp.get('id')(props.allTeams.find(x => x.value === teamName)) || null;
 
+        const motmId = motm ? nameToId(motm) : '';
+        const dotdId = dotd ? nameToId(dotd) : '';
+
+        resultObject = fp.set(`${motmId}.manOfTheMatch`, true)(resultObject);
+        resultObject = fp.set(`${dotdId}.dickOfTheDay`, true)(resultObject);
+
         props.submitResultRequest(
             teamId,
-            parseFloat(goalsFor, 10) || '',
-            parseFloat(goalsAgainst, 10) || '',
+            goalsFor || goalsFor === 0 ? parseFloat(goalsFor, 10) : '',
+            goalsAgainst || goalsAgainst === 0 ? parseFloat(goalsAgainst, 10) : '',
             parseFloat(gameWeek, 10) || '',
             resultObject
         );
     }, [teamName, goalsFor, goalsAgainst, gameWeek, goalScorers,
-        assisters, cleanSheets, props.submitResultRequest]);
+        assisters, cleanSheets, props.submitResultRequest, motm, dotd]);
 
 
     const scorers = [];
@@ -143,7 +163,6 @@ const SubmitResult = props => {
             <div className={props.styles.goalsForWrapper}>
                 <StyledInput label="Goals For" onChange={setGoalsFor} type="number" value={goalsFor} />
                 <StyledInput label="Goals Against" onChange={setGoalsAgainst} type="number" value={goalsAgainst} />
-                <StyledInput label="Gameweek" onChange={setGameWeek} type="number" value={gameWeek} />
             </div>
 
             <div className={props.styles.goalScorersWrapper}>
@@ -159,6 +178,23 @@ const SubmitResult = props => {
                         {cleanSheetsRender}
                     </div>
                 ) }
+            </div>
+            <div className={props.styles.matchAwardsWrapper}>
+                <Dropdown
+                    key="motm"
+                    activeValue={motm}
+                    onChange={setMotm}
+                    options={playersForActiveTeam}
+                    title="MOTM"
+                />
+                <Dropdown
+                    key="dotd"
+                    activeValue={dotd}
+                    onChange={setDotd}
+                    options={playersForActiveTeam}
+                    title="DOTD"
+                />
+                <Dropdown activeValue={gameWeek} onChange={setGameWeek} options={generateWeekOptions(props.maxGameWeek)} title="Week" />
             </div>
             <div className={props.styles.submitButtonWrapper}>
                 <StyledButton
@@ -186,6 +222,7 @@ const SubmitResult = props => {
 
 SubmitResult.defaultProps = {
     allTeams: [],
+    maxGameWeek: null,
     styles: defaultStyles
 };
 
@@ -194,6 +231,7 @@ SubmitResult.propTypes = {
     closeSubmitResultError: PropTypes.func.isRequired,
     fetchTeamsRequest: PropTypes.func.isRequired,
     fetchPlayersForTeamRequest: PropTypes.func.isRequired,
+    maxGameWeek: PropTypes.number,
     styles: PropTypes.objectOf(PropTypes.string),
     submitResultError: PropTypes.string.isRequired,
     submitResultErrorCode: PropTypes.string.isRequired,
@@ -211,6 +249,7 @@ const mapDispatchToProps = {
 
 const mapStateToprops = state => ({
     allTeams: selectors.getAllTeams(state),
+    maxGameWeek: state.overview.maxGameWeek,
     submittingResult: selectors.getSubmittingResult(state),
     submitResultError: selectors.getSubmitResultError(state),
     submitResultErrorCode: selectors.getSubmitResultErrorCode(state),

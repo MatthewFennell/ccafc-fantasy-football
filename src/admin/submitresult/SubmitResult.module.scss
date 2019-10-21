@@ -53,4 +53,10 @@
   .hidden{
     visibility: hidden;
   }
+
+  .matchAwardsWrapper{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
