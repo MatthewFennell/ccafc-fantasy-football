@@ -104,6 +104,28 @@ function* triggerWeek(action) {
     }
 }
 
+function* getPlayerStats(action) {
+    try {
+        const playerStats = yield call(api.getPlayerStats,
+            { playerId: action.playerId, week: action.week });
+        yield put(actions.fetchPlayerStatsSuccess(playerStats));
+    } catch (error) {
+        yield put(actions.fetchPlayerStatsError(error));
+    }
+}
+
+function* editPlayerStats(action) {
+    try {
+        yield call(api.editStats,
+            { playerId: action.playerId, week: action.week, difference: action.difference });
+        const playerStats = yield call(api.getPlayerStats,
+            { playerId: action.playerId, week: action.week });
+        yield put(actions.fetchPlayerStatsSuccess(playerStats));
+    } catch (error) {
+        yield put(actions.editPlayerStatsError(error));
+    }
+}
+
 export default function* adminSaga() {
     yield all([
         takeEvery(actions.FETCH_TEAMS_REQUEST, fetchTeams),
@@ -113,6 +135,8 @@ export default function* adminSaga() {
         takeEvery(actions.SUBMIT_RESULT_REQUEST, submitResult),
         takeEvery(actions.DELETE_PLAYER_REQUEST, deletePlayer),
         takeEvery(actions.DELETE_TEAM_REQUEST, deleteTeam),
-        takeEvery(actions.TRIGGER_WEEK_REQUEST, triggerWeek)
+        takeEvery(actions.TRIGGER_WEEK_REQUEST, triggerWeek),
+        takeEvery(actions.FETCH_PLAYER_STATS_REQUEST, getPlayerStats),
+        takeEvery(actions.EDIT_PLAYER_STATS_REQUEST, editPlayerStats)
     ]);
 }

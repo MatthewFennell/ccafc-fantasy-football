@@ -37,6 +37,46 @@ export const TRIGGER_WEEK_SUCCESS = `${pre}TRIGGER_WEEK_SUCCESS`;
 export const TRIGGER_WEEK_ERROR = `${pre}TRIGGER_WEEK_ERROR`;
 export const CLOSE_TRIGGER_WEEK_ERROR = `${pre}CLOSE_TRIGGER_WEEK_ERROR`;
 
+export const FETCH_PLAYER_STATS_REQUEST = `${pre}FETCH_PLAYER_STATS_REQUEST`;
+export const FETCH_PLAYER_STATS_SUCCESS = `${pre}FETCH_PLAYER_STATS_SUCCESS`;
+export const FETCH_PLAYER_STATS_ERROR = `${pre}FETCH_PLAYER_STATS_ERROR`;
+export const CLOSE_FETCH_PLAYER_STATS_ERROR = `${pre}CLOSE_FETCH_PLAYER_STATS_ERROR`;
+
+export const EDIT_PLAYER_STATS_REQUEST = `${pre}EDIT_PLAYER_STATS_REQUEST`;
+export const EDIT_PLAYER_STATS_ERROR = `${pre}EDIT_PLAYER_STATS_ERROR`;
+
+export const editPlayerStatsRequest = (playerId, week, difference) => ({
+    type: EDIT_PLAYER_STATS_REQUEST,
+    playerId,
+    week,
+    difference
+});
+
+export const editPlayerStatsError = error => ({
+    type: EDIT_PLAYER_STATS_ERROR,
+    error
+});
+
+// -------------------------------------------------------------------- \\
+
+export const fetchPlayerStatsRequest = (playerId, week) => ({
+    type: FETCH_PLAYER_STATS_REQUEST,
+    playerId,
+    week
+});
+
+export const fetchPlayerStatsSuccess = playerStats => ({
+    type: FETCH_PLAYER_STATS_SUCCESS,
+    playerStats
+});
+
+export const fetchPlayerStatsError = error => ({
+    type: FETCH_PLAYER_STATS_ERROR,
+    error
+});
+
+// -------------------------------------------------------------------- \\
+
 export const triggerWeekRequest = week => ({
     type: TRIGGER_WEEK_REQUEST,
     week

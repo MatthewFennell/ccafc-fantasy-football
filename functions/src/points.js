@@ -83,7 +83,9 @@ exports.pointsForWeek = functions
                                     cleanSheet: false,
                                     player_id: playerId,
                                     isCaptain: false,
-                                    manOfTheMatch: false
+                                    manOfTheMatch: false,
+                                    dickOfTheDay: false,
+                                    ownGoals: 0
                                 };
                             }
                             const weeklyPoints = doc.docs[0];
@@ -96,7 +98,9 @@ exports.pointsForWeek = functions
                                 cleanSheet: weeklyPoints.data().cleanSheet,
                                 player_id: playerId,
                                 isCaptain: weeklyPoints.data().isCaptain,
-                                manOfTheMatch: weeklyPoints.data().manOfTheMatch
+                                manOfTheMatch: weeklyPoints.data().manOfTheMatch,
+                                dickOfTheDay: weeklyPoints.data().dickOfTheDay,
+                                ownGoals: weeklyPoints.data().ownGoals
                             });
                         })));
                     return Promise.all(playerPromises).then(result => result);
@@ -158,7 +162,9 @@ exports.submitResult = functions
                     [cur.id]: ({
                         goals: data.players[cur.id].goals || 0,
                         assists: data.players[cur.id].assists || 0,
+                        ownGoals: data.players[cur.id].ownGoals || 0,
                         cleanSheet: data.players[cur.id].cleanSheet || false,
+                        dickOfTheDay: data.players[cur.id].dickOfTheDay || false,
                         redCard: data.players[cur.id].redCard || false,
                         yellowCard: data.players[cur.id].yellowCard || false,
                         manOfTheMatch: data.players[cur.id].manOfTheMatch || false,
@@ -168,10 +174,10 @@ exports.submitResult = functions
                 // Update or create player points object
                 playerIds.forEach(playerId => {
                     const {
-                        position, goals, assists, cleanSheet, redCard, yellowCard, manOfTheMatch
+                        position, goals, assists, cleanSheet, redCard, yellowCard, manOfTheMatch, dickOfTheDay, ownGoals
                     } = playerStats[playerId];
                     const points = common.calculatePoints(position,
-                        goals, assists, cleanSheet, redCard, yellowCard);
+                        goals, assists, cleanSheet, redCard, yellowCard, dickOfTheDay, ownGoals);
 
                     db.collection('player-points').where('player_id', '==', playerId).where('week', '==', data.week).get()
                         .then(playerDocs => {
@@ -186,7 +192,9 @@ exports.submitResult = functions
                                     yellowCard,
                                     manOfTheMatch,
                                     position,
-                                    points
+                                    points,
+                                    dickOfTheDay,
+                                    ownGoals
                                 });
                             } else if (playerDocs.size > 1) {
                                 throw new functions.https.HttpsError('invalid-argument', 'Somehow that player points has multiple entries');
@@ -199,7 +207,9 @@ exports.submitResult = functions
                                 yellowCard,
                                 manOfTheMatch,
                                 position,
-                                points: operations.increment(points)
+                                points: operations.increment(points),
+                                dickOfTheDay,
+                                ownGoals: operations.increment(ownGoals)
                             });
                         });
                 });

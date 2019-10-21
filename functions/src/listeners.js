@@ -25,9 +25,13 @@ exports.addStatsToPlayer = functions.region(constants.region).firestore
 exports.updateWeeklyTeams = functions.region(constants.region).firestore
     .document('player-points/{id}')
     .onWrite(change => {
+        console.log('before', change.before.data());
+        console.log('after', change.after.data());
         const difference = common.calculateDifference(change.before.data(), change.after.data());
         const points = common.calculatePointDifference(difference,
             change.after.data().position);
+        console.log('difference', difference);
+        console.log('points', points);
         return db.collection('weekly-teams').where('week', '==', change.after.data().week)
             .where('player_ids', 'array-contains', change.after.data().player_id)
             .get()
@@ -61,7 +65,9 @@ exports.updateWeeklyPlayers = functions.region(constants.region).firestore
                         cleanSheet: change.after.data().cleanSheet,
                         manOfTheMatch: change.after.data().manOfTheMatch,
                         redCard: change.after.data().redCard,
-                        yellowCard: change.after.data().yellowCard
+                        yellowCard: change.after.data().yellowCard,
+                        ownGoals: change.after.data().ownGoals,
+                        dickOfTheDay: change.after.data().dickOfTheDay
                     });
                 }
             );
@@ -98,9 +104,11 @@ exports.updateLeaguesPoints = functions.region(constants.region).firestore
                 result => result.forEach(userId => db.collection('leagues-points')
                     .where('user_id', '==', userId).where('start_week', '<=', change.after.data().week)
                     .get()
-                    .then(leagues => leagues.docs.forEach(league => league.ref.update({
-                        user_points: operations.increment(points)
-                    }))))
+                    .then(leagues => leagues.docs.forEach(league => {
+                        league.ref.update({
+                            user_points: operations.increment(points)
+                        });
+                    })))
             );
     });
 

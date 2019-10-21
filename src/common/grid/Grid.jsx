@@ -19,7 +19,7 @@ const defaultGridStyles = {
         width: '100%'
     },
     tableWrapper: {
-        maxHeight: 440,
+        // maxHeight: 440,
         overflow: 'auto'
     }
 };
@@ -84,6 +84,14 @@ const Grid = props => {
                                 >
                                     {props.columns.map(column => {
                                         const value = row[column.id];
+
+                                        if (column.renderCell) {
+                                            return (
+                                                <TableCell key={column.id} align={column.align}>
+                                                    {row[column.id]}
+                                                </TableCell>
+                                            );
+                                        }
                                         return (
                                             <TableCell key={column.id} align={column.align}>
                                                 {column.format && typeof value === 'number' ? column.format(value) : value}

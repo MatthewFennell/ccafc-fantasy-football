@@ -79,46 +79,46 @@ exports.triggerWeeklyTeams = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return common.isAdmin(context.auth.uid).then(() => {
-            const activeTeamsRef = db.collection('active-teams');
-            return db.collection('application-info').get().then(appInfo => appInfo.docs.map(doc => {
+        return common.isAdmin(context.auth.uid).then(() => db.collection('application-info').get()
+            .then(appInfo => appInfo.docs.map(doc => {
                 if (doc.data().total_weeks + 1 !== data.week) {
                     throw new functions.https.HttpsError('invalid-argument', `Invalid week. The next week should be ${doc.data().total_weeks + 1}`);
                 }
                 return false;
-            })).then(() => activeTeamsRef.get().then(querySnapshot => {
-                db.collection('application-info').get().then(docs => docs.docs.map(doc => doc.ref.update({
-                    total_weeks: admin.firestore.FieldValue.increment(1)
-                })));
+            }))
+            .then(() => db.collection('active-teams').get()
+                .then(querySnapshot => {
+                    db.collection('application-info').get().then(docs => docs.docs.map(doc => doc.ref.update({
+                        total_weeks: admin.firestore.FieldValue.increment(1)
+                    })));
 
-                querySnapshot.docs.map(doc => db.collection('weekly-teams').add({
-                    user_id: doc.data().user_id,
-                    week: data.week,
-                    points: 0,
-                    player_ids: doc.data().player_ids,
-                    captain: doc.data().captain
-                }).then(() => {
-                    const activeTeamPlayersRef = db.collection('active-teams').doc(doc.id).collection('players');
-                    activeTeamPlayersRef.get().then(playerDocs => {
-                        playerDocs.docs.map(player => db.collection('weekly-players').add({
-                            name: player.data().name,
-                            player_id: player.data().player_id,
-                            week: data.week,
-                            position: player.data().position,
-                            price: player.data().price,
-                            team: player.data().team,
-                            points: 0,
-                            user_id: doc.data().user_id,
-                            isCaptain: doc.data().captain === player.data().player_id,
-                            goals: 0,
-                            assists: 0,
-                            cleanSheet: false,
-                            manOfTheMatch: false,
-                            redCard: false,
-                            yellowCard: false
-                        }));
-                    });
-                }));
-            }));
-        });
+                    querySnapshot.docs.forEach(doc => db.collection('weekly-teams').add({
+                        user_id: doc.data().user_id,
+                        week: data.week,
+                        points: 0,
+                        player_ids: doc.data().player_ids,
+                        captain: doc.data().captain || null
+                    }).then(() => {
+                        const activeTeamPlayersRef = db.collection('active-teams').doc(doc.id).collection('players');
+                        activeTeamPlayersRef.get().then(playerDocs => {
+                            playerDocs.docs.forEach(player => db.collection('weekly-players').add({
+                                name: player.data().name,
+                                player_id: player.data().player_id,
+                                week: data.week,
+                                position: player.data().position,
+                                price: player.data().price,
+                                team: player.data().team,
+                                points: 0,
+                                user_id: doc.data().user_id,
+                                isCaptain: doc.data().captain === player.data().player_id,
+                                goals: 0,
+                                assists: 0,
+                                cleanSheet: false,
+                                manOfTheMatch: false,
+                                redCard: false,
+                                yellowCard: false
+                            }));
+                        });
+                    }));
+                })));
     });

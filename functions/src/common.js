@@ -15,10 +15,12 @@ module.exports.isAdmin = uid => admin.auth().getUser(uid).then(user => {
     }
 });
 
-module.exports.calculatePoints = (position, goals, assists, cleanSheet, redCard, yellowCard) => {
+module.exports.calculatePoints = (position, goals, assists, cleanSheet,
+    redCard, yellowCard, dickOfTheDay, ownGoals) => {
     let total = 0;
     total += goals * constants.points.GOAL[position];
     total += assists * constants.points.ASSIST;
+    total += ownGoals * constants.points.OWN_GOAL;
     if (cleanSheet) {
         total += constants.points.CLEAN_SHEET[position];
     }
@@ -27,6 +29,9 @@ module.exports.calculatePoints = (position, goals, assists, cleanSheet, redCard,
     }
     if (yellowCard) {
         total += constants.points.YELLOW_CARD;
+    }
+    if (dickOfTheDay) {
+        total += constants.points.DOTD;
     }
     return total;
 };
@@ -48,18 +53,24 @@ module.exports.calculateDifference = (before, after) => {
         return fp.flow(
             fp.set('goals', after.goals),
             fp.set('assists', after.assists),
+            fp.set('ownGoals', after.ownGoals),
             shouldUpdate('cleanSheet', false, after.cleanSheet),
             shouldUpdate('redCard', false, after.redCard),
-            shouldUpdate('manOfTheMatch', false, after.manOfTheMatch)
+            shouldUpdate('yellowCard', false, after.yellowCard),
+            shouldUpdate('manOfTheMatch', false, after.manOfTheMatch),
+            shouldUpdate('dickOfTheDay', false, after.dickOfTheDay),
         )({});
     }
 
     return fp.flow(
         fp.set('goals', after.goals - before.goals),
         fp.set('assists', after.assists - before.assists),
+        fp.set('ownGoals', after.ownGoals - before.ownGoals),
         shouldUpdate('cleanSheet', before.cleanSheet, after.cleanSheet),
         shouldUpdate('redCard', before.redCard, after.redCard),
+        shouldUpdate('yellowCard', before.yellowCard, after.yellowCard),
         shouldUpdate('manOfTheMatch', before.manOfTheMatch, after.manOfTheMatch),
+        shouldUpdate('dickOfTheDay', before.dickOfTheDay, after.dickOfTheDay),
     )({});
 };
 
@@ -94,11 +105,34 @@ module.exports.calculatePointDifference = (diff, position) => {
         return constants.points.CLEAN_SHEET[pos] * -1;
     };
 
+    const yellowCardPoints = yellowCard => {
+        if (yellowCard === undefined) {
+            return 0;
+        }
+        if (yellowCard) {
+            return constants.points.YELLOW_CARD;
+        }
+        return constants.points.YELLOW_CARD * -1;
+    };
+
+    const dickOfTheDayPoints = dotd => {
+        if (dotd === undefined) {
+            return 0;
+        }
+        if (dotd) {
+            return constants.points.DOTD;
+        }
+        return constants.points.DOTD * -1;
+    };
+
     return fp.flow(
         x => x + (diff.goals || 0) * constants.points.GOAL[position],
         x => x + (diff.assists || 0) * constants.points.ASSIST,
+        x => x + (diff.ownGoals || 0) * constants.points.OWN_GOAL,
         x => x + cleanSheetPoints(diff.cleanSheet, position),
         x => x + redCardPoints(diff.redCard),
         x => x + manOfTheMatchPoints(diff.manOfTheMatch),
+        x => x + yellowCardPoints(diff.yellowCard),
+        x => x + dickOfTheDayPoints(diff.dickOfTheDay),
     )(0);
 };

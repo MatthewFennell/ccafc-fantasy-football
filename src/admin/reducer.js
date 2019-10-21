@@ -28,7 +28,9 @@ const initState = {
 
     triggeringWeek: false,
     triggerWeekError: '',
-    triggerWeekErrorCode: ''
+    triggerWeekErrorCode: '',
+
+    playerStats: {}
 };
 
 const adminReducer = (state = initState, action) => {
@@ -170,6 +172,19 @@ const adminReducer = (state = initState, action) => {
             triggerWeekError: '',
             triggerWeekErrorCode: ''
         };
+    }
+    case actions.FETCH_PLAYER_STATS_SUCCESS: {
+        return fp.flow(
+            fp.set('playerStats.fetching', false),
+            fp.set('playerStats.assists', action.playerStats.assists),
+            fp.set('playerStats.cleanSheet', action.playerStats.cleanSheet),
+            fp.set('playerStats.goals', action.playerStats.goals),
+            fp.set('playerStats.redCard', action.playerStats.redCard),
+            fp.set('playerStats.yellowCard', action.playerStats.yellowCard),
+            fp.set('playerStats.manOfTheMatch', action.playerStats.manOfTheMatch),
+            fp.set('playerStats.dickOfTheDay', action.playerStats.dickOfTheDay),
+            fp.set('playerStats.ownGoals', action.playerStats.ownGoals),
+        )(state);
     }
     default:
         return state;

@@ -97,14 +97,9 @@ const SubmitResult = props => {
             parseFloat(gameWeek, 10) || '',
             resultObject
         );
-
-        // setGoalsFor('');
-        // setGoalsAgainst('');
-        // setGameWeek('');
     }, [teamName, goalsFor, goalsAgainst, gameWeek, goalScorers,
         assisters, cleanSheets, props.submitResultRequest]);
 
-    console.log('goalscorers', goalScorers);
 
     const scorers = [];
     for (let x = 0; x < goalsFor; x += 1) {
