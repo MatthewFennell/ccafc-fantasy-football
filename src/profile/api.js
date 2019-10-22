@@ -1,4 +1,5 @@
 import { functionToCall } from '../api/api';
 
-// eslint-disable-next-line import/prefer-default-export
 export const updateDisplayName = request => functionToCall('auth-updateDisplayName')(request);
+
+export const updateTeamName = request => functionToCall('auth-updateTeamName')(request);

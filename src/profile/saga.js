@@ -32,10 +32,20 @@ function* updateDisplayName(action) {
     }
 }
 
+function* updateTeamName(action) {
+    try {
+        yield call(api.updateTeamName, { teamName: action.teamName });
+        yield put(actions.updateTeamNameSuccess());
+    } catch (error) {
+        yield put(actions.updateTeamNameError(error));
+    }
+}
+
 export default function* authSaga() {
     yield all([
         takeEvery(actions.LINK_PROFILE_TO_GOOGLE, linkProfileToGoogle),
         takeEvery(actions.LINK_PROFILE_TO_FACEBOOK, linkProfileToFacebook),
-        takeEvery(actions.UPDATE_DISPLAY_NAME_REQUEST, updateDisplayName)
+        takeEvery(actions.UPDATE_DISPLAY_NAME_REQUEST, updateDisplayName),
+        takeEvery(actions.UPDATE_TEAM_NAME_REQUEST, updateTeamName)
     ]);
 }

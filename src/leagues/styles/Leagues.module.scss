@@ -17,6 +17,18 @@
   font-size: $font-size-small;
 }
 
+.userWrapper{ 
+  display: inline-block;
+  > div {
+    // text-align: left;
+  }
+  .miniText{
+    font-size: $font-size-tiny;
+    color: $color-blue;
+    font-weight: bold;
+  }
+}
+
 @media only screen and (max-width: 600px) {
   .myLeaguesTable{
     padding: 0px;

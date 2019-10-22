@@ -8,7 +8,11 @@ const initState = {
 
     updatingDisplayName: false,
     updateDisplayNameError: '',
-    updateDisplayNameErrorCode: ''
+    updateDisplayNameErrorCode: '',
+
+    updatingTeamName: false,
+    updateTeamNameError: '',
+    updateTeamNameErrorCode: ''
 };
 
 const profileReducer = (state = initState, action) => {
@@ -55,6 +59,27 @@ const profileReducer = (state = initState, action) => {
             ...state,
             updateDisplayNameError: '',
             updateDisplayNameErrorCode: ''
+        };
+    }
+    case actions.UPDATE_TEAM_NAME_REQUEST: {
+        return fp.set('updatingTeamName', true)(state);
+    }
+    case actions.UPDATE_TEAM_NAME_SUCCESS: {
+        return fp.set('updatingTeamName', false)(state);
+    }
+    case actions.UPDATE_TEAM_NAME_ERROR: {
+        return {
+            ...state,
+            updatingTeamName: false,
+            updateTeamNameError: action.error.message,
+            updateTeamNameErrorCode: action.error.code
+        };
+    }
+    case actions.CLOSE_TEAM_NAME_ERROR: {
+        return {
+            ...state,
+            updateTeamNameError: '',
+            updateTeamNameErrorCode: ''
         };
     }
     default:

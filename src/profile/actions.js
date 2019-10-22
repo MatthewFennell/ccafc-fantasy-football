@@ -13,6 +13,30 @@ export const UPDATE_DISPLAY_NAME_SUCCESS = `${pre}UPDATE_DISPLAY_NAME_SUCCESS`;
 export const UPDATE_DISPLAY_NAME_ERROR = `${pre}UPDATE_DISPLAY_NAME_ERROR`;
 export const CLOSE_DISPLAY_NAME_ERROR = `${pre}CLOSE_DISPLAY_NAME_ERROR`;
 
+export const UPDATE_TEAM_NAME_REQUEST = `${pre}UPDATE_TEAM_NAME_REQUEST`;
+export const UPDATE_TEAM_NAME_SUCCESS = `${pre}UPDATE_TEAM_NAME_SUCCESS`;
+export const UPDATE_TEAM_NAME_ERROR = `${pre}UPDATE_TEAM_NAME_ERROR`;
+export const CLOSE_TEAM_NAME_ERROR = `${pre}CLOSE_TEAM_NAME_ERROR`;
+
+export const closeTeamNameError = () => ({
+    type: CLOSE_TEAM_NAME_ERROR
+});
+
+export const updateTeamNameError = error => ({
+    type: UPDATE_TEAM_NAME_ERROR,
+    error
+});
+
+export const updateTeamNameSuccess = () => ({
+    type: UPDATE_TEAM_NAME_SUCCESS
+});
+
+export const updateTeamNameRequest = teamName => ({
+    type: UPDATE_TEAM_NAME_REQUEST,
+    teamName
+});
+
+
 export const closeDisplayNameError = () => ({
     type: CLOSE_DISPLAY_NAME_ERROR
 });

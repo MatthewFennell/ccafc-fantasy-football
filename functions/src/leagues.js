@@ -10,7 +10,10 @@ exports.createLeague = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        const getDisplayName = id => db.collection('users').doc(id).get().then(user => user.data().displayName);
+        const getDisplayName = id => db.collection('users').doc(id).get().then(user => ({
+            displayName: user.data().displayName,
+            teamName: user.data().teamName
+        }));
 
         if (!data.leagueName) {
             throw new functions.https.HttpsError('invalid-argument', 'Cannot create a league with an empty name');
@@ -24,7 +27,7 @@ exports.createLeague = functions
 
         return leagueWithThatName(data.leagueName).get().then(docs => {
             if (docs.empty) {
-                return getDisplayName(context.auth.uid).then(displayName => db.collection('leagues')
+                return getDisplayName(context.auth.uid).then(userInfo => db.collection('leagues')
                     .add({
                         owner: context.auth.uid,
                         start_week: data.startWeek || 0,
@@ -36,8 +39,9 @@ exports.createLeague = functions
                             start_week: data.startWeek || 0,
                             name: data.leagueName,
                             user_points: 0,
-                            username: displayName,
-                            position: 1
+                            username: userInfo.displayName,
+                            position: 1,
+                            teamName: userInfo.teamName
                         });
                     }));
             }
@@ -104,7 +108,10 @@ exports.joinLeague = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        const getDisplayName = id => db.collection('users').doc(id).get().then(user => user.data().displayName);
+        const getDisplayName = id => db.collection('users').doc(id).get().then(user => ({
+            displayName: user.data().displayName,
+            teamName: user.data().teamName
+        }));
 
         return db.collection('leagues').where('name', '==', data.leagueName).get().then(
             docs => {
@@ -125,13 +132,14 @@ exports.joinLeague = functions
                             if (!leagues.empty) {
                                 throw new functions.https.HttpsError('already-exists', 'You are already in that league');
                             }
-                            return getDisplayName(context.auth.uid).then(displayName => db.collection('leagues-points').add({
+                            return getDisplayName(context.auth.uid).then(userInfo => db.collection('leagues-points').add({
                                 league_id: doc.id,
                                 user_id: context.auth.uid,
                                 start_week: doc.data().start_week,
                                 name: data.leagueName,
                                 user_points: result,
-                                username: displayName
+                                username: userInfo.displayName,
+                                teamName: userInfo.teamName
                             }));
                         }))
                     .then(() => db.collection('leagues-points').where('league_id', '==', doc.id).get()

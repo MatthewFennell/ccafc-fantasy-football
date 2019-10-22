@@ -80,3 +80,17 @@ exports.getUserProfile = functions
             .collection('users').doc(context.auth.uid).get()
             .then(user => ({ data: user.data(), id: user.id }));
     });
+
+
+exports.updateTeamName = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db.collection('users').doc(context.auth.uid).update({
+            teamName: data.teamName
+        }).then(() => db.collection('leagues-points').where('user_id', '==', context.auth.uid).get().then(
+            result => result.docs.forEach(doc => doc.ref.update({
+                teamName: data.teamName
+            }))
+        ));
+    });

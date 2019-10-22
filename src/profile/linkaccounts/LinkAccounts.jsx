@@ -15,7 +15,7 @@ const LinkAccounts = props => (
                 role="button"
                 tabIndex={0}
             >
-            Link your Facebook account!
+            Link your Facebook account
             </div>
             <div className={props.styles.facebookLinkImage}>
                 <img alt="Facebook" className={props.styles.facebookImage} src={FacebookImage} onClick={props.linkProfileToFacebook} />
@@ -28,7 +28,7 @@ const LinkAccounts = props => (
                 role="button"
                 tabIndex={0}
             >
-            Link your Google account!
+            Link your Google account
             </div>
             <div className={props.styles.googleLinkImage}>
                 <img alt="Google" className={props.styles.googleImage} src={GoogleImage} onClick={props.linkProfileToGoogle} />
