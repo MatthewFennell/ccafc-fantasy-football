@@ -45,6 +45,26 @@ export const CLOSE_FETCH_PLAYER_STATS_ERROR = `${pre}CLOSE_FETCH_PLAYER_STATS_ER
 export const EDIT_PLAYER_STATS_REQUEST = `${pre}EDIT_PLAYER_STATS_REQUEST`;
 export const EDIT_PLAYER_STATS_ERROR = `${pre}EDIT_PLAYER_STATS_ERROR`;
 
+export const FETCH_USERS_WITH_EXTRA_ROLES_REQUEST = `${pre}FETCH_USERS_WITH_EXTRA_ROLES_REQUEST`;
+export const FETCH_USERS_WITH_EXTRA_ROLES_SUCCESS = `${pre}FETCH_USERS_WITH_EXTRA_ROLES_SUCCESS`;
+export const FETCH_USERS_WITH_EXTRA_ROLES_ERROR = `${pre}FETCH_USERS_WITH_EXTRA_ROLES_ERROR`;
+
+export const fetchUsersWithExtraRolesRequest = () => ({
+    type: FETCH_USERS_WITH_EXTRA_ROLES_REQUEST
+});
+
+export const fetchUsersWithExtraRolesSuccess = usersWithExtraRoles => ({
+    type: FETCH_USERS_WITH_EXTRA_ROLES_SUCCESS,
+    usersWithExtraRoles
+});
+
+export const fetchUsersWithExtraRolesError = error => ({
+    type: FETCH_USERS_WITH_EXTRA_ROLES_ERROR,
+    error
+});
+
+// -------------------------------------------------------------------- \\
+
 export const editPlayerStatsRequest = (playerId, week, difference) => ({
     type: EDIT_PLAYER_STATS_REQUEST,
     playerId,

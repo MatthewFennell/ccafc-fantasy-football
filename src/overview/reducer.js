@@ -45,6 +45,9 @@ const overviewReducer = (state = initialState, action) => {
     case actions.FETCH_USER_INFO_FOR_WEEK_ERROR: {
         return fp.set(`userInfo.${action.userId}.week-${action.week}.fetching`, false)(state);
     }
+    case actions.FETCH_USER_STATS_ERROR: {
+        return fp.set(`userStats.${action.userId}.fetching`, false)(state);
+    }
     default:
         return state;
     }

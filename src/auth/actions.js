@@ -31,6 +31,19 @@ export const RESEND_VERIFICATION_EMAIL_REQUEST = `${pre}RESEND_VERIFICATION_EMAI
 export const RESEND_VERIFICATION_EMAIL_SUCCESS = `${pre}RESEND_VERIFICATION_EMAIL_SUCCESS`;
 export const RESEND_VERIFICATION_EMAIL_ERROR = `${pre}RESEND_VERIFICATION_EMAIL_ERROR`;
 
+export const ADD_PERMISSIONS = `${pre}ADD_PERMISSIONS`;
+export const SET_LOADED_PERMISSIONS = `${pre}SET_LOADED_PERMISSIONS`;
+
+export const setLoadedPermissions = loaded => ({
+    type: SET_LOADED_PERMISSIONS,
+    loaded
+});
+
+export const addPermissions = permissions => ({
+    type: ADD_PERMISSIONS,
+    permissions
+});
+
 export const resendEmailVerificationRequest = () => ({
     type: RESEND_VERIFICATION_EMAIL_REQUEST
 });

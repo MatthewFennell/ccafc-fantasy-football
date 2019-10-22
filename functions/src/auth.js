@@ -14,6 +14,12 @@ exports.userSignUp = functions
             admin.auth().setCustomUserClaims(user.uid, {
                 admin: true
             });
+            db.collection('users-with-extra-roles').add({
+                user_id: user.uid,
+                displayName: user.displayName,
+                email: user.email,
+                roles: [constants.ROLES.ADMIN]
+            });
         }
         db.collection('application-info').get().then(
             appInfo => {

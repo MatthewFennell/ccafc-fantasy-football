@@ -13,10 +13,10 @@ const SideNavbar = props => (
         <SideList
             currentPath={props.currentPath}
             redirect={props.redirect}
-            isAdmin={props.isAdmin}
             isSignedIn={props.isSignedIn}
             maxGameWeek={props.maxGameWeek}
             userId={props.userId}
+            userPermissions={props.userPermissions}
         />
     </SwipeableDrawer>
 );
@@ -24,23 +24,23 @@ const SideNavbar = props => (
 SideNavbar.defaultProps = {
     closeNavbar: noop,
     currentPath: '',
-    isAdmin: false,
     isOpen: false,
     isSignedIn: false,
     maxGameWeek: null,
     redirect: noop,
-    userId: ''
+    userId: '',
+    userPermissions: []
 };
 
 SideNavbar.propTypes = {
     closeNavbar: PropTypes.func,
     currentPath: PropTypes.string,
-    isAdmin: PropTypes.bool,
     isOpen: PropTypes.bool,
     isSignedIn: PropTypes.bool,
     maxGameWeek: PropTypes.number,
     redirect: PropTypes.func,
-    userId: PropTypes.string
+    userId: PropTypes.string,
+    userPermissions: PropTypes.arrayOf(PropTypes.string)
 };
 
 export default SideNavbar;

@@ -12,6 +12,7 @@ import WhatshotIcon from '@material-ui/icons/Whatshot';
 import EditIcon from '@material-ui/icons/Edit';
 
 import fp from 'lodash/fp';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import CreatePlayer from './admin/createplayer/CreatePlayer';
 import CreateTeam from './admin/createteam/CreateTeam';
 import SubmitResult from './admin/submitresult/SubmitResult';
@@ -22,6 +23,7 @@ import DeleteTeam from './admin/deleteteam/DeleteTeam';
 import Points from './points/Points';
 import TriggerWeek from './admin/triggerweek/TriggerWeek';
 import EditPlayer from './admin/editplayer/EditPlayer';
+import ManageUsers from './admin/manageusers/ManageUsers';
 
 import Overview from './overview/Overview';
 import Leagues from './leagues/Leagues';
@@ -34,51 +36,66 @@ export const adminLinks = [
         title: 'Create Player',
         icon: <PersonAddIcon />,
         component: CreatePlayer,
-        path: () => constants.ADMIN_URL.CREATE_PLAYER,
-        urlIncludes: constants.ADMIN_URL.CREATE_PLAYER
+        path: () => constants.URL.CREATE_PLAYER,
+        urlIncludes: constants.URL.CREATE_PLAYER,
+        permissionRequired: constants.PERMISSIONS.CREATE_PLAYER
     },
     {
         title: 'Delete Player',
         icon: <DeleteIcon />,
         component: DeletePlayer,
-        path: () => constants.ADMIN_URL.DELETE_PLAYER,
-        urlIncludes: constants.ADMIN_URL.DELETE_PLAYER
+        path: () => constants.URL.DELETE_PLAYER,
+        urlIncludes: constants.URL.DELETE_PLAYER,
+        permissionRequired: constants.PERMISSIONS.DELETE_PLAYER
     },
     {
         title: 'Create Team',
         icon: <PersonAddIcon />,
         component: CreateTeam,
-        path: () => constants.ADMIN_URL.CREATE_TEAM,
-        urlIncludes: constants.ADMIN_URL.CREATE_TEAM
+        path: () => constants.URL.CREATE_TEAM,
+        urlIncludes: constants.URL.CREATE_TEAM,
+        permissionRequired: constants.PERMISSIONS.CREATE_TEAM
     },
     {
         title: 'Delete Team',
         icon: <DeleteIcon />,
         component: DeleteTeam,
-        path: () => constants.ADMIN_URL.DELETE_TEAM,
-        urlIncludes: constants.ADMIN_URL.DELETE_TEAM
+        path: () => constants.URL.DELETE_TEAM,
+        urlIncludes: constants.URL.DELETE_TEAM,
+        permissionRequired: constants.PERMISSIONS.DELETE_TEAM
     },
     {
         title: 'Submit Result',
         icon: <PersonAddIcon />,
         component: SubmitResult,
-        path: () => constants.ADMIN_URL.SUBMIT_RESULT,
-        urlIncludes: constants.ADMIN_URL.SUBMIT_RESULT
+        path: () => constants.URL.SUBMIT_RESULT,
+        urlIncludes: constants.URL.SUBMIT_RESULT,
+        permissionRequired: constants.PERMISSIONS.SUBMIT_RESULT
     },
     {
         title: 'Trigger Week',
         icon: <WhatshotIcon />,
         component: TriggerWeek,
-        path: () => constants.ADMIN_URL.TRIGGER_WEEK,
-        urlIncludes: constants.ADMIN_URL.TRIGGER_WEEK
+        path: () => constants.URL.TRIGGER_WEEK,
+        urlIncludes: constants.URL.TRIGGER_WEEK,
+        permissionRequired: constants.PERMISSIONS.TRIGGER_WEEK
     },
     {
         title: 'Edit Player',
         icon: <EditIcon />,
         component: EditPlayer,
-        path: () => constants.ADMIN_URL.EDIT_PLAYER,
-        urlIncludes: constants.ADMIN_URL.EDIT_PLAYER
-
+        path: () => constants.URL.EDIT_PLAYER,
+        urlIncludes: constants.URL.EDIT_PLAYER,
+        permissionRequired: constants.PERMISSIONS.EDIT_PLAYER
+    },
+    {
+        title: 'Manage Users',
+        icon: <SupervisorAccountIcon />,
+        component: ManageUsers,
+        addUserId: false,
+        path: () => constants.URL.MANAGE_USERS,
+        urlIncludes: constants.URL.MANAGE_USERS,
+        permissionRequired: constants.PERMISSIONS.MANAGE_USERS
     }
 ];
 

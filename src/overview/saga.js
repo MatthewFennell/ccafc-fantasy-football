@@ -17,7 +17,7 @@ function* getUserStats(action) {
             yield put(actions.alreadyFetchedUserStats(action.userId));
         }
     } catch (error) {
-        yield put(actions.fetchUserStatsError(error));
+        yield put(actions.fetchUserStatsError(action.userId, error));
     }
 }
 

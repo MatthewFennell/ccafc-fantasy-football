@@ -9,17 +9,15 @@ export const URL = {
     SIGN_UP: '/sign-up',
     VERIFY_EMAIL: '/need-to-verify-email',
     CURRENT_TEAM: '/current-team',
-    POINTS: '/points'
-};
-
-export const ADMIN_URL = {
+    POINTS: '/points',
     CREATE_PLAYER: '/create-player',
     DELETE_PLAYER: '/delete-player',
     CREATE_TEAM: '/create-team',
     DELETE_TEAM: '/delete-team',
     SUBMIT_RESULT: '/submit-result',
     TRIGGER_WEEK: '/trigger-week',
-    EDIT_PLAYER: '/edit-player'
+    EDIT_PLAYER: '/edit-player',
+    MANAGE_USERS: '/manage-users'
 };
 
 export const POINTS = {
@@ -41,4 +39,43 @@ export const POINTS = {
     MOTM: 3,
     DOTD: -3,
     OWN_GOAL: -2
+};
+
+export const ROLES = {
+    ADMIN: 'ADMIN',
+    MAINTAINER: 'MAINTAINER',
+    USER: 'USER'
+};
+
+export const PERMISSIONS = {
+    CREATE_PLAYER: 'CREATE_PLAYER',
+    DELETE_PLAYER: 'DELETE_PLAYER',
+    CREATE_TEAM: 'CREATE_TEAM',
+    DELETE_TEAM: 'DELETE_TEAM',
+    SUBMIT_RESULT: 'SUBMIT_RESULT',
+    TRIGGER_WEEK: 'TRIGGER_WEEK',
+    EDIT_PLAYER: 'EDIT_PLAYER',
+    MANAGE_USERS: 'MANAGE_USERS'
+};
+
+export const ROLE_PERMISSIONS = {
+    ADMIN: [
+        PERMISSIONS.CREATE_PLAYER,
+        PERMISSIONS.DELETE_PLAYER,
+        PERMISSIONS.CREATE_TEAM,
+        PERMISSIONS.DELETE_TEAM,
+        PERMISSIONS.SUBMIT_RESULT,
+        PERMISSIONS.TRIGGER_WEEK,
+        PERMISSIONS.EDIT_PLAYER,
+        PERMISSIONS.MANAGE_USERS],
+    MAINTAINER: [
+        PERMISSIONS.CREATE_PLAYER,
+        PERMISSIONS.DELETE_PLAYER,
+        PERMISSIONS.CREATE_TEAM,
+        PERMISSIONS.DELETE_TEAM,
+        PERMISSIONS.SUBMIT_RESULT,
+        PERMISSIONS.TRIGGER_WEEK,
+        PERMISSIONS.EDIT_PLAYER],
+    USER: [
+    ]
 };
