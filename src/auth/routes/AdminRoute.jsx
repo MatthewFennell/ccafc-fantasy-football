@@ -5,25 +5,36 @@ import PropTypes from 'prop-types';
 import * as constants from '../../constants';
 
 const AdminRoute = ({
-    component: Component, auth, isAdmin, ...rest
-}) => (
-    <Route
-        {...rest}
-        // render={props => (auth.uid && auth.emailVerified && isAdmin
-        render={props => (auth.uid && auth.emailVerified
-            ? <Component {...props} /> : <Redirect to={constants.URL.OVERVIEW} />)}
-    />
-);
+    component: Component, auth, isAdmin, permissionRequired, userPermissions, loadedPermissions,
+    ...rest
+}) => {
+    if (!loadedPermissions && (auth.uid && auth.emailVerified)) {
+        return null;
+    }
+    return (
+        <Route
+            {...rest}
+            render={props => (auth.uid && auth.emailVerified
+                && userPermissions.includes(permissionRequired)
+                ? <Component {...props} /> : <Redirect to={constants.URL.OVERVIEW} />)}
+        />
+    );
+};
 
 const mapStateToProps = state => ({
     auth: state.firebase.auth,
-    isAdmin: state.auth.isAdmin
+    isAdmin: state.auth.isAdmin,
+    loadedPermissions: state.auth.loadedPermissions,
+    userPermissions: state.auth.userPermissions
 });
 
 AdminRoute.defaultProps = {
     component: {},
     auth: {},
-    isAdmin: false
+    isAdmin: false,
+    loadedPermissions: false,
+    permissionRequired: '',
+    userPermissions: []
 };
 
 AdminRoute.propTypes = {
@@ -32,7 +43,10 @@ AdminRoute.propTypes = {
         emailVerified: PropTypes.bool,
         uid: PropTypes.string
     }),
-    isAdmin: PropTypes.bool
+    isAdmin: PropTypes.bool,
+    loadedPermissions: PropTypes.bool,
+    permissionRequired: PropTypes.string,
+    userPermissions: PropTypes.arrayOf(PropTypes.string)
 };
 
 export default connect(mapStateToProps)(AdminRoute);

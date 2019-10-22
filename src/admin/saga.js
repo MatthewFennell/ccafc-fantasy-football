@@ -126,6 +126,18 @@ function* editPlayerStats(action) {
     }
 }
 
+function* usereWithExtraRoles() {
+    try {
+        const alreadyFetched = yield select(selectors.getUsersWithExtraRoles);
+        if (alreadyFetched.length === 0) {
+            const usersWithExtraRoles = yield call(api.getUsersWithExtraRoles);
+            yield put(actions.fetchUsersWithExtraRolesSuccess(usersWithExtraRoles));
+        }
+    } catch (error) {
+        yield put(actions.fetchUsersWithExtraRolesError(error));
+    }
+}
+
 export default function* adminSaga() {
     yield all([
         takeEvery(actions.FETCH_TEAMS_REQUEST, fetchTeams),
@@ -137,6 +149,7 @@ export default function* adminSaga() {
         takeEvery(actions.DELETE_TEAM_REQUEST, deleteTeam),
         takeEvery(actions.TRIGGER_WEEK_REQUEST, triggerWeek),
         takeEvery(actions.FETCH_PLAYER_STATS_REQUEST, getPlayerStats),
-        takeEvery(actions.EDIT_PLAYER_STATS_REQUEST, editPlayerStats)
+        takeEvery(actions.EDIT_PLAYER_STATS_REQUEST, editPlayerStats),
+        takeEvery(actions.FETCH_USERS_WITH_EXTRA_ROLES_REQUEST, usereWithExtraRoles)
     ]);
 }

@@ -21,15 +21,9 @@ exports.listeners = require('./src/listeners');
 
 const operations = admin.firestore.FieldValue;
 
-exports.updateTeamName = functions
+exports.usersWithExtraRoles = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('users').doc(context.auth.uid).update({
-            teamName: data.teamName
-        }).then(() => db.collection('leagues-points').where('user_id', '==', context.auth.uid).get().then(
-            result => result.docs.forEach(doc => doc.ref.update({
-                teamName: data.teamName
-            }))
-        ));
+        return db.collection('users-with-extra-roles').get().then(result => result.docs.map(doc => doc.data()));
     });

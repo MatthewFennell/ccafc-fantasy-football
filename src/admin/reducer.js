@@ -31,7 +31,10 @@ const initState = {
     triggerWeekErrorCode: '',
 
     playerStats: {},
-    fetchingPlayerStats: false
+    fetchingPlayerStats: false,
+
+    usersWithExtraRoles: [],
+    fetchingUsersWithExtraRoles: false
 };
 
 const adminReducer = (state = initState, action) => {
@@ -193,6 +196,19 @@ const adminReducer = (state = initState, action) => {
     }
     case actions.FETCH_PLAYER_STATS_ERROR: {
         return fp.set('fetchingPlayerStats', false)(state);
+    }
+    case actions.FETCH_USERS_WITH_EXTRA_ROLES_SUCCESS: {
+        return {
+            ...state,
+            usersWithExtraRoles: action.usersWithExtraRoles,
+            fetchingUsersWithExtraRoles: false
+        };
+    }
+    case actions.FETCH_USERS_WITH_EXTRA_ROLES_ERROR: {
+        return fp.set('fetchingUsersWithExtraRoles', false)(state);
+    }
+    case actions.FETCH_USERS_WITH_EXTRA_ROLES_REQUEST: {
+        return fp.set('fetchingUsersWithExtraRoles', true)(state);
     }
     default:
         return state;

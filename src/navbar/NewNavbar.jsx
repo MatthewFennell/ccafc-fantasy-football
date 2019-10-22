@@ -30,7 +30,6 @@ const NewNavbar = props => {
             />
             <SideNavbar
                 currentPath={props.history.location.pathname}
-                isAdmin={props.isAdmin}
                 isOpen={sidebarOpen}
                 isSignedIn={props.auth.uid && props.auth.emailVerified}
                 openNavbar={openSidebar}
@@ -39,6 +38,7 @@ const NewNavbar = props => {
                 toggleNavbar={toggleSidebar}
                 userId={props.auth.uid}
                 maxGameWeek={props.maxGameWeek}
+                userPermissions={props.userPermissions}
             />
         </>
     );
@@ -57,22 +57,22 @@ NewNavbar.propTypes = {
         })
     }).isRequired,
     maxGameWeek: PropTypes.number,
-    isAdmin: PropTypes.bool,
-    signOut: PropTypes.func.isRequired
+    signOut: PropTypes.func.isRequired,
+    userPermissions: PropTypes.arrayOf(PropTypes.string)
 };
 
 NewNavbar.defaultProps = {
     auth: {},
     maxGameWeek: null,
-    isAdmin: false
+    userPermissions: []
 };
 
 const mapStateToProps = state => ({
     auth: state.firebase.auth,
-    isAdmin: state.auth.isAdmin,
     maxGameWeek: state.overview.maxGameWeek,
     profile: state.firebase.profile,
-    pathname: state.router.location.pathname
+    pathname: state.router.location.pathname,
+    userPermissions: state.auth.userPermissions
 });
 
 const mapDispatchToProps = {

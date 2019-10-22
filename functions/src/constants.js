@@ -31,3 +31,13 @@ module.exports.points = {
 };
 
 module.exports.region = 'europe-west2';
+
+module.exports.ROLES = {
+    ADMIN: 'ADMIN',
+    MAINTAINER: 'MAINTAINER'
+};
+
+module.exports.PERMISSIONS = {
+    ADMIN: ['CREATE_PLAYER', 'DELETE_PLAYER', 'CREATE_TEAM', 'DELETE_TEAM', 'SUBMIT_RESULT', 'TRIGGER_WEEK', 'EDIT_PLAYER', 'MANAGE_USERS'],
+    MAINTAINER: ['CREATE_PLAYER', 'DELETE_PLAYER', 'CREATE_TEAM', 'DELETE_TEAM', 'SUBMIT_RESULT', 'TRIGGER_WEEK', 'EDIT_PLAYER']
+};

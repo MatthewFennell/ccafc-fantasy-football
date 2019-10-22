@@ -30,3 +30,5 @@ export const triggerWeeklyTeams = request => functionToCall('weeklyTeam-triggerW
 export const getPlayerStats = request => functionToCall('player-playerStats')(request).then(result => result.data);
 
 export const editStats = request => functionToCall('player-editPlayerStats')(request);
+
+export const getUsersWithExtraRoles = request => functionToCall('usersWithExtraRoles')(request).then(result => result.data);

@@ -55,7 +55,15 @@ const App = props => (
 
                             <UnauthenticatedEmailRoute path={constants.URL.VERIFY_EMAIL} component={VerifyEmail} redirect={constants.URL.PROFILE} />
 
-                            {routes.adminLinks.map(link => <AdminRoute exact path={link.path()} component={link.component} key={link.path} />)}
+                            {routes.adminLinks.map(link => (
+                                <AdminRoute
+                                    exact
+                                    path={link.path()}
+                                    component={link.component}
+                                    key={link.path}
+                                    permissionRequired={link.permissionRequired}
+                                />
+                            ))}
 
                             <Route render={() => <Redirect to="/" />} />
                         </Switch>

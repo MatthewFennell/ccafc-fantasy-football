@@ -31,6 +31,11 @@ function* loggingIn(action) {
     const user = yield firebase.auth().currentUser.getIdTokenResult();
     const isAdmin = user.claims.admin || false;
     yield put(actions.setAdmin(isAdmin));
+    if (isAdmin) {
+        const permissions = consts.ROLE_PERMISSIONS.ADMIN;
+        yield put(actions.addPermissions(permissions));
+    }
+    yield put(actions.setLoadedPermissions(true));
 }
 
 function* signUp(action) {

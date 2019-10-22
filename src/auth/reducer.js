@@ -14,7 +14,10 @@ const initState = {
     signInErrorCode: '',
     signInError: '',
 
-    sendingEmailVerification: false
+    sendingEmailVerification: false,
+
+    userPermissions: [],
+    loadedPermissions: false
 };
 
 const authReducer = (state = initState, action) => {
@@ -51,6 +54,12 @@ const authReducer = (state = initState, action) => {
     }
     case actions.RESEND_VERIFICATION_EMAIL_ERROR: {
         return fp.set('sendingEmailVerification', false)(state);
+    }
+    case actions.ADD_PERMISSIONS: {
+        return fp.set('userPermissions', fp.union(action.permissions)(state.userPermissions))(state);
+    }
+    case actions.SET_LOADED_PERMISSIONS: {
+        return fp.set('loadedPermissions', true)(state);
     }
     default:
         return state;

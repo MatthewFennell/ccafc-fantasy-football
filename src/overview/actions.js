@@ -84,8 +84,9 @@ export const fetchUserStatsSuccess = (userId, stats) => ({
     stats
 });
 
-export const fetchUserStatsError = error => ({
+export const fetchUserStatsError = (userId, error) => ({
     type: FETCH_USER_STATS_ERROR,
+    userId,
     error
 });
 

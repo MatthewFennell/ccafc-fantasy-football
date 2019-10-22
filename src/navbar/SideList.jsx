@@ -33,24 +33,24 @@ const SideList = props => {
                     </ListItem>
                 ))}
             </List>
-            {props.isAdmin && (
             <>
                 <Divider />
                 <List>
-                    {routes.adminLinks.map(item => (
-                        <ListItem
-                            button
-                            key={item.title}
-                            onClick={() => props.redirect(item.path(props))}
-                            className={props.styles.test}
-                        >
-                            <ListItemIcon>{item.icon}</ListItemIcon>
-                            <ListItemText primary={item.title} />
-                        </ListItem>
-                    ))}
+                    {routes.adminLinks.filter(route => props.userPermissions
+                        .includes(route.permissionRequired))
+                        .map(item => (
+                            <ListItem
+                                button
+                                key={item.title}
+                                onClick={() => props.redirect(item.path(props))}
+                                className={props.styles.test}
+                            >
+                                <ListItemIcon>{item.icon}</ListItemIcon>
+                                <ListItemText primary={item.title} />
+                            </ListItem>
+                        ))}
                 </List>
             </>
-            )}
         </div>
     );
 };
@@ -58,19 +58,19 @@ const SideList = props => {
 SideList.defaultProps = {
     closeNavbar: noop,
     currentPath: '',
-    isAdmin: false,
     isSignedIn: false,
     redirect: noop,
-    styles: defaultStyles
+    styles: defaultStyles,
+    userPermissions: []
 };
 
 SideList.propTypes = {
     closeNavbar: PropTypes.func,
     currentPath: PropTypes.string,
-    isAdmin: PropTypes.bool,
     isSignedIn: PropTypes.bool,
     redirect: PropTypes.func,
-    styles: PropTypes.objectOf(PropTypes.string)
+    styles: PropTypes.objectOf(PropTypes.string),
+    userPermissions: PropTypes.arrayOf(PropTypes.string)
 };
 
 
