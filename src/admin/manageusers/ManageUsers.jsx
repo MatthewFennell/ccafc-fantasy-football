@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import defaultStyles from './ManageUsers.module.scss';
 import {
-    fetchUsersWithExtraRolesRequest, addUserRoleRequest, removeUserRole
+    fetchUsersWithExtraRolesRequest, addUserRoleRequest, removeUserRoleRequest
 } from '../actions';
 import Grid from '../../common/grid/Grid';
 import * as constants from '../../constants';
@@ -43,21 +43,30 @@ const ManageUsers = props => {
     }, [props.fetchUsersWithExtraRolesRequest]);
 
     const [addRoleModalOpen, setAddRoleModalOpen] = useState(false);
+    const [removeRoleModalOpen, setRemoveRoleModalOpen] = useState(false);
     const [email, setEmail] = useState('');
     const [role, setRole] = useState('');
 
-    // const changePermissionRequest = (row, role) => {
-    //     if (row.roles && row.roles.includes(role)) {
-    //         props.removeUserRole(row.id, role);
-    //     } else {
-    //         props.addUserRoleRequest(row.id, role);
-    //     }
-    // };
+    const addUserRole = useCallback(() => {
+        props.addUserRoleRequest(email, role);
+        setEmail('');
+        setRole('');
+        setAddRoleModalOpen(false);
+    }, [props.addUserRoleRequest, email, role]);
+
+    const removeUserRole = useCallback(() => {
+        props.removeUserRoleRequest(email, role);
+        setEmail('');
+        setRole('');
+        setAddRoleModalOpen(false);
+        setRemoveRoleModalOpen(false);
+    }, [props.removeUserRoleRequest, email, role]);
 
     const closeModal = useCallback(() => {
         setEmail('');
         setRole('');
         setAddRoleModalOpen(false);
+        setRemoveRoleModalOpen(false);
     }, [email, role, addRoleModalOpen]);
 
     const generateRow = row => {
@@ -67,8 +76,8 @@ const ManageUsers = props => {
             id: row.id
         });
 
-        Object.values(constants.ROLES).forEach(role => {
-            rowToReturn[role] = row.roles && row.roles.includes(role) ? <FiberManualRecordIcon color="secondary" /> : '';
+        Object.values(constants.ROLES).forEach(r => {
+            rowToReturn[r] = row.roles && row.roles.includes(r) ? <FiberManualRecordIcon color="secondary" /> : '';
         });
         return rowToReturn;
     };
@@ -87,6 +96,7 @@ const ManageUsers = props => {
                             </div>
                             <div className={props.styles.addRoleButton}>
                                 <StyledButton text="Add Role" onClick={() => setAddRoleModalOpen(true)} />
+                                <StyledButton color="secondary" text="Remove Role" onClick={() => setRemoveRoleModalOpen(true)} />
                             </div>
                         </div>
                     )}
@@ -105,7 +115,23 @@ const ManageUsers = props => {
                     <div><StyledInput label="Email" onChange={setEmail} value={email} /></div>
                     <div className={props.styles.modalButtons}>
                         <Dropdown activeValue={role} onChange={setRole} options={rolesForDropdown} title="Role" />
-                        <StyledButton text="Confirm" />
+                        <StyledButton text="Confirm" onClick={addUserRole} />
+                        <StyledButton text="Cancel" color="secondary" onClick={closeModal} />
+                    </div>
+                </div>
+            </StyledModal>
+            <StyledModal
+                backdrop
+                closeModal={closeModal}
+                error
+                isOpen={removeRoleModalOpen}
+                headerMessage="Remove Role"
+            >
+                <div className={props.styles.modalWrapper}>
+                    <div><StyledInput label="Email" onChange={setEmail} value={email} /></div>
+                    <div className={props.styles.modalButtons}>
+                        <Dropdown activeValue={role} onChange={setRole} options={rolesForDropdown} title="Role" />
+                        <StyledButton text="Confirm" onClick={removeUserRole} />
                         <StyledButton text="Cancel" color="secondary" onClick={closeModal} />
                     </div>
                 </div>
@@ -124,7 +150,7 @@ ManageUsers.propTypes = {
     addUserRoleRequest: PropTypes.func.isRequired,
     fetchingUsersWithExtraRoles: PropTypes.bool,
     fetchUsersWithExtraRolesRequest: PropTypes.func.isRequired,
-    removeUserRole: PropTypes.func.isRequired,
+    removeUserRoleRequest: PropTypes.func.isRequired,
     styles: PropTypes.objectOf(PropTypes.string),
     usersWithExtraRoles: PropTypes.arrayOf(PropTypes.shape({
         roles: PropTypes.arrayOf(PropTypes.string),
@@ -136,7 +162,7 @@ ManageUsers.propTypes = {
 const mapDispatchToProps = {
     addUserRoleRequest,
     fetchUsersWithExtraRolesRequest,
-    removeUserRole
+    removeUserRoleRequest
 };
 
 const mapStateToProps = state => ({

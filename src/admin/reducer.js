@@ -210,6 +210,9 @@ const adminReducer = (state = initState, action) => {
     case actions.FETCH_USERS_WITH_EXTRA_ROLES_REQUEST: {
         return fp.set('fetchingUsersWithExtraRoles', true)(state);
     }
+    case actions.LOAD_USERS_WITH_EXTRA_ROLES: {
+        return fp.set('fetchingUsersWithExtraRoles', true)(state);
+    }
     default:
         return state;
     }

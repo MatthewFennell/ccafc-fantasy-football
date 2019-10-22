@@ -34,28 +34,45 @@ exports.addUserRole = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('users').doc(data.userId).get().then(doc => {
-            if (doc.data().roles.includes(data.role)) {
-                return null;
-            }
-            return doc.ref.update({
-                roles: operations.arrayUnion(data.role),
-                number_of_roles: operations.increment(1)
-            });
-        });
+
+        return admin.auth().getUserByEmail(data.email).then(user => db.collection('users-with-roles').where('email', '==', data.email).get()
+            .then(result => {
+                if (result.size === 0) {
+                    return db.collection('users-with-roles').add({
+                        roles: [data.role],
+                        email: data.email,
+                        displayName: user.displayName
+                    });
+                }
+                if (result.size > 1) {
+                    throw new functions.https.HttpsError('invalid-argument', 'Duplicate entries');
+                }
+                return result.docs[0].ref.update({
+                    roles: operations.arrayUnion(data.role)
+                });
+            }));
     });
 
 exports.removeUserRole = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('users').doc(data.userId).get().then(doc => {
-            if (doc.data().roles.includes(data.role)) {
-                return doc.ref.update({
-                    roles: operations.arrayRemove(data.role),
-                    number_of_roles: operations.increment(-1)
-                });
-            }
-            return null;
-        });
+        return db.collection('users-with-roles').where('email', '==', data.email).get()
+            .then(result => {
+                if (result.size === 0) {
+                    throw new functions.https.HttpsError('not-found', 'No user with that email');
+                }
+                if (result.size > 1) {
+                    throw new functions.https.HttpsError('invalid-argument', 'Duplicate entries');
+                }
+                if (result.docs[0].data().roles.includes(data.role)) {
+                    if (result.docs[0].data().roles.length <= 1) {
+                        return result.docs[0].ref.delete();
+                    }
+                    return result.docs[0].ref.update({
+                        roles: operations.arrayRemove(data.role)
+                    });
+                }
+                throw new functions.https.HttpsError('not-found', 'They do not have that role');
+            });
     });
