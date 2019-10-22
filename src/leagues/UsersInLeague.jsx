@@ -36,7 +36,20 @@ const columns = gameWeek => [
     }
 ];
 
+
 const UsersInLeague = props => {
+    const generateRows = rows => rows.map(row => ({
+        ...row,
+        username:
+    <div className={props.styles.userWrapper}>
+        <div className={props.styles.miniText}>
+            {row.teamName}
+        </div>
+        <div>{row.username}</div>
+    </div>
+    }));
+
+
     useEffect(() => {
         if (props.maxGameWeek || props.maxGameWeek === 0) {
             props.fetchUsersInLeagueRequest(props.leagueId, props.maxGameWeek);
@@ -58,6 +71,8 @@ const UsersInLeague = props => {
         props.history.push(generatePointsRoute(user.userId, props.maxGameWeek));
     }, [props.usersInLeague, props.maxGameWeek]);
 
+    console.log('users in league', props.usersInLeague);
+
     return (
         <div className={props.styles.leaguesWrapper}>
             <div className={props.styles.myLeaguesWrapper}>
@@ -70,7 +85,7 @@ const UsersInLeague = props => {
                         loading={props.fetchingUsersInLeague}
                         onRowClick={loadUserPage}
                         renderBackButton
-                        rows={props.usersInLeague}
+                        rows={generateRows(props.usersInLeague)}
                     />
                 </div>
             </div>

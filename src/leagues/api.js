@@ -19,7 +19,8 @@ export const getUsersInLeague = request => functionToCall('league-orderedUsers')
         userPoints: league.data.user_points,
         position: league.data.position,
         userId: league.data.user_id,
-        weekPoints: league.data.week_points
+        weekPoints: league.data.week_points,
+        teamName: league.data.teamName
     })));
 
 

@@ -1,6 +1,6 @@
 @import "../../common/Styles.scss";
 
-.updateDisplayNameWrapper{
+.updateWrapper{
   margin-top: $spacing-large;
   @include light-box-shadow();
   padding: $spacing-small $spacing-large $spacing-small $spacing-large;

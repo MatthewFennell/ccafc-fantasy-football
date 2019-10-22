@@ -19,5 +19,9 @@
 
 .active{
   background-color: $color-gray;
-  font-weight: bold;
+
+  > td {
+    font-weight: bold;
+  }
+  
 }

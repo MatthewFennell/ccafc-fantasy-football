@@ -3,20 +3,28 @@
 .profileWrapper{  
   padding-top: $spacing-medium;
   text-align: center;
-  width: 30%;
   margin-left: auto;
   margin-right: auto;
+
+  .profileHeader{
+    font-size: $font-size-huge;
+    color: $color-blue;
+    display: inline-block;
+  }
 
   .modalWrapper{
     text-align: center;
     color: $color-danger-red;
     font-weight: $font-weight-normal;
   }
-}
 
-.profileHeader{
-  font-size: $font-size-huge;
-  color: $color-blue;
+  .bodyWrapper{
+    display: flex;
+    flex-wrap: wrap;
+    > div {
+      flex-grow: 1;
+    }
+  }
 }
 
 @media only screen and (max-width: 600px) {
