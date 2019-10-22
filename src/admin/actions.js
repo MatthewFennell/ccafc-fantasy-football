@@ -49,6 +49,37 @@ export const FETCH_USERS_WITH_EXTRA_ROLES_REQUEST = `${pre}FETCH_USERS_WITH_EXTR
 export const FETCH_USERS_WITH_EXTRA_ROLES_SUCCESS = `${pre}FETCH_USERS_WITH_EXTRA_ROLES_SUCCESS`;
 export const FETCH_USERS_WITH_EXTRA_ROLES_ERROR = `${pre}FETCH_USERS_WITH_EXTRA_ROLES_ERROR`;
 
+export const FETCH_INITIAL_USERS_REQUEST = `${pre}FETCH_INITIAL_USERS_REQUEST`;
+export const FETCH_INITIAL_USERS_SUCCESS = `${pre}FETCH_INITIAL_USERS_SUCCESS`;
+export const FETCH_INITIAL_USERS_ERROR = `${pre}FETCH_INITIAL_USERS_ERROR`;
+
+export const ADD_USER_ROLE_REQUEST = `${pre}ADD_USER_ROLE_REQUEST`;
+export const REMOVE_USER_ROLE_REQUEST = `${pre}REMOVE_USER_ROLE_REQUEST`;
+export const ADD_USER_ROLE_ERROR = `${pre}ADD_USER_ROLE_ERROR`;
+export const REMOVE_USER_ROLE_ERROR = `${pre}REMOVE_USER_ROLE_ERROR`;
+
+export const addUserRoleRequest = (userId, role) => ({
+    type: ADD_USER_ROLE_REQUEST,
+    userId,
+    role
+});
+
+export const removeUserRole = (userId, role) => ({
+    type: REMOVE_USER_ROLE_REQUEST,
+    userId,
+    role
+});
+
+export const addUserRoleError = error => ({
+    type: ADD_USER_ROLE_ERROR,
+    error
+});
+
+export const removeUserRoleError = error => ({
+    type: REMOVE_USER_ROLE_ERROR,
+    error
+});
+
 export const fetchUsersWithExtraRolesRequest = () => ({
     type: FETCH_USERS_WITH_EXTRA_ROLES_REQUEST
 });

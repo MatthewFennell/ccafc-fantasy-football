@@ -25,5 +25,37 @@ exports.usersWithExtraRoles = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('users-with-extra-roles').get().then(result => result.docs.map(doc => doc.data()));
+        return db.collection('users-with-roles').get().then(
+            result => result.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+        );
+    });
+
+exports.addUserRole = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db.collection('users').doc(data.userId).get().then(doc => {
+            if (doc.data().roles.includes(data.role)) {
+                return null;
+            }
+            return doc.ref.update({
+                roles: operations.arrayUnion(data.role),
+                number_of_roles: operations.increment(1)
+            });
+        });
+    });
+
+exports.removeUserRole = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db.collection('users').doc(data.userId).get().then(doc => {
+            if (doc.data().roles.includes(data.role)) {
+                return doc.ref.update({
+                    roles: operations.arrayRemove(data.role),
+                    number_of_roles: operations.increment(-1)
+                });
+            }
+            return null;
+        });
     });

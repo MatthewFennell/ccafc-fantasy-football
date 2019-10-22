@@ -5,22 +5,27 @@ import { Switch } from '@material-ui/core';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FiberManualRecordSharpIcon from '@material-ui/icons/FiberManualRecordSharp';
+import defaultStyles from './Toggle.module.scss';
 
 const Toggle = props => (
+
     <FormGroup row>
-        <FormControlLabel
-            control={(
-                <Switch
-                    checked={props.checked}
-                    onChange={props.onChange}
-                    disabled={props.disabled}
-                    checkedIcon={<FiberManualRecordSharpIcon />}
-                    icon={<FiberManualRecordSharpIcon />}
-                    color={props.color}
-                />
-            )}
-            label={props.label}
-        />
+        <div className={props.styles.wrapper}>
+            <FormControlLabel
+                className={props.styles.toggleLabel}
+                control={(
+                    <Switch
+                        checked={props.checked}
+                        onChange={props.onChange}
+                        disabled={props.disabled}
+                        checkedIcon={<FiberManualRecordSharpIcon />}
+                        icon={<FiberManualRecordSharpIcon />}
+                        color={props.color}
+                    />
+                )}
+                label={props.label}
+            />
+        </div>
     </FormGroup>
 );
 
@@ -29,7 +34,8 @@ Toggle.propTypes = {
     color: PropTypes.string,
     disabled: PropTypes.bool,
     onChange: PropTypes.func,
-    label: PropTypes.string
+    label: PropTypes.string,
+    styles: PropTypes.objectOf(PropTypes.string)
 };
 
 Toggle.defaultProps = {
@@ -37,7 +43,8 @@ Toggle.defaultProps = {
     color: 'primary',
     disabled: false,
     onChange: fp.noop,
-    label: ''
+    label: '',
+    styles: defaultStyles
 };
 
 export default Toggle;
