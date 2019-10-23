@@ -44,6 +44,8 @@ const PERMISSIONS = {
     MANAGE_USERS: 'MANAGE_USERS'
 };
 
+module.exports.PERMISSIONS = PERMISSIONS;
+
 // A list of all existing roles - keep in sync with UI
 module.exports.ROLES = {
     ADMIN: 'ADMIN',

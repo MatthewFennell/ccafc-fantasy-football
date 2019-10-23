@@ -32,7 +32,6 @@ export const RESEND_VERIFICATION_EMAIL_ERROR = `${pre}RESEND_VERIFICATION_EMAIL_
 export const ADD_PERMISSIONS = `${pre}ADD_PERMISSIONS`;
 export const SET_LOADED_PERMISSIONS = `${pre}SET_LOADED_PERMISSIONS`;
 export const SET_PERMISSIONS_MAPPINGS_AND_ROLES = `${pre}SET_PERMISSIONS_MAPPINGS_AND_ROLES`;
-export const SET_ALL_ROLES = `${pre}SET_ALL_ROLES`;
 
 export const setPermissionsMappingsAndRoles = authInfo => ({
     type: SET_PERMISSIONS_MAPPINGS_AND_ROLES,
