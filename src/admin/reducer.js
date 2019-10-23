@@ -34,7 +34,9 @@ const initState = {
     fetchingPlayerStats: false,
 
     usersWithExtraRoles: [],
-    fetchingUsersWithExtraRoles: false
+    fetchingUsersWithExtraRoles: false,
+    removeUserRoleError: '',
+    removeUserRoleErrorCode: ''
 };
 
 const adminReducer = (state = initState, action) => {
@@ -212,6 +214,23 @@ const adminReducer = (state = initState, action) => {
     }
     case actions.LOAD_USERS_WITH_EXTRA_ROLES: {
         return fp.set('fetchingUsersWithExtraRoles', true)(state);
+    }
+    case actions.ALREADY_FETCHED_USERS_WITH_EXTRA_ROLES: {
+        return fp.set('fetchingUsersWithExtraRoles', false)(state);
+    }
+    case actions.REMOVE_USER_ROLE_ERROR: {
+        return {
+            ...state,
+            removeUserRoleError: action.error.message,
+            removeUserRoleErrorCode: action.error.code
+        };
+    }
+    case actions.CLOSE_REMOVE_USER_ROLE_ERROR: {
+        return {
+            ...state,
+            removeUserRoleError: '',
+            removeUserRoleErrorCode: ''
+        };
     }
     default:
         return state;

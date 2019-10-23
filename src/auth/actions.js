@@ -25,8 +25,6 @@ export const UPDATE_DISPLAY_NAME_ERROR = `${pre}UPDATE_DISPLAY_NAME_ERROR`;
 export const SEND_PASSWORD_RESET_EMAIL = `${pre}SEND_PASSWORD_RESET_EMAIL`;
 export const SEND_PASSWORD_RESET_EMAIL_ERROR = `${pre}SEND_PASSWORD_RESET_EMAIL_ERROR`;
 
-export const SET_ADMIN = `${pre}SET_ADMIN`;
-
 export const RESEND_VERIFICATION_EMAIL_REQUEST = `${pre}RESEND_VERIFICATION_EMAIL_REQUEST`;
 export const RESEND_VERIFICATION_EMAIL_SUCCESS = `${pre}RESEND_VERIFICATION_EMAIL_SUCCESS`;
 export const RESEND_VERIFICATION_EMAIL_ERROR = `${pre}RESEND_VERIFICATION_EMAIL_ERROR`;
@@ -55,11 +53,6 @@ export const resendEmailVerificationSuccess = () => ({
 export const resendEmailVerificationError = error => ({
     type: RESEND_VERIFICATION_EMAIL_ERROR,
     error
-});
-
-export const setAdmin = isAdmin => ({
-    type: SET_ADMIN,
-    isAdmin
 });
 
 export const closeAuthError = () => ({

@@ -17,12 +17,12 @@ const ConfirmModal = props => (
             {props.text}
             <div className={props.styles.buttonsWrapper}>
                 <StyledButton
-                    color="secondary"
+                    color="primary"
                     onClick={props.submit}
                     text="Yes"
                 />
                 <StyledButton
-                    color="primary"
+                    color="secondary"
                     onClick={props.cancel}
                     text="No"
                 />

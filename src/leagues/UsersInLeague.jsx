@@ -71,8 +71,6 @@ const UsersInLeague = props => {
         props.history.push(generatePointsRoute(user.userId, props.maxGameWeek));
     }, [props.usersInLeague, props.maxGameWeek]);
 
-    console.log('users in league', props.usersInLeague);
-
     return (
         <div className={props.styles.leaguesWrapper}>
             <div className={props.styles.myLeaguesWrapper}>

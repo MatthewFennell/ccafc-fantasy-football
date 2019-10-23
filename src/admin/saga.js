@@ -132,6 +132,8 @@ function* usersWithExtraRoles() {
         if (alreadyFetched.length === 0) {
             const extraRoles = yield call(api.getUsersWithExtraRoles);
             yield put(actions.fetchUsersWithExtraRolesSuccess(extraRoles));
+        } else {
+            yield put(actions.alreadyFetchedUsersWithExtraRoles());
         }
     } catch (error) {
         yield put(actions.fetchUsersWithExtraRolesError(error));

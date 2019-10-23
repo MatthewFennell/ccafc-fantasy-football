@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import * as constants from '../../constants';
 
 const AdminRoute = ({
-    component: Component, auth, isAdmin, permissionRequired, userPermissions, loadedPermissions,
+    component: Component, auth, permissionRequired, userPermissions, loadedPermissions,
     ...rest
 }) => {
     if (!loadedPermissions && (auth.uid && auth.emailVerified)) {
@@ -23,7 +23,6 @@ const AdminRoute = ({
 
 const mapStateToProps = state => ({
     auth: state.firebase.auth,
-    isAdmin: state.auth.isAdmin,
     loadedPermissions: state.auth.loadedPermissions,
     userPermissions: state.auth.userPermissions
 });
@@ -31,7 +30,6 @@ const mapStateToProps = state => ({
 AdminRoute.defaultProps = {
     component: {},
     auth: {},
-    isAdmin: false,
     loadedPermissions: false,
     permissionRequired: '',
     userPermissions: []
@@ -43,7 +41,6 @@ AdminRoute.propTypes = {
         emailVerified: PropTypes.bool,
         uid: PropTypes.string
     }),
-    isAdmin: PropTypes.bool,
     loadedPermissions: PropTypes.bool,
     permissionRequired: PropTypes.string,
     userPermissions: PropTypes.arrayOf(PropTypes.string)

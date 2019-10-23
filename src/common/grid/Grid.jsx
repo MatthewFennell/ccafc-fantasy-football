@@ -152,7 +152,10 @@ Grid.propTypes = {
         minWidth: PropTypes.number,
         style: PropTypes.objectOf(PropTypes.string)
     })),
-    gridHeader: PropTypes.string,
+    gridHeader: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.element
+    ]),
     gridStyles: PropTypes.objectOf(PropTypes.shape({})),
     loading: PropTypes.bool,
     loadingColor: PropTypes.string,
