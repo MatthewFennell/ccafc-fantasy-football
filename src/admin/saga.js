@@ -142,11 +142,11 @@ function* usersWithExtraRoles() {
 
 function* addUserRole(action) {
     try {
+        yield put(actions.loadUsersWithExtraRoles());
         yield call(api.addUserRole, ({
             email: action.email,
             role: action.role
         }));
-        yield put(actions.loadUsersWithExtraRoles());
         const extraRoles = yield call(api.getUsersWithExtraRoles);
         yield put(actions.fetchUsersWithExtraRolesSuccess(extraRoles));
     } catch (error) {
@@ -156,11 +156,11 @@ function* addUserRole(action) {
 
 function* removeUserRole(action) {
     try {
+        yield put(actions.loadUsersWithExtraRoles());
         yield call(api.removeUserRole, ({
             email: action.email,
             role: action.role
         }));
-        yield put(actions.loadUsersWithExtraRoles());
         const extraRoles = yield call(api.getUsersWithExtraRoles);
         yield put(actions.fetchUsersWithExtraRolesSuccess(extraRoles));
     } catch (error) {
