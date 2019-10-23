@@ -16,6 +16,7 @@ import Dropdown from '../../common/dropdown/Dropdown';
 import Menu from '../../common/menu/Menu';
 import ConfirmModal from '../../common/modal/ConfirmModal';
 import ErrorModal from '../../common/modal/ErrorModal';
+import RolesToPermissions from './RolesToPermissions';
 
 const columnsForAllUsers = [
     {
@@ -130,6 +131,9 @@ const ManageUsers = props => {
                     rows={generateToggleRows(props.usersWithExtraRoles)}
                 />
             </div>
+            <div className={props.styles.rolesToPermissionsWrapper}>
+                <RolesToPermissions permissionMappings={props.permissionMappings} />
+            </div>
             <StyledModal
                 backdrop
                 closeModal={closeModal}
@@ -169,7 +173,8 @@ ManageUsers.defaultProps = {
     removeUserRoleError: '',
     removeUserRoleErrorCode: '',
     styles: defaultStyles,
-    usersWithExtraRoles: []
+    usersWithExtraRoles: [],
+    permissionMappings: {}
 };
 
 ManageUsers.propTypes = {
@@ -185,7 +190,8 @@ ManageUsers.propTypes = {
         roles: PropTypes.arrayOf(PropTypes.string),
         email: PropTypes.string,
         displayName: PropTypes.string
-    }))
+    })),
+    permissionMappings: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string))
 };
 
 const mapDispatchToProps = {
@@ -199,7 +205,8 @@ const mapStateToProps = state => ({
     fetchingUsersWithExtraRoles: state.admin.fetchingUsersWithExtraRoles,
     removeUserRoleError: state.admin.removeUserRoleError,
     removeUserRoleErrorCode: state.admin.removeUserRoleErrorCode,
-    usersWithExtraRoles: state.admin.usersWithExtraRoles
+    usersWithExtraRoles: state.admin.usersWithExtraRoles,
+    permissionMappings: state.auth.permissionMappings
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageUsers);

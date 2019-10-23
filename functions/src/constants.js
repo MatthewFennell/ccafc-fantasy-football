@@ -32,6 +32,7 @@ module.exports.points = {
 
 module.exports.region = 'europe-west2';
 
+// A list of all existing permissions - keep in sync with UI
 const PERMISSIONS = {
     CREATE_PLAYER: 'CREATE_PLAYER',
     DELETE_PLAYER: 'DELETE_PLAYER',
@@ -43,11 +44,13 @@ const PERMISSIONS = {
     MANAGE_USERS: 'MANAGE_USERS'
 };
 
+// A list of all existing roles - keep in sync with UI
 module.exports.ROLES = {
     ADMIN: 'ADMIN',
     MAINTAINER: 'MAINTAINER'
 };
 
+// This dictates what each role is able to do
 module.exports.ROLE_PERMISSIONS = {
     ADMIN: [
         PERMISSIONS.CREATE_PLAYER,

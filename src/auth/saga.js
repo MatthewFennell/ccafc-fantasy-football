@@ -30,6 +30,7 @@ function* loggingIn(action) {
     }
     const user = yield firebase.auth().currentUser.getIdTokenResult();
     const rolePermissions = yield call(api.getRolePermissions);
+    yield put(actions.setPermissionMappings(rolePermissions));
 
     yield all(Object.keys(consts.ROLES).map(role => {
         if (user.claims[role]) {

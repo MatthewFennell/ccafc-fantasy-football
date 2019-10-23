@@ -43,6 +43,7 @@ export const POINTS = {
 
 
 // KEEP IN SYNC WITH SERVER
+// This is the list of all existing permissions
 export const PERMISSIONS = {
     CREATE_PLAYER: 'CREATE_PLAYER',
     DELETE_PLAYER: 'DELETE_PLAYER',
@@ -55,6 +56,7 @@ export const PERMISSIONS = {
 };
 
 // KEEP IN SYNC WITH SERVER
+// This is the list of all the existing roles
 export const ROLES = {
     ADMIN: 'ADMIN',
     MAINTAINER: 'MAINTAINER'
