@@ -80,7 +80,8 @@ exports.addUserRole = functions
                         return db.collection('users-with-roles').add({
                             roles: [data.role],
                             email: data.email,
-                            displayName: user.displayName
+                            displayName: user.displayName,
+                            userId: user.uid
                         });
                     }
                     return result.docs[0].ref.update({
@@ -144,6 +145,13 @@ exports.getRolePermissions = functions
                 return {
                     mappings: {},
                     allRoles: []
+                };
+            }
+            // If admin, return all the mappings
+            if (user.customClaims[constants.ROLES.ADMIN]) {
+                return {
+                    mappings: constants.ROLE_PERMISSIONS,
+                    allRoles: Object.keys(constants.ROLES)
                 };
             }
             const mappings = {};

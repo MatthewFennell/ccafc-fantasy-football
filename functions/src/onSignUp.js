@@ -101,7 +101,8 @@ exports.setAdminUserClaims = functions
             }).then(() => db.collection('users-with-roles').add({
                 displayName: user.displayName,
                 email: user.email,
-                roles: [constants.ROLES.ADMIN]
+                roles: [constants.ROLES.ADMIN],
+                userId: user.uid
             }));
         }
         return Promise.resolve();
