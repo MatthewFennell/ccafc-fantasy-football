@@ -31,7 +31,7 @@ export const getPlayerStats = request => functionToCall('player-playerStats')(re
 
 export const editStats = request => functionToCall('player-editPlayerStats')(request);
 
-export const getUsersWithExtraRoles = request => functionToCall('usersWithExtraRoles')(request).then(result => result.data);
+export const getUsersWithExtraRoles = request => functionToCall('auth-usersWithExtraRoles')(request).then(result => result.data);
 
-export const addUserRole = request => functionToCall('addUserRole')(request);
-export const removeUserRole = request => functionToCall('removeUserRole')(request);
+export const addUserRole = request => functionToCall('auth-addUserRole')(request);
+export const removeUserRole = request => functionToCall('auth-removeUserRole')(request);

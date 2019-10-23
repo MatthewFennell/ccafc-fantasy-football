@@ -86,6 +86,9 @@ exports.leaveLeague = functions
                     throw new functions.https.HttpsError('invalid-argument', 'Server Error (somehow in the same league twice)');
                 }
                 const docToDelete = docs.docs[0];
+                if (docToDelete.data().name === 'Collingwood') {
+                    throw new functions.https.HttpsError('invalid-argument', 'You cannot leave that league');
+                }
                 return docToDelete.ref.delete().then(() => db.collection('leagues-points').where('league_id', '==', data.leagueId).get()
                     .then(query => query.docs
                         .map(leagueDoc => ({ data: leagueDoc.data(), id: leagueDoc.id })))
@@ -168,11 +171,10 @@ exports.orderedUsers = functions
         if (!common.isIntegerGreaterThanEqualZero(data.week)) {
             throw new functions.https.HttpsError('invalid-argument', `Invalid week of${data.week}`);
         }
-
         return db
             .collection('leagues-points')
             .where('league_id', '==', data.leagueId)
-            .orderBy('user_points', 'desc')
+            .orderBy('position', 'asc')
             .get()
             .then(querySnapshot => querySnapshot.docs
                 .map(doc => ({ data: doc.data(), id: doc.id })))

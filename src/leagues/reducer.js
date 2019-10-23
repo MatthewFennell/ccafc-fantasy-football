@@ -112,6 +112,13 @@ const authReducer = (state = initState, action) => {
             createLeagueErrorCode: ''
         };
     }
+    case actions.CLOSE_LEAVE_LEAGUE_ERROR: {
+        return {
+            ...state,
+            leaveLeagueError: '',
+            leaveLeagueErrorCode: ''
+        };
+    }
     case actions.FETCH_LEAGUES_REQUEST: {
         return fp.set('fetchingLeagues', true)(state);
     }
