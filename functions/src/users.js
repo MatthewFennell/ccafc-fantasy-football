@@ -58,11 +58,20 @@ exports.userStats = functions
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
         return db.collection('users').doc(data.userId).get().then(
-            user => ({
-                remaining_budget: user.data().remaining_budget,
-                remaining_transfers: user.data().remaining_transfers,
-                total_points: user.data().total_points
-            })
+            user => {
+                if (!user.exists) {
+                    return ({
+                        remaining_budget: 0,
+                        remaining_transfers: 0,
+                        total_points: 0
+                    });
+                }
+                return ({
+                    remaining_budget: user.data().remaining_budget,
+                    remaining_transfers: user.data().remaining_transfers,
+                    total_points: user.data().total_points
+                });
+            }
         );
     });
 
