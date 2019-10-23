@@ -54,10 +54,3 @@ export const PERMISSIONS = {
     EDIT_PLAYER: 'EDIT_PLAYER',
     MANAGE_USERS: 'MANAGE_USERS'
 };
-
-// KEEP IN SYNC WITH SERVER
-// This is the list of all the existing roles
-export const ROLES = {
-    ADMIN: 'ADMIN',
-    MAINTAINER: 'MAINTAINER'
-};

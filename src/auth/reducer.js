@@ -18,7 +18,8 @@ const initState = {
     userPermissions: [],
     loadedPermissions: false,
 
-    permissionMappings: {}
+    permissionMappings: {},
+    allRoles: []
 };
 
 const authReducer = (state = initState, action) => {
@@ -59,8 +60,12 @@ const authReducer = (state = initState, action) => {
     case actions.SET_LOADED_PERMISSIONS: {
         return fp.set('loadedPermissions', true)(state);
     }
-    case actions.SET_PERMISSION_MAPPINGS: {
-        return fp.set('permissionMappings', action.permissions)(state);
+    case actions.SET_PERMISSIONS_MAPPINGS_AND_ROLES: {
+        return {
+            ...state,
+            permissionMappings: action.authInfo.mappings,
+            allRoles: action.authInfo.allRoles
+        };
     }
     default:
         return state;

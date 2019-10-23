@@ -108,5 +108,8 @@ exports.getRolePermissions = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return constants.ROLE_PERMISSIONS;
+        return {
+            mappings: constants.ROLE_PERMISSIONS,
+            allRoles: Object.keys(constants.ROLES)
+        };
     });

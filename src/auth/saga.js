@@ -30,16 +30,15 @@ function* loggingIn(action) {
     }
     const user = yield firebase.auth().currentUser.getIdTokenResult();
     const rolePermissions = yield call(api.getRolePermissions);
-    yield put(actions.setPermissionMappings(rolePermissions));
+    yield put(actions.setPermissionsMappingsAndRoles(rolePermissions));
 
-    yield all(Object.keys(consts.ROLES).map(role => {
+    yield all(rolePermissions.allRoles.map(role => {
         if (user.claims[role]) {
-            const permissions = rolePermissions[role];
+            const permissions = rolePermissions.mappings[role];
             return put(actions.addPermissions(permissions));
         }
         return null;
     }));
-    console.log('claims', user.claims);
     yield put(actions.setLoadedPermissions(true));
 }
 

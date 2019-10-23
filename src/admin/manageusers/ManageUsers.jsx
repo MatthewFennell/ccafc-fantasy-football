@@ -8,7 +8,6 @@ import {
     closeRemoveUserRoleError
 } from '../actions';
 import Grid from '../../common/grid/Grid';
-import * as constants from '../../constants';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import StyledModal from '../../common/modal/StyledModal';
 import StyledInput from '../../common/StyledInput/StyledInput';
@@ -18,7 +17,7 @@ import ConfirmModal from '../../common/modal/ConfirmModal';
 import ErrorModal from '../../common/modal/ErrorModal';
 import RolesToPermissions from './RolesToPermissions';
 
-const columnsForAllUsers = [
+const columnsForAllUsers = allRoles => [
     {
         id: 'displayName',
         label: 'Display Name',
@@ -29,18 +28,18 @@ const columnsForAllUsers = [
         label: 'Email',
         align: 'center'
     }
+]
+    .concat(allRoles.map(role => ({
+        id: role,
+        label: role,
+        align: 'center'
+    }))).concat({
+        id: 'menu',
+        label: '',
+        align: 'right'
+    });
 
-].concat(Object.values(constants.ROLES).map(role => ({
-    id: role,
-    label: role,
-    align: 'center'
-}))).concat({
-    id: 'menu',
-    label: '',
-    align: 'right'
-});
-
-const rolesForDropdown = Object.values(constants.ROLES).map(role => ({
+const rolesForDropdown = allRoles => allRoles.map(role => ({
     id: role,
     value: role,
     text: role
@@ -87,7 +86,7 @@ const ManageUsers = props => {
             id: row.id
         });
 
-        Object.values(constants.ROLES).forEach(r => {
+        props.allRoles.forEach(r => {
             rowToReturn[r] = row.roles && row.roles.includes(r) ? <FiberManualRecordIcon color="primary" /> : '';
         });
         const options = [
@@ -112,11 +111,13 @@ const ManageUsers = props => {
 
     const generateToggleRows = rows => rows.map(row => generateRow(row));
 
+    console.log('all roles', props.allRoles);
+
     return (
         <div className={props.styles.manageUsersWrapper}>
             <div className={props.styles.extraRolesWrapper}>
                 <Grid
-                    columns={columnsForAllUsers}
+                    columns={columnsForAllUsers(props.allRoles)}
                     gridHeader={(
                         <div className={props.styles.manageUserGridHeaderWrapper}>
                             <div className={props.styles.gridHeaderText}>
@@ -132,7 +133,10 @@ const ManageUsers = props => {
                 />
             </div>
             <div className={props.styles.rolesToPermissionsWrapper}>
-                <RolesToPermissions permissionMappings={props.permissionMappings} />
+                <RolesToPermissions
+                    allRoles={props.allRoles}
+                    permissionMappings={props.permissionMappings}
+                />
             </div>
             <StyledModal
                 backdrop
@@ -144,7 +148,7 @@ const ManageUsers = props => {
                 <div className={props.styles.modalWrapper}>
                     <div><StyledInput label="Email" onChange={setEmail} value={email} /></div>
                     <div className={props.styles.modalButtons}>
-                        <Dropdown activeValue={role} onChange={setRole} options={rolesForDropdown} title="Role" />
+                        <Dropdown activeValue={role} onChange={setRole} options={rolesForDropdown(props.allRoles)} title="Role" />
                         <StyledButton text="Confirm" onClick={addUserRole} />
                         <StyledButton text="Cancel" color="secondary" onClick={closeModal} />
                     </div>
@@ -169,6 +173,7 @@ const ManageUsers = props => {
 };
 
 ManageUsers.defaultProps = {
+    allRoles: [],
     fetchingUsersWithExtraRoles: false,
     removeUserRoleError: '',
     removeUserRoleErrorCode: '',
@@ -178,6 +183,7 @@ ManageUsers.defaultProps = {
 };
 
 ManageUsers.propTypes = {
+    allRoles: PropTypes.arrayOf(PropTypes.string),
     addUserRoleRequest: PropTypes.func.isRequired,
     closeRemoveUserRoleError: PropTypes.func.isRequired,
     fetchingUsersWithExtraRoles: PropTypes.bool,
@@ -202,6 +208,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
+    allRoles: state.auth.allRoles,
     fetchingUsersWithExtraRoles: state.admin.fetchingUsersWithExtraRoles,
     removeUserRoleError: state.admin.removeUserRoleError,
     removeUserRoleErrorCode: state.admin.removeUserRoleErrorCode,

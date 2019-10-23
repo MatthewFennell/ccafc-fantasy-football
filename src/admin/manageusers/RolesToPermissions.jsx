@@ -4,11 +4,11 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import * as constants from '../../constants';
 import Grid from '../../common/grid/Grid';
 
-const columns = [{
+const columns = allRoles => [{
     id: 'permission',
     label: '',
     align: 'center'
-}].concat(Object.keys(constants.ROLES).map(role => ({
+}].concat(allRoles.map(role => ({
     id: role,
     label: role,
     align: 'center'
@@ -32,7 +32,7 @@ const generateRows = permissions => {
 
 const RolesToPermissions = props => (
     <Grid
-        columns={columns}
+        columns={columns(props.allRoles)}
         gridHeader="Rules"
         rows={generateRows(props.permissionMappings)}
         rowsPerPageOptions={[25]}
@@ -40,10 +40,12 @@ const RolesToPermissions = props => (
 );
 
 RolesToPermissions.defaultProps = {
+    allRoles: [],
     permissionMappings: {}
 };
 
 RolesToPermissions.propTypes = {
+    allRoles: PropTypes.arrayOf(PropTypes.string),
     permissionMappings: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string))
 };
 
