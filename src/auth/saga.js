@@ -5,7 +5,7 @@ import firebase from 'firebase';
 import { push } from 'connected-react-router';
 import { constants } from 'react-redux-firebase';
 import * as actions from './actions';
-import * as api from '../api/api';
+import * as api from './api';
 import * as consts from '../constants';
 import { fetchMaxGameWeekRequest } from '../overview/actions';
 
@@ -29,12 +29,17 @@ function* loggingIn(action) {
         yield put(push(consts.URL.VERIFY_EMAIL));
     }
     const user = yield firebase.auth().currentUser.getIdTokenResult();
-    const isAdmin = user.claims.admin || false;
-    yield put(actions.setAdmin(isAdmin));
-    if (isAdmin) {
-        const permissions = consts.ROLE_PERMISSIONS.ADMIN;
-        yield put(actions.addPermissions(permissions));
-    }
+    const rolePermissions = yield call(api.getRolePermissions);
+    yield put(actions.setPermissionMappings(rolePermissions));
+
+    yield all(Object.keys(consts.ROLES).map(role => {
+        if (user.claims[role]) {
+            const permissions = rolePermissions[role];
+            return put(actions.addPermissions(permissions));
+        }
+        return null;
+    }));
+    console.log('claims', user.claims);
     yield put(actions.setLoadedPermissions(true));
 }
 

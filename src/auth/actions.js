@@ -25,14 +25,18 @@ export const UPDATE_DISPLAY_NAME_ERROR = `${pre}UPDATE_DISPLAY_NAME_ERROR`;
 export const SEND_PASSWORD_RESET_EMAIL = `${pre}SEND_PASSWORD_RESET_EMAIL`;
 export const SEND_PASSWORD_RESET_EMAIL_ERROR = `${pre}SEND_PASSWORD_RESET_EMAIL_ERROR`;
 
-export const SET_ADMIN = `${pre}SET_ADMIN`;
-
 export const RESEND_VERIFICATION_EMAIL_REQUEST = `${pre}RESEND_VERIFICATION_EMAIL_REQUEST`;
 export const RESEND_VERIFICATION_EMAIL_SUCCESS = `${pre}RESEND_VERIFICATION_EMAIL_SUCCESS`;
 export const RESEND_VERIFICATION_EMAIL_ERROR = `${pre}RESEND_VERIFICATION_EMAIL_ERROR`;
 
 export const ADD_PERMISSIONS = `${pre}ADD_PERMISSIONS`;
 export const SET_LOADED_PERMISSIONS = `${pre}SET_LOADED_PERMISSIONS`;
+export const SET_PERMISSION_MAPPINGS = `${pre}SET_PERMISSION_MAPPINGS`;
+
+export const setPermissionMappings = permissions => ({
+    type: SET_PERMISSION_MAPPINGS,
+    permissions
+});
 
 export const setLoadedPermissions = loaded => ({
     type: SET_LOADED_PERMISSIONS,
@@ -55,11 +59,6 @@ export const resendEmailVerificationSuccess = () => ({
 export const resendEmailVerificationError = error => ({
     type: RESEND_VERIFICATION_EMAIL_ERROR,
     error
-});
-
-export const setAdmin = isAdmin => ({
-    type: SET_ADMIN,
-    isAdmin
 });
 
 export const closeAuthError = () => ({

@@ -14,8 +14,7 @@ exports.userSignUp = functions
             admin.auth().setCustomUserClaims(user.uid, {
                 admin: true
             });
-            db.collection('users-with-extra-roles').add({
-                user_id: user.uid,
+            db.collection('users-with-roles').add({
                 displayName: user.displayName,
                 email: user.email,
                 roles: [constants.ROLES.ADMIN]

@@ -18,7 +18,7 @@ const theme = createMuiTheme({
             main: indigo[500]
         },
         secondary: {
-            main: red[500]
+            main: red[400]
         }
     }
 });
@@ -29,6 +29,7 @@ const StyledButton = props => {
     return (
         <ThemeProvider theme={theme}>
             <Button
+                disabled={props.disabled}
                 variant="contained"
                 color={props.color}
                 className={classes.margin}
@@ -43,6 +44,7 @@ const StyledButton = props => {
 
 
 StyledButton.defaultProps = {
+    disabled: false,
     color: 'primary',
     onClick: noop,
     text: 'Button',
@@ -50,6 +52,7 @@ StyledButton.defaultProps = {
 };
 
 StyledButton.propTypes = {
+    disabled: PropTypes.bool,
     color: PropTypes.string,
     onClick: PropTypes.func,
     text: PropTypes.string,

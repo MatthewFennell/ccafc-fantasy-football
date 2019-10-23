@@ -48,6 +48,52 @@ export const EDIT_PLAYER_STATS_ERROR = `${pre}EDIT_PLAYER_STATS_ERROR`;
 export const FETCH_USERS_WITH_EXTRA_ROLES_REQUEST = `${pre}FETCH_USERS_WITH_EXTRA_ROLES_REQUEST`;
 export const FETCH_USERS_WITH_EXTRA_ROLES_SUCCESS = `${pre}FETCH_USERS_WITH_EXTRA_ROLES_SUCCESS`;
 export const FETCH_USERS_WITH_EXTRA_ROLES_ERROR = `${pre}FETCH_USERS_WITH_EXTRA_ROLES_ERROR`;
+export const LOAD_USERS_WITH_EXTRA_ROLES = `${pre}LOAD_USERS_WITH_EXTRA_ROLES`;
+export const ALREADY_FETCHED_USERS_WITH_EXTRA_ROLES = `${pre}ALREADY_FETCHED_USERS_WITH_EXTRA_ROLES`;
+
+export const FETCH_INITIAL_USERS_REQUEST = `${pre}FETCH_INITIAL_USERS_REQUEST`;
+export const FETCH_INITIAL_USERS_SUCCESS = `${pre}FETCH_INITIAL_USERS_SUCCESS`;
+export const FETCH_INITIAL_USERS_ERROR = `${pre}FETCH_INITIAL_USERS_ERROR`;
+
+export const ADD_USER_ROLE_REQUEST = `${pre}ADD_USER_ROLE_REQUEST`;
+export const REMOVE_USER_ROLE_REQUEST = `${pre}REMOVE_USER_ROLE_REQUEST`;
+export const ADD_USER_ROLE_ERROR = `${pre}ADD_USER_ROLE_ERROR`;
+export const REMOVE_USER_ROLE_ERROR = `${pre}REMOVE_USER_ROLE_ERROR`;
+export const CLOSE_REMOVE_USER_ROLE_ERROR = `${pre}CLOSE_REMOVE_USER_ROLE_ERROR`;
+
+export const alreadyFetchedUsersWithExtraRoles = () => ({
+    type: ALREADY_FETCHED_USERS_WITH_EXTRA_ROLES
+});
+
+export const closeRemoveUserRoleError = () => ({
+    type: CLOSE_REMOVE_USER_ROLE_ERROR
+});
+
+export const loadUsersWithExtraRoles = () => ({
+    type: LOAD_USERS_WITH_EXTRA_ROLES
+});
+
+export const addUserRoleRequest = (email, role) => ({
+    type: ADD_USER_ROLE_REQUEST,
+    email,
+    role
+});
+
+export const removeUserRoleRequest = (email, role) => ({
+    type: REMOVE_USER_ROLE_REQUEST,
+    email,
+    role
+});
+
+export const addUserRoleError = error => ({
+    type: ADD_USER_ROLE_ERROR,
+    error
+});
+
+export const removeUserRoleError = error => ({
+    type: REMOVE_USER_ROLE_ERROR,
+    error
+});
 
 export const fetchUsersWithExtraRolesRequest = () => ({
     type: FETCH_USERS_WITH_EXTRA_ROLES_REQUEST

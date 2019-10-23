@@ -3,7 +3,6 @@ import * as actions from './actions';
 
 const initState = {
     authError: null,
-    isAdmin: false,
 
     passwordResetErrorCode: '',
     passwordResetError: '',
@@ -17,7 +16,9 @@ const initState = {
     sendingEmailVerification: false,
 
     userPermissions: [],
-    loadedPermissions: false
+    loadedPermissions: false,
+
+    permissionMappings: {}
 };
 
 const authReducer = (state = initState, action) => {
@@ -28,9 +29,6 @@ const authReducer = (state = initState, action) => {
             signUpError: action.error.message,
             signUpErrorCode: action.error.code
         };
-    }
-    case actions.SET_ADMIN: {
-        return fp.set('isAdmin', action.isAdmin)(state);
     }
     case actions.SIGN_IN_ERROR: {
         return {
@@ -60,6 +58,9 @@ const authReducer = (state = initState, action) => {
     }
     case actions.SET_LOADED_PERMISSIONS: {
         return fp.set('loadedPermissions', true)(state);
+    }
+    case actions.SET_PERMISSION_MAPPINGS: {
+        return fp.set('permissionMappings', action.permissions)(state);
     }
     default:
         return state;

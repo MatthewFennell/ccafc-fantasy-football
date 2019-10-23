@@ -126,15 +126,45 @@ function* editPlayerStats(action) {
     }
 }
 
-function* usereWithExtraRoles() {
+function* usersWithExtraRoles() {
     try {
         const alreadyFetched = yield select(selectors.getUsersWithExtraRoles);
         if (alreadyFetched.length === 0) {
-            const usersWithExtraRoles = yield call(api.getUsersWithExtraRoles);
-            yield put(actions.fetchUsersWithExtraRolesSuccess(usersWithExtraRoles));
+            const extraRoles = yield call(api.getUsersWithExtraRoles);
+            yield put(actions.fetchUsersWithExtraRolesSuccess(extraRoles));
+        } else {
+            yield put(actions.alreadyFetchedUsersWithExtraRoles());
         }
     } catch (error) {
         yield put(actions.fetchUsersWithExtraRolesError(error));
+    }
+}
+
+function* addUserRole(action) {
+    try {
+        yield call(api.addUserRole, ({
+            email: action.email,
+            role: action.role
+        }));
+        yield put(actions.loadUsersWithExtraRoles());
+        const extraRoles = yield call(api.getUsersWithExtraRoles);
+        yield put(actions.fetchUsersWithExtraRolesSuccess(extraRoles));
+    } catch (error) {
+        yield put(actions.addUserRoleError(error));
+    }
+}
+
+function* removeUserRole(action) {
+    try {
+        yield call(api.removeUserRole, ({
+            email: action.email,
+            role: action.role
+        }));
+        yield put(actions.loadUsersWithExtraRoles());
+        const extraRoles = yield call(api.getUsersWithExtraRoles);
+        yield put(actions.fetchUsersWithExtraRolesSuccess(extraRoles));
+    } catch (error) {
+        yield put(actions.removeUserRoleError(error));
     }
 }
 
@@ -150,6 +180,8 @@ export default function* adminSaga() {
         takeEvery(actions.TRIGGER_WEEK_REQUEST, triggerWeek),
         takeEvery(actions.FETCH_PLAYER_STATS_REQUEST, getPlayerStats),
         takeEvery(actions.EDIT_PLAYER_STATS_REQUEST, editPlayerStats),
-        takeEvery(actions.FETCH_USERS_WITH_EXTRA_ROLES_REQUEST, usereWithExtraRoles)
+        takeEvery(actions.FETCH_USERS_WITH_EXTRA_ROLES_REQUEST, usersWithExtraRoles),
+        takeEvery(actions.ADD_USER_ROLE_REQUEST, addUserRole),
+        takeEvery(actions.REMOVE_USER_ROLE_REQUEST, removeUserRole)
     ]);
 }
