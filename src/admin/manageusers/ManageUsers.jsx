@@ -111,8 +111,6 @@ const ManageUsers = props => {
 
     const generateToggleRows = rows => rows.map(row => generateRow(row));
 
-    console.log('all roles', props.allRoles);
-
     return (
         <div className={props.styles.manageUsersWrapper}>
             <div className={props.styles.extraRolesWrapper}>

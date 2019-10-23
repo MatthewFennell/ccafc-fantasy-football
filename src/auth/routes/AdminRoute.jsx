@@ -11,6 +11,8 @@ const AdminRoute = ({
     if (!loadedPermissions && (auth.uid && auth.emailVerified)) {
         return null;
     }
+    console.log('user permissions', userPermissions);
+    console.log('required permission', permissionRequired);
     return (
         <Route
             {...rest}

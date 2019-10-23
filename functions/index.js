@@ -104,12 +104,21 @@ exports.removeUserRole = functions
             );
     });
 
+// Only get the permissions that they can use
 exports.getRolePermissions = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return {
-            mappings: constants.ROLE_PERMISSIONS,
-            allRoles: Object.keys(constants.ROLES)
-        };
+        return admin.auth().getUser(context.auth.uid).then(user => {
+            const mappings = {};
+            Object.values(constants.ROLES).forEach(role => {
+                if (user.customClaims[role]) {
+                    mappings[role] = constants.ROLE_PERMISSIONS[role];
+                }
+            });
+            return {
+                mappings,
+                allRoles: Object.keys(constants.ROLES)
+            };
+        });
     });
