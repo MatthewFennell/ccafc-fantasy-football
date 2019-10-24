@@ -25,29 +25,12 @@ function* fetchLeagues() {
     }
 }
 
-// function* fetchUsersInLeague(action) {
-//     try {
-//         const usersForThatLeague = yield select(selectors.getUsersInLeagueWithId, action.leagueId);
-//         if (usersForThatLeague.length === 0) {
-//             const usersInLeague = yield call(api.getUsersInLeague,
-//                 {
-//                     leagueId: action.leagueId,
-//                     week: action.maxGameWeek
-//                 });
-//             yield put(actions.fetchUsersInLeagueSuccess(action.leagueId, usersInLeague));
-//         } else {
-//             yield put(actions.alreadyFetchedUsersInLeague());
-//         }
-//     } catch (error) {
-//         yield put(actions.fetchUsersInLeagueError(error));
-//     }
-// }
-
 function* fetchUsersInLeague(action) {
     try {
         const usersForThatLeague = yield select(selectors.getUsersInLeagueWithId, action.leagueId);
         const fetchedAllUsersInLeague = yield select(selectors.getFetchedAllUsersInLeague, action.leagueId);
         if (usersForThatLeague.length === 0) {
+            yield put(actions.fetchingUsersInLeague());
             const initialBatchOfUsers = yield call(api.getUsersInLeague,
                 {
                     leagueId: action.leagueId,
@@ -55,7 +38,7 @@ function* fetchUsersInLeague(action) {
                     requestedSize: action.requestedSize,
                     previousId: null
                 });
-            yield put(actions.fetchUsersInLeagueSuccess(action.leagueId, initialBatchOfUsers));
+            yield put(actions.fetchUsersInLeagueSuccess(action.leagueId, initialBatchOfUsers.users));
         } else
         if ((action.pageNumber + PAGE_BUFFER) * action.rowsPerPage > usersForThatLeague.length && !fetchedAllUsersInLeague) {
             yield put(actions.alreadyFetchedUsersInLeague());
@@ -67,15 +50,13 @@ function* fetchUsersInLeague(action) {
                     requestedSize: action.requestedSize,
                     previousId: finalId
                 });
-            if (nextBatch.length === 0) {
+            if (nextBatch.users.length === 0) {
                 yield put(actions.fetchedAllUsersInLeague(action.leagueId));
             } else {
                 yield put(actions.fetchMoreUsersInLeagueSuccess(
-                    action.leagueId, nextBatch, finalId
+                    action.leagueId, nextBatch.users, finalId
                 ));
             }
-        } else {
-            yield put(actions.alreadyFetchedUsersInLeague());
         }
     } catch (error) {
         yield put(actions.fetchUsersInLeagueError(error));

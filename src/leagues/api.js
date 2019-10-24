@@ -12,16 +12,19 @@ export const getLeaguesIAmIn = () => functionToCall('league-getLeaguesIAmIn')()
 
 
 export const getUsersInLeague = request => functionToCall('orderedUsers')(request)
-    .then(data => data.data.map(league => ({
-        id: league.id,
-        name: league.data.name,
-        username: league.data.username,
-        userPoints: league.data.user_points,
-        position: league.data.position,
-        userId: league.data.user_id,
-        weekPoints: league.data.week_points,
-        teamName: league.data.teamName
-    })));
+    .then(response => ({
+        users: response.data.users.map(league => ({
+            id: league.id,
+            name: league.data.name,
+            username: league.data.username,
+            userPoints: league.data.user_points,
+            position: league.data.position,
+            userId: league.data.user_id,
+            weekPoints: league.data.week_points,
+            teamName: league.data.teamName
+        })),
+        numberOfPlayers: response.data.number_of_players || null
+    }));
 
 
 export const createLeague = request => functionToCall('league-createLeague')(request);
