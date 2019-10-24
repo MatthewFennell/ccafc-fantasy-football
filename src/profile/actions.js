@@ -18,6 +18,29 @@ export const UPDATE_TEAM_NAME_SUCCESS = `${pre}UPDATE_TEAM_NAME_SUCCESS`;
 export const UPDATE_TEAM_NAME_ERROR = `${pre}UPDATE_TEAM_NAME_ERROR`;
 export const CLOSE_TEAM_NAME_ERROR = `${pre}CLOSE_TEAM_NAME_ERROR`;
 
+export const DELETE_ACCOUNT_REQUEST = `${pre}DELETE_ACCOUNT_REQUEST`;
+export const DELETE_ACCOUNT_SUCCESS = `${pre}DELETE_ACCOUNT_SUCCESS`;
+export const DELETE_ACCOUNT_ERROR = `${pre}DELETE_ACCOUNT_ERROR`;
+export const CLOSE_DELETE_ACCOUNT_ERROR = `${pre}CLOSE_DELETE_ACCOUNT_ERROR`;
+
+export const deleteAccountSucces = () => ({
+    type: DELETE_ACCOUNT_SUCCESS
+});
+
+export const closeDeleteAccountError = () => ({
+    type: CLOSE_DELETE_ACCOUNT_ERROR
+});
+
+export const deleteAccountError = error => ({
+    type: DELETE_ACCOUNT_ERROR,
+    error
+});
+
+export const deleteAccountRequest = email => ({
+    type: DELETE_ACCOUNT_REQUEST,
+    email
+});
+
 export const closeTeamNameError = () => ({
     type: CLOSE_TEAM_NAME_ERROR
 });

@@ -4,6 +4,7 @@ import {
 import firebase from 'firebase';
 import * as actions from './actions';
 import * as api from './api';
+import { signOut } from '../auth/actions';
 
 function* linkProfileToGoogle() {
     try {
@@ -41,11 +42,27 @@ function* updateTeamName(action) {
     }
 }
 
+function* deleteAccount(action) {
+    try {
+        const currentEmail = firebase.auth().currentUser.email;
+        if (currentEmail !== action.email) {
+            yield put(actions.deleteAccountError({ code: 'not-found', message: 'That is not your email' }));
+        } else {
+            yield call(api.deleteUser, { email: action.email });
+            yield put(actions.deleteAccountSucces());
+            yield put(signOut());
+        }
+    } catch (error) {
+        yield put(actions.deleteAccountError(error));
+    }
+}
+
 export default function* authSaga() {
     yield all([
         takeEvery(actions.LINK_PROFILE_TO_GOOGLE, linkProfileToGoogle),
         takeEvery(actions.LINK_PROFILE_TO_FACEBOOK, linkProfileToFacebook),
         takeEvery(actions.UPDATE_DISPLAY_NAME_REQUEST, updateDisplayName),
-        takeEvery(actions.UPDATE_TEAM_NAME_REQUEST, updateTeamName)
+        takeEvery(actions.UPDATE_TEAM_NAME_REQUEST, updateTeamName),
+        takeEvery(actions.DELETE_ACCOUNT_REQUEST, deleteAccount)
     ]);
 }

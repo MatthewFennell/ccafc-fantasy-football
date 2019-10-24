@@ -89,21 +89,7 @@ exports.leaveLeague = functions
                 if (docToDelete.data().name === 'Collingwood') {
                     throw new functions.https.HttpsError('invalid-argument', 'You cannot leave that league');
                 }
-                return docToDelete.ref.delete().then(() => db.collection('leagues-points').where('league_id', '==', data.leagueId).get()
-                    .then(query => query.docs
-                        .map(leagueDoc => ({ data: leagueDoc.data(), id: leagueDoc.id })))
-                    .then(result => {
-                        const positions = [];
-                        const sortedResult = fp.sortBy('data.user_points')(result).reverse();
-                        sortedResult.forEach((pos, index) => {
-                            positions.push({ id: pos.id, position: index + 1 });
-                        });
-                        const leagueUpdatePromises = [];
-                        positions.map(pos => leagueUpdatePromises.push(db.collection('leagues-points')
-                            .doc(pos.id).update({
-                                position: pos.position
-                            })));
-                    }));
+                return docToDelete.ref.delete();
             });
     });
 
