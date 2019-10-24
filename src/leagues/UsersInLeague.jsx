@@ -89,6 +89,8 @@ const UsersInLeague = props => {
         setPage(page);
     }, [pageNumber, setPageNumber]);
 
+    console.log('users', props.numberOfUsersInLeague);
+
     return (
         <div className={props.styles.leaguesWrapper}>
             <div className={props.styles.myLeaguesWrapper}>
@@ -100,6 +102,7 @@ const UsersInLeague = props => {
                         controlPagination
                         gridHeader={props.leagueName}
                         loading={props.fetchingUsersInLeague}
+                        numberOfUsersInLeague={props.numberOfUsersInLeague}
                         setPage={setCurrentPageNumber}
                         setRowsPerPage={setEntriesPerPage}
                         onRowClick={loadUserPage}
@@ -147,13 +150,14 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state, props) => ({
     auth: state.firebase.auth,
-    fetchingUsersInLeague: selectors.getFetchingUsersInLeague(state),
+    fetchingUsersInLeague: selectors.getFetchingUsersInLeague(state, props),
     leagueId: selectors.getLeagueId(props),
     leagueName: selectors.getLeagueName(state, props),
     leavingLeague: selectors.getLeavingLeague(state),
     leaveLeagueError: selectors.getLeaveLeagueError(state),
     leaveLeagueErrorCode: selectors.getLeaveLeagueErrorCode(state),
     maxGameWeek: state.overview.maxGameWeek,
+    numberOfUsersInLeague: selectors.getNumberOfUsersInLeague(state, props),
     usersInLeague: selectors.getUsersInLeague(state, props)
 });
 
@@ -165,6 +169,7 @@ UsersInLeague.defaultProps = {
     leaveLeagueErrorCode: '',
     leavingLeague: false,
     maxGameWeek: null,
+    numberOfUsersInLeague: 0,
     styles: defaultStyles,
     usersInLeague: []
 };
@@ -187,6 +192,7 @@ UsersInLeague.propTypes = {
     leaveLeagueErrorCode: PropTypes.string,
     leavingLeague: PropTypes.bool,
     maxGameWeek: PropTypes.number,
+    numberOfUsersInLeague: PropTypes.number,
     styles: PropTypes.objectOf(PropTypes.string),
     usersInLeague: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string,

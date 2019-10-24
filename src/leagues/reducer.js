@@ -93,11 +93,11 @@ const authReducer = (state = initState, action) => {
         };
     }
     case actions.FETCH_USERS_IN_LEAGUE_SUCCESS: {
-        return {
-            ...state,
-            usersInLeague: fp.set(action.leagueId, action.usersInLeague)(state.usersInLeague),
-            fetchingUsersInLeague: false
-        };
+        return fp.flow(
+            fp.set(`usersInLeague.${action.leagueId}.users`, action.usersInLeague),
+            fp.set(`usersInLeague.${action.leagueId}.fetching`, false),
+            fp.set(`usersInLeague.${action.leagueId}.numberOfUsers`, action.numberOfUsers)
+        )(state);
     }
     case actions.CREATE_LEAGUE_ERROR: {
         return {
@@ -125,24 +125,24 @@ const authReducer = (state = initState, action) => {
         return fp.set('fetchingLeagues', true)(state);
     }
     case actions.FETCHING_USERS_IN_LEAGUE: {
-        return fp.set('fetchingUsersInLeague', true)(state);
+        return fp.set(`usersInLeague.${action.leagueId}.fetching`, true)(state);
     }
     case actions.FETCH_USERS_IN_LEAGUE_ERROR: {
-        return fp.set('fetchingUsersInLeague', false)(state);
+        return fp.set(`usersInLeague.${action.leagueId}.fetching`, false)(state);
     }
     case actions.ALREADY_FETCHED_USERS_IN_LEAGUE: {
-        return fp.set('fetchingUsersInLeague', false)(state);
+        return fp.set(`fetchingUsersInLeague.${action.leagueId}.fetching`, false)(state);
     }
     case actions.FETCH_MORE_USER_IN_LEAGUE_SUCCESS: {
         // Add then sort by position (remove network nonsense)
-        const sortedResult = fp.sortBy('position')(fp.get(action.leagueId)(state.usersInLeague).concat(action.newUsers));
+        const sortedResult = fp.sortBy('position')(fp.get(`${action.leagueId}.users`)(state.usersInLeague).concat(action.newUsers));
         return {
             ...state,
-            usersInLeague: fp.set(action.leagueId, sortedResult)(state.usersInLeague)
+            usersInLeague: fp.set(`${action.leagueId}.users`, sortedResult)(state.usersInLeague)
         };
     }
     case actions.FETCHED_ALL_USERS_IN_LEAGUE: {
-        return fp.set(`fetchedAllUsersInLeague.${action.leagueId}`, true)(state);
+        return fp.set(`usersInLeague.${action.leagueId}.fetchedAll`, true)(state);
     }
     default:
         return state;

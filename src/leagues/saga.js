@@ -30,7 +30,7 @@ function* fetchUsersInLeague(action) {
         const usersForThatLeague = yield select(selectors.getUsersInLeagueWithId, action.leagueId);
         const fetchedAllUsersInLeague = yield select(selectors.getFetchedAllUsersInLeague, action.leagueId);
         if (usersForThatLeague.length === 0) {
-            yield put(actions.fetchingUsersInLeague());
+            yield put(actions.fetchingUsersInLeague(action.leagueId));
             const initialBatchOfUsers = yield call(api.getUsersInLeague,
                 {
                     leagueId: action.leagueId,
@@ -38,10 +38,10 @@ function* fetchUsersInLeague(action) {
                     requestedSize: action.requestedSize,
                     previousId: null
                 });
-            yield put(actions.fetchUsersInLeagueSuccess(action.leagueId, initialBatchOfUsers.users));
+            yield put(actions.fetchUsersInLeagueSuccess(action.leagueId, initialBatchOfUsers.users, initialBatchOfUsers.numberOfUsers));
         } else
         if ((action.pageNumber + PAGE_BUFFER) * action.rowsPerPage > usersForThatLeague.length && !fetchedAllUsersInLeague) {
-            yield put(actions.alreadyFetchedUsersInLeague());
+            yield put(actions.alreadyFetchedUsersInLeague(action.leagueId));
             const finalId = fp.last(usersForThatLeague).id;
             const nextBatch = yield call(api.getUsersInLeague,
                 {
@@ -59,7 +59,7 @@ function* fetchUsersInLeague(action) {
             }
         }
     } catch (error) {
-        yield put(actions.fetchUsersInLeagueError(error));
+        yield put(actions.fetchUsersInLeagueError(action.leagueId, error));
     }
 }
 
