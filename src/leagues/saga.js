@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {
     all, call, takeEvery, put, select
 } from 'redux-saga/effects';
@@ -45,6 +46,7 @@ function* fetchLeagues() {
 function* fetchUsersInLeague(action) {
     try {
         const usersForThatLeague = yield select(selectors.getUsersInLeagueWithId, action.leagueId);
+        const fetchedAllUsersInLeague = yield select(selectors.getFetchedAllUsersInLeague, action.leagueId);
         if (usersForThatLeague.length === 0) {
             const initialBatchOfUsers = yield call(api.getUsersInLeague,
                 {
@@ -54,7 +56,8 @@ function* fetchUsersInLeague(action) {
                     previousId: null
                 });
             yield put(actions.fetchUsersInLeagueSuccess(action.leagueId, initialBatchOfUsers));
-        } else if ((action.pageNumber + PAGE_BUFFER) * action.rowsPerPage > usersForThatLeague.length) {
+        } else
+        if ((action.pageNumber + PAGE_BUFFER) * action.rowsPerPage > usersForThatLeague.length && !fetchedAllUsersInLeague) {
             yield put(actions.alreadyFetchedUsersInLeague());
             const finalId = fp.last(usersForThatLeague).id;
             const nextBatch = yield call(api.getUsersInLeague,
@@ -64,8 +67,15 @@ function* fetchUsersInLeague(action) {
                     requestedSize: action.requestedSize,
                     previousId: finalId
                 });
-
-            yield put(actions.fetchMoreUsersInLeagueSuccess(action.leagueId, nextBatch, finalId));
+            if (nextBatch.length === 0) {
+                yield put(actions.fetchedAllUsersInLeague(action.leagueId));
+            } else {
+                yield put(actions.fetchMoreUsersInLeagueSuccess(
+                    action.leagueId, nextBatch, finalId
+                ));
+            }
+        } else {
+            yield put(actions.alreadyFetchedUsersInLeague());
         }
     } catch (error) {
         yield put(actions.fetchUsersInLeagueError(error));

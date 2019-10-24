@@ -10,6 +10,7 @@ export const FETCH_USERS_IN_LEAGUE_SUCCESS = `${pre}FETCH_USERS_IN_LEAGUE_SUCCES
 export const FETCH_USERS_IN_LEAGUE_ERROR = `${pre}FETCH_USERS_IN_LEAGUE_ERROR`;
 export const ALREADY_FETCHED_USERS_IN_LEAGUE = `${pre}ALREADY_FETCHED_USERS_IN_LEAGUE`;
 export const FETCH_MORE_USER_IN_LEAGUE_SUCCESS = `${pre}FETCH_MORE_USER_IN_LEAGUE_SUCCESS`;
+export const FETCHED_ALL_USERS_IN_LEAGUE = `${pre}FETCHED_ALL_USERS_IN_LEAGUE`;
 
 export const CREATE_LEAGUE_REQUEST = `${pre}CREATE_LEAGUE_REQUEST`;
 export const CREATE_LEAGUE_SUCCESS = `${pre}CREATE_LEAGUE_SUCCESS`;
@@ -31,6 +32,11 @@ export const fetchMoreUsersInLeagueSuccess = (leagueId, newUsers, previousId) =>
     leagueId,
     newUsers,
     previousId
+});
+
+export const fetchedAllUsersInLeague = leagueId => ({
+    type: FETCHED_ALL_USERS_IN_LEAGUE,
+    leagueId
 });
 
 export const alreadyFetchedLeagues = () => ({

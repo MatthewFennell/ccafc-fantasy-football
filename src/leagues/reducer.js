@@ -19,7 +19,9 @@ const initState = {
     usersInLeague: {},
 
     fetchingLeague: false,
-    fetchingUsersInLeague: false
+    fetchingUsersInLeague: false,
+
+    fetchedAllUsersInLeague: {}
 };
 
 const authReducer = (state = initState, action) => {
@@ -138,6 +140,9 @@ const authReducer = (state = initState, action) => {
             ...state,
             usersInLeague: fp.set(action.leagueId, sortedResult)(state.usersInLeague)
         };
+    }
+    case actions.FETCHED_ALL_USERS_IN_LEAGUE: {
+        return fp.set(`fetchedAllUsersInLeague.${action.leagueId}`, true)(state);
     }
     default:
         return state;
