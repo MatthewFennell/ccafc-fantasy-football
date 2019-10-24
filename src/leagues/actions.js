@@ -28,8 +28,9 @@ export const LEAVE_LEAGUE_SUCCESS = `${pre}LEAVE_LEAGUE_SUCCESS`;
 export const LEAVE_LEAGUE_ERROR = `${pre}LEAVE_LEAGUE_ERROR`;
 export const CLOSE_LEAVE_LEAGUE_ERROR = `${pre}CLOSE_LEAVE_LEAGUE_ERROR`;
 
-export const fetchingUsersInLeague = () => ({
-    type: FETCHING_USERS_IN_LEAGUE
+export const fetchingUsersInLeague = leagueId => ({
+    type: FETCHING_USERS_IN_LEAGUE,
+    leagueId
 });
 
 export const fetchMoreUsersInLeagueSuccess = (leagueId, newUsers, previousId) => ({
@@ -62,8 +63,9 @@ export const fetchLeaguesError = error => ({
     error
 });
 
-export const alreadyFetchedUsersInLeague = () => ({
-    type: ALREADY_FETCHED_USERS_IN_LEAGUE
+export const alreadyFetchedUsersInLeague = leagueId => ({
+    type: ALREADY_FETCHED_USERS_IN_LEAGUE,
+    leagueId
 });
 
 
@@ -78,14 +80,16 @@ export const fetchUsersInLeagueRequest = (
     rowsPerPage
 });
 
-export const fetchUsersInLeagueSuccess = (leagueId, usersInLeague) => ({
+export const fetchUsersInLeagueSuccess = (leagueId, usersInLeague, numberOfUsers) => ({
     type: FETCH_USERS_IN_LEAGUE_SUCCESS,
     leagueId,
-    usersInLeague
+    usersInLeague,
+    numberOfUsers
 });
 
-export const fetchUsersInLeagueError = error => ({
+export const fetchUsersInLeagueError = (leagueId, error) => ({
     type: FETCH_USERS_IN_LEAGUE_ERROR,
+    leagueId,
     error
 });
 
