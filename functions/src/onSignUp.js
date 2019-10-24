@@ -60,37 +60,6 @@ exports.joinInitialLeague = functions
         }
     ));
 
-
-exports.createInitialLeague = functions
-    .region(constants.region)
-    .auth.user()
-    .onCreate(user => db.collection('application-info').get().then(query => {
-        if (query.size === 1 && query.docs[0].data().number_of_users <= 1) {
-            return db.collection('leagues').where('name', '==', 'Collingwood').get().then(
-                result => {
-                    if (result.empty) {
-                        return db.collection('leagues').add({
-                            owner: user.uid,
-                            start_week: 0,
-                            name: 'Collingwood'
-                        }).then(docRef => db.collection('leagues-points').add({
-                            league_id: docRef.id,
-                            user_id: user.uid,
-                            start_week: 0,
-                            name: 'Collingwood',
-                            user_points: 0,
-                            username: user.displayName,
-                            position: 1,
-                            teamName: 'Default Team Name'
-                        }));
-                    }
-                    return Promise.resolve();
-                }
-            );
-        }
-        throw new functions.https.HttpsError('invalid-argument', 'Server Error. Should only be a single app info document');
-    }));
-
 exports.setAdminUserClaims = functions
     .region(constants.region)
     .auth.user()
@@ -129,16 +98,14 @@ exports.increaseNumberOfUsers = functions
 exports.createUserAccount = functions
     .region(constants.region)
     .auth.user()
-    .onCreate(user => {
-        const userObject = {
-            displayName: user.displayName,
-            email: user.email,
-            total_points: 0,
-            remaining_transfers: 0,
-            remaining_budget: 100
-        };
-        return db.doc(`users/${user.uid}`).set(userObject);
-    });
+    .onCreate(user => db.doc(`users/${user.uid}`).set({
+        displayName: user.displayName,
+        email: user.email,
+        total_points: 0,
+        remaining_transfers: 0,
+        remaining_budget: 100,
+        teamName: 'Default Team Name'
+    }));
 
 exports.verifyFacebookEmail = functions
     .region(constants.region)

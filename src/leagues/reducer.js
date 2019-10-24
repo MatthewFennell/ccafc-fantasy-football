@@ -124,7 +124,7 @@ const authReducer = (state = initState, action) => {
     case actions.FETCH_LEAGUES_REQUEST: {
         return fp.set('fetchingLeagues', true)(state);
     }
-    case actions.FETCH_USERS_IN_LEAGUE_REQUEST: {
+    case actions.FETCHING_USERS_IN_LEAGUE: {
         return fp.set('fetchingUsersInLeague', true)(state);
     }
     case actions.FETCH_USERS_IN_LEAGUE_ERROR: {

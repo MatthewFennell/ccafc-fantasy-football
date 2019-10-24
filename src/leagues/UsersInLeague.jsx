@@ -36,7 +36,8 @@ const columns = gameWeek => [
     }
 ];
 
-const INITIAL_ROWS_PER_PAGE = 5;
+const INITIAL_ROWS_PER_PAGE = 1;
+const INITIAL_NUMBER_OF_PAGES_TO_LOAD = 3;
 
 const UsersInLeague = props => {
     const generateRows = rows => rows.map(row => ({
@@ -55,7 +56,11 @@ const UsersInLeague = props => {
 
     useEffect(() => {
         if (props.maxGameWeek || props.maxGameWeek === 0) {
-            props.fetchUsersInLeagueRequest(props.leagueId, props.maxGameWeek, INITIAL_ROWS_PER_PAGE * 2, pageNumber + 1, rowsPerPage);
+            props.fetchUsersInLeagueRequest(props.leagueId,
+                props.maxGameWeek,
+                INITIAL_ROWS_PER_PAGE * INITIAL_NUMBER_OF_PAGES_TO_LOAD,
+                pageNumber + 1,
+                rowsPerPage);
         }
     }, [props.fetchUsersInLeagueRequest, props.maxGameWeek, rowsPerPage, pageNumber]);
 
@@ -100,6 +105,7 @@ const UsersInLeague = props => {
                         onRowClick={loadUserPage}
                         renderBackButton
                         rows={generateRows(props.usersInLeague)}
+                        rowsPerPageOptions={[INITIAL_ROWS_PER_PAGE]}
                     />
                 </div>
             </div>

@@ -73,7 +73,15 @@ exports.orderedUsers = functions
                 .collection('leagues-points')
                 .where('league_id', '==', data.leagueId)
                 .orderBy('position', 'asc')
-                .limit(Math.min(20, data.requestedSize)));
+                .limit(Math.min(20, data.requestedSize))).then(result => {
+                console.log('result', result);
+                return db.collection('leagues').doc(data.leagueId).get().then(
+                    league => ({
+                        users: result,
+                        numberOfUsers: league.data().number_of_users
+                    })
+                );
+            });
         }
         return db.collection('leagues-points').doc(data.previousId).get().then(
             query => adaptData(db
@@ -82,5 +90,22 @@ exports.orderedUsers = functions
                 .orderBy('position', 'asc')
                 .startAfter(query)
                 .limit(Math.min(20, data.requestedSize)))
+                .then(result => ({
+                    users: result,
+                    numberOfUsers: null
+                }))
         );
     });
+
+// Increase number of users in league
+exports.onUserJoinLeague = functions.region(constants.region).firestore
+    .document('leagues-points/{id}')
+    .onCreate(snapshot => db.collection('leagues').doc(snapshot.data().league_id).update({
+        number_of_users: operations.increment(1)
+    }));
+
+exports.onUserLeaveLeague = functions.region(constants.region).firestore
+    .document('leagues-points/{id}')
+    .onDelete(snapshot => db.collection('leagues').doc(snapshot.data().league_id).update({
+        number_of_users: operations.increment(-1)
+    }));
