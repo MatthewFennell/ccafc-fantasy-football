@@ -11,7 +11,7 @@ export const getLeaguesIAmIn = () => functionToCall('league-getLeaguesIAmIn')()
     })));
 
 
-export const getUsersInLeague = request => functionToCall('league-orderedUsers')(request)
+export const getUsersInLeague = request => functionToCall('orderedUsers')(request)
     .then(data => data.data.map(league => ({
         id: league.id,
         name: league.data.name,

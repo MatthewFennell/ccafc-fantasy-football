@@ -9,6 +9,8 @@ export const FETCH_USERS_IN_LEAGUE_REQUEST = `${pre}FETCH_USERS_IN_LEAGUE_REQUES
 export const FETCH_USERS_IN_LEAGUE_SUCCESS = `${pre}FETCH_USERS_IN_LEAGUE_SUCCESS`;
 export const FETCH_USERS_IN_LEAGUE_ERROR = `${pre}FETCH_USERS_IN_LEAGUE_ERROR`;
 export const ALREADY_FETCHED_USERS_IN_LEAGUE = `${pre}ALREADY_FETCHED_USERS_IN_LEAGUE`;
+export const FETCH_MORE_USER_IN_LEAGUE_SUCCESS = `${pre}FETCH_MORE_USER_IN_LEAGUE_SUCCESS`;
+export const FETCHED_ALL_USERS_IN_LEAGUE = `${pre}FETCHED_ALL_USERS_IN_LEAGUE`;
 
 export const CREATE_LEAGUE_REQUEST = `${pre}CREATE_LEAGUE_REQUEST`;
 export const CREATE_LEAGUE_SUCCESS = `${pre}CREATE_LEAGUE_SUCCESS`;
@@ -25,10 +27,21 @@ export const LEAVE_LEAGUE_SUCCESS = `${pre}LEAVE_LEAGUE_SUCCESS`;
 export const LEAVE_LEAGUE_ERROR = `${pre}LEAVE_LEAGUE_ERROR`;
 export const CLOSE_LEAVE_LEAGUE_ERROR = `${pre}CLOSE_LEAVE_LEAGUE_ERROR`;
 
+export const fetchMoreUsersInLeagueSuccess = (leagueId, newUsers, previousId) => ({
+    type: FETCH_MORE_USER_IN_LEAGUE_SUCCESS,
+    leagueId,
+    newUsers,
+    previousId
+});
+
+export const fetchedAllUsersInLeague = leagueId => ({
+    type: FETCHED_ALL_USERS_IN_LEAGUE,
+    leagueId
+});
+
 export const alreadyFetchedLeagues = () => ({
     type: ALREADY_FETCHED_LEAGUES
 });
-
 
 export const fetchLeaguesRequest = () => ({
     type: FETCH_LEAGUES_REQUEST
@@ -49,10 +62,15 @@ export const alreadyFetchedUsersInLeague = () => ({
 });
 
 
-export const fetchUsersInLeagueRequest = (leagueId, maxGameWeek) => ({
+export const fetchUsersInLeagueRequest = (
+    leagueId, maxGameWeek, requestedSize, pageNumber, rowsPerPage
+) => ({
     type: FETCH_USERS_IN_LEAGUE_REQUEST,
     leagueId,
-    maxGameWeek
+    maxGameWeek,
+    requestedSize,
+    pageNumber,
+    rowsPerPage
 });
 
 export const fetchUsersInLeagueSuccess = (leagueId, usersInLeague) => ({

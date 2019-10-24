@@ -1,11 +1,15 @@
+/* eslint-disable max-len */
 import {
     all, call, takeEvery, put, select
 } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
+import fp from 'lodash/fp';
 import * as actions from './actions';
 import * as api from './api';
 import * as selectors from './selectors';
 import * as constants from '../constants';
+
+const PAGE_BUFFER = 3;
 
 function* fetchLeagues() {
     try {
@@ -21,16 +25,55 @@ function* fetchLeagues() {
     }
 }
 
+// function* fetchUsersInLeague(action) {
+//     try {
+//         const usersForThatLeague = yield select(selectors.getUsersInLeagueWithId, action.leagueId);
+//         if (usersForThatLeague.length === 0) {
+//             const usersInLeague = yield call(api.getUsersInLeague,
+//                 {
+//                     leagueId: action.leagueId,
+//                     week: action.maxGameWeek
+//                 });
+//             yield put(actions.fetchUsersInLeagueSuccess(action.leagueId, usersInLeague));
+//         } else {
+//             yield put(actions.alreadyFetchedUsersInLeague());
+//         }
+//     } catch (error) {
+//         yield put(actions.fetchUsersInLeagueError(error));
+//     }
+// }
+
 function* fetchUsersInLeague(action) {
     try {
         const usersForThatLeague = yield select(selectors.getUsersInLeagueWithId, action.leagueId);
-        if (!usersForThatLeague) {
-            const usersInLeague = yield call(api.getUsersInLeague,
+        const fetchedAllUsersInLeague = yield select(selectors.getFetchedAllUsersInLeague, action.leagueId);
+        if (usersForThatLeague.length === 0) {
+            const initialBatchOfUsers = yield call(api.getUsersInLeague,
                 {
                     leagueId: action.leagueId,
-                    week: action.maxGameWeek
+                    week: action.maxGameWeek,
+                    requestedSize: action.requestedSize,
+                    previousId: null
                 });
-            yield put(actions.fetchUsersInLeagueSuccess(action.leagueId, usersInLeague));
+            yield put(actions.fetchUsersInLeagueSuccess(action.leagueId, initialBatchOfUsers));
+        } else
+        if ((action.pageNumber + PAGE_BUFFER) * action.rowsPerPage > usersForThatLeague.length && !fetchedAllUsersInLeague) {
+            yield put(actions.alreadyFetchedUsersInLeague());
+            const finalId = fp.last(usersForThatLeague).id;
+            const nextBatch = yield call(api.getUsersInLeague,
+                {
+                    leagueId: action.leagueId,
+                    week: action.maxGameWeek,
+                    requestedSize: action.requestedSize,
+                    previousId: finalId
+                });
+            if (nextBatch.length === 0) {
+                yield put(actions.fetchedAllUsersInLeague(action.leagueId));
+            } else {
+                yield put(actions.fetchMoreUsersInLeagueSuccess(
+                    action.leagueId, nextBatch, finalId
+                ));
+            }
         } else {
             yield put(actions.alreadyFetchedUsersInLeague());
         }

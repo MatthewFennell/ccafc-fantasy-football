@@ -24,7 +24,11 @@ export const getLeagueName = (state, props) => {
 };
 
 export const getUsersInLeagueWithId = (state, id) => fp.flow(fp.get('leagues'),
-    fp.get('usersInLeague'), fp.get(id))(state);
+    fp.get('usersInLeague'), fp.get(id))(state) || [];
 
 export const getFetchingLeagues = state => state.leagues.fetchingLeagues;
 export const getFetchingUsersInLeague = state => state.leagues.fetchingUsersInLeague;
+
+export const getFetchedAllUsersInLeague = (
+    state, leagueId
+) => fp.get(leagueId)(state.leagues.fetchedAllUsersInLeague) || false;

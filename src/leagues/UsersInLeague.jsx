@@ -36,6 +36,7 @@ const columns = gameWeek => [
     }
 ];
 
+const INITIAL_ROWS_PER_PAGE = 5;
 
 const UsersInLeague = props => {
     const generateRows = rows => rows.map(row => ({
@@ -49,12 +50,14 @@ const UsersInLeague = props => {
     </div>
     }));
 
+    const [rowsPerPage, setRowsPerPage] = useState(INITIAL_ROWS_PER_PAGE);
+    const [pageNumber, setPageNumber] = useState(0);
 
     useEffect(() => {
         if (props.maxGameWeek || props.maxGameWeek === 0) {
-            props.fetchUsersInLeagueRequest(props.leagueId, props.maxGameWeek);
+            props.fetchUsersInLeagueRequest(props.leagueId, props.maxGameWeek, INITIAL_ROWS_PER_PAGE * 2, pageNumber + 1, rowsPerPage);
         }
-    }, [props.fetchUsersInLeagueRequest, props.maxGameWeek]);
+    }, [props.fetchUsersInLeagueRequest, props.maxGameWeek, rowsPerPage, pageNumber]);
 
     const [leaveLeagueOpen, setLeaveLeagueOpen] = useState(false);
 
@@ -71,6 +74,16 @@ const UsersInLeague = props => {
         props.history.push(generatePointsRoute(user.userId, props.maxGameWeek));
     }, [props.usersInLeague, props.maxGameWeek]);
 
+    const setEntriesPerPage = useCallback((setRows, rows) => {
+        setRowsPerPage(rows);
+        setRows(rows);
+    }, [rowsPerPage, setRowsPerPage]);
+
+    const setCurrentPageNumber = useCallback((setPage, page) => {
+        setPageNumber(page);
+        setPage(page);
+    }, [pageNumber, setPageNumber]);
+
     return (
         <div className={props.styles.leaguesWrapper}>
             <div className={props.styles.myLeaguesWrapper}>
@@ -79,8 +92,11 @@ const UsersInLeague = props => {
                         activeRow={row => row.userId === props.auth.uid}
                         backButtonLink={redirect}
                         columns={columns(props.maxGameWeek)}
+                        controlPagination
                         gridHeader={props.leagueName}
                         loading={props.fetchingUsersInLeague}
+                        setPage={setCurrentPageNumber}
+                        setRowsPerPage={setEntriesPerPage}
                         onRowClick={loadUserPage}
                         renderBackButton
                         rows={generateRows(props.usersInLeague)}
