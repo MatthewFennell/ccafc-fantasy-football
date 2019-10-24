@@ -25,6 +25,14 @@
       flex-grow: 1;
     }
   }
+  .deleteButtonWrapper{
+    padding: $spacing-small;
+  }
+
+  .enterEmailMessage{
+    margin-top: $spacing-small;
+    color: $color-red;
+  }
 }
 
 @media only screen and (max-width: 600px) {

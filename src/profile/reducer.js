@@ -12,7 +12,11 @@ const initState = {
 
     updatingTeamName: false,
     updateTeamNameError: '',
-    updateTeamNameErrorCode: ''
+    updateTeamNameErrorCode: '',
+
+    deletingAccount: false,
+    deleteAccountError: '',
+    deleteAccountErrorCode: ''
 };
 
 const profileReducer = (state = initState, action) => {
@@ -81,6 +85,26 @@ const profileReducer = (state = initState, action) => {
             updateTeamNameError: '',
             updateTeamNameErrorCode: ''
         };
+    }
+    case actions.DELETE_ACCOUNT_ERROR: {
+        return {
+            ...state,
+            deleteAccountError: action.error.message,
+            deleteAccountErrorCode: action.error.code
+        };
+    }
+    case actions.CLOSE_DELETE_ACCOUNT_ERROR: {
+        return {
+            ...state,
+            deleteAccountError: '',
+            deleteAccountErrorCode: ''
+        };
+    }
+    case actions.DELETE_ACCOUNT_REQUEST: {
+        return fp.set('deletingAccount', true)(false);
+    }
+    case actions.DELETE_ACCOUNT_SUCCESS: {
+        return fp.set('deletingAccount', false)(state);
     }
     default:
         return state;
