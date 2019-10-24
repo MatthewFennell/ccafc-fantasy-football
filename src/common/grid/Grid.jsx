@@ -27,14 +27,22 @@ const defaultGridStyles = {
 const Grid = props => {
     const classes = makeStyles(props.gridStyles)();
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(props.rowsPerPageOptions[0] || 10);
+    const [rowsPerPage, setRowsPerPage] = useState(props.rowsPerPageOptions[0] || 5);
 
     const handleChangePage = (event, newPage) => {
-        setPage(newPage);
+        if (props.controlPagination) {
+            props.setPage(setPage, newPage);
+        } else {
+            setPage(newPage);
+        }
     };
 
     const handleChangeRowsPerPage = event => {
-        setRowsPerPage(+event.target.value);
+        if (props.controlPagination) {
+            props.setRowsPerPage(setRowsPerPage, event.target.value);
+        } else {
+            setRowsPerPage(event.target.value);
+        }
         setPage(0);
     };
 
@@ -129,14 +137,17 @@ Grid.defaultProps = {
     activeRow: () => false,
     backButtonLink: noop,
     columns: [],
+    controlPagination: false,
     gridHeader: '',
     gridStyles: defaultGridStyles,
     loading: false,
     loadingColor: 'primary',
+    setPage: noop,
+    setRowsPerPage: noop,
     onRowClick: noop,
     renderBackButton: false,
     rows: [],
-    rowsPerPageOptions: [10, 25, 100],
+    rowsPerPageOptions: [5, 10],
     showPagination: true,
     styles: defaultStyles
 };
@@ -152,6 +163,7 @@ Grid.propTypes = {
         minWidth: PropTypes.number,
         style: PropTypes.objectOf(PropTypes.string)
     })),
+    controlPagination: PropTypes.bool,
     gridHeader: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.element
@@ -159,6 +171,8 @@ Grid.propTypes = {
     gridStyles: PropTypes.objectOf(PropTypes.shape({})),
     loading: PropTypes.bool,
     loadingColor: PropTypes.string,
+    setPage: PropTypes.func,
+    setRowsPerPage: PropTypes.func,
     onRowClick: PropTypes.func,
     renderBackButton: PropTypes.bool,
     rows: PropTypes.arrayOf(PropTypes.shape({})),

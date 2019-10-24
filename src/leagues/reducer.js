@@ -131,6 +131,14 @@ const authReducer = (state = initState, action) => {
     case actions.ALREADY_FETCHED_USERS_IN_LEAGUE: {
         return fp.set('fetchingUsersInLeague', false)(state);
     }
+    case actions.FETCH_MORE_USER_IN_LEAGUE_SUCCESS: {
+        // Add then sort by position (remove network nonsense)
+        const sortedResult = fp.sortBy('position')(fp.get(action.leagueId)(state.usersInLeague).concat(action.newUsers));
+        return {
+            ...state,
+            usersInLeague: fp.set(action.leagueId, sortedResult)(state.usersInLeague)
+        };
+    }
     default:
         return state;
     }
