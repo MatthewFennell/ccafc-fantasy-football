@@ -67,6 +67,15 @@ const authReducer = (state = initState, action) => {
             allRoles: action.authInfo.allRoles
         };
     }
+    case actions.CLOSE_AUTH_ERROR: {
+        return {
+            ...state,
+            signUpError: '',
+            signUpErrorCode: '',
+            signInError: '',
+            signInErrorCode: ''
+        };
+    }
     default:
         return state;
     }

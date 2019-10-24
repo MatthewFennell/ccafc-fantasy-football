@@ -96,7 +96,7 @@ const Profile = props => {
                 toggleModal={props.closeAccountLinkError}
             >
                 <div className={props.styles.enterEmailMessage}>
-                        Please confirm your email
+                    Please confirm your email
                 </div>
                 <StyledInput label="Email" onChange={setEmail} value={email} />
                 <StyledButton color="primary" text="Confirm" onClick={deleteAccount} />
