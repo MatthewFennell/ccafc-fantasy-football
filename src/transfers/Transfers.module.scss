@@ -1,0 +1,64 @@
+@import "../common/Styles.scss";
+
+.transfersHeader{
+  margin: $spacing-medium;
+  padding: $spacing-medium;
+  display: flex;
+  justify-content: center;
+  @include light-box-shadow();
+  background-color: $color-white;
+
+  > div {
+    flex-grow: 1;
+    text-align: center;
+  }
+
+  .remainingBudgetText, .remainingTransfersText{
+    @include vertical-center-div();
+    font-size: $font-size-small;
+    color: $color-gray;
+  }
+  .remainingBudgetValue, .remainingTransfersValue {
+    font-size: $font-size-gigantic;
+    color: $color-blue;
+  }
+}
+
+.bodyWrapper{
+  margin: $spacing-medium;
+  display: flex;
+  flex-wrap: wrap;
+  .pitchWrapper{
+    @include light-box-shadow();
+    margin-right: $spacing-medium;
+    flex-grow: 2;
+    padding: $spacing-medium;
+    background-color: $color-white;
+  }
+  .playersWrapper {
+    @include light-box-shadow();
+    margin-left: $spacing-medium;
+    flex-grow: 1;
+  }
+}
+
+.playersWrapper{
+  background-color: $color-white;
+  .playersTitle{
+    padding: $spacing-small;
+    color: $color-blue;
+    font-size: $font-size-large;
+    text-align: center;
+  }
+  .playerFilters{
+    display: flex;
+    flex-wrap: wrap;
+    > * {
+      flex-grow: 1;
+      text-align: center;
+    }
+  }
+  .playerTableWrapper{
+    margin-top: $spacing-medium;
+  }
+}

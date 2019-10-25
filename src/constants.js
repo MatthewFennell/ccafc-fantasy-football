@@ -10,6 +10,8 @@ export const URL = {
     VERIFY_EMAIL: '/need-to-verify-email',
     CURRENT_TEAM: '/current-team',
     POINTS: '/points',
+    TRANSFERS: '/transfers',
+
     CREATE_PLAYER: '/create-player',
     DELETE_PLAYER: '/delete-player',
     CREATE_TEAM: '/create-team',
@@ -20,19 +22,26 @@ export const URL = {
     MANAGE_USERS: '/manage-users'
 };
 
+export const POSITIONS = {
+    GOALKEEPER: 'GOALKEEPER',
+    DEFENDER: 'DEFENDER',
+    MIDFIELDER: 'MIDFIELDER',
+    ATTACKER: 'ATTACKER'
+};
+
 export const POINTS = {
     GOAL: {
-        ATTACKER: 4,
-        MIDFIELDER: 5,
-        DEFENDER: 6,
-        GOALKEEPER: 6
+        [POSITIONS.ATTACKER]: 4,
+        [POSITIONS.MIDFIELDER]: 5,
+        [POSITIONS.DEFENDER]: 6,
+        [POSITIONS.GOALKEEPER]: 6
     },
     ASSIST: 3,
     CLEAN_SHEET: {
-        GOALKEEPER: 6,
-        DEFENDER: 4,
-        MIDFIELDER: 1,
-        ATTACKER: 0
+        [POSITIONS.GOALKEEPER]: 6,
+        [POSITIONS.DEFENDER]: 4,
+        [POSITIONS.MIDFIELDER]: 1,
+        [POSITIONS.ATTACKER]: 0
     },
     RED_CARD: -3,
     YELLOW_CARD: -1,

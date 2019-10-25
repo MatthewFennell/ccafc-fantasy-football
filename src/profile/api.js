@@ -4,4 +4,4 @@ export const updateDisplayName = request => functionToCall('auth-updateDisplayNa
 
 export const updateTeamName = request => functionToCall('auth-updateTeamName')(request);
 
-export const deleteUser = request => functionToCall('deleteUser')(request);
+export const deleteUser = request => functionToCall('auth-deleteUser')(request);

@@ -1,4 +1,4 @@
-const pre = 'LEAGUES/';
+const pre = 'CURRENT_TEAM/';
 
 export const RELOAD_ACTIVE_TEAM_REQUEST = `${pre}RELOAD_ACTIVE_TEAM_REQUEST`;
 export const FETCH_ACTIVE_TEAM_REQUEST = `${pre}FETCH_ACTIVE_TEAM_REQUEST`;
