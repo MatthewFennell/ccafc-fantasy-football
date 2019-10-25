@@ -64,9 +64,8 @@ exports.getAllPlayers = functions
             .collection('players')
             .get()
             .then(querySnapshot => querySnapshot.docs
-                .map(doc => ({ data: doc.data(), id: doc.id })));
+                .map(doc => ({ id: doc.id, ...doc.data() })));
     });
-
 
 exports.deletePlayer = functions
     .region(constants.region)

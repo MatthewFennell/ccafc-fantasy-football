@@ -10,6 +10,7 @@ import LayersIcon from '@material-ui/icons/Layers';
 import DeleteIcon from '@material-ui/icons/Delete';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import EditIcon from '@material-ui/icons/Edit';
+import TransferWithinAStationIcon from '@material-ui/icons/TransferWithinAStation';
 
 import fp from 'lodash/fp';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
@@ -30,6 +31,7 @@ import Leagues from './leagues/Leagues';
 
 import * as constants from './constants';
 import CurrentTeam from './currentteam/CurrentTeam';
+import Transfers from './transfers/Transfers';
 
 export const adminLinks = [
     {
@@ -134,14 +136,6 @@ export const signedInLinks = [
         urlIncludes: constants.URL.CURRENT_TEAM
     },
     {
-        title: 'Transfers',
-        icon: <PersonAddIcon />,
-        component: Overview,
-        addUserId: false,
-        path: () => constants.URL.OVERVIEW,
-        urlIncludes: 'Transfers'
-    },
-    {
         title: 'Points',
         icon: <GradeIcon />,
         component: Points,
@@ -156,5 +150,13 @@ export const signedInLinks = [
         addUserId: false,
         path: () => constants.URL.LEAGUES,
         urlIncludes: constants.URL.LEAGUES
+    },
+    {
+        title: 'Transfers',
+        icon: <TransferWithinAStationIcon />,
+        component: Leagues,
+        addUserId: false,
+        path: () => constants.URL.TRANSFERS,
+        urlIncludes: constants.URL.TRANSFERS
     }
 ];

@@ -38,7 +38,7 @@ exports.getAllTeams = functions
             .collection('teams')
             .get()
             .then(querySnapshot => querySnapshot.docs
-                .map(doc => ({ data: doc.data(), id: doc.id })));
+                .map(doc => ({ id: doc.id, ...doc.data() })));
     });
 
 

@@ -6,6 +6,8 @@ const constants = require('./constants');
 
 const db = admin.firestore();
 
+const operations = admin.firestore.FieldValue;
+
 exports.createLeague = functions
     .region(constants.region)
     .https.onCall((data, context) => {
@@ -158,11 +160,8 @@ exports.orderedUsers = functions
         if (!common.isIntegerGreaterThanEqualZero(data.week)) {
             throw new functions.https.HttpsError('invalid-argument', `Invalid week of${data.week}`);
         }
-        return db
-            .collection('leagues-points')
-            .where('league_id', '==', data.leagueId)
-            .orderBy('position', 'asc')
-            .get()
+
+        const adaptData = query => query.get()
             .then(querySnapshot => querySnapshot.docs
                 .map(doc => ({ data: doc.data(), id: doc.id })))
             .then(result => {
@@ -181,6 +180,32 @@ exports.orderedUsers = functions
                     })));
                 return Promise.all(leaguePromises).then(leagueRow => leagueRow);
             });
+
+        if (data.previousId === null) {
+            return adaptData(db
+                .collection('leagues-points')
+                .where('league_id', '==', data.leagueId)
+                .orderBy('position', 'asc')
+                .limit(Math.min(20, data.requestedSize))).then(result => db.collection('leagues').doc(data.leagueId).get().then(
+                league => ({
+                    users: result,
+                    numberOfUsers: league.data().number_of_users,
+                    leagueName: league.data().name
+                })
+            ));
+        }
+        return db.collection('leagues-points').doc(data.previousId).get().then(
+            query => adaptData(db
+                .collection('leagues-points')
+                .where('league_id', '==', data.leagueId)
+                .orderBy('position', 'asc')
+                .startAfter(query)
+                .limit(Math.min(20, data.requestedSize)))
+                .then(result => ({
+                    users: result,
+                    numberOfUsers: null
+                }))
+        );
     });
 
 exports.positionsOfUserInLeagues = functions
@@ -239,3 +264,17 @@ exports.calculatePositions = functions
                 return Promise.all(leagueUpdatePromises).then(() => 'Successfully updated');
             });
     });
+
+
+// Increase number of users in league
+exports.onUserJoinLeague = functions.region(constants.region).firestore
+    .document('leagues-points/{id}')
+    .onCreate(snapshot => db.collection('leagues').doc(snapshot.data().league_id).update({
+        number_of_users: operations.increment(1)
+    }));
+
+exports.onUserLeaveLeague = functions.region(constants.region).firestore
+    .document('leagues-points/{id}')
+    .onDelete(snapshot => db.collection('leagues').doc(snapshot.data().league_id).update({
+        number_of_users: operations.increment(-1)
+    }));
