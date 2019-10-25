@@ -38,7 +38,8 @@ function* fetchUsersInLeague(action) {
                     requestedSize: action.requestedSize,
                     previousId: null
                 });
-            yield put(actions.fetchUsersInLeagueSuccess(action.leagueId, initialBatchOfUsers.users, initialBatchOfUsers.numberOfUsers));
+            yield put(actions.fetchUsersInLeagueSuccess(action.leagueId,
+                initialBatchOfUsers.users, initialBatchOfUsers.numberOfUsers, initialBatchOfUsers.leagueName));
         } else
         if ((action.pageNumber + PAGE_BUFFER) * action.rowsPerPage > usersForThatLeague.length && !fetchedAllUsersInLeague) {
             yield put(actions.alreadyFetchedUsersInLeague(action.leagueId));

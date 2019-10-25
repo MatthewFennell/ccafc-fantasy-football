@@ -36,7 +36,7 @@ const columns = gameWeek => [
     }
 ];
 
-const INITIAL_ROWS_PER_PAGE = 1;
+const INITIAL_ROWS_PER_PAGE = 2;
 const INITIAL_NUMBER_OF_PAGES_TO_LOAD = 3;
 
 const UsersInLeague = props => {
@@ -88,8 +88,6 @@ const UsersInLeague = props => {
         setPageNumber(page);
         setPage(page);
     }, [pageNumber, setPageNumber]);
-
-    console.log('users', props.numberOfUsersInLeague);
 
     return (
         <div className={props.styles.leaguesWrapper}>
@@ -150,19 +148,20 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state, props) => ({
     auth: state.firebase.auth,
-    fetchingUsersInLeague: selectors.getFetchingUsersInLeague(state, props),
+    fetchingUsersInLeague: selectors.getCurrentLeagueProperty(state, props, 'fetching'),
     leagueId: selectors.getLeagueId(props),
-    leagueName: selectors.getLeagueName(state, props),
-    leavingLeague: selectors.getLeavingLeague(state),
-    leaveLeagueError: selectors.getLeaveLeagueError(state),
-    leaveLeagueErrorCode: selectors.getLeaveLeagueErrorCode(state),
+    leagueName: selectors.getCurrentLeagueProperty(state, props, 'leagueName'),
+    leavingLeague: state.leagues.leavingLeague,
+    leaveLeagueError: state.leagues.leaveLeagueError,
+    leaveLeagueErrorCode: state.leagues.leaveLeagueErrorCode,
     maxGameWeek: state.overview.maxGameWeek,
-    numberOfUsersInLeague: selectors.getNumberOfUsersInLeague(state, props),
-    usersInLeague: selectors.getUsersInLeague(state, props)
+    numberOfUsersInLeague: selectors.getCurrentLeagueProperty(state, props, 'numberOfUsers'),
+    usersInLeague: selectors.getCurrentLeagueProperty(state, props, 'users')
 });
 
 UsersInLeague.defaultProps = {
     auth: {},
+    fetchingUsersInLeague: false,
     leagueId: '',
     leagueName: '',
     leaveLeagueError: '',
@@ -180,7 +179,7 @@ UsersInLeague.propTypes = {
         emailVerified: PropTypes.bool
     }),
     closeLeaveLeagueError: PropTypes.func.isRequired,
-    fetchingUsersInLeague: PropTypes.bool.isRequired,
+    fetchingUsersInLeague: PropTypes.bool,
     fetchUsersInLeagueRequest: PropTypes.func.isRequired,
     history: PropTypes.shape({
         push: PropTypes.func.isRequired

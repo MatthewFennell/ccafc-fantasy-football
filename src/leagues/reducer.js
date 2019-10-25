@@ -96,7 +96,8 @@ const authReducer = (state = initState, action) => {
         return fp.flow(
             fp.set(`usersInLeague.${action.leagueId}.users`, action.usersInLeague),
             fp.set(`usersInLeague.${action.leagueId}.fetching`, false),
-            fp.set(`usersInLeague.${action.leagueId}.numberOfUsers`, action.numberOfUsers)
+            fp.set(`usersInLeague.${action.leagueId}.numberOfUsers`, action.numberOfUsers),
+            fp.set(`usersInLeague.${action.leagueId}.leagueName`, action.leagueName),
         )(state);
     }
     case actions.CREATE_LEAGUE_ERROR: {
