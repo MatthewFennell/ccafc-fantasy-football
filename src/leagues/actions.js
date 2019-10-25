@@ -80,11 +80,12 @@ export const fetchUsersInLeagueRequest = (
     rowsPerPage
 });
 
-export const fetchUsersInLeagueSuccess = (leagueId, usersInLeague, numberOfUsers) => ({
+export const fetchUsersInLeagueSuccess = (leagueId, usersInLeague, numberOfUsers, leagueName) => ({
     type: FETCH_USERS_IN_LEAGUE_SUCCESS,
     leagueId,
     usersInLeague,
-    numberOfUsers
+    numberOfUsers,
+    leagueName
 });
 
 export const fetchUsersInLeagueError = (leagueId, error) => ({

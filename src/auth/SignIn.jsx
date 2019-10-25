@@ -11,7 +11,6 @@ import defaultStyles from './SignIn.module.scss';
 import { signIn, closeAuthError } from './actions';
 import StyledInput from '../common/StyledInput/StyledInput';
 import StyledButton from '../common/StyledButton/StyledButton';
-import * as selectors from './selectors';
 import * as constants from '../constants';
 import ErrorModal from '../common/modal/ErrorModal';
 
@@ -116,8 +115,8 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-    signInErrorCode: selectors.getSignInErrorCode(state),
-    signInErrorMessage: selectors.getSignInError(state)
+    signInErrorMessage: state.auth.signInError,
+    signInErrorCode: state.auth.signInErrorCode
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignIn));

@@ -5,7 +5,6 @@ import defaultStyles from './PasswordReset.module.scss';
 import { sendPasswordResetEmail, closeAuthError } from './actions';
 import StyledInput from '../common/StyledInput/StyledInput';
 import StyledButton from '../common/StyledButton/StyledButton';
-import * as selectors from './selectors';
 import ErrorModal from '../common/modal/ErrorModal';
 
 const PasswordReset = props => {
@@ -52,8 +51,8 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-    passwordResetErrorCode: selectors.getPasswordResetErrorCode(state),
-    passwordResetErrorMessage: selectors.getPasswordResetError(state)
+    passwordResetErrorMessage: state.auth.passwordResetError,
+    passwordResetErrorCode: state.auth.passwordResetErrorCode
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PasswordReset);

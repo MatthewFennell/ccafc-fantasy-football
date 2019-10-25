@@ -10,7 +10,6 @@ import { signUp, closeAuthError, signUpError } from './actions';
 import defaultStyles from './SignUp.module.scss';
 import StyledInput from '../common/StyledInput/StyledInput';
 import StyledButton from '../common/StyledButton/StyledButton';
-import * as selectors from './selectors';
 import ErrorModal from '../common/modal/ErrorModal';
 
 const SignUp = props => {
@@ -92,8 +91,8 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-    signUpErrorCode: selectors.getSignUpErrorCode(state),
-    signUpErrorMessage: selectors.getSignUpError(state)
+    signUpErrorMessage: state.auth.signUpError,
+    signUpErrorCode: state.auth.signUpErrorCode
 });
 
 SignUp.defaultProps = {

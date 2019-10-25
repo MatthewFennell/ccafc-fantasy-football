@@ -189,14 +189,14 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-    createLeagueError: selectors.getCreateLeagueError(state),
-    createLeagueErrorCode: selectors.getCreateLeagueErrorCode(state),
-    creatingLeague: selectors.getCreatingLeague(state),
+    createLeagueError: state.leagues.createLeagueError,
+    createLeagueErrorCode: state.leagues.createLeagueErrorCode,
+    creatingLeague: state.leagues.creatingLeague,
     fetchingLeagues: selectors.getFetchingLeagues(state),
-    joinLeagueError: selectors.getJoinLeagueError(state),
-    joinLeagueErrorCode: selectors.getJoinLeagueErrorCode(state),
-    joiningLeague: selectors.getJoiningLeague(state),
-    leagues: selectors.getLeagues(state)
+    joinLeagueError: state.leagues.joinLeagueError,
+    joinLeagueErrorCode: state.leagues.joinLeagueErrorCode,
+    joiningLeague: state.leagues.joiningLeague,
+    leagues: state.leagues.leagues
 });
 
 

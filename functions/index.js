@@ -73,15 +73,13 @@ exports.orderedUsers = functions
                 .collection('leagues-points')
                 .where('league_id', '==', data.leagueId)
                 .orderBy('position', 'asc')
-                .limit(Math.min(20, data.requestedSize))).then(result => {
-                console.log('result', result);
-                return db.collection('leagues').doc(data.leagueId).get().then(
-                    league => ({
-                        users: result,
-                        numberOfUsers: league.data().number_of_users
-                    })
-                );
-            });
+                .limit(Math.min(20, data.requestedSize))).then(result => db.collection('leagues').doc(data.leagueId).get().then(
+                league => ({
+                    users: result,
+                    numberOfUsers: league.data().number_of_users,
+                    leagueName: league.data().name
+                })
+            ));
         }
         return db.collection('leagues-points').doc(data.previousId).get().then(
             query => adaptData(db

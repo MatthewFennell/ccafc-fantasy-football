@@ -116,7 +116,7 @@ const Grid = props => {
                 <TablePagination
                     rowsPerPageOptions={props.rowsPerPageOptions}
                     component="div"
-                    count={props.numberOfUsersInLeague ? props.numberOfUsersInLeague : props.rows.length}
+                    count={props.numberOfUsersInLeague || props.rows.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     backIconButtonProps={{
