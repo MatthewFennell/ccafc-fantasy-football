@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import defaultStyles from './Transfers.module.scss';
 import { fetchUserStatsRequest } from '../overview/actions';
 import { fetchActiveTeamRequest } from '../currentteam/actions';
-import { fetchAllPlayersRequest, fetchAllTeamsRequest } from './actions';
+import { fetchAllPlayersRequest, fetchAllTeamsRequest, addPlayerToCurrentTeamRequest } from './actions';
 import Pitch from '../common/pitch/Pitch';
 import Dropdown from '../common/dropdown/Dropdown';
 import * as helpers from './helpers';
@@ -25,7 +25,9 @@ const Transfers = props => {
     const [minPriceFilter, setMinPriceFilter] = useState('');
     const [maxPriceFilter, setMaxPriceFilter] = useState('');
 
-    console.log('sort', sortByFilter);
+    const onPlayerClick = useCallback(player => {
+        console.log('player', player);
+    }, [props.currentTeam]);
 
     return (
         <div className={props.styles.transfers}>
@@ -53,6 +55,7 @@ const Transfers = props => {
                     <Pitch
                         activeTeam={[]}
                         loading={props.fetchingOriginalTeam}
+                        onPlayerClick={onPlayerClick}
                         renderEmptyPlayers
                     />
                 </div>
@@ -74,6 +77,7 @@ const Transfers = props => {
                             columns={helpers.columns}
                             // gridHeader="Players"
                             loading={props.fetchingAllPlayers}
+                            onRowClick={props.addPlayerToCurrentTeamRequest}
                             rows={helpers.filterPlayers(
                                 props.allPlayers,
                                 teamFilter,
@@ -95,6 +99,7 @@ Transfers.defaultProps = {
     allPlayers: [],
     allTeams: [],
     auth: {},
+    currentTeam: [],
     fetchingAllPlayers: false,
     fetchingUserStats: false,
     fetchingOriginalTeam: false,
@@ -104,11 +109,13 @@ Transfers.defaultProps = {
 };
 
 Transfers.propTypes = {
+    addPlayerToCurrentTeamRequest: PropTypes.func.isRequired,
     allPlayers: PropTypes.arrayOf(PropTypes.shape({})),
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     auth: PropTypes.shape({
         uid: PropTypes.string
     }),
+    currentTeam: PropTypes.arrayOf(PropTypes.shape({})),
     fetchingAllPlayers: PropTypes.bool,
     fetchAllPlayersRequest: PropTypes.func.isRequired,
     fetchingUserStats: PropTypes.bool,
@@ -122,6 +129,7 @@ Transfers.propTypes = {
 };
 
 const mapDispatchToProps = {
+    addPlayerToCurrentTeamRequest,
     fetchActiveTeamRequest,
     fetchAllPlayersRequest,
     fetchAllTeamsRequest,
@@ -132,6 +140,7 @@ const mapStateToProps = state => ({
     allTeams: state.transfers.allTeams,
     allPlayers: state.transfers.allPlayers,
     auth: state.firebase.auth,
+    currentTeam: state.transfers.currentTeam,
     fetchingAllPlayers: state.transfers.fetchingAllPlayers,
     fetchingUserStats: state.transfers.fetchingUserStats,
     fetchingOriginalTeam: state.transfers.fetchingOriginalTeam,

@@ -50,6 +50,20 @@ export const POINTS = {
     OWN_GOAL: -2
 };
 
+export const maxPerPosition = {
+    [POSITIONS.GOALKEEPER]: 1,
+    [POSITIONS.DEFENDER]: 5,
+    [POSITIONS.MIDFIELDER]: 5,
+    [POSITIONS.ATTACKER]: 3
+};
+
+export const minPerPosition = {
+    [POSITIONS.GOALKEEPER]: 1,
+    [POSITIONS.DEFENDER]: 3,
+    [POSITIONS.MIDFIELDER]: 3,
+    [POSITIONS.ATTACKER]: 1
+};
+
 
 // KEEP IN SYNC WITH SERVER
 // This is the list of all existing permissions

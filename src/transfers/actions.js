@@ -8,6 +8,12 @@ export const FETCH_ALL_TEAMS_REQUEST = `${pre}FETCH_ALL_TEAMS_REQUEST`;
 export const FETCH_ALL_TEAMS_SUCCESS = `${pre}FETCH_ALL_TEAMS_SUCCESS`;
 export const FETCH_ALL_TEAMS_ERROR = `${pre}FETCH_ALL_TEAMS_ERROR`;
 
+export const ADD_PLAYER_TO_CURRENT_TEAM_REQUEST = `${pre}ADD_PLAYER_TO_CURRENT_TEAM_REQUEST`;
+
+export const addPlayerToCurrentTeamRequest = player => ({
+    type: ADD_PLAYER_TO_CURRENT_TEAM_REQUEST,
+    player
+});
 
 export const fetchAllPlayersRequest = () => ({
     type: FETCH_ALL_PLAYERS_REQUEST

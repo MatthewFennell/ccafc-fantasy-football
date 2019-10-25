@@ -30,14 +30,14 @@
   flex-wrap: wrap;
   .pitchWrapper{
     @include light-box-shadow();
-    margin-right: $spacing-medium;
+    margin: $spacing-medium;
     flex-grow: 2;
     padding: $spacing-medium;
     background-color: $color-white;
   }
   .playersWrapper {
     @include light-box-shadow();
-    margin-left: $spacing-medium;
+    margin: $spacing-medium;
     flex-grow: 1;
   }
 }

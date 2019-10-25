@@ -101,3 +101,34 @@ export const filterPlayers = (players, team, position, minPrice, maxPrice, sortB
         maxPrice !== '' ? fp.filter(x => x.price <= maxPrice) : fp.identity,
     )(players);
 };
+
+const error = (code, message) => ({
+    code,
+    message
+});
+
+export const canAddPlayer = (player, currentTeam) => {
+    const numberInPosition = position => currentTeam
+        .filter(x => x.position.toUpperCase() === position.toUpperCase()).length;
+
+    const playerPos = player.position.toUpperCase();
+
+    console.log('current team', currentTeam);
+    console.log('player to add', player);
+
+
+    if (currentTeam.length >= 11) {
+        return error('overflow', 'Too many players');
+    }
+
+    if (currentTeam.find(x => x.id === player.id)) {
+        return error('already-found', 'You already have that player selected');
+    }
+
+    if (numberInPosition(playerPos) >= constants.maxPerPosition[playerPos]) {
+        return error('max in pos', 'Too many players in that position');
+    }
+
+
+    return true;
+};
