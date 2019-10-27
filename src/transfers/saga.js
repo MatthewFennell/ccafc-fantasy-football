@@ -33,7 +33,12 @@ function* fetchAllTeams() {
 function* addPlayerToCurrentTeam(action) {
     const currentTeam = yield select(selectors.getCurrentTeam);
     const canAddPlayer = helpers.canAddPlayer(action.player, currentTeam);
-    console.log('result', canAddPlayer);
+    if (canAddPlayer === true) {
+        yield put(actions.addPlayerToCurrentTeamSuccess({
+            ...action.player,
+            position: action.player.position.toUpperCase()
+        }));
+    }
 }
 
 export default function* transfersSaga() {

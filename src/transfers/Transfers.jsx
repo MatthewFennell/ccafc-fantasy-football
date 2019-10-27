@@ -9,6 +9,7 @@ import Pitch from '../common/pitch/Pitch';
 import Dropdown from '../common/dropdown/Dropdown';
 import * as helpers from './helpers';
 import Grid from '../common/grid/Grid';
+import StyledInput from '../common/StyledInput/StyledInput';
 
 const Transfers = props => {
     useEffect(() => {
@@ -24,10 +25,16 @@ const Transfers = props => {
     const [sortByFilter, setSortByFilter] = useState('');
     const [minPriceFilter, setMinPriceFilter] = useState('');
     const [maxPriceFilter, setMaxPriceFilter] = useState('');
+    const [nameFilter, setNameFilter] = useState('');
 
     const onPlayerClick = useCallback(player => {
         console.log('player', player);
     }, [props.currentTeam]);
+
+    const x = [];
+
+    const y = x.push('hey');
+    console.log(y);
 
     return (
         <div className={props.styles.transfers}>
@@ -53,7 +60,7 @@ const Transfers = props => {
             <div className={props.styles.bodyWrapper}>
                 <div className={props.styles.pitchWrapper}>
                     <Pitch
-                        activeTeam={[]}
+                        activeTeam={props.currentTeam}
                         loading={props.fetchingOriginalTeam}
                         onPlayerClick={onPlayerClick}
                         renderEmptyPlayers
@@ -71,6 +78,9 @@ const Transfers = props => {
                             <Dropdown activeValue={maxPriceFilter} onChange={setMaxPriceFilter} options={helpers.numberRange(4, 12, 1)} title="Max Price" />
                             <Dropdown activeValue={sortByFilter} onChange={setSortByFilter} options={helpers.sortByOptions} title="Sort By" />
                         </div>
+                        <div className={props.styles.nameFilter}>
+                            <StyledInput label="Name" onChange={setNameFilter} value={nameFilter} />
+                        </div>
                     </div>
                     <div className={props.styles.playerTableWrapper}>
                         <Grid
@@ -84,7 +94,8 @@ const Transfers = props => {
                                 positionFilter,
                                 minPriceFilter,
                                 maxPriceFilter,
-                                sortByFilter
+                                sortByFilter,
+                                nameFilter
                             )}
                             rowsPerPageOptions={[10, 25, 50]}
                         />

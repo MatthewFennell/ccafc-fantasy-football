@@ -72,6 +72,9 @@ const transfersReducer = (state = initialState, action) => {
     case actions.FETCH_ALL_TEAMS_SUCCESS: {
         return fp.set('allTeams', action.teams)(state);
     }
+    case actions.ADD_PLAYER_TO_CURRENT_TEAM_SUCCESS: {
+        return fp.set('currentTeam', state.currentTeam.concat([action.player]))(state);
+    }
     default:
         return state;
     }
