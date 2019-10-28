@@ -50,20 +50,20 @@ const Pitch = props => {
                     <>
                         <div className={props.styles.goalKeepers}>
                             {renderPlayers('GOALKEEPER', props.goalkeeperStyles)}
-                            {props.renderEmptyPlayers && renderEmptyPlayer('GOALKEEPER', 1)}
+                            {props.renderEmptyPlayers && props.activeTeam.length < 11 && renderEmptyPlayer('GOALKEEPER', 1)}
                         </div>
                         <div className={props.styles.defenders}>
                             {renderPlayers('DEFENDER', props.activePlayerStyles)}
-                            {props.renderEmptyPlayers && renderEmptyPlayer('DEFENDER', 4)}
+                            {props.renderEmptyPlayers && props.activeTeam.length < 11 && renderEmptyPlayer('DEFENDER', 4)}
                         </div>
                         <div className={props.styles.midfielders}>
                             {renderPlayers('MIDFIELDER', props.activePlayerStyles)}
-                            {props.renderEmptyPlayers && renderEmptyPlayer('MIDFIELDER', 4)}
+                            {props.renderEmptyPlayers && props.activeTeam.length < 11 && renderEmptyPlayer('MIDFIELDER', 4)}
                         </div>
 
                         <div className={props.styles.attackers}>
                             {renderPlayers('ATTACKER', props.activePlayerStyles)}
-                            {props.renderEmptyPlayers && renderEmptyPlayer('ATTACKER', 2)}
+                            {props.renderEmptyPlayers && props.activeTeam.length < 11 && renderEmptyPlayer('ATTACKER', 2)}
                         </div>
                     </>
                 )}
