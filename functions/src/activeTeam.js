@@ -72,17 +72,9 @@ const isCorrectTeamLength = players => {
     }
 };
 
-const isValidPrice = players => {
-    const totalPrice = players.reduce((acc, curVal) => acc + curVal.data.price, 0);
-    if (totalPrice > 100) {
-        throw new functions.https.HttpsError('invalid-argument', `Too expensive. The budget is £100 mil, your team costs £${totalPrice} mil`);
-    }
-};
-
 const teamIsValid = players => {
     isCorrectTeamLength(players);
     hasNoRepeatedPlayers(players);
-    isValidPrice(players);
     isValidNumberInEachTeam(players);
     isValidFormation(players);
     return true;

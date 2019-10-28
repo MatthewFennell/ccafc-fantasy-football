@@ -30,6 +30,7 @@ const Pitch = props => {
             players.push(<Player
                 additionalInfo=""
                 name="No player selected"
+                onClick={() => props.onPlayerClick(position)}
                 shirtStyles={inactivePlayerStyles}
                 size="4x"
                 key={x}

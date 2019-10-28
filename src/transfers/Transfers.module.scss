@@ -30,14 +30,14 @@
   flex-wrap: wrap;
   .pitchWrapper{
     @include light-box-shadow();
-    margin-right: $spacing-medium;
+    margin: $spacing-medium;
     flex-grow: 2;
     padding: $spacing-medium;
     background-color: $color-white;
   }
   .playersWrapper {
     @include light-box-shadow();
-    margin-left: $spacing-medium;
+    margin: $spacing-medium;
     flex-grow: 1;
   }
 }
@@ -45,6 +45,7 @@
 .playersWrapper{
   background-color: $color-white;
   .playersTitle{
+    margin-top: $spacing-small;
     padding: $spacing-small;
     color: $color-blue;
     font-size: $font-size-large;
@@ -60,5 +61,22 @@
   }
   .playerTableWrapper{
     margin-top: $spacing-medium;
+  }
+
+  .buttonsWrapper{
+    margin-top: $spacing-small;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+
+    > div {
+      margin-top: 0px;
+      margin-bottom: 0px;
+    }
+
+    > * {
+      margin-left: $spacing-medium;
+      margin-right: $spacing-medium;
+    }
   }
 }

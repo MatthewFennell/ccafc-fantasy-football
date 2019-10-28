@@ -6,6 +6,7 @@ import * as actions from './actions';
 const initialState = {
     remainingTransfers: 0,
     remainingBudget: 0,
+    originalBudget: 0,
     fetchingUserStats: false,
 
     originalTeam: [],
@@ -15,7 +16,9 @@ const initialState = {
     allPlayers: [],
     fetchingAllPlayers: false,
 
-    allTeams: []
+    allTeams: [],
+    transfersError: '',
+    transfersErrorCode: ''
 };
 
 const transfersReducer = (state = initialState, action) => {
@@ -30,6 +33,7 @@ const transfersReducer = (state = initialState, action) => {
         return {
             ...state,
             remainingTransfers: action.stats.remainingTransfers,
+            originalBudget: action.stats.remainingBudget,
             remainingBudget: action.stats.remainingBudget,
             fetchingUserStats: false
         };
@@ -71,6 +75,38 @@ const transfersReducer = (state = initialState, action) => {
     // ----------------------------------------------------- \\
     case actions.FETCH_ALL_TEAMS_SUCCESS: {
         return fp.set('allTeams', action.teams)(state);
+    }
+    case actions.ADD_PLAYER_TO_CURRENT_TEAM_SUCCESS: {
+        return fp.flow(
+            fp.set('currentTeam', state.currentTeam.concat([action.player])),
+            fp.set('remainingBudget', state.remainingBudget - action.player.price),
+        )(state);
+    }
+    case actions.ADD_PLAYER_TO_CURRENT_TEAM_ERROR: {
+        return {
+            ...state,
+            transfersError: action.error.message,
+            transfersErrorCode: action.error.code
+        };
+    }
+    case actions.CLOSE_TRANSFERS_ERROR: {
+        return {
+            ...state,
+            transfersError: '',
+            transfersErrorCode: ''
+        };
+    }
+    case actions.UNDO_TRANSFER_CHANGES: {
+        return fp.flow(
+            fp.set('currentTeam', state.originalTeam),
+            fp.set('remainingBudget', state.originalBudget),
+        )(state);
+    }
+    case actions.REMOVE_PLAYER_FROM_CURRENT_TEAM: {
+        return fp.set('currentTeam', state.currentTeam.filter(x => x.id !== action.player.id))(state);
+    }
+    case actions.ALREADY_FETCHED_ALL_PLAYERS: {
+        return fp.set('fetchingAllPlayers', false)(state);
     }
     default:
         return state;
