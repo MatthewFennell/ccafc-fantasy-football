@@ -6,7 +6,7 @@
     justify-content: center;
     
     text-align: center;
-    // background-image: url("../../common/images/CCAFC.png");
+    background-image: url("../../common/images/CCAFC.png");
     background-size: 100% 100%;
   }
 
@@ -23,6 +23,7 @@
     justify-content: center;
     > div {
       flex-grow: 1;
+      flex-basis: 0;
     }
   }
 
