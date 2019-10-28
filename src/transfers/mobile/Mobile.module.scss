@@ -1,4 +1,4 @@
-@import "../common/Styles.scss";
+@import "../../common/Styles.scss";
 
 .playersWrapper{
   margin-left: 10%;
@@ -59,7 +59,7 @@
     justify-content: center;
     
     text-align: center;
-    background-image: url("../common//images/CCAFC.png");
+    background-image: url("../../common/images/CCAFC.png");
     background-size: 100% 100%;
   }
 }

@@ -50,15 +50,15 @@ export const numberRange = (min, max, interval) => {
 };
 
 
-export const columns = [
+export const columnsWhenSmallScreen = sortBy => [
     {
         id: 'name',
         label: 'Player',
         align: 'center'
     },
     {
-        id: 'position',
-        label: 'Position',
+        id: 'pos',
+        label: 'Pos',
         align: 'center'
     },
     {
@@ -70,23 +70,12 @@ export const columns = [
         id: 'price',
         label: 'Price',
         align: 'center'
-    },
-    {
-        id: 'goals',
-        label: 'Goals',
-        align: 'center'
-    },
-    {
-        id: 'assists',
-        label: 'Assists',
-        align: 'center'
-    },
-    {
-        id: 'points',
-        label: 'Points',
-        align: 'center'
     }
-];
+].concat(sortByOptions.filter(x => x.value === sortBy).map(x => ({
+    id: x.id,
+    label: x.text,
+    align: 'center'
+})));
 
 export const filterPlayers = (players, team, position, minPrice, maxPrice, sortBy, name) => {
     const sortByVal = val => (val !== '' ? fp.orderBy(val, 'desc') : fp.identity);
@@ -103,7 +92,7 @@ export const filterPlayers = (players, team, position, minPrice, maxPrice, sortB
         name !== '' ? fp.filter(x => x.name.toLowerCase().includes(name.toLowerCase())) : fp.identity,
         fp.map(player => ({
             ...player,
-            position: player.position[0] + player.position.slice(1).toLowerCase()
+            pos: player.position[0] + player.position.slice(1, 3).toLowerCase()
         }))
     )(players);
 };
