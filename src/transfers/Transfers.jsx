@@ -44,9 +44,12 @@ const Transfers = props => {
     const onPlayerClick = useCallback(player => {
         if (player.id === undefined) {
             setPositionFilter(player[0] + player.slice(1).toLowerCase());
+        } else if (player.id === null) {
+            setPositionFilter(player.position[0] + player.position.slice(1).toLowerCase());
         } else {
-            setPlayerToRemove(player);
-            setRemovePlayerModalOpen(true);
+            props.removePlayerFromCurrentTeam(player);
+            // setPlayerToRemove(player);
+            // setRemovePlayerModalOpen(true);
         }
     }, [props.currentTeam]);
 
@@ -83,7 +86,7 @@ const Transfers = props => {
                         activeTeam={props.currentTeam}
                         loading={props.fetchingOriginalTeam}
                         onPlayerClick={onPlayerClick}
-                        renderEmptyPlayers
+                        // renderEmptyPlayers
                     />
                 </div>
                 <div className={props.styles.playersWrapper}>
@@ -148,7 +151,6 @@ Transfers.defaultProps = {
     auth: {},
     currentTeam: [],
     fetchingAllPlayers: false,
-    fetchingUserStats: false,
     fetchingOriginalTeam: false,
     remainingBudget: 0,
     remainingTransfers: 0,
@@ -168,14 +170,13 @@ Transfers.propTypes = {
     currentTeam: PropTypes.arrayOf(PropTypes.shape({})),
     fetchingAllPlayers: PropTypes.bool,
     fetchAllPlayersRequest: PropTypes.func.isRequired,
-    fetchingUserStats: PropTypes.bool,
     fetchActiveTeamRequest: PropTypes.func.isRequired,
     fetchAllTeamsRequest: PropTypes.func.isRequired,
     fetchingOriginalTeam: PropTypes.bool,
     fetchUserStatsRequest: PropTypes.func.isRequired,
     remainingBudget: PropTypes.number,
     remainingTransfers: PropTypes.number,
-    removePlayerFromCurrentTeam: PropTypes.func,
+    removePlayerFromCurrentTeam: PropTypes.func.isRequired,
     styles: PropTypes.objectOf(PropTypes.string),
     transfersError: PropTypes.string,
     transfersErrorCode: PropTypes.string,
@@ -201,7 +202,6 @@ const mapStateToProps = state => ({
     auth: state.firebase.auth,
     currentTeam: state.transfers.currentTeam,
     fetchingAllPlayers: state.transfers.fetchingAllPlayers,
-    fetchingUserStats: state.transfers.fetchingUserStats,
     fetchingOriginalTeam: state.transfers.fetchingOriginalTeam,
     remainingBudget: state.transfers.remainingBudget,
     remainingTransfers: state.transfers.remainingTransfers,

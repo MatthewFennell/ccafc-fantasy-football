@@ -119,11 +119,11 @@ const {
 
 export const canAddPlayer = (player, currentTeam) => {
     const numInPos = position => currentTeam
-        .filter(x => x.position === position).length;
+        .filter(x => x.position === position && !x.inactive).length;
 
-    const playerPos = player.position;
+    const playerPos = player.position.toUpperCase();
 
-    if (currentTeam.length >= 11) {
+    if (currentTeam.filter(x => !x.inactive).length >= 11) {
         return error('overflow', 'Too many players');
     }
 
@@ -140,7 +140,15 @@ export const canAddPlayer = (player, currentTeam) => {
     const numMid = (numInPos(MIDFIELDER)) + (playerPos === MIDFIELDER ? 1 : 0);
     const numAtt = (numInPos(ATTACKER)) + (playerPos === ATTACKER ? 1 : 0);
 
-    if (invalidFormations.includes([numGoal, numDef, numMid, numAtt])) {
+    let invalidFormation = false;
+
+    invalidFormations.forEach(formation => {
+        if (formation.toString() === [numGoal, numDef, numMid, numAtt].toString()) {
+            invalidFormation = true;
+        }
+    });
+
+    if (invalidFormation) {
         return error('formation', 'Invalid Formation');
     }
 

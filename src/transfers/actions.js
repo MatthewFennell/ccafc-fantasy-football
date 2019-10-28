@@ -19,6 +19,7 @@ export const CLOSE_TRANSFERS_ERROR = `${pre}CLOSE_TRANSFERS_ERROR`;
 export const UNDO_TRANSFER_CHANGES = `${pre}UNDO_TRANSFER_CHANGES`;
 
 export const UPDATE_TEAM_REQUEST = `${pre}UPDATE_TEAM_REQUEST`;
+export const UPDATE_TEAM_ERROR = `${pre}UPDATE_TEAM_ERROR`;
 
 export const alreadyFetchedAllPlayers = () => ({
     type: ALREADY_FETCHED_ALL_PLAYERS
@@ -27,6 +28,11 @@ export const alreadyFetchedAllPlayers = () => ({
 export const updateTeamRequest = team => ({
     type: UPDATE_TEAM_REQUEST,
     team
+});
+
+export const updateTeamError = error => ({
+    type: UPDATE_TEAM_ERROR,
+    error
 });
 
 export const removePlayerFromCurrentTeam = player => ({
