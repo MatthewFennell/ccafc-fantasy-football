@@ -27,18 +27,20 @@
 .bodyWrapper{
   margin: $spacing-medium;
   display: flex;
-  flex-wrap: wrap;
+  // flex-wrap: wrap;
   .pitchWrapper{
     @include light-box-shadow();
     margin: $spacing-medium;
     flex-grow: 2;
-    padding: $spacing-medium;
+    // padding: $spacing-medium;
     background-color: $color-white;
+    margin-left: 0px;
   }
   .playersWrapper {
     @include light-box-shadow();
     margin: $spacing-medium;
     flex-grow: 1;
+    margin-right: 0px;
   }
 }
 
@@ -77,6 +79,20 @@
     > * {
       margin-left: $spacing-medium;
       margin-right: $spacing-medium;
+    }
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .bodyWrapper{
+    margin: $spacing-medium;
+    display: block;
+    .pitchWrapper{
+      margin: 0px;
+    }
+    .playersWrapper {
+      margin: 0px;
+      margin-top: $spacing-medium;;
     }
   }
 }

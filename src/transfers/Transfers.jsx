@@ -79,6 +79,14 @@ const Transfers = props => {
                 </div>
 
             </div>
+            {/* <div className={props.styles.testingWrapper}>
+                <Pitch
+                    additionalInfo={player => `£${player.price} mil`}
+                    activeTeam={props.currentTeam}
+                    loading={props.fetchingOriginalTeam}
+                    onPlayerClick={onPlayerClick}
+                />
+            </div> */}
             <div className={props.styles.bodyWrapper}>
                 <div className={props.styles.pitchWrapper}>
                     <Pitch
@@ -86,7 +94,7 @@ const Transfers = props => {
                         activeTeam={props.currentTeam}
                         loading={props.fetchingOriginalTeam}
                         onPlayerClick={onPlayerClick}
-                        // renderEmptyPlayers
+                    // renderEmptyPlayers
                     />
                 </div>
                 <div className={props.styles.playersWrapper}>

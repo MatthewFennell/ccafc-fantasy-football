@@ -54,7 +54,7 @@ const Pitch = props => {
                         </div>
                         <div className={props.styles.defenders}>
                             {renderPlayers('DEFENDER', props.activePlayerStyles)}
-                            {/* {props.renderEmptyPlayers && renderEmptyPlayer('DEFENDER', 4)} */}
+                            {props.renderEmptyPlayers && renderEmptyPlayer('DEFENDER', 4)}
                         </div>
                         <div className={props.styles.midfielders}>
                             {renderPlayers('MIDFIELDER', props.activePlayerStyles)}
