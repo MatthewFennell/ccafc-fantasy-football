@@ -124,5 +124,6 @@ exports.createInitialActiveTeam = functions
     .auth.user()
     .onCreate(user => db.collection('active-teams').add({
         user_id: user.uid,
-        player_ids: []
+        player_ids: [],
+        captain: ''
     }));

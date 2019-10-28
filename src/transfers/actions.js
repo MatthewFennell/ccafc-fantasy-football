@@ -3,6 +3,7 @@ const pre = 'TRANSFERS/';
 export const FETCH_ALL_PLAYERS_REQUEST = `${pre}FETCH_ALL_PLAYERS_REQUEST`;
 export const FETCH_ALL_PLAYERS_SUCCESS = `${pre}FETCH_ALL_PLAYERS_SUCCESS`;
 export const FETCH_ALL_PLAYERS_ERROR = `${pre}FETCH_ALL_PLAYERS_ERROR`;
+export const ALREADY_FETCHED_ALL_PLAYERS = `${pre}ALREADY_FETCHED_ALL_PLAYERS`;
 
 export const FETCH_ALL_TEAMS_REQUEST = `${pre}FETCH_ALL_TEAMS_REQUEST`;
 export const FETCH_ALL_TEAMS_SUCCESS = `${pre}FETCH_ALL_TEAMS_SUCCESS`;
@@ -10,6 +11,41 @@ export const FETCH_ALL_TEAMS_ERROR = `${pre}FETCH_ALL_TEAMS_ERROR`;
 
 export const ADD_PLAYER_TO_CURRENT_TEAM_REQUEST = `${pre}ADD_PLAYER_TO_CURRENT_TEAM_REQUEST`;
 export const ADD_PLAYER_TO_CURRENT_TEAM_SUCCESS = `${pre}ADD_PLAYER_TO_CURRENT_TEAM_SUCCESS`;
+export const ADD_PLAYER_TO_CURRENT_TEAM_ERROR = `${pre}ADD_PLAYER_TO_CURRENT_TEAM_ERROR`;
+
+export const REMOVE_PLAYER_FROM_CURRENT_TEAM = `${pre}REMOVE_PLAYER_FROM_CURRENT_TEAM`;
+
+export const CLOSE_TRANSFERS_ERROR = `${pre}CLOSE_TRANSFERS_ERROR`;
+export const UNDO_TRANSFER_CHANGES = `${pre}UNDO_TRANSFER_CHANGES`;
+
+export const UPDATE_TEAM_REQUEST = `${pre}UPDATE_TEAM_REQUEST`;
+
+export const alreadyFetchedAllPlayers = () => ({
+    type: ALREADY_FETCHED_ALL_PLAYERS
+});
+
+export const updateTeamRequest = team => ({
+    type: UPDATE_TEAM_REQUEST,
+    team
+});
+
+export const removePlayerFromCurrentTeam = player => ({
+    type: REMOVE_PLAYER_FROM_CURRENT_TEAM,
+    player
+});
+
+export const undoTransferChanges = () => ({
+    type: UNDO_TRANSFER_CHANGES
+});
+
+export const closeTransfersError = () => ({
+    type: CLOSE_TRANSFERS_ERROR
+});
+
+export const addPlayerToCurrentTeamError = error => ({
+    type: ADD_PLAYER_TO_CURRENT_TEAM_ERROR,
+    error
+});
 
 export const addPlayerToCurrentTeamRequest = player => ({
     type: ADD_PLAYER_TO_CURRENT_TEAM_REQUEST,

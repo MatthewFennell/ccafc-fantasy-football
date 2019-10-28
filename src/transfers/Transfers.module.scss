@@ -45,6 +45,7 @@
 .playersWrapper{
   background-color: $color-white;
   .playersTitle{
+    margin-top: $spacing-small;
     padding: $spacing-small;
     color: $color-blue;
     font-size: $font-size-large;
@@ -62,9 +63,20 @@
     margin-top: $spacing-medium;
   }
 
-  .nameFilter{
-    width: 20%;
-    margin-left: auto;
-    margin-right: auto;
+  .buttonsWrapper{
+    margin-top: $spacing-small;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+
+    > div {
+      margin-top: 0px;
+      margin-bottom: 0px;
+    }
+
+    > * {
+      margin-left: $spacing-medium;
+      margin-right: $spacing-medium;
+    }
   }
 }
