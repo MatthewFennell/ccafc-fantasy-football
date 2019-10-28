@@ -1,11 +1,12 @@
 import {
     all, takeEvery, put, call, select
 } from 'redux-saga/effects';
+import firebase from 'firebase';
 import * as actions from './actions';
 import * as api from './api';
 import * as selectors from './selectors';
 import * as helpers from './helpers';
-import * as currentTeamAction from '../currentteam/actions';
+import * as currentTeamActions from '../currentteam/actions';
 
 function* fetchAllPlayers() {
     try {
@@ -52,9 +53,12 @@ function* updateTeam() {
         yield call(api.updateTeam, {
             newTeam: currentTeam.map(player => player.id)
         });
-        yield put(currentTeamAction.fetchActiveTeamRequest());
+        const myId = firebase.auth().currentUser.uid;
+        const activeTeam = yield call(api.fetchActiveTeam, { userId: myId });
+        yield put(currentTeamActions.fetchActiveTeamSuccess(myId,
+            activeTeam.players, activeTeam.captain));
     } catch (error) {
-        yield put(actions.fetchAllTeamsError(error));
+        yield put(actions.updateTeamError(error));
     }
 }
 

@@ -77,8 +77,17 @@ const transfersReducer = (state = initialState, action) => {
         return fp.set('allTeams', action.teams)(state);
     }
     case actions.ADD_PLAYER_TO_CURRENT_TEAM_SUCCESS: {
+        const index = state.currentTeam
+            .findIndex(x => x.position === action.player.position && x.inactive);
+        const newTeam = index === -1 ? state.currentTeam.concat([action.player])
+            : state.currentTeam.map((p, i) => (index === i ? action.player : p));
+        if (newTeam.length === 12) {
+            const firstIndex = state.currentTeam.findIndex(x => x.inactive);
+            newTeam.splice(firstIndex, 1);
+        }
+
         return fp.flow(
-            fp.set('currentTeam', state.currentTeam.concat([action.player])),
+            fp.set('currentTeam', newTeam),
             fp.set('remainingBudget', state.remainingBudget - action.player.price),
         )(state);
     }
@@ -103,10 +112,23 @@ const transfersReducer = (state = initialState, action) => {
         )(state);
     }
     case actions.REMOVE_PLAYER_FROM_CURRENT_TEAM: {
-        return fp.set('currentTeam', state.currentTeam.filter(x => x.id !== action.player.id))(state);
+        return fp.flow(
+            fp.set('currentTeam', state.currentTeam.map(x => (x.id !== action.player.id ? x
+                : ({
+                    id: null, inactive: true, position: x.position, name: `${action.player.name} (removed)`, price: 0
+                })))),
+            fp.set('remainingBudget', state.remainingBudget + action.player.price)
+        )(state);
     }
     case actions.ALREADY_FETCHED_ALL_PLAYERS: {
         return fp.set('fetchingAllPlayers', false)(state);
+    }
+    case actions.UPDATE_TEAM_ERROR: {
+        return {
+            ...state,
+            transfersError: action.error.message,
+            transfersErrorCode: action.error.code
+        };
     }
     default:
         return state;

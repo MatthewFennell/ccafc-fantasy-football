@@ -16,7 +16,7 @@ const Pitch = props => {
                 isCaptain={props.captain === player.player_id}
                 name={player.name}
                 onClick={() => props.onPlayerClick(player)}
-                shirtStyles={styles}
+                shirtStyles={player.inactive === true ? inactivePlayerStyles : styles}
                 showCaptain={props.showCaptain}
                 size="4x"
                 key={player.name}
@@ -54,7 +54,7 @@ const Pitch = props => {
                         </div>
                         <div className={props.styles.defenders}>
                             {renderPlayers('DEFENDER', props.activePlayerStyles)}
-                            {props.renderEmptyPlayers && renderEmptyPlayer('DEFENDER', 4)}
+                            {/* {props.renderEmptyPlayers && renderEmptyPlayer('DEFENDER', 4)} */}
                         </div>
                         <div className={props.styles.midfielders}>
                             {renderPlayers('MIDFIELDER', props.activePlayerStyles)}
