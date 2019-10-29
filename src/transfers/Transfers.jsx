@@ -7,7 +7,7 @@ import { fetchActiveTeamRequest } from '../currentteam/actions';
 import {
     fetchAllPlayersRequest, fetchAllTeamsRequest, addPlayerToCurrentTeamRequest,
     closeTransfersError, undoTransferChanges, removePlayerFromCurrentTeam,
-    updateTeamRequest
+    updateTeamRequest, restorePlayerRequest, replacePlayerRequest
 } from './actions';
 import Mobile from './mobile/Mobile';
 
@@ -27,21 +27,65 @@ const Transfers = props => {
     const [maxPriceFilter, setMaxPriceFilter] = useState('');
     const [nameFilter, setNameFilter] = useState('');
 
+    const [removeModalOpen, setRemoveModalOpen] = useState(false);
+    const [restoreModalOpen, setRestoreModalOpen] = useState(false);
+    const [playerToRemove, setPlayerToRemove] = useState({});
+    const [playerToRestore, setPlayerToRestore] = useState(null);
+
+    const [playerTableOpen, setPlayerTableOpen] = useState(false);
+
     const onPlayerClick = useCallback(player => {
         if (player.id === undefined) {
             setPositionFilter(player[0] + player.slice(1).toLowerCase());
         } else if (player.id === null) {
             setPositionFilter(player.position[0] + player.position.slice(1).toLowerCase());
+        } else if (player.inactive) {
+            console.log('player', player);
+            setPlayerToRestore(player);
+            setRestoreModalOpen(true);
         } else {
-            props.removePlayerFromCurrentTeam(player);
+            setPlayerToRemove(player);
+            setRemoveModalOpen(true);
         }
     }, [props.currentTeam]);
+
+    const removePlayer = useCallback(() => {
+        props.removePlayerFromCurrentTeam(playerToRemove);
+        setRemoveModalOpen(false);
+        setPlayerToRemove({});
+    }, [playerToRemove, props.removePlayerFromCurrentTeam]);
+
+    const selectReplacement = useCallback(() => {
+        setPlayerTableOpen(true);
+        setRemoveModalOpen(false);
+    }, [playerTableOpen, setPlayerTableOpen]);
+
+    const restorePlayer = useCallback(() => {
+        props.restorePlayerRequest(playerToRestore.id);
+        setRestoreModalOpen(false);
+    }, [props.restorePlayerRequest, playerToRestore]);
+
+    console.log('player to restore', playerToRestore);
+
+    const onTransfersRequest = useCallback(transfer => {
+        if (playerToRemove.id) {
+            props.replacePlayerRequest(playerToRemove, transfer);
+            setPlayerTableOpen(false);
+            setPlayerToRemove({});
+            setPlayerToRestore({});
+        } else {
+            console.log('not removing, only adding');
+        }
+    }, [props.replacePlayerRequest, playerToRemove]);
 
     return (
         <Mobile
             addPlayerToCurrentTeamRequest={props.addPlayerToCurrentTeamRequest}
             allTeams={props.allTeams}
             allPlayers={props.allPlayers}
+            closeRemoveModal={() => setRemoveModalOpen(false)}
+            closeRestoreModal={() => setRestoreModalOpen(false)}
+            closePlayerTable={() => setPlayerTableOpen(false)}
             closeTransfersError={props.closeTransfersError}
             currentTeam={props.currentTeam}
             fetchingAllPlayers={props.fetchingAllPlayers}
@@ -50,8 +94,16 @@ const Transfers = props => {
             minPriceFilter={minPriceFilter}
             nameFilter={nameFilter}
             onPlayerClick={onPlayerClick}
+            onTransfersRequest={onTransfersRequest}
+            playerTableOpen={playerTableOpen}
+            playerToRemove={playerToRemove}
             positionFilter={positionFilter}
             remainingBudget={props.remainingBudget}
+            removeModalOpen={removeModalOpen}
+            removePlayer={removePlayer}
+            restorePlayer={restorePlayer}
+            restoreModalOpen={restoreModalOpen}
+            selectReplacement={selectReplacement}
             setMaxPriceFilter={setMaxPriceFilter}
             setMinPriceFilter={setMinPriceFilter}
             setNameFilter={setNameFilter}
@@ -97,7 +149,9 @@ Transfers.propTypes = {
     fetchingOriginalTeam: PropTypes.bool,
     fetchUserStatsRequest: PropTypes.func.isRequired,
     remainingBudget: PropTypes.number,
+    replacePlayerRequest: PropTypes.func.isRequired,
     removePlayerFromCurrentTeam: PropTypes.func.isRequired,
+    restorePlayerRequest: PropTypes.func.isRequired,
     styles: PropTypes.objectOf(PropTypes.string),
     transfersError: PropTypes.string,
     transfersErrorCode: PropTypes.string,
@@ -112,6 +166,8 @@ const mapDispatchToProps = {
     fetchAllPlayersRequest,
     fetchAllTeamsRequest,
     fetchUserStatsRequest,
+    replacePlayerRequest,
+    restorePlayerRequest,
     removePlayerFromCurrentTeam,
     undoTransferChanges,
     updateTeamRequest

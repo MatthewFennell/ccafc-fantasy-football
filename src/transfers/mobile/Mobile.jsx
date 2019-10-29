@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import defaultStyles from './Mobile.module.scss';
 import Pitch from '../../common/pitch/Pitch';
 import Dropdown from '../../common/dropdown/Dropdown';
@@ -9,29 +10,56 @@ import StyledInput from '../../common/StyledInput/StyledInput';
 import ErrorModal from '../../common/modal/ErrorModal';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import * as helpers from '../helpers';
+import Table from './Table';
+import StyledModal from '../../common/modal/StyledModal';
 
-const Mobile = props => (
-    <>
-        <div className={props.styles.pitchWrapper}>
-            <div className={props.styles.currentTeamWrapper}>
-                <div className={props.styles.transfersHeader}>
-                    <div className={props.styles.remainingBudget}>
-                        <div className={props.styles.remainingBudgetValue}>
-                            {`£${props.remainingBudget} mil`}
-                        </div>
-                        <div className={props.styles.remainingBudgetText}>
+const Mobile = props => {
+    const [sideOpen, setSideOpen] = useState(false);
+    return (
+        <>
+            <SwipeableDrawer
+                anchor="right"
+                open={props.playerTableOpen}
+                onClose={props.closePlayerTable}
+                onOpen={() => {}}
+            >
+                <Table
+                    allPlayers={props.allPlayers}
+                    addPlayerToCurrentTeamRequest={props.addPlayerToCurrentTeamRequest}
+                    closePlayerTable={props.closePlayerTable}
+                    fetchingAllPlayers={props.fetchingAllPlayers}
+                    teamFilter={props.teamFilter}
+                    positionFilter={props.positionFilter}
+                    minPriceFilter={props.minPriceFilter}
+                    maxPriceFilter={props.maxPriceFilter}
+                    sortByFilter={props.sortByFilter}
+                    nameFilter={props.nameFilter}
+                    setNameFilter={props.setNameFilter}
+                    playerToRemove={props.playerToRemove}
+                    onTransfersRequest={props.onTransfersRequest}
+                    remainingBudget={props.remainingBudget}
+                />
+            </SwipeableDrawer>
+            <div className={props.styles.pitchWrapper}>
+                <div className={props.styles.currentTeamWrapper}>
+                    <div className={props.styles.transfersHeader}>
+                        <div className={props.styles.remainingBudget}>
+                            <div className={props.styles.remainingBudgetValue}>
+                                {`£${props.remainingBudget} mil`}
+                            </div>
+                            <div className={props.styles.remainingBudgetText}>
                   Remaining Budget
+                            </div>
                         </div>
                     </div>
-                </div>
-                <Pitch
-                    additionalInfo={player => `£${player.price} mil`}
-                    activeTeam={props.currentTeam}
-                    loading={props.fetchingOriginalTeam}
-                    onPlayerClick={props.onPlayerClick}
-                    renderEmptyPlayers
-                />
-                <div className={props.styles.playersWrapper}>
+                    <Pitch
+                        additionalInfo={player => `£${player.price} mil`}
+                        activeTeam={props.currentTeam}
+                        loading={props.fetchingOriginalTeam}
+                        onPlayerClick={props.onPlayerClick}
+                        renderEmptyPlayers
+                    />
+                    {/* <div className={props.styles.playersWrapper}>
                     <div className={props.styles.playersHeader}>
                         <div className={props.styles.playersTitle}>
                      Player Selection
@@ -71,19 +99,66 @@ const Mobile = props => (
                             rowsPerPageOptions={[10, 25, 50]}
                         />
                     </div>
-                </div>
+                </div> */}
 
+                </div>
             </div>
-        </div>
-        <ErrorModal
-            closeModal={props.closeTransfersError}
-            headerMessage="Transfer Error"
-            isOpen={props.transfersError.length > 0}
-            errorCode={props.transfersErrorCode}
-            errorMessage={props.transfersError}
-        />
-    </>
-);
+            <ErrorModal
+                closeModal={props.closeTransfersError}
+                headerMessage="Transfer Error"
+                isOpen={props.transfersError.length > 0}
+                errorCode={props.transfersErrorCode}
+                errorMessage={props.transfersError}
+            />
+            <StyledModal
+                backdrop
+                closeModal={props.closeRemoveModal}
+                isOpen={props.removeModalOpen}
+                headerMessage="Removing player"
+                toggleModal={props.closeRemoveModal}
+            >
+                <div className={props.styles.modalWrapper}>
+                    Select option
+                    <div className={props.styles.buttonsWrapper}>
+                        <StyledButton
+                            color="primary"
+                            onClick={props.selectReplacement}
+                            text="Select Replacement"
+                        />
+                        <StyledButton
+                            color="primary"
+                            onClick={props.removePlayer}
+                            text="Remove Player"
+                        />
+                    </div>
+                </div>
+            </StyledModal>
+            <StyledModal
+                backdrop
+                closeModal={props.closeRestoreModal}
+                isOpen={props.restoreModalOpen}
+                headerMessage="Restoring player"
+                toggleModal={props.closeRestoreModal}
+            >
+                <div className={props.styles.modalWrapper}>
+                    Select option
+                    <div className={props.styles.buttonsWrapper}>
+                        <StyledButton
+                            color="primary"
+                            onClick={props.restorePlayer}
+                            text="Restore player"
+                        />
+                        <StyledButton
+                            color="primary"
+                            onClick={props.selectReplacement}
+                            text="Select Replacement"
+                        />
+                    </div>
+                </div>
+            </StyledModal>
+        </>
+    );
+};
 
 Mobile.defaultProps = {
     addPlayerToCurrentTeamRequest: noop,

@@ -14,12 +14,39 @@ export const ADD_PLAYER_TO_CURRENT_TEAM_SUCCESS = `${pre}ADD_PLAYER_TO_CURRENT_T
 export const ADD_PLAYER_TO_CURRENT_TEAM_ERROR = `${pre}ADD_PLAYER_TO_CURRENT_TEAM_ERROR`;
 
 export const REMOVE_PLAYER_FROM_CURRENT_TEAM = `${pre}REMOVE_PLAYER_FROM_CURRENT_TEAM`;
+export const RESTORE_PLAYER_REQUEST = `${pre}RESTORE_PLAYER_REQUEST`;
+
+export const REPLACE_PLAYER_REQUEST = `${pre}REPLACE_PLAYER_REQUEST`;
+export const REPLACE_PLAYER_SUCCESS = `${pre}REPLACE_PLAYER_SUCCESS`;
+export const REPLACE_PLAYER_ERROR = `${pre}REPLACE_PLAYER_ERROR`;
 
 export const CLOSE_TRANSFERS_ERROR = `${pre}CLOSE_TRANSFERS_ERROR`;
 export const UNDO_TRANSFER_CHANGES = `${pre}UNDO_TRANSFER_CHANGES`;
 
 export const UPDATE_TEAM_REQUEST = `${pre}UPDATE_TEAM_REQUEST`;
 export const UPDATE_TEAM_ERROR = `${pre}UPDATE_TEAM_ERROR`;
+
+export const replacePlayerSuccess = (oldPlayer, newPlayer) => ({
+    type: REPLACE_PLAYER_SUCCESS,
+    oldPlayer,
+    newPlayer
+});
+
+export const replacePlayerRequest = (oldPlayer, newPlayer) => ({
+    type: REPLACE_PLAYER_REQUEST,
+    oldPlayer,
+    newPlayer
+});
+
+export const replacePlayerError = error => ({
+    type: REPLACE_PLAYER_ERROR,
+    error
+});
+
+export const restorePlayerRequest = playerId => ({
+    type: RESTORE_PLAYER_REQUEST,
+    playerId
+});
 
 export const alreadyFetchedAllPlayers = () => ({
     type: ALREADY_FETCHED_ALL_PLAYERS

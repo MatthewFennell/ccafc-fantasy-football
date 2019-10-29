@@ -48,7 +48,11 @@ const Grid = props => {
 
     return (
         <Paper className={classes.root}>
-            <div className={classes.tableWrapper}>
+            <div className={classNames({
+                [classes.tableWrapper]: true,
+                [props.styles.tableWrap]: true
+            })}
+            >
 
                 <div id="tableTitle" className={props.styles.gridHeader}>
                     {props.renderBackButton
@@ -63,7 +67,8 @@ const Grid = props => {
                     </div>
                 </div>
                 {props.loading && <Linear color={props.loadingColor} />}
-                <Table stickyHeader>
+                <Table>
+                    {/* <Table stickyHeader> */}
                     <TableHead>
                         <TableRow>
                             {props.columns.map(column => (
