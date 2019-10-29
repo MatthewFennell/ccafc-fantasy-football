@@ -62,11 +62,22 @@ function* updateTeam() {
     }
 }
 
+function* replacePlayer(action) {
+    const currentTeam = yield select(selectors.getCurrentTeam);
+    const canAddPlayer = helpers.canReplacePlayer(action.oldPlayer, action.newPlayer, currentTeam);
+    if (canAddPlayer === true) {
+        yield put(actions.replacePlayerSuccess(action.oldPlayer, action.newPlayer));
+    } else {
+        yield put(actions.replacePlayerError(canAddPlayer));
+    }
+}
+
 export default function* transfersSaga() {
     yield all([
         takeEvery(actions.FETCH_ALL_PLAYERS_REQUEST, fetchAllPlayers),
         takeEvery(actions.FETCH_ALL_TEAMS_REQUEST, fetchAllTeams),
         takeEvery(actions.ADD_PLAYER_TO_CURRENT_TEAM_REQUEST, addPlayerToCurrentTeam),
-        takeEvery(actions.UPDATE_TEAM_REQUEST, updateTeam)
+        takeEvery(actions.UPDATE_TEAM_REQUEST, updateTeam),
+        takeEvery(actions.REPLACE_PLAYER_REQUEST, replacePlayer)
     ]);
 }

@@ -115,7 +115,7 @@ const transfersReducer = (state = initialState, action) => {
         return fp.flow(
             fp.set('currentTeam', state.currentTeam.map(x => (x.id !== action.player.id ? x
                 : ({
-                    id: null, inactive: true, position: x.position, name: `${action.player.name} (removed)`, price: 0
+                    id: x.id, inactive: true, position: x.position, name: `${action.player.name} (removed)`, price: 0
                 })))),
             fp.set('remainingBudget', state.remainingBudget + action.player.price)
         )(state);
@@ -129,6 +129,17 @@ const transfersReducer = (state = initialState, action) => {
             transfersError: action.error.message,
             transfersErrorCode: action.error.code
         };
+    }
+    case actions.RESTORE_PLAYER_REQUEST: {
+        const playerToRestore = state.allPlayers.find(x => x.id === action.playerId);
+
+        return fp.flow(
+            fp.set('currentTeam', state.currentTeam.map(x => (x.id === action.playerId ? playerToRestore : x))),
+            fp.set('remainingBudget', state.remainingBudget - playerToRestore.price)
+        )(state);
+    }
+    case actions.REPLACE_PLAYER_SUCCESS: {
+        return fp.set('currentTeam', state.currentTeam.map(x => (x.id === action.oldPlayer.id ? action.newPlayer : x)))(state);
     }
     default:
         return state;

@@ -92,7 +92,8 @@ export const filterPlayers = (players, team, position, minPrice, maxPrice, sortB
         name !== '' ? fp.filter(x => x.name.toLowerCase().includes(name.toLowerCase())) : fp.identity,
         fp.map(player => ({
             ...player,
-            pos: player.position[0] + player.position.slice(1, 3).toLowerCase()
+            pos: player.position[0] + player.position.slice(1, 3).toLowerCase(),
+            price: `£${player.price.toFixed(1)}`
         }))
     )(players);
 };
@@ -142,4 +143,12 @@ export const canAddPlayer = (player, currentTeam) => {
     }
 
     return true;
+};
+
+
+export const canReplacePlayer = (oldPlayer, newPlayer, currentTeam) => {
+    if (currentTeam.find(x => x.id === oldPlayer.id) === undefined) {
+        return error('not-found', 'You are trying to remove a player not in your team');
+    }
+    return canAddPlayer(newPlayer, currentTeam.filter(x => x.id !== oldPlayer.id));
 };
