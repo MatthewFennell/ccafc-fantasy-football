@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import classNames from 'classnames';
+import EditIcon from '@material-ui/icons/Edit';
 import defaultStyles from './Table.module.scss';
 import * as helpers from '../helpers';
 import Grid from '../../common/grid/Grid';
@@ -15,19 +16,23 @@ const Table = props => {
         <div className={props.styles.playersWrapper}>
             <div className={props.styles.header}>
                 <div className={props.styles.backIcon}>
-                    <ArrowBackIcon onClick={props.closePlayerTable} />
+                    <ArrowBackIcon onClick={props.closePlayerTable} fontSize="large" />
                 </div>
                 <div className={props.styles.inputWrapper}>
                     <StyledInput value={props.nameFilter} onChange={props.setNameFilter} styles={inputStyles} />
                 </div>
-                <div className={props.styles.remainingBudget}>
-                    {`Budget: £${props.remainingBudget + (props.playerToRemove.price || 0)} mil`}
+                <div className={props.styles.editColumns}>
+                    <EditIcon />
                 </div>
             </div>
             <div>
                 {props.playerToRemove.name && (
                     <div className={props.styles.playerRemoved}>
+                        {/* <div className={props.styles.playerRemovedText}>
+                        Player Removed
+                        </div>
                         <div className={props.styles.playerInfo}>
+
                             <div>
                                 {props.playerToRemove.name}
                             </div>
@@ -38,6 +43,9 @@ const Table = props => {
                                 {`£${props.playerToRemove.price} mil`}
                             </div>
                         </div>
+                        <div className={props.styles.remainingBudget}>
+                            {`Budget: £${props.remainingBudget + (props.playerToRemove.price || 0)} mil`}
+                        </div> */}
                     </div>
                 )}
 
@@ -48,7 +56,7 @@ const Table = props => {
                 >
                     <Grid
                         columns={helpers.columnsWhenSmallScreen(props.sortByFilter)}
-                        // gridHeader="Players"
+                        // gridHeader={<EditIcon />}
                         loading={props.fetchingAllPlayers}
                         onRowClick={props.onTransfersRequest}
                         rows={helpers.filterPlayers(

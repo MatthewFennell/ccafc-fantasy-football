@@ -81,7 +81,6 @@ const Transfers = props => {
     return (
         <Mobile
             addPlayerToCurrentTeamRequest={props.addPlayerToCurrentTeamRequest}
-            allTeams={props.allTeams}
             allPlayers={props.allPlayers}
             closeRemoveModal={() => setRemoveModalOpen(false)}
             closeRestoreModal={() => setRestoreModalOpen(false)}
@@ -104,25 +103,17 @@ const Transfers = props => {
             restorePlayer={restorePlayer}
             restoreModalOpen={restoreModalOpen}
             selectReplacement={selectReplacement}
-            setMaxPriceFilter={setMaxPriceFilter}
-            setMinPriceFilter={setMinPriceFilter}
             setNameFilter={setNameFilter}
-            setPositionFilter={setPositionFilter}
-            setTeamFilter={setTeamFilter}
-            setSortByFilter={setSortByFilter}
             sortByFilter={sortByFilter}
             teamFilter={teamFilter}
             transfersError={props.transfersError}
             transfersErrorCode={props.transfersErrorCode}
-            undoTransferChanges={props.undoTransferChanges}
-            updateTeamRequest={props.updateTeamRequest}
         />
     );
 };
 
 Transfers.defaultProps = {
     allPlayers: [],
-    allTeams: [],
     auth: {},
     currentTeam: [],
     fetchingAllPlayers: false,
@@ -136,7 +127,6 @@ Transfers.defaultProps = {
 Transfers.propTypes = {
     addPlayerToCurrentTeamRequest: PropTypes.func.isRequired,
     allPlayers: PropTypes.arrayOf(PropTypes.shape({})),
-    allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     auth: PropTypes.shape({
         uid: PropTypes.string
     }),
@@ -174,7 +164,6 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-    allTeams: state.transfers.allTeams,
     allPlayers: state.transfers.allPlayers,
     auth: state.firebase.auth,
     currentTeam: state.transfers.currentTeam,

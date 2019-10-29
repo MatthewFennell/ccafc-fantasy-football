@@ -10,8 +10,19 @@
     position: fixed;
     width: 100%;
     height: 60px; // MAGIC
+    z-index: 1;
 
-    .backIcon, .remainingBudget{
+    > div { 
+      flex-grow: 1;
+    }
+
+    .backIcon{
+      padding: $spacing-small;
+      display: flex;
+      align-items: center;
+    }
+
+    .editColumns{
       padding: $spacing-small;
       @include vertical-center-div();
     }
@@ -32,6 +43,11 @@
     width: 100%;
     position: fixed;
     top: 0;
+
+    .playerRemovedText, .remainingBudget{
+      text-align: center;
+      font-weight: bold;
+    }
 
     .playerInfo{
       display: flex;

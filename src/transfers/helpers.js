@@ -1,6 +1,8 @@
+import React from 'react';
 import fp from 'lodash/fp';
 import * as constants from '../constants';
 import { invalidFormations } from './invalidFormations';
+import StyledButton from '../common/StyledButton/StyledButton';
 
 export const generateTeamOptions = teams => teams.map(team => ({
     id: team.id,
@@ -58,17 +60,17 @@ export const columnsWhenSmallScreen = sortBy => [
     },
     {
         id: 'pos',
-        label: 'Pos',
+        label: <StyledButton text="Price" smallButton />,
         align: 'center'
     },
     {
         id: 'team',
-        label: 'Team',
+        label: <StyledButton text="Price" smallButton />,
         align: 'center'
     },
     {
         id: 'price',
-        label: 'Price',
+        label: <div>HELLO</div>,
         align: 'center'
     }
 ].concat(sortByOptions.filter(x => x.value === sortBy).map(x => ({
