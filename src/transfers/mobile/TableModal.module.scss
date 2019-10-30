@@ -15,7 +15,7 @@
 }
 
 .sortingWrapper{
-  display: flex;
+  text-align: center;
   > div {
     flex-grow:  1;
     @include vertical-center-div();

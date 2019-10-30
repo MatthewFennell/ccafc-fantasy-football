@@ -12,7 +12,9 @@ import StyledButton from '../../common/StyledButton/StyledButton';
 import StyledModal from '../../common/modal/StyledModal';
 import TableModal from './TableModal';
 import Dropdown from '../../common/dropdown/Dropdown';
-
+import Slider from '../../common/slider/Slider';
+import modalStyles from './StyledModal.module.scss';
+import RadioButton from '../../common/radio/RadioButton';
 
 const Table = props => {
     const [columns, setColumns] = useState(['name', 'pos', 'team', 'points']);
@@ -25,6 +27,9 @@ const Table = props => {
     const [positionFilter, setPositionFilter] = useState('Goalkeeper');
     const [goalFilter, setGoalFilter] = useState('ASC');
     const [assistsFilter, setAssistsFilter] = useState('ASC');
+    const [minPrice, setMinPrice] = useState(0);
+    const [maxPrice, setMaxPrice] = useState(0);
+    const [priceFilter, setPriceFilter] = useState('ASC');
 
     const toggleColumns = useCallback(column => {
         if (columns.includes(column)) {
@@ -47,6 +52,33 @@ const Table = props => {
             id: 'desc',
             value: 'DESC',
             text: 'DESC'
+        }
+    ];
+
+    const marks = [
+        {
+            value: 0,
+            label: '0'
+        },
+        {
+            value: 2,
+            label: '2'
+        },
+        {
+            value: 4,
+            label: '4'
+        },
+        {
+            value: 6,
+            label: '6'
+        },
+        {
+            value: 8,
+            label: '8'
+        },
+        {
+            value: 10,
+            label: '10'
         }
     ];
 
@@ -73,20 +105,36 @@ const Table = props => {
         }
     ];
 
+    const RadioAscDesc = (value, onChange, label) => (
+        <RadioButton
+            label={label}
+            onChange={onChange}
+            options={[
+                {
+                    label: 'Asc'
+                },
+                {
+                    label: 'Desc'
+                }
+            ]}
+            value={value}
+        />
+    );
+
     const columnOptions = [
         {
             id: 'name',
             name: 'Name',
             button: false,
             fixed: true,
-            component: <Dropdown options={ascDesc} onChange={setNameFilter} activeValue={nameFilter} />
+            component: RadioAscDesc(nameFilter, setNameFilter, 'Direction')
         },
         {
             id: 'pos',
             name: 'Pos',
             button: true,
             fixed: false,
-            component: <Dropdown options={positions} onChange={setPositionFilter} activeValue={positionFilter} />
+            component: RadioAscDesc(positionFilter, setPositionFilter, 'Direction')
         },
         {
             id: 'team',
@@ -108,28 +156,33 @@ const Table = props => {
             name: 'Price',
             button: true,
             fixed: false,
-            component: null
+            component:
+    <div className={props.styles.priceWrapper}>
+        <Slider marks={marks} min={0} max={10} step={1} text="Min Price" onChange={setMinPrice} />
+        <Slider marks={marks} min={0} max={10} step={1} text="Max Price" onChange={setMaxPrice} />
+        {RadioAscDesc(priceFilter, setPriceFilter, 'Direction')}
+    </div>
         },
         {
             id: 'points',
             name: 'Points',
             button: true,
             fixed: false,
-            component: <Dropdown options={ascDesc} onChange={setPointsFilter} activeValue={pointsFilter} />
+            component: RadioAscDesc(pointsFilter, setPointsFilter, 'Direction')
         },
         {
             id: 'goals',
             name: 'Goals',
             button: true,
             fixed: false,
-            component: <Dropdown options={ascDesc} onChange={setGoalFilter} activeValue={goalFilter} />
+            component: RadioAscDesc(goalFilter, setGoalFilter, 'Direction')
         },
         {
             id: 'assists',
             name: 'Assists',
             button: true,
             fixed: false,
-            component: <Dropdown options={ascDesc} onChange={setAssistsFilter} activeValue={assistsFilter} />
+            component: RadioAscDesc(assistsFilter, setAssistsFilter, 'Direction')
         }
     ];
 
@@ -147,6 +200,8 @@ const Table = props => {
             align: 'center'
         });
     });
+
+    console.log('min price', minPrice);
 
     return (
         <>
@@ -212,7 +267,7 @@ const Table = props => {
                 closeModal={() => setColumnModalOpen(false)}
                 isOpen={columnModalOpen}
                 headerMessage="Select Columns"
-                // toggleModal={() => setColumnModalOpen(false)}
+                styles={modalStyles}
             >
                 <TableModal
                     activeColumns={columns}

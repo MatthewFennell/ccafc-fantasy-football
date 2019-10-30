@@ -65,3 +65,16 @@
 .smallMarginTop {
   margin-top: 60px;
 }
+
+.priceWrapper{
+  height: 100%;
+  width: 100%;
+  // @include vertical-center-div();
+  display: flex;
+  flex-direction: column;
+  > div {
+    margin-top: $spacing-average;
+    flex-grow: 1;
+    @include vertical-center-div();
+  }
+}

@@ -23,26 +23,25 @@ const RadioButton = props => {
     };
 
     return (
-        <div>
-            <FormControl component="fieldset" className={classes.formControl}>
-                <FormLabel component="legend">{props.label}</FormLabel>
-                <RadioGroup
-                    aria-label={props.label}
-                    name={props.label}
-                    value={props.value}
-                    onChange={onChange}
-                >
-                    {props.options.map(option => (
-                        <FormControlLabel
-                            value={option.label}
-                            control={<Radio color="primary" />}
-                            label={option.label}
-                        />
-                    ))}
-                </RadioGroup>
-            </FormControl>
-
-        </div>
+        <FormControl component="fieldset" className={classes.formControl}>
+            <FormLabel component="legend">{props.label}</FormLabel>
+            <RadioGroup
+                row
+                aria-label={props.label}
+                name={props.label}
+                value={props.value}
+                onChange={onChange}
+            >
+                {props.options.map(option => (
+                    <FormControlLabel
+                        value={option.label}
+                        control={<Radio color="primary" />}
+                        label={option.label}
+                        labelPlacement="top"
+                    />
+                ))}
+            </RadioGroup>
+        </FormControl>
     );
 };
 

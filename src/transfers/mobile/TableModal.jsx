@@ -26,18 +26,14 @@ const TableModal = props => (
             ))}
         </div>
         <div className={props.styles.sortingWrapper}>
-            <div>
-                <RadioButton
-                    label="Sort By"
-                    onChange={props.setSortBy}
-                    options={props.activeColumns
-                        .map(x => ({ label: x.charAt(0).toUpperCase() + x.slice(1) }))}
-                    value={props.sortBy}
-                />
-            </div>
-            <div>
-                {props.sortingComponent}
-            </div>
+            <RadioButton
+                label="Sort By"
+                onChange={props.setSortBy}
+                options={props.activeColumns
+                    .map(x => ({ label: x.charAt(0).toUpperCase() + x.slice(1) }))}
+                value={props.sortBy}
+            />
+            {props.sortingComponent}
         </div>
     </div>
 );
