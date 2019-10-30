@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import classNames from 'classnames';
+import fp from 'lodash/fp';
 import defaultStyles from './Table.module.scss';
 import * as helpers from '../helpers';
 import Grid from '../../common/grid/Grid';
@@ -16,20 +17,30 @@ import Slider from '../../common/slider/Slider';
 import modalStyles from './StyledModal.module.scss';
 import RadioButton from '../../common/radio/RadioButton';
 
+const sortListAscDesc = (list, direction, property) => {
+    if (direction === 'Asc') {
+        return fp.sortBy(property.toLowerCase())(list);
+    }
+    if (direction === 'Desc') {
+        return fp.sortBy(property.toLowerCase())(list).reverse();
+    }
+    return list;
+};
+
 const Table = props => {
     const [columns, setColumns] = useState(['name', 'pos', 'team', 'points']);
     const [columnModalOpen, setColumnModalOpen] = useState(false);
 
     const [sortBy, setSortBy] = useState('Points');
-    const [nameFilter, setNameFilter] = useState('ASC');
-    const [pointsFilter, setPointsFilter] = useState('ASC');
+    const [nameFilter, setNameFilter] = useState('Asc');
+    const [pointsFilter, setPointsFilter] = useState('Asc');
     const [teamFilter, setTeamFilter] = useState('');
     const [positionFilter, setPositionFilter] = useState('Goalkeeper');
-    const [goalFilter, setGoalFilter] = useState('ASC');
-    const [assistsFilter, setAssistsFilter] = useState('ASC');
+    const [goalFilter, setGoalFilter] = useState('Asc');
+    const [assistsFilter, setAssistsFilter] = useState('Asc');
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(0);
-    const [priceFilter, setPriceFilter] = useState('ASC');
+    const [priceFilter, setPriceFilter] = useState('Asc');
 
     const toggleColumns = useCallback(column => {
         if (columns.includes(column)) {
@@ -42,18 +53,34 @@ const Table = props => {
         }
     });
 
-    const ascDesc = [
-        {
-            id: 'asc',
-            value: 'ASC',
-            text: 'ASC'
-        },
-        {
-            id: 'desc',
-            value: 'DESC',
-            text: 'DESC'
+    const filterPlayers = () => {
+        if (sortBy === 'Name') {
+            return sortListAscDesc(props.allPlayers, nameFilter, 'name');
         }
-    ];
+        if (sortBy === 'Pos') {
+            const positionMapping = {
+                Gk: 'GOALKEEPER',
+                Def: 'DEFENDER',
+                Mid: 'MIDFIELDER',
+                Att: 'ATTACKER'
+            };
+            return props.allPlayers.filter(x => x.position === positionMapping[positionFilter]);
+        }
+        if (sortBy === 'Team') {
+            return props.allPlayers.filter(x => x.team === teamFilter);
+        }
+        if (sortBy === 'Points') {
+            return sortListAscDesc(props.allPlayers, pointsFilter, 'points');
+        }
+        if (sortBy === 'Goals') {
+            return sortListAscDesc(props.allPlayers, goalFilter, 'goals');
+        }
+        if (sortBy === 'Assists') {
+            return sortListAscDesc(props.allPlayers, assistsFilter, 'assists');
+        }
+
+        return [];
+    };
 
     const marks = [
         {
@@ -82,29 +109,6 @@ const Table = props => {
         }
     ];
 
-    const positions = [
-        {
-            id: 'GOALKEEPER',
-            value: 'Goalkeeper',
-            text: 'Goalkeeper'
-        },
-        {
-            id: 'DEFENDER',
-            value: 'Defender',
-            text: 'Defender'
-        },
-        {
-            id: 'MIDFIELDER',
-            value: 'Midfielder',
-            text: 'Midfielder'
-        },
-        {
-            id: 'ATTACKER',
-            value: 'Attacker',
-            text: 'Attacker'
-        }
-    ];
-
     const RadioAscDesc = (value, onChange, label) => (
         <RadioButton
             label={label}
@@ -115,6 +119,28 @@ const Table = props => {
                 },
                 {
                     label: 'Desc'
+                }
+            ]}
+            value={value}
+        />
+    );
+
+    const RadioPosition = (value, onChange, label) => (
+        <RadioButton
+            label={label}
+            onChange={onChange}
+            options={[
+                {
+                    label: 'GK'
+                },
+                {
+                    label: 'Def'
+                },
+                {
+                    label: 'Mid'
+                },
+                {
+                    label: 'Att'
                 }
             ]}
             value={value}
@@ -134,7 +160,7 @@ const Table = props => {
             name: 'Pos',
             button: true,
             fixed: false,
-            component: RadioAscDesc(positionFilter, setPositionFilter, 'Direction')
+            component: RadioPosition(positionFilter, setPositionFilter, 'Filter by Position')
         },
         {
             id: 'team',
@@ -201,7 +227,7 @@ const Table = props => {
         });
     });
 
-    console.log('min price', minPrice);
+    console.log('sort by', sortBy);
 
     return (
         <>
@@ -247,15 +273,7 @@ const Table = props => {
                             columns={generateColumns()}
                             loading={props.fetchingAllPlayers}
                             onRowClick={props.onTransfersRequest}
-                            rows={helpers.filterPlayers(
-                                props.allPlayers,
-                                props.teamFilter,
-                                props.positionFilter,
-                                props.minPriceFilter,
-                                props.maxPriceFilter,
-                                props.sortByFilter,
-                                props.nameFilter
-                            )}
+                            rows={filterPlayers()}
                             rowsPerPageOptions={[50]}
                         />
                     </div>

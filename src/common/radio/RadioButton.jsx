@@ -11,6 +11,9 @@ import { noop } from 'lodash';
 const useStyles = makeStyles(theme => ({
     formControl: {
         margin: theme.spacing(1)
+    },
+    title: {
+        color: '#3f51b5' // Blue
     }
 }));
 
@@ -24,7 +27,7 @@ const RadioButton = props => {
 
     return (
         <FormControl component="fieldset" className={classes.formControl}>
-            <FormLabel component="legend">{props.label}</FormLabel>
+            <FormLabel component="legend" className={classes.title}>{props.label}</FormLabel>
             <RadioGroup
                 row
                 aria-label={props.label}
