@@ -13,3 +13,11 @@
     }
   }
 }
+
+.sortingWrapper{
+  display: flex;
+  > div {
+    flex-grow:  1;
+    @include vertical-center-div();
+  }
+}

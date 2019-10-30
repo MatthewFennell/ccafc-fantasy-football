@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import classNames from 'classnames';
-import fp from 'lodash/fp';
 import defaultStyles from './Table.module.scss';
 import * as helpers from '../helpers';
 import Grid from '../../common/grid/Grid';
@@ -12,40 +11,20 @@ import inputStyles from './InputStyles.module.scss';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import StyledModal from '../../common/modal/StyledModal';
 import TableModal from './TableModal';
+import Dropdown from '../../common/dropdown/Dropdown';
 
-const columnOptions = [
-    {
-        id: 'name',
-        button: false,
-        fixed: true
-    },
-    {
-        id: 'pos',
-        button: true,
-        fixed: false
-    },
-    {
-        id: 'team',
-        button: true,
-        fixed: false
-    },
-    {
-        id: 'price',
-        button: true,
-        fixed: false
-    },
-    {
-        id: 'points',
-        button: true,
-        fixed: false
-    }
-];
 
 const Table = props => {
-    console.log('eh');
-
     const [columns, setColumns] = useState(['name', 'pos', 'team', 'points']);
     const [columnModalOpen, setColumnModalOpen] = useState(false);
+
+    const [sortBy, setSortBy] = useState('Points');
+    const [nameFilter, setNameFilter] = useState('ASC');
+    const [pointsFilter, setPointsFilter] = useState('ASC');
+    const [teamFilter, setTeamFilter] = useState('');
+    const [positionFilter, setPositionFilter] = useState('Goalkeeper');
+    const [goalFilter, setGoalFilter] = useState('ASC');
+    const [assistsFilter, setAssistsFilter] = useState('ASC');
 
     const toggleColumns = useCallback(column => {
         if (columns.includes(column)) {
@@ -53,7 +32,106 @@ const Table = props => {
         } else {
             setColumns(columns.concat([column]));
         }
+        if (column.toLowerCase() === sortBy.toLowerCase()) {
+            setSortBy('Name');
+        }
     });
+
+    const ascDesc = [
+        {
+            id: 'asc',
+            value: 'ASC',
+            text: 'ASC'
+        },
+        {
+            id: 'desc',
+            value: 'DESC',
+            text: 'DESC'
+        }
+    ];
+
+    const positions = [
+        {
+            id: 'GOALKEEPER',
+            value: 'Goalkeeper',
+            text: 'Goalkeeper'
+        },
+        {
+            id: 'DEFENDER',
+            value: 'Defender',
+            text: 'Defender'
+        },
+        {
+            id: 'MIDFIELDER',
+            value: 'Midfielder',
+            text: 'Midfielder'
+        },
+        {
+            id: 'ATTACKER',
+            value: 'Attacker',
+            text: 'Attacker'
+        }
+    ];
+
+    const columnOptions = [
+        {
+            id: 'name',
+            name: 'Name',
+            button: false,
+            fixed: true,
+            component: <Dropdown options={ascDesc} onChange={setNameFilter} activeValue={nameFilter} />
+        },
+        {
+            id: 'pos',
+            name: 'Pos',
+            button: true,
+            fixed: false,
+            component: <Dropdown options={positions} onChange={setPositionFilter} activeValue={positionFilter} />
+        },
+        {
+            id: 'team',
+            name: 'Team',
+            button: true,
+            fixed: false,
+            component: <Dropdown
+                options={props.allTeams.map(x => ({
+                    id: x.id,
+                    value: x.team_name,
+                    text: x.team_name
+                }))}
+                onChange={setTeamFilter}
+                activeValue={teamFilter}
+            />
+        },
+        {
+            id: 'price',
+            name: 'Price',
+            button: true,
+            fixed: false,
+            component: null
+        },
+        {
+            id: 'points',
+            name: 'Points',
+            button: true,
+            fixed: false,
+            component: <Dropdown options={ascDesc} onChange={setPointsFilter} activeValue={pointsFilter} />
+        },
+        {
+            id: 'goals',
+            name: 'Goals',
+            button: true,
+            fixed: false,
+            component: <Dropdown options={ascDesc} onChange={setGoalFilter} activeValue={goalFilter} />
+        },
+        {
+            id: 'assists',
+            name: 'Assists',
+            button: true,
+            fixed: false,
+            component: <Dropdown options={ascDesc} onChange={setAssistsFilter} activeValue={assistsFilter} />
+        }
+    ];
 
     const generateColumns = () => columns.map(x => {
         const obj = columnOptions.find(y => y.id === x);
@@ -61,11 +139,11 @@ const Table = props => {
             id: obj.id,
             label: obj.button ? (
                 <StyledButton
-                    text={obj.id}
+                    text={obj.name}
                     smallButton
                     onClick={() => setColumnModalOpen(true)}
                 />
-            ) : obj.id.charAt(0).toUpperCase() + obj.id.slice(1),
+            ) : obj.name,
             align: 'center'
         });
     });
@@ -134,11 +212,14 @@ const Table = props => {
                 closeModal={() => setColumnModalOpen(false)}
                 isOpen={columnModalOpen}
                 headerMessage="Select Columns"
-                toggleModal={() => setColumnModalOpen(false)}
+                // toggleModal={() => setColumnModalOpen(false)}
             >
                 <TableModal
                     activeColumns={columns}
                     columnOptions={columnOptions}
+                    setSortBy={setSortBy}
+                    sortBy={sortBy}
+                    sortingComponent={columnOptions.find(x => x.name === sortBy).component}
                     toggleColumns={toggleColumns}
                 />
             </StyledModal>
@@ -149,6 +230,7 @@ const Table = props => {
 Table.defaultProps = {
     addPlayerToCurrentTeamRequest: noop,
     allPlayers: [],
+    allTeams: [],
     closePlayerTable: noop,
     fetchingAllPlayers: false,
     maxPriceFilter: '',
@@ -167,6 +249,7 @@ Table.defaultProps = {
 Table.propTypes = {
     addPlayerToCurrentTeamRequest: PropTypes.func,
     allPlayers: PropTypes.arrayOf(PropTypes.shape({})),
+    allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     closePlayerTable: PropTypes.func,
     fetchingAllPlayers: PropTypes.bool,
     maxPriceFilter: PropTypes.string,

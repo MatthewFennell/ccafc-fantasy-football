@@ -82,6 +82,7 @@ const Transfers = props => {
         <Mobile
             addPlayerToCurrentTeamRequest={props.addPlayerToCurrentTeamRequest}
             allPlayers={props.allPlayers}
+            allTeams={props.allTeams}
             closeRemoveModal={() => setRemoveModalOpen(false)}
             closeRestoreModal={() => setRestoreModalOpen(false)}
             closePlayerTable={() => setPlayerTableOpen(false)}
@@ -127,6 +128,7 @@ Transfers.defaultProps = {
 Transfers.propTypes = {
     addPlayerToCurrentTeamRequest: PropTypes.func.isRequired,
     allPlayers: PropTypes.arrayOf(PropTypes.shape({})),
+    allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     auth: PropTypes.shape({
         uid: PropTypes.string
     }),
@@ -165,6 +167,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
     allPlayers: state.transfers.allPlayers,
+    allTeams: state.transfers.allTeams,
     auth: state.firebase.auth,
     currentTeam: state.transfers.currentTeam,
     fetchingAllPlayers: state.transfers.fetchingAllPlayers,

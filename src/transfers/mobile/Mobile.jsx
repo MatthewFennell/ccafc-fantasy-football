@@ -19,6 +19,7 @@ const Mobile = props => (
         >
             <Table
                 allPlayers={props.allPlayers}
+                allTeams={props.allTeams}
                 addPlayerToCurrentTeamRequest={props.addPlayerToCurrentTeamRequest}
                 closePlayerTable={props.closePlayerTable}
                 fetchingAllPlayers={props.fetchingAllPlayers}
@@ -114,6 +115,7 @@ const Mobile = props => (
 Mobile.defaultProps = {
     addPlayerToCurrentTeamRequest: noop,
     allPlayers: [],
+    allTeams: [],
     closePlayerTable: noop,
     closeRemoveModal: noop,
     closeRestoreModal: noop,
@@ -146,6 +148,7 @@ Mobile.defaultProps = {
 Mobile.propTypes = {
     addPlayerToCurrentTeamRequest: PropTypes.func,
     allPlayers: PropTypes.arrayOf(PropTypes.shape({})),
+    allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     closePlayerTable: PropTypes.func,
     closeRemoveModal: PropTypes.func,
     closeRestoreModal: PropTypes.func,
