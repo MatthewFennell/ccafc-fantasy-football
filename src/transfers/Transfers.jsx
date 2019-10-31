@@ -20,8 +20,6 @@ const Transfers = props => {
     }, [props.fetchUserStatsRequest, props.auth.uid,
         props.fetchActiveTeamRequest, props.fetchAllPlayersRequest, props.fetchAllTeamsRequest]);
 
-    const [positionFilter, setPositionFilter] = useState('');
-
     const [removeModalOpen, setRemoveModalOpen] = useState(false);
     const [restoreModalOpen, setRestoreModalOpen] = useState(false);
     const [playerToRemove, setPlayerToRemove] = useState({});
@@ -30,12 +28,7 @@ const Transfers = props => {
     const [playerTableOpen, setPlayerTableOpen] = useState(false);
 
     const onPlayerClick = useCallback(player => {
-        if (player.id === undefined) {
-            setPositionFilter(player[0] + player.slice(1).toLowerCase());
-        } else if (player.id === null) {
-            setPositionFilter(player.position[0] + player.position.slice(1).toLowerCase());
-        } else if (player.inactive) {
-            console.log('player', player);
+        if (player.inactive) {
             setPlayerToRestore(player);
             setRestoreModalOpen(true);
         } else {
@@ -60,22 +53,22 @@ const Transfers = props => {
         setRestoreModalOpen(false);
     }, [props.restorePlayerRequest, playerToRestore]);
 
-    console.log('player to restore', playerToRestore);
-
     const onTransfersRequest = useCallback(transfer => {
+        setRestoreModalOpen(false);
         if (playerToRemove.id) {
-            props.replacePlayerRequest(playerToRemove, transfer);
+            props.replacePlayerRequest(playerToRemove,
+                ({ ...transfer, position: transfer.position.toUpperCase() }));
             setPlayerTableOpen(false);
             setPlayerToRemove({});
             setPlayerToRestore({});
         } else {
-            console.log('not removing, only adding');
+            setPlayerTableOpen(false);
+            props.addPlayerToCurrentTeamRequest(transfer);
         }
     }, [props.replacePlayerRequest, playerToRemove]);
 
     return (
         <Mobile
-            addPlayerToCurrentTeamRequest={props.addPlayerToCurrentTeamRequest}
             allPlayers={props.allPlayers}
             allTeams={props.allTeams}
             closeRemoveModal={() => setRemoveModalOpen(false)}
@@ -97,12 +90,15 @@ const Transfers = props => {
             selectReplacement={selectReplacement}
             transfersError={props.transfersError}
             transfersErrorCode={props.transfersErrorCode}
+            undoTransferChanges={props.undoTransferChanges}
+            updateTeamRequest={props.updateTeamRequest}
         />
     );
 };
 
 Transfers.defaultProps = {
     allPlayers: [],
+    allTeams: [],
     auth: {},
     currentTeam: [],
     fetchingAllPlayers: false,

@@ -140,7 +140,6 @@ const Table = props => {
                         Player Removed
                             </div>
                             <div className={props.styles.playerInfo}>
-
                                 <div>
                                     {props.playerToRemove.name}
                                 </div>
@@ -195,7 +194,6 @@ const Table = props => {
 };
 
 Table.defaultProps = {
-    addPlayerToCurrentTeamRequest: noop,
     allPlayers: [],
     allTeams: [],
     closePlayerTable: noop,
@@ -207,7 +205,6 @@ Table.defaultProps = {
 };
 
 Table.propTypes = {
-    addPlayerToCurrentTeamRequest: PropTypes.func,
     allPlayers: PropTypes.arrayOf(PropTypes.shape({})),
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     closePlayerTable: PropTypes.func,
