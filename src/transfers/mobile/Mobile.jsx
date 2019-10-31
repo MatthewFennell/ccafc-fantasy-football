@@ -70,22 +70,24 @@ const Mobile = props => (
             backdrop
             closeModal={props.closeRemoveModal}
             isOpen={props.removeModalOpen}
-            headerMessage="Removing player"
+            headerMessage={props.playerToRemove.id !== undefined ? 'Replace / Remove Player' : 'Add Player'}
             toggleModal={props.closeRemoveModal}
         >
             <div className={props.styles.modalWrapper}>
-                    Select option
                 <div className={props.styles.buttonsWrapper}>
                     <StyledButton
                         color="primary"
                         onClick={props.selectReplacement}
-                        text="Select Replacement"
+                        text={props.playerToRemove.id !== undefined ? 'Select Replacement' : 'Add Player'}
                     />
-                    <StyledButton
-                        color="primary"
-                        onClick={props.removePlayer}
-                        text="Remove Player"
-                    />
+                    {props.playerToRemove.id !== undefined && (
+                        <StyledButton
+                            color="primary"
+                            onClick={props.removePlayer}
+                            text="Remove Player"
+                        />
+                    )}
+
                 </div>
             </div>
         </StyledModal>
@@ -97,7 +99,6 @@ const Mobile = props => (
             toggleModal={props.closeRestoreModal}
         >
             <div className={props.styles.modalWrapper}>
-                    Select option
                 <div className={props.styles.buttonsWrapper}>
                     <StyledButton
                         color="primary"
@@ -156,7 +157,15 @@ Mobile.propTypes = {
     onPlayerClick: PropTypes.func,
     remainingBudget: PropTypes.number,
     playerTableOpen: PropTypes.bool,
-    playerToRemove: PropTypes.shape({}),
+    playerToRemove: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.shape({
+            name: PropTypes.string,
+            position: PropTypes.string,
+            price: PropTypes.number,
+            id: PropTypes.string
+        })
+    ]),
     removeModalOpen: PropTypes.bool,
     removePlayer: PropTypes.func,
     restorePlayer: PropTypes.func,

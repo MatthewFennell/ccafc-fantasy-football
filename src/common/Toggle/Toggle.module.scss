@@ -5,11 +5,23 @@
     margin-left: 0px;
     margin-right: 0px;
     margin-bottom: 0px;
-    // width: 100%;
     justify-content: center;
+    // :first-child{
+    //   :first-child:hover{
+    //     background-color: transparent;
+    //   }
+    // }
   }
 }
 
 .formGroupToggle{
   text-align: center;
+}
+
+.switch{
+  :first-child{
+    :first-child:hover{
+      background-color: none;
+    }
+  }
 }

@@ -82,29 +82,26 @@ const generateRows = player => {
     return rows;
 };
 
-const PointsTable = props => {
-    console.log('player', props.player);
-    return (
-        <div>
-            <div className={props.styles.playerInfoWrapper}>
-                <div className={props.styles.playerName}>
-                    {props.player.name}
-                </div>
-                <div className={props.styles.playerTeam}>
-                    {props.player.team}
-                </div>
-                <div className={props.styles.playerPosition}>
-                    {props.player.position}
-                </div>
+const PointsTable = props => (
+    <div>
+        <div className={props.styles.playerInfoWrapper}>
+            <div className={props.styles.playerName}>
+                {props.player.name}
             </div>
-            <Grid
-                columns={columns}
-                rows={generateRows(props.player).filter(row => row.showField)}
-                showPagination={false}
-            />
+            <div className={props.styles.playerTeam}>
+                {props.player.team}
+            </div>
+            <div className={props.styles.playerPosition}>
+                {props.player.position}
+            </div>
         </div>
-    );
-};
+        <Grid
+            columns={columns}
+            rows={generateRows(props.player).filter(row => row.showField)}
+            showPagination={false}
+        />
+    </div>
+);
 
 PointsTable.defaultProps = {
     player: {},

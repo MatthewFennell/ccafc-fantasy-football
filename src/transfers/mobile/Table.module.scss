@@ -21,17 +21,17 @@
       align-items: center;
     }
 
-    .editColumns{
-      padding: $spacing-small;
-      @include vertical-center-div();
-    }
-
     .inputWrapper {
       margin-left: auto;
       margin-right: auto;
       > div {
         margin: 0px;        
       }
+    }
+
+    .editColumns{
+      padding: $spacing-small;
+      @include vertical-center-div();
     }
   }
 
@@ -60,11 +60,11 @@
 }
 
 .bigMarginTop{
-  margin-top: 120px;
+  margin-top: 120px; // MAGIC * 2
 }
 
 .smallMarginTop {
-  margin-top: 60px;
+  margin-top: 60px;  // MAGIC
 }
 
 .priceWrapper{
@@ -75,6 +75,9 @@
   > div {
     margin-top: $spacing-average;
     flex-grow: 1;
-    @include vertical-center-div();
+    align-items: center;
+    justify-content: center;
+    padding-left: $spacing-average;
+    padding-right: $spacing-average;
   }
 }

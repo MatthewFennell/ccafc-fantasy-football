@@ -21,6 +21,7 @@ const Toggle = props => (
                         checkedIcon={<FiberManualRecordSharpIcon />}
                         icon={<FiberManualRecordSharpIcon />}
                         color={props.color}
+                        className={props.styles.switch}
                     />
                 )}
                 label={props.label}

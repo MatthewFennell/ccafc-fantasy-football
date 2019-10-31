@@ -30,7 +30,12 @@ const Table = props => {
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(15);
     const [priceFilter, setPriceFilter] = useState('Asc');
-    const [myColumnns, setMyColumns] = useState(getColumns(() => setColumnModalOpen(true)));
+
+    const setColumnsOpen = useCallback(() => {
+        setColumnModalOpen(true);
+    }, [columnModalOpen, setColumnModalOpen]);
+
+    const [myColumnns, setMyColumns] = useState(getColumns(setColumnsOpen));
 
     const filterPlayers = players => {
         const byName = players.filter(x => x.name.includes(searchByName));
@@ -41,7 +46,7 @@ const Table = props => {
             return byName.filter(x => x.position === positionFilter);
         }
         if (sortBy === 'team') {
-            return byName.filter(x => x.team === teamFilter);
+            return byName.filter(x => x.team === teamFilter || teamFilter === '');
         }
         if (sortBy === 'points') {
             return sortListAscDesc(byName, pointsFilter, 'points');
@@ -111,7 +116,6 @@ const Table = props => {
     }, [nameFilter, positionFilter, teamFilter, priceFilter,
         goalFilter, assistsFilter, pointsFilter, props.allTeams]);
 
-
     return (
         <>
             <div className={props.styles.playersWrapper}>
@@ -176,7 +180,7 @@ const Table = props => {
                 backdrop
                 closeModal={() => setColumnModalOpen(false)}
                 isOpen={columnModalOpen}
-                headerMessage="Select Columns"
+                headerMessage="Select Columns (3 Max)"
                 styles={modalStyles}
             >
                 <TableModal
@@ -210,11 +214,14 @@ Table.propTypes = {
     closePlayerTable: PropTypes.func,
     fetchingAllPlayers: PropTypes.bool,
     onTransfersRequest: PropTypes.func,
-    playerToRemove: PropTypes.shape({
-        name: PropTypes.string,
-        position: PropTypes.string,
-        price: PropTypes.number
-    }),
+    playerToRemove: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.shape({
+            name: PropTypes.string,
+            position: PropTypes.string,
+            price: PropTypes.number
+        })
+    ]),
     remainingBudget: PropTypes.number,
     styles: PropTypes.objectOf(PropTypes.string)
 };
