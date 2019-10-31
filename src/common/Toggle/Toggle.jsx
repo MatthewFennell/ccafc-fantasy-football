@@ -9,7 +9,7 @@ import defaultStyles from './Toggle.module.scss';
 
 const Toggle = props => (
 
-    <FormGroup row>
+    <FormGroup row className={props.styles.formGroupToggle}>
         <div className={props.styles.wrapper}>
             <FormControlLabel
                 className={props.styles.toggleLabel}

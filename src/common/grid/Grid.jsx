@@ -165,7 +165,12 @@ Grid.propTypes = {
         align: PropTypes.string,
         format: PropTypes.func,
         key: PropTypes.string,
-        label: PropTypes.string,
+        label: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.oneOfType([
+                PropTypes.arrayOf(PropTypes.node),
+                PropTypes.node
+            ])]),
         minWidth: PropTypes.number,
         style: PropTypes.objectOf(PropTypes.string)
     })),

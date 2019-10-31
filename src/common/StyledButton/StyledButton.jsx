@@ -5,10 +5,14 @@ import Button from '@material-ui/core/Button';
 import { red, indigo } from '@material-ui/core/colors';
 import { noop } from 'lodash';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 const useStyles = makeStyles(theme => ({
     margin: {
         margin: theme.spacing(1)
+    },
+    smallButton: {
+        padding: '0px'
     }
 }));
 
@@ -32,7 +36,10 @@ const StyledButton = props => {
                 disabled={props.disabled}
                 variant="contained"
                 color={props.color}
-                className={classes.margin}
+                className={classNames({
+                    [classes.margin]: !props.smallButton,
+                    [classes.smallButton]: props.smallButton
+                })}
                 onClick={props.onClick}
                 type={props.type}
             >
@@ -47,6 +54,7 @@ StyledButton.defaultProps = {
     disabled: false,
     color: 'primary',
     onClick: noop,
+    smallButton: false,
     text: 'Button',
     type: 'submit'
 };
@@ -55,6 +63,7 @@ StyledButton.propTypes = {
     disabled: PropTypes.bool,
     color: PropTypes.string,
     onClick: PropTypes.func,
+    smallButton: PropTypes.bool,
     text: PropTypes.string,
     type: PropTypes.string
 };

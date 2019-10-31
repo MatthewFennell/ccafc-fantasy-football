@@ -20,12 +20,7 @@ const Transfers = props => {
     }, [props.fetchUserStatsRequest, props.auth.uid,
         props.fetchActiveTeamRequest, props.fetchAllPlayersRequest, props.fetchAllTeamsRequest]);
 
-    const [teamFilter, setTeamFilter] = useState('');
     const [positionFilter, setPositionFilter] = useState('');
-    const [sortByFilter, setSortByFilter] = useState('points');
-    const [minPriceFilter, setMinPriceFilter] = useState('');
-    const [maxPriceFilter, setMaxPriceFilter] = useState('');
-    const [nameFilter, setNameFilter] = useState('');
 
     const [removeModalOpen, setRemoveModalOpen] = useState(false);
     const [restoreModalOpen, setRestoreModalOpen] = useState(false);
@@ -81,8 +76,8 @@ const Transfers = props => {
     return (
         <Mobile
             addPlayerToCurrentTeamRequest={props.addPlayerToCurrentTeamRequest}
-            allTeams={props.allTeams}
             allPlayers={props.allPlayers}
+            allTeams={props.allTeams}
             closeRemoveModal={() => setRemoveModalOpen(false)}
             closeRestoreModal={() => setRestoreModalOpen(false)}
             closePlayerTable={() => setPlayerTableOpen(false)}
@@ -90,39 +85,24 @@ const Transfers = props => {
             currentTeam={props.currentTeam}
             fetchingAllPlayers={props.fetchingAllPlayers}
             fetchingOriginalTeam={props.fetchingOriginalTeam}
-            maxPriceFilter={maxPriceFilter}
-            minPriceFilter={minPriceFilter}
-            nameFilter={nameFilter}
             onPlayerClick={onPlayerClick}
             onTransfersRequest={onTransfersRequest}
             playerTableOpen={playerTableOpen}
             playerToRemove={playerToRemove}
-            positionFilter={positionFilter}
             remainingBudget={props.remainingBudget}
             removeModalOpen={removeModalOpen}
             removePlayer={removePlayer}
             restorePlayer={restorePlayer}
             restoreModalOpen={restoreModalOpen}
             selectReplacement={selectReplacement}
-            setMaxPriceFilter={setMaxPriceFilter}
-            setMinPriceFilter={setMinPriceFilter}
-            setNameFilter={setNameFilter}
-            setPositionFilter={setPositionFilter}
-            setTeamFilter={setTeamFilter}
-            setSortByFilter={setSortByFilter}
-            sortByFilter={sortByFilter}
-            teamFilter={teamFilter}
             transfersError={props.transfersError}
             transfersErrorCode={props.transfersErrorCode}
-            undoTransferChanges={props.undoTransferChanges}
-            updateTeamRequest={props.updateTeamRequest}
         />
     );
 };
 
 Transfers.defaultProps = {
     allPlayers: [],
-    allTeams: [],
     auth: {},
     currentTeam: [],
     fetchingAllPlayers: false,
@@ -174,8 +154,8 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-    allTeams: state.transfers.allTeams,
     allPlayers: state.transfers.allPlayers,
+    allTeams: state.transfers.allTeams,
     auth: state.firebase.auth,
     currentTeam: state.transfers.currentTeam,
     fetchingAllPlayers: state.transfers.fetchingAllPlayers,

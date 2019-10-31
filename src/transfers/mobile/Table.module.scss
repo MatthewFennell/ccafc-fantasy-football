@@ -2,7 +2,6 @@
 
 .playersWrapper{
   width: 100vw;
-  // overflow-y: hidden;
   .header{
     display: flex;
     background-color: $color-blue;
@@ -10,8 +9,19 @@
     position: fixed;
     width: 100%;
     height: 60px; // MAGIC
+    z-index: 1;
 
-    .backIcon, .remainingBudget{
+    > div { 
+      flex-grow: 1;
+    }
+
+    .backIcon{
+      padding: $spacing-small;
+      display: flex;
+      align-items: center;
+    }
+
+    .editColumns{
       padding: $spacing-small;
       @include vertical-center-div();
     }
@@ -33,6 +43,11 @@
     position: fixed;
     top: 0;
 
+    .playerRemovedText, .remainingBudget{
+      text-align: center;
+      font-weight: bold;
+    }
+
     .playerInfo{
       display: flex;
       > div { 
@@ -49,4 +64,16 @@
 
 .smallMarginTop {
   margin-top: 60px;
+}
+
+.priceWrapper{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  > div {
+    margin-top: $spacing-average;
+    flex-grow: 1;
+    @include vertical-center-div();
+  }
 }
