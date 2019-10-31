@@ -21,7 +21,6 @@ const Transfers = props => {
         props.fetchActiveTeamRequest, props.fetchAllPlayersRequest, props.fetchAllTeamsRequest]);
 
     const [positionFilter, setPositionFilter] = useState('');
-    const [nameFilter, setNameFilter] = useState('');
 
     const [removeModalOpen, setRemoveModalOpen] = useState(false);
     const [restoreModalOpen, setRestoreModalOpen] = useState(false);
@@ -86,7 +85,6 @@ const Transfers = props => {
             currentTeam={props.currentTeam}
             fetchingAllPlayers={props.fetchingAllPlayers}
             fetchingOriginalTeam={props.fetchingOriginalTeam}
-            nameFilter={nameFilter}
             onPlayerClick={onPlayerClick}
             onTransfersRequest={onTransfersRequest}
             playerTableOpen={playerTableOpen}
@@ -97,7 +95,6 @@ const Transfers = props => {
             restorePlayer={restorePlayer}
             restoreModalOpen={restoreModalOpen}
             selectReplacement={selectReplacement}
-            setNameFilter={setNameFilter}
             transfersError={props.transfersError}
             transfersErrorCode={props.transfersErrorCode}
         />

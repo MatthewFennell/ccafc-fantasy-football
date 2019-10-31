@@ -23,8 +23,6 @@ const Mobile = props => (
                 addPlayerToCurrentTeamRequest={props.addPlayerToCurrentTeamRequest}
                 closePlayerTable={props.closePlayerTable}
                 fetchingAllPlayers={props.fetchingAllPlayers}
-                nameFilter={props.nameFilter}
-                setNameFilter={props.setNameFilter}
                 playerToRemove={props.playerToRemove}
                 onTransfersRequest={props.onTransfersRequest}
                 remainingBudget={props.remainingBudget}
@@ -118,7 +116,6 @@ Mobile.defaultProps = {
     currentTeam: [],
     fetchingAllPlayers: false,
     fetchingOriginalTeam: false,
-    nameFilter: '',
     onTransfersRequest: noop,
     onPlayerClick: noop,
     remainingBudget: 0,
@@ -129,7 +126,6 @@ Mobile.defaultProps = {
     removePlayer: noop,
     restorePlayer: noop,
     selectReplacement: noop,
-    setNameFilter: noop,
     styles: defaultStyles,
     transfersError: '',
     transfersErrorCode: ''
@@ -146,7 +142,6 @@ Mobile.propTypes = {
     currentTeam: PropTypes.arrayOf(PropTypes.shape({})),
     fetchingAllPlayers: PropTypes.bool,
     fetchingOriginalTeam: PropTypes.bool,
-    nameFilter: PropTypes.string,
     onTransfersRequest: PropTypes.func,
     onPlayerClick: PropTypes.func,
     remainingBudget: PropTypes.number,
@@ -157,7 +152,6 @@ Mobile.propTypes = {
     restorePlayer: PropTypes.func,
     restoreModalOpen: PropTypes.bool,
     selectReplacement: PropTypes.func,
-    setNameFilter: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string),
     transfersError: PropTypes.string,
     transfersErrorCode: PropTypes.string

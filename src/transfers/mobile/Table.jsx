@@ -20,7 +20,8 @@ const Table = props => {
     const [columnModalOpen, setColumnModalOpen] = useState(false);
 
     const [sortBy, setSortBy] = useState('points');
-    const [nameFilter, setNameFilter] = useState('Asc');
+    const [nameFilter, setNameFilter] = useState('');
+    const [searchByName, setSearchByName] = useState('');
     const [pointsFilter, setPointsFilter] = useState('Desc');
     const [teamFilter, setTeamFilter] = useState('');
     const [positionFilter, setPositionFilter] = useState('GOALKEEPER');
@@ -31,27 +32,28 @@ const Table = props => {
     const [priceFilter, setPriceFilter] = useState('Asc');
     const [myColumnns, setMyColumns] = useState(getColumns(() => setColumnModalOpen(true)));
 
-    const filterPlayers = () => {
+    const filterPlayers = players => {
+        const byName = players.filter(x => x.name.includes(searchByName));
         if (sortBy === 'name') {
-            return sortListAscDesc(props.allPlayers, nameFilter, 'name');
+            return sortListAscDesc(byName, nameFilter, 'name');
         }
         if (sortBy === 'position') {
-            return props.allPlayers.filter(x => x.position === positionFilter);
+            return byName.filter(x => x.position === positionFilter);
         }
         if (sortBy === 'team') {
-            return props.allPlayers.filter(x => x.team === teamFilter);
+            return byName.filter(x => x.team === teamFilter);
         }
         if (sortBy === 'points') {
-            return sortListAscDesc(props.allPlayers, pointsFilter, 'points');
+            return sortListAscDesc(byName, pointsFilter, 'points');
         }
         if (sortBy === 'goals') {
-            return sortListAscDesc(props.allPlayers, goalFilter, 'goals');
+            return sortListAscDesc(byName, goalFilter, 'goals');
         }
         if (sortBy === 'assists') {
-            return sortListAscDesc(props.allPlayers, assistsFilter, 'assists');
+            return sortListAscDesc(byName, assistsFilter, 'assists');
         }
         if (sortBy === 'price') {
-            return sortListAscDesc(props.allPlayers.filter(x => x.price >= minPrice && x.price <= maxPrice), priceFilter, 'price');
+            return sortListAscDesc(byName.filter(x => x.price >= minPrice && x.price <= maxPrice), priceFilter, 'price');
         }
         return [];
     };
@@ -107,7 +109,7 @@ const Table = props => {
         }
         return null;
     }, [nameFilter, positionFilter, teamFilter, priceFilter,
-        goalFilter, assistsFilter, pointsFilter]);
+        goalFilter, assistsFilter, pointsFilter, props.allTeams]);
 
 
     return (
@@ -122,8 +124,8 @@ const Table = props => {
                     </div>
                     <div className={props.styles.inputWrapper}>
                         <StyledInput
-                            value={props.nameFilter}
-                            onChange={props.setNameFilter}
+                            value={searchByName}
+                            onChange={setSearchByName}
                             styles={inputStyles}
                         />
                     </div>
@@ -161,7 +163,7 @@ const Table = props => {
                             columns={myColumnns.filter(x => x.active)}
                             loading={props.fetchingAllPlayers}
                             onRowClick={props.onTransfersRequest}
-                            rows={filterPlayers().map(x => ({
+                            rows={filterPlayers(props.allPlayers).map(x => ({
                                 ...x,
                                 position: x.position.charAt(0) + x.position.slice(1).toLowerCase()
                             }))}
@@ -198,10 +200,8 @@ Table.defaultProps = {
     allTeams: [],
     closePlayerTable: noop,
     fetchingAllPlayers: false,
-    nameFilter: '',
     onTransfersRequest: noop,
     remainingBudget: 0,
-    setNameFilter: noop,
     styles: defaultStyles,
     playerToRemove: {}
 };
@@ -212,7 +212,6 @@ Table.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     closePlayerTable: PropTypes.func,
     fetchingAllPlayers: PropTypes.bool,
-    nameFilter: PropTypes.string,
     onTransfersRequest: PropTypes.func,
     playerToRemove: PropTypes.shape({
         name: PropTypes.string,
@@ -220,7 +219,6 @@ Table.propTypes = {
         price: PropTypes.number
     }),
     remainingBudget: PropTypes.number,
-    setNameFilter: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 
