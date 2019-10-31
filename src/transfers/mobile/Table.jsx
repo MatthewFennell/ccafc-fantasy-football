@@ -30,7 +30,12 @@ const Table = props => {
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(15);
     const [priceFilter, setPriceFilter] = useState('Asc');
-    const [myColumnns, setMyColumns] = useState(getColumns(() => setColumnModalOpen(true)));
+
+    const setColumnsOpen = useCallback(() => {
+        setColumnModalOpen(true);
+    }, [columnModalOpen, setColumnModalOpen]);
+
+    const [myColumnns, setMyColumns] = useState(getColumns(setColumnsOpen));
 
     const filterPlayers = players => {
         const byName = players.filter(x => x.name.includes(searchByName));
@@ -110,7 +115,6 @@ const Table = props => {
         return null;
     }, [nameFilter, positionFilter, teamFilter, priceFilter,
         goalFilter, assistsFilter, pointsFilter, props.allTeams]);
-
 
     return (
         <>

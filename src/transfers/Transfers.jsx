@@ -66,15 +66,25 @@ const Transfers = props => {
         }
     }, [props.replacePlayerRequest, playerToRemove]);
 
-    console.log('player to remove', playerToRemove);
+    const closeRemove = useCallback(() => {
+        setRemoveModalOpen(false);
+    }, [setRemoveModalOpen, removeModalOpen]);
+
+    const closeRestore = useCallback(() => {
+        setRestoreModalOpen(false);
+    }, [setRestoreModalOpen, restoreModalOpen]);
+
+    const closeTable = useCallback(() => {
+        setPlayerTableOpen(false);
+    }, [setPlayerTableOpen, playerTableOpen]);
 
     return (
         <Mobile
             allPlayers={props.allPlayers}
             allTeams={props.allTeams}
-            closeRemoveModal={() => setRemoveModalOpen(false)}
-            closeRestoreModal={() => setRestoreModalOpen(false)}
-            closePlayerTable={() => setPlayerTableOpen(false)}
+            closeRemoveModal={closeRemove}
+            closeRestoreModal={closeRestore}
+            closePlayerTable={closeTable}
             closeTransfersError={props.closeTransfersError}
             currentTeam={props.currentTeam}
             fetchingAllPlayers={props.fetchingAllPlayers}

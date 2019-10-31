@@ -21,7 +21,6 @@ import defaultStyles from './App.module.scss';
 import NewNavbar from './navbar/NewNavbar';
 import * as constants from './constants';
 import Overview from './overview/Overview';
-import Testing from './testing/Testing';
 import Leagues from './leagues/Leagues';
 import UsersInLeague from './leagues/UsersInLeague';
 import AdminRoute from './auth/routes/AdminRoute';
@@ -42,7 +41,6 @@ const App = props => (
                     <Container className={props.styles.appContainer}>
                         <Switch>
                             <AuthenticatedRoute exact path={`${constants.URL.OVERVIEW}/:userId/:week`} component={Overview} />
-                            <AuthenticatedRoute exact path="/testing" component={Testing} />
                             <AuthenticatedRoute exact path={constants.URL.PROFILE} component={Profile} />
                             <AuthenticatedRoute path={`${constants.URL.LEAGUES}/:leagueId`} component={UsersInLeague} />
                             <AuthenticatedRoute exact path={constants.URL.LEAGUES} component={Leagues} />

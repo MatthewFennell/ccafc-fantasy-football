@@ -5,7 +5,6 @@ import { connectRouter } from 'connected-react-router';
 import adminReducer from './admin/reducer';
 import authReducer from './auth/reducer';
 import leagueReducer from './leagues/reducer';
-import testingReducer from './testing/reducer';
 import overviewReducer from './overview/reducer';
 import currentTeamReducer from './currentteam/reducer';
 import pointsReducer from './points/reducer';
@@ -22,7 +21,6 @@ const appReducer = history => combineReducers({
     firebase: firebaseReducer,
     overview: overviewReducer,
     points: pointsReducer,
-    testing: testingReducer,
     profile: profileReducer,
     transfers: transfersReducer,
     router: connectRouter(history)
