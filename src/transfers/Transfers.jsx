@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import defaultStyles from './Transfers.module.scss';
 import { fetchUserStatsRequest } from '../overview/actions';
 import { fetchActiveTeamRequest } from '../currentteam/actions';
 import {
@@ -67,6 +66,8 @@ const Transfers = props => {
         }
     }, [props.replacePlayerRequest, playerToRemove]);
 
+    console.log('player to remove', playerToRemove);
+
     return (
         <Mobile
             allPlayers={props.allPlayers}
@@ -104,7 +105,6 @@ Transfers.defaultProps = {
     fetchingAllPlayers: false,
     fetchingOriginalTeam: false,
     remainingBudget: 0,
-    styles: defaultStyles,
     transfersError: '',
     transfersErrorCode: ''
 };
@@ -128,7 +128,6 @@ Transfers.propTypes = {
     replacePlayerRequest: PropTypes.func.isRequired,
     removePlayerFromCurrentTeam: PropTypes.func.isRequired,
     restorePlayerRequest: PropTypes.func.isRequired,
-    styles: PropTypes.objectOf(PropTypes.string),
     transfersError: PropTypes.string,
     transfersErrorCode: PropTypes.string,
     undoTransferChanges: PropTypes.func.isRequired,

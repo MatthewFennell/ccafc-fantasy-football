@@ -23,18 +23,16 @@
   }
   .playerTableWrapper{
     margin-top: $spacing-medium;
-  }
+  } 
+}
+.buttonsWrapper{
+  margin-top: $spacing-small;
+  justify-content: center;
+  text-align: center;
 
-  .buttonsWrapper{
-    margin-top: $spacing-small;
-    justify-content: center;
-    text-align: center;
-    display: flex;
-
-    > div {
-      margin-top: 0px;
-      margin-bottom: 0px;
-    }
+  > div {
+    margin-top: 0px;
+    margin-bottom: 0px;
   }
 }
 

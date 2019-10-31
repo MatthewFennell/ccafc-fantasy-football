@@ -1,97 +1,97 @@
-@import "../common/Styles.scss";
+// @import "../common/Styles.scss";
 
-.playersWrapper{
-  margin-left: 10%;
-  margin-right: 10%;
-  background-color: $color-white;
-  .playersTitle{
-    margin-top: $spacing-small;
-    padding: $spacing-small;
-    color: $color-blue;
-    font-size: $font-size-large;
-    text-align: center;
-  }
-  .nameFilter{
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
-  }
-  .playerFilters{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  .playerTableWrapper{
-    margin-top: $spacing-medium;
-  }
+// .playersWrapper{
+//   margin-left: 10%;
+//   margin-right: 10%;
+//   background-color: $color-white;
+//   .playersTitle{
+//     margin-top: $spacing-small;
+//     padding: $spacing-small;
+//     color: $color-blue;
+//     font-size: $font-size-large;
+//     text-align: center;
+//   }
+//   .nameFilter{
+//     margin-left: auto;
+//     margin-right: auto;
+//     width: 50%;
+//   }
+//   .playerFilters{
+//     display: flex;
+//     flex-wrap: wrap;
+//     justify-content: center;
+//   }
+//   .playerTableWrapper{
+//     margin-top: $spacing-medium;
+//   }
 
-  .buttonsWrapper{
-    margin-top: $spacing-small;
-    justify-content: center;
-    text-align: center;
-    display: flex;
+//   .buttonsWrapper{
+//     margin-top: $spacing-small;
+//     justify-content: center;
+//     text-align: center;
+//     display: flex;
 
-    > div {
-      margin-top: 0px;
-      margin-bottom: 0px;
-    }
-  }
-}
+//     > div {
+//       margin-top: 0px;
+//       margin-bottom: 0px;
+//     }
+//   }
+// }
 
-.pitchWrapper{
-  right: 0px;
-  position: absolute;
-  height: 90%;
-  width: 100%;
-  overflow-x: hidden;
-}
+// .pitchWrapper{
+//   right: 0px;
+//   position: absolute;
+//   height: 90%;
+//   width: 100%;
+//   overflow-x: hidden;
+// }
 
-.currentTeamWrapper{
-  height: 90vh;
-  background-color: $color-white;  
-  margin-left: auto;;
-  margin-right: auto;;
-  width: 70%;
+// .currentTeamWrapper{
+//   height: 90vh;
+//   background-color: $color-white;  
+//   margin-left: auto;;
+//   margin-right: auto;;
+//   width: 70%;
 
-  .pitchBackground{
-    height: 100%;
-    padding: $spacing-average;
-    justify-content: center;
+//   .pitchBackground{
+//     height: 100%;
+//     padding: $spacing-average;
+//     justify-content: center;
     
-    text-align: center;
-    background-image: url("../common//images/CCAFC.png");
-    background-size: 100% 100%;
-  }
-}
+//     text-align: center;
+//     background-image: url("../common//images/CCAFC.png");
+//     background-size: 100% 100%;
+//   }
+// }
 
-@media only screen and (max-width: 600px) {
-  .currentTeamWrapper{
-    width: 130%;
-    position: absolute;
-    left: -15%;
-    overflow-x: hidden;
-  }
-}
+// @media only screen and (max-width: 600px) {
+//   .currentTeamWrapper{
+//     width: 130%;
+//     position: absolute;
+//     left: -15%;
+//     overflow-x: hidden;
+//   }
+// }
 
-.transfersHeader{
-  padding: $spacing-medium;
-  display: flex;
-  justify-content: center;
-  @include light-box-shadow();
-  background-color: $color-white;
+// .transfersHeader{
+//   padding: $spacing-medium;
+//   display: flex;
+//   justify-content: center;
+//   @include light-box-shadow();
+//   background-color: $color-white;
 
-  > div {
-    flex-grow: 1;
-    text-align: center;
-  }
+//   > div {
+//     flex-grow: 1;
+//     text-align: center;
+//   }
 
-  .remainingBudgetText, .remainingTransfersText{
-    @include vertical-center-div();
-    font-size: $font-size-small;
-    color: $color-gray;
-  }
-  .remainingBudgetValue, .remainingTransfersValue {
-    font-size: $font-size-gigantic;
-    color: $color-blue;
-  }
-}
+//   .remainingBudgetText, .remainingTransfersText{
+//     @include vertical-center-div();
+//     font-size: $font-size-small;
+//     color: $color-gray;
+//   }
+//   .remainingBudgetValue, .remainingTransfersValue {
+//     font-size: $font-size-gigantic;
+//     color: $color-blue;
+//   }
+// }

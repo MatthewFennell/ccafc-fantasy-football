@@ -41,7 +41,7 @@ const Table = props => {
             return byName.filter(x => x.position === positionFilter);
         }
         if (sortBy === 'team') {
-            return byName.filter(x => x.team === teamFilter);
+            return byName.filter(x => x.team === teamFilter || teamFilter === '');
         }
         if (sortBy === 'points') {
             return sortListAscDesc(byName, pointsFilter, 'points');
@@ -176,7 +176,7 @@ const Table = props => {
                 backdrop
                 closeModal={() => setColumnModalOpen(false)}
                 isOpen={columnModalOpen}
-                headerMessage="Select Columns"
+                headerMessage="Select Columns (3 Max)"
                 styles={modalStyles}
             >
                 <TableModal
@@ -210,11 +210,14 @@ Table.propTypes = {
     closePlayerTable: PropTypes.func,
     fetchingAllPlayers: PropTypes.bool,
     onTransfersRequest: PropTypes.func,
-    playerToRemove: PropTypes.shape({
-        name: PropTypes.string,
-        position: PropTypes.string,
-        price: PropTypes.number
-    }),
+    playerToRemove: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.shape({
+            name: PropTypes.string,
+            position: PropTypes.string,
+            price: PropTypes.number
+        })
+    ]),
     remainingBudget: PropTypes.number,
     styles: PropTypes.objectOf(PropTypes.string)
 };

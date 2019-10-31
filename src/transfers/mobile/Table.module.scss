@@ -75,6 +75,9 @@
   > div {
     margin-top: $spacing-average;
     flex-grow: 1;
-    @include vertical-center-div();
+    align-items: center;
+    justify-content: center;
+    padding-left: $spacing-average;
+    padding-right: $spacing-average;
   }
 }
