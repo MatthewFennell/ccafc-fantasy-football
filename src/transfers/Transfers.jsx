@@ -20,11 +20,7 @@ const Transfers = props => {
     }, [props.fetchUserStatsRequest, props.auth.uid,
         props.fetchActiveTeamRequest, props.fetchAllPlayersRequest, props.fetchAllTeamsRequest]);
 
-    const [teamFilter, setTeamFilter] = useState('');
     const [positionFilter, setPositionFilter] = useState('');
-    const [sortByFilter, setSortByFilter] = useState('points');
-    const [minPriceFilter, setMinPriceFilter] = useState('');
-    const [maxPriceFilter, setMaxPriceFilter] = useState('');
     const [nameFilter, setNameFilter] = useState('');
 
     const [removeModalOpen, setRemoveModalOpen] = useState(false);
@@ -90,14 +86,11 @@ const Transfers = props => {
             currentTeam={props.currentTeam}
             fetchingAllPlayers={props.fetchingAllPlayers}
             fetchingOriginalTeam={props.fetchingOriginalTeam}
-            maxPriceFilter={maxPriceFilter}
-            minPriceFilter={minPriceFilter}
             nameFilter={nameFilter}
             onPlayerClick={onPlayerClick}
             onTransfersRequest={onTransfersRequest}
             playerTableOpen={playerTableOpen}
             playerToRemove={playerToRemove}
-            positionFilter={positionFilter}
             remainingBudget={props.remainingBudget}
             removeModalOpen={removeModalOpen}
             removePlayer={removePlayer}
@@ -105,8 +98,6 @@ const Transfers = props => {
             restoreModalOpen={restoreModalOpen}
             selectReplacement={selectReplacement}
             setNameFilter={setNameFilter}
-            sortByFilter={sortByFilter}
-            teamFilter={teamFilter}
             transfersError={props.transfersError}
             transfersErrorCode={props.transfersErrorCode}
         />

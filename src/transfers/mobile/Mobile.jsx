@@ -23,11 +23,6 @@ const Mobile = props => (
                 addPlayerToCurrentTeamRequest={props.addPlayerToCurrentTeamRequest}
                 closePlayerTable={props.closePlayerTable}
                 fetchingAllPlayers={props.fetchingAllPlayers}
-                teamFilter={props.teamFilter}
-                positionFilter={props.positionFilter}
-                minPriceFilter={props.minPriceFilter}
-                maxPriceFilter={props.maxPriceFilter}
-                sortByFilter={props.sortByFilter}
                 nameFilter={props.nameFilter}
                 setNameFilter={props.setNameFilter}
                 playerToRemove={props.playerToRemove}
@@ -124,23 +119,18 @@ Mobile.defaultProps = {
     fetchingAllPlayers: false,
     fetchingOriginalTeam: false,
     nameFilter: '',
-    maxPriceFilter: '',
-    minPriceFilter: '',
     onTransfersRequest: noop,
     onPlayerClick: noop,
     remainingBudget: 0,
     playerTableOpen: false,
     playerToRemove: {},
-    positionFilter: '',
     removeModalOpen: false,
     restoreModalOpen: false,
     removePlayer: noop,
     restorePlayer: noop,
     selectReplacement: noop,
     setNameFilter: noop,
-    sortByFilter: '',
     styles: defaultStyles,
-    teamFilter: '',
     transfersError: '',
     transfersErrorCode: ''
 };
@@ -157,23 +147,18 @@ Mobile.propTypes = {
     fetchingAllPlayers: PropTypes.bool,
     fetchingOriginalTeam: PropTypes.bool,
     nameFilter: PropTypes.string,
-    maxPriceFilter: PropTypes.string,
-    minPriceFilter: PropTypes.string,
     onTransfersRequest: PropTypes.func,
     onPlayerClick: PropTypes.func,
     remainingBudget: PropTypes.number,
     playerTableOpen: PropTypes.bool,
     playerToRemove: PropTypes.shape({}),
-    positionFilter: PropTypes.string,
     removeModalOpen: PropTypes.bool,
     removePlayer: PropTypes.func,
     restorePlayer: PropTypes.func,
     restoreModalOpen: PropTypes.bool,
     selectReplacement: PropTypes.func,
     setNameFilter: PropTypes.func,
-    sortByFilter: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
-    teamFilter: PropTypes.string,
     transfersError: PropTypes.string,
     transfersErrorCode: PropTypes.string
 };

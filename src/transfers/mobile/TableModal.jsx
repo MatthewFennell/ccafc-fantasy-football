@@ -9,16 +9,18 @@ const TableModal = props => (
     <div className={props.styles.tableModalWrapper}>
         <div className={props.styles.columnToggles}>
             {props.columnOptions.filter(x => !x.fixed).map(x => (
-                <div>
+                <div key={x.id}>
                     <div className={props.styles.columnName}>
                         {x.name}
                     </div>
                     <div>
                         <Toggle
                             color="primary"
-                            checked={props.activeColumns.includes(x.id)}
-                            disabled={(!props.activeColumns.includes(x.id) && props.activeColumns.length >= 4)
-                                  || (props.activeColumns.includes(x.id) && props.activeColumns.length <= 2)}
+                            checked={props.activeColumns.some(y => x.id === y.id)}
+                            disabled={(!props.activeColumns.some(y => x.id === y.id)
+                                && props.activeColumns.length >= 4)
+                                  || (props.activeColumns.some(y => x.id === y.id)
+                                  && props.activeColumns.length <= 2)}
                             onChange={() => props.toggleColumns(x.id)}
                         />
                     </div>
@@ -27,10 +29,9 @@ const TableModal = props => (
         </div>
         <div className={props.styles.sortingWrapper}>
             <RadioButton
-                label="Sort By"
+                radioLabel="Sort By"
                 onChange={props.setSortBy}
-                options={props.activeColumns
-                    .map(x => ({ label: x.charAt(0).toUpperCase() + x.slice(1) }))}
+                options={props.activeColumns.map(x => ({ ...x, radioLabel: x.name, value: x.id }))}
                 value={props.sortBy}
             />
             {props.sortingComponent}
@@ -48,12 +49,16 @@ TableModal.defaultProps = {
 };
 
 TableModal.propTypes = {
-    activeColumns: PropTypes.arrayOf(PropTypes.string),
+    activeColumns: PropTypes.arrayOf(PropTypes.shape({})),
     columnOptions: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string
     })),
     setSortBy: PropTypes.func,
     sortBy: PropTypes.string,
+    sortingComponent: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node
+    ]).isRequired,
     styles: PropTypes.objectOf(PropTypes.string),
     toggleColumns: PropTypes.func
 };

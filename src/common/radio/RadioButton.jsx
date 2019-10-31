@@ -21,26 +21,26 @@ const RadioButton = props => {
     const classes = useStyles();
 
     const onChange = event => {
-        console.log('yes');
         props.onChange(event.target.value);
     };
 
     return (
         <FormControl component="fieldset" className={classes.formControl}>
-            <FormLabel component="legend" className={classes.title}>{props.label}</FormLabel>
+            <FormLabel component="legend" className={classes.title}>{props.radioLabel}</FormLabel>
             <RadioGroup
                 row
-                aria-label={props.label}
-                name={props.label}
+                aria-label={props.radioLabel}
+                name={props.radioLabel}
                 value={props.value}
                 onChange={onChange}
             >
                 {props.options.map(option => (
                     <FormControlLabel
-                        value={option.label}
+                        value={option.value}
                         control={<Radio color="primary" />}
-                        label={option.label}
+                        label={option.radioLabel}
                         labelPlacement="top"
+                        key={option.value}
                     />
                 ))}
             </RadioGroup>
@@ -50,16 +50,16 @@ const RadioButton = props => {
 
 RadioButton.defaultProps = {
     onChange: noop,
-    label: '',
+    radioLabel: '',
     options: [],
     value: ''
 };
 
 RadioButton.propTypes = {
     onChange: PropTypes.func,
-    label: PropTypes.string,
+    radioLabel: PropTypes.string,
     options: PropTypes.arrayOf(PropTypes.shape({
-        label: PropTypes.string
+        radioLabel: PropTypes.string
     })),
     value: PropTypes.string
 };

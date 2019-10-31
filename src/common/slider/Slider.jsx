@@ -28,10 +28,9 @@ const CustomSlider = props => {
                 onChange={(e, value) => {
                     e.stopPropagation();
                     e.preventDefault();
-                    console.log('value', value);
                     props.onChange(value);
                 }}
-                defaultValue={0}
+                defaultValue={props.defaultValue}
                 getAriaValueText={valuetext}
                 aria-labelledby="discrete-slider-always"
                 step={props.step}
@@ -45,6 +44,7 @@ const CustomSlider = props => {
 };
 
 CustomSlider.defaultProps = {
+    defaultValue: 0,
     marks: [],
     max: 0,
     min: 0,
@@ -54,6 +54,10 @@ CustomSlider.defaultProps = {
 };
 
 CustomSlider.propTypes = {
+    defaultValue: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+    ]),
     marks: PropTypes.arrayOf(PropTypes.shape({
         value: PropTypes.oneOfType([
             PropTypes.string,
