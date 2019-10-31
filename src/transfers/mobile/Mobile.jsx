@@ -13,14 +13,13 @@ const Mobile = props => (
     <>
         <SwipeableDrawer
             anchor="right"
-            open={!props.playerTableOpen}
+            open={props.playerTableOpen}
             onClose={props.closePlayerTable}
-            onOpen={() => {}}
+            onOpen={noop}
         >
             <Table
                 allPlayers={props.allPlayers}
                 allTeams={props.allTeams}
-                addPlayerToCurrentTeamRequest={props.addPlayerToCurrentTeamRequest}
                 closePlayerTable={props.closePlayerTable}
                 fetchingAllPlayers={props.fetchingAllPlayers}
                 playerToRemove={props.playerToRemove}
@@ -35,9 +34,20 @@ const Mobile = props => (
                         <div className={props.styles.remainingBudgetValue}>
                             {`£${props.remainingBudget} mil`}
                         </div>
-                        <div className={props.styles.remainingBudgetText}>
-                  Remaining Budget
-                        </div>
+                    </div>
+                    <div>
+                        <StyledButton
+                            color="primary"
+                            onClick={props.undoTransferChanges}
+                            text="Reset"
+                        />
+                    </div>
+                    <div>
+                        <StyledButton
+                            color="primary"
+                            onClick={props.updateTeamRequest}
+                            text="Confirm"
+                        />
                     </div>
                 </div>
                 <Pitch
@@ -91,13 +101,13 @@ const Mobile = props => (
                 <div className={props.styles.buttonsWrapper}>
                     <StyledButton
                         color="primary"
-                        onClick={props.restorePlayer}
-                        text="Restore player"
+                        onClick={props.selectReplacement}
+                        text="Select Replacement"
                     />
                     <StyledButton
                         color="primary"
-                        onClick={props.selectReplacement}
-                        text="Select Replacement"
+                        onClick={props.restorePlayer}
+                        text="Restore player"
                     />
                 </div>
             </div>
@@ -106,7 +116,6 @@ const Mobile = props => (
 );
 
 Mobile.defaultProps = {
-    addPlayerToCurrentTeamRequest: noop,
     allPlayers: [],
     allTeams: [],
     closePlayerTable: noop,
@@ -128,11 +137,12 @@ Mobile.defaultProps = {
     selectReplacement: noop,
     styles: defaultStyles,
     transfersError: '',
-    transfersErrorCode: ''
+    transfersErrorCode: '',
+    undoTransferChanges: noop,
+    updateTeamRequest: noop
 };
 
 Mobile.propTypes = {
-    addPlayerToCurrentTeamRequest: PropTypes.func,
     allPlayers: PropTypes.arrayOf(PropTypes.shape({})),
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     closePlayerTable: PropTypes.func,
@@ -154,7 +164,9 @@ Mobile.propTypes = {
     selectReplacement: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string),
     transfersError: PropTypes.string,
-    transfersErrorCode: PropTypes.string
+    transfersErrorCode: PropTypes.string,
+    undoTransferChanges: PropTypes.func,
+    updateTeamRequest: PropTypes.func
 };
 
 export default Mobile;

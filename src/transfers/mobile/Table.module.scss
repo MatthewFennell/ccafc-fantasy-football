@@ -37,21 +37,22 @@
 
   .playerRemoved{
     margin-top: 60px;
-    padding: $spacing-average;
+    padding: $spacing-small;
     background-color: $color-gray;
     width: 100%;
     position: fixed;
     top: 0;
+    z-index: 1;
 
     .playerRemovedText, .remainingBudget{
       text-align: center;
-      font-weight: bold;
     }
 
     .playerInfo{
       display: flex;
+      font-weight: bold;
       > div { 
-        flex-grow: 1;
+        width: 33%;
         text-align: center;
       }
     }

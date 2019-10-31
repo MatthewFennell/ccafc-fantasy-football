@@ -119,7 +119,7 @@ export const canAddPlayer = (player, currentTeam) => {
         return error('overflow', 'Too many players');
     }
 
-    if (currentTeam.find(x => x.id === player.id)) {
+    if (currentTeam.find(x => x.id === player.id && x.name === player.name)) {
         return error('already-found', 'You already have that player selected');
     }
 

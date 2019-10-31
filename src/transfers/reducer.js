@@ -141,6 +141,9 @@ const transfersReducer = (state = initialState, action) => {
     case actions.REPLACE_PLAYER_SUCCESS: {
         return fp.set('currentTeam', state.currentTeam.map(x => (x.id === action.oldPlayer.id ? action.newPlayer : x)))(state);
     }
+    case actions.UPDATE_TEAM_REQUEST: {
+        return fp.set('fetchingOriginalTeam', true)(state);
+    }
     default:
         return state;
     }
