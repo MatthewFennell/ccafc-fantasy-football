@@ -8,13 +8,14 @@ import Spinner from '../spinner/Spinner';
 import defaultActivePlayerStyles from './ActivePlayer.module.scss';
 import defaultGoalkeeperStyles from './Goalkeeper.module.scss';
 import inactivePlayerStyles from './InactivePlayer.module.scss';
+import * as constants from '../../constants';
 
 const Pitch = props => {
     const numberOfSpareSpots = position => {
-        const numAttIHaveToAdd = Math.max(1 - props.activeTeam.filter(x => x.position === 'ATTACKER').length, 0);
-        const numMidIHaveToAdd = Math.max(3 - props.activeTeam.filter(x => x.position === 'MIDFIELDER').length, 0);
-        const numDefIHaveToAdd = Math.max(3 - props.activeTeam.filter(x => x.position === 'DEFENDER').length, 0);
-        const numGkIHaveToAdd = Math.max(1 - props.activeTeam.filter(x => x.position === 'GOALKEEPER').length, 0);
+        const numAttIHaveToAdd = Math.max(constants.minPerPosition.ATTACKER - props.activeTeam.filter(x => x.position === 'ATTACKER').length, 0);
+        const numMidIHaveToAdd = Math.max(constants.minPerPosition.MIDFIELDER - props.activeTeam.filter(x => x.position === 'MIDFIELDER').length, 0);
+        const numDefIHaveToAdd = Math.max(constants.minPerPosition.DEFENDER - props.activeTeam.filter(x => x.position === 'DEFENDER').length, 0);
+        const numGkIHaveToAdd = Math.max(constants.minPerPosition.GOALKEEPER - props.activeTeam.filter(x => x.position === 'GOALKEEPER').length, 0);
 
         if (position === 'ATTACKER') {
             return 11 - props.activeTeam.filter(x => !x.inactive).length - numMidIHaveToAdd - numDefIHaveToAdd - numGkIHaveToAdd;
@@ -32,7 +33,7 @@ const Pitch = props => {
         .filter(player => player.position === position).map(player => (
             <Player
                 additionalInfo={props.additionalInfo(player)}
-                isCaptain={props.captain === player.player_id}
+                isCaptain={props.captain === player.id}
                 name={player.name}
                 onClick={() => props.onPlayerClick(player)}
                 shirtStyles={player.inactive === true ? inactivePlayerStyles : styles}
@@ -59,11 +60,6 @@ const Pitch = props => {
         }
         return players;
     };
-
-    calculateToRender(3, 'ATTACKER');
-    calculateToRender(5, 'MIDFIELDER');
-    calculateToRender(5, 'DEFENDER');
-    calculateToRender(1, 'GOALKEEPER');
 
     return (
         <div className={props.styles.pitchBackground}>

@@ -29,10 +29,10 @@ const CurrentTeam = props => {
     }, [modalPlayer, playerModalOpen]);
 
     const submit = useCallback(() => {
-        props.makeCaptainRequest(modalPlayer.player_id);
+        props.makeCaptainRequest(modalPlayer.id);
         setPlayerModalOpen(false);
         setModalPlayer({});
-    }, [setModalPlayer, props.makeCaptainRequest, modalPlayer.player_id]);
+    }, [setModalPlayer, props.makeCaptainRequest, modalPlayer.id]);
 
     return (
         <div className={props.styles.pitchWrapper}>

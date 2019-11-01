@@ -150,12 +150,17 @@ exports.submitResult = functions
                     if (!player.exists) {
                         throw new functions.https.HttpsError('not-found', `There is no player with that id (${player})`);
                     }
-                    return ({ id: playerId, position: player.data().position, ref: player.ref });
+                    return ({
+                        id: playerId, position: player.data().position, team: player.data().team, ref: player.ref
+                    });
                 })));
 
             return Promise.all(playerPromises).then(playerPositionsArray => {
                 const playerPositions = playerPositionsArray
                     .reduce((acc, cur) => ({ ...acc, [cur.id]: cur.position.toUpperCase() }), {});
+
+                const playerTeams = playerPositionsArray
+                    .reduce((acc, cur) => ({ ...acc, [cur.id]: cur.team }), {});
                 // Get the goals, assists and position of each player having points added to them
                 const playerStats = playerPositionsArray.reduce((acc, cur) => ({
                     ...acc,
@@ -168,13 +173,14 @@ exports.submitResult = functions
                         redCard: data.players[cur.id].redCard || false,
                         yellowCard: data.players[cur.id].yellowCard || false,
                         manOfTheMatch: data.players[cur.id].manOfTheMatch || false,
-                        position: playerPositions[cur.id]
+                        position: playerPositions[cur.id],
+                        team: playerTeams[cur.id]
                     })
                 }), {});
                 // Update or create player points object
                 playerIds.forEach(playerId => {
                     const {
-                        position, goals, assists, cleanSheet, redCard, yellowCard, manOfTheMatch, dickOfTheDay, ownGoals
+                        position, goals, assists, cleanSheet, redCard, yellowCard, manOfTheMatch, dickOfTheDay, ownGoals, team
                     } = playerStats[playerId];
                     const points = common.calculatePoints(position,
                         goals, assists, cleanSheet, redCard, yellowCard, dickOfTheDay, ownGoals);
@@ -194,7 +200,8 @@ exports.submitResult = functions
                                     position,
                                     points,
                                     dickOfTheDay,
-                                    ownGoals
+                                    ownGoals,
+                                    team
                                 });
                             } else if (playerDocs.size > 1) {
                                 throw new functions.https.HttpsError('invalid-argument', 'Somehow that player points has multiple entries');

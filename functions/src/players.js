@@ -120,7 +120,8 @@ exports.editPlayerStats = functions
                                     points,
                                     position: player.position,
                                     ownGoals: fp.has('ownGoals')(data.difference) ? data.difference.ownGoals : 0,
-                                    dickOfTheDay: fp.has('dickOfTheDay')(data.difference) ? data.difference.dickOfTheDay : false
+                                    dickOfTheDay: fp.has('dickOfTheDay')(data.difference) ? data.difference.dickOfTheDay : false,
+                                    team: player.team
                                 });
                             }
 

@@ -1,0 +1,19 @@
+@import "../common/Styles.scss";
+
+.statsWrapper{
+  .statsHeader{
+    margin: $spacing-medium;
+    padding: $spacing-small;
+    @include light-box-shadow();
+    display: flex;
+    flex-wrap: wrap;
+
+    > * {
+      flex-grow: 1;
+    }
+
+    .editFiltersWrapper{
+      @include vertical-center-div();
+    }
+  }
+}

@@ -98,27 +98,35 @@ exports.triggerWeeklyTeams = functions
                         points: 0,
                         player_ids: doc.data().player_ids,
                         captain: doc.data().captain || null
-                    }).then(() => {
-                        const activeTeamPlayersRef = db.collection('active-teams').doc(doc.id).collection('players');
-                        activeTeamPlayersRef.get().then(playerDocs => {
-                            playerDocs.docs.forEach(player => db.collection('weekly-players').add({
-                                name: player.data().name,
-                                player_id: player.data().player_id,
-                                week: data.week,
-                                position: player.data().position,
-                                price: player.data().price,
-                                team: player.data().team,
-                                points: 0,
-                                user_id: doc.data().user_id,
-                                isCaptain: doc.data().captain === player.data().player_id,
-                                goals: 0,
-                                assists: 0,
-                                cleanSheet: false,
-                                manOfTheMatch: false,
-                                redCard: false,
-                                yellowCard: false
-                            }));
-                        });
-                    }));
+                    }).then(() => db.collection('active-teams').doc(doc.id).get().then(
+                        result => {
+                            const promises = [];
+                            result.data().player_ids.forEach(playerId => promises.push(db.collection('players').doc(playerId).get()
+                                .then(p => {
+                                    if (p.exists) return ({ ...p.data(), id: p.id });
+                                    throw new functions.https.HttpsError('not-found', 'Invalid player ID');
+                                })));
+                            return Promise.all(promises).then(allPlayers => {
+                                allPlayers.forEach(p => db.collection('weekly-players').add({
+                                    name: p.name,
+                                    player_id: p.id,
+                                    week: data.week,
+                                    position: p.position,
+                                    price: p.price,
+                                    team: p.team,
+                                    points: 0,
+                                    user_id: doc.data().user_id,
+                                    isCaptain: doc.data().captain === p.id,
+                                    goals: 0,
+                                    assists: 0,
+                                    cleanSheet: false,
+                                    manOfTheMatch: false,
+                                    dickOfTheDay: false,
+                                    redCard: false,
+                                    yellowCard: false
+                                }));
+                            });
+                        }
+                    )));
                 })));
     });
