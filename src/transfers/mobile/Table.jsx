@@ -18,13 +18,10 @@ import {
 
 const Table = props => {
     const [columnModalOpen, setColumnModalOpen] = useState(false);
-
-    const [sortBy, setSortBy] = useState('points');
     const [nameFilter, setNameFilter] = useState('');
     const [searchByName, setSearchByName] = useState('');
     const [pointsFilter, setPointsFilter] = useState('Desc');
     const [teamFilter, setTeamFilter] = useState('');
-    const [positionFilter, setPositionFilter] = useState('GOALKEEPER');
     const [goalFilter, setGoalFilter] = useState('Asc');
     const [assistsFilter, setAssistsFilter] = useState('Asc');
     const [minPrice, setMinPrice] = useState(0);
@@ -39,25 +36,25 @@ const Table = props => {
 
     const filterPlayers = players => {
         const byName = players.filter(x => x.name.includes(searchByName));
-        if (sortBy === 'name') {
+        if (props.sortBy === 'name') {
             return sortListAscDesc(byName, nameFilter, 'name');
         }
-        if (sortBy === 'position') {
-            return byName.filter(x => x.position === positionFilter);
+        if (props.sortBy === 'position') {
+            return byName.filter(x => x.position === props.positionFilter);
         }
-        if (sortBy === 'team') {
+        if (props.sortBy === 'team') {
             return byName.filter(x => x.team === teamFilter || teamFilter === '');
         }
-        if (sortBy === 'points') {
+        if (props.sortBy === 'points') {
             return sortListAscDesc(byName, pointsFilter, 'points');
         }
-        if (sortBy === 'goals') {
+        if (props.sortBy === 'goals') {
             return sortListAscDesc(byName, goalFilter, 'goals');
         }
-        if (sortBy === 'assists') {
+        if (props.sortBy === 'assists') {
             return sortListAscDesc(byName, assistsFilter, 'assists');
         }
-        if (sortBy === 'price') {
+        if (props.sortBy === 'price') {
             return sortListAscDesc(byName.filter(x => x.price >= minPrice && x.price <= maxPrice), priceFilter, 'price');
         }
         return [];
@@ -66,8 +63,8 @@ const Table = props => {
     const toggleColumns = useCallback(column => {
         if (myColumnns.find(x => x.id === column).active) {
             setMyColumns(myColumnns.map(x => (x.id === column ? ({ ...x, active: false }) : x)));
-            if (sortBy === column) {
-                setSortBy('name');
+            if (props.sortBy === column) {
+                props.setSortBy('name');
             }
         } else {
             setMyColumns(myColumnns.map(x => (x.id === column ? ({ ...x, active: true }) : x)));
@@ -79,7 +76,7 @@ const Table = props => {
             return RadioAscDesc(nameFilter, setNameFilter, 'Direction');
         }
         if (id === 'position') {
-            return RadioPosition(positionFilter, setPositionFilter, 'Filter by Position');
+            return RadioPosition(props.positionFilter, props.setPositionFilter, 'Filter by Position');
         }
         if (id === 'team') {
             return (
@@ -113,7 +110,7 @@ const Table = props => {
             return RadioAscDesc(assistsFilter, setAssistsFilter, 'Direction');
         }
         return null;
-    }, [nameFilter, positionFilter, teamFilter, priceFilter,
+    }, [nameFilter, props.positionFilter, teamFilter, priceFilter,
         goalFilter, assistsFilter, pointsFilter, props.allTeams]);
 
     return (
@@ -186,10 +183,10 @@ const Table = props => {
                 <TableModal
                     activeColumns={myColumnns.filter(x => x.active)}
                     columnOptions={myColumnns}
-                    setSortBy={setSortBy}
-                    sortBy={sortBy}
+                    setSortBy={props.setSortBy}
+                    sortBy={props.sortBy}
                     sortingComponent={findSortingComponent(myColumnns
-                        .find(x => x.id === sortBy).id)}
+                        .find(x => x.id === props.sortBy).id)}
                     toggleColumns={toggleColumns}
                 />
             </StyledModal>
@@ -204,6 +201,10 @@ Table.defaultProps = {
     fetchingAllPlayers: false,
     onTransfersRequest: noop,
     remainingBudget: 0,
+    positionFilter: '',
+    setPositionFilter: noop,
+    setSortBy: noop,
+    sortBy: '',
     styles: defaultStyles,
     playerToRemove: {}
 };
@@ -222,7 +223,11 @@ Table.propTypes = {
             price: PropTypes.number
         })
     ]),
+    positionFilter: PropTypes.string,
     remainingBudget: PropTypes.number,
+    setPositionFilter: PropTypes.func,
+    setSortBy: PropTypes.func,
+    sortBy: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 

@@ -25,6 +25,10 @@ const Mobile = props => (
                 playerToRemove={props.playerToRemove}
                 onTransfersRequest={props.onTransfersRequest}
                 remainingBudget={props.remainingBudget}
+                positionFilter={props.positionFilter}
+                setPositionFilter={props.setPositionFilter}
+                setSortBy={props.setSortBy}
+                sortBy={props.sortBy}
             />
         </SwipeableDrawer>
         <div className={props.styles.pitchWrapper}>
@@ -54,6 +58,12 @@ const Mobile = props => (
                     additionalInfo={player => `£${player.price} mil`}
                     activeTeam={props.currentTeam}
                     loading={props.fetchingOriginalTeam}
+                    maxInPos={{
+                        GOALKEEPER: 1,
+                        DEFENDER: 5,
+                        MIDFIELDER: 5,
+                        ATTACKER: 3
+                    }}
                     onPlayerClick={props.onPlayerClick}
                     renderEmptyPlayers
                 />
@@ -131,11 +141,15 @@ Mobile.defaultProps = {
     remainingBudget: 0,
     playerTableOpen: false,
     playerToRemove: {},
+    positionFilter: '',
     removeModalOpen: false,
     restoreModalOpen: false,
     removePlayer: noop,
     restorePlayer: noop,
+    setPositionFilter: noop,
     selectReplacement: noop,
+    setSortBy: noop,
+    sortBy: '',
     styles: defaultStyles,
     transfersError: '',
     transfersErrorCode: '',
@@ -166,11 +180,15 @@ Mobile.propTypes = {
             id: PropTypes.string
         })
     ]),
+    positionFilter: PropTypes.string,
     removeModalOpen: PropTypes.bool,
     removePlayer: PropTypes.func,
     restorePlayer: PropTypes.func,
     restoreModalOpen: PropTypes.bool,
     selectReplacement: PropTypes.func,
+    setPositionFilter: PropTypes.func,
+    setSortBy: PropTypes.func,
+    sortBy: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
     transfersError: PropTypes.string,
     transfersErrorCode: PropTypes.string,
