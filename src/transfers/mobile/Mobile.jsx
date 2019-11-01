@@ -54,6 +54,12 @@ const Mobile = props => (
                     additionalInfo={player => `£${player.price} mil`}
                     activeTeam={props.currentTeam}
                     loading={props.fetchingOriginalTeam}
+                    maxInPos={{
+                        GOALKEEPER: 1,
+                        DEFENDER: 5,
+                        MIDFIELDER: 5,
+                        ATTACKER: 3
+                    }}
                     onPlayerClick={props.onPlayerClick}
                     renderEmptyPlayers
                 />

@@ -9,6 +9,24 @@ import defaultGoalkeeperStyles from './Goalkeeper.module.scss';
 import inactivePlayerStyles from './InactivePlayer.module.scss';
 
 const Pitch = props => {
+    const numberOfSpareSpots = position => {
+        const numberOfAttackersIHaveToAdd = Math.max(1 - props.activeTeam.filter(x => x.position === 'ATTACKER').length, 0);
+        const numberOfMidfieldersIHaveToAdd = Math.max(3 - props.activeTeam.filter(x => x.position === 'MIDFIELDER').length, 0);
+        const numberOfDefendersIHaveToAdd = Math.max(3 - props.activeTeam.filter(x => x.position === 'DEFENDER').length, 0);
+        const numberOfGoalkeepersIHaveToAdd = Math.max(1 - props.activeTeam.filter(x => x.position === 'GOALKEEPER').length, 0);
+
+        if (position === 'ATTACKER') {
+            return 11 - props.activeTeam.filter(x => !x.inactive).length - numberOfMidfieldersIHaveToAdd - numberOfDefendersIHaveToAdd - numberOfGoalkeepersIHaveToAdd;
+        }
+        if (position === 'MIDFIELDER') {
+            return 11 - props.activeTeam.filter(x => !x.inactive).length - numberOfAttackersIHaveToAdd - numberOfDefendersIHaveToAdd - numberOfGoalkeepersIHaveToAdd;
+        }
+        if (position === 'DEFENDER') {
+            return 11 - props.activeTeam.filter(x => !x.inactive).length - numberOfAttackersIHaveToAdd - numberOfMidfieldersIHaveToAdd - numberOfGoalkeepersIHaveToAdd;
+        }
+        return 11 - props.activeTeam.filter(x => !x.inactive).length - numberOfAttackersIHaveToAdd - numberOfMidfieldersIHaveToAdd - numberOfDefendersIHaveToAdd;
+    };
+
     const renderPlayers = (position, styles) => props.activeTeam
         .filter(player => player.position === position).map(player => (
             <Player
@@ -23,14 +41,16 @@ const Pitch = props => {
             />
         ));
 
-    const renderEmptyPlayer = (position, maxPlayers) => {
+    const calculateToRender = (maxInRow, pos) => {
+        const numInRow = props.activeTeam.filter(x => x.position === pos).length;
+        const numSpareSpots = numberOfSpareSpots(pos);
+        const numToRender = Math.min(maxInRow - numInRow, numSpareSpots);
         const players = [];
-        const numInPos = props.activeTeam.filter(x => x.position === position).length;
-        for (let x = numInPos; x < maxPlayers; x++) {
+        for (let x = 0; x < numToRender; x++) {
             players.push(<Player
                 additionalInfo=""
                 name="No player selected"
-                onClick={() => props.onPlayerClick(position)}
+                onClick={() => props.onPlayerClick({ postion: pos })}
                 shirtStyles={inactivePlayerStyles}
                 size="4x"
                 key={x}
@@ -38,6 +58,11 @@ const Pitch = props => {
         }
         return players;
     };
+
+    calculateToRender(3, 'ATTACKER');
+    calculateToRender(5, 'MIDFIELDER');
+    calculateToRender(5, 'DEFENDER');
+    calculateToRender(1, 'GOALKEEPER');
 
     return (
         <div className={props.styles.pitchBackground}>
@@ -50,20 +75,20 @@ const Pitch = props => {
                     <>
                         <div className={props.styles.goalKeepers}>
                             {renderPlayers('GOALKEEPER', props.goalkeeperStyles)}
-                            {props.renderEmptyPlayers && props.activeTeam.length < 11 && renderEmptyPlayer('GOALKEEPER', 1)}
+                            {calculateToRender(props.maxInPos.GOALKEEPER, 'GOALKEEPER')}
                         </div>
                         <div className={props.styles.defenders}>
                             {renderPlayers('DEFENDER', props.activePlayerStyles)}
-                            {props.renderEmptyPlayers && props.activeTeam.length < 11 && renderEmptyPlayer('DEFENDER', 4)}
+                            {calculateToRender(props.maxInPos.DEFENDER, 'DEFENDER')}
                         </div>
                         <div className={props.styles.midfielders}>
                             {renderPlayers('MIDFIELDER', props.activePlayerStyles)}
-                            {props.renderEmptyPlayers && props.activeTeam.length < 11 && renderEmptyPlayer('MIDFIELDER', 4)}
+                            {calculateToRender(props.maxInPos.MIDFIELDER, 'MIDFIELDER')}
                         </div>
 
                         <div className={props.styles.attackers}>
                             {renderPlayers('ATTACKER', props.activePlayerStyles)}
-                            {props.renderEmptyPlayers && props.activeTeam.length < 11 && renderEmptyPlayer('ATTACKER', 2)}
+                            {calculateToRender(props.maxInPos.ATTACKER, 'ATTACKER')}
                         </div>
                     </>
                 )}
@@ -78,8 +103,13 @@ Pitch.defaultProps = {
     captain: '',
     goalkeeperStyles: defaultGoalkeeperStyles,
     loading: false,
+    maxInPos: {
+        GOALKEEPER: 1,
+        DEFENDER: 4,
+        MIDFIELDER: 4,
+        ATTACKER: 2
+    },
     onPlayerClick: noop,
-    renderEmptyPlayers: false,
     showCaptain: false,
     styles: defaultStyles
 };
@@ -95,8 +125,13 @@ Pitch.propTypes = {
     captain: PropTypes.string,
     goalkeeperStyles: PropTypes.objectOf(PropTypes.string),
     loading: PropTypes.bool,
+    maxInPos: PropTypes.shape({
+        GOALKEEPER: PropTypes.number,
+        DEFENDER: PropTypes.number,
+        MIDFIELDER: PropTypes.number,
+        ATTACKER: PropTypes.number
+    }),
     onPlayerClick: PropTypes.func,
-    renderEmptyPlayers: PropTypes.bool,
     showCaptain: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string)
 };

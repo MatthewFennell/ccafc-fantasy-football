@@ -27,6 +27,7 @@ const Transfers = props => {
     const [playerTableOpen, setPlayerTableOpen] = useState(false);
 
     const onPlayerClick = useCallback(player => {
+        console.log('player', player);
         if (player.inactive) {
             setPlayerToRestore(player);
             setRestoreModalOpen(true);
@@ -77,6 +78,9 @@ const Transfers = props => {
     const closeTable = useCallback(() => {
         setPlayerTableOpen(false);
     }, [setPlayerTableOpen, playerTableOpen]);
+
+    console.log('player to restore', playerToRestore);
+    console.log('player to remove', playerToRemove);
 
     return (
         <Mobile
