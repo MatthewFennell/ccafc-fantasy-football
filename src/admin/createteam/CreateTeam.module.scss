@@ -8,6 +8,8 @@
   margin-right: auto;
   padding-top: $spacing-medium;
   padding-bottom: $spacing-medium;
+  background-color: $color-white;
+  
   @include light-box-shadow();
   .createTeamHeader{
     font-size: $font-size-gigantic;

@@ -112,11 +112,18 @@ const transfersReducer = (state = initialState, action) => {
         )(state);
     }
     case actions.REMOVE_PLAYER_FROM_CURRENT_TEAM: {
+        const remove = player => {
+            if (state.originalTeam.some(x => x.id === player.id)) {
+                return fp.set('currentTeam', state.currentTeam.map(x => (x.id !== action.player.id ? x
+                    : ({
+                        id: x.id, inactive: true, position: x.position, name: `${action.player.name} (removed)`, price: 0
+                    }))));
+            }
+            return fp.set('currentTeam', state.currentTeam.filter(x => x.id !== player.id));
+        };
+
         return fp.flow(
-            fp.set('currentTeam', state.currentTeam.map(x => (x.id !== action.player.id ? x
-                : ({
-                    id: x.id, inactive: true, position: x.position, name: `${action.player.name} (removed)`, price: 0
-                })))),
+            remove(action.player),
             fp.set('remainingBudget', state.remainingBudget + action.player.price)
         )(state);
     }

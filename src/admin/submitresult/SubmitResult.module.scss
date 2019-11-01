@@ -10,6 +10,7 @@
   padding-bottom: $spacing-medium;
   @include light-box-shadow();
   justify-content: center;
+  background-color: $color-white;
   
   .goalsForWrapper{
     width: 100%;
