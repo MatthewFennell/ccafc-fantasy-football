@@ -14,17 +14,16 @@
   .gridHeaderText{
     margin-left: $spacing-medium;
     width: 100%;
+    color: $color-gray;
   }
 }
 
 
 .active{
   background-color: $color-gray;
-
   > td {
     font-weight: bold;
   }
-  
 }
 
 .tableWrap{
