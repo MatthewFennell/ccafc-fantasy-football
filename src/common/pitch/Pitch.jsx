@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
@@ -10,21 +11,21 @@ import inactivePlayerStyles from './InactivePlayer.module.scss';
 
 const Pitch = props => {
     const numberOfSpareSpots = position => {
-        const numberOfAttackersIHaveToAdd = Math.max(1 - props.activeTeam.filter(x => x.position === 'ATTACKER').length, 0);
-        const numberOfMidfieldersIHaveToAdd = Math.max(3 - props.activeTeam.filter(x => x.position === 'MIDFIELDER').length, 0);
-        const numberOfDefendersIHaveToAdd = Math.max(3 - props.activeTeam.filter(x => x.position === 'DEFENDER').length, 0);
-        const numberOfGoalkeepersIHaveToAdd = Math.max(1 - props.activeTeam.filter(x => x.position === 'GOALKEEPER').length, 0);
+        const numAttIHaveToAdd = Math.max(1 - props.activeTeam.filter(x => x.position === 'ATTACKER').length, 0);
+        const numMidIHaveToAdd = Math.max(3 - props.activeTeam.filter(x => x.position === 'MIDFIELDER').length, 0);
+        const numDefIHaveToAdd = Math.max(3 - props.activeTeam.filter(x => x.position === 'DEFENDER').length, 0);
+        const numGkIHaveToAdd = Math.max(1 - props.activeTeam.filter(x => x.position === 'GOALKEEPER').length, 0);
 
         if (position === 'ATTACKER') {
-            return 11 - props.activeTeam.filter(x => !x.inactive).length - numberOfMidfieldersIHaveToAdd - numberOfDefendersIHaveToAdd - numberOfGoalkeepersIHaveToAdd;
+            return 11 - props.activeTeam.filter(x => !x.inactive).length - numMidIHaveToAdd - numDefIHaveToAdd - numGkIHaveToAdd;
         }
         if (position === 'MIDFIELDER') {
-            return 11 - props.activeTeam.filter(x => !x.inactive).length - numberOfAttackersIHaveToAdd - numberOfDefendersIHaveToAdd - numberOfGoalkeepersIHaveToAdd;
+            return 11 - props.activeTeam.filter(x => !x.inactive).length - numAttIHaveToAdd - numDefIHaveToAdd - numGkIHaveToAdd;
         }
         if (position === 'DEFENDER') {
-            return 11 - props.activeTeam.filter(x => !x.inactive).length - numberOfAttackersIHaveToAdd - numberOfMidfieldersIHaveToAdd - numberOfGoalkeepersIHaveToAdd;
+            return 11 - props.activeTeam.filter(x => !x.inactive).length - numAttIHaveToAdd - numMidIHaveToAdd - numGkIHaveToAdd;
         }
-        return 11 - props.activeTeam.filter(x => !x.inactive).length - numberOfAttackersIHaveToAdd - numberOfMidfieldersIHaveToAdd - numberOfDefendersIHaveToAdd;
+        return 11 - props.activeTeam.filter(x => !x.inactive).length - numAttIHaveToAdd - numMidIHaveToAdd - numDefIHaveToAdd;
     };
 
     const renderPlayers = (position, styles) => props.activeTeam
@@ -50,7 +51,7 @@ const Pitch = props => {
             players.push(<Player
                 additionalInfo=""
                 name="No player selected"
-                onClick={() => props.onPlayerClick({ postion: pos })}
+                onClick={() => props.onPlayerClick({ position: pos })}
                 shirtStyles={inactivePlayerStyles}
                 size="4x"
                 key={x}

@@ -25,9 +25,11 @@ const Transfers = props => {
     const [playerToRestore, setPlayerToRestore] = useState(null);
 
     const [playerTableOpen, setPlayerTableOpen] = useState(false);
+    const [sortBy, setSortBy] = useState('points');
+    const [positionFilter, setPositionFilter] = useState('GOALKEEPER');
+
 
     const onPlayerClick = useCallback(player => {
-        console.log('player', player);
         if (player.inactive) {
             setPlayerToRestore(player);
             setRestoreModalOpen(true);
@@ -44,9 +46,11 @@ const Transfers = props => {
     }, [playerToRemove, props.removePlayerFromCurrentTeam]);
 
     const selectReplacement = useCallback(() => {
+        setSortBy('position');
+        setPositionFilter(playerToRemove.position);
         setPlayerTableOpen(true);
         setRemoveModalOpen(false);
-    }, [playerTableOpen, setPlayerTableOpen]);
+    }, [playerTableOpen, setPlayerTableOpen, playerToRemove]);
 
     const restorePlayer = useCallback(() => {
         props.restorePlayerRequest(playerToRestore.id);
@@ -55,14 +59,13 @@ const Transfers = props => {
 
     const onTransfersRequest = useCallback(transfer => {
         setRestoreModalOpen(false);
+        setPlayerTableOpen(false);
         if (playerToRemove.id) {
             props.replacePlayerRequest(playerToRemove,
                 ({ ...transfer, position: transfer.position.toUpperCase() }));
-            setPlayerTableOpen(false);
             setPlayerToRemove({});
             setPlayerToRestore({});
         } else {
-            setPlayerTableOpen(false);
             props.addPlayerToCurrentTeamRequest(transfer);
         }
     }, [props.replacePlayerRequest, playerToRemove]);
@@ -79,9 +82,6 @@ const Transfers = props => {
         setPlayerTableOpen(false);
     }, [setPlayerTableOpen, playerTableOpen]);
 
-    console.log('player to restore', playerToRestore);
-    console.log('player to remove', playerToRemove);
-
     return (
         <Mobile
             allPlayers={props.allPlayers}
@@ -97,12 +97,16 @@ const Transfers = props => {
             onTransfersRequest={onTransfersRequest}
             playerTableOpen={playerTableOpen}
             playerToRemove={playerToRemove}
+            positionFilter={positionFilter}
+            setPositionFilter={setPositionFilter}
             remainingBudget={props.remainingBudget}
             removeModalOpen={removeModalOpen}
             removePlayer={removePlayer}
             restorePlayer={restorePlayer}
             restoreModalOpen={restoreModalOpen}
             selectReplacement={selectReplacement}
+            setSortBy={setSortBy}
+            sortBy={sortBy}
             transfersError={props.transfersError}
             transfersErrorCode={props.transfersErrorCode}
             undoTransferChanges={props.undoTransferChanges}
