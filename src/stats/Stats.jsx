@@ -9,18 +9,13 @@ import Dropdown from '../common/dropdown/Dropdown';
 import * as selectors from './selectors';
 import * as constants from '../constants';
 import { fetchTeamStatsByWeekRequest } from './actions';
-import StyledButton from '../common/StyledButton/StyledButton';
+import StyledModal from '../common/modal/StyledModal';
+import EditFilter from './editfilter/EditFilter';
 
 const Stats = props => {
     useEffect(() => {
         props.fetchTeamsRequest();
     }, [props.fetchTeamsRequest]);
-
-    useEffect(() => {
-        if (props.currentTeam !== 'none' && props.currentGameWeek) {
-            props.fetchTeamStatsByWeekRequest(props.currentTeam, props.currentGameWeek);
-        }
-    }, [props.currentTeam, props.currentGameWeek]);
 
     const [editFilterModalOpen, setEditFilterModalOpen] = useState(false);
 
@@ -29,25 +24,49 @@ const Stats = props => {
         props.history.push(`${constants.URL.STATS}/${id}/${props.minWeek}/${props.maxWeek}`);
     }, [props.currentGameWeek, props.currentTeam, props.allTeams]);
 
+    const confirmFilter = useCallback((minWeek, maxWeek) => {
+        props.history.push(`${constants.URL.STATS}/${props.currentTeam}/${minWeek}/${maxWeek}`);
+        setEditFilterModalOpen(false);
+    }, [props.currentTeam, props.history]);
+
     return (
-        <div className={props.styles.statsWrapper}>
-            <div className={props.styles.statsHeader}>
-                <Dropdown
-                    activeValue={fp.getOr('', 'text')(props.allTeams.find(x => x.id === props.currentTeam))}
-                    onChange={loadNewTeam}
-                    options={props.allTeams}
-                    title="Team"
-                />
-                <div className={props.styles.editFiltersWrapper}>
-                    <div className={props.styles.editFilter}>
-                        Edit Filters
+        <>
+            <div className={props.styles.statsWrapper}>
+                <div className={props.styles.statsHeader}>
+                    <div className={props.styles.dropdownWrapper}>
+                        <Dropdown
+                            activeValue={fp.getOr('', 'text')(props.allTeams.find(x => x.id === props.currentTeam))}
+                            onChange={loadNewTeam}
+                            options={props.allTeams}
+                            title="Team"
+                        />
                     </div>
-                    <EditIcon />
+                    <div className={props.styles.editFiltersWrapper}>
+                        <div className={props.styles.editFilter}>
+                        Edit Filters
+                        </div>
+                        <EditIcon color="primary" onClick={() => setEditFilterModalOpen(true)} />
+                    </div>
                 </div>
+
+
             </div>
-        </div>
+            <StyledModal
+                backdrop
+                closeModal={() => setEditFilterModalOpen(false)}
+                isOpen={editFilterModalOpen}
+                headerMessage="Edit Filters"
+            >
+                <EditFilter
+                    confirmFilter={confirmFilter}
+                    maxWeek={props.maxWeek}
+                    minWeek={props.minWeek}
+                />
+            </StyledModal>
+        </>
     );
 };
+
 
 Stats.defaultProps = {
     allTeams: [],

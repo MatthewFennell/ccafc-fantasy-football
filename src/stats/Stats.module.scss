@@ -6,14 +6,20 @@
     padding: $spacing-small;
     @include light-box-shadow();
     display: flex;
-    flex-wrap: wrap;
 
-    > * {
-      flex-grow: 1;
+    .dropdownWrapper{
+      width: 100%;
+      text-align: center;
     }
 
     .editFiltersWrapper{
+      display: flex;
       @include vertical-center-div();
+      cursor: pointer;
+
+      .editFilter{
+        margin-left: auto;
+      }
     }
   }
 }
