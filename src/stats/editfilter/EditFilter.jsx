@@ -4,42 +4,27 @@ import { noop } from 'lodash';
 import defaultStyles from './EditFilter.module.scss';
 import Slider from '../../common/slider/Slider';
 import StyledButton from '../../common/StyledButton/StyledButton';
+import { marks } from '../helpers';
+import Toggle from '../../common/Toggle/Toggle';
 
-export const marks = [
-    {
-        value: 0,
-        label: '0'
-    },
-    {
-        value: 2,
-        label: '2'
-    },
-    {
-        value: 4,
-        label: '4'
-    },
-    {
-        value: 6,
-        label: '6'
-    },
-    {
-        value: 8,
-        label: '8'
-    },
-    {
-        value: 10,
-        label: '10'
-    }
-];
 
 const EditFilter = props => {
     console.log('eh');
     const [minWeek, setMinWeek] = useState(props.minWeek);
     const [maxWeek, setMaxWeek] = useState(props.maxWeek);
+    const [activeColumns, setActiveColumns] = useState(props.activeColumns);
+
+    const toggle = useCallback(item => {
+        if (activeColumns.includes(item)) {
+            setActiveColumns(activeColumns.filter(x => x !== item));
+        } else {
+            setActiveColumns(activeColumns.concat([item]));
+        }
+    }, [activeColumns]);
 
     const confirm = useCallback(() => {
-        props.confirmFilter(minWeek, maxWeek);
-    }, [props.confirmFilter, minWeek, maxWeek]);
+        props.confirmFilter(minWeek, maxWeek, activeColumns);
+    }, [props.confirmFilter, minWeek, maxWeek, activeColumns]);
 
     return (
         <div className={props.styles.editFilterWrapper}>
@@ -48,7 +33,7 @@ const EditFilter = props => {
                 min={0}
                 max={10}
                 step={1}
-                text="Min Week"
+                text="From Week"
                 onChange={setMinWeek}
                 defaultValue={minWeek}
             />
@@ -57,16 +42,36 @@ const EditFilter = props => {
                 min={0}
                 max={10}
                 step={1}
-                text="Max Week"
+                text="To Week"
                 onChange={setMaxWeek}
                 defaultValue={maxWeek}
             />
-            <StyledButton text="Confirm" onClick={confirm} />
+            <div className={props.styles.togglesWrapper}>
+                {props.allColumns.map(x => (
+                    <div key={x.id}>
+                        <div className={props.styles.columnName}>
+                            {x.label}
+                        </div>
+                        <div>
+                            <Toggle
+                                color="primary"
+                                checked={activeColumns.includes(x.id)}
+                                onChange={() => toggle(x.id)}
+                            />
+                        </div>
+                    </div>
+                ))}
+            </div>
+            <div className={props.styles.confirmButton}>
+                <StyledButton text="Confirm" onClick={confirm} />
+            </div>
         </div>
     );
 };
 
 EditFilter.defaultProps = {
+    activeColumns: [],
+    allColumns: [],
     confirmFilter: noop,
     maxWeek: 0,
     minWeek: 0,
@@ -74,6 +79,11 @@ EditFilter.defaultProps = {
 };
 
 EditFilter.propTypes = {
+    activeColumns: PropTypes.arrayOf(PropTypes.string),
+    allColumns: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string,
+        label: PropTypes.string
+    })),
     confirmFilter: PropTypes.func,
     maxWeek: PropTypes.number,
     minWeek: PropTypes.number,

@@ -11,6 +11,7 @@ import * as constants from '../constants';
 import { fetchTeamStatsByWeekRequest } from './actions';
 import StyledModal from '../common/modal/StyledModal';
 import EditFilter from './editfilter/EditFilter';
+import { columns } from './helpers';
 
 const Stats = props => {
     useEffect(() => {
@@ -18,13 +19,16 @@ const Stats = props => {
     }, [props.fetchTeamsRequest]);
 
     const [editFilterModalOpen, setEditFilterModalOpen] = useState(false);
+    const [activeColumns, setActiveColumns] = useState(columns
+        .filter(x => x.initialActive).map(x => x.id));
 
     const loadNewTeam = useCallback(team => {
         const id = fp.get('id')(props.allTeams.find(x => x.text === team));
         props.history.push(`${constants.URL.STATS}/${id}/${props.minWeek}/${props.maxWeek}`);
     }, [props.currentGameWeek, props.currentTeam, props.allTeams]);
 
-    const confirmFilter = useCallback((minWeek, maxWeek) => {
+    const confirmFilter = useCallback((minWeek, maxWeek, active) => {
+        setActiveColumns(active);
         props.history.push(`${constants.URL.STATS}/${props.currentTeam}/${minWeek}/${maxWeek}`);
         setEditFilterModalOpen(false);
     }, [props.currentTeam, props.history]);
@@ -41,11 +45,16 @@ const Stats = props => {
                             title="Team"
                         />
                     </div>
-                    <div className={props.styles.editFiltersWrapper}>
+                    <div
+                        className={props.styles.editFiltersWrapper}
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => setEditFilterModalOpen(true)}
+                    >
                         <div className={props.styles.editFilter}>
                         Edit Filters
                         </div>
-                        <EditIcon color="primary" onClick={() => setEditFilterModalOpen(true)} />
+                        <EditIcon color="primary" />
                     </div>
                 </div>
 
@@ -58,6 +67,8 @@ const Stats = props => {
                 headerMessage="Edit Filters"
             >
                 <EditFilter
+                    activeColumns={activeColumns}
+                    allColumns={columns}
                     confirmFilter={confirmFilter}
                     maxWeek={props.maxWeek}
                     minWeek={props.minWeek}
