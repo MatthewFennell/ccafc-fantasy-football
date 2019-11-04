@@ -2,7 +2,9 @@ import fp from 'lodash/fp';
 import * as actions from './actions';
 
 const initState = {
-    teamStatsByWeek: {}
+    teamStatsByWeek: {},
+    minWeekFetched: null,
+    maxWeekFetched: null
 };
 
 const statsReducer = (state = initState, action) => {
@@ -11,11 +13,8 @@ const statsReducer = (state = initState, action) => {
         return fp.set(`teamStatsByWeek.${action.teamId}.week-${action.week}.fetching`, true)(state);
     }
     case actions.FETCH_TEAM_STATS_BY_WEEK_SUCCESS: {
-        return fp.flow(
-            fp.set(`teamStatsByWeek.${action.teamId}.week-${action.week}.fetching`, false),
-            fp.set(`teamStatsByWeek.${action.teamId}.week-${action.week}.fetched`, true),
-            fp.set(`teamStatsByWeek.${action.teamId}.week-${action.week}.stats`, action.stats)
-        )(state);
+        console.log('action', action);
+        return state;
     }
     case actions.FETCH_TEAM_STATS_BY_WEEK_ERROR: {
         return fp.set(`teamStatsByWeek.${action.teamId}.week-${action.week}.fetching`, false)(state);

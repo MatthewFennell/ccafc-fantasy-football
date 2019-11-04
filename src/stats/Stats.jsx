@@ -12,11 +12,16 @@ import { fetchTeamStatsByWeekRequest } from './actions';
 import StyledModal from '../common/modal/StyledModal';
 import EditFilter from './editfilter/EditFilter';
 import { columns } from './helpers';
+import modalStyles from './StyledModal.module.scss';
 
 const Stats = props => {
     useEffect(() => {
         props.fetchTeamsRequest();
     }, [props.fetchTeamsRequest]);
+
+    useEffect(() => {
+        props.fetchTeamStatsByWeekRequest(props.currentTeam, props.minWeek, props.maxWeek);
+    }, [props.minWeek, props.maxWeek]);
 
     const [editFilterModalOpen, setEditFilterModalOpen] = useState(false);
     const [activeColumns, setActiveColumns] = useState(columns
@@ -65,6 +70,7 @@ const Stats = props => {
                 closeModal={() => setEditFilterModalOpen(false)}
                 isOpen={editFilterModalOpen}
                 headerMessage="Edit Filters"
+                styles={modalStyles}
             >
                 <EditFilter
                     activeColumns={activeColumns}

@@ -4,6 +4,9 @@ export const getCurrentMinWeek = props => parseInt(fp.flow(fp.get('match'), fp.g
 export const getCurrentMaxWeek = props => parseInt(fp.flow(fp.get('match'), fp.get('params'), fp.get('maxWeek'))(props), 10);
 export const getCurrentTeam = props => fp.flow(fp.get('match'), fp.get('params'), fp.get('teamId'))(props);
 
+export const getMinWeekFetched = state => state.stats.minWeekFetched;
+export const getMaxWeekFetched = state => state.stats.maxWeekFetched;
+
 export const fetchedStatsAlready = (state, teamId, week) => fp.flow(
     fp.get(teamId),
     fp.get(`week-${week}`),
