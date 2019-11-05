@@ -36,7 +36,11 @@ exports.teamStatsByWeek = functions
             }
             throw new functions.https.HttpsError('not-found', 'No team with that id exists');
         })
-            .then(team => db.collection('player-points').where('team', '==', team.team_name).where('week', '==', data.week).get()
+            .then(team => db.collection('player-points')
+                .where('team', '==', team.team_name)
+                .where('week', '<=', data.maxWeek)
+                .where('week', '>=', data.minWeek)
+                .get()
                 .then(
                     result => result.docs.map(doc => ({ ...doc.data(), id: doc.id }))
                 ));

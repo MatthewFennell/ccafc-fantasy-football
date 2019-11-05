@@ -9,7 +9,6 @@ import Toggle from '../../common/Toggle/Toggle';
 
 
 const EditFilter = props => {
-    console.log('eh');
     const [minWeek, setMinWeek] = useState(props.minWeek);
     const [maxWeek, setMaxWeek] = useState(props.maxWeek);
     const [activeColumns, setActiveColumns] = useState(props.activeColumns);

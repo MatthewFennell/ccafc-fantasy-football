@@ -66,23 +66,49 @@ export const marks = [
 ];
 
 export const weeksToRequest = (minRequested, maxRequested, minCurrent, maxCurrent) => {
-    console.log('stuff');
-    const response = {
-        minWeek: minRequested,
-        maxWeek: maxRequested
-    };
-    if (minRequested <= minCurrent) {
-        fp.set('minWeek', minRequested)(response);
+    if (minCurrent === null && maxCurrent === null) {
+        console.log('both null');
+        return [{
+            minWeek: minRequested,
+            maxWeek: maxRequested
+        }];
     }
-    if (minRequested >= maxCurrent) {
-        fp.set('minWeek', maxCurrent)(response);
+
+    if (maxRequested <= maxCurrent && minRequested >= minCurrent) {
+        return [];
     }
-    if (maxRequested >= maxCurrent) {
-        fp.set('maxWeek', maxRequested)(response);
+
+    if (maxRequested > maxCurrent && minRequested < minCurrent) {
+        console.log('extended range in both directions');
+        return [
+            {
+                minWeek: minRequested,
+                maxWeek: minCurrent - 1
+            },
+            {
+                minWeek: maxCurrent + 1,
+                maxWeek: maxRequested
+            }
+        ];
     }
-    if (maxRequested <= minCurrent) {
-        fp.set('maxWeek', minCurrent)(response);
+
+    if (maxRequested > maxCurrent) {
+        console.log('oh');
+        return [
+            {
+                minWeek: maxCurrent + 1,
+                maxWeek: maxRequested
+            }
+        ];
     }
-    console.log('result', response);
-    return response;
+    if (minRequested < minCurrent) {
+        console.log('hi');
+        return [
+            {
+                minWeek: minRequested,
+                maxWeek: minCurrent - 1
+            }
+        ];
+    }
+    return [];
 };

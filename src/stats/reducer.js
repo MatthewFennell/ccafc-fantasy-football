@@ -13,8 +13,10 @@ const statsReducer = (state = initState, action) => {
         return fp.set(`teamStatsByWeek.${action.teamId}.week-${action.week}.fetching`, true)(state);
     }
     case actions.FETCH_TEAM_STATS_BY_WEEK_SUCCESS: {
-        console.log('action', action);
-        return state;
+        return fp.flow(
+            fp.set('minWeekFetched', Math.min(state.minWeekFetched, action.minWeek) || action.minWeek),
+            fp.set('maxWeekFetched', Math.max(state.maxWeekFetched, action.maxWeek) || action.maxWeek),
+        )(state);
     }
     case actions.FETCH_TEAM_STATS_BY_WEEK_ERROR: {
         return fp.set(`teamStatsByWeek.${action.teamId}.week-${action.week}.fetching`, false)(state);

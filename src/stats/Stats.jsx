@@ -11,8 +11,9 @@ import * as constants from '../constants';
 import { fetchTeamStatsByWeekRequest } from './actions';
 import StyledModal from '../common/modal/StyledModal';
 import EditFilter from './editfilter/EditFilter';
-import { columns } from './helpers';
+import { columns, weeksToRequest } from './helpers';
 import modalStyles from './StyledModal.module.scss';
+
 
 const Stats = props => {
     useEffect(() => {
@@ -20,7 +21,14 @@ const Stats = props => {
     }, [props.fetchTeamsRequest]);
 
     useEffect(() => {
-        props.fetchTeamStatsByWeekRequest(props.currentTeam, props.minWeek, props.maxWeek);
+        console.log('Max week', props.maxWeekFetched);
+
+        const weeksToFetch = weeksToRequest(props.minWeek, props.maxWeek, props.minWeekFetched, props.maxWeekFetched);
+        console.log('Weeks to fetch', weeksToFetch);
+
+        weeksToFetch.forEach(x => {
+            props.fetchTeamStatsByWeekRequest(props.currentTeam, x.minWeek, x.maxWeek);
+        });
     }, [props.minWeek, props.maxWeek]);
 
     const [editFilterModalOpen, setEditFilterModalOpen] = useState(false);
@@ -90,6 +98,8 @@ Stats.defaultProps = {
     currentGameWeek: 0,
     currentTeam: '',
     maxWeek: 0,
+    maxWeekFetched: null,
+    minWeekFetched: null,
     minWeek: 0,
     styles: defaultStyles
 };
@@ -104,6 +114,8 @@ Stats.propTypes = {
         push: PropTypes.func.isRequired
     }).isRequired,
     maxWeek: PropTypes.number,
+    maxWeekFetched: PropTypes.number,
+    minWeekFetched: PropTypes.number,
     minWeek: PropTypes.number,
     styles: PropTypes.objectOf(PropTypes.string)
 };
@@ -116,6 +128,8 @@ const mapDispatchToProps = {
 const mapStateToProps = (state, props) => ({
     allTeams: state.admin.allTeams,
     minWeek: selectors.getCurrentMinWeek(props),
+    maxWeekFetched: state.stats.maxWeekFetched,
+    minWeekFetched: state.stats.minWeekFetched,
     maxWeek: selectors.getCurrentMaxWeek(props),
     currentTeam: selectors.getCurrentTeam(props),
     maxGameWeek: state.overview.maxGameWeek
