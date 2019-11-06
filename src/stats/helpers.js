@@ -65,50 +65,43 @@ export const marks = [
     }
 ];
 
-export const weeksToRequest = (minRequested, maxRequested, minCurrent, maxCurrent) => {
-    if (minCurrent === null && maxCurrent === null) {
-        console.log('both null');
-        return [{
-            minWeek: minRequested,
-            maxWeek: maxRequested
-        }];
-    }
-
-    if (maxRequested <= maxCurrent && minRequested >= minCurrent) {
-        return [];
-    }
-
-    if (maxRequested > maxCurrent && minRequested < minCurrent) {
-        console.log('extended range in both directions');
-        return [
-            {
-                minWeek: minRequested,
-                maxWeek: minCurrent - 1
-            },
-            {
-                minWeek: maxCurrent + 1,
-                maxWeek: maxRequested
+// Join ascending runs into {min/max} objects
+const findAdjacent = input => {
+    const result = [];
+    let min = 0;
+    let max = 0;
+    input.forEach((x, i) => {
+        if (i === 0) {
+            min = x;
+            max = x;
+            if (input.length === 1) {
+                result.push({ min, max });
             }
-        ];
-    }
+        } else if (i === (input.length - 1)) {
+            if (input[i - 1] + 1 === x) {
+                result.push({ min, max: x });
+            } else {
+                result.push({ min, max });
+                result.push({ min: x, max: x });
+            }
+        } else if (input[i - 1] + 1 === x) {
+            max += 1;
+        } else {
+            result.push({ min, max });
+            min = x;
+            max = x;
+        }
+    });
+    return result;
+};
 
-    if (maxRequested > maxCurrent) {
-        console.log('oh');
-        return [
-            {
-                minWeek: maxCurrent + 1,
-                maxWeek: maxRequested
-            }
-        ];
-    }
-    if (minRequested < minCurrent) {
-        console.log('hi');
-        return [
-            {
-                minWeek: minRequested,
-                maxWeek: minCurrent - 1
-            }
-        ];
-    }
-    return [];
+export const weeksToRequest = (minRequested, maxRequested, weeksFetched) => {
+    const range = fp.range(minRequested, maxRequested + 1);
+    console.log('range', range);
+    console.log('already fetched', weeksFetched);
+    const toRequest = range.filter(x => !weeksFetched.includes(x));
+    console.log('to request', toRequest);
+    const result = findAdjacent(toRequest);
+    console.log('result', result);
+    return result;
 };

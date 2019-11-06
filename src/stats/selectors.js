@@ -9,3 +9,8 @@ export const fetchedStatsAlready = (state, teamId, week) => fp.flow(
     fp.get(`week-${week}`),
     fp.get('fetched')
 )(state.stats.teamStatsByWeek);
+
+export const getWeeksFetched = (state, props) => fp.flow(
+    fp.get(getCurrentTeam(props)),
+    fp.get('weeksFetched')
+)(state.stats.teamStatsByWeek) || [];

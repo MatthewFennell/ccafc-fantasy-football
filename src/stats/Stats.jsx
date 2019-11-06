@@ -21,15 +21,11 @@ const Stats = props => {
     }, [props.fetchTeamsRequest]);
 
     useEffect(() => {
-        console.log('Max week', props.maxWeekFetched);
-
-        const weeksToFetch = weeksToRequest(props.minWeek, props.maxWeek, props.minWeekFetched, props.maxWeekFetched);
-        console.log('Weeks to fetch', weeksToFetch);
-
+        const weeksToFetch = weeksToRequest(props.minWeek, props.maxWeek, props.weeksFetched);
         weeksToFetch.forEach(x => {
-            props.fetchTeamStatsByWeekRequest(props.currentTeam, x.minWeek, x.maxWeek);
+            props.fetchTeamStatsByWeekRequest(props.currentTeam, x.min, x.max);
         });
-    }, [props.minWeek, props.maxWeek]);
+    }, [props.minWeek, props.maxWeek, props.currentTeam]);
 
     const [editFilterModalOpen, setEditFilterModalOpen] = useState(false);
     const [activeColumns, setActiveColumns] = useState(columns
@@ -45,6 +41,7 @@ const Stats = props => {
         props.history.push(`${constants.URL.STATS}/${props.currentTeam}/${minWeek}/${maxWeek}`);
         setEditFilterModalOpen(false);
     }, [props.currentTeam, props.history]);
+
 
     return (
         <>
@@ -98,10 +95,9 @@ Stats.defaultProps = {
     currentGameWeek: 0,
     currentTeam: '',
     maxWeek: 0,
-    maxWeekFetched: null,
-    minWeekFetched: null,
     minWeek: 0,
-    styles: defaultStyles
+    styles: defaultStyles,
+    weeksFetched: []
 };
 
 Stats.propTypes = {
@@ -114,10 +110,9 @@ Stats.propTypes = {
         push: PropTypes.func.isRequired
     }).isRequired,
     maxWeek: PropTypes.number,
-    maxWeekFetched: PropTypes.number,
-    minWeekFetched: PropTypes.number,
     minWeek: PropTypes.number,
-    styles: PropTypes.objectOf(PropTypes.string)
+    styles: PropTypes.objectOf(PropTypes.string),
+    weeksFetched: PropTypes.arrayOf(PropTypes.number)
 };
 
 const mapDispatchToProps = {
@@ -128,11 +123,10 @@ const mapDispatchToProps = {
 const mapStateToProps = (state, props) => ({
     allTeams: state.admin.allTeams,
     minWeek: selectors.getCurrentMinWeek(props),
-    maxWeekFetched: state.stats.maxWeekFetched,
-    minWeekFetched: state.stats.minWeekFetched,
     maxWeek: selectors.getCurrentMaxWeek(props),
     currentTeam: selectors.getCurrentTeam(props),
-    maxGameWeek: state.overview.maxGameWeek
+    maxGameWeek: state.overview.maxGameWeek,
+    weeksFetched: selectors.getWeeksFetched(state, props)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Stats);

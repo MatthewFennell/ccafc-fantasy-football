@@ -1,13 +1,18 @@
 import {
-    all, takeEvery, put, select, call
+    all, takeEvery, put, call
 } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as api from './api';
 
 function* fetchStats(action) {
     try {
-        yield put(actions.fetchTeamStatsByWeekSuccess(action.teamId, action.minWeek, action.maxWeek));
-        console.log('action', action);
+        const weekStats = yield call(api.getTeamStatsByWeek, {
+            teamId: action.teamId,
+            minWeek: action.minWeek,
+            maxWeek: action.maxWeek
+        });
+        yield put(actions.fetchTeamStatsByWeekSuccess(action.teamId,
+            action.minWeek, action.maxWeek, weekStats));
     } catch (error) {
         yield put(actions.fetchTeamStatsByWeekError(action.teamId, action.week, error));
     }
