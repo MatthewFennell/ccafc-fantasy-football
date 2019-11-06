@@ -66,42 +66,16 @@ export const marks = [
 ];
 
 // Join ascending runs into {min/max} objects
-const findAdjacent = input => {
-    const result = [];
-    let min = 0;
-    let max = 0;
-    input.forEach((x, i) => {
-        if (i === 0) {
-            min = x;
-            max = x;
-            if (input.length === 1) {
-                result.push({ min, max });
-            }
-        } else if (i === (input.length - 1)) {
-            if (input[i - 1] + 1 === x) {
-                result.push({ min, max: x });
-            } else {
-                result.push({ min, max });
-                result.push({ min: x, max: x });
-            }
-        } else if (input[i - 1] + 1 === x) {
-            max += 1;
-        } else {
-            result.push({ min, max });
-            min = x;
-            max = x;
-        }
-    });
-    return result;
-};
+const findAdjacent = input => input.reduce((acc, curVal) => {
+    if (curVal === fp.get('max')(acc[acc.length - 1]) + 1) {
+        return acc.map((x, i) => (i === acc.length - 1 ? ({ ...x, max: curVal }) : x));
+    }
+    return [...acc, { min: curVal, max: curVal }];
+}, []);
 
 export const weeksToRequest = (minRequested, maxRequested, weeksFetched) => {
     const range = fp.range(minRequested, maxRequested + 1);
-    console.log('range', range);
-    console.log('already fetched', weeksFetched);
     const toRequest = range.filter(x => !weeksFetched.includes(x));
-    console.log('to request', toRequest);
     const result = findAdjacent(toRequest);
-    console.log('result', result);
     return result;
 };

@@ -13,7 +13,7 @@ import StyledModal from '../common/modal/StyledModal';
 import EditFilter from './editfilter/EditFilter';
 import { columns, weeksToRequest } from './helpers';
 import modalStyles from './StyledModal.module.scss';
-
+import WeekStats from './weekstats/WeekStats';
 
 const Stats = props => {
     useEffect(() => {
@@ -42,6 +42,8 @@ const Stats = props => {
         setEditFilterModalOpen(false);
     }, [props.currentTeam, props.history]);
 
+    const weekRange = fp.range(props.minWeek, props.maxWeek + 1);
+    console.log('stats', props.stats);
 
     return (
         <>
@@ -67,7 +69,13 @@ const Stats = props => {
                         <EditIcon color="primary" />
                     </div>
                 </div>
-
+                {weekRange.map(week => (
+                    <WeekStats
+                        activeColumns={activeColumns}
+                        stats={props.stats.filter(x => x.week === week)}
+                        week={week}
+                    />
+                ))}
 
             </div>
             <StyledModal
@@ -96,6 +104,7 @@ Stats.defaultProps = {
     currentTeam: '',
     maxWeek: 0,
     minWeek: 0,
+    stats: [],
     styles: defaultStyles,
     weeksFetched: []
 };
@@ -111,6 +120,7 @@ Stats.propTypes = {
     }).isRequired,
     maxWeek: PropTypes.number,
     minWeek: PropTypes.number,
+    stats: PropTypes.arrayOf(PropTypes.shape({})),
     styles: PropTypes.objectOf(PropTypes.string),
     weeksFetched: PropTypes.arrayOf(PropTypes.number)
 };
@@ -126,7 +136,8 @@ const mapStateToProps = (state, props) => ({
     maxWeek: selectors.getCurrentMaxWeek(props),
     currentTeam: selectors.getCurrentTeam(props),
     maxGameWeek: state.overview.maxGameWeek,
-    weeksFetched: selectors.getWeeksFetched(state, props)
+    stats: selectors.getProperty(state, props, 'stats'),
+    weeksFetched: selectors.getProperty(state, props, 'weeksFetched')
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Stats);

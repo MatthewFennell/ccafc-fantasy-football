@@ -1,0 +1,25 @@
+@import "../../common/Styles.scss";
+
+.weekStatsWrapper{
+  margin: $spacing-medium;
+  padding: $spacing-small;
+  @include light-box-shadow();
+
+  .weekStatsHeader{
+    text-align: center;
+    color: $color-gray;
+  }
+
+  .stat{
+    color: $color-blue;
+  }
+  
+  .statsWrapper{
+    display: flex;
+    flex-wrap: wrap;
+    > div {
+      flex-grow: 1;
+      text-align: center;
+    }
+  }
+}
