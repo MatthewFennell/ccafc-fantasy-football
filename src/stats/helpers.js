@@ -12,28 +12,33 @@ export const columns = [
         initialActive: true
     },
     {
-        id: 'cleanSheets',
+        id: 'cleanSheet',
         label: 'Clean Sheets',
         initialActive: false
     },
     {
-        id: 'redCards',
+        id: 'redCard',
         label: 'Reds',
         initialActive: false
     },
     {
-        id: 'yellowCards',
+        id: 'yellowCard',
         label: 'Yellows',
         initialActive: false
     },
     {
-        id: 'motm',
+        id: 'manOfTheMatch',
         label: 'MotM',
         initialActive: false
     },
     {
-        id: 'dotd',
+        id: 'dickOfTheDay',
         label: 'DotD',
+        initialActive: false
+    },
+    {
+        id: 'ownGoals',
+        label: 'Own Goals',
         initialActive: false
     }
 ];

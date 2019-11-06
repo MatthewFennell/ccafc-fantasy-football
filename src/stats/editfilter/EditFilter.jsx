@@ -14,7 +14,7 @@ const EditFilter = props => {
     const [activeColumns, setActiveColumns] = useState(props.activeColumns);
 
     const toggle = useCallback(item => {
-        if (activeColumns.includes(item)) {
+        if (activeColumns.some(x => x.id === item.id)) {
             setActiveColumns(activeColumns.filter(x => x !== item));
         } else {
             setActiveColumns(activeColumns.concat([item]));
@@ -54,8 +54,8 @@ const EditFilter = props => {
                         <div>
                             <Toggle
                                 color="primary"
-                                checked={activeColumns.includes(x.id)}
-                                onChange={() => toggle(x.id)}
+                                checked={activeColumns.some(y => y.id === x.id)}
+                                onChange={() => toggle(x)}
                             />
                         </div>
                     </div>

@@ -14,6 +14,7 @@ import EditFilter from './editfilter/EditFilter';
 import { columns, weeksToRequest } from './helpers';
 import modalStyles from './StyledModal.module.scss';
 import WeekStats from './weekstats/WeekStats';
+import Toggle from '../common/Toggle/Toggle';
 
 const Stats = props => {
     useEffect(() => {
@@ -29,7 +30,7 @@ const Stats = props => {
 
     const [editFilterModalOpen, setEditFilterModalOpen] = useState(false);
     const [activeColumns, setActiveColumns] = useState(columns
-        .filter(x => x.initialActive).map(x => x.id));
+        .filter(x => x.initialActive));
 
     const loadNewTeam = useCallback(team => {
         const id = fp.get('id')(props.allTeams.find(x => x.text === team));
@@ -43,7 +44,10 @@ const Stats = props => {
     }, [props.currentTeam, props.history]);
 
     const weekRange = fp.range(props.minWeek, props.maxWeek + 1);
-    console.log('stats', props.stats);
+
+
+    const [combineWeeks, setCombineWeeks] = useState(false);
+
 
     return (
         <>
@@ -56,6 +60,19 @@ const Stats = props => {
                             options={props.allTeams}
                             title="Team"
                         />
+                        <div className={props.styles.toggleWrapper}>
+                            <div className={props.styles.combineWeeksText}>
+                                Combine weeks
+                            </div>
+                            <div>
+                                <Toggle
+                                    checked={combineWeeks}
+                                    color="primary"
+                                    onChange={() => setCombineWeeks(!combineWeeks)}
+                                />
+                            </div>
+
+                        </div>
                     </div>
                     <div
                         className={props.styles.editFiltersWrapper}
@@ -69,13 +86,20 @@ const Stats = props => {
                         <EditIcon color="primary" />
                     </div>
                 </div>
-                {weekRange.map(week => (
+                {combineWeeks ? (
+                    <WeekStats
+                        activeColumns={activeColumns}
+                        stats={props.stats}
+                        title="All weeks"
+                    />
+                ) : weekRange.map(week => (
                     <WeekStats
                         activeColumns={activeColumns}
                         stats={props.stats.filter(x => x.week === week)}
-                        week={week}
+                        title={`Week ${week}`}
                     />
                 ))}
+
 
             </div>
             <StyledModal

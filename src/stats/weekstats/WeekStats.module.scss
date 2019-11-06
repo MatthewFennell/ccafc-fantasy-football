@@ -7,11 +7,16 @@
 
   .weekStatsHeader{
     text-align: center;
-    color: $color-gray;
+    font-weight: bold;
   }
 
   .stat{
     color: $color-blue;
+    font-weight: bold;
+  }
+
+  .statTitle{
+    font-weight: bold;
   }
   
   .statsWrapper{
@@ -20,6 +25,7 @@
     > div {
       flex-grow: 1;
       text-align: center;
+      padding: $spacing-small
     }
   }
 }
