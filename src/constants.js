@@ -11,6 +11,7 @@ export const URL = {
     CURRENT_TEAM: '/current-team',
     POINTS: '/points',
     TRANSFERS: '/transfers',
+    STATS: '/stats',
 
     CREATE_PLAYER: '/create-player',
     DELETE_PLAYER: '/delete-player',
@@ -63,7 +64,6 @@ export const minPerPosition = {
     [POSITIONS.MIDFIELDER]: 3,
     [POSITIONS.ATTACKER]: 1
 };
-
 
 // KEEP IN SYNC WITH SERVER
 // This is the list of all existing permissions

@@ -10,6 +10,7 @@ import LayersIcon from '@material-ui/icons/Layers';
 import DeleteIcon from '@material-ui/icons/Delete';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import EditIcon from '@material-ui/icons/Edit';
+import EqualizerIcon from '@material-ui/icons/Equalizer';
 import TransferWithinAStationIcon from '@material-ui/icons/TransferWithinAStation';
 
 import fp from 'lodash/fp';
@@ -32,6 +33,7 @@ import Leagues from './leagues/Leagues';
 import * as constants from './constants';
 import CurrentTeam from './currentteam/CurrentTeam';
 import Transfers from './transfers/Transfers';
+import Stats from './stats/Stats';
 
 export const adminLinks = [
     {
@@ -154,9 +156,17 @@ export const signedInLinks = [
     {
         title: 'Transfers',
         icon: <TransferWithinAStationIcon />,
-        component: Leagues,
+        component: Transfers,
         addUserId: false,
         path: () => constants.URL.TRANSFERS,
         urlIncludes: constants.URL.TRANSFERS
+    },
+    {
+        title: 'Stats',
+        icon: <EqualizerIcon />,
+        component: Stats,
+        addUserId: false,
+        path: props => `${constants.URL.STATS}/none/${fp.get('maxGameWeek')(props)}/${fp.get('maxGameWeek')(props)}`,
+        urlIncludes: constants.URL.STATS
     }
 ];

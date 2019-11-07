@@ -11,7 +11,7 @@ module.exports.isAuthenticated = context => {
 };
 
 module.exports.isAdmin = uid => admin.auth().getUser(uid).then(user => {
-    if (!fp.getOr(false, 'customClaims.admin')(user)) {
+    if (!fp.getOr(false, [constants.ROLES.ADMIN])(user.customClaims)) {
         throw new functions.https.HttpsError('unauthenticated', 'You are not authorized to perform this operation');
     }
 });

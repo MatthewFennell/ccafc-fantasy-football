@@ -8,6 +8,7 @@ import ErrorModal from '../../common/modal/ErrorModal';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Table from './Table';
 import StyledModal from '../../common/modal/StyledModal';
+import * as constants from '../../constants';
 
 const Mobile = props => (
     <>
@@ -59,10 +60,10 @@ const Mobile = props => (
                     activeTeam={props.currentTeam}
                     loading={props.fetchingOriginalTeam}
                     maxInPos={{
-                        GOALKEEPER: 1,
-                        DEFENDER: 5,
-                        MIDFIELDER: 5,
-                        ATTACKER: 3
+                        GOALKEEPER: constants.maxPerPosition.GOALKEEPER,
+                        DEFENDER: constants.maxPerPosition.DEFENDER,
+                        MIDFIELDER: constants.maxPerPosition.MIDFIELDER,
+                        ATTACKER: constants.maxPerPosition.ATTACKER
                     }}
                     onPlayerClick={props.onPlayerClick}
                     renderEmptyPlayers
