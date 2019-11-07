@@ -11,7 +11,7 @@ import * as constants from '../constants';
 import { fetchTeamStatsByWeekRequest } from './actions';
 import StyledModal from '../common/modal/StyledModal';
 import EditFilter from './editfilter/EditFilter';
-import { columns, weeksToRequest } from './helpers';
+import { columns, weeksToRequest, combinePlayers } from './helpers';
 import modalStyles from './StyledModal.module.scss';
 import WeekStats from './weekstats/WeekStats';
 import Toggle from '../common/Toggle/Toggle';
@@ -47,7 +47,6 @@ const Stats = props => {
 
 
     const [combineWeeks, setCombineWeeks] = useState(false);
-
 
     return (
         <>
@@ -89,8 +88,8 @@ const Stats = props => {
                 {combineWeeks ? (
                     <WeekStats
                         activeColumns={activeColumns}
-                        stats={props.stats}
-                        title="All weeks"
+                        stats={combinePlayers(props.stats)}
+                        title={`Weeks 1-${props.maxGameWeek}`}
                     />
                 ) : weekRange.map(week => (
                     <WeekStats
@@ -126,6 +125,7 @@ Stats.defaultProps = {
     allTeams: [],
     currentGameWeek: 0,
     currentTeam: '',
+    maxGameWeek: 0,
     maxWeek: 0,
     minWeek: 0,
     stats: [],
@@ -142,6 +142,7 @@ Stats.propTypes = {
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired,
+    maxGameWeek: PropTypes.number,
     maxWeek: PropTypes.number,
     minWeek: PropTypes.number,
     stats: PropTypes.arrayOf(PropTypes.shape({})),
