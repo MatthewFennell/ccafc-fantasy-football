@@ -22,14 +22,17 @@ const CreatePlayer = props => {
     const [playerPrice, setPlayerPrice] = useState('');
     const [playerPosition, setPlayerPosition] = useState('');
     const [playerTeam, setPlayerTeam] = useState('');
+    const [previousScore, setPreviousScore] = useState(0);
 
     useEffect(() => {
         props.fetchTeamsRequest();
     }, [props.fetchTeamsRequest]);
 
     const createPlayer = useCallback(() => {
-        props.createPlayerRequest(playerName, playerPosition, playerPrice, playerTeam);
-    }, [playerName, playerPrice, playerPosition, playerTeam, props.createPlayerRequest]);
+        props.createPlayerRequest(playerName, playerPosition,
+            playerPrice, playerTeam, previousScore);
+    }, [playerName, playerPrice, playerPosition, playerTeam,
+        props.createPlayerRequest, previousScore]);
 
     return (
         <div className={props.styles.createPlayerWrapper}>
@@ -46,6 +49,7 @@ const CreatePlayer = props => {
                 <div className={props.styles.createPlayerDropdowns}>
                     <Dropdown activeValue={playerPosition} onChange={setPlayerPosition} options={options} title="Position" />
                     <Dropdown activeValue={playerTeam} onChange={setPlayerTeam} options={props.allTeams} title="Team" />
+                    <StyledInput label="Previous Score" onChange={setPreviousScore} type="number" value={previousScore.toString()} />
                 </div>
             </div>
             <ErrorModal

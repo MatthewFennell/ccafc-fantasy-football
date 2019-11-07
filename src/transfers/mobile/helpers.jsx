@@ -84,10 +84,10 @@ export const marks = [
 
 export const sortListAscDesc = (list, direction, property) => {
     if (direction === 'Asc') {
-        return fp.sortBy(property.toLowerCase())(list);
+        return fp.sortBy(property)(list);
     }
     if (direction === 'Desc') {
-        return fp.sortBy(property.toLowerCase())(list).reverse();
+        return fp.sortBy(property)(list).reverse();
     }
     return list;
 };
@@ -144,8 +144,15 @@ export const getColumns = openModal => [
     {
         id: 'assists',
         name: 'Assists',
-        label: 'Assists',
-        button: GridHeaderButton('Assists', openModal),
+        label: GridHeaderButton('Assists', openModal),
+        fixed: false,
+        active: false,
+        align: 'center'
+    },
+    {
+        id: 'previousScore',
+        name: 'Previous Score',
+        label: GridHeaderButton('Prev Score', openModal),
         fixed: false,
         active: false,
         align: 'center'

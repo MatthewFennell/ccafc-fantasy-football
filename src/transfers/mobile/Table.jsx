@@ -27,6 +27,7 @@ const Table = props => {
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(15);
     const [priceFilter, setPriceFilter] = useState('Asc');
+    const [previousScoreFilter, setPreviousScoreFilter] = useState('Desc');
 
     const setColumnsOpen = useCallback(() => {
         setColumnModalOpen(true);
@@ -56,6 +57,9 @@ const Table = props => {
         }
         if (props.sortBy === 'price') {
             return sortListAscDesc(byName.filter(x => x.price >= minPrice && x.price <= maxPrice), priceFilter, 'price');
+        }
+        if (props.sortBy === 'previousScore') {
+            return sortListAscDesc(byName, previousScoreFilter, 'previousScore');
         }
         return [];
     };
@@ -109,9 +113,12 @@ const Table = props => {
         if (id === 'assists') {
             return RadioAscDesc(assistsFilter, setAssistsFilter, 'Direction');
         }
+        if (id === 'previousScore') {
+            return RadioAscDesc(previousScoreFilter, setPreviousScoreFilter, 'Direction');
+        }
         return null;
     }, [nameFilter, props.positionFilter, teamFilter, priceFilter,
-        goalFilter, assistsFilter, pointsFilter, props.allTeams]);
+        goalFilter, assistsFilter, pointsFilter, props.allTeams, previousScoreFilter]);
 
     return (
         <>

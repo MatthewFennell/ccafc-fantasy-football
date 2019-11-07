@@ -45,7 +45,8 @@ exports.createPlayer = functions
                                     team: data.team,
                                     points: 0,
                                     goals: 0,
-                                    assists: 0
+                                    assists: 0,
+                                    previousScore: data.previousScore
                                 });
                             return Promise.resolve({ message: 'Player created', verified: true });
                         }

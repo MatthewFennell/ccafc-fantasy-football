@@ -24,7 +24,8 @@ function* createPlayer(action) {
             name: action.name,
             price: action.price,
             position: action.position,
-            team: action.team
+            team: action.team,
+            previousScore: action.previousScore
         });
         yield put(actions.createPlayerSuccess());
     } catch (error) {
