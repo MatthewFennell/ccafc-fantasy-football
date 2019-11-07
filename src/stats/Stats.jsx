@@ -22,11 +22,13 @@ const Stats = props => {
     }, [props.fetchTeamsRequest]);
 
     useEffect(() => {
-        const weeksToFetch = weeksToRequest(props.minWeek, props.maxWeek, props.weeksFetched);
-        weeksToFetch.forEach(x => {
-            props.fetchTeamStatsByWeekRequest(props.currentTeam, x.min, x.max);
-        });
-    }, [props.minWeek, props.maxWeek, props.currentTeam]);
+        if (props.currentTeam !== 'none') {
+            const weeksToFetch = weeksToRequest(props.minWeek, props.maxWeek, props.weeksFetched);
+            weeksToFetch.forEach(x => {
+                props.fetchTeamStatsByWeekRequest(props.currentTeam, x.min, x.max);
+            });
+        }
+    }, [props.currentTeam, props.minWeek, props.maxWeek]);
 
     const [editFilterModalOpen, setEditFilterModalOpen] = useState(false);
     const [activeColumns, setActiveColumns] = useState(columns
@@ -44,8 +46,6 @@ const Stats = props => {
     }, [props.currentTeam, props.history]);
 
     const weekRange = fp.range(props.minWeek, props.maxWeek + 1);
-
-
     const [combineWeeks, setCombineWeeks] = useState(false);
 
     return (
@@ -88,12 +88,15 @@ const Stats = props => {
                 {combineWeeks ? (
                     <WeekStats
                         activeColumns={activeColumns}
-                        stats={combinePlayers(props.stats)}
-                        title={`Weeks 1-${props.maxGameWeek}`}
+                        loading={props.fetching && props.fetching.length}
+                        stats={combinePlayers(props.stats, props.minWeek, props.maxWeek)}
+                        title={`Weeks ${props.minWeek}-${props.maxWeek}`}
                     />
                 ) : weekRange.map(week => (
                     <WeekStats
                         activeColumns={activeColumns}
+                        key={week}
+                        loading={props.fetching && props.fetching.includes(week)}
                         stats={props.stats.filter(x => x.week === week)}
                         title={`Week ${week}`}
                     />
@@ -112,6 +115,7 @@ const Stats = props => {
                     activeColumns={activeColumns}
                     allColumns={columns}
                     confirmFilter={confirmFilter}
+                    maxGameWeek={props.maxGameWeek}
                     maxWeek={props.maxWeek}
                     minWeek={props.minWeek}
                 />
@@ -125,6 +129,7 @@ Stats.defaultProps = {
     allTeams: [],
     currentGameWeek: 0,
     currentTeam: '',
+    fetching: [],
     maxGameWeek: 0,
     maxWeek: 0,
     minWeek: 0,
@@ -137,6 +142,7 @@ Stats.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     currentGameWeek: PropTypes.number,
     currentTeam: PropTypes.string,
+    fetching: PropTypes.arrayOf(PropTypes.number),
     fetchTeamStatsByWeekRequest: PropTypes.func.isRequired,
     fetchTeamsRequest: PropTypes.func.isRequired,
     history: PropTypes.shape({
@@ -159,6 +165,7 @@ const mapStateToProps = (state, props) => ({
     allTeams: state.admin.allTeams,
     minWeek: selectors.getCurrentMinWeek(props),
     maxWeek: selectors.getCurrentMaxWeek(props),
+    fetching: selectors.getProperty(state, props, 'fetching'),
     currentTeam: selectors.getCurrentTeam(props),
     maxGameWeek: state.overview.maxGameWeek,
     stats: selectors.getProperty(state, props, 'stats'),

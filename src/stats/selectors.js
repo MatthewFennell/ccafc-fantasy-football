@@ -7,4 +7,4 @@ export const getCurrentTeam = props => fp.flow(fp.get('match'), fp.get('params')
 export const getProperty = (state, props, property) => fp.flow(
     fp.get(getCurrentTeam(props)),
     fp.get(property)
-)(state.stats.teamStatsByWeek) || [];
+)(state.stats.teamStatsByWeek);
