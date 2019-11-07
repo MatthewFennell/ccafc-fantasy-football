@@ -43,32 +43,13 @@ export const columns = [
     }
 ];
 
-export const marks = [
-    {
-        value: 0,
-        label: '0'
-    },
-    {
-        value: 2,
-        label: '2'
-    },
-    {
-        value: 4,
-        label: '4'
-    },
-    {
-        value: 6,
-        label: '6'
-    },
-    {
-        value: 8,
-        label: '8'
-    },
-    {
-        value: 10,
-        label: '10'
+export const marks = maxWeek => {
+    const result = [];
+    for (let x = 0; x < maxWeek; x++) {
+        result.push({ value: x, label: x.toString() });
     }
-];
+    return result;
+};
 
 // Join ascending runs into {min/max} objects
 const findAdjacent = input => input.reduce((acc, curVal) => {
@@ -85,9 +66,9 @@ export const weeksToRequest = (minRequested, maxRequested, weeksFetched) => {
     return result;
 };
 
-export const combinePlayers = players => {
+export const combinePlayers = (players, minWeek, maxWeek) => {
     let output = [];
-    players.forEach(player => {
+    players.filter(player => player.week >= minWeek && player.week <= maxWeek).forEach(player => {
         if (output.some(x => x.player_id === player.player_id)) {
             output = output.map(x => (x.player_id === player.player_id ? ({
                 ...player,

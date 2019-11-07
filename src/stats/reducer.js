@@ -8,7 +8,9 @@ const initState = {
 const statsReducer = (state = initState, action) => {
     switch (action.type) {
     case actions.FETCH_TEAM_STATS_BY_WEEK_REQUEST: {
-        return fp.set(`teamStatsByWeek.${action.teamId}.fetching`, true)(state);
+        const range = fp.range(action.minWeek, action.maxWeek + 1);
+        const currentLoading = fp.getOr([], 'fetching')(state.teamStatsByWeek[action.teamId]);
+        return fp.set(`teamStatsByWeek.${action.teamId}.fetching`, fp.union(range, currentLoading))(state);
     }
     case actions.FETCH_TEAM_STATS_BY_WEEK_ERROR: {
         return fp.set(`teamStatsByWeek.${action.teamId}.fetching`, false)(state);
@@ -24,7 +26,7 @@ const statsReducer = (state = initState, action) => {
 
         return fp.flow(
             fp.set(`teamStatsByWeek.${action.teamId}.stats`, fp.union(currentStats, action.stats)),
-            fp.set(`teamStatsByWeek.${action.teamId}.fetching`, false),
+            fp.set(`teamStatsByWeek.${action.teamId}.fetching`, state.teamStatsByWeek[action.teamId].fetching.filter(x => x < action.minWeek || x > action.maxWeek)),
             fp.set(`teamStatsByWeek.${action.teamId}.weeksFetched`, fp.union(fp.range(action.minWeek, action.maxWeek + 1), weeksFetched).sort())
         )(state);
     }

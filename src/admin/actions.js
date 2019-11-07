@@ -180,12 +180,13 @@ export const fetchTeamsError = error => ({
 
 // -------------------------------------------------------------------- \\
 
-export const createPlayerRequest = (name, position, price, team) => ({
+export const createPlayerRequest = (name, position, price, team, previousScore) => ({
     type: CREATE_PLAYER_REQUEST,
     name,
     position,
     price,
-    team
+    team,
+    previousScore
 });
 
 export const createPlayerSuccess = () => ({

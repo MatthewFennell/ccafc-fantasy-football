@@ -28,18 +28,18 @@ const EditFilter = props => {
     return (
         <div className={props.styles.editFilterWrapper}>
             <Slider
-                marks={marks}
-                min={0}
-                max={10}
+                marks={marks(props.maxGameWeek)}
+                min={1}
+                max={props.maxGameWeek}
                 step={1}
                 text="From Week"
                 onChange={setMinWeek}
                 defaultValue={minWeek}
             />
             <Slider
-                marks={marks}
-                min={0}
-                max={10}
+                marks={marks(props.maxGameWeek)}
+                min={1}
+                max={props.maxGameWeek}
                 step={1}
                 text="To Week"
                 onChange={setMaxWeek}
@@ -72,18 +72,20 @@ EditFilter.defaultProps = {
     activeColumns: [],
     allColumns: [],
     confirmFilter: noop,
+    maxGameWeek: 0,
     maxWeek: 0,
     minWeek: 0,
     styles: defaultStyles
 };
 
 EditFilter.propTypes = {
-    activeColumns: PropTypes.arrayOf(PropTypes.string),
+    activeColumns: PropTypes.arrayOf(PropTypes.shape({})),
     allColumns: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string,
         label: PropTypes.string
     })),
     confirmFilter: PropTypes.func,
+    maxGameWeek: PropTypes.number,
     maxWeek: PropTypes.number,
     minWeek: PropTypes.number,
     styles: PropTypes.objectOf(PropTypes.string)
