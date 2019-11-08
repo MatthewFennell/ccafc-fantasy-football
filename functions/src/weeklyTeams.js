@@ -5,35 +5,6 @@ const constants = require('./constants');
 
 const db = admin.firestore();
 
-exports.getAllMyWeeklyPlayers = functions
-    .region(constants.region)
-    .https.onCall((data, context) => {
-        common.isAuthenticated(context);
-        return db.collection('weekly-players')
-            .where('user_id', '==', context.auth.uid)
-            .get()
-            .then(querySnapshot => querySnapshot.docs
-                .map(doc => ({
-                    data: doc.data(),
-                    id: doc.id
-                })));
-    });
-
-exports.getWeeklyPlayersForUserInWeek = functions
-    .region(constants.region)
-    .https.onCall((data, context) => {
-        common.isAuthenticated(context);
-        return db.collection('weekly-players')
-            .where('user_id', '==', data.userId)
-            .where('week', '==', data.week)
-            .get()
-            .then(querySnapshot => querySnapshot.docs
-                .map(doc => ({
-                    data: doc.data(),
-                    id: doc.id
-                })));
-    });
-
 exports.addPointsToPlayerInWeek = functions
     .region(constants.region)
     .https.onCall((data, context) => {

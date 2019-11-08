@@ -239,6 +239,9 @@ const EditPlayer = props => {
     }, [goals, assists, cleanSheet, redCard, yellowCard, motm,
         props.teamsWithPlayers, props.editPlayerStatsRequest, dotd, ownGoals]);
 
+
+    const rowsToUse = generateRows(props.playerStats, props.fetchingPlayerStats);
+
     return (
         <>
             <div className={props.styles.findPlayerDropdowns}>
@@ -260,8 +263,9 @@ const EditPlayer = props => {
             <div className={props.styles.oldStatsWrapper}>
                 <Grid
                     columns={columns}
-                    rows={generateRows(props.playerStats, props.fetchingPlayerStats)}
+                    rows={rowsToUse}
                     showPagination={false}
+                    rowsPerPageOptions={[rowsToUse.length]}
                 />
                 <div className={props.styles.buttonWrapper}>
                     <StyledButton

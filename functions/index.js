@@ -25,23 +25,3 @@ exports.onSignUp = require('./src/onSignUp');
 exports.on = require('./src/onDelete');
 
 const operations = admin.firestore.FieldValue;
-
-exports.teamStatsByWeek = functions
-    .region(constants.region)
-    .https.onCall((data, context) => {
-        common.isAuthenticated(context);
-        return db.collection('teams').doc(data.teamId).get().then(result => {
-            if (result.exists) {
-                return ({ ...result.data(), id: result.id });
-            }
-            throw new functions.https.HttpsError('not-found', 'No team with that id exists');
-        })
-            .then(team => db.collection('player-points')
-                .where('team', '==', team.team_name)
-                .where('week', '<=', data.maxWeek)
-                .where('week', '>=', data.minWeek)
-                .get()
-                .then(
-                    result => result.docs.map(doc => ({ ...doc.data(), id: doc.id }))
-                ));
-    });

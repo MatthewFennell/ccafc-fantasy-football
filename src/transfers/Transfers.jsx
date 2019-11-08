@@ -47,7 +47,7 @@ const Transfers = props => {
 
     const selectReplacement = useCallback(() => {
         setSortBy('position');
-        setPositionFilter(playerToRemove.position);
+        setPositionFilter(playerToRemove.position || positionFilter);
         setPlayerTableOpen(true);
         setRemoveModalOpen(false);
     }, [playerTableOpen, setPlayerTableOpen, playerToRemove]);
