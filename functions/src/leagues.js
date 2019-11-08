@@ -52,17 +52,6 @@ exports.createLeague = functions
         });
     });
 
-exports.getAllLeagues = functions
-    .region(constants.region)
-    .https.onCall((data, context) => {
-        common.isAuthenticated(context);
-        return db
-            .collection('leagues-points')
-            .get()
-            .then(querySnapshot => querySnapshot.docs
-                .map(doc => ({ data: doc.data(), id: doc.id })));
-    });
-
 exports.getLeaguesIAmIn = functions
     .region(constants.region)
     .https.onCall((data, context) => {
@@ -207,19 +196,6 @@ exports.orderedUsers = functions
                 }))
         );
     });
-
-exports.positionsOfUserInLeagues = functions
-    .region(constants.region)
-    .https.onCall((data, context) => {
-        common.isAuthenticated(context);
-        return db
-            .collection('leagues-points')
-            .where('user_id', '==', data.userId)
-            .get()
-            .then(querySnapshot => querySnapshot.docs
-                .map(doc => ({ data: doc.data(), id: doc.id })));
-    });
-
 
 // Adds a position tag to each league to order them correctly
 exports.calculatePositions = functions

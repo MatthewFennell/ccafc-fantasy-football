@@ -1,49 +1,12 @@
 /* eslint-disable max-len */
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
-const lodash = require('lodash');
 const common = require('./common');
 const constants = require('./constants');
 
 const db = admin.firestore();
 
 const operations = admin.firestore.FieldValue;
-
-exports.userWithMostPoints = functions
-    .region(constants.region)
-    .https.onCall((data, context) => {
-        common.isAuthenticated(context);
-        return db
-            .collection('users')
-            .orderBy('total_points', 'desc').limit(1)
-            .get()
-            .then(querySnapshot => querySnapshot.docs
-                .map(doc => ({ data: doc.data(), id: doc.id })));
-    });
-
-exports.playerWithMostPointsInWeek = functions
-    .region(constants.region)
-    .https.onCall((data, context) => {
-        common.isAuthenticated(context);
-        return db
-            .collection('player-points')
-            .where('week', '==', data.week)
-            .orderBy('points', 'desc')
-            .limit(1)
-            .get()
-            .then(querySnapshot => querySnapshot.docs
-                .map(doc => ({ data: doc.data(), id: doc.id })))
-            .then(result => {
-                if (result.length === 0) {
-                    throw new functions.https.HttpsError('not-found', `No players have been assigned points for week ${data.week}`);
-                }
-                return db.collection('players').doc(lodash.head(result).data.player_id).get()
-                    .then(player => ({
-                        name: player.data().name,
-                        points: lodash.head(result).data.points
-                    }));
-            });
-    });
 
 exports.pointsForWeek = functions
     .region(constants.region)

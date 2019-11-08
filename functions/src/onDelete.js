@@ -19,6 +19,7 @@ exports.deleteUsersLeaguesPoints = functions.region(constants.region).firestore
     ));
 
 // Whenever a leagues points document is deleted, update the positions
+// Could reimplement to find all users where position > deleted position and update them
 exports.reorderPositions = functions.region(constants.region).firestore
     .document('leagues-points/{id}')
     .onDelete(snapshot => db.collection('leagues-points').where('league_id', '==', snapshot.data().league_id).get()
