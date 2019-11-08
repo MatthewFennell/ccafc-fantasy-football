@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable max-len */
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
@@ -10,8 +11,6 @@ exports.updateTeam = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        console.log('team to set', data.newTeam);
-
 
         return db.collection('users').doc(context.auth.uid).get().then(
             user => user.data().remaining_budget
@@ -120,4 +119,17 @@ exports.makeCaptain = functions
                 });
             }
         );
+    });
+
+
+exports.removeCaptainWhenTeamUpdated = functions.region(constants.region).firestore
+    .document('active-teams/{id}')
+    .onWrite(change => {
+        const { player_ids, captain } = change.after.data();
+        if (!player_ids.includes(captain)) {
+            return db.collection('active-teams').doc(change.after.id).update({
+                captain: null
+            }).then(() => Promise.resolve('Captain set to null'));
+        }
+        return Promise.resolve('Captain still remains in team');
     });

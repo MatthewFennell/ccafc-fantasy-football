@@ -18,7 +18,7 @@ import {
 
 const Table = props => {
     const [columnModalOpen, setColumnModalOpen] = useState(false);
-    const [nameFilter, setNameFilter] = useState('');
+    const [nameFilter, setNameFilter] = useState('Asc');
     const [searchByName, setSearchByName] = useState('');
     const [pointsFilter, setPointsFilter] = useState('Desc');
     const [teamFilter, setTeamFilter] = useState('');
@@ -36,7 +36,8 @@ const Table = props => {
     const [myColumnns, setMyColumns] = useState(getColumns(setColumnsOpen));
 
     const filterPlayers = players => {
-        const byName = players.filter(x => x.name.includes(searchByName));
+        const notInMyTeam = players.filter(x => !props.activeTeam.some(y => y.id === x.id));
+        const byName = notInMyTeam.filter(x => x.name.includes(searchByName));
         if (props.sortBy === 'name') {
             return sortListAscDesc(byName, nameFilter, 'name');
         }
@@ -202,6 +203,7 @@ const Table = props => {
 };
 
 Table.defaultProps = {
+    activeTeam: [],
     allPlayers: [],
     allTeams: [],
     closePlayerTable: noop,
@@ -217,6 +219,7 @@ Table.defaultProps = {
 };
 
 Table.propTypes = {
+    activeTeam: PropTypes.arrayOf(PropTypes.shape({})),
     allPlayers: PropTypes.arrayOf(PropTypes.shape({})),
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     closePlayerTable: PropTypes.func,

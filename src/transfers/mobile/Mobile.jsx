@@ -19,6 +19,7 @@ const Mobile = props => (
             onOpen={noop}
         >
             <Table
+                activeTeam={props.currentTeam}
                 allPlayers={props.allPlayers}
                 allTeams={props.allTeams}
                 closePlayerTable={props.closePlayerTable}

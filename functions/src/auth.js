@@ -28,16 +28,6 @@ exports.updateDisplayName = functions
         );
     });
 
-exports.getUserProfile = functions
-    .region(constants.region)
-    .https.onCall((data, context) => {
-        common.isAuthenticated(context);
-        return db
-            .collection('users').doc(context.auth.uid).get()
-            .then(user => ({ data: user.data(), id: user.id }));
-    });
-
-
 exports.updateTeamName = functions
     .region(constants.region)
     .https.onCall((data, context) => {
