@@ -40,7 +40,7 @@ const Mobile = props => (
                 <div className={props.styles.transfersHeader}>
                     <div className={props.styles.remainingBudget}>
                         <div className={props.styles.remainingBudgetValue}>
-                            {`£${props.remainingBudget} mil`}
+                            {`£${props.remainingBudget.toFixed(1)} mil`}
                         </div>
                     </div>
                     <div>

@@ -63,7 +63,7 @@ exports.updateTeam = functions
                                 return activeTeams.docs[0].ref.update({
                                     player_ids: data.newTeam
                                 }).then(() => db.collection('users').doc(context.auth.uid).update({
-                                    remaining_budget: newBudget
+                                    remaining_budget: newBudget.toFixed(1)
                                 }));
                             });
                         }
