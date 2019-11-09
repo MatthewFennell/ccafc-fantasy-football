@@ -10,6 +10,12 @@ import Table from './Table';
 import StyledModal from '../../common/modal/StyledModal';
 import * as constants from '../../constants';
 
+const teamsAreDifferent = (original, current) => {
+    const playersInCurrentNotInOriginal = current.filter(c => !original.some(x => x.id === c.id));
+    console.log('length', playersInCurrentNotInOriginal.length);
+    return playersInCurrentNotInOriginal.length > 0 && current.length === 11;
+};
+
 const Mobile = props => (
     <>
         <SwipeableDrawer
@@ -56,6 +62,12 @@ const Mobile = props => (
                             onClick={props.updateTeamRequest}
                             text="Confirm"
                         />
+                        {teamsAreDifferent(props.originalTeam, props.currentTeam)
+                        && (
+                            <div className={props.styles.saveChanges}>
+                            Save changes
+                            </div>
+                        )}
                     </div>
                 </div>
                 <Pitch
@@ -142,6 +154,7 @@ Mobile.defaultProps = {
     fetchingOriginalTeam: false,
     onTransfersRequest: noop,
     onPlayerClick: noop,
+    originalTeam: [],
     remainingBudget: 0,
     playerTableOpen: false,
     playerToRemove: {},
@@ -174,6 +187,7 @@ Mobile.propTypes = {
     fetchingOriginalTeam: PropTypes.bool,
     onTransfersRequest: PropTypes.func,
     onPlayerClick: PropTypes.func,
+    originalTeam: PropTypes.arrayOf(PropTypes.shape({})),
     remainingBudget: PropTypes.number,
     playerTableOpen: PropTypes.bool,
     playerToRemove: PropTypes.oneOfType([

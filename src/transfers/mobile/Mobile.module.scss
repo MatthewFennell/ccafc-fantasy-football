@@ -36,6 +36,11 @@
   text-align: center;
 }
 
+.saveChanges{
+  color: $color-red;
+  font-weight: bold;
+}
+
 @media only screen and (max-width: 600px) {
   .pitchWrapper{
     .currentTeamWrapper{

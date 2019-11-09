@@ -136,6 +136,7 @@ const Transfers = props => {
             fetchingOriginalTeam={props.fetchingOriginalTeam}
             onPlayerClick={onPlayerClick}
             onTransfersRequest={onTransfersRequest}
+            originalTeam={props.originalTeam}
             playerTableOpen={playerTableOpen}
             playerToRemove={playerToRemove}
             positionFilter={positionFilter}
@@ -165,6 +166,7 @@ Transfers.defaultProps = {
     currentTeam: [],
     fetchingAllPlayers: false,
     fetchingOriginalTeam: false,
+    originalTeam: [],
     remainingBudget: 0,
     transfersError: '',
     transfersErrorCode: ''
@@ -185,6 +187,7 @@ Transfers.propTypes = {
     fetchAllTeamsRequest: PropTypes.func.isRequired,
     fetchingOriginalTeam: PropTypes.bool,
     fetchUserStatsRequest: PropTypes.func.isRequired,
+    originalTeam: PropTypes.arrayOf(PropTypes.shape({})),
     remainingBudget: PropTypes.number,
     replacePlayerRequest: PropTypes.func.isRequired,
     removePlayerFromCurrentTeam: PropTypes.func.isRequired,
@@ -216,6 +219,7 @@ const mapStateToProps = state => ({
     currentTeam: state.transfers.currentTeam,
     fetchingAllPlayers: state.transfers.fetchingAllPlayers,
     fetchingOriginalTeam: state.transfers.fetchingOriginalTeam,
+    originalTeam: state.transfers.originalTeam,
     remainingBudget: state.transfers.remainingBudget,
     transfersError: state.transfers.transfersError,
     transfersErrorCode: state.transfers.transfersErrorCode

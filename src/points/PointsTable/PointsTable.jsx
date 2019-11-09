@@ -84,7 +84,7 @@ const generateRows = player => {
 
 const PointsTable = props => (
     <div>
-        <div className={props.styles.playerInfoWrapper}>
+        {/* <div className={props.styles.playerInfoWrapper}>
             <div className={props.styles.playerName}>
                 {props.player.name}
             </div>
@@ -94,7 +94,7 @@ const PointsTable = props => (
             <div className={props.styles.playerPosition}>
                 {props.player.position}
             </div>
-        </div>
+        </div> */}
         <Grid
             columns={columns}
             rows={generateRows(props.player).filter(row => row.showField)}
