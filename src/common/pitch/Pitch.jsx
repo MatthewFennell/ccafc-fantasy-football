@@ -48,7 +48,7 @@ const Pitch = props => {
         const numSpareSpots = numberOfSpareSpots(pos);
         const numToRender = Math.min(maxInRow - numInRow, numSpareSpots);
         const players = [];
-        for (let x = 0; x < numToRender; x++) {
+        for (let x = 0; x < numToRender; x += 1) {
             players.push(<Player
                 additionalInfo=""
                 name="No player selected"

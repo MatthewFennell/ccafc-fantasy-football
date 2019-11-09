@@ -9,7 +9,10 @@ import classNames from 'classnames';
 
 const useStyles = makeStyles(theme => ({
     margin: {
-        margin: theme.spacing(1)
+        margin: theme.spacing(1),
+        '&:focus': {
+            backgroundColor: '#3f51b5'
+        }
     },
     smallButton: {
         padding: '0px'

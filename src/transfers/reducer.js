@@ -147,7 +147,11 @@ const transfersReducer = (state = initialState, action) => {
         )(state);
     }
     case actions.REPLACE_PLAYER_SUCCESS: {
-        return fp.set('currentTeam', state.currentTeam.map(x => (x.id === action.oldPlayer.id ? action.newPlayer : x)))(state);
+        const budgetDiff = action.oldPlayer.price - action.newPlayer.price;
+        return fp.flow(
+            fp.set('currentTeam', state.currentTeam.map(x => (x.id === action.oldPlayer.id ? action.newPlayer : x))),
+            fp.set('remainingBudget', budgetDiff)
+        )(state);
     }
     case actions.UPDATE_TEAM_REQUEST: {
         return fp.set('fetchingOriginalTeam', true)(state);
