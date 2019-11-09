@@ -9,7 +9,7 @@ exports.createInitialLeague = functions
     .region(constants.region)
     .auth.user()
     .onCreate(user => db.collection('application-info').get().then(query => {
-        if (query.size === 1 && query.docs[0].data().number_of_users <= 1) {
+        if (query.size === 0 || (query.size === 1 && query.docs[0].data().number_of_users <= 1)) {
             return db.collection('leagues').where('name', '==', 'Collingwood').get().then(
                 result => {
                     if (result.empty) {

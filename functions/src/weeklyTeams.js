@@ -5,47 +5,6 @@ const constants = require('./constants');
 
 const db = admin.firestore();
 
-exports.addPointsToPlayerInWeek = functions
-    .region(constants.region)
-    .https.onCall((data, context) => {
-        common.isAuthenticated(context);
-        const matchingPlayer = db.collection('players').doc(data.playerId);
-        const matchingWeeklyTeams = db.collection('weekly-teams')
-            .where('player_ids', 'array-contains', data.playerId)
-            .where('week', '==', data.week);
-        return matchingPlayer.get().then(doc => {
-            if (doc.exists) {
-                return db.collection('players').doc(doc.id).update({
-                    points: doc.data().points + data.points
-                });
-            }
-            throw new functions.https.HttpsError('not-found', 'There is no player with that ID');
-        }).then(() => matchingWeeklyTeams.get().then(querySnapshot => {
-            querySnapshot.docs.map(doc => db.collection('weekly-teams').doc(doc.id).update({
-                points: doc.data().points + data.points
-            }).then(() => {
-                const userRef = db.collection('users').doc(doc.data().user_id);
-                userRef.get().then(userDoc => {
-                    if (userDoc.exists) {
-                        return db.collection('users').doc(doc.data().user_id).update({
-                            points: userDoc.data().points + data.points
-                        });
-                    }
-                    throw new functions.https.HttpsError('not-found', 'There is no player with that ID');
-                }).then(() => {
-                    const leaguesRef = db.collection('leagues-points')
-                        .where('start_week', '>=', data.week)
-                        .where('user_id', '==', doc.data().user_id);
-                    return leaguesRef.get().then(allLeagues => {
-                        allLeagues.docs.map(league => db.collection('leagues-points').doc(league.id).update({
-                            user_points: league.data().user_points + data.points
-                        }));
-                    });
-                });
-            }));
-        }));
-    });
-
 exports.triggerWeeklyTeams = functions
     .region(constants.region)
     .https.onCall((data, context) => {

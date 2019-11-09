@@ -17,7 +17,7 @@
       margin-right: 10%;
       display: flex;
       justify-content: center;
-      background-color: $color-light-gray;
+      background-color: $color-white;
     
       > div {
         width: 33%;
@@ -36,6 +36,11 @@
   text-align: center;
 }
 
+.saveChanges{
+  color: $color-red;
+  font-weight: bold;
+}
+
 @media only screen and (max-width: 600px) {
   .pitchWrapper{
     .currentTeamWrapper{
@@ -43,6 +48,9 @@
       position: absolute;
       left: -15%;
       overflow-x: hidden;
+      .transfersHeader{
+        background-color: $color-light-gray;
+      }
     }
   }
 }

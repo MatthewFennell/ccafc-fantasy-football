@@ -10,6 +10,12 @@ import Table from './Table';
 import StyledModal from '../../common/modal/StyledModal';
 import * as constants from '../../constants';
 
+const teamsAreDifferent = (original, current) => {
+    const playersInCurrentNotInOriginal = current.filter(c => !original.some(x => x.id === c.id));
+    console.log('length', playersInCurrentNotInOriginal.length);
+    return playersInCurrentNotInOriginal.length > 0 && current.length === 11;
+};
+
 const Mobile = props => (
     <>
         <SwipeableDrawer
@@ -31,6 +37,8 @@ const Mobile = props => (
                 setPositionFilter={props.setPositionFilter}
                 setSortBy={props.setSortBy}
                 sortBy={props.sortBy}
+
+                stateObj={props.stateObj}
             />
         </SwipeableDrawer>
         <div className={props.styles.pitchWrapper}>
@@ -38,7 +46,7 @@ const Mobile = props => (
                 <div className={props.styles.transfersHeader}>
                     <div className={props.styles.remainingBudget}>
                         <div className={props.styles.remainingBudgetValue}>
-                            {`£${props.remainingBudget} mil`}
+                            {`£${props.remainingBudget.toFixed(1)} mil`}
                         </div>
                     </div>
                     <div>
@@ -54,6 +62,12 @@ const Mobile = props => (
                             onClick={props.updateTeamRequest}
                             text="Confirm"
                         />
+                        {teamsAreDifferent(props.originalTeam, props.currentTeam)
+                        && (
+                            <div className={props.styles.saveChanges}>
+                            Save changes
+                            </div>
+                        )}
                     </div>
                 </div>
                 <Pitch
@@ -140,6 +154,7 @@ Mobile.defaultProps = {
     fetchingOriginalTeam: false,
     onTransfersRequest: noop,
     onPlayerClick: noop,
+    originalTeam: [],
     remainingBudget: 0,
     playerTableOpen: false,
     playerToRemove: {},
@@ -156,7 +171,8 @@ Mobile.defaultProps = {
     transfersError: '',
     transfersErrorCode: '',
     undoTransferChanges: noop,
-    updateTeamRequest: noop
+    updateTeamRequest: noop,
+    stateObj: {}
 };
 
 Mobile.propTypes = {
@@ -171,6 +187,7 @@ Mobile.propTypes = {
     fetchingOriginalTeam: PropTypes.bool,
     onTransfersRequest: PropTypes.func,
     onPlayerClick: PropTypes.func,
+    originalTeam: PropTypes.arrayOf(PropTypes.shape({})),
     remainingBudget: PropTypes.number,
     playerTableOpen: PropTypes.bool,
     playerToRemove: PropTypes.oneOfType([
@@ -195,7 +212,8 @@ Mobile.propTypes = {
     transfersError: PropTypes.string,
     transfersErrorCode: PropTypes.string,
     undoTransferChanges: PropTypes.func,
-    updateTeamRequest: PropTypes.func
+    updateTeamRequest: PropTypes.func,
+    stateObj: PropTypes.shape({})
 };
 
 export default Mobile;

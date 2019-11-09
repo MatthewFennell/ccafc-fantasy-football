@@ -9,6 +9,7 @@ import {
     updateTeamRequest, restorePlayerRequest, replacePlayerRequest
 } from './actions';
 import Mobile from './mobile/Mobile';
+import { getColumns } from './mobile/helpers';
 
 const Transfers = props => {
     useEffect(() => {
@@ -27,6 +28,46 @@ const Transfers = props => {
     const [playerTableOpen, setPlayerTableOpen] = useState(false);
     const [sortBy, setSortBy] = useState('points');
     const [positionFilter, setPositionFilter] = useState('GOALKEEPER');
+
+    const [columnModalOpen, setColumnModalOpen] = useState(false);
+    const [nameFilter, setNameFilter] = useState('Asc');
+    const [searchByName, setSearchByName] = useState('');
+    const [pointsFilter, setPointsFilter] = useState('Desc');
+    const [teamFilter, setTeamFilter] = useState('');
+    const [goalFilter, setGoalFilter] = useState('Asc');
+    const [assistsFilter, setAssistsFilter] = useState('Asc');
+    const [minPrice, setMinPrice] = useState(0);
+    const [maxPrice, setMaxPrice] = useState(15);
+    const [priceFilter, setPriceFilter] = useState('Asc');
+    const [previousScoreFilter, setPreviousScoreFilter] = useState('Desc');
+    const [myColumns, setMyColumns] = useState(getColumns(() => setColumnModalOpen(true)));
+
+    const stateObj = {
+        myColumns,
+        setMyColumns,
+        columnModalOpen,
+        setColumnModalOpen,
+        nameFilter,
+        setNameFilter,
+        searchByName,
+        setSearchByName,
+        pointsFilter,
+        setPointsFilter,
+        teamFilter,
+        setTeamFilter,
+        goalFilter,
+        setGoalFilter,
+        assistsFilter,
+        setAssistsFilter,
+        minPrice,
+        setMinPrice,
+        maxPrice,
+        setMaxPrice,
+        priceFilter,
+        setPriceFilter,
+        previousScoreFilter,
+        setPreviousScoreFilter
+    };
 
 
     const onPlayerClick = useCallback(player => {
@@ -95,6 +136,7 @@ const Transfers = props => {
             fetchingOriginalTeam={props.fetchingOriginalTeam}
             onPlayerClick={onPlayerClick}
             onTransfersRequest={onTransfersRequest}
+            originalTeam={props.originalTeam}
             playerTableOpen={playerTableOpen}
             playerToRemove={playerToRemove}
             positionFilter={positionFilter}
@@ -111,6 +153,8 @@ const Transfers = props => {
             transfersErrorCode={props.transfersErrorCode}
             undoTransferChanges={props.undoTransferChanges}
             updateTeamRequest={props.updateTeamRequest}
+
+            stateObj={stateObj}
         />
     );
 };
@@ -122,6 +166,7 @@ Transfers.defaultProps = {
     currentTeam: [],
     fetchingAllPlayers: false,
     fetchingOriginalTeam: false,
+    originalTeam: [],
     remainingBudget: 0,
     transfersError: '',
     transfersErrorCode: ''
@@ -142,6 +187,7 @@ Transfers.propTypes = {
     fetchAllTeamsRequest: PropTypes.func.isRequired,
     fetchingOriginalTeam: PropTypes.bool,
     fetchUserStatsRequest: PropTypes.func.isRequired,
+    originalTeam: PropTypes.arrayOf(PropTypes.shape({})),
     remainingBudget: PropTypes.number,
     replacePlayerRequest: PropTypes.func.isRequired,
     removePlayerFromCurrentTeam: PropTypes.func.isRequired,
@@ -173,6 +219,7 @@ const mapStateToProps = state => ({
     currentTeam: state.transfers.currentTeam,
     fetchingAllPlayers: state.transfers.fetchingAllPlayers,
     fetchingOriginalTeam: state.transfers.fetchingOriginalTeam,
+    originalTeam: state.transfers.originalTeam,
     remainingBudget: state.transfers.remainingBudget,
     transfersError: state.transfers.transfersError,
     transfersErrorCode: state.transfers.transfersErrorCode

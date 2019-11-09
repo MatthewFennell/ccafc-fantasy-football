@@ -7,14 +7,16 @@ import * as constants from '../../constants';
 const AuthenticatedRoute = ({
     component: Component, auth, loadedPermissions, ...rest
 }) => {
+    if (!auth.uid || !auth.emailVerified) {
+        return <Redirect to={constants.URL.VERIFY_EMAIL} />;
+    }
     if (!loadedPermissions) {
         return null;
     }
     return (
         <Route
             {...rest}
-            render={props => (auth.uid && auth.emailVerified
-                ? <Component {...props} /> : <Redirect to={constants.URL.VERIFY_EMAIL} />)}
+            render={props => <Component {...props} />}
         />
     );
 };

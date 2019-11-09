@@ -116,6 +116,15 @@ const SubmitResult = props => {
             parseFloat(gameWeek, 10) || '',
             resultObject
         );
+        setTeamName('');
+        setGoalsFor('');
+        setGoalsAgainst('');
+        setGameWeek('');
+        setMotm('');
+        setDotd('');
+        setGoalscorers({});
+        setAssisters({});
+        setCleanSheets({});
     }, [teamName, goalsFor, goalsAgainst, gameWeek, goalScorers,
         assisters, cleanSheets, props.submitResultRequest, motm, dotd]);
 

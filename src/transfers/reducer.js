@@ -134,7 +134,8 @@ const transfersReducer = (state = initialState, action) => {
         return {
             ...state,
             transfersError: action.error.message,
-            transfersErrorCode: action.error.code
+            transfersErrorCode: action.error.code,
+            fetchingOriginalTeam: false
         };
     }
     case actions.RESTORE_PLAYER_REQUEST: {

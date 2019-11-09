@@ -19,9 +19,6 @@
 
 .userWrapper{ 
   display: inline-block;
-  > div {
-    // text-align: left;
-  }
   .miniText{
     font-size: $font-size-tiny;
     color: $color-blue;
@@ -32,6 +29,7 @@
 @media only screen and (max-width: 600px) {
   .myLeaguesTable{
     padding: 0px;
+    padding-top: $spacing-medium;
     margin-bottom: $spacing-small;
   }
 }

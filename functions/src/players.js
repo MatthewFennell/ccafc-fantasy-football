@@ -27,6 +27,9 @@ exports.createPlayer = functions
         if (!common.isNumber(data.price)) {
             throw new functions.https.HttpsError('invalid-argument', 'Invalid price');
         }
+        if (!common.isNumber(data.previousScore)) {
+            throw new functions.https.HttpsError('invalid-argument', 'Invalid price');
+        }
         const teamExistsRef = db.collection('teams')
             .where('team_name', '==', data.team);
         const playerAlreadyExistsRef = db.collection('players')
@@ -46,7 +49,7 @@ exports.createPlayer = functions
                                     points: 0,
                                     goals: 0,
                                     assists: 0,
-                                    previousScore: data.previousScore
+                                    previousScore: parseFloat(data.previousScore, 10)
                                 });
                             return Promise.resolve({ message: 'Player created', verified: true });
                         }

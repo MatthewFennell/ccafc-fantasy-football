@@ -43,6 +43,7 @@ const Points = props => {
     const playerClick = useCallback(player => {
         setPlayerObj(player);
         setPlayerModalOpen(true);
+        console.log('player', player);
     }, [playerModalOpen, playerObj, setPlayerModalOpen, setPlayerObj]);
 
     const captainId = fp.get('player_id')(props.currentPoints.find(x => x.isCaptain));
@@ -83,9 +84,14 @@ const Points = props => {
                 headerMessage="Player Stats"
                 toggleModal={() => setPlayerModalOpen(false)}
             >
-                <div className={props.styles.modalWrapper}>
-                    <PointsTable player={playerObj} />
-                </div>
+                {playerObj.player_id
+                    ? (
+                        <div className={props.styles.modalWrapper}>
+                            <PointsTable player={playerObj} />
+                        </div>
+                    ) : <div className={props.styles.noStats}>
+                        No stats for empty players
+                        </div> }
             </StyledModal>
         </div>
     );
