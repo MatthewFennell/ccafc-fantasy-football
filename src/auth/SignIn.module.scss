@@ -12,7 +12,7 @@
     @include light-box-shadow();
     .signInForm{      
       .signInMessage{
-        margin-top: 10%;
+        margin-top: $spacing-small;
         text-align: center;
         color: $color-blue;
         font-size: $font-size-gigantic;

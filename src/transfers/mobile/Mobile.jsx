@@ -31,6 +31,8 @@ const Mobile = props => (
                 setPositionFilter={props.setPositionFilter}
                 setSortBy={props.setSortBy}
                 sortBy={props.sortBy}
+
+                stateObj={props.stateObj}
             />
         </SwipeableDrawer>
         <div className={props.styles.pitchWrapper}>
@@ -156,7 +158,8 @@ Mobile.defaultProps = {
     transfersError: '',
     transfersErrorCode: '',
     undoTransferChanges: noop,
-    updateTeamRequest: noop
+    updateTeamRequest: noop,
+    stateObj: {}
 };
 
 Mobile.propTypes = {
@@ -195,7 +198,8 @@ Mobile.propTypes = {
     transfersError: PropTypes.string,
     transfersErrorCode: PropTypes.string,
     undoTransferChanges: PropTypes.func,
-    updateTeamRequest: PropTypes.func
+    updateTeamRequest: PropTypes.func,
+    stateObj: PropTypes.shape({})
 };
 
 export default Mobile;

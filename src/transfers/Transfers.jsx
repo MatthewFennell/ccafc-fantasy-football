@@ -9,6 +9,7 @@ import {
     updateTeamRequest, restorePlayerRequest, replacePlayerRequest
 } from './actions';
 import Mobile from './mobile/Mobile';
+import { getColumns } from './mobile/helpers';
 
 const Transfers = props => {
     useEffect(() => {
@@ -27,6 +28,46 @@ const Transfers = props => {
     const [playerTableOpen, setPlayerTableOpen] = useState(false);
     const [sortBy, setSortBy] = useState('points');
     const [positionFilter, setPositionFilter] = useState('GOALKEEPER');
+
+    const [columnModalOpen, setColumnModalOpen] = useState(false);
+    const [nameFilter, setNameFilter] = useState('Asc');
+    const [searchByName, setSearchByName] = useState('');
+    const [pointsFilter, setPointsFilter] = useState('Desc');
+    const [teamFilter, setTeamFilter] = useState('');
+    const [goalFilter, setGoalFilter] = useState('Asc');
+    const [assistsFilter, setAssistsFilter] = useState('Asc');
+    const [minPrice, setMinPrice] = useState(0);
+    const [maxPrice, setMaxPrice] = useState(15);
+    const [priceFilter, setPriceFilter] = useState('Asc');
+    const [previousScoreFilter, setPreviousScoreFilter] = useState('Desc');
+    const [myColumns, setMyColumns] = useState(getColumns(() => setColumnModalOpen(true)));
+
+    const stateObj = {
+        myColumns,
+        setMyColumns,
+        columnModalOpen,
+        setColumnModalOpen,
+        nameFilter,
+        setNameFilter,
+        searchByName,
+        setSearchByName,
+        pointsFilter,
+        setPointsFilter,
+        teamFilter,
+        setTeamFilter,
+        goalFilter,
+        setGoalFilter,
+        assistsFilter,
+        setAssistsFilter,
+        minPrice,
+        setMinPrice,
+        maxPrice,
+        setMaxPrice,
+        priceFilter,
+        setPriceFilter,
+        previousScoreFilter,
+        setPreviousScoreFilter
+    };
 
 
     const onPlayerClick = useCallback(player => {
@@ -111,6 +152,8 @@ const Transfers = props => {
             transfersErrorCode={props.transfersErrorCode}
             undoTransferChanges={props.undoTransferChanges}
             updateTeamRequest={props.updateTeamRequest}
+
+            stateObj={stateObj}
         />
     );
 };

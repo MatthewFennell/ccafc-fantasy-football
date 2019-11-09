@@ -17,7 +17,7 @@
       margin-right: 10%;
       display: flex;
       justify-content: center;
-      background-color: $color-light-gray;
+      background-color: $color-white;
     
       > div {
         width: 33%;
@@ -43,6 +43,9 @@
       position: absolute;
       left: -15%;
       overflow-x: hidden;
+      .transfersHeader{
+        background-color: $color-light-gray;
+      }
     }
   }
 }

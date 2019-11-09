@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -13,27 +13,36 @@ import Dropdown from '../../common/dropdown/Dropdown';
 import Slider from '../../common/slider/Slider';
 import modalStyles from './StyledModal.module.scss';
 import {
-    RadioAscDesc, RadioPosition, marks, sortListAscDesc, getColumns
+    RadioAscDesc, RadioPosition, marks, sortListAscDesc
 } from './helpers';
 
 const Table = props => {
-    const [columnModalOpen, setColumnModalOpen] = useState(false);
-    const [nameFilter, setNameFilter] = useState('Asc');
-    const [searchByName, setSearchByName] = useState('');
-    const [pointsFilter, setPointsFilter] = useState('Desc');
-    const [teamFilter, setTeamFilter] = useState('');
-    const [goalFilter, setGoalFilter] = useState('Asc');
-    const [assistsFilter, setAssistsFilter] = useState('Asc');
-    const [minPrice, setMinPrice] = useState(0);
-    const [maxPrice, setMaxPrice] = useState(15);
-    const [priceFilter, setPriceFilter] = useState('Asc');
-    const [previousScoreFilter, setPreviousScoreFilter] = useState('Desc');
-
-    const setColumnsOpen = useCallback(() => {
-        setColumnModalOpen(true);
-    }, [columnModalOpen, setColumnModalOpen]);
-
-    const [myColumnns, setMyColumns] = useState(getColumns(setColumnsOpen));
+    const {
+        myColumns,
+        setMyColumns,
+        columnModalOpen,
+        setColumnModalOpen,
+        nameFilter,
+        setNameFilter,
+        searchByName,
+        setSearchByName,
+        pointsFilter,
+        setPointsFilter,
+        teamFilter,
+        setTeamFilter,
+        goalFilter,
+        setGoalFilter,
+        assistsFilter,
+        setAssistsFilter,
+        minPrice,
+        setMinPrice,
+        maxPrice,
+        setMaxPrice,
+        priceFilter,
+        setPriceFilter,
+        previousScoreFilter,
+        setPreviousScoreFilter
+    } = props.stateObj;
 
     const filterPlayers = players => {
         const notInMyTeam = players.filter(x => !props.activeTeam.some(y => y.id === x.id));
@@ -66,13 +75,13 @@ const Table = props => {
     };
 
     const toggleColumns = useCallback(column => {
-        if (myColumnns.find(x => x.id === column).active) {
-            setMyColumns(myColumnns.map(x => (x.id === column ? ({ ...x, active: false }) : x)));
+        if (myColumns.find(x => x.id === column).active) {
+            setMyColumns(myColumns.map(x => (x.id === column ? ({ ...x, active: false }) : x)));
             if (props.sortBy === column) {
                 props.setSortBy('name');
             }
         } else {
-            setMyColumns(myColumnns.map(x => (x.id === column ? ({ ...x, active: true }) : x)));
+            setMyColumns(myColumns.map(x => (x.id === column ? ({ ...x, active: true }) : x)));
         }
     });
 
@@ -168,7 +177,7 @@ const Table = props => {
                     })}
                     >
                         <Grid
-                            columns={myColumnns.filter(x => x.active)}
+                            columns={myColumns.filter(x => x.active)}
                             loading={props.fetchingAllPlayers}
                             onRowClick={props.onTransfersRequest}
                             rows={filterPlayers(props.allPlayers).map(x => ({
@@ -189,11 +198,11 @@ const Table = props => {
                 styles={modalStyles}
             >
                 <TableModal
-                    activeColumns={myColumnns.filter(x => x.active)}
-                    columnOptions={myColumnns}
+                    activeColumns={myColumns.filter(x => x.active)}
+                    columnOptions={myColumns}
                     setSortBy={props.setSortBy}
                     sortBy={props.sortBy}
-                    sortingComponent={findSortingComponent(myColumnns
+                    sortingComponent={findSortingComponent(myColumns
                         .find(x => x.id === props.sortBy).id)}
                     toggleColumns={toggleColumns}
                 />
@@ -215,7 +224,33 @@ Table.defaultProps = {
     setSortBy: noop,
     sortBy: '',
     styles: defaultStyles,
-    playerToRemove: {}
+    playerToRemove: {},
+    stateObj: {
+        myColumns: [],
+        setMyColumns: noop,
+        columnModalOpen: false,
+        setColumnModalOpen: noop,
+        nameFilter: '',
+        setNameFilter: noop,
+        searchByName: '',
+        setSearchByName: noop,
+        pointsFilter: 'Desc',
+        setPointsFilter: noop,
+        teamFilter: '',
+        setTeamFilter: noop,
+        goalFilter: 'Desc',
+        setGoalFilter: noop,
+        assistsFilter: 'Desc',
+        setAssistsFilter: noop,
+        minPrice: 0,
+        setMinPrice: noop,
+        maxPrice: 0,
+        setMaxPrice: noop,
+        priceFilter: 'Desc',
+        setPriceFilter: noop,
+        previousScoreFilter: 'Desc',
+        setPreviousScoreFilter: noop
+    }
 };
 
 Table.propTypes = {
@@ -238,7 +273,34 @@ Table.propTypes = {
     setPositionFilter: PropTypes.func,
     setSortBy: PropTypes.func,
     sortBy: PropTypes.string,
-    styles: PropTypes.objectOf(PropTypes.string)
+    styles: PropTypes.objectOf(PropTypes.string),
+
+    stateObj: PropTypes.shape({
+        myColumns: PropTypes.arrayOf(PropTypes.shape({})),
+        setMyColumns: PropTypes.func,
+        columnModalOpen: PropTypes.bool,
+        setColumnModalOpen: PropTypes.func,
+        nameFilter: PropTypes.string,
+        setNameFilter: PropTypes.func,
+        searchByName: PropTypes.string,
+        setSearchByName: PropTypes.func,
+        pointsFilter: PropTypes.string,
+        setPointsFilter: PropTypes.func,
+        teamFilter: PropTypes.string,
+        setTeamFilter: PropTypes.func,
+        goalFilter: PropTypes.string,
+        setGoalFilter: PropTypes.func,
+        assistsFilter: PropTypes.string,
+        setAssistsFilter: PropTypes.func,
+        minPrice: PropTypes.number,
+        setMinPrice: PropTypes.func,
+        maxPrice: PropTypes.number,
+        setMaxPrice: PropTypes.func,
+        priceFilter: PropTypes.string,
+        setPriceFilter: PropTypes.func,
+        previousScoreFilter: PropTypes.string,
+        setPreviousScoreFilter: PropTypes.func
+    })
 };
 
 export default Table;
