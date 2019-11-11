@@ -34,7 +34,7 @@ exports.createLeague = functions
                         owner: context.auth.uid,
                         start_week: data.startWeek || 0,
                         name: data.leagueName,
-                        number_of_users: 1
+                        number_of_users: 0
                     }).then(docRef => {
                         db.collection('leagues-points').add({
                             league_id: docRef.id,

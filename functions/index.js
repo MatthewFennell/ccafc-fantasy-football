@@ -25,3 +25,22 @@ exports.onSignUp = require('./src/onSignUp');
 exports.on = require('./src/onDelete');
 
 const operations = admin.firestore.FieldValue;
+
+exports.addResultToTeam = functions.region(constants.region).firestore
+    .document('teams/{id}')
+    .onWrite(change => {
+        const calculateDiff = (before, after) => ({
+            goalsAgainst: after.data().goalsAgainst - before.data().goalsAgainst,
+            goalsFor: after.data().goalsFor - before.data().goalsFor
+        });
+
+        if (change.before.exists) {
+            console.log('before data', change.before.data());
+            console.log('after data', change.after.data());
+            const diff = calculateDiff(change.before, change.after);
+            console.log('diff', diff);
+        } else {
+            console.log('did not have a team before');
+            return Promise.resolve();
+        }
+    });

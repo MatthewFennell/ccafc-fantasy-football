@@ -89,9 +89,11 @@ const Points = props => {
                         <div className={props.styles.modalWrapper}>
                             <PointsTable player={playerObj} />
                         </div>
-                    ) : <div className={props.styles.noStats}>
+                    ) : (
+                        <div className={props.styles.noStats}>
                         No stats for empty players
-                        </div> }
+                        </div>
+                    ) }
             </StyledModal>
         </div>
     );

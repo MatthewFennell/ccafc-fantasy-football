@@ -41,11 +41,16 @@ const Leagues = props => {
     const onLeagueCreate = useCallback(() => {
         setCreateLeagueOpen(false);
         props.createLeagueRequest(leagueName, parseFloat(startWeek, 10));
+        setLeagueName('');
+        setStartWeek('');
+        setLeagueNameToJoin('');
     }, [leagueName, startWeek, props.createLeagueRequest]);
 
     const onLeagueJoin = useCallback(() => {
         setJoinLeagueOpen(false);
         props.joinLeagueRequest(leagueNameToJoin);
+        setLeagueName('');
+        setLeagueNameToJoin('');
     }, [leagueNameToJoin, props.joinLeagueRequest]);
 
     useEffect(() => {

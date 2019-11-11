@@ -42,19 +42,27 @@ exports.joinInitialLeague = functions
     .onCreate(user => db.collection('leagues').where('name', '==', 'Collingwood').get().then(
         result => {
             if (result.size === 1) {
-                const league = result.docs[0];
-                return db.collection('leagues-points').where('name', '==', 'Collingwood').get().then(
-                    query => db.collection('leagues-points').add({
-                        league_id: league.id,
-                        user_id: user.uid,
-                        start_week: 0,
-                        name: 'Collingwood',
-                        user_points: 0,
-                        username: user.displayName,
-                        position: query.size + 1,
-                        teamName: 'Default Team Name'
-                    })
-                );
+                return db.collection('leagues-points')
+                    .where('name', '==', 'Collingwood').where('user_id', '==', user.uid)
+                    .get()
+                    .then(obj => {
+                        if (obj.empty) {
+                            const league = result.docs[0];
+                            return db.collection('leagues-points').where('name', '==', 'Collingwood').get().then(
+                                query => db.collection('leagues-points').add({
+                                    league_id: league.id,
+                                    user_id: user.uid,
+                                    start_week: 0,
+                                    name: 'Collingwood',
+                                    user_points: 0,
+                                    username: user.displayName,
+                                    position: query.size + 1,
+                                    teamName: 'Default Team Name'
+                                })
+                            );
+                        }
+                        return Promise.resolve();
+                    });
             }
             return Promise.resolve();
         }

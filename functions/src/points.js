@@ -103,6 +103,15 @@ exports.submitResult = functions
             throw new functions.https.HttpsError('invalid-argument', `That is not a valid value goals for (${data.goalsFor})`);
         }
 
+        db.collection('teams').doc(data.team).get().then(team => {
+            if (team.exists) {
+                team.ref.update({
+                    goalsFor: operations.increment(data.goalsFor),
+                    goalsAgainst: operations.increment(data.goalsAgainst)
+                });
+            }
+        });
+
         return common.isAdmin(context.auth.uid).then(() => {
             const playerIds = Object.keys(data.players);
             const playerPromises = [];
