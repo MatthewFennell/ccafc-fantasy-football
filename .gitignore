@@ -1,5 +1,9 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
+# config-file
+
+src/config/fbConfig.js
+
 # misc
 /collingwood-fantasy/.DS_Store
 .env.local
