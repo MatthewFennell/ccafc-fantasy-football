@@ -22,7 +22,7 @@ exports.points = require('./src/points');
 exports.users = require('./src/users');
 exports.listeners = require('./src/listeners');
 exports.onSignUp = require('./src/onSignUp');
-exports.on = require('./src/onDelete');
+exports.onDelete = require('./src/onDelete');
 
 const operations = admin.firestore.FieldValue;
 
