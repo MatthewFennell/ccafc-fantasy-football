@@ -3,8 +3,12 @@ const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 const fp = require('lodash/fp');
 const lodash = require('lodash');
+const firestore = require('@google-cloud/firestore');
 const constants = require('./src/constants');
 const common = require('./src/common');
+
+const client = new firestore.v1.FirestoreAdminClient();
+const bucket = 'gs://learning-backups';
 
 const config = functions.config();
 
@@ -23,6 +27,7 @@ exports.users = require('./src/users');
 exports.listeners = require('./src/listeners');
 exports.onSignUp = require('./src/onSignUp');
 exports.onDelete = require('./src/onDelete');
+exports.firestore = require('./src/firestoreExports');
 
 const operations = admin.firestore.FieldValue;
 
@@ -44,3 +49,5 @@ exports.addResultToTeam = functions.region(constants.region).firestore
             return Promise.resolve();
         }
     });
+
+// currently at v8.13.0 for node
