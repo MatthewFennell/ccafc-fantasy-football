@@ -24,22 +24,26 @@ function* signOut() {
 }
 
 function* loggingIn(action) {
-    yield put(fetchMaxGameWeekRequest());
-    if (action.auth && !action.auth.emailVerified) {
-        yield put(push(consts.URL.VERIFY_EMAIL));
-    }
-    const user = yield firebase.auth().currentUser.getIdTokenResult();
-    const rolePermissions = yield call(api.getRolePermissions);
-    yield put(actions.setPermissionsMappingsAndRoles(rolePermissions));
-
-    yield all(rolePermissions.allRoles.map(role => {
-        if (user.claims[role]) {
-            const permissions = rolePermissions.mappings[role];
-            return put(actions.addPermissions(permissions));
+    try {
+        yield put(fetchMaxGameWeekRequest());
+        if (action.auth && !action.auth.emailVerified) {
+            yield put(push(consts.URL.VERIFY_EMAIL));
         }
-        return null;
-    }));
-    yield put(actions.setLoadedPermissions(true));
+        const user = yield firebase.auth().currentUser.getIdTokenResult();
+        const rolePermissions = yield call(api.getRolePermissions);
+        yield put(actions.setPermissionsMappingsAndRoles(rolePermissions));
+
+        yield all(rolePermissions.allRoles.map(role => {
+            if (user.claims[role]) {
+                const permissions = rolePermissions.mappings[role];
+                return put(actions.addPermissions(permissions));
+            }
+            return null;
+        }));
+        yield put(actions.setLoadedPermissions(true));
+    } catch (e) {
+        console.log('e', e);
+    }
 }
 
 function* signUp(action) {
