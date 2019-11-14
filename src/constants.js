@@ -12,6 +12,7 @@ export const URL = {
     POINTS: '/points',
     TRANSFERS: '/transfers',
     STATS: '/stats',
+    CHARTS: '/charts',
 
     CREATE_PLAYER: '/create-player',
     DELETE_PLAYER: '/delete-player',

@@ -1,0 +1,24 @@
+import {
+    all, takeEvery, put, call, select
+} from 'redux-saga/effects';
+import * as actions from './actions';
+import * as api from './api';
+import * as selectors from './selectors';
+
+function* fetchAllTeams() {
+    try {
+        const fetchedTeams = yield select(selectors.getAllTeams);
+        if (fetchedTeams && fetchedTeams.length === 0) {
+            const teams = yield call(api.getAllTeams);
+            yield put(actions.fetchAllTeamsSuccess(teams));
+        }
+    } catch (error) {
+        yield put(actions.fetchAllTeamsError(error));
+    }
+}
+
+export default function* chartsSaga() {
+    yield all([
+        takeEvery(actions.FETCH_ALL_TEAMS_REQUEST, fetchAllTeams)
+    ]);
+}

@@ -34,6 +34,7 @@ import * as constants from './constants';
 import CurrentTeam from './currentteam/CurrentTeam';
 import Transfers from './transfers/Transfers';
 import Stats from './stats/Stats';
+import Charts from './charts/Charts';
 
 export const adminLinks = [
     {
@@ -168,5 +169,13 @@ export const signedInLinks = [
         addUserId: false,
         path: props => `${constants.URL.STATS}/none/${fp.get('maxGameWeek')(props)}/${fp.get('maxGameWeek')(props)}`,
         urlIncludes: constants.URL.STATS
+    },
+    {
+        title: 'Charts',
+        icon: <EqualizerIcon />,
+        component: Charts,
+        addUserId: false,
+        path: () => constants.URL.CHARTS,
+        urlIncludes: constants.URL.CHARTS
     }
 ];

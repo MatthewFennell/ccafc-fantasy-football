@@ -12,10 +12,12 @@ import * as authActions from './auth/actions';
 import profileReducer from './profile/reducer';
 import transfersReducer from './transfers/reducer';
 import statsReducer from './stats/reducer';
+import chartsReducer from './charts/reducer';
 
 const appReducer = history => combineReducers({
     admin: adminReducer,
     auth: authReducer,
+    charts: chartsReducer,
     currentTeam: currentTeamReducer,
     leagues: leagueReducer,
     firestore: firestoreReducer,
