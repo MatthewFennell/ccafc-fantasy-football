@@ -106,8 +106,8 @@ const SubmitResult = props => {
         const motmId = motm ? nameToId(motm) : '';
         const dotdId = dotd ? nameToId(dotd) : '';
 
-        resultObject = fp.set(`${motmId}.manOfTheMatch`, true)(resultObject);
-        resultObject = fp.set(`${dotdId}.dickOfTheDay`, true)(resultObject);
+        resultObject = motmId ? fp.set(`${motmId}.manOfTheMatch`, true)(resultObject) : resultObject;
+        resultObject = dotdId ? fp.set(`${dotdId}.dickOfTheDay`, true)(resultObject) : resultObject;
 
         props.submitResultRequest(
             teamId,
@@ -119,7 +119,6 @@ const SubmitResult = props => {
         setTeamName('');
         setGoalsFor('');
         setGoalsAgainst('');
-        setGameWeek('');
         setMotm('');
         setDotd('');
         setGoalscorers({});

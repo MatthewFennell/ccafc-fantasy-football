@@ -22,7 +22,8 @@ exports.createTeam = functions
                     draws: 0,
                     losses: 0,
                     goalsFor: 0,
-                    goalsAgainst: 0
+                    goalsAgainst: 0,
+                    results: []
                 });
             }
             throw new functions.https.HttpsError('invalid-argument', 'A team with that name already exists');

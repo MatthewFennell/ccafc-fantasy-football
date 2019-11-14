@@ -107,7 +107,15 @@ exports.submitResult = functions
             if (team.exists) {
                 team.ref.update({
                     goalsFor: operations.increment(data.goalsFor),
-                    goalsAgainst: operations.increment(data.goalsAgainst)
+                    goalsAgainst: operations.increment(data.goalsAgainst),
+                    wins: operations.increment(data.goalsFor > data.goalsAgainst ? 1 : 0),
+                    draws: operations.increment(data.goalsFor === data.goalsAgainst ? 1 : 0),
+                    losses: operations.increment(data.goalsFor < data.goalsAgainst ? 1 : 0),
+                    results: operations.arrayUnion({
+                        week: data.week,
+                        goalsFor: data.goalsFor,
+                        goalsAgainst: data.goalsAgainst
+                    })
                 });
             }
         });

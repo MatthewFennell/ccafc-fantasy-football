@@ -30,6 +30,12 @@ module.exports.points = {
     OWN_GOAL: -2
 };
 
+module.exports.results = {
+    WIN: 'WIN',
+    DRAW: 'DRAW',
+    LOSS: 'LOSS'
+};
+
 module.exports.region = 'europe-west2';
 
 // A list of all existing permissions - keep in sync with UI
