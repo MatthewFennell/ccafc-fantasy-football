@@ -6,7 +6,7 @@ import fp from 'lodash/fp';
 import defaultStyles from './DeleteTeam.module.scss';
 import Dropdown from '../../common/dropdown/Dropdown';
 import {
-    closeDeleteTeamError, fetchTeamsRequest, fetchPlayersForTeamRequest, deleteTeamRequest
+    closeDeleteTeamError, fetchTeamsRequest, deleteTeamRequest
 } from '../actions';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import ErrorModal from '../../common/modal/ErrorModal';
@@ -77,8 +77,7 @@ DeleteTeam.propTypes = {
 const mapDispatchToProps = {
     closeDeleteTeamError,
     deleteTeamRequest,
-    fetchTeamsRequest,
-    fetchPlayersForTeamRequest
+    fetchTeamsRequest
 };
 
 const mapStateToProps = state => ({
@@ -89,3 +88,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeleteTeam);
+
+export { DeleteTeam as DeleteTeamUnconnected };

@@ -37,7 +37,7 @@ describe('Create Player', () => {
     });
 
     it('Create player should have a single Create Player button', () => {
-        const wrapper = mount(<CreatePlayerUnconnected
+        const wrapper = shallow(<CreatePlayerUnconnected
             closeCreatePlayerError={noop}
             creatingPlayer={false}
             createPlayerRequest={noop}
@@ -50,7 +50,7 @@ describe('Create Player', () => {
 
     it('Clicking Create Player sends a Create Player request', () => {
         const mockFn = jest.fn(noop);
-        const wrapper = mount(<CreatePlayerUnconnected
+        const wrapper = shallow(<CreatePlayerUnconnected
             closeCreatePlayerError={noop}
             creatingPlayer={false}
             createPlayerRequest={mockFn}
@@ -63,7 +63,7 @@ describe('Create Player', () => {
     });
 
     it('There is a class with hidden only if the player is not being created', () => {
-        const wrapper = mount(<CreatePlayerUnconnected
+        const wrapper = shallow(<CreatePlayerUnconnected
             closeCreatePlayerError={noop}
             creatingPlayer={false}
             createPlayerRequest={noop}
@@ -75,7 +75,7 @@ describe('Create Player', () => {
     });
 
     it('There is not a class with hidden only if the player being created', () => {
-        const wrapper = mount(<CreatePlayerUnconnected
+        const wrapper = shallow(<CreatePlayerUnconnected
             closeCreatePlayerError={noop}
             creatingPlayer
             createPlayerRequest={noop}

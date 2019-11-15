@@ -330,3 +330,5 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EditPlayer));
+
+export { EditPlayer as EditPlayerUnconnected };

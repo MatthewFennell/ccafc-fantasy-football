@@ -103,3 +103,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeletePlayer);
+
+export { DeletePlayer as DeletePlayerUnconnected };
