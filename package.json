@@ -78,6 +78,15 @@
         "functions": 70,
         "lines": 70
       }
-    }
+    },
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!src/App.jsx",
+      "!src/index.jsx",
+      "!src/rootReducer.js",
+      "!src/rootSaga.js",
+      "!src/routes.jsx",
+      "!src/serviceWorker.js"
+    ]
   }
 }
