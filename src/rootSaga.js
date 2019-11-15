@@ -8,6 +8,7 @@ import pointsSaga from './points/saga';
 import profileSaga from './profile/saga';
 import transfersSaga from './transfers/saga';
 import statsSaga from './stats/saga';
+import chartsSaga from './charts/saga';
 
 export default function* rootSaga() {
     yield all([
@@ -19,6 +20,7 @@ export default function* rootSaga() {
         pointsSaga(),
         profileSaga(),
         transfersSaga(),
-        statsSaga()
+        statsSaga(),
+        chartsSaga()
     ]);
 }

@@ -7,6 +7,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
+import defaultStyles from './RadioButton.module.scss';
 
 const useStyles = makeStyles(theme => ({
     formControl: {
@@ -33,6 +34,7 @@ const RadioButton = props => {
                 name={props.radioLabel}
                 value={props.value}
                 onChange={onChange}
+                className={props.styles.justifyCenter}
             >
                 {props.options.map(option => (
                     <FormControlLabel
@@ -52,6 +54,7 @@ RadioButton.defaultProps = {
     onChange: noop,
     radioLabel: '',
     options: [],
+    styles: defaultStyles,
     value: ''
 };
 
@@ -61,6 +64,7 @@ RadioButton.propTypes = {
     options: PropTypes.arrayOf(PropTypes.shape({
         radioLabel: PropTypes.string
     })),
+    styles: PropTypes.objectOf(PropTypes.string),
     value: PropTypes.string
 };
 

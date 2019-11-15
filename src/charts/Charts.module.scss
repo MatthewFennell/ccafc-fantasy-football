@@ -1,0 +1,42 @@
+@import "../common/Styles.scss";
+
+.chartsHeader{
+  text-align: center;
+  padding: $spacing-medium;
+  margin: $spacing-medium;
+  @include light-box-shadow();
+  background-color: $color-white;
+
+  .toggleTeams{
+    margin-top: $spacing-small;
+    display: flex;
+    flex-wrap: wrap;
+    > div {
+      flex-grow: 1;
+      justify-content: center;
+    }
+    .columnName{
+      text-align: center;
+    }
+  }
+}
+
+.graphChoiceWrapper{
+  margin-top: $spacing-small;
+}
+
+.chartWrapper{
+  margin: $spacing-medium;
+  @include light-box-shadow();
+  background-color: $color-white;
+
+  .selectTeamsMessage{
+    @include vertical-center-div();
+    font-size: $font-size-medium;
+    padding: $spacing-medium;
+  }
+
+  .graphSpinner{
+    @include vertical-center-div();
+  }
+}
