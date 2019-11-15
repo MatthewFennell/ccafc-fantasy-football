@@ -2,7 +2,7 @@ import React from 'react';
 
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
-import DetailsIcon from '@material-ui/icons/Details';
+import HomeIcon from '@material-ui/icons/Home';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import GradeIcon from '@material-ui/icons/Grade';
@@ -12,6 +12,7 @@ import WhatshotIcon from '@material-ui/icons/Whatshot';
 import EditIcon from '@material-ui/icons/Edit';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import TransferWithinAStationIcon from '@material-ui/icons/TransferWithinAStation';
+import WavesIcon from '@material-ui/icons/Waves';
 
 import fp from 'lodash/fp';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
@@ -124,7 +125,7 @@ export const signedOutLinks = [
 export const signedInLinks = [
     {
         title: 'Overview',
-        icon: <DetailsIcon />,
+        icon: <HomeIcon />,
         component: Overview,
         addUserId: false,
         path: props => `${constants.URL.OVERVIEW}/${fp.get('userId')(props)}/${fp.get('maxGameWeek')(props)}`,
@@ -164,7 +165,7 @@ export const signedInLinks = [
     },
     {
         title: 'Stats',
-        icon: <EqualizerIcon />,
+        icon: <WavesIcon />,
         component: Stats,
         addUserId: false,
         path: props => `${constants.URL.STATS}/none/${fp.get('maxGameWeek')(props)}/${fp.get('maxGameWeek')(props)}`,
