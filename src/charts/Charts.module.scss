@@ -20,3 +20,23 @@
     }
   }
 }
+
+.graphChoiceWrapper{
+  margin-top: $spacing-small;
+}
+
+.chartWrapper{
+  margin: $spacing-medium;
+  @include light-box-shadow();
+  background-color: $color-white;
+
+  .selectTeamsMessage{
+    @include vertical-center-div();
+    font-size: $font-size-medium;
+    padding: $spacing-medium;
+  }
+
+  .graphSpinner{
+    @include vertical-center-div();
+  }
+}

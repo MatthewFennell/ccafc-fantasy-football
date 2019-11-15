@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Chart } from 'react-google-charts';
 import { connect } from 'react-redux';
 import fp from 'lodash/fp';
+import { red } from '@material-ui/core/colors';
 import defaultStyles from './Charts.module.scss';
 import { fetchAllTeamsRequest } from './actions';
 import Toggle from '../common/Toggle/Toggle';
@@ -11,9 +12,11 @@ import * as helpers from './helpers';
 import Spinner from '../common/spinner/Spinner';
 
 const graphTitle = {
-    goalsFor: 'Goals Scored',
-    goalsAgainst: 'Goals Conceded',
-    points: 'Total Points'
+    goalsFor: 'Goals Scored Per Week',
+    goalsAgainst: 'Goals Conceded Per Week',
+    totalPoints: 'Total Points',
+    totalGoalsFor: 'Total Goals Scored',
+    totalGoalsAgainst: 'Total Goals Conceded'
 };
 
 const Charts = props => {
@@ -32,15 +35,15 @@ const Charts = props => {
         }
     });
 
-    const graphData = helpers.findGraphData(props.allTeams, activeTeams, graphMode, props.maxGameweek);
+    const graphData = helpers
+        .findGraphData(props.allTeams, activeTeams, graphMode, props.maxGameweek);
 
-    const series = fp.flow(fp.range(0, props.maxGameweek + 1).map(x => fp.set(`${x}.curveType`, 'function')))({});
-    console.log('test', series);
+    const series = fp.flow(fp.range(0, props.maxGameweek + 2)
+        .map(x => fp.set(`${x}.curveType`, 'function')))({});
 
     return (
         <div>
             <div className={props.styles.chartsHeader}>
-                Charts
                 <div className={props.styles.toggleTeams}>
                     {props.allTeams.map(team => (
                         <div key={team.id}>
@@ -58,7 +61,7 @@ const Charts = props => {
                     ))}
                 </div>
 
-                <div className={props.styles.graphOptions}>
+                <div className={props.styles.graphChoiceWrapper}>
                     <RadioButton
                         radioLabel="Graph Choice"
                         onChange={setGraphMode}
@@ -90,27 +93,37 @@ const Charts = props => {
             </div>
 
             <div className={props.styles.chartWrapper}>
-                {activeTeams.length > 0 && (
+                {activeTeams.length > 0 ? (
                     <Chart
+                        height="500px"
                         chartType="LineChart"
-                        loader={<Spinner color="secondary" />}
+                        loader={(
+                            <div className={props.styles.graphSpinner}>
+                                <Spinner color="secondary" />
+                            </div>
+                        )}
                         data={graphData}
                         options={{
                             hAxis: {
                                 title: 'Time',
-                                ticks: fp.range(1, props.maxGameweek + 1)
+                                ticks: fp.range(1, props.maxGameweek + 1),
+                                viewWindow: { min: 1 }
                             },
                             vAxis: {
                                 title: graphTitle[graphMode],
-                                viewWindow: {
-                                    min: 0
-                                }
+                                viewWindow: { min: 0 }
                             },
-                            series
+                            series,
+                            legend: 'bottom',
+                            title: graphTitle[graphMode]
                         }}
                         rootProps={{ 'data-testid': '2' }}
                     />
-                ) }
+                ) : (
+                    <div className={props.styles.selectTeamsMessage}>
+                    Please select some teams
+                    </div>
+                )}
             </div>
         </div>
     );
