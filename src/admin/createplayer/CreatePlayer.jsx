@@ -100,3 +100,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePlayer);
+
+export { CreatePlayer as CreatePlayerUnconnected };
