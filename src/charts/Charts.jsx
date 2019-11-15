@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Chart } from 'react-google-charts';
 import { connect } from 'react-redux';
 import fp from 'lodash/fp';
-import { red } from '@material-ui/core/colors';
 import defaultStyles from './Charts.module.scss';
 import { fetchAllTeamsRequest } from './actions';
 import Toggle from '../common/Toggle/Toggle';
