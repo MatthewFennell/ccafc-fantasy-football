@@ -34,3 +34,10 @@
     }
   }
 }
+
+.clearDatabaseWrapper{
+  margin: $spacing-medium;
+  padding: $spacing-medium;
+  
+  @include light-box-shadow();
+}

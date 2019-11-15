@@ -61,6 +61,17 @@ export const ADD_USER_ROLE_ERROR = `${pre}ADD_USER_ROLE_ERROR`;
 export const REMOVE_USER_ROLE_ERROR = `${pre}REMOVE_USER_ROLE_ERROR`;
 export const CLOSE_REMOVE_USER_ROLE_ERROR = `${pre}CLOSE_REMOVE_USER_ROLE_ERROR`;
 
+export const CLEAR_DATABASE_REQUEST = `${pre}CLEAR_DATABASE_REQUEST`;
+export const CLEAR_DATABASE_ERROR = `${pre}CLEAR_DATABASE_ERROR`;
+
+export const clearDatabaseRequest = () => ({
+    type: CLEAR_DATABASE_REQUEST
+});
+
+export const clearDatabaseError = () => ({
+    type: CLEAR_DATABASE_ERROR
+});
+
 export const alreadyFetchedUsersWithExtraRoles = () => ({
     type: ALREADY_FETCHED_USERS_WITH_EXTRA_ROLES
 });

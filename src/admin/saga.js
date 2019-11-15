@@ -5,6 +5,7 @@ import * as actions from './actions';
 import * as api from './api';
 import * as selectors from './selectors';
 import { fetchMaxGameWeekRequest } from '../overview/actions';
+import { signOut } from '../auth/actions';
 
 function* fetchTeams() {
     try {
@@ -169,6 +170,15 @@ function* removeUserRole(action) {
     }
 }
 
+function* clearDatabase() {
+    try {
+        yield call(api.clearDatabase);
+        yield put(signOut());
+    } catch (error) {
+        yield put(actions.clearDatabaseError(error));
+    }
+}
+
 export default function* adminSaga() {
     yield all([
         takeEvery(actions.FETCH_TEAMS_REQUEST, fetchTeams),
@@ -183,6 +193,7 @@ export default function* adminSaga() {
         takeEvery(actions.EDIT_PLAYER_STATS_REQUEST, editPlayerStats),
         takeEvery(actions.FETCH_USERS_WITH_EXTRA_ROLES_REQUEST, usersWithExtraRoles),
         takeEvery(actions.ADD_USER_ROLE_REQUEST, addUserRole),
-        takeEvery(actions.REMOVE_USER_ROLE_REQUEST, removeUserRole)
+        takeEvery(actions.REMOVE_USER_ROLE_REQUEST, removeUserRole),
+        takeEvery(actions.CLEAR_DATABASE_REQUEST, clearDatabase)
     ]);
 }

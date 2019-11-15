@@ -5,7 +5,7 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import defaultStyles from './ManageUsers.module.scss';
 import {
     fetchUsersWithExtraRolesRequest, addUserRoleRequest, removeUserRoleRequest,
-    closeRemoveUserRoleError
+    closeRemoveUserRoleError, clearDatabaseRequest
 } from '../actions';
 import Grid from '../../common/grid/Grid';
 import StyledButton from '../../common/StyledButton/StyledButton';
@@ -166,6 +166,13 @@ const ManageUsers = props => {
                 errorCode={props.removeUserRoleErrorCode}
                 errorMessage={props.removeUserRoleError}
             />
+            <div className={props.styles.clearDatabaseWrapper}>
+                <StyledButton
+                    onClick={props.clearDatabaseRequest}
+                    color="secondary"
+                    text="Clear DB"
+                />
+            </div>
         </div>
     );
 };
@@ -183,6 +190,7 @@ ManageUsers.defaultProps = {
 ManageUsers.propTypes = {
     allRoles: PropTypes.arrayOf(PropTypes.string),
     addUserRoleRequest: PropTypes.func.isRequired,
+    clearDatabaseRequest: PropTypes.func.isRequired,
     closeRemoveUserRoleError: PropTypes.func.isRequired,
     fetchingUsersWithExtraRoles: PropTypes.bool,
     fetchUsersWithExtraRolesRequest: PropTypes.func.isRequired,
@@ -200,6 +208,7 @@ ManageUsers.propTypes = {
 
 const mapDispatchToProps = {
     addUserRoleRequest,
+    clearDatabaseRequest,
     closeRemoveUserRoleError,
     fetchUsersWithExtraRolesRequest,
     removeUserRoleRequest

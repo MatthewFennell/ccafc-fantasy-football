@@ -171,3 +171,21 @@ exports.deleteUser = functions
             throw new functions.https.HttpsError('not-found', 'That is not your email');
         });
     });
+
+
+// Cleans literally everything
+exports.clearDatabase = functions
+    .region(constants.region)
+    .https.onCall((data, context) => common.isAdmin(context.auth.uid).then(() => {
+        db.collection('active-teams').get().then(teams => teams.forEach(team => team.ref.delete()));
+        db.collection('application-info').get().then(appInfo => appInfo.forEach(app => app.ref.delete()));
+        db.collection('leagues').get().then(leagues => leagues.forEach(league => league.ref.delete()));
+        db.collection('leagues-points').get().then(leaguesPoints => leaguesPoints.forEach(league => league.ref.delete()));
+        db.collection('teams').get().then(teams => teams.forEach(team => team.ref.delete()));
+        db.collection('users').get().then(users => users.forEach(user => {
+            admin.auth().deleteUser(user.id);
+            user.ref.delete();
+        }));
+        db.collection('users-with-roles').get().then(usersWithRoles => usersWithRoles.forEach(user => user.ref.delete()));
+        db.collection('weekly-teams').get().then(weeklyTeams => weeklyTeams.forEach(team => team.ref.delete()));
+    }));
