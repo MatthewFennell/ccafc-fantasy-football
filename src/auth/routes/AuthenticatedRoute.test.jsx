@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount, configure } from 'enzyme';
+import { shallow, configure } from 'enzyme';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import Adapter from 'enzyme-adapter-react-16';
@@ -15,6 +15,9 @@ const state = {
             uid: 'test-uid',
             emailVerified: true
         }
+    },
+    auth: {
+        loadedPermissions: true
     }
 };
 
@@ -26,7 +29,7 @@ const dummyComponent = () => (
 
 describe('AuthenticatedRoute', () => {
     it('The AuthenticatedRoute component renders with crashing', () => {
-        expect(() => mount(
+        expect(() => shallow(
             <Provider store={store}>
                 <Router>
                     <AuthenticatedRoute component={dummyComponent} />
