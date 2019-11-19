@@ -34,3 +34,11 @@
     }
   }
 }
+
+.clearDatabaseWrapper{
+  margin: $spacing-medium;
+  padding: $spacing-medium;
+  display: flex;
+  
+  @include light-box-shadow();
+}

@@ -5,7 +5,7 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import defaultStyles from './ManageUsers.module.scss';
 import {
     fetchUsersWithExtraRolesRequest, addUserRoleRequest, removeUserRoleRequest,
-    closeRemoveUserRoleError
+    closeRemoveUserRoleError, clearDatabaseRequest, rollOverToNextYearRequest
 } from '../actions';
 import Grid from '../../common/grid/Grid';
 import StyledButton from '../../common/StyledButton/StyledButton';
@@ -166,6 +166,18 @@ const ManageUsers = props => {
                 errorCode={props.removeUserRoleErrorCode}
                 errorMessage={props.removeUserRoleError}
             />
+            <div className={props.styles.clearDatabaseWrapper}>
+                <StyledButton
+                    onClick={props.clearDatabaseRequest}
+                    color="secondary"
+                    text="Clear DB"
+                />
+                <StyledButton
+                    onClick={props.rollOverToNextYearRequest}
+                    color="secondary"
+                    text="Roll Over to Next Year"
+                />
+            </div>
         </div>
     );
 };
@@ -183,12 +195,14 @@ ManageUsers.defaultProps = {
 ManageUsers.propTypes = {
     allRoles: PropTypes.arrayOf(PropTypes.string),
     addUserRoleRequest: PropTypes.func.isRequired,
+    clearDatabaseRequest: PropTypes.func.isRequired,
     closeRemoveUserRoleError: PropTypes.func.isRequired,
     fetchingUsersWithExtraRoles: PropTypes.bool,
     fetchUsersWithExtraRolesRequest: PropTypes.func.isRequired,
     removeUserRoleRequest: PropTypes.func.isRequired,
     removeUserRoleError: PropTypes.string,
     removeUserRoleErrorCode: PropTypes.string,
+    rollOverToNextYearRequest: PropTypes.func.isRequired,
     styles: PropTypes.objectOf(PropTypes.string),
     usersWithExtraRoles: PropTypes.arrayOf(PropTypes.shape({
         roles: PropTypes.arrayOf(PropTypes.string),
@@ -200,9 +214,11 @@ ManageUsers.propTypes = {
 
 const mapDispatchToProps = {
     addUserRoleRequest,
+    clearDatabaseRequest,
     closeRemoveUserRoleError,
     fetchUsersWithExtraRolesRequest,
-    removeUserRoleRequest
+    removeUserRoleRequest,
+    rollOverToNextYearRequest
 };
 
 const mapStateToProps = state => ({

@@ -35,3 +35,5 @@ export const getUsersWithExtraRoles = request => functionToCall('auth-usersWithE
 
 export const addUserRole = request => functionToCall('auth-addUserRole')(request);
 export const removeUserRole = request => functionToCall('auth-removeUserRole')(request);
+export const clearDatabase = request => functionToCall('auth-clearDatabase')(request);
+export const rollOverToNextYear = request => functionToCall('rollOverToNextYear')(request);
