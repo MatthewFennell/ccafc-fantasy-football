@@ -32,7 +32,7 @@ exports.createInitialLeague = functions
                 }
             );
         }
-        throw new functions.https.HttpsError('invalid-argument', 'Server Error. Should only be a single app info document');
+        return Promise.resolve();
     }));
 
 
@@ -90,6 +90,7 @@ exports.increaseNumberOfUsers = functions
     .auth.user()
     .onCreate(() => db.collection('application-info').get().then(
         appInfo => {
+            console.log('SOMEHOW I AM IN HERE');
             if (appInfo.empty) {
                 db.collection('application-info').add({
                     total_weeks: 0,
@@ -127,11 +128,4 @@ exports.verifyFacebookEmail = functions
         return Promise.resolve();
     });
 
-exports.createInitialActiveTeam = functions
-    .region(constants.region)
-    .auth.user()
-    .onCreate(user => db.collection('active-teams').add({
-        user_id: user.uid,
-        player_ids: [],
-        captain: ''
-    }));
+// Change these to listen for changes to users

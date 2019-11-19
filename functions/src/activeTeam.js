@@ -125,11 +125,27 @@ exports.makeCaptain = functions
 exports.removeCaptainWhenTeamUpdated = functions.region(constants.region).firestore
     .document('active-teams/{id}')
     .onWrite(change => {
-        const { player_ids, captain } = change.after.data();
-        if (!player_ids.includes(captain)) {
-            return db.collection('active-teams').doc(change.after.id).update({
-                captain: null
-            }).then(() => Promise.resolve('Captain set to null'));
+        if (change.after.exists) {
+            const { player_ids, captain } = change.after.data();
+            if (!player_ids.includes(captain)) {
+                return db.collection('active-teams').doc(change.after.id).update({
+                    captain: null
+                }).then(() => Promise.resolve('Captain set to null'));
+            }
         }
         return Promise.resolve('Captain still remains in team');
+    });
+
+exports.createActiveTeam = functions.region(constants.region).firestore
+    .document('users/{id}')
+    .onWrite((change, context) => {
+        if (!change.before.exists) {
+            console.log('making active team');
+            db.collection('active-teams').add({
+                user_id: context.params.id,
+                player_ids: [],
+                captain: ''
+            });
+        }
+        return Promise.resolve();
     });

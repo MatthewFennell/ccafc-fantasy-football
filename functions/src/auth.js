@@ -180,6 +180,7 @@ exports.clearDatabase = functions
         db.collection('active-teams').get().then(teams => teams.forEach(team => team.ref.delete()));
         db.collection('application-info').get().then(appInfo => appInfo.forEach(app => app.ref.delete()));
         db.collection('leagues').get().then(leagues => leagues.forEach(league => league.ref.delete()));
+        db.collection('players').get().then(players => players.forEach(player => player.ref.delete()));
         db.collection('leagues-points').get().then(leaguesPoints => leaguesPoints.forEach(league => league.ref.delete()));
         db.collection('teams').get().then(teams => teams.forEach(team => team.ref.delete()));
         db.collection('users').get().then(users => users.forEach(user => {
