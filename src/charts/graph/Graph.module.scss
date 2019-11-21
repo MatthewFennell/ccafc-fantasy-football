@@ -1,0 +1,22 @@
+@import "../../common/Styles.scss";
+
+.chartWrapper{
+  margin: $spacing-medium;
+  @include light-box-shadow();
+  background-color: $color-white;
+
+  .selectTeamsMessage{
+    @include vertical-center-div();
+    font-size: $font-size-medium;
+    padding: $spacing-medium;
+  }
+
+  .graphSpinner{
+    @include vertical-center-div();
+  }
+}
+
+.graphChoiceWrapper{
+  padding-top: $spacing-small;
+  text-align: center;
+}

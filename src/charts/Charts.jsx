@@ -1,22 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Chart } from 'react-google-charts';
 import { connect } from 'react-redux';
 import fp from 'lodash/fp';
 import defaultStyles from './Charts.module.scss';
 import { fetchAllTeamsRequest } from './actions';
 import Toggle from '../common/Toggle/Toggle';
-import RadioButton from '../common/radio/RadioButton';
 import * as helpers from './helpers';
-import Spinner from '../common/spinner/Spinner';
-
-const graphTitle = {
-    goalsFor: 'Goals Scored Per Week',
-    goalsAgainst: 'Goals Conceded Per Week',
-    totalPoints: 'Total Points',
-    totalGoalsFor: 'Total Goals Scored',
-    totalGoalsAgainst: 'Total Goals Conceded'
-};
+import Graph from './graph/Graph';
 
 const Charts = props => {
     useEffect(() => {
@@ -59,71 +49,17 @@ const Charts = props => {
                         </div>
                     ))}
                 </div>
-
-                <div className={props.styles.graphChoiceWrapper}>
-                    <RadioButton
-                        radioLabel="Graph Choice"
-                        onChange={setGraphMode}
-                        options={[
-                            {
-                                radioLabel: 'Goals Scored',
-                                value: helpers.graphModes.goalsFor
-                            },
-                            {
-                                radioLabel: 'Goals Conceded',
-                                value: helpers.graphModes.goalsAgainst
-                            },
-                            {
-                                radioLabel: 'Total points',
-                                value: helpers.graphModes.totalPoints
-                            },
-                            {
-                                radioLabel: 'Total Goals Scored',
-                                value: helpers.graphModes.totalGoalsFor
-                            },
-                            {
-                                radioLabel: 'Total Goals Against',
-                                value: helpers.graphModes.totalGoalsAgainst
-                            }
-                        ]}
-                        value={graphMode}
-                    />
-                </div>
             </div>
 
-            <div className={props.styles.chartWrapper}>
-                {activeTeams.length > 0 ? (
-                    <Chart
-                        height="500px"
-                        chartType="LineChart"
-                        loader={(
-                            <div className={props.styles.graphSpinner}>
-                                <Spinner color="secondary" />
-                            </div>
-                        )}
-                        data={graphData}
-                        options={{
-                            hAxis: {
-                                title: 'Time',
-                                ticks: fp.range(1, props.maxGameweek + 1),
-                                viewWindow: { min: 1 }
-                            },
-                            vAxis: {
-                                title: graphTitle[graphMode],
-                                viewWindow: { min: 0 }
-                            },
-                            series,
-                            legend: 'bottom',
-                            title: graphTitle[graphMode]
-                        }}
-                        rootProps={{ 'data-testid': '2' }}
-                    />
-                ) : (
-                    <div className={props.styles.selectTeamsMessage}>
-                    Please select some teams
-                    </div>
-                )}
-            </div>
+            <Graph
+                activeTeams={activeTeams}
+                graphData={graphData}
+                graphMode={graphMode}
+                maxGameweek={props.maxGameweek}
+                series={series}
+                setGraphMode={setGraphMode}
+            />
+
         </div>
     );
 };
