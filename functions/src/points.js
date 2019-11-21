@@ -195,19 +195,20 @@ exports.submitResult = functions
                                 });
                             } else if (playerDocs.size > 1) {
                                 throw new functions.https.HttpsError('invalid-argument', 'Somehow that player points has multiple entries');
+                            } else {
+                                playerDocs.docs[0].ref.update({
+                                    goals: operations.increment(goals),
+                                    assists: operations.increment(assists),
+                                    cleanSheet,
+                                    redCard,
+                                    yellowCard,
+                                    manOfTheMatch,
+                                    position,
+                                    points: operations.increment(points),
+                                    dickOfTheDay,
+                                    ownGoals: operations.increment(ownGoals)
+                                });
                             }
-                            playerDocs.docs[0].ref.update({
-                                goals: operations.increment(goals),
-                                assists: operations.increment(assists),
-                                cleanSheet,
-                                redCard,
-                                yellowCard,
-                                manOfTheMatch,
-                                position,
-                                points: operations.increment(points),
-                                dickOfTheDay,
-                                ownGoals: operations.increment(ownGoals)
-                            });
                         });
                 });
             });

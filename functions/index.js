@@ -43,7 +43,10 @@ exports.rollOverToNextYear = functions
                 .doc(player.id)
                 .set({
                     ...player.data()
-                }).then(() => player.ref.delete()));
+                }).then(() => {
+                    console.log('deleting player', player.id);
+                    player.ref.delete();
+                }));
         });
 
         // Copy teams across to next year
@@ -80,25 +83,18 @@ exports.rollOverToNextYear = functions
 
         // Delete all weekly teams
         db.collection('weekly-teams').get().then(weeklyTeams => {
-            weeklyTeams.docs.forEach(weeklyTeam => weeklyTeam.ref.delete());
+            weeklyTeams.docs.map(weeklyTeam => weeklyTeam.ref.delete());
         });
-
 
         // Delete all weekly players
         db.collection('weekly-players').get().then(weeklyPlayers => {
-            weeklyPlayers.docs.forEach(weeklyPlayer => weeklyPlayer.ref.delete());
+            weeklyPlayers.docs.map(weeklyPlayer => weeklyPlayer.ref.delete());
         });
 
         // Delete all player-points
         db.collection('player-points').get().then(playerPoints => {
-            playerPoints.docs.forEach(points => points.ref.delete());
+            playerPoints.docs.map(points => points.ref.delete());
         });
-
-        // Delete all leagues-points
-        db.collection('leagues-points').get().then(leaguesPoints => {
-            leaguesPoints.docs.forEach(leaguePoints => leaguePoints.ref.delete());
-        });
-
 
         // Delete all leagues that aren't the original league
         db.collection('leagues').get().then(leagues => {
@@ -119,13 +115,10 @@ exports.rollOverToNextYear = functions
         // Then add each user to that league
         Promise.all(leaguePointsDeletionPromises).then(() => {
             db.collection('leagues').where('name', '==', 'Collingwood').get().then(league => {
-                console.log('league size', league.size);
                 if (league.size === 1) {
                     db.collection('users').get().then(users => {
-                        console.log('num of users', users.size);
                         users.docs.forEach((user, index) => {
-                            console.log('index', index);
-                            console.log('league', league.docs[0].id);
+                            console.log('adding user', user.id);
                             db.collection('leagues-points').add({
                                 league_id: league.docs[0].id,
                                 user_id: user.id,
@@ -138,6 +131,24 @@ exports.rollOverToNextYear = functions
                             });
                         });
                     });
+                }
+            });
+        });
+    }));
+
+
+// Deletes all users who have an empty active team
+exports.deleteAllOldUsers = functions
+    .region(constants.region)
+    .https.onCall((data, context) => common.isAdmin(context.auth.uid).then(() => {
+        db.collection('active-teams').get().then(activeTeams => {
+            activeTeams.docs.forEach(team => {
+                if (team.data().player_ids && team.data().player_ids.length === 0) {
+                    console.log(`deleting user with id ${team.data().user_id}`);
+                    admin.auth().deleteUser(team.data().user_id).then(
+                        () => db.collection('users').doc(team.data().user_id).delete()
+                    );
+                    team.ref.delete();
                 }
             });
         });

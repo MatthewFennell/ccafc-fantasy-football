@@ -5,7 +5,8 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import defaultStyles from './ManageUsers.module.scss';
 import {
     fetchUsersWithExtraRolesRequest, addUserRoleRequest, removeUserRoleRequest,
-    closeRemoveUserRoleError, clearDatabaseRequest, rollOverToNextYearRequest
+    closeRemoveUserRoleError, clearDatabaseRequest, rollOverToNextYearRequest,
+    deleteAllOldUsersRequest
 } from '../actions';
 import Grid from '../../common/grid/Grid';
 import StyledButton from '../../common/StyledButton/StyledButton';
@@ -177,6 +178,11 @@ const ManageUsers = props => {
                     color="secondary"
                     text="Roll Over to Next Year"
                 />
+                <StyledButton
+                    onClick={props.deleteAllOldUsersRequest}
+                    color="secondary"
+                    text="Delete all old users"
+                />
             </div>
         </div>
     );
@@ -197,6 +203,7 @@ ManageUsers.propTypes = {
     addUserRoleRequest: PropTypes.func.isRequired,
     clearDatabaseRequest: PropTypes.func.isRequired,
     closeRemoveUserRoleError: PropTypes.func.isRequired,
+    deleteAllOldUsersRequest: PropTypes.func.isRequired,
     fetchingUsersWithExtraRoles: PropTypes.bool,
     fetchUsersWithExtraRolesRequest: PropTypes.func.isRequired,
     removeUserRoleRequest: PropTypes.func.isRequired,
@@ -216,6 +223,7 @@ const mapDispatchToProps = {
     addUserRoleRequest,
     clearDatabaseRequest,
     closeRemoveUserRoleError,
+    deleteAllOldUsersRequest,
     fetchUsersWithExtraRolesRequest,
     removeUserRoleRequest,
     rollOverToNextYearRequest

@@ -67,6 +67,17 @@ export const CLEAR_DATABASE_ERROR = `${pre}CLEAR_DATABASE_ERROR`;
 export const ROLL_OVER_TO_NEXT_YEAR_REQUEST = `${pre}ROLL_OVER_TO_NEXT_YEAR_REQUEST`;
 export const ROLL_OVER_TO_NEXT_YEAR_ERROR = `${pre}ROLL_OVER_TO_NEXT_YEAR_ERROR`;
 
+export const DELETE_ALL_OLD_USERS_REQUEST = `${pre}DELETE_ALL_OLD_USERS_REQUEST`;
+export const DELETE_ALL_OLD_USERS_ERROR = `${pre}DELETE_ALL_OLD_USERS_ERROR`;
+
+export const deleteAllOldUsersRequest = () => ({
+    type: DELETE_ALL_OLD_USERS_REQUEST
+});
+
+export const deleteAllOldUsersError = () => ({
+    type: DELETE_ALL_OLD_USERS_ERROR
+});
+
 export const rollOverToNextYearRequest = () => ({
     type: ROLL_OVER_TO_NEXT_YEAR_REQUEST
 });
