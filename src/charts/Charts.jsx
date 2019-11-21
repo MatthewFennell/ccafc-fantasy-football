@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import fp from 'lodash/fp';
 import defaultStyles from './Charts.module.scss';
 import { fetchAllTeamsRequest } from './actions';
 import Toggle from '../common/Toggle/Toggle';
-import * as helpers from './helpers';
 import Graph from './graph/Graph';
+import LeagueTable from './leaguetable/LeagueTable';
+import Spinner from '../common/spinner/Spinner';
 
 const Charts = props => {
     useEffect(() => {
@@ -14,7 +14,6 @@ const Charts = props => {
     }, [props.fetchAllTeamsRequest]);
 
     const [activeTeams, setActiveTeams] = useState([]);
-    const [graphMode, setGraphMode] = useState(helpers.graphModes.goalsFor);
 
     const updateActiveTeams = useCallback(teamId => {
         if (activeTeams.includes(teamId)) {
@@ -24,40 +23,40 @@ const Charts = props => {
         }
     });
 
-    const graphData = helpers
-        .findGraphData(props.allTeams, activeTeams, graphMode, props.maxGameweek);
-
-    const series = fp.flow(fp.range(0, props.maxGameweek + 2)
-        .map(x => fp.set(`${x}.curveType`, 'function')))({});
-
     return (
         <div>
             <div className={props.styles.chartsHeader}>
-                <div className={props.styles.toggleTeams}>
-                    {props.allTeams.map(team => (
-                        <div key={team.id}>
-                            <div className={props.styles.columnName}>
-                                {team.team_name}
-                            </div>
-                            <div>
-                                <Toggle
-                                    color="primary"
-                                    checked={activeTeams.includes(team.id)}
-                                    onChange={() => updateActiveTeams(team.id)}
-                                />
-                            </div>
+                {props.fetchingAllTeams ? <Spinner color="secondary" />
+                    : (
+                        <div className={props.styles.toggleTeams}>
+                            {props.allTeams.map(team => (
+                                <div key={team.id}>
+                                    <div className={props.styles.columnName}>
+                                        {team.team_name}
+                                    </div>
+                                    <div>
+                                        <Toggle
+                                            color="primary"
+                                            checked={activeTeams.includes(team.id)}
+                                            onChange={() => updateActiveTeams(team.id)}
+                                        />
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
+                    ) }
             </div>
 
             <Graph
                 activeTeams={activeTeams}
-                graphData={graphData}
-                graphMode={graphMode}
+                allTeams={props.allTeams}
                 maxGameweek={props.maxGameweek}
-                series={series}
-                setGraphMode={setGraphMode}
+            />
+
+            <LeagueTable
+                allTeams={props.allTeams}
+                loading={props.fetchingAllTeams}
+                maxGameweek={props.maxGameweek}
             />
 
         </div>
@@ -66,6 +65,7 @@ const Charts = props => {
 
 Charts.defaultProps = {
     allTeams: [],
+    fetchingAllTeams: false,
     maxGameweek: 0,
     styles: defaultStyles
 };
@@ -73,6 +73,7 @@ Charts.defaultProps = {
 Charts.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     fetchAllTeamsRequest: PropTypes.func.isRequired,
+    fetchingAllTeams: PropTypes.bool,
     maxGameweek: PropTypes.number,
     styles: PropTypes.objectOf(PropTypes.string)
 };
@@ -83,6 +84,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
     allTeams: state.charts.allTeams,
+    fetchingAllTeams: state.charts.fetchingAllTeams,
     maxGameweek: state.overview.maxGameWeek
 });
 

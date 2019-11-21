@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Chart } from 'react-google-charts';
 import fp from 'lodash/fp';
-import { noop } from 'lodash';
 import defaultStyles from './Graph.module.scss';
 import Spinner from '../../common/spinner/Spinner';
 import RadioButton from '../../common/radio/RadioButton';
@@ -17,15 +16,19 @@ const graphTitle = {
 };
 
 const Graph = props => {
-    console.log('graph');
+    const [graphMode, setGraphMode] = useState(helpers.graphModes.goalsFor);
+
+    const graphData = helpers
+        .findGraphData(props.allTeams, props.activeTeams, graphMode, props.maxGameweek);
+    const series = fp.flow(fp.range(0, props.maxGameweek + 2)
+        .map(x => fp.set(`${x}.curveType`, 'function')))({});
 
     return (
         <div className={props.styles.chartWrapper}>
-
             <div className={props.styles.graphChoiceWrapper}>
                 <RadioButton
                     radioLabel="Graph Choice"
-                    onChange={props.setGraphMode}
+                    onChange={setGraphMode}
                     options={[
                         {
                             radioLabel: 'Goals Scored',
@@ -48,10 +51,9 @@ const Graph = props => {
                             value: helpers.graphModes.totalGoalsAgainst
                         }
                     ]}
-                    value={props.graphMode}
+                    value={graphMode}
                 />
             </div>
-
 
             {props.activeTeams.length > 0 ? (
                 <Chart
@@ -62,7 +64,7 @@ const Graph = props => {
                             <Spinner color="secondary" />
                         </div>
                     )}
-                    data={props.graphData}
+                    data={graphData}
                     options={{
                         hAxis: {
                             title: 'Time',
@@ -70,12 +72,12 @@ const Graph = props => {
                             viewWindow: { min: 1 }
                         },
                         vAxis: {
-                            title: graphTitle[props.graphMode],
+                            title: graphTitle[graphMode],
                             viewWindow: { min: 0 }
                         },
-                        series: props.series,
+                        series,
                         legend: 'bottom',
-                        title: graphTitle[props.graphMode]
+                        title: graphTitle[graphMode]
                     }}
                     rootProps={{ 'data-testid': '2' }}
                 />
@@ -90,21 +92,15 @@ const Graph = props => {
 
 Graph.propTypes = {
     activeTeams: PropTypes.arrayOf(PropTypes.shape({})),
-    graphData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
-    graphMode: PropTypes.string,
+    allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     maxGameweek: PropTypes.number,
-    series: PropTypes.arrayOf(PropTypes.number),
-    setGraphMode: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 
 Graph.defaultProps = {
     activeTeams: [],
-    graphData: [],
-    graphMode: '',
+    allTeams: [],
     maxGameweek: 0,
-    series: [],
-    setGraphMode: noop,
     styles: defaultStyles
 };
 

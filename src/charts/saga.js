@@ -11,6 +11,8 @@ function* fetchAllTeams() {
         if (fetchedTeams && fetchedTeams.length === 0) {
             const teams = yield call(api.getAllTeams);
             yield put(actions.fetchAllTeamsSuccess(teams));
+        } else {
+            yield put(actions.alreadyFetchedTeams());
         }
     } catch (error) {
         yield put(actions.fetchAllTeamsError(error));
