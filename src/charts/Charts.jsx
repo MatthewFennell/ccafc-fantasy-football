@@ -7,6 +7,7 @@ import Toggle from '../common/Toggle/Toggle';
 import Graph from './graph/Graph';
 import LeagueTable from './leaguetable/LeagueTable';
 import Spinner from '../common/spinner/Spinner';
+import WithCollapsable from './collapsableHOC/WithCollapsable';
 
 const Charts = props => {
     useEffect(() => {
@@ -14,6 +15,7 @@ const Charts = props => {
     }, [props.fetchAllTeamsRequest]);
 
     const [activeTeams, setActiveTeams] = useState([]);
+    const [graphOpen, setGraphOpen] = useState(true);
 
     const updateActiveTeams = useCallback(teamId => {
         if (activeTeams.includes(teamId)) {
@@ -22,6 +24,8 @@ const Charts = props => {
             setActiveTeams(activeTeams.concat([teamId]));
         }
     });
+
+    const GraphSection = WithCollapsable(Graph, graphOpen, setGraphOpen, 'Graphs');
 
     return (
         <div>
@@ -47,10 +51,11 @@ const Charts = props => {
                     ) }
             </div>
 
-            <Graph
+            <GraphSection
                 activeTeams={activeTeams}
                 allTeams={props.allTeams}
                 maxGameweek={props.maxGameweek}
+                setGraphOpen={setGraphOpen}
             />
 
             <LeagueTable

@@ -1,25 +1,4 @@
-@import "../common/Styles.scss";
-
-.chartsHeader{
-  text-align: center;
-  padding: $spacing-medium;
-  margin: $spacing-medium;
-  @include light-box-shadow();
-  background-color: $color-white;
-
-  .toggleTeams{
-    margin-top: $spacing-small;
-    display: flex;
-    flex-wrap: wrap;
-    > div {
-      flex-grow: 1;
-      justify-content: center;
-    }
-    .columnName{
-      text-align: center;
-    }
-  }
-}
+@import "../../common/Styles.scss";
 
 .expandWrapper{
   margin: $spacing-medium;

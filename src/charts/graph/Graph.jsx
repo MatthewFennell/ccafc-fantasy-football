@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Chart } from 'react-google-charts';
 import fp from 'lodash/fp';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import { noop } from 'lodash';
 import defaultStyles from './Graph.module.scss';
 import Spinner from '../../common/spinner/Spinner';
 import RadioButton from '../../common/radio/RadioButton';
@@ -26,33 +28,38 @@ const Graph = props => {
     return (
         <div className={props.styles.chartWrapper}>
             <div className={props.styles.graphChoiceWrapper}>
-                <RadioButton
-                    radioLabel="Graph Choice"
-                    onChange={setGraphMode}
-                    options={[
-                        {
-                            radioLabel: 'Goals Scored',
-                            value: helpers.graphModes.goalsFor
-                        },
-                        {
-                            radioLabel: 'Goals Conceded',
-                            value: helpers.graphModes.goalsAgainst
-                        },
-                        {
-                            radioLabel: 'Total points',
-                            value: helpers.graphModes.totalPoints
-                        },
-                        {
-                            radioLabel: 'Total Goals Scored',
-                            value: helpers.graphModes.totalGoalsFor
-                        },
-                        {
-                            radioLabel: 'Total Goals Against',
-                            value: helpers.graphModes.totalGoalsAgainst
-                        }
-                    ]}
-                    value={graphMode}
-                />
+                <div className={props.styles.radioWrapper}>
+                    <RadioButton
+                        radioLabel="Graph Choice"
+                        onChange={setGraphMode}
+                        options={[
+                            {
+                                radioLabel: 'Goals Scored',
+                                value: helpers.graphModes.goalsFor
+                            },
+                            {
+                                radioLabel: 'Goals Conceded',
+                                value: helpers.graphModes.goalsAgainst
+                            },
+                            {
+                                radioLabel: 'Total points',
+                                value: helpers.graphModes.totalPoints
+                            },
+                            {
+                                radioLabel: 'Total Goals Scored',
+                                value: helpers.graphModes.totalGoalsFor
+                            },
+                            {
+                                radioLabel: 'Total Goals Against',
+                                value: helpers.graphModes.totalGoalsAgainst
+                            }
+                        ]}
+                        value={graphMode}
+                    />
+                </div>
+                <div className={props.styles.collapse}>
+                    <ExpandLessIcon onClick={() => props.setGraphOpen(false)} />
+                </div>
             </div>
 
             {props.activeTeams.length > 0 ? (
@@ -94,6 +101,7 @@ Graph.propTypes = {
     activeTeams: PropTypes.arrayOf(PropTypes.shape({})),
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     maxGameweek: PropTypes.number,
+    setGraphOpen: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 
@@ -101,6 +109,7 @@ Graph.defaultProps = {
     activeTeams: [],
     allTeams: [],
     maxGameweek: 0,
+    setGraphOpen: noop,
     styles: defaultStyles
 };
 

@@ -17,6 +17,19 @@
 }
 
 .graphChoiceWrapper{
+  display: flex;
   padding-top: $spacing-small;
   text-align: center;
+
+  .radioWrapper{
+    width: 100%;
+  }
+
+  .collapse{
+    margin-left: auto;
+    margin-right: $spacing-average;
+    :first-child{
+      cursor: pointer;
+    }
+  }
 }
