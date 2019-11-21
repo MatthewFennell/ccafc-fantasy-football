@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Chart } from 'react-google-charts';
 import fp from 'lodash/fp';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { noop } from 'lodash';
 import defaultStyles from './Graph.module.scss';
 import Spinner from '../../common/spinner/Spinner';
 import RadioButton from '../../common/radio/RadioButton';
 import * as helpers from '../helpers';
+import Toggle from '../../common/Toggle/Toggle';
 
 const graphTitle = {
     goalsFor: 'Goals Scored Per Week',
@@ -19,15 +19,48 @@ const graphTitle = {
 
 const Graph = props => {
     const [graphMode, setGraphMode] = useState(helpers.graphModes.goalsFor);
+    const [activeTeams, setActiveTeams] = useState([]);
+
+    const updateActiveTeams = useCallback(teamId => {
+        if (activeTeams.includes(teamId)) {
+            setActiveTeams(activeTeams.filter(x => x !== teamId));
+        } else {
+            setActiveTeams(activeTeams.concat([teamId]));
+        }
+    });
 
     const graphData = helpers
-        .findGraphData(props.allTeams, props.activeTeams, graphMode, props.maxGameweek);
+        .findGraphData(props.allTeams, activeTeams, graphMode, props.maxGameweek);
     const series = fp.flow(fp.range(0, props.maxGameweek + 2)
         .map(x => fp.set(`${x}.curveType`, 'function')))({});
 
     return (
-        <div className={props.styles.chartWrapper}>
+        <div>
             <div className={props.styles.graphChoiceWrapper}>
+                <div className={props.styles.chartsHeader}>
+                    <div className={props.styles.chartsText}>
+                        Teams
+                    </div>
+                    {props.fetchingAllTeams ? <Spinner color="secondary" />
+                        : (
+                            <div className={props.styles.toggleTeams}>
+                                {props.allTeams.map(team => (
+                                    <div key={team.id}>
+                                        <div className={props.styles.columnName}>
+                                            {team.team_name}
+                                        </div>
+                                        <div>
+                                            <Toggle
+                                                color="primary"
+                                                checked={activeTeams.includes(team.id)}
+                                                onChange={() => updateActiveTeams(team.id)}
+                                            />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ) }
+                </div>
                 <div className={props.styles.radioWrapper}>
                     <RadioButton
                         radioLabel="Graph Choice"
@@ -57,12 +90,9 @@ const Graph = props => {
                         value={graphMode}
                     />
                 </div>
-                <div className={props.styles.collapse}>
-                    <ExpandLessIcon onClick={() => props.setGraphOpen(false)} />
-                </div>
             </div>
 
-            {props.activeTeams.length > 0 ? (
+            {activeTeams.length > 0 ? (
                 <Chart
                     height="500px"
                     chartType="LineChart"
@@ -98,18 +128,16 @@ const Graph = props => {
 };
 
 Graph.propTypes = {
-    activeTeams: PropTypes.arrayOf(PropTypes.shape({})),
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
+    fetchingAllTeams: PropTypes.func,
     maxGameweek: PropTypes.number,
-    setGraphOpen: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 
 Graph.defaultProps = {
-    activeTeams: [],
     allTeams: [],
+    fetchingAllTeams: noop,
     maxGameweek: 0,
-    setGraphOpen: noop,
     styles: defaultStyles
 };
 

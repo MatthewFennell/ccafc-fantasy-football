@@ -1,10 +1,6 @@
 @import "../../common/Styles.scss";
 
 .leagueTableWrapper{
-  margin: $spacing-medium;
-  @include light-box-shadow();
-  background-color: $color-white;
-
   .sliderWrapper{
     padding: $spacing-medium;
     text-align: center;
