@@ -1,3 +1,5 @@
+import React from 'react';
+
 import fp from 'lodash/fp';
 
 export const graphModes = {
@@ -80,4 +82,115 @@ export const findGraphData = (allTeams, activeTeams, graphMode, maxGameweek) => 
         output.push(weekData);
     }
     return output;
+};
+
+// Sort by points first (stored as `score` since `points` is a bold div)
+// Then by goal difference
+// Then by games played
+// Then by wins
+const sortLeagueTable = leagueTable => leagueTable.sort((a, b) => {
+    if (a.score - b.score !== 0) {
+        return a.score - b.score;
+    }
+
+    if (a.goalDifference - b.goalDifference !== 0) {
+        return a.goalDifference - b.goalDifference;
+    }
+
+    if (a.gamesPlayed - b.gamesPlayed !== 0) {
+        return a.gamesPlayed - b.gamesPlayed;
+    }
+
+    if (a.wins - b.wins !== 0) {
+        return a.wins - b.wins;
+    }
+    return 0;
+});
+
+const makeBold = val => <div style={{ fontWeight: 'bold' }}>{val}</div>;
+
+export const generateLeagueTable = (activeTeams, weekStart, weekEnd) => {
+    const rows = [];
+    activeTeams.forEach(team => {
+        const resultsToLookAt = team.results.filter(x => x.week >= weekStart && x.week <= weekEnd);
+        let points = 0;
+        let goalDifference = 0;
+        let wins = 0;
+        let draws = 0;
+        let losses = 0;
+        let gamesPlayed = 0;
+        resultsToLookAt.forEach(result => {
+            goalDifference = goalDifference + result.goalsFor - result.goalsAgainst;
+            gamesPlayed += 1;
+            if (result.goalsFor > result.goalsAgainst) {
+                points += 3;
+                wins += 1;
+            } else if (result.goalsFor < result.goalsAgainst) {
+                losses += 1;
+            } else {
+                points += 1;
+                draws += 1;
+            }
+        });
+        rows.push({
+            points: makeBold(points),
+            goalDifference,
+            wins,
+            draws,
+            losses,
+            team: team.team_name,
+            gamesPlayed,
+            score: points,
+            id: team.id
+        });
+    });
+    return sortLeagueTable(rows).reverse().map((x, pos) => ({ ...x, position: makeBold(pos + 1) }));
+};
+
+export const columns = [
+    {
+        id: 'position',
+        label: 'Pos',
+        align: 'center',
+        renderCell: true
+    },
+    {
+        id: 'team',
+        label: 'Team',
+        align: 'center'
+    },
+    {
+        id: 'wins',
+        label: 'W',
+        align: 'center'
+    },
+    {
+        id: 'draws',
+        label: 'D',
+        align: 'center'
+    },
+    {
+        id: 'losses',
+        label: 'L',
+        align: 'center'
+    },
+    {
+        id: 'goalDifference',
+        label: 'GD',
+        align: 'center'
+    },
+    {
+        id: 'points',
+        label: 'Pts',
+        align: 'center',
+        renderCell: true
+    }
+];
+
+export const marks = maxWeek => {
+    const result = [];
+    for (let x = 1; x <= maxWeek; x++) {
+        result.push({ value: x, label: x.toString() });
+    }
+    return result;
 };

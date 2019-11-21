@@ -11,6 +11,7 @@ const useStyles = makeStyles(theme => ({
     margin: {
         height: theme.spacing(3)
     }
+
 }));
 
 function valuetext(value) {
@@ -37,7 +38,7 @@ const CustomSlider = props => {
                 marks={props.marks}
                 min={props.min}
                 max={props.max}
-                valueLabelDisplay="on"
+                valueLabelDisplay={props.showMarker ? 'on' : 'off'}
             />
         </div>
     );
@@ -49,6 +50,7 @@ CustomSlider.defaultProps = {
     max: 0,
     min: 0,
     onChange: noop,
+    showMarker: true,
     step: 1,
     text: ''
 };
@@ -71,6 +73,7 @@ CustomSlider.propTypes = {
     max: PropTypes.number,
     min: PropTypes.number,
     onChange: PropTypes.func,
+    showMarker: PropTypes.bool,
     step: PropTypes.number,
     text: PropTypes.string
 };

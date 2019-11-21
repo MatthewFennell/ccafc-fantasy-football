@@ -148,7 +148,7 @@ const Table = props => {
                         />
                     </div>
                     <div className={props.styles.editColumns}>
-                        {`£${(props.remainingBudget + (props.playerToRemove.price || 0)).toFixed(1)} mil`}
+                        {`£${(props.remainingBudget + (props.playerToRemove.price || 0))} mil`}
                     </div>
                 </div>
                 <div>
