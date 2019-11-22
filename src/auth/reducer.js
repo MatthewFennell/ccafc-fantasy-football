@@ -18,6 +18,9 @@ const initState = {
     userPermissions: [],
     loadedPermissions: false,
 
+    resendVerificationEmailError: '',
+    resendVerificationEmailErrorCode: '',
+
     permissionMappings: {},
     allRoles: []
 };
@@ -52,7 +55,19 @@ const authReducer = (state = initState, action) => {
         return fp.set('sendingEmailVerification', false)(state);
     }
     case actions.RESEND_VERIFICATION_EMAIL_ERROR: {
-        return fp.set('sendingEmailVerification', false)(state);
+        return {
+            ...state,
+            sendingEmailVerification: false,
+            resendVerificationEmailError: action.error.message,
+            resendVerificationEmailErrorCode: action.error.code
+        };
+    }
+    case actions.CLOSE_EMAIL_VERIFICATION_ERROR: {
+        return {
+            ...state,
+            resendVerificationEmailError: '',
+            resendVerificationEmailErrorCode: ''
+        };
     }
     case actions.ADD_PERMISSIONS: {
         return fp.set('userPermissions', fp.union(action.permissions)(state.userPermissions))(state);
