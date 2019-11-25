@@ -28,7 +28,7 @@ exports.createPlayer = functions
             throw new functions.https.HttpsError('invalid-argument', 'Invalid price');
         }
         if (!common.isNumber(data.previousScore)) {
-            throw new functions.https.HttpsError('invalid-argument', 'Invalid price');
+            throw new functions.https.HttpsError('invalid-argument', 'Invalid previous score');
         }
         const teamExistsRef = db.collection('teams')
             .where('team_name', '==', data.team);

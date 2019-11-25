@@ -73,6 +73,12 @@ const generateRows = player => {
             showField: player.ownGoals
         },
         {
+            stat: 'Captain',
+            value: '',
+            points: player.points / 2,
+            showField: player.isCaptain
+        },
+        {
             stat: 'Total',
             value: '',
             points: player.points,
@@ -84,17 +90,11 @@ const generateRows = player => {
 
 const PointsTable = props => (
     <div>
-        {/* <div className={props.styles.playerInfoWrapper}>
+        <div className={props.styles.playerInfoWrapper}>
             <div className={props.styles.playerName}>
-                {props.player.name}
+                {`Player: ${props.player.name}`}
             </div>
-            <div className={props.styles.playerTeam}>
-                {props.player.team}
-            </div>
-            <div className={props.styles.playerPosition}>
-                {props.player.position}
-            </div>
-        </div> */}
+        </div>
         <Grid
             columns={columns}
             rows={generateRows(props.player).filter(row => row.showField)}

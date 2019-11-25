@@ -183,6 +183,7 @@ exports.clearDatabase = functions
         db.collection('players').get().then(players => players.forEach(player => player.ref.delete()));
         db.collection('leagues-points').get().then(leaguesPoints => leaguesPoints.forEach(league => league.ref.delete()));
         db.collection('teams').get().then(teams => teams.forEach(team => team.ref.delete()));
+        db.collection('player-points').get().then(players => players.forEach(player => player.ref.delete()));
         db.collection('users').get().then(users => users.forEach(user => {
             admin.auth().deleteUser(user.id);
             user.ref.delete();
