@@ -31,6 +31,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^3.2.0",
+    "react-youtube": "^7.9.0",
     "redux": "^4.0.4",
     "redux-firestore": "^0.8.0",
     "redux-mock-store": "^1.5.3",

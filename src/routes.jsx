@@ -13,6 +13,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import TransferWithinAStationIcon from '@material-ui/icons/TransferWithinAStation';
 import WavesIcon from '@material-ui/icons/Waves';
+import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 
 import fp from 'lodash/fp';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
@@ -36,6 +37,7 @@ import CurrentTeam from './currentteam/CurrentTeam';
 import Transfers from './transfers/Transfers';
 import Stats from './stats/Stats';
 import Charts from './charts/Charts';
+import Highlights from './highlights/Highlights';
 
 export const adminLinks = [
     {
@@ -178,5 +180,13 @@ export const signedInLinks = [
         addUserId: false,
         path: () => constants.URL.CHARTS,
         urlIncludes: constants.URL.CHARTS
+    },
+    {
+        title: 'Highlights',
+        icon: <VideoLibraryIcon />,
+        component: Highlights,
+        addUserId: false,
+        path: () => constants.URL.HIGHLIGHTS,
+        urlIncludes: constants.URL.HIGHLIGHTS
     }
 ];

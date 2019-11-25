@@ -13,6 +13,7 @@ import profileReducer from './profile/reducer';
 import transfersReducer from './transfers/reducer';
 import statsReducer from './stats/reducer';
 import chartsReducer from './charts/reducer';
+import highlightsReducer from './highlights/reducer';
 
 const appReducer = history => combineReducers({
     admin: adminReducer,
@@ -27,6 +28,7 @@ const appReducer = history => combineReducers({
     profile: profileReducer,
     transfers: transfersReducer,
     stats: statsReducer,
+    highlights: highlightsReducer,
     router: connectRouter(history)
 });
 
