@@ -38,3 +38,4 @@ export const removeUserRole = request => functionToCall('auth-removeUserRole')(r
 export const clearDatabase = request => functionToCall('auth-clearDatabase')(request);
 export const rollOverToNextYear = request => functionToCall('management-rollOverToNextYear')(request);
 export const deleteAllOldUsers = request => functionToCall('management-deleteAllOldUsers')(request);
+export const getHighlightsForApproval = request => functionToCall('getHighlightsForApproval')(request).then(response => response.data);

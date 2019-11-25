@@ -70,6 +70,18 @@ export const ROLL_OVER_TO_NEXT_YEAR_ERROR = `${pre}ROLL_OVER_TO_NEXT_YEAR_ERROR`
 export const DELETE_ALL_OLD_USERS_REQUEST = `${pre}DELETE_ALL_OLD_USERS_REQUEST`;
 export const DELETE_ALL_OLD_USERS_ERROR = `${pre}DELETE_ALL_OLD_USERS_ERROR`;
 
+export const FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST = `${pre}FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST`;
+export const FETCH_HIGHLIGHTS_FOR_APPROVAL_SUCCESS = `${pre}FETCH_HIGHLIGHTS_FOR_APPROVAL_SUCCESS`;
+
+export const fetchHighlightsForApprovalSuccess = highlights => ({
+    type: FETCH_HIGHLIGHTS_FOR_APPROVAL_SUCCESS,
+    highlights
+});
+
+export const fetchHighlightsForApprovalRequest = () => ({
+    type: FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST
+});
+
 export const deleteAllOldUsersRequest = () => ({
     type: DELETE_ALL_OLD_USERS_REQUEST
 });

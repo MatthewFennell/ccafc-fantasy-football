@@ -4,9 +4,10 @@ export const SUBMIT_HIGHLIGHT_REQUEST = `${pre}SUBMIT_HIGHLIGHT_REQUEST`;
 export const SUBMIT_HIGHLIGHT_ERROR = `${pre}SUBMIT_HIGHLIGHT_ERROR`;
 export const CLOSE_HIGHLIGHT_ERROR = `${pre}CLOSE_HIGHLIGHT_ERROR`;
 
-export const submitHighlightRequest = videoId => ({
+export const submitHighlightRequest = (videoId, title) => ({
     type: SUBMIT_HIGHLIGHT_REQUEST,
-    videoId
+    videoId,
+    title
 });
 
 export const submitHighlightError = error => ({

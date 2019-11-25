@@ -44,8 +44,17 @@ exports.submitHighlightForApproval = functions
                 }
                 return db.collection('highlight-requests').add({
                     userId: context.auth.uid,
-                    videoId: data.videoId
+                    videoId: data.videoId,
+                    title: data.title
                 });
             }
         );
+    });
+
+exports.getHighlightsForApproval = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db.collection('highlight-requests').get()
+            .then(result => result.docs.map(x => ({ ...x.data(), id: x.id })));
     });

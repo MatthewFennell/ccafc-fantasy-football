@@ -8,7 +8,7 @@ import * as api from './api';
 function* submitHighlight(action) {
     try {
         console.log('action', action);
-        yield call(api.submitVideo, { videoId: action.videoId });
+        yield call(api.submitVideo, { videoId: action.videoId, title: action.title });
     } catch (error) {
         yield put(actions.submitHighlightError(error));
     }

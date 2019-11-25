@@ -195,6 +195,15 @@ function* deleteAllOldUsers() {
     }
 }
 
+function* fetchHighlightsForApproval() {
+    try {
+        const highlights = yield call(api.getHighlightsForApproval);
+        yield put(actions.fetchHighlightsForApprovalSuccess(highlights));
+    } catch (error) {
+        yield put(actions.deleteAllOldUsersError(error));
+    }
+}
+
 export default function* adminSaga() {
     yield all([
         takeEvery(actions.FETCH_TEAMS_REQUEST, fetchTeams),
@@ -212,6 +221,7 @@ export default function* adminSaga() {
         takeEvery(actions.REMOVE_USER_ROLE_REQUEST, removeUserRole),
         takeEvery(actions.CLEAR_DATABASE_REQUEST, clearDatabase),
         takeEvery(actions.ROLL_OVER_TO_NEXT_YEAR_REQUEST, rollOverToNextYear),
-        takeEvery(actions.DELETE_ALL_OLD_USERS_REQUEST, deleteAllOldUsers)
+        takeEvery(actions.DELETE_ALL_OLD_USERS_REQUEST, deleteAllOldUsers),
+        takeEvery(actions.FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST, fetchHighlightsForApproval)
     ]);
 }

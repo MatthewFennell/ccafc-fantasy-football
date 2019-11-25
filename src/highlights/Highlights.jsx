@@ -20,11 +20,19 @@ const opts = {
 const Highlights = props => {
     const [video, setVideo] = useState('');
     const [exampleOpen, setExampleOpen] = useState(false);
+    const [videoTitle, setVideoTitle] = useState('');
     const submitVideo = useCallback(() => {
         setExampleOpen(false);
-        props.submitHighlightRequest(video);
+        if (videoTitle.length > 3) {
+            props.submitHighlightRequest(video, videoTitle);
+        } else {
+            props.submitHighlightError({
+                code: 'Invalid title',
+                message: 'Title must be at least 4 characters long'
+            });
+        }
     }, [video, props.submitHighlightRequest,
-        props.submitHighlightError, exampleOpen, setExampleOpen]);
+        props.submitHighlightError, exampleOpen, setExampleOpen, videoTitle]);
 
     const CollapsableYouTube = WithCollapsable(CustomYouTube, exampleOpen, setExampleOpen, 'Check your video ID works');
 
@@ -34,6 +42,11 @@ const Highlights = props => {
         setExampleOpen(false);
         setVideo(e);
     }, [setExampleOpen, exampleOpen, video, setVideo]);
+
+    const updateVideoTitle = useCallback(e => {
+        setExampleOpen(false);
+        setVideoTitle(e);
+    }, [setVideoTitle, videoTitle, exampleOpen, setExampleOpen]);
 
     return (
         <>
@@ -46,6 +59,7 @@ const Highlights = props => {
                   Please submit your highlight to be added as a YouTube video (Just the video ID)
                     </div>
                     <div className={props.styles.inputWrapper}>
+                        <StyledInput onChange={updateVideoTitle} value={videoTitle} label="Video Title" />
                         <StyledInput onChange={updateId} value={video} label="YouTube Video ID" />
                         <StyledButton onClick={submitVideo} text="Submit Video for Approval" color="primary" />
                     </div>
