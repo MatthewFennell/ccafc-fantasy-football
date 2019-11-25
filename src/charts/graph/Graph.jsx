@@ -2,7 +2,6 @@ import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Chart } from 'react-google-charts';
 import fp from 'lodash/fp';
-import { noop } from 'lodash';
 import defaultStyles from './Graph.module.scss';
 import Spinner from '../../common/spinner/Spinner';
 import RadioButton from '../../common/radio/RadioButton';
@@ -129,14 +128,14 @@ const Graph = props => {
 
 Graph.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
-    fetchingAllTeams: PropTypes.func,
+    fetchingAllTeams: PropTypes.bool,
     maxGameweek: PropTypes.number,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 
 Graph.defaultProps = {
     allTeams: [],
-    fetchingAllTeams: noop,
+    fetchingAllTeams: false,
     maxGameweek: 0,
     styles: defaultStyles
 };
