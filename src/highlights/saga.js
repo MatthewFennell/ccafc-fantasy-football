@@ -1,9 +1,10 @@
 import {
-    all, takeEvery, put, call
+    all, takeEvery, put, call, select
 } from 'redux-saga/effects';
 import firebase from 'firebase';
 import * as actions from './actions';
 import * as api from './api';
+import * as selectors from './selectors';
 
 function* submitHighlight(action) {
     try {
@@ -19,8 +20,14 @@ function* submitHighlight(action) {
 
 function* getHighlights() {
     try {
-        const highlights = yield call(api.getHighlights);
-        yield put(actions.fetchHighlightsSuccess(highlights));
+        console.log('oh');
+        const fetchedVideos = yield select(selectors.fetchedVideos);
+        if (!fetchedVideos) {
+            const highlights = yield call(api.getHighlights);
+            yield put(actions.fetchHighlightsSuccess(highlights));
+        } else {
+            yield put(actions.alreadyFetchedVideos());
+        }
     } catch (error) {
         yield put(actions.fetchHighlightsError(error));
     }

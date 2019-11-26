@@ -83,7 +83,9 @@ const Highlights = props => {
                 errorMessage={props.highlightError}
             />
             <YouTubeList
+                authId={props.auth.uid}
                 downvoteHighlightRequest={props.downvoteHighlightRequest}
+                loading={props.loadingVideos}
                 videos={props.videos}
                 votingPage
                 upvoteHighlightRequest={props.upvoteHighlightRequest}
@@ -93,18 +95,24 @@ const Highlights = props => {
 };
 
 Highlights.defaultProps = {
+    auth: '',
     highlightError: '',
     highlightErrorCode: '',
+    loadingVideos: false,
     styles: defaultStyles,
     videos: []
 };
 
 Highlights.propTypes = {
+    auth: PropTypes.shape({
+        uid: PropTypes.string
+    }),
     closeHighlightError: PropTypes.func.isRequired,
     downvoteHighlightRequest: PropTypes.func.isRequired,
     fetchHighlightsRequest: PropTypes.func.isRequired,
     highlightError: PropTypes.string,
     highlightErrorCode: PropTypes.string,
+    loadingVideos: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),
     submitHighlightError: PropTypes.func.isRequired,
     submitHighlightRequest: PropTypes.func.isRequired,
@@ -122,8 +130,10 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
+    auth: state.firebase.auth,
     highlightError: state.highlights.submitLinkError,
     highlightErrorCode: state.highlights.submitLinkErrorCode,
+    loadingVideos: state.highlights.loadingVideos,
     videos: state.highlights.videos
 });
 

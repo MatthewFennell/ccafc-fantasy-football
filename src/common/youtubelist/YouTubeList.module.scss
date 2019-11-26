@@ -11,6 +11,13 @@
   @include light-box-shadow();
 }
 
+.loadingSpinner{
+  margin: $spacing-medium;
+  background-color: $color-white;
+  @include light-box-shadow();
+  text-align: center;
+}
+
 .collapsedVideoWrapper{
   width: 100%;
   position: relative;

@@ -5,32 +5,55 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import { noop } from 'lodash';
 import defaultStyles from './Voting.module.scss';
 
+const determineColor = (video, myId, isUpvote) => {
+    if (video.upvotes.includes(myId) && isUpvote) {
+        return 'secondary';
+    }
+    if (video.downvotes.includes(myId) && !isUpvote) {
+        return 'primary';
+    }
+    return 'inherit';
+};
+
+const formatKarma = video => {
+    const val = video.upvotes.length - video.downvotes.length;
+    if (val >= 0) {
+        return `+${val}`;
+    }
+    return val;
+};
+
 const Voting = props => {
     const upvote = useCallback(() => {
-        props.upvoteHighlightRequest(props.video.id);
-    }, [props.upvoteHighlightRequest, props.video]);
+        if (!props.video.upvotes.includes(props.authId)) {
+            props.upvoteHighlightRequest(props.video.id);
+        }
+    }, [props.upvoteHighlightRequest, props.video, props.authId]);
 
     const downvote = useCallback(() => {
-        props.downvoteHighlightRequest(props.video.id);
-    }, [props.downvoteHighlightRequest, props.video]);
+        if (!props.video.downvotes.includes(props.authId)) {
+            props.downvoteHighlightRequest(props.video.id);
+        }
+    }, [props.downvoteHighlightRequest, props.video, props.authId]);
 
 
     return (
         <div className={props.styles.votingWrapper}>
             <div className={props.styles.upvoteIcon}>
-                <ArrowUpwardIcon fontSize="large" color="secondary" onClick={upvote} />
+                <ArrowUpwardIcon fontSize="large" color={determineColor(props.video, props.authId, true)} onClick={upvote} />
             </div>
             <div className={props.styles.karma}>
-                {`${props.video.upvotes.length - props.video.downvotes.length}`}
+                {formatKarma(props.video)}
             </div>
             <div className={props.styles.downvoteIcon}>
-                <ArrowDownwardIcon fontSize="large" color="primary" onClick={downvote} />
+                <ArrowDownwardIcon fontSize="large" color={determineColor(props.video, props.authId, false)} onClick={downvote} />
             </div>
         </div>
     );
 };
 
 Voting.defaultProps = {
+    authId: '',
     downvoteHighlightRequest: noop,
     styles: defaultStyles,
     upvoteHighlightRequest: noop,
@@ -41,6 +64,7 @@ Voting.defaultProps = {
 };
 
 Voting.propTypes = {
+    authId: PropTypes.string,
     downvoteHighlightRequest: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string),
     upvoteHighlightRequest: PropTypes.func,

@@ -9,6 +9,7 @@ import defaultStyles from './YouTubeList.module.scss';
 import CustomYouTube from '../youtube/YouTube';
 import StyledButton from '../StyledButton/StyledButton';
 import Voting from './Voting';
+import Spinner from '../spinner/Spinner';
 
 const defaultOpts = {
     height: '390',
@@ -30,86 +31,97 @@ const YouTubeList = props => {
 
     return (
         <>
-            <div className={props.styles.videoListWrapper}>
-                {props.videos.map(x => (
-                    <div className={props.styles.videoWrapper} key={x.id}>
-                        {fp.get(x.id)(openVids) ? (
-                            <>
-                                <div className={props.styles.expandLess}>
-                                    <ExpandLessIcon onClick={() => toggleVideo(x.id)} />
-                                </div>
-                                <div className={props.styles.expandedWrapper}>
-                                    <div>
-                                        <div className={props.styles.videoTitle}>
-                                            {`Title: ${x.title}`}
+            {props.loading ? <div className={props.styles.loadingSpinner}><Spinner color="secondary" /></div>
+                : (
+                    <div className={props.styles.videoListWrapper}>
+                        {props.videos.map(x => (
+                            <div className={props.styles.videoWrapper} key={x.id}>
+                                {fp.get(x.id)(openVids) ? (
+                                    <>
+                                        <div className={props.styles.expandLess}>
+                                            <ExpandLessIcon onClick={() => toggleVideo(x.id)} />
                                         </div>
-                                        <div className={props.styles.email}>
-                                            {`Email: ${x.email}`}
-                                        </div>
-                                        <div className={props.styles.dateCreated}>
-                                            {`Created: ${generateTime(x.dateCreated)}`}
-                                        </div>
-                                    </div>
-                                    {props.approversPage
+                                        <div className={props.styles.expandedWrapper}>
+                                            <div>
+                                                <div className={props.styles.videoTitle}>
+                                                    {`Title: ${x.title}`}
+                                                </div>
+                                                <div className={props.styles.email}>
+                                                    {`Email: ${x.email}`}
+                                                </div>
+                                                <div className={props.styles.dateCreated}>
+                                                    {`Created: ${generateTime(x.dateCreated)}`}
+                                                </div>
+                                            </div>
+                                            {props.approversPage
                                 && (
                                     <div className={props.styles.buttonWrapper}>
                                         <div><StyledButton text="Approve" onClick={() => props.openConfirm(x.id)} /></div>
                                         <div><StyledButton text="Reject" onClick={() => props.openReject(x.id)} color="secondary" /></div>
                                     </div>
                                 ) }
-                                    {props.votingPage && (
-                                        <Voting
-                                            downvoteHighlightRequest={props
-                                                .downvoteHighlightRequest}
-                                            video={x}
-                                            upvote={props.upvote}
-                                            upvoteHighlightRequest={props.upvoteHighlightRequest}
-                                        />
-                                    )}
-                                </div>
-                                <div className={props.styles.video}>
-                                    <CustomYouTube
-                                        videoId={x.videoId}
-                                        opts={props.opts}
-                                        onReady={onReady}
-                                    />
-                                </div>
-                            </>
-                        ) : (
-                            <div className={props.styles.collapsedVideoWrapper}>
-                                <div className={props.styles.expandIcon}>
-                                    <ExpandMoreIcon onClick={() => toggleVideo(x.id)} />
-                                </div>
-                                <div
-                                    onClick={() => toggleVideo(x.id)}
-                                    role="button"
-                                    tabIndex={0}
-                                    className={props.styles.collapsedTitle}
-                                >
-                                    <div>{`Title: ${x.title}`}</div>
-                                    <div>{`Author: ${x.email}`}</div>
-                                    <div>{`Created ${generateTime(x.dateCreated)}`}</div>
-                                </div>
-                                {props.votingPage && (
-                                    <Voting
-                                        downvoteHighlightRequest={props.downvoteHighlightRequest}
-                                        video={x}
-                                        upvote={props.upvote}
-                                        upvoteHighlightRequest={props.upvoteHighlightRequest}
-                                    />
+                                            {props.votingPage && (
+                                                <Voting
+                                                    authId={props.authId}
+                                                    downvoteHighlightRequest={props
+                                                        .downvoteHighlightRequest}
+                                                    video={x}
+                                                    upvote={props.upvote}
+                                                    upvoteHighlightRequest={props
+                                                        .upvoteHighlightRequest}
+                                                />
+                                            )}
+                                        </div>
+                                        <div className={props.styles.video}>
+                                            <CustomYouTube
+                                                videoId={x.videoId}
+                                                opts={props.opts}
+                                                onReady={onReady}
+                                            />
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className={props.styles.collapsedVideoWrapper}>
+                                        <div className={props.styles.expandIcon}>
+                                            <ExpandMoreIcon onClick={() => toggleVideo(x.id)} />
+                                        </div>
+                                        <div
+                                            onClick={() => toggleVideo(x.id)}
+                                            role="button"
+                                            tabIndex={0}
+                                            className={props.styles.collapsedTitle}
+                                        >
+                                            <div>{`Title: ${x.title}`}</div>
+                                            <div>{`Author: ${x.email}`}</div>
+                                            <div>{`Created ${generateTime(x.dateCreated)}`}</div>
+                                        </div>
+                                        {props.votingPage && (
+                                            <Voting
+                                                authId={props.authId}
+                                                downvoteHighlightRequest={props
+                                                    .downvoteHighlightRequest}
+                                                video={x}
+                                                upvote={props.upvote}
+                                                upvoteHighlightRequest={props
+                                                    .upvoteHighlightRequest}
+                                            />
+                                        )}
+                                    </div>
                                 )}
                             </div>
-                        )}
+                        ))}
                     </div>
-                ))}
-            </div>
+                ) }
         </>
+
     );
 };
 
 YouTubeList.defaultProps = {
+    authId: '',
     approversPage: false,
     downvoteHighlightRequest: noop,
+    loading: false,
     openConfirm: noop,
     openReject: noop,
     opts: defaultOpts,
@@ -121,8 +133,10 @@ YouTubeList.defaultProps = {
 };
 
 YouTubeList.propTypes = {
+    authId: PropTypes.string,
     approversPage: PropTypes.bool,
     downvoteHighlightRequest: PropTypes.func,
+    loading: PropTypes.bool,
     openConfirm: PropTypes.func,
     openReject: PropTypes.func,
     opts: PropTypes.shape({

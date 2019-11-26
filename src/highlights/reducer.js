@@ -2,6 +2,7 @@ import fp from 'lodash/fp';
 import * as actions from './actions';
 
 const initialState = {
+    loadingVideos: false,
     videos: [],
     submitLinkError: '',
     submitLinkErrorCode: ''
@@ -24,7 +25,14 @@ const highlightsReducer = (state = initialState, action) => {
         };
     }
     case actions.FETCH_HIGHLIGHTS_SUCCESS: {
-        return fp.set('videos', action.highlights)(state);
+        return {
+            ...state,
+            videos: action.highlights,
+            loadingVideos: false
+        };
+    }
+    case actions.FETCH_HIGHLIGHTS_REQUEST: {
+        return fp.set('loadingVideos', true)(state);
     }
     case actions.UPVOTE_HIGHLIGHT_SUCCESS: {
         return {
@@ -37,6 +45,9 @@ const highlightsReducer = (state = initialState, action) => {
             ...state,
             videos: state.videos.map(x => (x.id === action.highlight.id ? action.highlight : x))
         };
+    }
+    case actions.ALREADY_FETCHED_VIDEOS: {
+        return fp.set('loadingVideos', false)(state);
     }
     default:
         return state;
