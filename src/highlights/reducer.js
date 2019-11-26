@@ -2,6 +2,7 @@ import fp from 'lodash/fp';
 import * as actions from './actions';
 
 const initialState = {
+    videos: [],
     submitLinkError: '',
     submitLinkErrorCode: ''
 };
@@ -21,6 +22,9 @@ const highlightsReducer = (state = initialState, action) => {
             submitLinkError: '',
             submitLinkErrorCode: ''
         };
+    }
+    case actions.FETCH_HIGHLIGHTS_SUCCESS: {
+        return fp.set('videos', action.highlights)(state);
     }
     default:
         return state;

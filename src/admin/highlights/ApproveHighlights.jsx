@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import defaultStyles from './ApproveHighlights.module.scss';
 import { fetchHighlightsForApprovalRequest, approveHighlightRequest, rejectHighlightRequest } from '../actions';
-import YouTubeList from './YouTubeList';
+import YouTubeList from '../../common/youtubelist/YouTubeList';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import ConfirmModal from '../../common/modal/ConfirmModal';
 import StyledModal from '../../common/modal/StyledModal';

@@ -61,6 +61,14 @@ exports.getHighlightsForApproval = functions
             .then(result => result.docs.map(x => ({ ...x.data(), id: x.id })));
     });
 
+exports.getHighlights = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db.collection('highlights').orderBy('dateCreated', 'desc').get()
+            .then(result => result.docs.map(x => ({ ...x.data(), id: x.id })));
+    });
+
 exports.approveHighlight = functions
     .region(constants.region)
     .https.onCall((data, context) => {

@@ -1,13 +1,16 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import defaultStyles from './Highlights.module.scss';
 import StyledInput from '../common/StyledInput/StyledInput';
 import StyledButton from '../common/StyledButton/StyledButton';
-import { closeHighlightError, submitHighlightRequest, submitHighlightError } from './actions';
+import {
+    closeHighlightError, submitHighlightRequest, submitHighlightError, fetchHighlightsRequest
+} from './actions';
 import ErrorModal from '../common/modal/ErrorModal';
 import WithCollapsable from '../common/collapsableHOC/WithCollapsable';
 import CustomYouTube from '../common/youtube/YouTube';
+import YouTubeList from '../common/youtubelist/YouTubeList';
 
 const opts = {
     height: '390',
@@ -18,6 +21,10 @@ const opts = {
 };
 
 const Highlights = props => {
+    useEffect(() => {
+        props.fetchHighlightsRequest();
+    }, []);
+
     const [video, setVideo] = useState('');
     const [exampleOpen, setExampleOpen] = useState(false);
     const [videoTitle, setVideoTitle] = useState('');
@@ -51,9 +58,6 @@ const Highlights = props => {
     return (
         <>
             <div>
-                <div className={props.styles.allHighlights}>
-            Highlights
-                </div>
                 <div className={props.styles.addHighlight}>
                     <div className={props.styles.highlightMessage}>
                   Please submit your highlight to be added as a YouTube video (Just the video ID)
@@ -77,6 +81,10 @@ const Highlights = props => {
                 errorCode={props.highlightErrorCode}
                 errorMessage={props.highlightError}
             />
+            <YouTubeList
+                videos={props.videos}
+                votingPage
+            />
         </>
     );
 };
@@ -84,27 +92,32 @@ const Highlights = props => {
 Highlights.defaultProps = {
     highlightError: '',
     highlightErrorCode: '',
-    styles: defaultStyles
+    styles: defaultStyles,
+    videos: []
 };
 
 Highlights.propTypes = {
     closeHighlightError: PropTypes.func.isRequired,
+    fetchHighlightsRequest: PropTypes.func.isRequired,
     highlightError: PropTypes.string,
     highlightErrorCode: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
     submitHighlightError: PropTypes.func.isRequired,
-    submitHighlightRequest: PropTypes.func.isRequired
+    submitHighlightRequest: PropTypes.func.isRequired,
+    videos: PropTypes.arrayOf(PropTypes.shape({}))
 };
 
 const mapDispatchToProps = {
     closeHighlightError,
+    fetchHighlightsRequest,
     submitHighlightError,
     submitHighlightRequest
 };
 
 const mapStateToProps = state => ({
     highlightError: state.highlights.submitLinkError,
-    highlightErrorCode: state.highlights.submitLinkErrorCode
+    highlightErrorCode: state.highlights.submitLinkErrorCode,
+    videos: state.highlights.videos
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Highlights);

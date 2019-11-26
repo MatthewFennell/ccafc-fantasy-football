@@ -6,12 +6,12 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import moment from 'moment';
 import { noop } from 'lodash';
 import defaultStyles from './YouTubeList.module.scss';
-import CustomYouTube from '../../common/youtube/YouTube';
-import StyledButton from '../../common/StyledButton/StyledButton';
+import CustomYouTube from '../youtube/YouTube';
+import StyledButton from '../StyledButton/StyledButton';
+import Voting from './Voting';
 
 const defaultOpts = {
     height: '390',
-    // width: '100%',
     playerVars: { // https://developers.google.com/youtube/player_parameters
         autoplay: 0
     }
@@ -57,6 +57,13 @@ const YouTubeList = props => {
                                         <div><StyledButton text="Reject" onClick={() => props.openReject(x.id)} color="secondary" /></div>
                                     </div>
                                 ) }
+                                    {props.votingPage && (
+                                        <Voting
+                                            downvote={props.downvote}
+                                            video={x}
+                                            upvote={props.upvote}
+                                        />
+                                    )}
                                 </div>
                                 <div className={props.styles.video}>
                                     <CustomYouTube
@@ -80,6 +87,13 @@ const YouTubeList = props => {
                                     <div>{`Title: ${x.title}`}</div>
                                     <div>{`Author: ${x.email}`}</div>
                                     <div>{`Created ${generateTime(x.dateCreated)}`}</div>
+                                    {props.votingPage && (
+                                        <Voting
+                                            downvote={props.downvote}
+                                            video={x}
+                                            upvote={props.upvote}
+                                        />
+                                    )}
                                 </div>
                             </div>
                         )}
@@ -92,22 +106,28 @@ const YouTubeList = props => {
 
 YouTubeList.defaultProps = {
     approversPage: false,
+    downvote: noop,
     openConfirm: noop,
     openReject: noop,
     opts: defaultOpts,
     styles: defaultStyles,
-    videos: []
+    videos: [],
+    upvote: noop,
+    votingPage: false
 };
 
 YouTubeList.propTypes = {
     approversPage: PropTypes.bool,
+    downvote: PropTypes.func,
     openConfirm: PropTypes.func,
     openReject: PropTypes.func,
     opts: PropTypes.shape({
 
     }),
     styles: PropTypes.objectOf(PropTypes.string),
-    videos: PropTypes.arrayOf(PropTypes.shape({}))
+    upvote: PropTypes.func,
+    videos: PropTypes.arrayOf(PropTypes.shape({})),
+    votingPage: PropTypes.bool
 };
 
 export default YouTubeList;

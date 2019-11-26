@@ -17,8 +17,19 @@ function* submitHighlight(action) {
     }
 }
 
+function* getHighlights() {
+    try {
+        const highlights = yield call(api.getHighlights);
+        console.log('highlights', highlights);
+        yield put(actions.fetchHighlightsSuccess(highlights));
+    } catch (error) {
+        yield put(actions.submitHighlightError(error));
+    }
+}
+
 export default function* overviewSaga() {
     yield all([
-        takeEvery(actions.SUBMIT_HIGHLIGHT_REQUEST, submitHighlight)
+        takeEvery(actions.SUBMIT_HIGHLIGHT_REQUEST, submitHighlight),
+        takeEvery(actions.FETCH_HIGHLIGHTS_REQUEST, getHighlights)
     ]);
 }
