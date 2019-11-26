@@ -46,6 +46,8 @@ const SubmitVideo = props => {
             });
         }
         props.closeSubmitVideo();
+        setVideo('');
+        setVideoTitle('');
     }, [video, props.submitHighlightRequest,
         props.submitHighlightError, exampleOpen, setExampleOpen, videoTitle]);
 

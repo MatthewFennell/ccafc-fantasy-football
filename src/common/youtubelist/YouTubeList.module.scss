@@ -1,6 +1,7 @@
 @import "../Styles.scss";
 
 .videoListWrapper{
+  margin: $spacing-medium;
   display: flex;
   flex-wrap: wrap;
 }

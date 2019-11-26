@@ -10,6 +10,8 @@ import {
 import ErrorModal from '../common/modal/ErrorModal';
 import YouTubeList from '../common/youtubelist/YouTubeList';
 import SubmitVideo from './SubmitVideo';
+import RadioButton from '../common/radio/RadioButton';
+import * as helpers from './helpers';
 
 const Highlights = props => {
     useEffect(() => {
@@ -17,12 +19,56 @@ const Highlights = props => {
     }, []);
 
     const [submitVideoOpen, setSubmitVideoOpen] = useState(false);
+    const [filterBy, setFilterBy] = useState('allTime');
+    const [sortBy, setSortBy] = useState('newestFirst');
     const openSubmitVideo = useCallback(() => {
         setSubmitVideoOpen(true);
     }, [setSubmitVideoOpen, submitVideoOpen]);
 
     return (
         <>
+            <div className={props.styles.highlightsHeader}>
+                <div>
+                    <div className={props.styles.highlightsMessage}>
+                  Highlights
+                    </div>
+                    <div className={props.styles.openSubmitVideo}>
+                        <StyledButton onClick={openSubmitVideo} text="Click here to submit a video for approval" color="primary" />
+                    </div>
+                </div>
+                <div className={props.styles.sortByWrapper}>
+                    <div>
+                        <RadioButton
+                            radioLabel="Filter By Date"
+                            onChange={setFilterBy}
+                            options={Object.values(helpers.dateFilters).map(x => ({
+                                radioLabel: x.label,
+                                value: x.id
+                            }))}
+                            value={filterBy}
+                        />
+                    </div>
+                    <div>
+                        <RadioButton
+                            radioLabel="Sort By"
+                            onChange={setSortBy}
+                            options={Object.values(helpers.sortByFilters).map(x => ({
+                                radioLabel: x.label,
+                                value: x.id
+                            }))}
+                            value={sortBy}
+                        />
+                    </div>
+                </div>
+            </div>
+            <YouTubeList
+                authId={props.auth.uid}
+                downvoteHighlightRequest={props.downvoteHighlightRequest}
+                loading={props.loadingVideos}
+                videos={helpers.sortVideos(filterBy, sortBy, props.videos)}
+                votingPage
+                upvoteHighlightRequest={props.upvoteHighlightRequest}
+            />
             <SubmitVideo
                 closeSubmitVideo={() => setSubmitVideoOpen(false)}
                 submitVideoOpen={submitVideoOpen}
@@ -35,22 +81,6 @@ const Highlights = props => {
                 isOpen={props.highlightError.length > 0}
                 errorCode={props.highlightErrorCode}
                 errorMessage={props.highlightError}
-            />
-            <div className={props.styles.highlightsHeader}>
-                <div className={props.styles.highlightsMessage}>
-                  Highlights
-                </div>
-                <div className={props.styles.openSubmitVideo}>
-                    <StyledButton onClick={openSubmitVideo} text="Click here to submit a video for approval" color="primary" />
-                </div>
-            </div>
-            <YouTubeList
-                authId={props.auth.uid}
-                downvoteHighlightRequest={props.downvoteHighlightRequest}
-                loading={props.loadingVideos}
-                videos={props.videos}
-                votingPage
-                upvoteHighlightRequest={props.upvoteHighlightRequest}
             />
         </>
     );

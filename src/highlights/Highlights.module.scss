@@ -16,11 +16,18 @@
 }
 
 .highlightsHeader{
+  flex-wrap: wrap;
   padding: $spacing-medium;
   margin: $spacing-medium;
   background-color: $color-white;
   @include light-box-shadow();
+  display: flex;
+  > div {
+    flex-grow: 1;
+  }
+
   .highlightsMessage{
+    font-size: 60px;
     text-align: center;
     color: $color-blue;
     font-weight: bold;
@@ -29,4 +36,8 @@
   .openSubmitVideo{
     text-align: center;
   }
+}
+
+.sortByWrapper{
+  text-align: center;
 }
