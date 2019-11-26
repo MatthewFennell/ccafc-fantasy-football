@@ -2,93 +2,85 @@ import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import defaultStyles from './Highlights.module.scss';
-import StyledInput from '../common/StyledInput/StyledInput';
 import StyledButton from '../common/StyledButton/StyledButton';
 import {
     closeHighlightError, submitHighlightRequest, submitHighlightError, fetchHighlightsRequest,
     upvoteHighlightRequest, downvoteHighlightRequest
 } from './actions';
 import ErrorModal from '../common/modal/ErrorModal';
-import WithCollapsable from '../common/collapsableHOC/WithCollapsable';
-import CustomYouTube from '../common/youtube/YouTube';
 import YouTubeList from '../common/youtubelist/YouTubeList';
-
-const opts = {
-    height: '390',
-    // width: '100%',
-    playerVars: { // https://developers.google.com/youtube/player_parameters
-        autoplay: 0
-    }
-};
+import SubmitVideo from './SubmitVideo';
+import RadioButton from '../common/radio/RadioButton';
+import * as helpers from './helpers';
 
 const Highlights = props => {
     useEffect(() => {
         props.fetchHighlightsRequest();
     }, []);
 
-    const [video, setVideo] = useState('');
-    const [exampleOpen, setExampleOpen] = useState(false);
-    const [videoTitle, setVideoTitle] = useState('');
-    const submitVideo = useCallback(() => {
-        setExampleOpen(false);
-        if (videoTitle.length > 3) {
-            props.submitHighlightRequest(video, videoTitle);
-        } else {
-            props.submitHighlightError({
-                code: 'Invalid title',
-                message: 'Title must be at least 4 characters long'
-            });
-        }
-    }, [video, props.submitHighlightRequest,
-        props.submitHighlightError, exampleOpen, setExampleOpen, videoTitle]);
-
-    const CollapsableYouTube = WithCollapsable(CustomYouTube, exampleOpen, setExampleOpen, 'Check your video ID works');
-
-    const onReady = e => e.target.pauseVideo();
-
-    const updateId = useCallback(e => {
-        setExampleOpen(false);
-        setVideo(e);
-    }, [setExampleOpen, exampleOpen, video, setVideo]);
-
-    const updateVideoTitle = useCallback(e => {
-        setExampleOpen(false);
-        setVideoTitle(e);
-    }, [setVideoTitle, videoTitle, exampleOpen, setExampleOpen]);
+    const [submitVideoOpen, setSubmitVideoOpen] = useState(false);
+    const [filterBy, setFilterBy] = useState('allTime');
+    const [sortBy, setSortBy] = useState('newestFirst');
+    const openSubmitVideo = useCallback(() => {
+        setSubmitVideoOpen(true);
+    }, [setSubmitVideoOpen, submitVideoOpen]);
 
     return (
         <>
-            <div>
-                <div className={props.styles.addHighlight}>
-                    <div className={props.styles.highlightMessage}>
-                  Please submit your highlight to be added as a YouTube video (Just the video ID)
+            <div className={props.styles.highlightsHeader}>
+                <div>
+                    <div className={props.styles.highlightsMessage}>
+                  Highlights
                     </div>
-                    <div className={props.styles.inputWrapper}>
-                        <StyledInput onChange={updateVideoTitle} value={videoTitle} label="Video Title" />
-                        <StyledInput onChange={updateId} value={video} label="YouTube Video ID" />
-                        <StyledButton onClick={submitVideo} text="Submit Video for Approval" color="primary" />
+                    <div className={props.styles.openSubmitVideo}>
+                        <StyledButton onClick={openSubmitVideo} text="Click here to submit a video for approval" color="primary" />
                     </div>
                 </div>
-                <CollapsableYouTube
-                    videoId={video}
-                    opts={opts}
-                    onReady={onReady}
-                />
+                <div className={props.styles.sortByWrapper}>
+                    <div>
+                        <RadioButton
+                            radioLabel="Filter By Date"
+                            onChange={setFilterBy}
+                            options={Object.values(helpers.dateFilters).map(x => ({
+                                radioLabel: x.label,
+                                value: x.id
+                            }))}
+                            value={filterBy}
+                        />
+                    </div>
+                    <div>
+                        <RadioButton
+                            radioLabel="Sort By"
+                            onChange={setSortBy}
+                            options={Object.values(helpers.sortByFilters).map(x => ({
+                                radioLabel: x.label,
+                                value: x.id
+                            }))}
+                            value={sortBy}
+                        />
+                    </div>
+                </div>
             </div>
+            <YouTubeList
+                authId={props.auth.uid}
+                downvoteHighlightRequest={props.downvoteHighlightRequest}
+                loading={props.loadingVideos}
+                videos={helpers.sortVideos(filterBy, sortBy, props.videos)}
+                votingPage
+                upvoteHighlightRequest={props.upvoteHighlightRequest}
+            />
+            <SubmitVideo
+                closeSubmitVideo={() => setSubmitVideoOpen(false)}
+                submitVideoOpen={submitVideoOpen}
+                submitHighlightRequest={props.submitHighlightRequest}
+                submitHighlightError={props.submitHighlightError}
+            />
             <ErrorModal
                 closeModal={props.closeHighlightError}
                 headerMessage="Submit Highlight Error"
                 isOpen={props.highlightError.length > 0}
                 errorCode={props.highlightErrorCode}
                 errorMessage={props.highlightError}
-            />
-            <YouTubeList
-                authId={props.auth.uid}
-                downvoteHighlightRequest={props.downvoteHighlightRequest}
-                loading={props.loadingVideos}
-                videos={props.videos}
-                votingPage
-                upvoteHighlightRequest={props.upvoteHighlightRequest}
             />
         </>
     );

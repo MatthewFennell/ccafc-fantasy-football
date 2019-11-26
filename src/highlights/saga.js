@@ -20,7 +20,6 @@ function* submitHighlight(action) {
 
 function* getHighlights() {
     try {
-        console.log('oh');
         const fetchedVideos = yield select(selectors.fetchedVideos);
         if (!fetchedVideos) {
             const highlights = yield call(api.getHighlights);

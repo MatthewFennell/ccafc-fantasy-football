@@ -48,7 +48,7 @@ const ApproveHighlights = props => {
     return (
         <>
             <div className={props.styles.approveHighlightsWrapper}>
-                Highlights
+                Highlights here can be approved or rejected. Please give a reason when rejecting
             </div>
             <div className={props.styles.highlightsWrapper}>
                 <YouTubeList
@@ -59,6 +59,11 @@ const ApproveHighlights = props => {
                     videos={props.highlightsForApproval}
                 />
             </div>
+            {props.highlightsForApproval.length === 0 && (
+                <div className={props.styles.noHighlights}>
+                    No highlights waiting to be approved
+                </div>
+            )}
             <ConfirmModal
                 cancel={closeModal}
                 closeModal={closeModal}

@@ -19,7 +19,7 @@ const defaultOpts = {
 };
 
 // eslint-disable-next-line no-underscore-dangle
-const generateTime = date => moment(new Date(date._seconds * 1000)).startOf('hour').fromNow();
+const generateTime = date => moment(new Date(date._seconds * 1000)).startOf('second').fromNow();
 
 const YouTubeList = props => {
     const [openVids, setOpenVids] = useState({});

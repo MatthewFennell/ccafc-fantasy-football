@@ -1,12 +1,15 @@
 @import "../Styles.scss";
 
 .videoListWrapper{
+  margin: $spacing-medium;
   display: flex;
   flex-wrap: wrap;
 }
 
 .videoWrapper{
   margin: $spacing-medium;
+  margin-left: auto;
+  margin-right: auto;
   background-color: $color-white;
   @include light-box-shadow();
 }

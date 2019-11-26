@@ -1,6 +1,10 @@
 @import "../../common/Styles.scss";
 
 .approveHighlightsWrapper{
+  color: $color-blue;
+  font-size: $font-size-large;
+  text-align: center;
+  font-weight: bold;
   padding: $spacing-medium;
   margin: $spacing-medium;
   background-color: $color-white;
@@ -16,4 +20,15 @@
 
 .modalButtons{
   text-align: center;
+}
+
+.noHighlights{
+  padding: $spacing-medium;
+  margin: $spacing-medium;
+  background-color: $color-white;
+  @include light-box-shadow();
+  text-align: center;
+  font-weight: bold;
+  color: $color-gray;
+  font-size: $font-size-large;
 }
