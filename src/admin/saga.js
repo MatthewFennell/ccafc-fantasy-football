@@ -204,6 +204,27 @@ function* fetchHighlightsForApproval() {
     }
 }
 
+function* approveHighlight(action) {
+    try {
+        yield call(api.approveHighlight, ({ highlightId: action.highlightId }));
+        yield put(actions.approveHighlightSuccess(action.highlightId));
+    } catch (error) {
+        yield put(actions.approveHighlightError(error));
+    }
+}
+
+function* rejectHighlight(action) {
+    try {
+        yield call(api.rejectHighlight, ({
+            highlightId: action.highlightId,
+            reason: action.reason
+        }));
+        yield put(actions.rejectHighlightSuccess(action.highlightId));
+    } catch (error) {
+        yield put(actions.rejectHighlightError(error));
+    }
+}
+
 export default function* adminSaga() {
     yield all([
         takeEvery(actions.FETCH_TEAMS_REQUEST, fetchTeams),
@@ -222,6 +243,8 @@ export default function* adminSaga() {
         takeEvery(actions.CLEAR_DATABASE_REQUEST, clearDatabase),
         takeEvery(actions.ROLL_OVER_TO_NEXT_YEAR_REQUEST, rollOverToNextYear),
         takeEvery(actions.DELETE_ALL_OLD_USERS_REQUEST, deleteAllOldUsers),
-        takeEvery(actions.FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST, fetchHighlightsForApproval)
+        takeEvery(actions.FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST, fetchHighlightsForApproval),
+        takeEvery(actions.APPROVE_HIGHLIGHT_REQUEST, approveHighlight),
+        takeEvery(actions.REJECT_HIGHLIGHT_REQUEST, rejectHighlight)
     ]);
 }

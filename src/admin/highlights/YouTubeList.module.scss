@@ -26,6 +26,17 @@
   padding: 0px $spacing-medium $spacing-average $spacing-medium;
 }
 
+.expandedWrapper{
+  display: flex;
+  > div {
+    flex-grow: 1;
+  }
+  .buttonWrapper{
+    display: flex;
+    justify-content: center;
+  }
+}
+
 .expandIcon{
   text-align: right;
   padding-right: $spacing-small;

@@ -60,3 +60,21 @@ exports.getHighlightsForApproval = functions
         return db.collection('highlight-requests').get()
             .then(result => result.docs.map(x => ({ ...x.data(), id: x.id })));
     });
+
+exports.approveHighlight = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db.collection('highlight-requests').doc(data.highlightId).get()
+            .then(doc => db.collection('highlights').add({ ...doc.data(), upvotes: [], downvotes: [] })
+                .then(() => doc.ref.delete()));
+    });
+
+exports.rejectHighlight = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db.collection('highlight-requests').doc(data.highlightId).get()
+            .then(doc => db.collection('highlights-rejected').add({ ...doc.data(), reason: data.reason })
+                .then(() => doc.ref.delete()));
+    });

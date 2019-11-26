@@ -240,6 +240,20 @@ const adminReducer = (state = initState, action) => {
             highlightsForApproval: action.highlights
         };
     }
+    case actions.APPROVE_HIGHLIGHT_SUCCESS: {
+        return {
+            ...state,
+            highlightsForApproval: state.highlightsForApproval
+                .filter(x => x.id !== action.highlightId)
+        };
+    }
+    case actions.REJECT_HIGHLIGHT_SUCCESS: {
+        return {
+            ...state,
+            highlightsForApproval: state.highlightsForApproval
+                .filter(x => x.id !== action.highlightId)
+        };
+    }
     default:
         return state;
     }

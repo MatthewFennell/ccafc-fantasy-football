@@ -13,3 +13,7 @@
   background-color: $color-white;
   @include light-box-shadow();
 }
+
+.modalButtons{
+  text-align: center;
+}

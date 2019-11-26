@@ -4,8 +4,10 @@ import fp from 'lodash/fp';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import moment from 'moment';
+import { noop } from 'lodash';
 import defaultStyles from './YouTubeList.module.scss';
 import CustomYouTube from '../../common/youtube/YouTube';
+import StyledButton from '../../common/StyledButton/StyledButton';
 
 const defaultOpts = {
     height: '390',
@@ -27,61 +29,80 @@ const YouTubeList = props => {
     }, [openVids, setOpenVids]);
 
     return (
-        <div className={props.styles.videoListWrapper}>
-            {props.videos.map(x => (
-                <div className={props.styles.videoWrapper} key={x.id}>
-                    {fp.get(x.id)(openVids) ? (
-                        <>
-                            <div className={props.styles.expandLess}>
-                                <ExpandLessIcon onClick={() => toggleVideo(x.id)} />
+        <>
+            <div className={props.styles.videoListWrapper}>
+                {props.videos.map(x => (
+                    <div className={props.styles.videoWrapper} key={x.id}>
+                        {fp.get(x.id)(openVids) ? (
+                            <>
+                                <div className={props.styles.expandLess}>
+                                    <ExpandLessIcon onClick={() => toggleVideo(x.id)} />
+                                </div>
+                                <div className={props.styles.expandedWrapper}>
+                                    <div>
+                                        <div className={props.styles.videoTitle}>
+                                            {`Title: ${x.title}`}
+                                        </div>
+                                        <div className={props.styles.email}>
+                                            {`Email: ${x.email}`}
+                                        </div>
+                                        <div className={props.styles.dateCreated}>
+                                            {`Created: ${generateTime(x.dateCreated)}`}
+                                        </div>
+                                    </div>
+                                    {props.approversPage
+                                && (
+                                    <div className={props.styles.buttonWrapper}>
+                                        <div><StyledButton text="Approve" onClick={() => props.openConfirm(x.id)} /></div>
+                                        <div><StyledButton text="Reject" onClick={() => props.openReject(x.id)} color="secondary" /></div>
+                                    </div>
+                                ) }
+                                </div>
+                                <div className={props.styles.video}>
+                                    <CustomYouTube
+                                        videoId={x.videoId}
+                                        opts={props.opts}
+                                        onReady={onReady}
+                                    />
+                                </div>
+                            </>
+                        ) : (
+                            <div className={props.styles.collapsedVideoWrapper}>
+                                <div className={props.styles.expandIcon}>
+                                    <ExpandMoreIcon onClick={() => toggleVideo(x.id)} />
+                                </div>
+                                <div
+                                    onClick={() => toggleVideo(x.id)}
+                                    role="button"
+                                    tabIndex={0}
+                                    className={props.styles.collapsedTitle}
+                                >
+                                    <div>{`Title: ${x.title}`}</div>
+                                    <div>{`Author: ${x.email}`}</div>
+                                    <div>{`Created ${generateTime(x.dateCreated)}`}</div>
+                                </div>
                             </div>
-                            <div className={props.styles.videoTitle}>
-                                {`Title: ${x.title}`}
-                            </div>
-                            <div className={props.styles.email}>
-                                {`Email: ${x.email}`}
-                            </div>
-                            <div className={props.styles.dateCreated}>
-                                {`Created: ${generateTime(x.dateCreated)}`}
-                            </div>
-                            <div className={props.styles.video}>
-                                <CustomYouTube
-                                    videoId={x.videoId}
-                                    opts={props.opts}
-                                    onReady={onReady}
-                                />
-                            </div>
-                        </>
-                    ) : (
-                        <div className={props.styles.collapsedVideoWrapper}>
-                            <div className={props.styles.expandIcon}>
-                                <ExpandMoreIcon onClick={() => toggleVideo(x.id)} />
-                            </div>
-                            <div
-                                onClick={() => toggleVideo(x.id)}
-                                role="button"
-                                tabIndex={0}
-                                className={props.styles.collapsedTitle}
-                            >
-                                <div>{`Title: ${x.title}`}</div>
-                                <div>{`Author: ${x.email}`}</div>
-                                <div>{`Created ${generateTime(x.dateCreated)}`}</div>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            ))}
-        </div>
+                        )}
+                    </div>
+                ))}
+            </div>
+        </>
     );
 };
 
 YouTubeList.defaultProps = {
+    approversPage: false,
+    openConfirm: noop,
+    openReject: noop,
     opts: defaultOpts,
     styles: defaultStyles,
     videos: []
 };
 
 YouTubeList.propTypes = {
+    approversPage: PropTypes.bool,
+    openConfirm: PropTypes.func,
+    openReject: PropTypes.func,
     opts: PropTypes.shape({
 
     }),
