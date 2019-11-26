@@ -45,7 +45,9 @@ exports.submitHighlightForApproval = functions
                 return db.collection('highlight-requests').add({
                     userId: context.auth.uid,
                     videoId: data.videoId,
-                    title: data.title
+                    title: data.title,
+                    email: data.email,
+                    dateCreated: operations.serverTimestamp()
                 });
             }
         );

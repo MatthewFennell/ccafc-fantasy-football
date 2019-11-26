@@ -1,19 +1,9 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import fp from 'lodash/fp';
 import defaultStyles from './ApproveHighlights.module.scss';
 import { fetchHighlightsForApprovalRequest } from '../actions';
-import CustomYouTube from '../../common/youtube/YouTube';
-import WithCollapsable from '../../common/collapsableHOC/WithCollapsable';
-
-const opts = {
-    height: '390',
-    // width: '100%',
-    playerVars: { // https://developers.google.com/youtube/player_parameters
-        autoplay: 0
-    }
-};
+import YouTubeList from './YouTubeList';
 
 const ApproveHighlights = props => {
     console.log('approving');
@@ -21,25 +11,15 @@ const ApproveHighlights = props => {
         props.fetchHighlightsForApprovalRequest();
     }, [props.fetchHighlightsForApprovalRequest]);
 
-    const onReady = e => e.target.pauseVideo();
-
-    const [vidsOpen, setVidsOpen] = useState({});
-
     return (
         <>
             <div className={props.styles.approveHighlightsWrapper}>
-            Highlights
+                Highlights
             </div>
             <div className={props.styles.highlightsWrapper}>
-                {props.highlightsForApproval.map(x => (
-                    <div className={props.styles.youTubeVid}>
-                        <CustomYouTube
-                            videoId={x.videoId}
-                            opts={opts}
-                            onReady={onReady}
-                        />
-                    </div>
-                ))}
+                <YouTubeList
+                    videos={props.highlightsForApproval}
+                />
             </div>
         </>
     );
