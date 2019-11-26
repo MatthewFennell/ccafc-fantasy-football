@@ -70,6 +70,56 @@ export const ROLL_OVER_TO_NEXT_YEAR_ERROR = `${pre}ROLL_OVER_TO_NEXT_YEAR_ERROR`
 export const DELETE_ALL_OLD_USERS_REQUEST = `${pre}DELETE_ALL_OLD_USERS_REQUEST`;
 export const DELETE_ALL_OLD_USERS_ERROR = `${pre}DELETE_ALL_OLD_USERS_ERROR`;
 
+export const FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST = `${pre}FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST`;
+export const FETCH_HIGHLIGHTS_FOR_APPROVAL_SUCCESS = `${pre}FETCH_HIGHLIGHTS_FOR_APPROVAL_SUCCESS`;
+
+export const APPROVE_HIGHLIGHT_REQUEST = `${pre}APPROVE_HIGHLIGHT_REQUEST`;
+export const APPROVE_HIGHLIGHT_SUCCESS = `${pre}APPROVE_HIGHLIGHT_SUCCESS`;
+export const APPROVE_HIGHLIGHT_ERROR = `${pre}APPROVE_HIGHLIGHT_ERROR`;
+export const REJECT_HIGHLIGHT_REQUEST = `${pre}REJECT_HIGHLIGHT_REQUEST`;
+export const REJECT_HIGHLIGHT_SUCCESS = `${pre}REJECT_HIGHLIGHT_SUCCESS`;
+export const REJECT_HIGHLIGHT_ERROR = `${pre}REJECT_HIGHLIGHT_ERROR`;
+
+export const approveHighlightRequest = highlightId => ({
+    type: APPROVE_HIGHLIGHT_REQUEST,
+    highlightId
+});
+
+export const approveHighlightSuccess = highlightId => ({
+    type: APPROVE_HIGHLIGHT_SUCCESS,
+    highlightId
+});
+
+export const approveHighlightError = error => ({
+    type: APPROVE_HIGHLIGHT_ERROR,
+    error
+});
+
+export const rejectHighlightRequest = (highlightId, reason) => ({
+    type: REJECT_HIGHLIGHT_REQUEST,
+    highlightId,
+    reason
+});
+
+export const rejectHighlightSuccess = highlightId => ({
+    type: REJECT_HIGHLIGHT_SUCCESS,
+    highlightId
+});
+
+export const rejectHighlightError = error => ({
+    type: REJECT_HIGHLIGHT_ERROR,
+    error
+});
+
+export const fetchHighlightsForApprovalSuccess = highlights => ({
+    type: FETCH_HIGHLIGHTS_FOR_APPROVAL_SUCCESS,
+    highlights
+});
+
+export const fetchHighlightsForApprovalRequest = () => ({
+    type: FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST
+});
+
 export const deleteAllOldUsersRequest = () => ({
     type: DELETE_ALL_OLD_USERS_REQUEST
 });

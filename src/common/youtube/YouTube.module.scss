@@ -1,0 +1,10 @@
+@import "../Styles.scss";
+
+.youTubeWrapper{
+  padding: $spacing-small;
+  :first-child{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

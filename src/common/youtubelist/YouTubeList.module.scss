@@ -1,0 +1,71 @@
+@import "../Styles.scss";
+
+.videoListWrapper{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.videoWrapper{
+  margin: $spacing-medium;
+  background-color: $color-white;
+  @include light-box-shadow();
+}
+
+.loadingSpinner{
+  margin: $spacing-medium;
+  background-color: $color-white;
+  @include light-box-shadow();
+  text-align: center;
+}
+
+.collapsedVideoWrapper{
+  width: 100%;
+  position: relative;
+}
+
+.collapsedTitle{
+  // background-color: $color-dark-gray;
+  font-weight: bold;
+  margin-left: auto;
+  margin-right: auto;
+  cursor: pointer;
+  outline-width: 0px;
+  text-align: center;
+  padding: 0px $spacing-medium $spacing-average $spacing-medium;
+}
+
+.expandedWrapper{
+  display: flex;
+  > div {
+    flex-grow: 1;
+  }
+  .buttonWrapper{
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.expandIcon{
+  // background-color: $color-dark-gray;
+  text-align: right;
+  padding-right: $spacing-small;
+  padding-top: $spacing-small;
+  right: 0;
+  :first-child{
+    cursor: pointer;
+  }
+}
+
+.expandLess{
+  text-align: right;
+  margin-right: $spacing-small;
+
+  :first-child{
+    cursor: pointer;
+  }
+}
+
+.videoTitle, .email, .dateCreated {
+  text-align: center;
+  font-weight: bold;
+}

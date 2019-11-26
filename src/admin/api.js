@@ -36,5 +36,8 @@ export const getUsersWithExtraRoles = request => functionToCall('auth-usersWithE
 export const addUserRole = request => functionToCall('auth-addUserRole')(request);
 export const removeUserRole = request => functionToCall('auth-removeUserRole')(request);
 export const clearDatabase = request => functionToCall('auth-clearDatabase')(request);
-export const rollOverToNextYear = request => functionToCall('rollOverToNextYear')(request);
-export const deleteAllOldUsers = request => functionToCall('deleteAllOldUsers')(request);
+export const rollOverToNextYear = request => functionToCall('management-rollOverToNextYear')(request);
+export const deleteAllOldUsers = request => functionToCall('management-deleteAllOldUsers')(request);
+export const getHighlightsForApproval = request => functionToCall('highlights-getHighlightsForApproval')(request).then(response => response.data);
+export const approveHighlight = request => functionToCall('highlights-approveHighlight')(request);
+export const rejectHighlight = request => functionToCall('highlights-rejectHighlight')(request);

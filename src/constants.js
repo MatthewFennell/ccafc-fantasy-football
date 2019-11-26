@@ -13,6 +13,7 @@ export const URL = {
     TRANSFERS: '/transfers',
     STATS: '/stats',
     CHARTS: '/charts',
+    HIGHLIGHTS: '/highlights',
 
     CREATE_PLAYER: '/create-player',
     DELETE_PLAYER: '/delete-player',
@@ -21,7 +22,8 @@ export const URL = {
     SUBMIT_RESULT: '/submit-result',
     TRIGGER_WEEK: '/trigger-week',
     EDIT_PLAYER: '/edit-player',
-    MANAGE_USERS: '/manage-users'
+    MANAGE_USERS: '/manage-users',
+    APPROVE_HIGHLIGHTS: '/approve-highlights'
 };
 
 export const POSITIONS = {
@@ -76,5 +78,6 @@ export const PERMISSIONS = {
     SUBMIT_RESULT: 'SUBMIT_RESULT',
     TRIGGER_WEEK: 'TRIGGER_WEEK',
     EDIT_PLAYER: 'EDIT_PLAYER',
-    MANAGE_USERS: 'MANAGE_USERS'
+    MANAGE_USERS: 'MANAGE_USERS',
+    APPROVE_HIGHLIGHTS: 'APPROVE_HIGHLIGHTS'
 };

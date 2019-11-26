@@ -36,7 +36,9 @@ const initState = {
     usersWithExtraRoles: [],
     fetchingUsersWithExtraRoles: false,
     removeUserRoleError: '',
-    removeUserRoleErrorCode: ''
+    removeUserRoleErrorCode: '',
+
+    highlightsForApproval: []
 };
 
 const adminReducer = (state = initState, action) => {
@@ -230,6 +232,26 @@ const adminReducer = (state = initState, action) => {
             ...state,
             removeUserRoleError: '',
             removeUserRoleErrorCode: ''
+        };
+    }
+    case actions.FETCH_HIGHLIGHTS_FOR_APPROVAL_SUCCESS: {
+        return {
+            ...state,
+            highlightsForApproval: action.highlights
+        };
+    }
+    case actions.APPROVE_HIGHLIGHT_SUCCESS: {
+        return {
+            ...state,
+            highlightsForApproval: state.highlightsForApproval
+                .filter(x => x.id !== action.highlightId)
+        };
+    }
+    case actions.REJECT_HIGHLIGHT_SUCCESS: {
+        return {
+            ...state,
+            highlightsForApproval: state.highlightsForApproval
+                .filter(x => x.id !== action.highlightId)
         };
     }
     default:

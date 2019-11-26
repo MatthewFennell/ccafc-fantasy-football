@@ -13,6 +13,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import TransferWithinAStationIcon from '@material-ui/icons/TransferWithinAStation';
 import WavesIcon from '@material-ui/icons/Waves';
+import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
+import VideoLabelIcon from '@material-ui/icons/VideoLabel';
 
 import fp from 'lodash/fp';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
@@ -27,6 +29,7 @@ import Points from './points/Points';
 import TriggerWeek from './admin/triggerweek/TriggerWeek';
 import EditPlayer from './admin/editplayer/EditPlayer';
 import ManageUsers from './admin/manageusers/ManageUsers';
+import ApproveHighlights from './admin/highlights/ApproveHighlights';
 
 import Overview from './overview/Overview';
 import Leagues from './leagues/Leagues';
@@ -36,6 +39,7 @@ import CurrentTeam from './currentteam/CurrentTeam';
 import Transfers from './transfers/Transfers';
 import Stats from './stats/Stats';
 import Charts from './charts/Charts';
+import Highlights from './highlights/Highlights';
 
 export const adminLinks = [
     {
@@ -102,6 +106,15 @@ export const adminLinks = [
         path: () => constants.URL.MANAGE_USERS,
         urlIncludes: constants.URL.MANAGE_USERS,
         permissionRequired: constants.PERMISSIONS.MANAGE_USERS
+    },
+    {
+        title: 'Approve Highlights',
+        icon: <VideoLabelIcon />,
+        component: ApproveHighlights,
+        addUserId: false,
+        path: () => constants.URL.APPROVE_HIGHLIGHTS,
+        urlIncludes: constants.URL.APPROVE_HIGHLIGHTS,
+        permissionRequired: constants.PERMISSIONS.APPROVE_HIGHLIGHTS
     }
 ];
 
@@ -178,5 +191,13 @@ export const signedInLinks = [
         addUserId: false,
         path: () => constants.URL.CHARTS,
         urlIncludes: constants.URL.CHARTS
+    },
+    {
+        title: 'Highlights',
+        icon: <VideoLibraryIcon />,
+        component: Highlights,
+        addUserId: false,
+        path: () => constants.URL.HIGHLIGHTS,
+        urlIncludes: constants.URL.HIGHLIGHTS
     }
 ];

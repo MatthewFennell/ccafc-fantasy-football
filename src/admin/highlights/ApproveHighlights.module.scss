@@ -1,0 +1,19 @@
+@import "../../common/Styles.scss";
+
+.approveHighlightsWrapper{
+  padding: $spacing-medium;
+  margin: $spacing-medium;
+  background-color: $color-white;
+  @include light-box-shadow();
+}
+
+.youTubeVid{
+  padding: $spacing-medium;
+  margin: $spacing-medium;
+  background-color: $color-white;
+  @include light-box-shadow();
+}
+
+.modalButtons{
+  text-align: center;
+}
