@@ -5,7 +5,8 @@ import defaultStyles from './Highlights.module.scss';
 import StyledInput from '../common/StyledInput/StyledInput';
 import StyledButton from '../common/StyledButton/StyledButton';
 import {
-    closeHighlightError, submitHighlightRequest, submitHighlightError, fetchHighlightsRequest
+    closeHighlightError, submitHighlightRequest, submitHighlightError, fetchHighlightsRequest,
+    upvoteHighlightRequest, downvoteHighlightRequest
 } from './actions';
 import ErrorModal from '../common/modal/ErrorModal';
 import WithCollapsable from '../common/collapsableHOC/WithCollapsable';
@@ -82,8 +83,10 @@ const Highlights = props => {
                 errorMessage={props.highlightError}
             />
             <YouTubeList
+                downvoteHighlightRequest={props.downvoteHighlightRequest}
                 videos={props.videos}
                 votingPage
+                upvoteHighlightRequest={props.upvoteHighlightRequest}
             />
         </>
     );
@@ -98,20 +101,24 @@ Highlights.defaultProps = {
 
 Highlights.propTypes = {
     closeHighlightError: PropTypes.func.isRequired,
+    downvoteHighlightRequest: PropTypes.func.isRequired,
     fetchHighlightsRequest: PropTypes.func.isRequired,
     highlightError: PropTypes.string,
     highlightErrorCode: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
     submitHighlightError: PropTypes.func.isRequired,
     submitHighlightRequest: PropTypes.func.isRequired,
-    videos: PropTypes.arrayOf(PropTypes.shape({}))
+    videos: PropTypes.arrayOf(PropTypes.shape({})),
+    upvoteHighlightRequest: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = {
     closeHighlightError,
+    downvoteHighlightRequest,
     fetchHighlightsRequest,
     submitHighlightError,
-    submitHighlightRequest
+    submitHighlightRequest,
+    upvoteHighlightRequest
 };
 
 const mapStateToProps = state => ({

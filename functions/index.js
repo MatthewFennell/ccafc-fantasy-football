@@ -86,3 +86,25 @@ exports.rejectHighlight = functions
             .then(doc => db.collection('highlights-rejected').add({ ...doc.data(), reason: data.reason })
                 .then(() => doc.ref.delete()));
     });
+
+exports.upvoteHighlight = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db.collection('highlights').doc(data.highlightId).update({
+            upvotes: operations.arrayUnion(context.auth.uid),
+            downvotes: operations.arrayRemove(context.auth.uid)
+        }).then(() => db.collection('highlights').doc(data.highlightId).get()
+            .then(doc => ({ ...doc.data(), id: doc.id })));
+    });
+
+exports.downvoteHighlight = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db.collection('highlights').doc(data.highlightId).update({
+            upvotes: operations.arrayRemove(context.auth.uid),
+            downvotes: operations.arrayUnion(context.auth.uid)
+        }).then(() => db.collection('highlights').doc(data.highlightId).get()
+            .then(doc => ({ ...doc.data(), id: doc.id })));
+    });

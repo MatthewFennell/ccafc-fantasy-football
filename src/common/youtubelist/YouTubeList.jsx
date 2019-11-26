@@ -59,9 +59,11 @@ const YouTubeList = props => {
                                 ) }
                                     {props.votingPage && (
                                         <Voting
-                                            downvote={props.downvote}
+                                            downvoteHighlightRequest={props
+                                                .downvoteHighlightRequest}
                                             video={x}
                                             upvote={props.upvote}
+                                            upvoteHighlightRequest={props.upvoteHighlightRequest}
                                         />
                                     )}
                                 </div>
@@ -87,14 +89,15 @@ const YouTubeList = props => {
                                     <div>{`Title: ${x.title}`}</div>
                                     <div>{`Author: ${x.email}`}</div>
                                     <div>{`Created ${generateTime(x.dateCreated)}`}</div>
-                                    {props.votingPage && (
-                                        <Voting
-                                            downvote={props.downvote}
-                                            video={x}
-                                            upvote={props.upvote}
-                                        />
-                                    )}
                                 </div>
+                                {props.votingPage && (
+                                    <Voting
+                                        downvoteHighlightRequest={props.downvoteHighlightRequest}
+                                        video={x}
+                                        upvote={props.upvote}
+                                        upvoteHighlightRequest={props.upvoteHighlightRequest}
+                                    />
+                                )}
                             </div>
                         )}
                     </div>
@@ -106,19 +109,20 @@ const YouTubeList = props => {
 
 YouTubeList.defaultProps = {
     approversPage: false,
-    downvote: noop,
+    downvoteHighlightRequest: noop,
     openConfirm: noop,
     openReject: noop,
     opts: defaultOpts,
     styles: defaultStyles,
     videos: [],
     upvote: noop,
+    upvoteHighlightRequest: noop,
     votingPage: false
 };
 
 YouTubeList.propTypes = {
     approversPage: PropTypes.bool,
-    downvote: PropTypes.func,
+    downvoteHighlightRequest: PropTypes.func,
     openConfirm: PropTypes.func,
     openReject: PropTypes.func,
     opts: PropTypes.shape({
@@ -127,7 +131,9 @@ YouTubeList.propTypes = {
     styles: PropTypes.objectOf(PropTypes.string),
     upvote: PropTypes.func,
     videos: PropTypes.arrayOf(PropTypes.shape({})),
+    upvoteHighlightRequest: PropTypes.func,
     votingPage: PropTypes.bool
+
 };
 
 export default YouTubeList;

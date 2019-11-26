@@ -26,6 +26,18 @@ const highlightsReducer = (state = initialState, action) => {
     case actions.FETCH_HIGHLIGHTS_SUCCESS: {
         return fp.set('videos', action.highlights)(state);
     }
+    case actions.UPVOTE_HIGHLIGHT_SUCCESS: {
+        return {
+            ...state,
+            videos: state.videos.map(x => (x.id === action.highlight.id ? action.highlight : x))
+        };
+    }
+    case actions.DOWNVOTE_HIGHLIGHT_SUCCESS: {
+        return {
+            ...state,
+            videos: state.videos.map(x => (x.id === action.highlight.id ? action.highlight : x))
+        };
+    }
     default:
         return state;
     }
