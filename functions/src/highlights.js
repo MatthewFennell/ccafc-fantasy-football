@@ -82,3 +82,20 @@ exports.downvoteHighlight = functions
         }).then(() => db.collection('highlights').doc(data.highlightId).get()
             .then(doc => ({ ...doc.data(), id: doc.id })));
     });
+
+
+exports.fetchUserHighlightsToBeApproved = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db.collection('highlight-requests').where('userId', '==', context.auth.uid).get()
+            .then(result => result.docs.map(x => ({ ...x.data(), id: x.id })));
+    });
+
+exports.fetchRejectedHighlights = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db.collection('highlights-rejected').where('userId', '==', context.auth.uid).get()
+            .then(result => result.docs.map(x => ({ ...x.data(), id: x.id })));
+    });

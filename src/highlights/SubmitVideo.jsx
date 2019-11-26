@@ -1,12 +1,42 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import moment from 'moment';
 import defaultStyles from './SubmitVideo.module.scss';
 import StyledInput from '../common/StyledInput/StyledInput';
 import StyledButton from '../common/StyledButton/StyledButton';
 import CustomYouTube from '../common/youtube/YouTube';
 import WithCollapsable from '../common/collapsableHOC/WithCollapsable';
+import Grid from '../common/grid/Grid';
+
+const columns = [
+    {
+        id: 'title',
+        label: 'Title',
+        align: 'center'
+    },
+    {
+        id: 'videoLink',
+        label: 'Video',
+        align: 'center'
+    },
+    {
+        id: 'dateCreated',
+        label: 'Date Created',
+        align: 'center'
+    },
+    {
+        id: 'status',
+        label: 'Status',
+        align: 'center'
+    },
+    {
+        id: 'extraInfo',
+        label: 'Extra Info',
+        align: 'center'
+    }
+];
 
 const opts = {
     height: '390',
@@ -16,7 +46,28 @@ const opts = {
     }
 };
 
+// eslint-disable-next-line no-underscore-dangle
+const generateTime = date => moment(new Date(date._seconds * 1000)).startOf('second').fromNow();
+
+const generateVidLink = link => (
+    <a
+        href={`https://www.youtube.com/watch?v=${link}`}
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        {`https://www.youtube.com/watch?v=${link}`}
+
+    </a>
+);
+
 const SubmitVideo = props => {
+    useEffect(() => {
+        if (props.submitVideoOpen) {
+            props.fetchUserHighlightsToBeApproved();
+            props.fetchRejectedHighlightsRequest();
+        }
+    }, [props.fetchUserHighlightsToBeApproved, props.submitVideoOpen]);
+
     const [video, setVideo] = useState('');
     const [exampleOpen, setExampleOpen] = useState(false);
     const [videoTitle, setVideoTitle] = useState('');
@@ -51,6 +102,31 @@ const SubmitVideo = props => {
     }, [video, props.submitHighlightRequest,
         props.submitHighlightError, exampleOpen, setExampleOpen, videoTitle]);
 
+    const generateRows = (approved, waitingApproval, rejected) => approved.map(x => ({
+        title: x.title,
+        videoLink: generateVidLink(x.videoId),
+        dateCreated: generateTime(x.dateCreated),
+        status: <div className={props.styles.approved}>Approved</div>,
+        extraInfo: `Votes: ${x.upvotes.length - x.downvotes.length > 0 ? '+' : ''}${x.upvotes.length - x.downvotes.length}`
+    })).concat(
+        waitingApproval.map(x => ({
+            title: x.title,
+            videoLink: generateVidLink(x.videoId),
+            dateCreated: generateTime(x.dateCreated),
+            status: <div className={props.styles.waiting}>Waiting for Approval</div>,
+            extraInfo: ''
+        }))
+    ).concat(rejected.map(x => ({
+        title: x.title,
+        videoLink: generateVidLink(x.videoId),
+        dateCreated: generateTime(x.dateCreated),
+        status: <div className={props.styles.rejected}>Rejected</div>,
+        extraInfo: x.reason
+    })));
+
+    console.log('loadingVideosToBeApproved', props.loadingVideosToBeApproved);
+    console.log('loadingRejectedVideos', props.loadingRejectedVideos);
+
     return (
         <SwipeableDrawer
             anchor="right"
@@ -72,24 +148,49 @@ const SubmitVideo = props => {
                     onReady={onReady}
                 />
             </div>
+            <div className={props.styles.gridWrapper}>
+                <Grid
+                    gridHeader="My Video Requests"
+                    loading={props.loadingVideosToBeApproved || props.loadingRejectedVideos}
+                    columns={columns}
+                    rows={generateRows(props.myVideos, props.videosToBeApproved, props.videosRejected)}
+                    showPagination
+                    rowsPerPageOptions={[5, 50, 100]}
+                />
+            </div>
+
         </SwipeableDrawer>
     );
 };
 
 SubmitVideo.defaultProps = {
     closeSubmitVideo: noop,
+    fetchRejectedHighlightsRequest: noop,
+    fetchUserHighlightsToBeApproved: noop,
+    loadingVideosToBeApproved: false,
+    loadingRejectedVideos: false,
+    myVideos: [],
     submitHighlightError: noop,
     submitHighlightRequest: noop,
     submitVideoOpen: false,
-    styles: defaultStyles
+    styles: defaultStyles,
+    videosToBeApproved: [],
+    videosRejected: []
 };
 
 SubmitVideo.propTypes = {
     closeSubmitVideo: PropTypes.func,
+    fetchRejectedHighlightsRequest: PropTypes.func,
+    fetchUserHighlightsToBeApproved: PropTypes.func,
+    loadingVideosToBeApproved: PropTypes.bool,
+    loadingRejectedVideos: PropTypes.bool,
+    myVideos: PropTypes.arrayOf(PropTypes.shape({})),
     submitHighlightError: PropTypes.func,
     submitHighlightRequest: PropTypes.func,
     submitVideoOpen: PropTypes.bool,
-    styles: PropTypes.objectOf(PropTypes.string)
+    styles: PropTypes.objectOf(PropTypes.string),
+    videosToBeApproved: PropTypes.arrayOf(PropTypes.shape({})),
+    videosRejected: PropTypes.arrayOf(PropTypes.shape({}))
 };
 
 export default SubmitVideo;
