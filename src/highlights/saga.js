@@ -50,11 +50,31 @@ function* downvoteHighlight(action) {
     }
 }
 
+function* highlightsToBeApproved() {
+    try {
+        const highlights = yield call(api.getHighlightsToBeApproved);
+        yield put(actions.fetchUserHighlightsToBeApprovedSuccess(highlights));
+    } catch (error) {
+        yield put(actions.fetchUserHighlightsToBeApprovedError(error));
+    }
+}
+
+function* rejectedHighlights() {
+    try {
+        const highlights = yield call(api.getRejectedHighlights);
+        yield put(actions.fetchRejectedHighlightsSuccess(highlights));
+    } catch (error) {
+        yield put(actions.fetchRejectedHighlightsError(error));
+    }
+}
+
 export default function* overviewSaga() {
     yield all([
         takeEvery(actions.SUBMIT_HIGHLIGHT_REQUEST, submitHighlight),
         takeEvery(actions.FETCH_HIGHLIGHTS_REQUEST, getHighlights),
         takeEvery(actions.UPVOTE_HIGHLIGHT_REQUEST, upvoteHighlight),
-        takeEvery(actions.DOWNVOTE_HIGHLIGHT_REQUEST, downvoteHighlight)
+        takeEvery(actions.DOWNVOTE_HIGHLIGHT_REQUEST, downvoteHighlight),
+        takeEvery(actions.FETCH_USER_HIGHLIGHTS_TO_BE_APPROVED_REQUEST, highlightsToBeApproved),
+        takeEvery(actions.FETCH_REJECTED_HIGHLIGHTS_REQUEST, rejectedHighlights)
     ]);
 }

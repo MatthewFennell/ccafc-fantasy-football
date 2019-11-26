@@ -3,7 +3,11 @@ import * as actions from './actions';
 
 const initialState = {
     loadingVideos: false,
+    loadingVideosToBeApproved: false,
+    loadingRejectedVideos: false,
     videos: [],
+    videosToBeApproved: [],
+    videosRejected: [],
     submitLinkError: '',
     submitLinkErrorCode: ''
 };
@@ -48,6 +52,26 @@ const highlightsReducer = (state = initialState, action) => {
     }
     case actions.ALREADY_FETCHED_VIDEOS: {
         return fp.set('loadingVideos', false)(state);
+    }
+    case actions.FETCH_USER_HIGHLIGHTS_TO_BE_APPROVED_SUCCESS: {
+        return {
+            ...state,
+            loadingVideosToBeApproved: false,
+            videosToBeApproved: action.highlights
+        };
+    }
+    case actions.FETCH_REJECTED_HIGHLIGHTS_SUCCESS: {
+        return {
+            ...state,
+            loadingRejectedVideos: false,
+            videosRejected: action.highlights
+        };
+    }
+    case actions.FETCH_USER_HIGHLIGHTS_TO_BE_APPROVED_REQUEST: {
+        return fp.set('loadingVideosToBeApproved', true)(state);
+    }
+    case actions.FETCH_REJECTED_HIGHLIGHTS_REQUEST: {
+        return fp.set('loadingRejectedVideos', true)(state);
     }
     default:
         return state;
