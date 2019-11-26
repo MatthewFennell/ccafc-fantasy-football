@@ -6,15 +6,27 @@
   background-color: $color-white;
   @include light-box-shadow();
 
-  .highlightMessage{
-    text-align: center;
-    color: $color-blue;
-    font-weight: bold;
-  }
+  
 
   .inputWrapper{
     text-align: center;
     margin-left: auto;
     margin-right: auto;
+  }
+}
+
+.highlightsHeader{
+  padding: $spacing-medium;
+  margin: $spacing-medium;
+  background-color: $color-white;
+  @include light-box-shadow();
+  .highlightsMessage{
+    text-align: center;
+    color: $color-blue;
+    font-weight: bold;
+  }
+
+  .openSubmitVideo{
+    text-align: center;
   }
 }

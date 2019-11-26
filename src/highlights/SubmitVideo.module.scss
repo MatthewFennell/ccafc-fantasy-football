@@ -1,0 +1,18 @@
+@import "../common/Styles.scss";
+
+.drawerWrapper{
+  width: 70vw;
+}
+
+.addHighlight {
+  padding: $spacing-medium;
+  margin: $spacing-medium;
+  background-color: $color-white;
+  @include light-box-shadow();
+
+  .inputWrapper{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
