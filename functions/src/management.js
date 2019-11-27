@@ -118,7 +118,6 @@ exports.deleteAllOldUsers = functions
         db.collection('active-teams').get().then(activeTeams => {
             activeTeams.docs.forEach(team => {
                 if (team.data().player_ids && team.data().player_ids.length === 0) {
-                    console.log(`deleting user with id ${team.data().user_id}`);
                     admin.auth().deleteUser(team.data().user_id).then(
                         () => db.collection('users').doc(team.data().user_id).delete()
                     );

@@ -33,3 +33,5 @@ exports.highlights = require('./src/highlights');
 
 const operations = admin.firestore.FieldValue;
 // currently at v8.13.0 for node
+
+// // https://firebase.google.com/docs/reference/js/firebase.functions.html#functionserrorcod

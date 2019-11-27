@@ -132,6 +132,11 @@ const SubmitVideo = props => {
         extraInfo: x.reason
     })));
 
+    const openExample = useCallback(() => {
+        if (video && video.length > 0) {
+            setExampleOpen(true);
+        }
+    }, [setExampleOpen, exampleOpen, video]);
 
     return (
         <SwipeableDrawer
@@ -152,8 +157,12 @@ const SubmitVideo = props => {
                 <div className={props.styles.addHighlight}>
                     <div className={props.styles.inputWrapper}>
                         <StyledInput onChange={updateVideoTitle} value={videoTitle} label="Video Title" />
-                        <StyledInput onChange={updateId} value={video} label="YouTube Video ID" />
+                        <StyledInput onChange={updateId} value={video} label="YouTube Video ID" onBlur={openExample} />
                         <StyledButton onClick={submitVideo} text="Submit Video for Approval" color="primary" />
+                    </div>
+                    <div className={props.styles.videoIdHint}>
+                        e.g. The ID is the section in bold https://www.youtube.com/watch?v=
+                        <b>LYMGGgbOz1k</b>
                     </div>
                 </div>
                 <CollapsableYouTube

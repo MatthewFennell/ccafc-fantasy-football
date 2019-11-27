@@ -198,6 +198,7 @@ exports.orderedUsers = functions
     });
 
 // Adds a position tag to each league to order them correctly
+// Unsure of how to permission this yet TO:DO
 exports.calculatePositions = functions
     .region(constants.region)
     .https.onCall((data, context) => {

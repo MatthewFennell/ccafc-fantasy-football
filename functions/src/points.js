@@ -88,9 +88,8 @@ exports.pointsForWeek = functions
 // Listeners on those do the rest
 exports.submitResult = functions
     .region(constants.region)
-    .https.onCall((data, context) => {
-        common.isAuthenticated(context);
-
+    .https.onCall((data, context) => common.hasPermission(context.auth.uid,
+        constants.PERMISSIONS.SUBMIT_RESULT).then(() => {
         if (!common.isIntegerGreaterThanEqualZero(data.week)) {
             throw new functions.https.HttpsError('invalid-argument', `That is not a valid week (${data.week})`);
         }
@@ -120,100 +119,98 @@ exports.submitResult = functions
             }
         });
 
-        return common.isAdmin(context.auth.uid).then(() => {
-            const playerIds = Object.keys(data.players);
-            const playerPromises = [];
+        const playerIds = Object.keys(data.players);
+        const playerPromises = [];
 
-            playerIds.map(playerId => playerPromises.push(db.collection('players')
-                .doc(playerId).get()
-                .then(player => {
-                    if (!player.exists) {
-                        throw new functions.https.HttpsError('not-found', `There is no player with that id (${player})`);
-                    }
-                    return ({
-                        id: playerId,
-                        position: player.data().position,
-                        team: player.data().team,
-                        name: player.data().name,
-                        ref: player.ref
-                    });
-                })));
-
-            return Promise.all(playerPromises).then(playerPositionsArray => {
-                const playerPositions = playerPositionsArray
-                    .reduce((acc, cur) => ({ ...acc, [cur.id]: cur.position.toUpperCase() }), {});
-
-                const playerTeams = playerPositionsArray
-                    .reduce((acc, cur) => ({ ...acc, [cur.id]: cur.team }), {});
-
-                const playerNames = playerPositionsArray
-                    .reduce((acc, cur) => ({ ...acc, [cur.id]: cur.name }), {});
-
-                // Get the goals, assists and position of each player having points added to them
-                const playerStats = playerPositionsArray.reduce((acc, cur) => ({
-                    ...acc,
-                    [cur.id]: ({
-                        goals: data.players[cur.id].goals || 0,
-                        assists: data.players[cur.id].assists || 0,
-                        ownGoals: data.players[cur.id].ownGoals || 0,
-                        cleanSheet: data.players[cur.id].cleanSheet || false,
-                        dickOfTheDay: data.players[cur.id].dickOfTheDay || false,
-                        redCard: data.players[cur.id].redCard || false,
-                        yellowCard: data.players[cur.id].yellowCard || false,
-                        manOfTheMatch: data.players[cur.id].manOfTheMatch || false,
-                        position: playerPositions[cur.id],
-                        team: playerTeams[cur.id],
-                        name: playerNames[cur.id]
-                    })
-                }), {});
-                // Update or create player points object
-                playerIds.forEach(playerId => {
-                    const {
-                        position, goals, assists, cleanSheet, redCard, yellowCard, manOfTheMatch, dickOfTheDay, ownGoals, team, name
-                    } = playerStats[playerId];
-                    const points = common.calculatePoints(position,
-                        goals, assists, cleanSheet, redCard, yellowCard, dickOfTheDay, ownGoals);
-
-                    db.collection('player-points').where('player_id', '==', playerId).where('week', '==', data.week).get()
-                        .then(playerDocs => {
-                            if (playerDocs.empty) {
-                                db.collection('player-points').add({
-                                    player_id: playerId,
-                                    week: data.week,
-                                    goals,
-                                    assists,
-                                    cleanSheet,
-                                    redCard,
-                                    yellowCard,
-                                    manOfTheMatch,
-                                    position,
-                                    points,
-                                    dickOfTheDay,
-                                    ownGoals,
-                                    team,
-                                    name
-                                });
-                            } else if (playerDocs.size > 1) {
-                                throw new functions.https.HttpsError('invalid-argument', 'Somehow that player points has multiple entries');
-                            } else {
-                                playerDocs.docs[0].ref.update({
-                                    goals: operations.increment(goals),
-                                    assists: operations.increment(assists),
-                                    cleanSheet,
-                                    redCard,
-                                    yellowCard,
-                                    manOfTheMatch,
-                                    position,
-                                    points: operations.increment(points),
-                                    dickOfTheDay,
-                                    ownGoals: operations.increment(ownGoals)
-                                });
-                            }
-                        });
+        playerIds.map(playerId => playerPromises.push(db.collection('players')
+            .doc(playerId).get()
+            .then(player => {
+                if (!player.exists) {
+                    throw new functions.https.HttpsError('not-found', `There is no player with that id (${player})`);
+                }
+                return ({
+                    id: playerId,
+                    position: player.data().position,
+                    team: player.data().team,
+                    name: player.data().name,
+                    ref: player.ref
                 });
+            })));
+
+        return Promise.all(playerPromises).then(playerPositionsArray => {
+            const playerPositions = playerPositionsArray
+                .reduce((acc, cur) => ({ ...acc, [cur.id]: cur.position.toUpperCase() }), {});
+
+            const playerTeams = playerPositionsArray
+                .reduce((acc, cur) => ({ ...acc, [cur.id]: cur.team }), {});
+
+            const playerNames = playerPositionsArray
+                .reduce((acc, cur) => ({ ...acc, [cur.id]: cur.name }), {});
+
+            // Get the goals, assists and position of each player having points added to them
+            const playerStats = playerPositionsArray.reduce((acc, cur) => ({
+                ...acc,
+                [cur.id]: ({
+                    goals: data.players[cur.id].goals || 0,
+                    assists: data.players[cur.id].assists || 0,
+                    ownGoals: data.players[cur.id].ownGoals || 0,
+                    cleanSheet: data.players[cur.id].cleanSheet || false,
+                    dickOfTheDay: data.players[cur.id].dickOfTheDay || false,
+                    redCard: data.players[cur.id].redCard || false,
+                    yellowCard: data.players[cur.id].yellowCard || false,
+                    manOfTheMatch: data.players[cur.id].manOfTheMatch || false,
+                    position: playerPositions[cur.id],
+                    team: playerTeams[cur.id],
+                    name: playerNames[cur.id]
+                })
+            }), {});
+            // Update or create player points object
+            playerIds.forEach(playerId => {
+                const {
+                    position, goals, assists, cleanSheet, redCard, yellowCard, manOfTheMatch, dickOfTheDay, ownGoals, team, name
+                } = playerStats[playerId];
+                const points = common.calculatePoints(position,
+                    goals, assists, cleanSheet, redCard, yellowCard, dickOfTheDay, ownGoals);
+
+                db.collection('player-points').where('player_id', '==', playerId).where('week', '==', data.week).get()
+                    .then(playerDocs => {
+                        if (playerDocs.empty) {
+                            db.collection('player-points').add({
+                                player_id: playerId,
+                                week: data.week,
+                                goals,
+                                assists,
+                                cleanSheet,
+                                redCard,
+                                yellowCard,
+                                manOfTheMatch,
+                                position,
+                                points,
+                                dickOfTheDay,
+                                ownGoals,
+                                team,
+                                name
+                            });
+                        } else if (playerDocs.size > 1) {
+                            throw new functions.https.HttpsError('invalid-argument', 'Somehow that player points has multiple entries');
+                        } else {
+                            playerDocs.docs[0].ref.update({
+                                goals: operations.increment(goals),
+                                assists: operations.increment(assists),
+                                cleanSheet,
+                                redCard,
+                                yellowCard,
+                                manOfTheMatch,
+                                position,
+                                points: operations.increment(points),
+                                dickOfTheDay,
+                                ownGoals: operations.increment(ownGoals)
+                            });
+                        }
+                    });
             });
         });
-    });
+    }));
 
 exports.teamStatsByWeek = functions
     .region(constants.region)

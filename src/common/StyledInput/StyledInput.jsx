@@ -18,6 +18,7 @@ const StyledInput = props => (
             [props.styles.centerText]: props.centerText
         })}
         onChange={e => props.onChange(e.target.value)}
+        onBlur={props.onBlur}
         type={props.type}
         disabled={props.disabled}
     />
@@ -28,6 +29,7 @@ StyledInput.defaultProps = {
     hint: '',
     label: '',
     icon: '',
+    onBlur: noop,
     onChange: noop,
     styles: defaultStyles,
     type: 'text',
@@ -40,6 +42,7 @@ StyledInput.propTypes = {
     hint: PropTypes.string,
     label: PropTypes.string,
     icon: PropTypes.string,
+    onBlur: PropTypes.func,
     onChange: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string),
     type: PropTypes.string,
