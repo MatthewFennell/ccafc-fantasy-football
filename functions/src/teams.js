@@ -7,8 +7,8 @@ const db = admin.firestore();
 
 exports.createTeam = functions
     .region(constants.region)
-    .https.onCall((data, context) => {
-        common.isAuthenticated(context);
+    .https.onCall((data, context) => common.hasPermission(context.auth.uid,
+        constants.PERMISSIONS.CREATE_TEAM).then(() => {
         if (!data.teamName) {
             throw new functions.https.HttpsError('invalid-argument', 'Cannot have an empty team name');
         }
@@ -28,7 +28,7 @@ exports.createTeam = functions
             }
             throw new functions.https.HttpsError('invalid-argument', 'A team with that name already exists');
         });
-    });
+    }));
 
 
 exports.getAllTeams = functions
@@ -61,8 +61,8 @@ exports.getPlayersInTeam = functions
 
 exports.deleteTeam = functions
     .region(constants.region)
-    .https.onCall((data, context) => {
-        common.isAuthenticated(context);
+    .https.onCall((data, context) => common.hasPermission(context.auth.uid,
+        constants.PERMISSIONS.DELETE_TEAM).then(() => {
         if (!data.teamName || !data.teamId) {
             throw new functions.https.HttpsError('invalid-argument', 'Must provide a valid team id and name');
         }
@@ -73,4 +73,4 @@ exports.deleteTeam = functions
                 }
                 return db.collection('teams').doc(data.teamId).delete();
             });
-    });
+    }));

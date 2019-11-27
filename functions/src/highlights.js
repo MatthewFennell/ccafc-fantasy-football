@@ -29,30 +29,10 @@ exports.submitHighlightForApproval = functions
 
 exports.getHighlightsForApproval = functions
     .region(constants.region)
-    .https.onCall((data, context) => {
-        common.isAuthenticated(context);
-
-        const hasPermission = (uid, permission) => admin.auth().getUser(uid).then(user => {
-            const userClaims = user.customClaims;
-            console.log('user claims', userClaims);
-            if (userClaims === undefined) {
-                console.log('undefined');
-                throw new functions.https.HttpsError('unauthenticated', 'You are not authorized to perform this operation');
-            }
-
-
-            // Iterate over claims (which represent their ROLES)
-            // If their role includes the permission, return true
-            if (!Object.keys(userClaims).reduce((acc, curVal) => (userClaims[curVal] && constants.ROLE_PERMISSIONS[curVal]
-                .includes(permission) ? true : acc), false)) {
-                throw new functions.https.HttpsError('unauthenticated', 'You are not authorized to perform this operation');
-            }
-        });
-
-        return common.hasPermission(context.auth.uid, constants.PERMISSIONS.APPROVE_HIGHLIGHTS)
-            .then(() => db.collection('highlight-requests').get()
-                .then(result => result.docs.map(x => ({ ...x.data(), id: x.id }))));
-    });
+    .https.onCall((data, context) => common.hasPermission(context.auth.uid,
+        constants.PERMISSIONS.APPROVE_HIGHLIGHTS)
+        .then(() => db.collection('highlight-requests').get()
+            .then(result => result.docs.map(x => ({ ...x.data(), id: x.id })))));
 
 exports.getHighlights = functions
     .region(constants.region)
@@ -62,24 +42,21 @@ exports.getHighlights = functions
             .then(result => result.docs.map(x => ({ ...x.data(), id: x.id })));
     });
 
-// Requires permission of `APPROVE_HIGHLIGHTS`
 exports.approveHighlight = functions
     .region(constants.region)
-    .https.onCall((data, context) => {
-        common.hasPermission(context.auth.uid, constants.PERMISSIONS.APPROVE_HIGHLIGHTS)
-            .then(() => db.collection('highlight-requests').doc(data.highlightId).get()
-                .then(doc => db.collection('highlights').add({ ...doc.data(), upvotes: [], downvotes: [] })
-                    .then(() => doc.ref.delete())));
-    });
+    .https.onCall((data, context) => common.hasPermission(context.auth.uid,
+        constants.PERMISSIONS.APPROVE_HIGHLIGHTS)
+        .then(() => db.collection('highlight-requests').doc(data.highlightId).get()
+            .then(doc => db.collection('highlights').add({ ...doc.data(), upvotes: [doc.data().userId], downvotes: [] })
+                .then(() => doc.ref.delete()))));
 
 exports.rejectHighlight = functions
     .region(constants.region)
-    .https.onCall((data, context) => {
-        common.isAuthenticated(context);
-        return db.collection('highlight-requests').doc(data.highlightId).get()
+    .https.onCall((data, context) => common.hasPermission(context.auth.uid,
+        constants.PERMISSIONS.APPROVE_HIGHLIGHTS)
+        .then(() => db.collection('highlight-requests').doc(data.highlightId).get()
             .then(doc => db.collection('highlights-rejected').add({ ...doc.data(), reason: data.reason })
-                .then(() => doc.ref.delete()));
-    });
+                .then(() => doc.ref.delete()))));
 
 exports.upvoteHighlight = functions
     .region(constants.region)
@@ -102,7 +79,6 @@ exports.downvoteHighlight = functions
         }).then(() => db.collection('highlights').doc(data.highlightId).get()
             .then(doc => ({ ...doc.data(), id: doc.id })));
     });
-
 
 exports.fetchUserHighlightsToBeApproved = functions
     .region(constants.region)
