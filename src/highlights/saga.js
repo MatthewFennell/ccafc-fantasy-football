@@ -52,8 +52,13 @@ function* downvoteHighlight(action) {
 
 function* highlightsToBeApproved() {
     try {
-        const highlights = yield call(api.getHighlightsToBeApproved);
-        yield put(actions.fetchUserHighlightsToBeApprovedSuccess(highlights));
+        const alreadyFetched = yield select(selectors.fetchedApprovedVideos);
+        if (!alreadyFetched) {
+            const highlights = yield call(api.getHighlightsToBeApproved);
+            yield put(actions.fetchUserHighlightsToBeApprovedSuccess(highlights));
+        } else {
+            yield put(actions.alreadyFetchedApprovedHighlights());
+        }
     } catch (error) {
         yield put(actions.fetchUserHighlightsToBeApprovedError(error));
     }
@@ -61,8 +66,13 @@ function* highlightsToBeApproved() {
 
 function* rejectedHighlights() {
     try {
-        const highlights = yield call(api.getRejectedHighlights);
-        yield put(actions.fetchRejectedHighlightsSuccess(highlights));
+        const alreadyFetched = yield select(selectors.fetchedRejectedVideos);
+        if (!alreadyFetched) {
+            const highlights = yield call(api.getRejectedHighlights);
+            yield put(actions.fetchRejectedHighlightsSuccess(highlights));
+        } else {
+            yield put(actions.alreadyFetchedRejectedVideos());
+        }
     } catch (error) {
         yield put(actions.fetchRejectedHighlightsError(error));
     }

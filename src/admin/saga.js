@@ -197,10 +197,15 @@ function* deleteAllOldUsers() {
 
 function* fetchHighlightsForApproval() {
     try {
-        const highlights = yield call(api.getHighlightsForApproval);
-        yield put(actions.fetchHighlightsForApprovalSuccess(highlights));
+        const fetchedHighlights = yield select(selectors.fetchedHighlightsForApproval);
+        if (!fetchedHighlights) {
+            const highlights = yield call(api.getHighlightsForApproval);
+            yield put(actions.fetchHighlightsForApprovalSuccess(highlights));
+        } else {
+            yield put(actions.alreadyFetchedHighlightsForApproval());
+        }
     } catch (error) {
-        yield put(actions.deleteAllOldUsersError(error));
+        yield put(actions.fetchHighlightsForApprovalError(error));
     }
 }
 

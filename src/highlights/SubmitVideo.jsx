@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import moment from 'moment';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import defaultStyles from './SubmitVideo.module.scss';
 import StyledInput from '../common/StyledInput/StyledInput';
 import StyledButton from '../common/StyledButton/StyledButton';
@@ -10,31 +11,38 @@ import CustomYouTube from '../common/youtube/YouTube';
 import WithCollapsable from '../common/collapsableHOC/WithCollapsable';
 import Grid from '../common/grid/Grid';
 
+const widthForSmallColumns = 600;
+
 const columns = [
     {
         id: 'title',
         label: 'Title',
-        align: 'center'
+        align: 'center',
+        showOnSmallScreen: true
     },
     {
         id: 'videoLink',
         label: 'Video',
-        align: 'center'
+        align: 'center',
+        showOnSmallScreen: false
     },
     {
         id: 'dateCreated',
         label: 'Date Created',
-        align: 'center'
+        align: 'center',
+        showOnSmallScreen: false
     },
     {
         id: 'status',
         label: 'Status',
-        align: 'center'
+        align: 'center',
+        showOnSmallScreen: true
     },
     {
         id: 'extraInfo',
         label: 'Extra Info',
-        align: 'center'
+        align: 'center',
+        showOnSmallScreen: false
     }
 ];
 
@@ -124,8 +132,6 @@ const SubmitVideo = props => {
         extraInfo: x.reason
     })));
 
-    console.log('loadingVideosToBeApproved', props.loadingVideosToBeApproved);
-    console.log('loadingRejectedVideos', props.loadingRejectedVideos);
 
     return (
         <SwipeableDrawer
@@ -135,6 +141,14 @@ const SubmitVideo = props => {
             onOpen={noop}
         >
             <div className={props.styles.drawerWrapper}>
+                {window.innerWidth < widthForSmallColumns && (
+                    <div className={props.styles.backIcon}>
+                        <ArrowBackIcon
+                            onClick={props.closeSubmitVideo}
+                            fontSize="large"
+                        />
+                    </div>
+                )}
                 <div className={props.styles.addHighlight}>
                     <div className={props.styles.inputWrapper}>
                         <StyledInput onChange={updateVideoTitle} value={videoTitle} label="Video Title" />
@@ -152,13 +166,14 @@ const SubmitVideo = props => {
                 <Grid
                     gridHeader="My Video Requests"
                     loading={props.loadingVideosToBeApproved || props.loadingRejectedVideos}
-                    columns={columns}
-                    rows={generateRows(props.myVideos, props.videosToBeApproved, props.videosRejected)}
+                    columns={columns.filter(x => (window.innerWidth < widthForSmallColumns
+                        ? x.showOnSmallScreen : true))}
+                    rows={generateRows(props.myVideos,
+                        props.videosToBeApproved, props.videosRejected)}
                     showPagination
                     rowsPerPageOptions={[5, 50, 100]}
                 />
             </div>
-
         </SwipeableDrawer>
     );
 };

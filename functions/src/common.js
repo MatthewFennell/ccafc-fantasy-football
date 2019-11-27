@@ -16,6 +16,17 @@ module.exports.isAdmin = uid => admin.auth().getUser(uid).then(user => {
     }
 });
 
+module.exports.hasPermission = (uid, permission) => admin.auth().getUser(uid).then(user => {
+    const userClaims = user.customClaims;
+
+    // Iterate over claims (which represent their ROLES)
+    // If their role includes the permission, return true
+    if (userClaims === undefined || !Object.keys(userClaims).reduce((acc, curVal) => (userClaims[curVal] && constants.ROLE_PERMISSIONS[curVal]
+        .includes(permission) ? true : acc), false)) {
+        throw new functions.https.HttpsError('unauthenticated', 'You are not authorized to perform this operation');
+    }
+});
+
 module.exports.calculatePoints = (position, goals, assists, cleanSheet,
     redCard, yellowCard, dickOfTheDay, ownGoals) => {
     let total = 0;

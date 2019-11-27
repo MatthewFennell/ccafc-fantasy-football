@@ -5,6 +5,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import moment from 'moment';
 import { noop } from 'lodash';
+import classNames from 'classnames';
 import defaultStyles from './YouTubeList.module.scss';
 import CustomYouTube from '../youtube/YouTube';
 import StyledButton from '../StyledButton/StyledButton';
@@ -35,14 +36,20 @@ const YouTubeList = props => {
                 : (
                     <div className={props.styles.videoListWrapper}>
                         {props.videos.map(x => (
-                            <div className={props.styles.videoWrapper} key={x.id}>
+                            <div
+                                className={classNames({
+                                    [props.styles.videoWrapper]: true,
+                                    [props.styles.notExpandedVideoWrapper]: !fp.get(x.id)(openVids)
+                                })}
+                                key={x.id}
+                            >
                                 {fp.get(x.id)(openVids) ? (
                                     <>
                                         <div className={props.styles.expandLess}>
                                             <ExpandLessIcon onClick={() => toggleVideo(x.id)} />
                                         </div>
                                         <div className={props.styles.expandedWrapper}>
-                                            <div>
+                                            <div className={props.styles.userInfo}>
                                                 <div className={props.styles.videoTitle}>
                                                     {`Title: ${x.title}`}
                                                 </div>

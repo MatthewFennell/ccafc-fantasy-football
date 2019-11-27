@@ -56,7 +56,8 @@ module.exports.PERMISSIONS = PERMISSIONS;
 // A list of all existing roles - keep in sync with UI
 module.exports.ROLES = {
     ADMIN: 'ADMIN',
-    MAINTAINER: 'MAINTAINER'
+    MAINTAINER: 'MAINTAINER',
+    HIGHLIGHT_APPROVER: 'HIGHLIGHT_APPROVER'
 };
 
 // This dictates what each role is able to do
@@ -79,5 +80,8 @@ module.exports.ROLE_PERMISSIONS = {
         PERMISSIONS.SUBMIT_RESULT,
         PERMISSIONS.TRIGGER_WEEK,
         PERMISSIONS.EDIT_PLAYER,
-        PERMISSIONS.APPROVE_HIGHLIGHTS]
+        PERMISSIONS.APPROVE_HIGHLIGHTS],
+    HIGHLIGHT_APPROVER: [
+        PERMISSIONS.APPROVE_HIGHLIGHTS
+    ]
 };
