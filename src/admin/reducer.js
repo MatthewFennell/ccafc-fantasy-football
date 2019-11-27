@@ -264,6 +264,12 @@ const adminReducer = (state = initState, action) => {
                 .filter(x => x.id !== action.highlightId)
         };
     }
+    case actions.FETCH_HIGHLIGHTS_FOR_APPROVAL_ERROR: {
+        return {
+            ...state,
+            loadingHighlightsForApproval: false
+        };
+    }
     default:
         return state;
     }

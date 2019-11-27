@@ -36,6 +36,5 @@
 .loadingHighlights{
   padding: $spacing-medium;
   margin: $spacing-medium;
-  background-color: $color-white;
-  @include light-box-shadow();
+  text-align: center;
 }

@@ -205,7 +205,7 @@ function* fetchHighlightsForApproval() {
             yield put(actions.alreadyFetchedHighlightsForApproval());
         }
     } catch (error) {
-        yield put(actions.deleteAllOldUsersError(error));
+        yield put(actions.fetchHighlightsForApprovalError(error));
     }
 }
 

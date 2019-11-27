@@ -72,6 +72,7 @@ export const DELETE_ALL_OLD_USERS_ERROR = `${pre}DELETE_ALL_OLD_USERS_ERROR`;
 
 export const FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST = `${pre}FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST`;
 export const FETCH_HIGHLIGHTS_FOR_APPROVAL_SUCCESS = `${pre}FETCH_HIGHLIGHTS_FOR_APPROVAL_SUCCESS`;
+export const FETCH_HIGHLIGHTS_FOR_APPROVAL_ERROR = `${pre}FETCH_HIGHLIGHTS_FOR_APPROVAL_ERROR`;
 export const ALREADY_FETCHED_HIGHLIGHTS_FOR_APPROVAL = `${pre}ALREADY_FETCHED_HIGHLIGHTS_FOR_APPROVAL`;
 
 export const APPROVE_HIGHLIGHT_REQUEST = `${pre}APPROVE_HIGHLIGHT_REQUEST`;
@@ -124,6 +125,11 @@ export const fetchHighlightsForApprovalSuccess = highlights => ({
 
 export const fetchHighlightsForApprovalRequest = () => ({
     type: FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST
+});
+
+export const fetchHighlightsForApprovalError = error => ({
+    type: FETCH_HIGHLIGHTS_FOR_APPROVAL_ERROR,
+    error
 });
 
 export const deleteAllOldUsersRequest = () => ({
