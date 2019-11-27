@@ -32,3 +32,10 @@
   color: $color-gray;
   font-size: $font-size-large;
 }
+
+.loadingHighlights{
+  padding: $spacing-medium;
+  margin: $spacing-medium;
+  background-color: $color-white;
+  @include light-box-shadow();
+}

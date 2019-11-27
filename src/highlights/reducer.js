@@ -9,7 +9,11 @@ const initialState = {
     videosToBeApproved: [],
     videosRejected: [],
     submitLinkError: '',
-    submitLinkErrorCode: ''
+    submitLinkErrorCode: '',
+
+    loadedVideos: false,
+    loadedRejectedVideos: false,
+    loadedVideosToBeApproved: false
 };
 
 const highlightsReducer = (state = initialState, action) => {
@@ -32,7 +36,8 @@ const highlightsReducer = (state = initialState, action) => {
         return {
             ...state,
             videos: action.highlights,
-            loadingVideos: false
+            loadingVideos: false,
+            loadedVideos: true
         };
     }
     case actions.FETCH_HIGHLIGHTS_REQUEST: {
@@ -57,14 +62,16 @@ const highlightsReducer = (state = initialState, action) => {
         return {
             ...state,
             loadingVideosToBeApproved: false,
-            videosToBeApproved: action.highlights
+            videosToBeApproved: action.highlights,
+            loadedVideosToBeApproved: true
         };
     }
     case actions.FETCH_REJECTED_HIGHLIGHTS_SUCCESS: {
         return {
             ...state,
             loadingRejectedVideos: false,
-            videosRejected: action.highlights
+            videosRejected: action.highlights,
+            loadedRejectedVideos: true
         };
     }
     case actions.FETCH_USER_HIGHLIGHTS_TO_BE_APPROVED_REQUEST: {
@@ -72,6 +79,12 @@ const highlightsReducer = (state = initialState, action) => {
     }
     case actions.FETCH_REJECTED_HIGHLIGHTS_REQUEST: {
         return fp.set('loadingRejectedVideos', true)(state);
+    }
+    case actions.ALREADY_FETCHED_REJECTED_VIDEOS: {
+        return fp.set('loadingRejectedVideos', false)(state);
+    }
+    case actions.ALREADY_FETCHED_APPROVED_HIGHLIGHTS: {
+        return fp.set('loadingVideosToBeApproved', false)(state);
     }
     default:
         return state;

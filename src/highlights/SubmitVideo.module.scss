@@ -1,7 +1,13 @@
 @import "../common/Styles.scss";
 
 .drawerWrapper{
-  width: 90vw;
+  width: 80vw;
+}
+
+.backIcon{
+  padding: $spacing-small;
+  display: flex;
+  align-items: center;
 }
 
 .addHighlight {
@@ -17,10 +23,20 @@
   }
 }
 
+@media only screen and (max-width: 600px) {
+  .drawerWrapper{
+    width: 100vw;
+  }
+  .addHighlight{
+    margin-top: 0px;
+  }
+}
+
 .gridWrapper{
   margin: $spacing-medium;
   background-color: $color-white;
   @include light-box-shadow();
+  margin-top: 0px;
 }
 
 .rejected{

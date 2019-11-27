@@ -1,3 +1,5 @@
-// eslint-disable-next-line import/prefer-default-export
-export const fetchedVideos = state => state.highlights.videos && state
-    .highlights.videos.length >= 1;
+export const fetchedVideos = state => state.highlights.loadedVideos;
+
+export const fetchedRejectedVideos = state => state.highlights.loadedRejectedVideos;
+
+export const fetchedApprovedVideos = state => state.highlights.loadedVideosToBeApproved;

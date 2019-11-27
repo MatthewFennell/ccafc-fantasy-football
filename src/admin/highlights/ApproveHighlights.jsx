@@ -8,6 +8,7 @@ import StyledButton from '../../common/StyledButton/StyledButton';
 import ConfirmModal from '../../common/modal/ConfirmModal';
 import StyledModal from '../../common/modal/StyledModal';
 import StyledInput from '../../common/StyledInput/StyledInput';
+import Spinner from '../../common/spinner/Spinner';
 
 const ApproveHighlights = props => {
     useEffect(() => {
@@ -48,7 +49,7 @@ const ApproveHighlights = props => {
     return (
         <>
             <div className={props.styles.approveHighlightsWrapper}>
-                Highlights here can be approved or rejected. Please give a reason when rejecting
+                Here you can approve / reject highlights. Please give a reason when rejecting
             </div>
             <div className={props.styles.highlightsWrapper}>
                 <YouTubeList
@@ -59,7 +60,14 @@ const ApproveHighlights = props => {
                     videos={props.highlightsForApproval}
                 />
             </div>
-            {props.highlightsForApproval.length === 0 && (
+
+            {props.loadingHighlightsForApproval && (
+                <div className={props.styles.loadingHighlights}>
+                    <Spinner color="secondary" />
+                </div>
+            )}
+
+            {props.highlightsForApproval.length === 0 && !props.loadingHighlightsForApproval && (
                 <div className={props.styles.noHighlights}>
                     No highlights waiting to be approved
                 </div>
@@ -92,6 +100,7 @@ const ApproveHighlights = props => {
 
 ApproveHighlights.defaultProps = {
     highlightsForApproval: [],
+    loadingHighlightsForApproval: false,
     styles: defaultStyles
 };
 
@@ -103,6 +112,7 @@ ApproveHighlights.propTypes = {
         videoId: PropTypes.string,
         id: PropTypes.string
     })),
+    loadingHighlightsForApproval: PropTypes.bool,
     rejectHighlightRequest: PropTypes.func.isRequired,
     styles: PropTypes.objectOf(PropTypes.string)
 };
@@ -114,7 +124,8 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-    highlightsForApproval: state.admin.highlightsForApproval
+    highlightsForApproval: state.admin.highlightsForApproval,
+    loadingHighlightsForApproval: state.admin.loadingHighlightsForApproval
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ApproveHighlights);
