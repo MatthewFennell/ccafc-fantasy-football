@@ -92,6 +92,25 @@ export const FETCH_ALL_REJECTED_HIGHLIGHTS_SUCCESS = `${pre}FETCH_ALL_REJECTED_H
 export const FETCH_ALL_REJECTED_HIGHLIGHTS_ERROR = `${pre}FETCH_ALL_REJECTED_HIGHLIGHTS_ERROR`;
 export const ALREADY_FETCHED_REJECTED_HIGHLIGHTS = `${pre}ALREADY_FETCHED_REJECTED_HIGHLIGHTS`;
 
+export const REAPPROVE_REJECTED_HIGHLIGHT_REQUEST = `${pre}REAPPROVE_REJECTED_HIGHLIGHT_REQUEST`;
+export const REAPPROVE_REJECTED_HIGHLIGHT_SUCCESS = `${pre}REAPPROVE_REJECTED_HIGHLIGHT_SUCCESS`;
+export const REAPPROVE_REJECTED_HIGHLIGHT_ERROR = `${pre}REAPPROVE_REJECTED_HIGHLIGHT_ERROR`;
+
+export const reapproveRejectedHighlightRequest = highlightId => ({
+    type: REAPPROVE_REJECTED_HIGHLIGHT_REQUEST,
+    highlightId
+});
+
+export const reapproveRejectedHighlightSuccess = highlight => ({
+    type: REAPPROVE_REJECTED_HIGHLIGHT_SUCCESS,
+    highlight
+});
+
+export const reapproveRejectedHighlightError = highlightId => ({
+    type: REAPPROVE_REJECTED_HIGHLIGHT_ERROR,
+    highlightId
+});
+
 export const fetchAllRejectedHighlightsRequest = () => ({
     type: FETCH_ALL_REJECTED_HIGHLIGHTS_REQUEST
 });
@@ -116,9 +135,9 @@ export const deleteHighlightRequest = (highlightId, reason) => ({
     reason
 });
 
-export const deleteHighlightSuccess = highlightId => ({
+export const deleteHighlightSuccess = highlight => ({
     type: DELETE_HIGHLIGHT_SUCCESS,
-    highlightId
+    highlight
 });
 
 export const deleteHighlightError = error => ({
@@ -135,9 +154,9 @@ export const approveHighlightRequest = highlightId => ({
     highlightId
 });
 
-export const approveHighlightSuccess = highlightId => ({
+export const approveHighlightSuccess = highlight => ({
     type: APPROVE_HIGHLIGHT_SUCCESS,
-    highlightId
+    highlight
 });
 
 export const approveHighlightError = error => ({
@@ -151,9 +170,9 @@ export const rejectHighlightRequest = (highlightId, reason) => ({
     reason
 });
 
-export const rejectHighlightSuccess = highlightId => ({
+export const rejectHighlightSuccess = highlight => ({
     type: REJECT_HIGHLIGHT_SUCCESS,
-    highlightId
+    highlight
 });
 
 export const rejectHighlightError = error => ({

@@ -11,6 +11,12 @@
   @include light-box-shadow();
 }
 
+.highlightInfo{
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .youTubeVid{
   padding: $spacing-medium;
   margin: $spacing-medium;

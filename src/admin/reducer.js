@@ -258,14 +258,16 @@ const adminReducer = (state = initState, action) => {
         return {
             ...state,
             highlightsForApproval: state.highlightsForApproval
-                .filter(x => x.id !== action.highlightId)
+                .filter(x => x.id !== action.highlight.id)
         };
     }
     case actions.REJECT_HIGHLIGHT_SUCCESS: {
+        console.log('action', action);
         return {
             ...state,
             highlightsForApproval: state.highlightsForApproval
-                .filter(x => x.id !== action.highlightId)
+                .filter(x => x.id !== action.highlight.id),
+            rejectedHighlights: state.rejectedHighlights.concat([action.highlight])
         };
     }
     case actions.FETCH_HIGHLIGHTS_FOR_APPROVAL_ERROR: {
@@ -287,6 +289,18 @@ const adminReducer = (state = initState, action) => {
     }
     case actions.FETCH_ALL_REJECTED_HIGHLIGHTS_ERROR: {
         return fp.set('loadingRejectedHighlights', false)(state);
+    }
+    case actions.REAPPROVE_REJECTED_HIGHLIGHT_SUCCESS: {
+        return {
+            ...state,
+            rejectedHighlights: state.rejectedHighlights.filter(x => x.id !== action.highlight.id)
+        };
+    }
+    case actions.DELETE_HIGHLIGHT_SUCCESS: {
+        return {
+            ...state,
+            rejectedHighlights: state.rejectedHighlights.concat([action.highlight])
+        };
     }
     default:
         return state;
