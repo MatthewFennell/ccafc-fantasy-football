@@ -158,7 +158,7 @@ const ApproveHighlights = props => {
         delete:
     <div className={props.styles.deleteIcon}>
         {deleteSymbol ? <DeleteIcon color="primary" onClick={() => openFancyModal(x.id, modalOptions.DELETE)} />
-            : <AddIcon color="secondary" onClick={() => openFancyModal(x.id, modalOptions.REAPPROVE)} />}
+            : <AddIcon color="primary" onClick={() => openFancyModal(x.id, modalOptions.REAPPROVE)} />}
     </div>
     }));
 
@@ -194,48 +194,58 @@ const ApproveHighlights = props => {
             )}
 
             <div className={props.styles.allVideos}>
-                <div className={props.styles.dateFilters}>
-                    <RadioButton
-                        radioLabel="Filter By Date"
-                        onChange={setFilterBy}
-                        options={Object.values(helpers.dateFilters).map(x => ({
-                            radioLabel: x.label,
-                            value: x.id
-                        }))}
-                        value={filterBy}
-                    />
-                </div>
-                <div className={props.styles.videoSearchFilter}>
-                    <StyledInput label="Filter by author / title" onChange={setSearchBy} value={searchBy} />
+                <div className={props.styles.highlightInfoWrapper}>
+                    <div className={props.styles.highlightsHeader}>
+                    All Approved Highlights
+                    </div>
+                    <div className={props.styles.dateFilters}>
+                        <RadioButton
+                            radioLabel="Filter By Date"
+                            onChange={setFilterBy}
+                            options={Object.values(helpers.dateFilters).map(x => ({
+                                radioLabel: x.label,
+                                value: x.id
+                            }))}
+                            value={filterBy}
+                        />
+                    </div>
+                    <div className={props.styles.videoSearchFilter}>
+                        <StyledInput label="Filter by author / title" onChange={setSearchBy} value={searchBy} />
+                    </div>
                 </div>
                 <div className={props.styles.gridWrapper}>
                     <Grid
-                        gridHeader="Approved Highlights"
                         columns={columns.filter(x => x.approved)}
+                        loading={props.loadingVideos}
                         rows={mapRows(helpers.filterByDate(filterBy, props.videos, searchBy), true)}
                     />
                 </div>
             </div>
 
             <div className={props.styles.allRejectedVideos}>
-                <div className={props.styles.dateFilters}>
-                    <RadioButton
-                        radioLabel="Filter By Date"
-                        onChange={setFilterByRejected}
-                        options={Object.values(helpers.dateFilters).map(x => ({
-                            radioLabel: x.label,
-                            value: x.id
-                        }))}
-                        value={filterByRejected}
-                    />
-                </div>
-                <div className={props.styles.videoSearchFilter}>
-                    <StyledInput label="Filter by author / title" onChange={setSearchByRejected} value={searchByRejected} />
+                <div className={props.styles.highlightInfoWrapper}>
+                    <div className={props.styles.highlightsHeader}>
+                    All Rejected Highlights
+                    </div>
+                    <div className={props.styles.dateFilters}>
+                        <RadioButton
+                            radioLabel="Filter By Date"
+                            onChange={setFilterByRejected}
+                            options={Object.values(helpers.dateFilters).map(x => ({
+                                radioLabel: x.label,
+                                value: x.id
+                            }))}
+                            value={filterByRejected}
+                        />
+                    </div>
+                    <div className={props.styles.videoSearchFilter}>
+                        <StyledInput label="Filter by author / title" onChange={setSearchByRejected} value={searchByRejected} />
+                    </div>
                 </div>
                 <div className={props.styles.gridWrapper}>
                     <Grid
-                        gridHeader="Rejected Highlights"
                         columns={columns.filter(x => x.rejected)}
+                        loading={props.loadingRejectedHighlights}
                         rows={mapRows(helpers.filterByDate(filterByRejected,
                             props.rejectedHighlights, searchByRejected), false)}
                     />
@@ -263,7 +273,9 @@ const ApproveHighlights = props => {
 
 ApproveHighlights.defaultProps = {
     highlightsForApproval: [],
+    loadingRejectedHighlights: false,
     loadingHighlightsForApproval: false,
+    loadingVideos: false,
     rejectedHighlights: [],
     styles: defaultStyles,
     videos: []
@@ -280,6 +292,8 @@ ApproveHighlights.propTypes = {
         videoId: PropTypes.string,
         id: PropTypes.string
     })),
+    loadingVideos: PropTypes.bool,
+    loadingRejectedHighlights: PropTypes.bool,
     loadingHighlightsForApproval: PropTypes.bool,
     reapproveRejectedHighlightRequest: PropTypes.func.isRequired,
     rejectedHighlights: PropTypes.arrayOf(PropTypes.shape({})),
@@ -300,6 +314,8 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
     highlightsForApproval: state.admin.highlightsForApproval,
+    loadingVideos: state.highlights.loadingVideos,
+    loadingRejectedHighlights: state.admin.loadingRejectedHighlights,
     loadingHighlightsForApproval: state.admin.loadingHighlightsForApproval,
     rejectedHighlights: state.admin.rejectedHighlights,
     videos: state.highlights.videos

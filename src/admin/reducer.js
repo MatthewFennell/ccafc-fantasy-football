@@ -262,7 +262,6 @@ const adminReducer = (state = initState, action) => {
         };
     }
     case actions.REJECT_HIGHLIGHT_SUCCESS: {
-        console.log('action', action);
         return {
             ...state,
             highlightsForApproval: state.highlightsForApproval
@@ -301,6 +300,9 @@ const adminReducer = (state = initState, action) => {
             ...state,
             rejectedHighlights: state.rejectedHighlights.concat([action.highlight])
         };
+    }
+    case actions.ALREADY_FETCHED_REJECTED_HIGHLIGHTS: {
+        return fp.set('loadingRejectedHighlights', false)(state);
     }
     default:
         return state;

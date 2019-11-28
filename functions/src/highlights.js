@@ -131,3 +131,15 @@ exports.reapproveRejectedHighlight = functions
                 dateCreated: doc.data().dateCreated
             }).then(() => doc.ref.delete()
                 .then(() => ({ ...doc.data(), id: doc.id }))))));
+
+
+// Currently just set to delete ones 24 hours old
+exports.cleanupRejectedHighlights = functions.region(constants.region).pubsub
+    .schedule('every 24 hours')
+    .onRun(() => {
+        const date = new Date();
+        date.setDate(date.getDate() - 1);
+        const lastMonth = admin.firestore.Timestamp.fromDate(date);
+        db.collection('highlights-rejected').where('dateCreated', '<=', lastMonth).get()
+            .then(result => result.docs.forEach(doc => doc.ref.delete()));
+    });
