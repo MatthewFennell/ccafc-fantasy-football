@@ -211,8 +211,8 @@ function* fetchHighlightsForApproval() {
 
 function* approveHighlight(action) {
     try {
-        yield call(api.approveHighlight, ({ highlightId: action.highlightId }));
-        yield put(actions.approveHighlightSuccess(action.highlightId));
+        const highlight = yield call(api.approveHighlight, ({ highlightId: action.highlightId }));
+        yield put(actions.approveHighlightSuccess(highlight));
     } catch (error) {
         yield put(actions.approveHighlightError(error));
     }
@@ -220,13 +220,49 @@ function* approveHighlight(action) {
 
 function* rejectHighlight(action) {
     try {
-        yield call(api.rejectHighlight, ({
+        const highlight = yield call(api.rejectHighlight, ({
             highlightId: action.highlightId,
             reason: action.reason
         }));
-        yield put(actions.rejectHighlightSuccess(action.highlightId));
+        yield put(actions.rejectHighlightSuccess(highlight));
     } catch (error) {
         yield put(actions.rejectHighlightError(error));
+    }
+}
+
+function* deleteHighlight(action) {
+    try {
+        const highlight = yield call(api.deleteHighlight, ({
+            highlightId: action.highlightId,
+            reason: action.reason
+        }));
+        yield put(actions.deleteHighlightSuccess(highlight));
+    } catch (error) {
+        yield put(actions.deleteHighlightError(error));
+    }
+}
+
+function* fetchRejectedHighlights() {
+    try {
+        const fetchedHighlights = yield select(selectors.fetchedRejectedHighlights);
+        if (!fetchedHighlights) {
+            const highlights = yield call(api.rejectedHighlights);
+            yield put(actions.fetchAllRejectedHighlightsSuccess(highlights));
+        } else {
+            yield put(actions.alreadyFetchedRejectedHighlights());
+        }
+    } catch (error) {
+        yield put(actions.fetchAllRejectedHighlightsError(error));
+    }
+}
+
+function* reapproveRejectedHighlight(action) {
+    try {
+        const highlight = yield call(api.reapproveRejectedHighlight,
+            ({ highlightId: action.highlightId }));
+        yield put(actions.reapproveRejectedHighlightSuccess(highlight));
+    } catch (error) {
+        yield put(actions.reapproveRejectedHighlightError(error));
     }
 }
 
@@ -250,6 +286,9 @@ export default function* adminSaga() {
         takeEvery(actions.DELETE_ALL_OLD_USERS_REQUEST, deleteAllOldUsers),
         takeEvery(actions.FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST, fetchHighlightsForApproval),
         takeEvery(actions.APPROVE_HIGHLIGHT_REQUEST, approveHighlight),
-        takeEvery(actions.REJECT_HIGHLIGHT_REQUEST, rejectHighlight)
+        takeEvery(actions.REJECT_HIGHLIGHT_REQUEST, rejectHighlight),
+        takeEvery(actions.DELETE_HIGHLIGHT_REQUEST, deleteHighlight),
+        takeEvery(actions.FETCH_ALL_REJECTED_HIGHLIGHTS_REQUEST, fetchRejectedHighlights),
+        takeEvery(actions.REAPPROVE_REJECTED_HIGHLIGHT_REQUEST, reapproveRejectedHighlight)
     ]);
 }

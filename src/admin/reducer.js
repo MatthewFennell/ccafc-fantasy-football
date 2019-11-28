@@ -40,7 +40,11 @@ const initState = {
 
     highlightsForApproval: [],
     loadingHighlightsForApproval: false,
-    loadedHighlightsForApproval: false
+    loadedHighlightsForApproval: false,
+
+    rejectedHighlights: [],
+    loadingRejectedHighlights: false,
+    loadedRejectedHighlights: false
 };
 
 const adminReducer = (state = initState, action) => {
@@ -254,14 +258,15 @@ const adminReducer = (state = initState, action) => {
         return {
             ...state,
             highlightsForApproval: state.highlightsForApproval
-                .filter(x => x.id !== action.highlightId)
+                .filter(x => x.id !== action.highlight.id)
         };
     }
     case actions.REJECT_HIGHLIGHT_SUCCESS: {
         return {
             ...state,
             highlightsForApproval: state.highlightsForApproval
-                .filter(x => x.id !== action.highlightId)
+                .filter(x => x.id !== action.highlight.id),
+            rejectedHighlights: state.rejectedHighlights.concat([action.highlight])
         };
     }
     case actions.FETCH_HIGHLIGHTS_FOR_APPROVAL_ERROR: {
@@ -269,6 +274,35 @@ const adminReducer = (state = initState, action) => {
             ...state,
             loadingHighlightsForApproval: false
         };
+    }
+    case actions.FETCH_ALL_REJECTED_HIGHLIGHTS_REQUEST: {
+        return fp.set('loadingRejectedHighlights', true)(state);
+    }
+    case actions.FETCH_ALL_REJECTED_HIGHLIGHTS_SUCCESS: {
+        return {
+            ...state,
+            loadedRejectedHighlights: true,
+            rejectedHighlights: action.highlights,
+            loadingRejectedHighlights: false
+        };
+    }
+    case actions.FETCH_ALL_REJECTED_HIGHLIGHTS_ERROR: {
+        return fp.set('loadingRejectedHighlights', false)(state);
+    }
+    case actions.REAPPROVE_REJECTED_HIGHLIGHT_SUCCESS: {
+        return {
+            ...state,
+            rejectedHighlights: state.rejectedHighlights.filter(x => x.id !== action.highlight.id)
+        };
+    }
+    case actions.DELETE_HIGHLIGHT_SUCCESS: {
+        return {
+            ...state,
+            rejectedHighlights: state.rejectedHighlights.concat([action.highlight])
+        };
+    }
+    case actions.ALREADY_FETCHED_REJECTED_HIGHLIGHTS: {
+        return fp.set('loadingRejectedHighlights', false)(state);
     }
     default:
         return state;

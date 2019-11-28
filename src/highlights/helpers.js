@@ -73,14 +73,19 @@ export const sortByFilters = {
     }
 };
 
-const sortBy = (sort, videos) => {
+const filterBySearch = (videos, searchFilter) => videos
+    .filter(x => x.email.includes(searchFilter)
+    || x.title.toLowerCase().includes(searchFilter.toLowerCase()));
+
+const sortBy = (sort, videos, searchFilter) => {
     const { sortFunction } = Object.values(sortByFilters).find(x => x.id === sort);
-    return sortFunction(videos);
+    return filterBySearch(sortFunction(videos), searchFilter);
 };
 
-const filterByDate = (filter, sort, videos) => {
+const filterByDate = (filter, sort, videos, searchFilter) => {
     const { filterFunction } = Object.values(dateFilters).find(x => x.id === filter);
-    return sortBy(sort, videos.filter(x => filterFunction(x)));
+    return sortBy(sort, videos.filter(x => filterFunction(x)), searchFilter);
 };
 
-export const sortVideos = (filter, sort, videos) => filterByDate(filter, sort, videos);
+export const sortVideos = (filter, sort, videos,
+    searchFilter) => filterByDate(filter, sort, videos, searchFilter);

@@ -39,5 +39,8 @@ export const clearDatabase = request => functionToCall('auth-clearDatabase')(req
 export const rollOverToNextYear = request => functionToCall('management-rollOverToNextYear')(request);
 export const deleteAllOldUsers = request => functionToCall('management-deleteAllOldUsers')(request);
 export const getHighlightsForApproval = request => functionToCall('highlights-getHighlightsForApproval')(request).then(response => response.data);
-export const approveHighlight = request => functionToCall('highlights-approveHighlight')(request);
-export const rejectHighlight = request => functionToCall('highlights-rejectHighlight')(request);
+export const approveHighlight = request => functionToCall('highlights-approveHighlight')(request).then(response => response.data);
+export const rejectHighlight = request => functionToCall('highlights-rejectHighlight')(request).then(response => response.data);
+export const deleteHighlight = request => functionToCall('highlights-deleteHighlight')(request).then(response => response.data);
+export const rejectedHighlights = request => functionToCall('highlights-getRejectedHighlights')(request).then(response => response.data);
+export const reapproveRejectedHighlight = request => functionToCall('highlights-reapproveRejectedHighlight')(request).then(response => response.data);

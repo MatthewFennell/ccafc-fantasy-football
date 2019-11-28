@@ -21,7 +21,9 @@ exports.submitHighlightForApproval = functions
                     videoId: data.videoId,
                     title: data.title,
                     email: data.email,
-                    dateCreated: operations.serverTimestamp()
+                    dateCreated: operations.serverTimestamp(),
+                    upvotes: [context.auth.uid],
+                    downvotes: []
                 });
             }
         );
@@ -47,16 +49,18 @@ exports.approveHighlight = functions
     .https.onCall((data, context) => common.hasPermission(context.auth.uid,
         constants.PERMISSIONS.APPROVE_HIGHLIGHTS)
         .then(() => db.collection('highlight-requests').doc(data.highlightId).get()
-            .then(doc => db.collection('highlights').add({ ...doc.data(), upvotes: [doc.data().userId], downvotes: [] })
-                .then(() => doc.ref.delete()))));
+            .then(doc => db.collection('highlights').add({ ...doc.data() })
+                .then(() => doc.ref.delete()).then(() => ({ ...doc.data(), id: doc.id })))));
 
 exports.rejectHighlight = functions
     .region(constants.region)
     .https.onCall((data, context) => common.hasPermission(context.auth.uid,
         constants.PERMISSIONS.APPROVE_HIGHLIGHTS)
         .then(() => db.collection('highlight-requests').doc(data.highlightId).get()
-            .then(doc => db.collection('highlights-rejected').add({ ...doc.data(), reason: data.reason })
-                .then(() => doc.ref.delete()))));
+            .then(doc => admin.auth().getUser(context.auth.uid).then(user => user.email)
+                .then(email => db.collection('highlights-rejected').add({ ...doc.data(), rejectedBy: email, reason: data.reason })
+                    .then(() => doc.ref.delete())
+                    .then(() => ({ ...doc.data(), id: doc.id }))))));
 
 exports.upvoteHighlight = functions
     .region(constants.region)
@@ -94,4 +98,48 @@ exports.fetchRejectedHighlights = functions
         common.isAuthenticated(context);
         return db.collection('highlights-rejected').where('userId', '==', context.auth.uid).get()
             .then(result => result.docs.map(x => ({ ...x.data(), id: x.id })));
+    });
+
+exports.deleteHighlight = functions
+    .region(constants.region)
+    .https.onCall((data, context) => common.hasPermission(context.auth.uid,
+        constants.PERMISSIONS.APPROVE_HIGHLIGHTS)
+        .then(() => db.collection('highlights').doc(data.highlightId).get()
+            .then(doc => admin.auth().getUser(context.auth.uid).then(user => user.email)
+                .then(email => db.collection('highlights-rejected').add({ ...doc.data(), rejectedBy: email, reason: data.reason })
+                    .then(() => doc.ref.delete()).then(() => ({ ...doc.data(), id: doc.id }))))));
+
+
+exports.getRejectedHighlights = functions
+    .region(constants.region)
+    .https.onCall((data, context) => common.hasPermission(context.auth.uid,
+        constants.PERMISSIONS.APPROVE_HIGHLIGHTS)
+        .then(() => db.collection('highlights-rejected').get()
+            .then(result => result.docs.map(x => ({ ...x.data(), id: x.id })))));
+
+exports.reapproveRejectedHighlight = functions
+    .region(constants.region)
+    .https.onCall((data, context) => common.hasPermission(context.auth.uid,
+        constants.PERMISSIONS.APPROVE_HIGHLIGHTS)
+        .then(() => db.collection('highlights-rejected').doc(data.highlightId).get()
+            .then(doc => db.collection('highlights').add({
+                userId: doc.data().userId,
+                title: doc.data().title,
+                email: doc.data().email,
+                upvotes: doc.data().upvotes,
+                downvotes: doc.data().downvotes,
+                dateCreated: doc.data().dateCreated
+            }).then(() => doc.ref.delete()
+                .then(() => ({ ...doc.data(), id: doc.id }))))));
+
+
+// Currently just set to delete ones 24 hours old
+exports.cleanupRejectedHighlights = functions.region(constants.region).pubsub
+    .schedule('every 24 hours')
+    .onRun(() => {
+        const date = new Date();
+        date.setDate(date.getDate() - 1);
+        const lastMonth = admin.firestore.Timestamp.fromDate(date);
+        db.collection('highlights-rejected').where('dateCreated', '<=', lastMonth).get()
+            .then(result => result.docs.forEach(doc => doc.ref.delete()));
     });

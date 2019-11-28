@@ -13,6 +13,7 @@ import YouTubeList from '../common/youtubelist/YouTubeList';
 import SubmitVideo from './SubmitVideo';
 import RadioButton from '../common/radio/RadioButton';
 import * as helpers from './helpers';
+import StyledInput from '../common/StyledInput/StyledInput';
 
 const Highlights = props => {
     useEffect(() => {
@@ -22,6 +23,7 @@ const Highlights = props => {
     const [submitVideoOpen, setSubmitVideoOpen] = useState(false);
     const [filterBy, setFilterBy] = useState('allTime');
     const [sortBy, setSortBy] = useState('newestFirst');
+    const [searchFilter, setSearchFilter] = useState('');
     const openSubmitVideo = useCallback(() => {
         setSubmitVideoOpen(true);
     }, [setSubmitVideoOpen, submitVideoOpen]);
@@ -35,6 +37,9 @@ const Highlights = props => {
                     </div>
                     <div className={props.styles.openSubmitVideo}>
                         <StyledButton onClick={openSubmitVideo} text="Click here to submit a video / See your existing requests" color="primary" />
+                    </div>
+                    <div className={props.styles.searchFilter}>
+                        <StyledInput label="Search videos" onChange={setSearchFilter} value={searchFilter} />
                     </div>
                 </div>
                 <div className={props.styles.sortByWrapper}>
@@ -66,7 +71,7 @@ const Highlights = props => {
                 authId={props.auth.uid}
                 downvoteHighlightRequest={props.downvoteHighlightRequest}
                 loading={props.loadingVideos}
-                videos={helpers.sortVideos(filterBy, sortBy, props.videos)}
+                videos={helpers.sortVideos(filterBy, sortBy, props.videos, searchFilter)}
                 votingPage
                 upvoteHighlightRequest={props.upvoteHighlightRequest}
             />

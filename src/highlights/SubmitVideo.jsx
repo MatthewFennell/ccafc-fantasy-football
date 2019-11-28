@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import moment from 'moment';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import defaultStyles from './SubmitVideo.module.scss';
 import StyledInput from '../common/StyledInput/StyledInput';
@@ -10,6 +9,7 @@ import StyledButton from '../common/StyledButton/StyledButton';
 import CustomYouTube from '../common/youtube/YouTube';
 import WithCollapsable from '../common/collapsableHOC/WithCollapsable';
 import Grid from '../common/grid/Grid';
+import { generateTimeSinceNow, generateYouTubeLinkFromId } from '../helperFunctions';
 
 const widthForSmallColumns = 600;
 
@@ -53,20 +53,6 @@ const opts = {
         autoplay: 0
     }
 };
-
-// eslint-disable-next-line no-underscore-dangle
-const generateTime = date => moment(new Date(date._seconds * 1000)).startOf('second').fromNow();
-
-const generateVidLink = link => (
-    <a
-        href={`https://www.youtube.com/watch?v=${link}`}
-        target="_blank"
-        rel="noopener noreferrer"
-    >
-        {`https://www.youtube.com/watch?v=${link}`}
-
-    </a>
-);
 
 const SubmitVideo = props => {
     useEffect(() => {
@@ -112,22 +98,22 @@ const SubmitVideo = props => {
 
     const generateRows = (approved, waitingApproval, rejected) => approved.map(x => ({
         title: x.title,
-        videoLink: generateVidLink(x.videoId),
-        dateCreated: generateTime(x.dateCreated),
+        videoLink: generateYouTubeLinkFromId(x.videoId),
+        dateCreated: generateTimeSinceNow(x.dateCreated),
         status: <div className={props.styles.approved}>Approved</div>,
         extraInfo: `Votes: ${x.upvotes.length - x.downvotes.length > 0 ? '+' : ''}${x.upvotes.length - x.downvotes.length}`
     })).concat(
         waitingApproval.map(x => ({
             title: x.title,
-            videoLink: generateVidLink(x.videoId),
-            dateCreated: generateTime(x.dateCreated),
+            videoLink: generateYouTubeLinkFromId(x.videoId),
+            dateCreated: generateTimeSinceNow(x.dateCreated),
             status: <div className={props.styles.waiting}>Waiting for Approval</div>,
             extraInfo: ''
         }))
     ).concat(rejected.map(x => ({
         title: x.title,
-        videoLink: generateVidLink(x.videoId),
-        dateCreated: generateTime(x.dateCreated),
+        videoLink: generateYouTubeLinkFromId(x.videoId),
+        dateCreated: generateTimeSinceNow(x.dateCreated),
         status: <div className={props.styles.rejected}>Rejected</div>,
         extraInfo: x.reason
     })));
