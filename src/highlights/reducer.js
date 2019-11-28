@@ -1,5 +1,6 @@
 import fp from 'lodash/fp';
 import * as actions from './actions';
+import * as adminActions from '../admin/actions';
 
 const initialState = {
     loadingVideos: false,
@@ -85,6 +86,12 @@ const highlightsReducer = (state = initialState, action) => {
     }
     case actions.ALREADY_FETCHED_APPROVED_HIGHLIGHTS: {
         return fp.set('loadingVideosToBeApproved', false)(state);
+    }
+    case adminActions.DELETE_HIGHLIGHT_SUCCESS: {
+        return {
+            ...state,
+            videos: state.videos.filter(x => x.id !== action.highlightId)
+        };
     }
     default:
         return state;

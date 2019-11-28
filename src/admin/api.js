@@ -41,3 +41,4 @@ export const deleteAllOldUsers = request => functionToCall('management-deleteAll
 export const getHighlightsForApproval = request => functionToCall('highlights-getHighlightsForApproval')(request).then(response => response.data);
 export const approveHighlight = request => functionToCall('highlights-approveHighlight')(request);
 export const rejectHighlight = request => functionToCall('highlights-rejectHighlight')(request);
+export const deleteHighlight = request => functionToCall('highlights-deleteHighlight')(request);

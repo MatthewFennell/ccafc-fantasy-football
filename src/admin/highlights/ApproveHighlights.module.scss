@@ -38,3 +38,29 @@
   margin: $spacing-medium;
   text-align: center;
 }
+
+.allVideos {
+  padding: $spacing-medium;
+  margin: $spacing-medium;
+  background-color: $color-white;
+  @include light-box-shadow();
+}
+
+.deleteIcon{
+    :hover{
+      color: $color-red;
+    }
+    > * {
+      cursor: pointer;
+    }
+}
+
+.dateFilters{
+  text-align: center;
+}
+
+.videoSearchFilter{
+  width: 20%;
+  margin-left: auto;
+  margin-right: auto;
+}

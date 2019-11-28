@@ -230,6 +230,18 @@ function* rejectHighlight(action) {
     }
 }
 
+function* deleteHighlight(action) {
+    try {
+        yield call(api.deleteHighlight, ({
+            highlightId: action.highlightId,
+            reason: action.reason
+        }));
+        yield put(actions.deleteHighlightSuccess(action.highlightId));
+    } catch (error) {
+        yield put(actions.deleteHighlightError(error));
+    }
+}
+
 export default function* adminSaga() {
     yield all([
         takeEvery(actions.FETCH_TEAMS_REQUEST, fetchTeams),
@@ -250,6 +262,7 @@ export default function* adminSaga() {
         takeEvery(actions.DELETE_ALL_OLD_USERS_REQUEST, deleteAllOldUsers),
         takeEvery(actions.FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST, fetchHighlightsForApproval),
         takeEvery(actions.APPROVE_HIGHLIGHT_REQUEST, approveHighlight),
-        takeEvery(actions.REJECT_HIGHLIGHT_REQUEST, rejectHighlight)
+        takeEvery(actions.REJECT_HIGHLIGHT_REQUEST, rejectHighlight),
+        takeEvery(actions.DELETE_HIGHLIGHT_REQUEST, deleteHighlight)
     ]);
 }

@@ -55,8 +55,9 @@ exports.rejectHighlight = functions
     .https.onCall((data, context) => common.hasPermission(context.auth.uid,
         constants.PERMISSIONS.APPROVE_HIGHLIGHTS)
         .then(() => db.collection('highlight-requests').doc(data.highlightId).get()
-            .then(doc => db.collection('highlights-rejected').add({ ...doc.data(), reason: data.reason })
-                .then(() => doc.ref.delete()))));
+            .then(doc => admin.auth().getUser(context.auth.uid).then(user => user.email)
+                .then(email => db.collection('highlights-rejected').add({ ...doc.data(), rejectedBy: email, reason: data.reason })
+                    .then(() => doc.ref.delete())))));
 
 exports.upvoteHighlight = functions
     .region(constants.region)
@@ -95,3 +96,12 @@ exports.fetchRejectedHighlights = functions
         return db.collection('highlights-rejected').where('userId', '==', context.auth.uid).get()
             .then(result => result.docs.map(x => ({ ...x.data(), id: x.id })));
     });
+
+exports.deleteHighlight = functions
+    .region(constants.region)
+    .https.onCall((data, context) => common.hasPermission(context.auth.uid,
+        constants.PERMISSIONS.APPROVE_HIGHLIGHTS)
+        .then(() => db.collection('highlights').doc(data.highlightId).get()
+            .then(doc => admin.auth().getUser(context.auth.uid).then(user => user.email)
+                .then(email => db.collection('highlights-rejected').add({ ...doc.data(), rejectedBy: email, reason: data.reason })
+                    .then(() => doc.ref.delete())))));

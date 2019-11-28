@@ -83,6 +83,26 @@ export const REJECT_HIGHLIGHT_REQUEST = `${pre}REJECT_HIGHLIGHT_REQUEST`;
 export const REJECT_HIGHLIGHT_SUCCESS = `${pre}REJECT_HIGHLIGHT_SUCCESS`;
 export const REJECT_HIGHLIGHT_ERROR = `${pre}REJECT_HIGHLIGHT_ERROR`;
 
+export const DELETE_HIGHLIGHT_REQUEST = `${pre}DELETE_HIGHLIGHT_REQUEST`;
+export const DELETE_HIGHLIGHT_SUCCESS = `${pre}DELETE_HIGHLIGHT_SUCCESS`;
+export const DELETE_HIGHLIGHT_ERROR = `${pre}DELETE_HIGHLIGHT_ERROR`;
+
+export const deleteHighlightRequest = (highlightId, reason) => ({
+    type: DELETE_HIGHLIGHT_REQUEST,
+    highlightId,
+    reason
+});
+
+export const deleteHighlightSuccess = highlightId => ({
+    type: DELETE_HIGHLIGHT_SUCCESS,
+    highlightId
+});
+
+export const deleteHighlightError = error => ({
+    type: DELETE_HIGHLIGHT_ERROR,
+    error
+});
+
 export const alreadyFetchedHighlightsForApproval = () => ({
     type: ALREADY_FETCHED_HIGHLIGHTS_FOR_APPROVAL
 });

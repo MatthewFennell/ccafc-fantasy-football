@@ -37,8 +37,11 @@ exports.userInfoForWeek = functions
                         }
                     };
                 }
+                const numberOfRealTeams = weeklyDocs.docs
+                    .filter(x => x.data().player_ids.length > 0).length || 1;
+
                 const averagePoints = weeklyDocs.docs
-                    .reduce((acc, curVal) => acc + curVal.data().points, 0) / weeklyDocs.size;
+                    .reduce((acc, curVal) => acc + curVal.data().points, 0) / numberOfRealTeams;
 
                 const maxPoints = weeklyDocs.docs.reduce((prev, current) => (
                     (prev.data().points > current.data().points) ? prev : current));
