@@ -42,3 +42,4 @@ export const getHighlightsForApproval = request => functionToCall('highlights-ge
 export const approveHighlight = request => functionToCall('highlights-approveHighlight')(request);
 export const rejectHighlight = request => functionToCall('highlights-rejectHighlight')(request);
 export const deleteHighlight = request => functionToCall('highlights-deleteHighlight')(request);
+export const rejectedHighlights = request => functionToCall('highlights-getRejectedHighlights')(request).then(response => response.data);

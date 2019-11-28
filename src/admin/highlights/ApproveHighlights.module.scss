@@ -64,3 +64,14 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+.gridWrapper{
+  @include light-box-shadow();
+}
+
+.allRejectedVideos{
+  padding: $spacing-medium;
+  margin: $spacing-medium;
+  background-color: $color-white;
+  @include light-box-shadow();
+}

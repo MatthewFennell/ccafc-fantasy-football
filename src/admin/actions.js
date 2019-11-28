@@ -87,6 +87,29 @@ export const DELETE_HIGHLIGHT_REQUEST = `${pre}DELETE_HIGHLIGHT_REQUEST`;
 export const DELETE_HIGHLIGHT_SUCCESS = `${pre}DELETE_HIGHLIGHT_SUCCESS`;
 export const DELETE_HIGHLIGHT_ERROR = `${pre}DELETE_HIGHLIGHT_ERROR`;
 
+export const FETCH_ALL_REJECTED_HIGHLIGHTS_REQUEST = `${pre}FETCH_ALL_REJECTED_HIGHLIGHTS_REQUEST`;
+export const FETCH_ALL_REJECTED_HIGHLIGHTS_SUCCESS = `${pre}FETCH_ALL_REJECTED_HIGHLIGHTS_SUCCESS`;
+export const FETCH_ALL_REJECTED_HIGHLIGHTS_ERROR = `${pre}FETCH_ALL_REJECTED_HIGHLIGHTS_ERROR`;
+export const ALREADY_FETCHED_REJECTED_HIGHLIGHTS = `${pre}ALREADY_FETCHED_REJECTED_HIGHLIGHTS`;
+
+export const fetchAllRejectedHighlightsRequest = () => ({
+    type: FETCH_ALL_REJECTED_HIGHLIGHTS_REQUEST
+});
+
+export const fetchAllRejectedHighlightsSuccess = highlights => ({
+    type: FETCH_ALL_REJECTED_HIGHLIGHTS_SUCCESS,
+    highlights
+});
+
+export const fetchAllRejectedHighlightsError = error => ({
+    type: FETCH_ALL_REJECTED_HIGHLIGHTS_ERROR,
+    error
+});
+
+export const alreadyFetchedRejectedHighlights = () => ({
+    type: ALREADY_FETCHED_REJECTED_HIGHLIGHTS
+});
+
 export const deleteHighlightRequest = (highlightId, reason) => ({
     type: DELETE_HIGHLIGHT_REQUEST,
     highlightId,

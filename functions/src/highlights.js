@@ -105,3 +105,11 @@ exports.deleteHighlight = functions
             .then(doc => admin.auth().getUser(context.auth.uid).then(user => user.email)
                 .then(email => db.collection('highlights-rejected').add({ ...doc.data(), rejectedBy: email, reason: data.reason })
                     .then(() => doc.ref.delete())))));
+
+
+exports.getRejectedHighlights = functions
+    .region(constants.region)
+    .https.onCall((data, context) => common.hasPermission(context.auth.uid,
+        constants.PERMISSIONS.APPROVE_HIGHLIGHTS)
+        .then(() => db.collection('highlights-rejected').get()
+            .then(result => result.docs.map(x => ({ ...x.data(), id: x.id })))));

@@ -40,7 +40,11 @@ const initState = {
 
     highlightsForApproval: [],
     loadingHighlightsForApproval: false,
-    loadedHighlightsForApproval: false
+    loadedHighlightsForApproval: false,
+
+    rejectedHighlights: [],
+    loadingRejectedHighlights: false,
+    loadedRejectedHighlights: false
 };
 
 const adminReducer = (state = initState, action) => {
@@ -269,6 +273,20 @@ const adminReducer = (state = initState, action) => {
             ...state,
             loadingHighlightsForApproval: false
         };
+    }
+    case actions.FETCH_ALL_REJECTED_HIGHLIGHTS_REQUEST: {
+        return fp.set('loadingRejectedHighlights', true)(state);
+    }
+    case actions.FETCH_ALL_REJECTED_HIGHLIGHTS_SUCCESS: {
+        return {
+            ...state,
+            loadedRejectedHighlights: true,
+            rejectedHighlights: action.highlights,
+            loadingRejectedHighlights: false
+        };
+    }
+    case actions.FETCH_ALL_REJECTED_HIGHLIGHTS_ERROR: {
+        return fp.set('loadingRejectedHighlights', false)(state);
     }
     default:
         return state;

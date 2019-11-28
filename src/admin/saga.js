@@ -242,6 +242,20 @@ function* deleteHighlight(action) {
     }
 }
 
+function* fetchRejectedHighlights() {
+    try {
+        const fetchedHighlights = yield select(selectors.fetchedRejectedHighlights);
+        if (!fetchedHighlights) {
+            const highlights = yield call(api.rejectedHighlights);
+            yield put(actions.fetchAllRejectedHighlightsSuccess(highlights));
+        } else {
+            yield put(actions.alreadyFetchedRejectedHighlights());
+        }
+    } catch (error) {
+        yield put(actions.fetchAllRejectedHighlightsError(error));
+    }
+}
+
 export default function* adminSaga() {
     yield all([
         takeEvery(actions.FETCH_TEAMS_REQUEST, fetchTeams),
@@ -263,6 +277,7 @@ export default function* adminSaga() {
         takeEvery(actions.FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST, fetchHighlightsForApproval),
         takeEvery(actions.APPROVE_HIGHLIGHT_REQUEST, approveHighlight),
         takeEvery(actions.REJECT_HIGHLIGHT_REQUEST, rejectHighlight),
-        takeEvery(actions.DELETE_HIGHLIGHT_REQUEST, deleteHighlight)
+        takeEvery(actions.DELETE_HIGHLIGHT_REQUEST, deleteHighlight),
+        takeEvery(actions.FETCH_ALL_REJECTED_HIGHLIGHTS_REQUEST, fetchRejectedHighlights)
     ]);
 }

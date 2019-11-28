@@ -2,10 +2,11 @@ import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import DeleteIcon from '@material-ui/icons/Delete';
+import AddIcon from '@material-ui/icons/Add';
 import defaultStyles from './ApproveHighlights.module.scss';
 import {
     fetchHighlightsForApprovalRequest, approveHighlightRequest, rejectHighlightRequest,
-    deleteHighlightRequest
+    deleteHighlightRequest, fetchAllRejectedHighlightsRequest
 } from '../actions';
 import YouTubeList from '../../common/youtubelist/YouTubeList';
 import StyledButton from '../../common/StyledButton/StyledButton';
@@ -57,7 +58,9 @@ const ApproveHighlights = props => {
     useEffect(() => {
         props.fetchHighlightsForApprovalRequest();
         props.fetchHighlightsRequest();
-    }, [props.fetchHighlightsForApprovalRequest, props.fetchHighlightsRequest]);
+        props.fetchAllRejectedHighlightsRequest();
+    }, [props.fetchHighlightsForApprovalRequest, props.fetchHighlightsRequest,
+        props.fetchAllRejectedHighlightsRequest]);
 
     const [activeHightlight, setActiveHighlight] = useState('');
     const [confirmModalOpen, setConfirmModalOpen] = useState(false);
@@ -104,7 +107,7 @@ const ApproveHighlights = props => {
         closeModal();
     }, [props.deleteHighlightRequest, activeHightlight, reasonToReject]);
 
-    const mapRows = videos => videos.map(x => ({
+    const mapRows = (videos, deleteSymbol) => videos.map(x => ({
         id: x.id,
         title: x.title,
         author: x.email,
@@ -113,7 +116,7 @@ const ApproveHighlights = props => {
         upvotes: `${x.upvotes.length - x.downvotes.length > 0 ? '+' : ''}${x.upvotes.length - x.downvotes.length}`,
         delete:
     <div className={props.styles.deleteIcon}>
-        <DeleteIcon color="primary" onClick={() => openDelete(x.id)} />
+        {deleteSymbol ? <DeleteIcon color="primary" onClick={() => openDelete(x.id)} /> : <AddIcon color="secondary" />}
     </div>
     }));
 
@@ -160,11 +163,23 @@ const ApproveHighlights = props => {
                 <div className={props.styles.videoSearchFilter}>
                     <StyledInput label="Filter by author / title" onChange={setSearchBy} value={searchBy} />
                 </div>
-                <Grid
-                    gridHeader="All Highlights"
-                    columns={columns}
-                    rows={mapRows(helpers.filterByDate(filterBy, props.videos, searchBy))}
-                />
+                <div className={props.styles.gridWrapper}>
+                    <Grid
+                        gridHeader="All Highlights"
+                        columns={columns}
+                        rows={mapRows(helpers.filterByDate(filterBy, props.videos, searchBy), true)}
+                    />
+                </div>
+            </div>
+
+            <div className={props.styles.allRejectedVideos}>
+                <div className={props.styles.gridWrapper}>
+                    <Grid
+                        gridHeader="Rejected"
+                        columns={columns}
+                        rows={mapRows(helpers.filterByDate(filterBy, props.rejectedHighlights, searchBy), false)}
+                    />
+                </div>
             </div>
 
             <ConfirmModal
@@ -211,6 +226,7 @@ const ApproveHighlights = props => {
 ApproveHighlights.defaultProps = {
     highlightsForApproval: [],
     loadingHighlightsForApproval: false,
+    rejectedHighlights: [],
     styles: defaultStyles,
     videos: []
 };
@@ -218,6 +234,7 @@ ApproveHighlights.defaultProps = {
 ApproveHighlights.propTypes = {
     approveHighlightRequest: PropTypes.func.isRequired,
     deleteHighlightRequest: PropTypes.func.isRequired,
+    fetchAllRejectedHighlightsRequest: PropTypes.func.isRequired,
     fetchHighlightsRequest: PropTypes.func.isRequired,
     fetchHighlightsForApprovalRequest: PropTypes.func.isRequired,
     highlightsForApproval: PropTypes.arrayOf(PropTypes.shape({
@@ -226,6 +243,7 @@ ApproveHighlights.propTypes = {
         id: PropTypes.string
     })),
     loadingHighlightsForApproval: PropTypes.bool,
+    rejectedHighlights: PropTypes.arrayOf(PropTypes.shape({})),
     rejectHighlightRequest: PropTypes.func.isRequired,
     styles: PropTypes.objectOf(PropTypes.string),
     videos: PropTypes.arrayOf(PropTypes.shape({}))
@@ -234,6 +252,7 @@ ApproveHighlights.propTypes = {
 const mapDispatchToProps = {
     approveHighlightRequest,
     deleteHighlightRequest,
+    fetchAllRejectedHighlightsRequest,
     fetchHighlightsRequest,
     fetchHighlightsForApprovalRequest,
     rejectHighlightRequest
@@ -242,6 +261,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
     highlightsForApproval: state.admin.highlightsForApproval,
     loadingHighlightsForApproval: state.admin.loadingHighlightsForApproval,
+    rejectedHighlights: state.admin.rejectedHighlights,
     videos: state.highlights.videos
 });
 
