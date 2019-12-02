@@ -2,7 +2,7 @@
 
 # config-file
 
-src/config/fbConfig.js
+# src/config/fbConfig.js
 
 # misc
 /collingwood-fantasy/.DS_Store
