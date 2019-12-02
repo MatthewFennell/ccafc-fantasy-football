@@ -61,6 +61,8 @@ const Leagues = props => {
         props.history.push(`${constants.URL.LEAGUES}/${row.leagueId}`);
     }, [props.history]);
 
+    console.log('test');
+
     return (
         <>
             <div className={props.styles.myLeaguesTable}>
