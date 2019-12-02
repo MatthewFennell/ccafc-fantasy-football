@@ -72,7 +72,7 @@ const ManageUsers = props => {
     const removeRole = useCallback(() => {
         props.removeUserRoleRequest(email, role);
         closeModal();
-    });
+    }, [email, role]);
 
     const openRemoveRoleModal = useCallback((roleToRemove, userEmail) => {
         setEmail(userEmail);

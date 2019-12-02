@@ -17,7 +17,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: ["react", "jsx-a11y", "import", "jest"],
+  plugins: ["react", "jsx-a11y", "import", "jest", "react-hooks"],
   rules: {
     quotes: ["error", "single"],
     "arrow-parens": ["error", "as-needed"],
@@ -29,7 +29,7 @@ module.exports = {
     "react/jsx-props-no-spreading": [0],
     "react/destructuring-assignment": [0],
     "jsx-a11y/click-events-have-key-events": "off",
-    "react-hooks/exhaustive-deps": "off",
+    "react-hooks/exhaustive-deps": [0],
     "indent": ["error", 4],
     "react/jsx-indent": ["error", 4],
     "react/jsx-indent-props": ["error", 4],
