@@ -31,19 +31,19 @@ jobs:
           name: Run Tests
           command: npm test
 
-    build_client:
-      working_directory: ~/fantasy/src
-      docker:
-      - image: circleci/node:10.15.1
-      steps:
-        - checkout:
-            path: ~/fryday
-        - run:
-            name: Installations 
-            command: npm ci
-        - run:
-            name: Build Client
-            command: npm run build
+  build_client:
+    working_directory: ~/fantasy/src
+    docker:
+    - image: circleci/node:10.15.1
+    steps:
+      - checkout:
+          path: ~/fryday
+      - run:
+          name: Installations 
+          command: npm ci
+      - run:
+          name: Build Client
+          command: npm run build
 
   deploy_firebase_functions_production:
     working_directory: ~/fantasy/functions
