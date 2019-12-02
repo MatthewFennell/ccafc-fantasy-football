@@ -4,7 +4,10 @@ workflows:
   build:
     jobs:
       - test_client
-      - deploy_firebase_functions_production
+      - build_client
+      - deploy_firebase_functions_production: 
+          requires:
+            - build_client
 
 jobs:
   test_client:
@@ -27,6 +30,20 @@ jobs:
       - run:
           name: Run Tests
           command: npm test
+
+    build_client:
+      working_directory: ~/fantasy/src
+      docker:
+      - image: circleci/node:10.15.1
+      steps:
+        - checkout:
+            path: ~/fryday
+        - run:
+            name: Installations 
+            command: npm ci
+        - run:
+            name: Build Client
+            command: npm run build
 
   deploy_firebase_functions_production:
     working_directory: ~/fantasy/functions
