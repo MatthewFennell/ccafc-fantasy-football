@@ -26,13 +26,16 @@
   margin-right: auto;
 }
 
-.highlightsHeader{
-  flex-wrap: wrap;
+.highlightsWrapper {
   padding: $spacing-medium;
   margin: $spacing-medium;
   background-color: $color-white;
   @include light-box-shadow();
+}
+
+.highlightsHeader{
   display: flex;
+  flex-wrap: wrap;
   > div {
     flex-grow: 1;
   }
@@ -53,12 +56,40 @@
   text-align: center;
 }
 
+.karmaWrapper{
+  display: flex;
+  justify-content: flex-end;  
+  .karmaIcon {
+    @include vertical-center-div();
+    margin-right: $spacing-tiny;
+  }
+  
+  .karmaInfo{
+    margin-left: $spacing-tiny;
+    .karmaValue, .karmaText {
+      text-align: center;
+    }
+    .karmaValue{
+      color: $color-green;
+      font-size: $font-size-large;
+      font-weight: bold;
+    }
+    .karmaText {
+      font-size: $font-size-medium;
+      font-weight: bold;
+    }
+  }
+}
+
 @media only screen and (max-width: 600px) {
-  .highlightsHeader {
+  .highlightsWrapper {
     padding: 0px;
     .highlightsMessage{
       font-size: $spacing-medium;
     }
   }
-  
+
+  .karmaWrapper {
+    margin-right: $spacing-small;
+  }
 }
