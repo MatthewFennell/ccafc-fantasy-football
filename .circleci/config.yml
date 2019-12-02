@@ -4,6 +4,7 @@ workflows:
   build:
     jobs:
       - test_client
+      - deploy_firebase_functions_production
 
 jobs:
   test_client:
@@ -26,3 +27,19 @@ jobs:
       - run:
           name: Run Tests
           command: npm test
+
+  deploy_firebase_functions_production:
+    working_directory: ~/fantasy/functions
+    docker:
+      - image: circleci/node:10.15.1
+    steps:
+      - checkout:
+          path: ~/fantasy
+      - run:
+          name: Installations 
+          command: npm ci
+      - run:
+          name: Deploy to firebase functions
+          command: |
+              npx firebase use ccafc-fantasy-football
+              npx firebase deploy --only functions --token "$FIREBASE_TOKEN"
