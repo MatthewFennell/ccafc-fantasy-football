@@ -41,5 +41,5 @@ jobs:
       - run:
           name: Deploy to firebase functions
           command: |
-              npx firebase use ccafc-fantasy-football
+              npm install -g firebase-tools
               npx firebase deploy --only functions --token "$FIREBASE_TOKEN"
