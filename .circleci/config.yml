@@ -20,7 +20,7 @@ jobs:
           command: npm ci
       - run:
           name: Lint
-          command: 
+          command: |
             ls
             npm run lint
       - run:
