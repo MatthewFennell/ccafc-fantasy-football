@@ -32,7 +32,7 @@ jobs:
           command: npm test
 
   build_client:
-    working_directory: ~/fantasy/src
+    working_directory: ~/fantasy
     docker:
     - image: circleci/node:10.15.1
     steps:
