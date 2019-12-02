@@ -43,7 +43,9 @@ jobs:
           command: npm ci
       - run:
           name: Build Client
-          command: npm run build
+          command: | 
+            ls
+            npm run build
 
   deploy_firebase_functions_production:
     working_directory: ~/fantasy/functions
