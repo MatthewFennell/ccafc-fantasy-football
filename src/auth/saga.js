@@ -42,7 +42,8 @@ function* loggingIn(action) {
         }));
         yield put(actions.setLoadedPermissions(true));
     } catch (e) {
-        console.log('e', e);
+        // Can change
+        yield put(actions.setLoadedPermissions(false));
     }
 }
 

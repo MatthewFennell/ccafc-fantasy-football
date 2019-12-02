@@ -45,7 +45,7 @@ export const columns = [
 
 export const marks = maxWeek => {
     const result = [];
-    for (let x = 0; x < maxWeek; x++) {
+    for (let x = 0; x < maxWeek; x += 1) {
         result.push({ value: x, label: x.toString() });
     }
     return result;
