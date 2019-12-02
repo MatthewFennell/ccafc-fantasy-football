@@ -29,6 +29,7 @@ module.exports = {
     "react/jsx-props-no-spreading": [0],
     "react/destructuring-assignment": [0],
     "jsx-a11y/click-events-have-key-events": "off",
+    "react-hooks/exhaustive-deps": "off",
     "indent": ["error", 4],
     "react/jsx-indent": ["error", 4],
     "react/jsx-indent-props": ["error", 4],
