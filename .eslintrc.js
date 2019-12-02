@@ -17,7 +17,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: ["react", "jsx-a11y", "import", "jest"],
+plugins: ["react", "jsx-a11y", "import", "jest"],
   rules: {
     quotes: ["error", "single"],
     "arrow-parens": ["error", "as-needed"],
@@ -25,7 +25,7 @@ module.exports = {
     "object-curly-spacing": ["error", "always"],
     "array-bracket-spacing": ["warn", "never"],
     "comma-spacing": "error",
-    "linebreak-style": ["error", "windows"],
+    "linebreak-style": "off",
     "react/jsx-props-no-spreading": [0],
     "react/destructuring-assignment": [0],
     "jsx-a11y/click-events-have-key-events": "off",
