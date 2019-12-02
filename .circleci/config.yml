@@ -1,0 +1,26 @@
+version: 2
+workflows:
+  version: 2
+  build:
+    jobs:
+      - test_client
+
+jobs:
+  test_client:
+    working_directory: ~/fantasy/src
+    docker:
+      - image: circleci/node:10.15.1
+        environment:
+          TZ: Europe/London
+    steps:
+      - checkout:
+          path: ~/fantasy
+      - run:
+          name: Installations 
+          command: npm ci
+      - run:
+          name: Lint
+          command: npm run lint
+      - run:
+          name: Run Tests
+          command: npm test
