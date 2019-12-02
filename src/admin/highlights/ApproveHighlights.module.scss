@@ -13,6 +13,7 @@
 
 .highlightInfoWrapper{
   display: flex;
+  flex-wrap: wrap;
   > div {
     flex-grow: 1;
   }
@@ -29,6 +30,12 @@
   width: 50%;
   margin-left: auto;
   margin-right: auto;
+}
+
+@media only screen and (max-width: 600px) {
+  .highlightInfo {
+    width: 100%;
+  }
 }
 
 .youTubeVid{

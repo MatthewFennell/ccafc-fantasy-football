@@ -14,6 +14,7 @@ import Spinner from '../spinner/Spinner';
 
 const defaultOpts = {
     height: '390',
+    width: (1 * window.innerWidth) / 3,
     playerVars: { // https://developers.google.com/youtube/player_parameters
         autoplay: 0
     }
@@ -29,6 +30,8 @@ const YouTubeList = props => {
     const toggleVideo = useCallback(id => {
         setOpenVids(fp.set(id, !fp.get(id)(openVids))(openVids));
     }, [openVids, setOpenVids]);
+
+    console.log('width', window.innerWidth);
 
     return (
         <>
@@ -89,8 +92,8 @@ const YouTubeList = props => {
                                     </>
                                 ) : (
                                     <div className={props.styles.collapsedVideoWrapper}>
-                                        <div className={props.styles.expandIcon}>
-                                            <ExpandMoreIcon onClick={() => toggleVideo(x.id)} />
+                                        <div tabIndex={0} role="button" className={props.styles.expandIcon} onClick={() => toggleVideo(x.id)}>
+                                            <ExpandMoreIcon />
                                         </div>
                                         <div
                                             onClick={() => toggleVideo(x.id)}
