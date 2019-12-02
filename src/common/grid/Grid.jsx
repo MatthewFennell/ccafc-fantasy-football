@@ -160,7 +160,7 @@ Grid.defaultProps = {
 
 Grid.propTypes = {
     activeRow: PropTypes.func,
-    backButtonLink: PropTypes,
+    backButtonLink: PropTypes.func,
     columns: PropTypes.arrayOf(PropTypes.shape({
         align: PropTypes.string,
         format: PropTypes.func,

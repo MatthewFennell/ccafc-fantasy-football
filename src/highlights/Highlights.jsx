@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import WhatshotIcon from '@material-ui/icons/Whatshot';
 import defaultStyles from './Highlights.module.scss';
 import StyledButton from '../common/StyledButton/StyledButton';
 import {
@@ -30,40 +31,52 @@ const Highlights = props => {
 
     return (
         <>
-            <div className={props.styles.highlightsHeader}>
-                <div className={props.styles.infoWrapper}>
-                    <div className={props.styles.highlightsMessage}>
+            <div className={props.styles.highlightsWrapper}>
+                <div className={props.styles.highlightsHeader}>
+                    <div className={props.styles.infoWrapper}>
+                        <div className={props.styles.highlightsMessage}>
                   Highlights
+                        </div>
+                        <div className={props.styles.openSubmitVideo}>
+                            <StyledButton onClick={openSubmitVideo} text="Submit a Video" color="primary" />
+                        </div>
+                        <div className={props.styles.searchFilter}>
+                            <StyledInput label="Search videos" onChange={setSearchFilter} value={searchFilter} />
+                        </div>
                     </div>
-                    <div className={props.styles.openSubmitVideo}>
-                        <StyledButton onClick={openSubmitVideo} text="Submit a Video" color="primary" />
-                    </div>
-                    <div className={props.styles.searchFilter}>
-                        <StyledInput label="Search videos" onChange={setSearchFilter} value={searchFilter} />
+                    <div className={props.styles.sortByWrapper}>
+                        <div>
+                            <RadioButton
+                                radioLabel="Filter By Date"
+                                onChange={setFilterBy}
+                                options={Object.values(helpers.dateFilters).map(x => ({
+                                    radioLabel: x.label,
+                                    value: x.id
+                                }))}
+                                value={filterBy}
+                            />
+                        </div>
+                        <div>
+                            <RadioButton
+                                radioLabel="Sort By"
+                                onChange={setSortBy}
+                                options={Object.values(helpers.sortByFilters).map(x => ({
+                                    radioLabel: x.label,
+                                    value: x.id
+                                }))}
+                                value={sortBy}
+                            />
+                        </div>
                     </div>
                 </div>
-                <div className={props.styles.sortByWrapper}>
-                    <div>
-                        <RadioButton
-                            radioLabel="Filter By Date"
-                            onChange={setFilterBy}
-                            options={Object.values(helpers.dateFilters).map(x => ({
-                                radioLabel: x.label,
-                                value: x.id
-                            }))}
-                            value={filterBy}
-                        />
-                    </div>
-                    <div>
-                        <RadioButton
-                            radioLabel="Sort By"
-                            onChange={setSortBy}
-                            options={Object.values(helpers.sortByFilters).map(x => ({
-                                radioLabel: x.label,
-                                value: x.id
-                            }))}
-                            value={sortBy}
-                        />
+                <div className={props.styles.karmaWrapper}>
+                    <div className={props.styles.karmaIcon}><WhatshotIcon fontSize="large" color="primary" /></div>
+                    <div className={props.styles.karmaInfo}>
+                        <div className={props.styles.karmaValue}>
+                            {helpers.generateKarma(props.videos
+                                .filter(x => x.userId === props.auth.uid))}
+                        </div>
+                        <div className={props.styles.karmaText}>Karma</div>
                     </div>
                 </div>
             </div>

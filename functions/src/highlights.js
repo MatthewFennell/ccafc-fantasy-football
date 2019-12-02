@@ -11,22 +11,24 @@ exports.submitHighlightForApproval = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('highlight-requests').where('userId', '==', context.auth.uid).get().then(
-            requests => {
-                if (requests.size >= 3) {
-                    throw new functions.https.HttpsError('invalid-argument', 'A maximum 3 requests are allowed to be active');
+        return admin.auth().getUser(context.auth.uid)
+            .then(user => db.collection('highlight-requests').where('userId', '==', context.auth.uid).get().then(
+                requests => {
+                    if (requests.size >= 3) {
+                        throw new functions.https.HttpsError('invalid-argument', 'A maximum 3 requests are allowed to be active');
+                    }
+                    return db.collection('highlight-requests').add({
+                        userId: context.auth.uid,
+                        videoId: data.videoId,
+                        title: data.title,
+                        email: user.email,
+                        dateCreated: operations.serverTimestamp(),
+                        upvotes: [context.auth.uid],
+                        downvotes: [],
+                        displayName: user.displayName
+                    });
                 }
-                return db.collection('highlight-requests').add({
-                    userId: context.auth.uid,
-                    videoId: data.videoId,
-                    title: data.title,
-                    email: data.email,
-                    dateCreated: operations.serverTimestamp(),
-                    upvotes: [context.auth.uid],
-                    downvotes: []
-                });
-            }
-        );
+            ));
     });
 
 exports.getHighlightsForApproval = functions

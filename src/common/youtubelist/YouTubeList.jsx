@@ -14,7 +14,7 @@ import Spinner from '../spinner/Spinner';
 
 const defaultOpts = {
     height: '390',
-    width: (1 * window.innerWidth) / 3,
+    width: ((1 * window.innerWidth) / 3).toString(),
     playerVars: { // https://developers.google.com/youtube/player_parameters
         autoplay: 0
     }
@@ -30,8 +30,6 @@ const YouTubeList = props => {
     const toggleVideo = useCallback(id => {
         setOpenVids(fp.set(id, !fp.get(id)(openVids))(openVids));
     }, [openVids, setOpenVids]);
-
-    console.log('width', window.innerWidth);
 
     return (
         <>
@@ -55,6 +53,9 @@ const YouTubeList = props => {
                                             <div className={props.styles.userInfo}>
                                                 <div className={props.styles.videoTitle}>
                                                     {`Title: ${x.title}`}
+                                                </div>
+                                                <div className={props.styles.email}>
+                                                    {`Author: ${x.displayName}`}
                                                 </div>
                                                 <div className={props.styles.email}>
                                                     {`Email: ${x.email}`}
@@ -102,7 +103,7 @@ const YouTubeList = props => {
                                             className={props.styles.collapsedTitle}
                                         >
                                             <div>{`Title: ${x.title}`}</div>
-                                            <div>{`Author: ${x.email}`}</div>
+                                            <div>{`Author: ${x.displayName}`}</div>
                                             <div>{`Created ${generateTime(x.dateCreated)}`}</div>
                                         </div>
                                         {props.votingPage && (

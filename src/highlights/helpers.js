@@ -89,3 +89,12 @@ const filterByDate = (filter, sort, videos, searchFilter) => {
 
 export const sortVideos = (filter, sort, videos,
     searchFilter) => filterByDate(filter, sort, videos, searchFilter);
+
+export const generateKarma = myVideos => {
+    let karma = 0;
+    myVideos.forEach(vid => {
+        karma += vid.upvotes.length;
+        karma -= vid.downvotes.length;
+    });
+    return karma ? `+${karma}` : karma;
+};

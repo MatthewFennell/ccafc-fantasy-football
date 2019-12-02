@@ -1,7 +1,6 @@
 import {
     all, takeEvery, put, call, select
 } from 'redux-saga/effects';
-import firebase from 'firebase';
 import * as actions from './actions';
 import * as api from './api';
 import * as selectors from './selectors';
@@ -10,8 +9,7 @@ function* submitHighlight(action) {
     try {
         yield call(api.submitVideo, {
             videoId: action.videoId,
-            title: action.title,
-            email: firebase.auth().currentUser.email
+            title: action.title
         });
     } catch (error) {
         yield put(actions.submitHighlightError(error));
