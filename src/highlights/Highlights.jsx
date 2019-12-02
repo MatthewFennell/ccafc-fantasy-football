@@ -31,12 +31,12 @@ const Highlights = props => {
     return (
         <>
             <div className={props.styles.highlightsHeader}>
-                <div>
+                <div className={props.styles.infoWrapper}>
                     <div className={props.styles.highlightsMessage}>
                   Highlights
                     </div>
                     <div className={props.styles.openSubmitVideo}>
-                        <StyledButton onClick={openSubmitVideo} text="Click here to submit a video / See your existing requests" color="primary" />
+                        <StyledButton onClick={openSubmitVideo} text="Submit a Video" color="primary" />
                     </div>
                     <div className={props.styles.searchFilter}>
                         <StyledInput label="Search videos" onChange={setSearchFilter} value={searchFilter} />

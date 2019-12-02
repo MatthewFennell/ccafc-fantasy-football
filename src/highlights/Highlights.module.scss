@@ -15,6 +15,11 @@
   }
 }
 
+.infoWrapper{
+  text-align: center;
+  justify-content: center;
+}
+
 .searchFilter{
   width: 50%;
   margin-left: auto;
@@ -33,7 +38,7 @@
   }
 
   .highlightsMessage{
-    font-size: 60px;
+    font-size: $font-size-enormous;
     text-align: center;
     color: $color-blue;
     font-weight: bold;
@@ -46,4 +51,14 @@
 
 .sortByWrapper{
   text-align: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .highlightsHeader {
+    padding: 0px;
+    .highlightsMessage{
+      font-size: $spacing-medium;
+    }
+  }
+  
 }
