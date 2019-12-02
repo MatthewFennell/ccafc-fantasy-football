@@ -3,7 +3,7 @@ workflows:
   version: 2
   build:
     jobs:
-      - test_client
+      # - test_client
       - build_client
       - deploy_firebase_functions_production: 
           requires:
@@ -37,7 +37,7 @@ jobs:
     - image: circleci/node:10.15.1
     steps:
       - checkout:
-          path: ~/fryday
+          path: ~/fantasy
       - run:
           name: Installations 
           command: npm ci
