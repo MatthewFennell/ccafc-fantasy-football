@@ -15,16 +15,23 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    # - name: install
-    #   run:
-    #     npm ci
-    # - name: Deploy stuff
-    #   run: |
-    #     ls
-    #     npx firebase use ccafc-fantasy-football
-    #     npx firebase projects:list
-    #   env:
-    #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+    - name: Build
+      run: 
+        npm run build
+      env:
+        CI: true
+
+    - name: Testing
+      run:
+        npm test
+      env:
+        CI: true
+
+    - name: Archive Production Artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: build
+        path: build
 
   deploy:
     name: Deploy
@@ -43,30 +50,18 @@ jobs:
     - name: install
       run:
         npm ci
+
+    - name: Download Artifact
+      uses: actions/download-artifact@master
+      with:
+        name: build
     - name: Deploy stuff
       run: |
         ls
         npx firebase projects:list
+        npx firebase deploy --only hosting
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-    
-    # - name: Build
-    #   run: 
-    #     npm run build
-    #   env:
-    #     CI: true
-
-    # - name: Testing
-    #   run:
-    #     npm test
-    #   env:
-    #     CI: true
-
-    # - name: Archive Production Artifact
-    #   uses: actions/upload-artifact@master
-    #   with:
-    #     name: build
-    #     path: build
 
     
   # deploy: 
