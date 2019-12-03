@@ -130,7 +130,6 @@ const Stats = props => {
 
 Stats.defaultProps = {
     allTeams: [],
-    currentGameWeek: 0,
     currentTeam: '',
     fetching: [],
     maxGameWeek: 0,
@@ -143,7 +142,6 @@ Stats.defaultProps = {
 
 Stats.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
-    currentGameWeek: PropTypes.number,
     currentTeam: PropTypes.string,
     fetching: PropTypes.arrayOf(PropTypes.number),
     fetchTeamStatsByWeekRequest: PropTypes.func.isRequired,
