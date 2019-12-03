@@ -21,8 +21,8 @@ jobs:
     - name: Deploy stuff
       run: |
         ls
-        firebase use ccafc-fantasy-football
-        firebase deploy --only hosting
+        npx firebase use ccafc-fantasy-football
+        npx firebase deploy --only hosting
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
     
