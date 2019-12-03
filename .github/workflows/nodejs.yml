@@ -21,7 +21,7 @@ jobs:
     - name: Deploy stuff
       run: |
         ls
-        firebase projects:list
+        npx firebase projects:list
     
     # - name: Build
     #   run: 
