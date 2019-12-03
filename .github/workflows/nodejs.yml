@@ -49,12 +49,13 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-        
+
     - name: Deploy Firebase Functions
       run: |
         cd functions
         npm ci
-        npx firebase deploy --only functions
+        # npx firebase deploy --only functions
+        npx firebase projects:list
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
     - name: Download Artifact
