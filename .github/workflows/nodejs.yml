@@ -65,7 +65,6 @@ jobs:
     #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
     - name: Deploy Functions
       run: |
-        ls
         cd functions
         ls
         npm install
