@@ -57,5 +57,5 @@ jobs:
       #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       - name: Deploy some functions
         run: |
-          ls
-          npx firebase projects:list
+          npm install -g firebase-tools
+          firebase projects:list
