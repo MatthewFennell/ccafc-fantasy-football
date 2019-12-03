@@ -18,23 +18,23 @@ jobs:
       run:
         npm ci
 
-    - name: Build
-      run: 
-        npm run build
-      env:
-        CI: true
+    # - name: Build
+    #   run: 
+    #     npm run build
+    #   env:
+    #     CI: true
 
-    - name: Testing
-      run:
-        npm test
-      env:
-        CI: true
+    # - name: Testing
+    #   run:
+    #     npm test
+    #   env:
+    #     CI: true
 
-    - name: Archive Production Artifact
-      uses: actions/upload-artifact@master
-      with:
-        name: build
-        path: build
+    # - name: Archive Production Artifact
+    #   uses: actions/upload-artifact@master
+    #   with:
+    #     name: build
+    #     path: build
 
   deploy:
     name: Deploy
