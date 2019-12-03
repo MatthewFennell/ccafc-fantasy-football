@@ -22,7 +22,24 @@ jobs:
       run: |
         ls
         npx firebase use ccafc-fantasy-football
-        npx firebase deploy --only hosting
+        npx firebase projects:list
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+
+    - name: install
+      run:
+        npm ci
+    - name: Deploy stuff
+      run: |
+        ls
+        npx firebase projects:list
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
     
