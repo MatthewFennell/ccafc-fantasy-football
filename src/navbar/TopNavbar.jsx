@@ -54,9 +54,10 @@ const TopNavbar = props => {
         setAnchorEl(null);
     };
 
-    const redirect = useCallback(val => {
+    const redirectOnClick = useCallback(val => {
         setAnchorEl(null);
         props.redirect(val);
+        // eslint-disable-next-line
     }, [props.redirect, setAnchorEl, anchorEl]);
 
     return (
@@ -99,18 +100,29 @@ const TopNavbar = props => {
 
                         {props.auth.uid ? (
                             <div>
-                                <MenuItem onClick={() => redirect('/profile')}>My account</MenuItem>
+                                <MenuItem onClick={() => redirectOnClick(
+                                    constants.URL.PROFILE
+                                )}
+                                >
+                                    My account
+                                </MenuItem>
                                 <MenuItem onClick={props.signOut}>Sign out</MenuItem>
                             </div>
                         ) : (
                             <div>
-                                <MenuItem onClick={() => redirect(constants.URL.SIGN_IN)}>
+                                <MenuItem onClick={() => redirectOnClick(constants.URL.SIGN_IN)}>
                                     Sign in
                                 </MenuItem>
-                                <MenuItem onClick={() => redirect(constants.URL.SIGN_UP)}>
+                                <MenuItem onClick={() => redirectOnClick(
+                                    constants.URL.SIGN_UP
+                                )}
+                                >
                                     Sign up
                                 </MenuItem>
-                                <MenuItem onClick={() => redirect(constants.URL.RESET_PASSWORD)}>
+                                <MenuItem onClick={() => redirectOnClick(
+                                    constants.URL.RESET_PASSWORD
+                                )}
+                                >
                                     Forgot password?
                                 </MenuItem>
                             </div>

@@ -17,7 +17,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: ["react", "jsx-a11y", "import", "jest"],
+  plugins: ["react", "jsx-a11y", "import", "jest", "react-hooks"],
   rules: {
     quotes: ["error", "single"],
     "arrow-parens": ["error", "as-needed"],
@@ -32,5 +32,6 @@ module.exports = {
     "indent": ["error", 4],
     "react/jsx-indent": ["error", 4],
     "react/jsx-indent-props": ["error", 4],
+    "react-hooks/exhaustive-deps": "off"
   }
 };

@@ -19,6 +19,7 @@ import Toggle from '../common/Toggle/Toggle';
 const Stats = props => {
     useEffect(() => {
         props.fetchTeamsRequest();
+        // eslint-disable-next-line
     }, [props.fetchTeamsRequest]);
 
     useEffect(() => {
@@ -28,7 +29,8 @@ const Stats = props => {
                 props.fetchTeamStatsByWeekRequest(props.currentTeam, x.min, x.max);
             });
         }
-    }, [props.currentTeam, props.minWeek, props.maxWeek]);
+        // eslint-disable-next-line
+    }, [props.currentTeam, props.minWeek, props.maxWeek, props.fetchTeamStatsByWeekRequest, props.weeksFetched]);
 
     const [editFilterModalOpen, setEditFilterModalOpen] = useState(false);
     const [activeColumns, setActiveColumns] = useState(columns
@@ -37,7 +39,8 @@ const Stats = props => {
     const loadNewTeam = useCallback(team => {
         const id = fp.get('id')(props.allTeams.find(x => x.text === team));
         props.history.push(`${constants.URL.STATS}/${id}/${props.minWeek}/${props.maxWeek}`);
-    }, [props.currentGameWeek, props.currentTeam, props.allTeams]);
+    }, [props.allTeams,
+        props.history, props.maxWeek, props.minWeek]);
 
     const confirmFilter = useCallback((minWeek, maxWeek, active) => {
         setActiveColumns(active);
@@ -127,7 +130,6 @@ const Stats = props => {
 
 Stats.defaultProps = {
     allTeams: [],
-    currentGameWeek: 0,
     currentTeam: '',
     fetching: [],
     maxGameWeek: 0,
@@ -140,7 +142,6 @@ Stats.defaultProps = {
 
 Stats.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
-    currentGameWeek: PropTypes.number,
     currentTeam: PropTypes.string,
     fetching: PropTypes.arrayOf(PropTypes.number),
     fetchTeamStatsByWeekRequest: PropTypes.func.isRequired,

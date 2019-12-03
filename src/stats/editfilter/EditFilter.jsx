@@ -23,6 +23,7 @@ const EditFilter = props => {
 
     const confirm = useCallback(() => {
         props.confirmFilter(minWeek, maxWeek, activeColumns);
+        // eslint-disable-next-line
     }, [props.confirmFilter, minWeek, maxWeek, activeColumns]);
 
     return (

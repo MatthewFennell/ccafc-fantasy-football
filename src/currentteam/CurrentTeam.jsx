@@ -13,6 +13,7 @@ import ConfirmModal from '../common/modal/ConfirmModal';
 const CurrentTeam = props => {
     useEffect(() => {
         props.fetchActiveTeamRequest(props.userId);
+        // eslint-disable-next-line
     }, [props.fetchActiveTeamRequest, props.userId]);
 
     const [playerModalOpen, setPlayerModalOpen] = useState(false);
@@ -21,17 +22,18 @@ const CurrentTeam = props => {
     const onPlayerClick = useCallback(p => {
         setModalPlayer(p);
         setPlayerModalOpen(true);
-    }, [modalPlayer, playerModalOpen]);
+    }, []);
 
     const closeModal = useCallback(() => {
         setPlayerModalOpen(false);
         setModalPlayer({});
-    }, [modalPlayer, playerModalOpen]);
+    }, []);
 
     const submit = useCallback(() => {
         props.makeCaptainRequest(modalPlayer.id);
         setPlayerModalOpen(false);
         setModalPlayer({});
+        // eslint-disable-next-line
     }, [setModalPlayer, props.makeCaptainRequest, modalPlayer.id]);
 
     return (

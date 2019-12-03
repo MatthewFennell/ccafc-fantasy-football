@@ -15,6 +15,7 @@ const TriggerWeek = props => {
     const triggerWeek = useCallback(() => {
         props.triggerWeekRequest(week);
         setWeek('');
+        // eslint-disable-next-line
     }, [props.triggerWeekRequest, week]);
 
     const calculateOptions = (props.maxGameWeek || props.maxGameWeek === 0) ? [{

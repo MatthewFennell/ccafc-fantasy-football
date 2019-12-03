@@ -8,8 +8,8 @@ import { signOut } from '../auth/actions';
 
 const NewNavbar = props => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const closeSidebar = useCallback(() => setSidebarOpen(false), [sidebarOpen, setSidebarOpen]);
-    const openSidebar = useCallback(() => setSidebarOpen(true), [sidebarOpen, setSidebarOpen]);
+    const closeSidebar = useCallback(() => setSidebarOpen(false), [setSidebarOpen]);
+    const openSidebar = useCallback(() => setSidebarOpen(true), [setSidebarOpen]);
     const toggleSidebar = useCallback(() => setSidebarOpen(!sidebarOpen),
         [sidebarOpen, setSidebarOpen]);
 

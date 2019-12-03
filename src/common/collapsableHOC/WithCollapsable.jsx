@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
@@ -29,28 +29,23 @@ const WithCollapsable = (Component, isOpen, setOpen, title) => {
         return NormalComponent;
     }
 
-    const ExpandComponent = props => {
-        const openBox = useCallback(() => {
-            setOpen(true);
-        }, [setOpen]);
-        return (
-            <div className={props.styles.expandWrapper}>
-                <div className={props.styles.iconWrapper}>
-                    <div
-                        onClick={openBox}
-                        role="button"
-                        tabIndex={0}
-                        className={props.styles.collapsedTitle}
-                    >
-                        {`${title} (Click to expand)`}
-                    </div>
-                    <div className={props.styles.expandIcon}>
-                        <ExpandMoreIcon onClick={openBox} />
-                    </div>
+    const ExpandComponent = props => (
+        <div className={props.styles.expandWrapper}>
+            <div className={props.styles.iconWrapper}>
+                <div
+                    onClick={() => setOpen(true)}
+                    role="button"
+                    tabIndex={0}
+                    className={props.styles.collapsedTitle}
+                >
+                    {`${title} (Click to expand)`}
+                </div>
+                <div className={props.styles.expandIcon}>
+                    <ExpandMoreIcon onClick={() => setOpen(true)} />
                 </div>
             </div>
-        );
-    };
+        </div>
+    );
 
     ExpandComponent.propTypes = {
         styles: PropTypes.objectOf(PropTypes.string)

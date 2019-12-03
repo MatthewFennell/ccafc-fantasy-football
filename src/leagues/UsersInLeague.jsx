@@ -62,6 +62,7 @@ const UsersInLeague = props => {
                 pageNumber + 1,
                 rowsPerPage);
         }
+        // eslint-disable-next-line
     }, [props.fetchUsersInLeagueRequest, props.maxGameWeek, rowsPerPage, pageNumber]);
 
     const [leaveLeagueOpen, setLeaveLeagueOpen] = useState(false);
@@ -73,21 +74,22 @@ const UsersInLeague = props => {
     const leaveLeague = useCallback(() => {
         setLeaveLeagueOpen(false);
         props.leaveLeagueRequest(props.leagueId);
+        // eslint-disable-next-line
     }, [props.leaveLeagueRequest, props.leagueId, setLeaveLeagueOpen]);
 
     const loadUserPage = useCallback(user => {
         props.history.push(generatePointsRoute(user.userId, props.maxGameWeek));
-    }, [props.usersInLeague, props.maxGameWeek]);
+    }, [props.maxGameWeek, props.history]);
 
     const setEntriesPerPage = useCallback((setRows, rows) => {
         setRowsPerPage(rows);
         setRows(rows);
-    }, [rowsPerPage, setRowsPerPage]);
+    }, [setRowsPerPage]);
 
     const setCurrentPageNumber = useCallback((setPage, page) => {
         setPageNumber(page);
         setPage(page);
-    }, [pageNumber, setPageNumber]);
+    }, [setPageNumber]);
 
     return (
         <div className={props.styles.leaguesWrapper}>

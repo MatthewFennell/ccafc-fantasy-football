@@ -15,7 +15,8 @@ const CreateTeam = props => {
     const createTeam = useCallback(() => {
         props.createTeamRequest(teamName);
         setTeamName('');
-    }, [teamName]);
+        // eslint-disable-next-line
+    }, [teamName, props.createTeamRequest]);
 
     return (
         <div className={props.styles.createTeamWrapper}>
