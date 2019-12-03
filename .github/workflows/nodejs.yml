@@ -18,23 +18,23 @@ jobs:
       run:
         npm ci
 
-    # - name: Build
-    #   run: 
-    #     npm run build
-    #   env:
-    #     CI: true
+    - name: Build
+      run: 
+        npm run build
+      env:
+        CI: true
 
-    # - name: Testing
-    #   run:
-    #     npm test
-    #   env:
-    #     CI: true
+    - name: Testing
+      run:
+        npm test
+      env:
+        CI: true
 
-    # - name: Archive Production Artifact
-    #   uses: actions/upload-artifact@master
-    #   with:
-    #     name: build
-    #     path: build
+    - name: Archive Production Artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: build
+        path: build
 
   deploy:
     name: Deploy
@@ -49,28 +49,25 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-
-    # - name: install
-    #   run:
-    #     npm ci
-
-    # - name: Download Artifact
-    #   uses: actions/download-artifact@master
-    #   with:
-    #     name: build
-    # - name: Deploy Hosting
-    #   run: 
-    #     npx firebase deploy --only hosting
-    #   env:
-    #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-    - name: Deploy Functions
+        
+    - name: Deploy Firebase Functions
       run: |
         cd functions
-        ls
         npm ci
         npx firebase deploy --only functions
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+    - name: Download Artifact
+      uses: actions/download-artifact@master
+      with:
+        name: build
+    - name: Deploy Firebase Hosting
+      uses: w9jds/firebase-action@master
+      with:
+        args: deploy --only hosting
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        
 
     
   # deploy: 
