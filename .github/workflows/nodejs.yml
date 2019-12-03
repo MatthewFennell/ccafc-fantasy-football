@@ -54,18 +54,20 @@ jobs:
       run:
         npm ci
 
-    - name: Download Artifact
-      uses: actions/download-artifact@master
-      with:
-        name: build
-    - name: Deploy Hosting
-      run: 
-        npx firebase deploy --only hosting
-      env:
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+    # - name: Download Artifact
+    #   uses: actions/download-artifact@master
+    #   with:
+    #     name: build
+    # - name: Deploy Hosting
+    #   run: 
+    #     npx firebase deploy --only hosting
+    #   env:
+    #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
     - name: Deploy Functions
-      run: 
-        npx firebase deploy --only functions
+      run: |
+        ls
+        cd functions
+        ls
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
