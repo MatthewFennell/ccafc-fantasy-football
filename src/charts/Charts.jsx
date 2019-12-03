@@ -9,6 +9,7 @@ import WithCollapsable from '../common/collapsableHOC/WithCollapsable';
 const Charts = props => {
     useEffect(() => {
         props.fetchAllTeamsRequest();
+        // eslint-disable-next-line
     }, [props.fetchAllTeamsRequest]);
 
     const [graphOpen, setGraphOpen] = useState(true);

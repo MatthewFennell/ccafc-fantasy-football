@@ -30,6 +30,7 @@ const generateWeekOptions = maxGameWeek => {
 const SubmitResult = props => {
     useEffect(() => {
         props.fetchTeamsRequest();
+        // eslint-disable-next-line
     }, [props.fetchTeamsRequest]);
 
     const [teamName, setTeamName] = useState('');
@@ -46,6 +47,7 @@ const SubmitResult = props => {
     const setTeam = useCallback(name => {
         setTeamName(name);
         props.fetchPlayersForTeamRequest(name);
+        // eslint-disable-next-line
     }, [props.fetchPlayersForTeamRequest, teamName, setTeamName]);
 
     const getNthGoalscorer = n => fp.get(n)(goalScorers);
@@ -124,8 +126,9 @@ const SubmitResult = props => {
         setGoalscorers({});
         setAssisters({});
         setCleanSheets({});
+        // eslint-disable-next-line
     }, [teamName, goalsFor, goalsAgainst, gameWeek, goalScorers,
-        assisters, cleanSheets, props.submitResultRequest, motm, dotd]);
+        assisters, cleanSheets, props.submitResultRequest, motm, dotd, nameToId]);
 
 
     const scorers = [];

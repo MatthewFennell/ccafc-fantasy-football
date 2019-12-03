@@ -10,8 +10,10 @@ import ErrorModal from '../../common/modal/ErrorModal';
 
 const Update = props => {
     const [displayName, setDisplayName] = useState('');
+
     const update = useCallback(() => {
         props.updateRequest(displayName);
+        // eslint-disable-next-line
     }, [displayName, props.updateRequest]);
 
     return (

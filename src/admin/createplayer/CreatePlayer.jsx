@@ -26,11 +26,13 @@ const CreatePlayer = props => {
 
     useEffect(() => {
         props.fetchTeamsRequest();
+        // eslint-disable-next-line
     }, [props.fetchTeamsRequest]);
 
     const createPlayer = useCallback(() => {
         props.createPlayerRequest(playerName, playerPosition,
             playerPrice, playerTeam, previousScore);
+        // eslint-disable-next-line
     }, [playerName, playerPrice, playerPosition, playerTeam,
         props.createPlayerRequest, previousScore]);
 

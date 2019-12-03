@@ -26,7 +26,7 @@ const Graph = props => {
         } else {
             setActiveTeams(activeTeams.concat([teamId]));
         }
-    });
+    }, [activeTeams]);
 
     const graphData = helpers
         .findGraphData(props.allTeams, activeTeams, graphMode, props.maxGameweek);

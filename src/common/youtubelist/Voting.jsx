@@ -28,12 +28,14 @@ const Voting = props => {
         if (!props.video.upvotes.includes(props.authId)) {
             props.upvoteHighlightRequest(props.video.id);
         }
+        // eslint-disable-next-line
     }, [props.upvoteHighlightRequest, props.video, props.authId]);
 
     const downvote = useCallback(() => {
         if (!props.video.downvotes.includes(props.authId)) {
             props.downvoteHighlightRequest(props.video.id);
         }
+        // eslint-disable-next-line
     }, [props.downvoteHighlightRequest, props.video, props.authId]);
 
 

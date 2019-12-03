@@ -90,6 +90,7 @@ const ApproveHighlights = props => {
         props.fetchHighlightsForApprovalRequest();
         props.fetchHighlightsRequest();
         props.fetchAllRejectedHighlightsRequest();
+        // eslint-disable-next-line
     }, [props.fetchHighlightsForApprovalRequest, props.fetchHighlightsRequest,
         props.fetchAllRejectedHighlightsRequest]);
 
@@ -109,8 +110,7 @@ const ApproveHighlights = props => {
         setFancyModalOpen(false);
         setModalAction('');
         setActiveHighlight('');
-    }, [fancyModalOpen, setFancyModalOpen, modalAction,
-        setModalAction, activeHightlight, setActiveHighlight]);
+    }, [setFancyModalOpen, setModalAction, setActiveHighlight]);
 
     const confirmFancyModal = useCallback(() => {
         if (modalAction === modalOptions.DELETE) {
@@ -126,7 +126,8 @@ const ApproveHighlights = props => {
             props.reapproveRejectedHighlightRequest(activeHightlight);
         }
         closeFancyModal();
-    }, [modalAction, activeHightlight, fancyModalOpen]);
+        // eslint-disable-next-line
+    }, [modalAction, activeHightlight, fancyModalOpen, closeFancyModal]);
 
     const openFancyModal = useCallback((id, action) => {
         if (action === modalOptions.REAPPROVE) {

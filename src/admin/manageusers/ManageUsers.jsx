@@ -49,6 +49,7 @@ const rolesForDropdown = allRoles => allRoles.map(role => ({
 const ManageUsers = props => {
     useEffect(() => {
         props.fetchUsersWithExtraRolesRequest();
+        // eslint-disable-next-line
     }, [props.fetchUsersWithExtraRolesRequest]);
 
     const [addRoleModalOpen, setAddRoleModalOpen] = useState(false);
@@ -61,24 +62,26 @@ const ManageUsers = props => {
         setRole('');
         setAddRoleModalOpen(false);
         setRemoveRoleModalOpen(false);
-    }, [email, role, addRoleModalOpen, removeRoleModalOpen]);
+    }, []);
 
     const addUserRole = useCallback(() => {
         props.addUserRoleRequest(email, role);
         closeModal();
-    }, [props.addUserRoleRequest, email, role]);
+        // eslint-disable-next-line
+    }, [props.addUserRoleRequest, email, role, closeModal]);
 
 
     const removeRole = useCallback(() => {
         props.removeUserRoleRequest(email, role);
         closeModal();
-    }, [email, role]);
+        // eslint-disable-next-line
+    }, [email, role, closeModal]);
 
     const openRemoveRoleModal = useCallback((roleToRemove, userEmail) => {
         setEmail(userEmail);
         setRole(roleToRemove);
         setRemoveRoleModalOpen(true);
-    }, [role, email, removeRoleModalOpen]);
+    }, []);
 
     const generateRow = row => {
         const rowToReturn = ({

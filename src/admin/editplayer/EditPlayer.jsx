@@ -174,25 +174,28 @@ const EditPlayer = props => {
                 props.fetchPlayerStatsRequest(playerId, week);
             }
         }
+        // eslint-disable-next-line
     }, [playerTeam, playerToEdit, week, props.teamsWithPlayers, props.fetchPlayerStatsRequest]);
 
     useEffect(() => {
         props.fetchTeamsRequest();
+        // eslint-disable-next-line
     }, [props.fetchTeamsRequest]);
 
     const setPlayer = useCallback(p => {
         setPlayerToEdit(p);
-    }, [playerToEdit, setPlayerToEdit]);
+    }, [setPlayerToEdit]);
 
     const setTeam = useCallback(name => {
         setPlayerTeam(name);
         setPlayerToEdit('');
         props.fetchPlayersForTeamRequest(name);
+        // eslint-disable-next-line
     }, [props.fetchPlayersForTeamRequest, playerTeam, setPlayerTeam]);
 
     const setWeekToEdit = useCallback(w => {
         setWeek(w);
-    }, [week, setWeek]);
+    }, [setWeek]);
 
     const playersForActiveTeam = fp.getOr([], playerTeam)(props.teamsWithPlayers);
 
@@ -236,8 +239,10 @@ const EditPlayer = props => {
         setDotd('');
         setOwnGoals('');
         props.editPlayerStatsRequest(playerId, week, difference);
+        // eslint-disable-next-line
     }, [goals, assists, cleanSheet, redCard, yellowCard, motm,
-        props.teamsWithPlayers, props.editPlayerStatsRequest, dotd, ownGoals]);
+        props.teamsWithPlayers, props.editPlayerStatsRequest, dotd,
+        ownGoals, playerTeam, playerToEdit, week]);
 
 
     const rowsToUse = generateRows(props.playerStats, props.fetchingPlayerStats);

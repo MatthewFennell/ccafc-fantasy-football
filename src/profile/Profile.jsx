@@ -23,13 +23,14 @@ const Profile = props => {
     const closeModal = useCallback(() => {
         setDeleteModalOpen(false);
         setEmail('');
-    }, [email, deleteModalOpen]);
+    }, []);
 
     const deleteAccount = useCallback(() => {
         props.deleteAccountRequest(email);
         setDeleteModalOpen(false);
         setEmail('');
-    }, [props.deleteAccountRequest, deleteModalOpen, email]);
+        // eslint-disable-next-line
+    }, [props.deleteAccountRequest]);
 
     return (
         <div className={props.styles.profileWrapper}>

@@ -24,7 +24,8 @@ const MenuComponent = props => {
     const select = useCallback(selected => {
         setAnchorEl(null);
         props.onClick(selected);
-    });
+        // eslint-disable-next-line
+    }, [props.onClick]);
 
     return (
         <div>

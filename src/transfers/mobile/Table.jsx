@@ -83,7 +83,8 @@ const Table = props => {
         } else {
             setMyColumns(myColumns.map(x => (x.id === column ? ({ ...x, active: true }) : x)));
         }
-    });
+        // eslint-disable-next-line
+    }, [myColumns, setMyColumns]);
 
     const findSortingComponent = useCallback(id => {
         if (id === 'name') {
@@ -128,7 +129,10 @@ const Table = props => {
         }
         return null;
     }, [nameFilter, props.positionFilter, teamFilter, priceFilter,
-        goalFilter, assistsFilter, pointsFilter, props.allTeams, previousScoreFilter]);
+        goalFilter, assistsFilter, pointsFilter, props.allTeams, previousScoreFilter,
+        props.setPositionFilter, props.styles, setAssistsFilter, setGoalFilter, setMaxPrice,
+        setMinPrice, setNameFilter, setPointsFilter, setPreviousScoreFilter,
+        setPriceFilter, setTeamFilter]);
 
     return (
         <>

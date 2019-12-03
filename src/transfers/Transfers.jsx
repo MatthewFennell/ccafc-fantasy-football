@@ -17,6 +17,7 @@ const Transfers = props => {
         props.fetchActiveTeamRequest(props.auth.uid);
         props.fetchAllPlayersRequest();
         props.fetchAllTeamsRequest();
+        // eslint-disable-next-line
     }, [props.fetchUserStatsRequest, props.auth.uid,
         props.fetchActiveTeamRequest, props.fetchAllPlayersRequest, props.fetchAllTeamsRequest]);
 
@@ -78,12 +79,13 @@ const Transfers = props => {
             setPlayerToRemove(player);
             setRemoveModalOpen(true);
         }
-    }, [props.currentTeam]);
+    }, []);
 
     const removePlayer = useCallback(() => {
         props.removePlayerFromCurrentTeam(playerToRemove);
         setRemoveModalOpen(false);
         setPlayerToRemove({});
+        // eslint-disable-next-line
     }, [playerToRemove, props.removePlayerFromCurrentTeam]);
 
     const selectReplacement = useCallback(() => {
@@ -91,11 +93,12 @@ const Transfers = props => {
         setPositionFilter(playerToRemove.position || positionFilter);
         setPlayerTableOpen(true);
         setRemoveModalOpen(false);
-    }, [playerTableOpen, setPlayerTableOpen, playerToRemove]);
+    }, [setPlayerTableOpen, playerToRemove, positionFilter]);
 
     const restorePlayer = useCallback(() => {
         props.restorePlayerRequest(playerToRestore.id);
         setRestoreModalOpen(false);
+        // eslint-disable-next-line
     }, [props.restorePlayerRequest, playerToRestore]);
 
     const onTransfersRequest = useCallback(transfer => {
@@ -109,19 +112,20 @@ const Transfers = props => {
         } else {
             props.addPlayerToCurrentTeamRequest(transfer);
         }
+        // eslint-disable-next-line
     }, [props.replacePlayerRequest, playerToRemove]);
 
     const closeRemove = useCallback(() => {
         setRemoveModalOpen(false);
-    }, [setRemoveModalOpen, removeModalOpen]);
+    }, [setRemoveModalOpen]);
 
     const closeRestore = useCallback(() => {
         setRestoreModalOpen(false);
-    }, [setRestoreModalOpen, restoreModalOpen]);
+    }, [setRestoreModalOpen]);
 
     const closeTable = useCallback(() => {
         setPlayerTableOpen(false);
-    }, [setPlayerTableOpen, playerTableOpen]);
+    }, [setPlayerTableOpen]);
 
     return (
         <Mobile

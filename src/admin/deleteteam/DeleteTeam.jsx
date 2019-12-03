@@ -17,6 +17,7 @@ const DeleteTeam = props => {
 
     useEffect(() => {
         props.fetchTeamsRequest();
+        // eslint-disable-next-line
     }, [props.fetchTeamsRequest]);
 
     const nameToId = name => fp.get('id')(props.allTeams.find(a => a.value === name));
@@ -24,7 +25,8 @@ const DeleteTeam = props => {
     const deleteTeam = useCallback(() => {
         props.deleteTeamRequest(nameToId(teamName), teamName);
         setTeamName('');
-    }, [teamName, props.deleteTeamRequest]);
+        // eslint-disable-next-line
+    }, [teamName, props.deleteTeamRequest, nameToId]);
 
     return (
         <div className={props.styles.deleteTeamWrapper}>

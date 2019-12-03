@@ -60,6 +60,7 @@ const SubmitVideo = props => {
             props.fetchUserHighlightsToBeApproved();
             props.fetchRejectedHighlightsRequest();
         }
+        // eslint-disable-next-line
     }, [props.fetchUserHighlightsToBeApproved, props.submitVideoOpen]);
 
     const [video, setVideo] = useState('');
@@ -73,12 +74,12 @@ const SubmitVideo = props => {
     const updateId = useCallback(e => {
         setExampleOpen(false);
         setVideo(e);
-    }, [setExampleOpen, exampleOpen, video, setVideo]);
+    }, [setExampleOpen, setVideo]);
 
     const updateVideoTitle = useCallback(e => {
         setExampleOpen(false);
         setVideoTitle(e);
-    }, [setVideoTitle, videoTitle, exampleOpen, setExampleOpen]);
+    }, [setVideoTitle, setExampleOpen]);
 
     const submitVideo = useCallback(() => {
         setExampleOpen(false);
@@ -93,6 +94,7 @@ const SubmitVideo = props => {
         props.closeSubmitVideo();
         setVideo('');
         setVideoTitle('');
+        // eslint-disable-next-line
     }, [video, props.submitHighlightRequest,
         props.submitHighlightError, exampleOpen, setExampleOpen, videoTitle]);
 
@@ -122,7 +124,7 @@ const SubmitVideo = props => {
         if (video && video.length > 0) {
             setExampleOpen(true);
         }
-    }, [setExampleOpen, exampleOpen, video]);
+    }, [setExampleOpen, video]);
 
     return (
         <SwipeableDrawer

@@ -44,6 +44,7 @@ const Leagues = props => {
         setLeagueName('');
         setStartWeek('');
         setLeagueNameToJoin('');
+        // eslint-disable-next-line
     }, [leagueName, startWeek, props.createLeagueRequest]);
 
     const onLeagueJoin = useCallback(() => {
@@ -51,17 +52,17 @@ const Leagues = props => {
         props.joinLeagueRequest(leagueNameToJoin);
         setLeagueName('');
         setLeagueNameToJoin('');
+        // eslint-disable-next-line
     }, [leagueNameToJoin, props.joinLeagueRequest]);
 
     useEffect(() => {
         props.fetchLeaguesRequest();
+        // eslint-disable-next-line
     }, [props.fetchLeaguesRequest]);
 
     const onRowClick = useCallback(row => {
         props.history.push(`${constants.URL.LEAGUES}/${row.leagueId}`);
     }, [props.history]);
-
-    console.log('test');
 
     return (
         <>

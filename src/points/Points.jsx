@@ -20,6 +20,7 @@ const Points = props => {
 
     useEffect(() => {
         props.fetchUserPointsForWeekRequest(props.userId, props.currentGameWeek);
+        // eslint-disable-next-line
     }, [props.userId, props.currentGameWeek, props.fetchUserPointsForWeekRequest]);
 
     const loadPreviousWeek = useCallback(() => {
@@ -38,13 +39,13 @@ const Points = props => {
         if (props.currentGameWeek > 1) {
             props.fetchUserPointsForWeekRequestBackground(props.userId, props.currentGameWeek - 1);
         }
+        // eslint-disable-next-line
     }, [props.userId, props.currentGameWeek, props.fetchUserPointsForWeekRequestBackground]);
 
     const playerClick = useCallback(player => {
         setPlayerObj(player);
         setPlayerModalOpen(true);
-        console.log('player', player);
-    }, [playerModalOpen, playerObj, setPlayerModalOpen, setPlayerObj]);
+    }, [setPlayerModalOpen, setPlayerObj]);
 
     const captainId = fp.get('player_id')(props.currentPoints.find(x => x.isCaptain));
 

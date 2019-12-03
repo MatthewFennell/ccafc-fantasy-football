@@ -18,11 +18,13 @@ const DeletePlayer = props => {
 
     useEffect(() => {
         props.fetchTeamsRequest();
+        // eslint-disable-next-line
     }, [props.fetchTeamsRequest]);
 
     const setTeam = useCallback(name => {
         setPlayerTeam(name);
         props.fetchPlayersForTeamRequest(name);
+        // eslint-disable-next-line
     }, [props.fetchPlayersForTeamRequest, playerTeam, setPlayerTeam]);
 
     const playersForActiveTeam = fp.getOr([], playerTeam)(props.teamsWithPlayers);
@@ -33,7 +35,8 @@ const DeletePlayer = props => {
         props.deletePlayerRequest(nameToId(playerName));
         setPlayerName('');
         setPlayerTeam('');
-    }, [playerName, props.deletePlayerRequest]);
+        // eslint-disable-next-line
+    }, [playerName, props.deletePlayerRequest, nameToId]);
 
     return (
         <div className={props.styles.deletePlayerWrapper}>

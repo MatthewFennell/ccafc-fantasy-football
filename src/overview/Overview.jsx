@@ -14,18 +14,21 @@ const Overview = props => {
         if (props.currentGameWeek || props.currentGameWeek === 0) {
             props.fetchUserInfoForWeekRequest(props.userId, props.currentGameWeek);
         }
+        // eslint-disable-next-line
     }, [props.userId, props.currentGameWeek, props.fetchUserInfoForWeekRequest, props.maxGameWeek]);
 
     useEffect(() => {
         if (props.userId) {
             props.fetchUserStatsRequest(props.userId);
         }
+        // eslint-disable-next-line
     }, [props.fetchUserStatsRequest, props.userId]);
 
     useEffect(() => {
         if (props.currentGameWeek > 1) {
             props.fetchUserInfoForWeekRequestBackground(props.userId, props.currentGameWeek - 1);
         }
+        // eslint-disable-next-line
     }, [props.userId, props.currentGameWeek, props.fetchUserInfoForWeekRequestBackground]);
 
     const loadPreviousWeek = useCallback(() => {
@@ -38,13 +41,13 @@ const Overview = props => {
         if (props.currentGameWeek < props.maxGameWeek) {
             props.history.push(generateOverviewRoute(props.userId, props.currentGameWeek + 1));
         }
-    }, [props.history, props.currentGameWeek, props.userId]);
+    }, [props.history, props.currentGameWeek, props.userId, props.maxGameWeek]);
 
     useEffect(() => {
         if ((!props.currentGameWeek && props.maxGameWeek) || props.maxGameWeek === 0) {
             props.history.push(generateOverviewRoute(props.userId, props.maxGameWeek));
         }
-    }, [props.currentGameWeek, props.maxGameWeek]);
+    }, [props.currentGameWeek, props.maxGameWeek, props.history, props.userId]);
 
     return (
         <div className={props.styles.overviewWrapper}>

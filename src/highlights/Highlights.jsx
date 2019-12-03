@@ -19,6 +19,7 @@ import StyledInput from '../common/StyledInput/StyledInput';
 const Highlights = props => {
     useEffect(() => {
         props.fetchHighlightsRequest();
+        // eslint-disable-next-line
     }, []);
 
     const [submitVideoOpen, setSubmitVideoOpen] = useState(false);
@@ -27,7 +28,7 @@ const Highlights = props => {
     const [searchFilter, setSearchFilter] = useState('');
     const openSubmitVideo = useCallback(() => {
         setSubmitVideoOpen(true);
-    }, [setSubmitVideoOpen, submitVideoOpen]);
+    }, [setSubmitVideoOpen]);
 
     return (
         <>
