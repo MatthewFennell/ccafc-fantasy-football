@@ -57,6 +57,7 @@ jobs:
       run: |
         cd functions
         npm ci
+        npx firebase use ccafc-fantasy-football
         # npx firebase deploy --only functions
         npx firebase projects:list
       env:
