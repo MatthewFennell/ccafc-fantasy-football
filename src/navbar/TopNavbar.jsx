@@ -69,7 +69,7 @@ const TopNavbar = props => {
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" className={classes.title}>
-                        Collingwood Footy Testing
+                        Collingwood Footy Joining Saxo
                 </Typography>
                 <div>
                     <IconButton
