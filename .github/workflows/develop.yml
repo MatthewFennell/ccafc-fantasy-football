@@ -1,0 +1,74 @@
+name: Build and Deploy
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [8.x]
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: install
+      run:
+        npm ci
+
+    - name: Build
+      run: 
+        npm run build
+      env:
+        CI: true
+
+    - name: Testing
+      run:
+        npm test
+      env:
+        CI: true
+
+    - name: Archive Production Artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: build
+        path: build
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [8.x]
+    steps:
+    - uses: actions/checkout@master
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Deploy Firebase Functions
+      run: |
+        cd functions
+        npm ci
+        # npx firebase deploy --only functions
+        npx firebase projects:list
+        npx firebase use ccafc-fantasy-football-dev
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+    # - name: Download Artifact
+    #   uses: actions/download-artifact@master
+    #   with:
+    #     name: build
+    # - name: Deploy Firebase Hosting
+    #   uses: w9jds/firebase-action@master
+    #   with:
+    #     args: deploy --only hosting
+    #   env:
+    #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
