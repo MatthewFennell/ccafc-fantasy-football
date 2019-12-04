@@ -66,6 +66,7 @@ jobs:
         name: build
     - name: Deploy Firebase Hosting
       run: |
+        npm ci
         npx firebase use ccafc-fantasy-football-dev
         npx firebase deploy --only hosting
       env:
