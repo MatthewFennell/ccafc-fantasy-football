@@ -3,14 +3,14 @@ import 'firebase/firestore';
 import ReduxSagaFirebase from 'redux-saga-firebase';
 
 const firebaseApp = firebase.initializeApp({
-    apiKey: 'AIzaSyA_oqX4Wj8xprCRliJ0NOtgwR4E4Kj4Bl8',
-    authDomain: 'testing-deployments.firebaseapp.com',
-    databaseURL: 'https://testing-deployments.firebaseio.com',
-    projectId: 'testing-deployments',
-    storageBucket: 'testing-deployments.appspot.com',
-    messagingSenderId: '588545824697',
-    appId: '1:588545824697:web:d83d72fb0e357513d90868',
-    measurementId: 'G-WXKBDVSK5D'
+    apiKey: process.env.REACT_APP_API_KEY,
+    authDomain: 'ccafc-fantasy-football.firebaseapp.com',
+    databaseURL: 'https://ccafc-fantasy-football.firebaseio.com',
+    projectId: 'ccafc-fantasy-football',
+    storageBucket: 'ccafc-fantasy-football.appspot.com',
+    messagingSenderId: '568615767647',
+    appId: '1:568615767647:web:814ed56750d0f56cf4d5ea',
+    measurementId: 'G-24WBM4W3B1'
 });
 const rsf = new ReduxSagaFirebase(firebaseApp);
 rsf.region = 'europe-west2';

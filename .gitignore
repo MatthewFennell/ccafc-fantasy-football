@@ -4,6 +4,10 @@
 
 # src/config/fbConfig.js
 
+# env
+.env.development
+.env.production
+
 # misc
 /collingwood-fantasy/.DS_Store
 .env.local
