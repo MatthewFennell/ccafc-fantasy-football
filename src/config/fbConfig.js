@@ -2,6 +2,8 @@ import firebase from 'firebase';
 import 'firebase/firestore';
 import ReduxSagaFirebase from 'redux-saga-firebase';
 
+console.log('env stuff', process.env);
+
 const firebaseApp = firebase.initializeApp({
     apiKey: process.env.REACT_APP_API_KEY,
     authDomain: process.env.REACT_APP_AUTH_DOMAIN,

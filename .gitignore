@@ -2,8 +2,6 @@
 
 # config-file
 
-# src/config/fbConfig.js
-
 # env
 .env.development
 .env.production
