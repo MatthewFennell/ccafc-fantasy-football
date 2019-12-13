@@ -22,8 +22,7 @@ jobs:
         npm ci
     - name: Load API Config
       run: |
-          cd src
-          ls
+          ls -la
           echo ${{ secrets.FIREBASE_API_KEY }}
           echo 'REACT_APP_API_KEY=${{ secrets.FIREBASE_API_KEY }}' >> .env.production
 
