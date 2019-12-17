@@ -1,0 +1,56 @@
+@import "../../common/Styles.scss";
+.pitchWrapper{
+  right: 0px;
+  position: absolute;
+  height: 90%;
+  width: 100%;
+  overflow-x: hidden;
+  .currentTeamWrapper{
+    height: 90vh;
+    background-color: $color-white;  
+    margin-left: auto;;
+    margin-right: auto;;
+    width: 70%;
+    .transfersHeader{
+      padding: $spacing-tiny;
+      margin-left: 10%;
+      margin-right: 10%;
+      display: flex;
+      justify-content: center;
+      background-color: $color-white;
+    
+      > div {
+        width: 33%;
+        @include vertical-center-div();
+      }
+      .remainingBudgetValue, .remainingTransfersValue {
+        font-size: $font-size-small;
+        color: $color-blue;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.buttonsWrapper{
+  text-align: center;
+}
+
+.saveChanges{
+  color: $color-red;
+  font-weight: bold;
+}
+
+@media only screen and (max-width: 600px) {
+  .pitchWrapper{
+    .currentTeamWrapper{
+      width: 130%;
+      position: absolute;
+      left: -15%;
+      overflow-x: hidden;
+      .transfersHeader{
+        background-color: $color-light-gray;
+      }
+    }
+  }
+}

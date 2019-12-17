@@ -1,0 +1,62 @@
+@import "../common/Styles.scss";
+
+.drawerWrapper{
+  width: 80vw;
+}
+
+.backIcon{
+  padding: $spacing-small;
+  display: flex;
+  align-items: center;
+}
+
+.addHighlight {
+  padding: $spacing-medium;
+  margin: $spacing-medium;
+  background-color: $color-white;
+  @include light-box-shadow();
+
+  .inputWrapper{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.videoIdHint{
+  text-align: center;
+  margin-top: $spacing-small;
+  font-size: $font-size-medium;
+  word-break: break-word;
+}
+
+@media only screen and (max-width: 600px) {
+  .drawerWrapper{
+    width: 100vw;
+  }
+  .addHighlight{
+    margin-top: 0px;
+  }
+}
+
+.gridWrapper{
+  margin: $spacing-medium;
+  background-color: $color-white;
+  @include light-box-shadow();
+  margin-top: 0px;
+}
+
+.rejected{
+  color: $color-red;
+  font-weight: bold;
+}
+
+.waiting {
+  color: $color-amber;
+  font-weight: bold;
+}
+
+.approved{
+  color: $color-green;
+  font-weight: bold;
+}

@@ -1,0 +1,23 @@
+@import "../../common/Styles.scss";
+
+.tableModalWrapper{
+  .columnToggles{
+    display: flex;
+    flex-wrap: wrap;
+    > div {
+      flex-grow: 1;
+      justify-content: center;
+    }
+    .columnName{
+      text-align: center;
+    }
+  }
+}
+
+.sortingWrapper{
+  text-align: center;
+  > div {
+    flex-grow:  1;
+    @include vertical-center-div();
+  }
+}

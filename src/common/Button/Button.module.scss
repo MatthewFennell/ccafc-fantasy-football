@@ -1,0 +1,10 @@
+@import "../Styles.scss";
+
+.button{
+  background-color: $color-black;
+  color: $color-white;
+  border: none;
+  font-size: $font-size-medium;
+  font-family: $font-family;
+  cursor: pointer;  
+}

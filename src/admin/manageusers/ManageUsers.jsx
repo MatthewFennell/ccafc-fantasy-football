@@ -1,0 +1,244 @@
+import React, { useEffect, useState, useCallback } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import defaultStyles from './ManageUsers.module.scss';
+import {
+    fetchUsersWithExtraRolesRequest, addUserRoleRequest, removeUserRoleRequest,
+    closeRemoveUserRoleError, clearDatabaseRequest, rollOverToNextYearRequest,
+    deleteAllOldUsersRequest
+} from '../actions';
+import Grid from '../../common/grid/Grid';
+import StyledButton from '../../common/StyledButton/StyledButton';
+import StyledModal from '../../common/modal/StyledModal';
+import StyledInput from '../../common/StyledInput/StyledInput';
+import Dropdown from '../../common/dropdown/Dropdown';
+import Menu from '../../common/menu/Menu';
+import ConfirmModal from '../../common/modal/ConfirmModal';
+import ErrorModal from '../../common/modal/ErrorModal';
+import RolesToPermissions from './RolesToPermissions';
+
+const columnsForAllUsers = allRoles => [
+    {
+        id: 'displayName',
+        label: 'Display Name',
+        align: 'center'
+    },
+    {
+        id: 'email',
+        label: 'Email',
+        align: 'center'
+    }
+]
+    .concat(allRoles.map(role => ({
+        id: role,
+        label: role,
+        align: 'center'
+    }))).concat({
+        id: 'menu',
+        label: '',
+        align: 'right'
+    });
+
+const rolesForDropdown = allRoles => allRoles.map(role => ({
+    id: role,
+    value: role,
+    text: role
+}));
+
+const ManageUsers = props => {
+    useEffect(() => {
+        props.fetchUsersWithExtraRolesRequest();
+        // eslint-disable-next-line
+    }, [props.fetchUsersWithExtraRolesRequest]);
+
+    const [addRoleModalOpen, setAddRoleModalOpen] = useState(false);
+    const [removeRoleModalOpen, setRemoveRoleModalOpen] = useState(false);
+    const [email, setEmail] = useState('');
+    const [role, setRole] = useState('');
+
+    const closeModal = useCallback(() => {
+        setEmail('');
+        setRole('');
+        setAddRoleModalOpen(false);
+        setRemoveRoleModalOpen(false);
+    }, []);
+
+    const addUserRole = useCallback(() => {
+        props.addUserRoleRequest(email, role);
+        closeModal();
+        // eslint-disable-next-line
+    }, [props.addUserRoleRequest, email, role, closeModal]);
+
+
+    const removeRole = useCallback(() => {
+        props.removeUserRoleRequest(email, role);
+        closeModal();
+        // eslint-disable-next-line
+    }, [email, role, closeModal]);
+
+    const openRemoveRoleModal = useCallback((roleToRemove, userEmail) => {
+        setEmail(userEmail);
+        setRole(roleToRemove);
+        setRemoveRoleModalOpen(true);
+    }, []);
+
+    const generateRow = row => {
+        const rowToReturn = ({
+            displayName: row.displayName,
+            email: row.email,
+            id: row.id
+        });
+
+        props.allRoles.forEach(r => {
+            rowToReturn[r] = row.roles && row.roles.includes(r) ? <FiberManualRecordIcon color="primary" /> : '';
+        });
+        const options = [
+            {
+                id: 'removeAll',
+                text: 'Remove all roles',
+                value: 'ALL'
+            }
+        ].concat(row.roles.map(r => ({
+            id: `remove${r}`,
+            text: `Remove ${r}`,
+            value: r
+        })));
+        rowToReturn.menu = (
+            <Menu
+                options={options}
+                onClick={x => openRemoveRoleModal(x.value, row.email)}
+            />
+        );
+        return rowToReturn;
+    };
+
+    const generateToggleRows = rows => rows.map(row => generateRow(row));
+
+    return (
+        <div className={props.styles.manageUsersWrapper}>
+            <div className={props.styles.extraRolesWrapper}>
+                <Grid
+                    columns={columnsForAllUsers(props.allRoles)}
+                    gridHeader={(
+                        <div className={props.styles.manageUserGridHeaderWrapper}>
+                            <div className={props.styles.gridHeaderText}>
+                            Users with extra roles
+                            </div>
+                            <div className={props.styles.addRoleButton}>
+                                <StyledButton text="Add Role" onClick={() => setAddRoleModalOpen(true)} />
+                            </div>
+                        </div>
+                    )}
+                    loading={props.fetchingUsersWithExtraRoles}
+                    rows={generateToggleRows(props.usersWithExtraRoles)}
+                />
+            </div>
+            <div className={props.styles.rolesToPermissionsWrapper}>
+                <RolesToPermissions
+                    allRoles={props.allRoles}
+                    permissionMappings={props.permissionMappings}
+                />
+            </div>
+            <StyledModal
+                backdrop
+                closeModal={closeModal}
+                error
+                isOpen={addRoleModalOpen}
+                headerMessage="Add Role"
+            >
+                <div className={props.styles.modalWrapper}>
+                    <div><StyledInput label="Email" onChange={setEmail} value={email} /></div>
+                    <div className={props.styles.modalButtons}>
+                        <Dropdown activeValue={role} onChange={setRole} options={rolesForDropdown(props.allRoles)} title="Role" />
+                        <StyledButton text="Confirm" onClick={addUserRole} />
+                        <StyledButton text="Cancel" color="secondary" onClick={closeModal} />
+                    </div>
+                </div>
+            </StyledModal>
+            <ConfirmModal
+                cancel={closeModal}
+                closeModal={closeModal}
+                isOpen={removeRoleModalOpen}
+                submit={removeRole}
+                text={`Are you sure you want to remove ${role === 'ALL' ? 'all roles ' : role} from ${email}`}
+            />
+            <ErrorModal
+                closeModal={props.closeRemoveUserRoleError}
+                headerMessage="Remove Role Error"
+                isOpen={props.removeUserRoleError.length > 0}
+                errorCode={props.removeUserRoleErrorCode}
+                errorMessage={props.removeUserRoleError}
+            />
+            <div className={props.styles.clearDatabaseWrapper}>
+                <StyledButton
+                    onClick={props.clearDatabaseRequest}
+                    color="secondary"
+                    text="Clear DB"
+                />
+                <StyledButton
+                    onClick={props.rollOverToNextYearRequest}
+                    color="secondary"
+                    text="Roll Over to Next Year"
+                />
+                <StyledButton
+                    onClick={props.deleteAllOldUsersRequest}
+                    color="secondary"
+                    text="Delete all old users"
+                />
+            </div>
+        </div>
+    );
+};
+
+ManageUsers.defaultProps = {
+    allRoles: [],
+    fetchingUsersWithExtraRoles: false,
+    removeUserRoleError: '',
+    removeUserRoleErrorCode: '',
+    styles: defaultStyles,
+    usersWithExtraRoles: [],
+    permissionMappings: {}
+};
+
+ManageUsers.propTypes = {
+    allRoles: PropTypes.arrayOf(PropTypes.string),
+    addUserRoleRequest: PropTypes.func.isRequired,
+    clearDatabaseRequest: PropTypes.func.isRequired,
+    closeRemoveUserRoleError: PropTypes.func.isRequired,
+    deleteAllOldUsersRequest: PropTypes.func.isRequired,
+    fetchingUsersWithExtraRoles: PropTypes.bool,
+    fetchUsersWithExtraRolesRequest: PropTypes.func.isRequired,
+    removeUserRoleRequest: PropTypes.func.isRequired,
+    removeUserRoleError: PropTypes.string,
+    removeUserRoleErrorCode: PropTypes.string,
+    rollOverToNextYearRequest: PropTypes.func.isRequired,
+    styles: PropTypes.objectOf(PropTypes.string),
+    usersWithExtraRoles: PropTypes.arrayOf(PropTypes.shape({
+        roles: PropTypes.arrayOf(PropTypes.string),
+        email: PropTypes.string,
+        displayName: PropTypes.string
+    })),
+    permissionMappings: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string))
+};
+
+const mapDispatchToProps = {
+    addUserRoleRequest,
+    clearDatabaseRequest,
+    closeRemoveUserRoleError,
+    deleteAllOldUsersRequest,
+    fetchUsersWithExtraRolesRequest,
+    removeUserRoleRequest,
+    rollOverToNextYearRequest
+};
+
+const mapStateToProps = state => ({
+    allRoles: state.auth.allRoles,
+    fetchingUsersWithExtraRoles: state.admin.fetchingUsersWithExtraRoles,
+    removeUserRoleError: state.admin.removeUserRoleError,
+    removeUserRoleErrorCode: state.admin.removeUserRoleErrorCode,
+    usersWithExtraRoles: state.admin.usersWithExtraRoles,
+    permissionMappings: state.auth.permissionMappings
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ManageUsers);
