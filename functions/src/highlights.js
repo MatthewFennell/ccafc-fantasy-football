@@ -51,8 +51,9 @@ exports.approveHighlight = functions
     .https.onCall((data, context) => common.hasPermission(context.auth.uid,
         constants.PERMISSIONS.APPROVE_HIGHLIGHTS)
         .then(() => db.collection('highlight-requests').doc(data.highlightId).get()
-            .then(doc => db.collection('highlights').add({ ...doc.data() })
-                .then(() => doc.ref.delete()).then(() => ({ ...doc.data(), id: doc.id })))));
+            .then(doc => db.collection('highlights').doc(doc.id).set({ ...doc.data() })
+                .then(() => doc.ref.delete())
+                .then(() => ({ ...doc.data(), id: doc.id })))));
 
 exports.rejectHighlight = functions
     .region(constants.region)
@@ -60,7 +61,10 @@ exports.rejectHighlight = functions
         constants.PERMISSIONS.APPROVE_HIGHLIGHTS)
         .then(() => db.collection('highlight-requests').doc(data.highlightId).get()
             .then(doc => admin.auth().getUser(context.auth.uid).then(user => user.email)
-                .then(email => db.collection('highlights-rejected').add({ ...doc.data(), rejectedBy: email, reason: data.reason })
+                .then(email => db.collection('highlights-rejected')
+                    .add({
+                        ...doc.data(), rejectedBy: email, reason: data.reason
+                    })
                     .then(() => doc.ref.delete())
                     .then(() => ({ ...doc.data(), id: doc.id }))))));
 

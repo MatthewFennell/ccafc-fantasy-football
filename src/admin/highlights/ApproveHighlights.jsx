@@ -127,9 +127,10 @@ const ApproveHighlights = props => {
         }
         closeFancyModal();
         // eslint-disable-next-line
-    }, [modalAction, activeHightlight, fancyModalOpen, closeFancyModal]);
+    }, [modalAction, activeHightlight, fancyModalOpen, closeFancyModal, reasonToReject]);
 
     const openFancyModal = useCallback((id, action) => {
+        console.log('id', id);
         if (action === modalOptions.REAPPROVE) {
             setModalText('Reapprove highlight');
         }
@@ -162,6 +163,8 @@ const ApproveHighlights = props => {
             : <AddIcon color="primary" onClick={() => openFancyModal(x.id, modalOptions.REAPPROVE)} />}
     </div>
     }));
+
+    console.log('id', activeHightlight);
 
     return (
         <>
