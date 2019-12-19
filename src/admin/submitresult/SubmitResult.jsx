@@ -6,7 +6,7 @@ import fp from 'lodash/fp';
 import defaultStyles from './SubmitResult.module.scss';
 import {
     fetchTeamsRequest, fetchPlayersForTeamRequest, submitResultRequest,
-    closeSubmitResultError
+    closeSubmitResultError, submitExtraStatsRequest
 } from '../actions';
 import Dropdown from '../../common/dropdown/Dropdown';
 import StyledInput from '../../common/StyledInput/StyledInput';
@@ -14,6 +14,7 @@ import { isDefensive } from '../../helperFunctions';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
 import ErrorModal from '../../common/modal/ErrorModal';
+import ExtraStats from './ExtraStats';
 
 const generateWeekOptions = maxGameWeek => {
     const options = [];
@@ -168,65 +169,76 @@ const SubmitResult = props => {
     });
 
     return (
-        <div className={props.styles.submitResultWrapper}>
-            <Dropdown activeValue={teamName} onChange={setTeam} options={props.allTeams} title="Team" />
-            <div className={props.styles.goalsForWrapper}>
-                <StyledInput label="Goals For" onChange={setGoalsFor} type="number" value={goalsFor} />
-                <StyledInput label="Goals Against" onChange={setGoalsAgainst} type="number" value={goalsAgainst} />
-            </div>
+        <>
+            <div className={props.styles.submitResultWrapper}>
+                <Dropdown activeValue={teamName} onChange={setTeam} options={props.allTeams} title="Team" />
+                <div className={props.styles.goalsForWrapper}>
+                    <StyledInput label="Goals For" onChange={setGoalsFor} type="number" value={goalsFor} />
+                    <StyledInput label="Goals Against" onChange={setGoalsAgainst} type="number" value={goalsAgainst} />
+                </div>
 
-            <div className={props.styles.goalScorersWrapper}>
-                {scorers}
-            </div>
-            <div className={props.styles.assistsWrapper}>
-                {assists}
-            </div>
+                <div className={props.styles.goalScorersWrapper}>
+                    {scorers}
+                </div>
+                <div className={props.styles.assistsWrapper}>
+                    {assists}
+                </div>
 
-            <div className={props.styles.cleanSheetWrapper}>
-                {parseInt(goalsAgainst, 10) === 0 && (
-                    <div className={props.styles.cleanSheetDropdowns}>
-                        {cleanSheetsRender}
-                    </div>
-                ) }
-            </div>
-            <div className={props.styles.matchAwardsWrapper}>
-                <Dropdown
-                    key="motm"
-                    activeValue={motm}
-                    onChange={setMotm}
-                    options={playersForActiveTeam}
-                    title="MOTM"
+                <div className={props.styles.cleanSheetWrapper}>
+                    {parseInt(goalsAgainst, 10) === 0 && (
+                        <div className={props.styles.cleanSheetDropdowns}>
+                            {cleanSheetsRender}
+                        </div>
+                    ) }
+                </div>
+                <div className={props.styles.matchAwardsWrapper}>
+                    <Dropdown
+                        key="motm"
+                        activeValue={motm}
+                        onChange={setMotm}
+                        options={playersForActiveTeam}
+                        title="MOTM"
+                    />
+                    <Dropdown
+                        key="dotd"
+                        activeValue={dotd}
+                        onChange={setDotd}
+                        options={playersForActiveTeam}
+                        title="DOTD"
+                    />
+                    <Dropdown activeValue={gameWeek} onChange={setGameWeek} options={generateWeekOptions(props.maxGameWeek)} title="Week" />
+                </div>
+                <div className={props.styles.submitButtonWrapper}>
+                    <StyledButton
+                        color="primary"
+                        onClick={submitResult}
+                        text="Submit Result"
+                    />
+                </div>
+                <ErrorModal
+                    closeModal={props.closeSubmitResultError}
+                    headerMessage="Submit Result Error"
+                    isOpen={props.submitResultError.length > 0}
+                    errorCode={props.submitResultErrorCode}
+                    errorMessage={props.submitResultError}
                 />
-                <Dropdown
-                    key="dotd"
-                    activeValue={dotd}
-                    onChange={setDotd}
-                    options={playersForActiveTeam}
-                    title="DOTD"
-                />
-                <Dropdown activeValue={gameWeek} onChange={setGameWeek} options={generateWeekOptions(props.maxGameWeek)} title="Week" />
+                <div className={classNames({
+                    [props.styles.hidden]: !props.submittingResult
+                })}
+                >
+                    <Spinner color="secondary" />
+                </div>
             </div>
-            <div className={props.styles.submitButtonWrapper}>
-                <StyledButton
-                    color="primary"
-                    onClick={submitResult}
-                    text="Submit Result"
-                />
-            </div>
-            <ErrorModal
-                closeModal={props.closeSubmitResultError}
-                headerMessage="Submit Result Error"
-                isOpen={props.submitResultError.length > 0}
-                errorCode={props.submitResultErrorCode}
-                errorMessage={props.submitResultError}
+            <ExtraStats
+                allTeams={props.allTeams}
+                fetchPlayersForTeamRequest={props.fetchPlayersForTeamRequest}
+                maxGameWeek={props.maxGameWeek}
+                setTeam={setTeam}
+                submitExtraStatsRequest={props.submitExtraStatsRequest}
+                submittingExtraResult={props.submittingExtraResult}
+                teamsWithPlayers={props.teamsWithPlayers}
             />
-            <div className={classNames({
-                [props.styles.hidden]: !props.submittingResult
-            })}
-            >
-                <Spinner color="secondary" />
-            </div>
-        </div>
+        </>
     );
 };
 
@@ -247,6 +259,8 @@ SubmitResult.propTypes = {
     submitResultErrorCode: PropTypes.string.isRequired,
     submitResultRequest: PropTypes.func.isRequired,
     submittingResult: PropTypes.bool.isRequired,
+    submitExtraStatsRequest: PropTypes.func.isRequired,
+    submittingExtraResult: PropTypes.bool.isRequired,
     teamsWithPlayers: PropTypes.objectOf(PropTypes.array).isRequired
 };
 
@@ -254,13 +268,15 @@ const mapDispatchToProps = {
     closeSubmitResultError,
     fetchTeamsRequest,
     fetchPlayersForTeamRequest,
-    submitResultRequest
+    submitResultRequest,
+    submitExtraStatsRequest
 };
 
 const mapStateToprops = state => ({
     allTeams: state.admin.allTeams,
     maxGameWeek: state.overview.maxGameWeek,
     submittingResult: state.admin.submittingResult,
+    submittingExtraResult: state.admin.submittingExtraResults,
     submitResultError: state.admin.submitResultError,
     submitResultErrorCode: state.admin.submitResultErrorCode,
     teamsWithPlayers: state.admin.teamsWithPlayers

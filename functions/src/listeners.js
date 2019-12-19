@@ -63,7 +63,9 @@ exports.updateWeeklyPlayers = functions.region(constants.region).firestore
                         redCard: change.after.data().redCard,
                         yellowCard: change.after.data().yellowCard,
                         ownGoals: change.after.data().ownGoals,
-                        dickOfTheDay: change.after.data().dickOfTheDay
+                        dickOfTheDay: change.after.data().dickOfTheDay,
+                        penaltySaves: change.after.data().penaltySaves,
+                        penaltyMisses: change.after.data().penaltyMisses
                     });
                 }
             );

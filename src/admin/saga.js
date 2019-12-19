@@ -266,6 +266,22 @@ function* reapproveRejectedHighlight(action) {
     }
 }
 
+function* submitExtraResults(action) {
+    try {
+        yield call(api.submitExtraResults, ({
+            gameWeek: action.gameWeek,
+            yellowCard: action.yellowCard,
+            redCard: action.redCard,
+            penaltySaved: action.penaltySaved,
+            penaltyMissed: action.penaltyMissed,
+            ownGoal: action.ownGoal
+        }));
+        yield put(actions.submitExtraStatsSuccess());
+    } catch (error) {
+        yield put(actions.submitExtraStatsError(error));
+    }
+}
+
 export default function* adminSaga() {
     yield all([
         takeEvery(actions.FETCH_TEAMS_REQUEST, fetchTeams),
@@ -289,6 +305,7 @@ export default function* adminSaga() {
         takeEvery(actions.REJECT_HIGHLIGHT_REQUEST, rejectHighlight),
         takeEvery(actions.DELETE_HIGHLIGHT_REQUEST, deleteHighlight),
         takeEvery(actions.FETCH_ALL_REJECTED_HIGHLIGHTS_REQUEST, fetchRejectedHighlights),
-        takeEvery(actions.REAPPROVE_REJECTED_HIGHLIGHT_REQUEST, reapproveRejectedHighlight)
+        takeEvery(actions.REAPPROVE_REJECTED_HIGHLIGHT_REQUEST, reapproveRejectedHighlight),
+        takeEvery(actions.SUBMIT_EXTRA_STATS_REQUEST, submitExtraResults)
     ]);
 }

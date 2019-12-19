@@ -27,7 +27,9 @@ module.exports.points = {
     YELLOW_CARD: -1,
     MOTM: 3,
     DOTD: -3,
-    OWN_GOAL: -2
+    OWN_GOAL: -2,
+    PENALTY_SAVE: 3,
+    PENALTY_MISS: -3
 };
 
 module.exports.results = {

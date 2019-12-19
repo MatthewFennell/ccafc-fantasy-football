@@ -28,9 +28,11 @@ module.exports.hasPermission = (uid, permission) => admin.auth().getUser(uid).th
 });
 
 module.exports.calculatePoints = (position, goals, assists, cleanSheet,
-    redCard, yellowCard, dickOfTheDay, ownGoals) => {
+    redCard, yellowCard, dickOfTheDay, ownGoals, penaltySaves, penaltyMisses) => {
     let total = 0;
-    total += goals * constants.points.GOAL[position];
+    if (goals) {
+        total += goals * constants.points.GOAL[position];
+    }
     total += assists * constants.points.ASSIST;
     total += ownGoals * constants.points.OWN_GOAL;
     if (cleanSheet) {
@@ -45,6 +47,8 @@ module.exports.calculatePoints = (position, goals, assists, cleanSheet,
     if (dickOfTheDay) {
         total += constants.points.DOTD;
     }
+    total += penaltySaves * constants.points.PENALTY_SAVE;
+    total += penaltyMisses * constants.points.PENALTY_MISS;
     return total;
 };
 
@@ -66,6 +70,8 @@ module.exports.calculateDifference = (before, after) => {
             fp.set('goals', after.goals),
             fp.set('assists', after.assists),
             fp.set('ownGoals', after.ownGoals),
+            fp.set('penaltySaves', after.penaltySaves),
+            fp.set('penaltyMisses', after.penaltyMisses),
             shouldUpdate('cleanSheet', false, after.cleanSheet),
             shouldUpdate('redCard', false, after.redCard),
             shouldUpdate('yellowCard', false, after.yellowCard),
@@ -78,6 +84,8 @@ module.exports.calculateDifference = (before, after) => {
         fp.set('goals', after.goals - before.goals),
         fp.set('assists', after.assists - before.assists),
         fp.set('ownGoals', after.ownGoals - before.ownGoals),
+        fp.set('penaltySaves', after.penaltySaves - before.penaltySaves),
+        fp.set('penaltyMisses', after.penaltyMisses - before.penaltyMisses),
         shouldUpdate('cleanSheet', before.cleanSheet, after.cleanSheet),
         shouldUpdate('redCard', before.redCard, after.redCard),
         shouldUpdate('yellowCard', before.yellowCard, after.yellowCard),
@@ -141,6 +149,8 @@ module.exports.calculatePointDifference = (diff, position) => {
         x => x + (diff.goals || 0) * constants.points.GOAL[position],
         x => x + (diff.assists || 0) * constants.points.ASSIST,
         x => x + (diff.ownGoals || 0) * constants.points.OWN_GOAL,
+        x => x + (diff.penaltySaves || 0) * constants.points.PENALTY_SAVE,
+        x => x + (diff.penaltyMisses || 0) * constants.points.PENALTY_MISS,
         x => x + cleanSheetPoints(diff.cleanSheet, position),
         x => x + redCardPoints(diff.redCard),
         x => x + manOfTheMatchPoints(diff.manOfTheMatch),

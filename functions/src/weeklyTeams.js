@@ -52,7 +52,10 @@ exports.triggerWeeklyTeams = functions
                                 manOfTheMatch: false,
                                 dickOfTheDay: false,
                                 redCard: false,
-                                yellowCard: false
+                                yellowCard: false,
+                                ownGoals: 0,
+                                penaltySaves: 0,
+                                penaltyMisses: 0
                             }));
                         });
                     }
