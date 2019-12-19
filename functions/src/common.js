@@ -65,6 +65,9 @@ module.exports.calculateDifference = (before, after) => {
         return fp.identity;
     };
 
+    console.log('before', before);
+    console.log('after', after);
+
     if (before === undefined) {
         return fp.flow(
             fp.set('goals', after.goals),

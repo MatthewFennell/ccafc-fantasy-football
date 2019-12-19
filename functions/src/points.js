@@ -48,7 +48,9 @@ exports.pointsForWeek = functions
                                     isCaptain: false,
                                     manOfTheMatch: false,
                                     dickOfTheDay: false,
-                                    ownGoals: 0
+                                    ownGoals: 0,
+                                    penaltyMisses: 0,
+                                    penaltySaves: 0
                                 };
                             }
                             const weeklyPoints = doc.docs[0];
@@ -63,7 +65,9 @@ exports.pointsForWeek = functions
                                 isCaptain: weeklyPoints.data().isCaptain,
                                 manOfTheMatch: weeklyPoints.data().manOfTheMatch,
                                 dickOfTheDay: weeklyPoints.data().dickOfTheDay,
-                                ownGoals: weeklyPoints.data().ownGoals
+                                ownGoals: weeklyPoints.data().ownGoals,
+                                penaltyMisses: weeklyPoints.data().penaltyMisses,
+                                penaltySaves: weeklyPoints.data().penaltySaves
                             });
                         })));
                     return Promise.all(playerPromises).then(result => result);

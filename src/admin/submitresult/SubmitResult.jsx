@@ -235,6 +235,7 @@ const SubmitResult = props => {
                 maxGameWeek={props.maxGameWeek}
                 setTeam={setTeam}
                 submitExtraStatsRequest={props.submitExtraStatsRequest}
+                submittingExtraResult={props.submittingExtraResult}
                 teamsWithPlayers={props.teamsWithPlayers}
             />
         </>
@@ -259,6 +260,7 @@ SubmitResult.propTypes = {
     submitResultRequest: PropTypes.func.isRequired,
     submittingResult: PropTypes.bool.isRequired,
     submitExtraStatsRequest: PropTypes.func.isRequired,
+    submittingExtraResult: PropTypes.bool.isRequired,
     teamsWithPlayers: PropTypes.objectOf(PropTypes.array).isRequired
 };
 
@@ -274,6 +276,7 @@ const mapStateToprops = state => ({
     allTeams: state.admin.allTeams,
     maxGameWeek: state.overview.maxGameWeek,
     submittingResult: state.admin.submittingResult,
+    submittingExtraResult: state.admin.submittingExtraResults,
     submitResultError: state.admin.submitResultError,
     submitResultErrorCode: state.admin.submitResultErrorCode,
     teamsWithPlayers: state.admin.teamsWithPlayers

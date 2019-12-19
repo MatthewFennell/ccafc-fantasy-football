@@ -107,6 +107,7 @@ exports.editPlayerStats = functions
                         .where('week', '==', data.week).get()
                         .then(
                             result => {
+                                console.log('data', data);
                                 if (result.size > 1) {
                                     throw new functions.https.HttpsError('invalid-argument', 'There are multiple player points entries');
                                 }
@@ -114,6 +115,8 @@ exports.editPlayerStats = functions
                                 if (result.size === 0) {
                                     const points = common.calculatePointDifference(data.difference,
                                         player.position);
+                                    console.log('points diff', points);
+                                    console.log('diff a', data.difference);
                                     return db.collection('player-points').add({
                                         week: data.week,
                                         player_id: data.playerId,
@@ -126,17 +129,25 @@ exports.editPlayerStats = functions
                                         points,
                                         position: player.position,
                                         ownGoals: fp.has('ownGoals')(data.difference) ? data.difference.ownGoals : 0,
+                                        penaltyMisses: fp.has('penaltyMisses')(data.difference) ? data.difference.penaltyMisses : 0,
+                                        penaltySaves: fp.has('penaltySaves')(data.difference) ? data.difference.penaltySaves : 0,
                                         dickOfTheDay: fp.has('dickOfTheDay')(data.difference) ? data.difference.dickOfTheDay : false,
                                         team: player.team,
                                         name: player.name
                                     });
                                 }
+                                console.log('already exists');
+                                console.log('player', player);
+                                console.log('result', result.docs[0].data());
 
                                 const doc = result.docs[0];
-                                const difference = common.calculateDifference(player,
+                                const difference = common.calculateDifference(result.docs[0].data(),
                                     data.difference);
+                                console.log('diff', difference);
                                 const points = common.calculatePointDifference(difference,
                                     player.position);
+
+                                console.log('points', points);
 
                                 return result.docs[0].ref.update({
                                     goals: fp.has('goals')(data.difference) ? data.difference.goals : doc.data().goals,
@@ -147,6 +158,8 @@ exports.editPlayerStats = functions
                                     manOfTheMatch: fp.has('manOfTheMatch')(data.difference) ? data.difference.manOfTheMatch : doc.data().manOfTheMatch,
                                     points: operations.increment(points),
                                     ownGoals: fp.has('ownGoals')(data.difference) ? data.difference.ownGoals : doc.data().ownGoals,
+                                    penaltyMisses: fp.has('penaltyMisses')(data.difference) ? data.difference.penaltyMisses : doc.data().penaltyMisses,
+                                    penaltySaves: fp.has('penaltySaves')(data.difference) ? data.difference.penaltySaves : doc.data().penaltySaves,
                                     dickOfTheDay: fp.has('dickOfTheDay')(data.difference) ? data.difference.dickOfTheDay : doc.data().dickOfTheDay
                                 });
                             }
@@ -172,7 +185,9 @@ exports.playerStats = functions
                             redCard: false,
                             yellowCard: false,
                             ownGoals: 0,
-                            dickOfTheDay: false
+                            dickOfTheDay: false,
+                            penaltySaves: 0,
+                            penaltyMisses: 0
                         };
                     }
                     if (result.size > 1) {
@@ -186,7 +201,9 @@ exports.playerStats = functions
                         redCard: result.docs[0].data().redCard,
                         yellowCard: result.docs[0].data().yellowCard,
                         ownGoals: result.docs[0].data().ownGoals,
-                        dickOfTheDay: result.docs[0].data().dickOfTheDay
+                        dickOfTheDay: result.docs[0].data().dickOfTheDay,
+                        penaltySaves: result.docs[0].data().penaltySaves,
+                        penaltyMisses: result.docs[0].data().penaltyMisses
                     });
                 }
             );

@@ -44,7 +44,9 @@ const initState = {
 
     rejectedHighlights: [],
     loadingRejectedHighlights: false,
-    loadedRejectedHighlights: false
+    loadedRejectedHighlights: false,
+
+    submittingExtraResults: false
 };
 
 const adminReducer = (state = initState, action) => {
@@ -198,6 +200,8 @@ const adminReducer = (state = initState, action) => {
             fp.set('playerStats.manOfTheMatch', action.playerStats.manOfTheMatch),
             fp.set('playerStats.dickOfTheDay', action.playerStats.dickOfTheDay),
             fp.set('playerStats.ownGoals', action.playerStats.ownGoals),
+            fp.set('playerStats.penaltyMisses', action.playerStats.penaltyMisses),
+            fp.set('playerStats.penaltySaves', action.playerStats.penaltySaves),
             fp.set('fetchingPlayerStats', false)
         )(state);
     }
@@ -314,6 +318,12 @@ const adminReducer = (state = initState, action) => {
     }
     case actions.DELETE_HIGHLIGHT_REQUEST: {
         return fp.set('loadingRejectedHighlights', true)(state);
+    }
+    case actions.SUBMIT_EXTRA_STATS_REQUEST: {
+        return fp.set('submittingExtraResults', true)(state);
+    }
+    case actions.SUBMIT_EXTRA_STATS_SUCCESS: {
+        return fp.set('submittingExtraResults', false)(state);
     }
     default:
         return state;

@@ -44,6 +44,7 @@ exports.updateWeeklyPlayers = functions.region(constants.region).firestore
         const difference = common.calculateDifference(change.before.data(), change.after.data());
         const points = common.calculatePointDifference(difference,
             change.after.data().position);
+        console.log('diff', difference);
         return db.collection('weekly-players').where('player_id', '==', change.after.data().player_id)
             .where('week', '==', change.after.data().week).get()
             .then(
@@ -63,7 +64,9 @@ exports.updateWeeklyPlayers = functions.region(constants.region).firestore
                         redCard: change.after.data().redCard,
                         yellowCard: change.after.data().yellowCard,
                         ownGoals: change.after.data().ownGoals,
-                        dickOfTheDay: change.after.data().dickOfTheDay
+                        dickOfTheDay: change.after.data().dickOfTheDay,
+                        penaltySaves: change.after.data().penaltySaves,
+                        penaltyMisses: change.after.data().penaltyMisses
                     });
                 }
             );

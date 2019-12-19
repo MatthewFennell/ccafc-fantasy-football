@@ -2,10 +2,11 @@ import React, { useState, useCallback } from 'react';
 import fp from 'lodash/fp';
 import PropTypes from 'prop-types';
 import _, { noop } from 'lodash';
+import classNames from 'classnames';
 import defaultStyles from './ExtraStats.module.scss';
 import Dropdown from '../../common/dropdown/Dropdown';
 import StyledButton from '../../common/StyledButton/StyledButton';
-
+import Spinner from '../../common/spinner/Spinner';
 
 const data = {
     yellowCard: '6jtXCivt9avUONxwnIYW',
@@ -60,6 +61,8 @@ const ExtraStats = props => {
     }, [gameWeek, yellowCard, redCard, penaltySaved,
         penaltyMissed, ownGoals, props.submitExtraStatsRequest]);
 
+    console.log('submittingExtraResult', props.submittingExtraResult);
+
     return (
         <div className={props.styles.extraStatsWrapper}>
             <div className={props.styles.extraStatsTitle}>
@@ -111,6 +114,13 @@ const ExtraStats = props => {
                     text="Add Extra Stats"
                 />
             </div>
+            <div className={classNames({
+                [props.styles.hidden]: !props.submittingExtraResult,
+                [props.styles.central]: true
+            })}
+            >
+                <Spinner color="secondary" />
+            </div>
         </div>
     );
 };
@@ -121,6 +131,7 @@ ExtraStats.defaultProps = {
     maxGameWeek: 0,
     styles: defaultStyles,
     submitExtraStatsRequest: noop,
+    submittingExtraResult: false,
     teamsWithPlayers: []
 };
 
@@ -130,6 +141,7 @@ ExtraStats.propTypes = {
     maxGameWeek: PropTypes.number,
     styles: PropTypes.objectOf(PropTypes.string),
     submitExtraStatsRequest: PropTypes.func,
+    submittingExtraResult: PropTypes.bool,
     teamsWithPlayers: PropTypes.arrayOf(PropTypes.shape({}))
 };
 

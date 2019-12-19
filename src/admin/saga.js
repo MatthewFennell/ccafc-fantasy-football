@@ -276,6 +276,7 @@ function* submitExtraResults(action) {
             penaltyMissed: action.penaltyMissed,
             ownGoal: action.ownGoal
         }));
+        yield put(actions.submitExtraStatsSuccess());
     } catch (error) {
         yield put(actions.submitExtraStatsError(error));
     }

@@ -67,10 +67,22 @@ const generateRows = player => {
             showField: player.dickOfTheDay
         },
         {
+            stat: 'Pen Saved',
+            value: player.penaltySaves,
+            points: POINTS.PENALTY_SAVE,
+            showField: player.penaltySaves > 0
+        },
+        {
+            stat: 'Pen Missed',
+            value: player.penaltyMisses,
+            points: POINTS.PENALTY_MISS,
+            showField: player.penaltyMisses > 0
+        },
+        {
             stat: 'Own Goals',
             value: player.ownGoals,
             points: POINTS.OWN_GOAL * player.ownGoals,
-            showField: player.ownGoals
+            showField: player.ownGoals > 0
         },
         {
             stat: 'Captain',
@@ -98,6 +110,7 @@ const PointsTable = props => (
         <Grid
             columns={columns}
             rows={generateRows(props.player).filter(row => row.showField)}
+            rowsPerPageOptions={[20]}
             showPagination={false}
         />
     </div>

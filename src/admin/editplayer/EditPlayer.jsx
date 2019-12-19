@@ -84,6 +84,8 @@ const EditPlayer = props => {
     const [motm, setMotm] = useState('');
     const [dotd, setDotd] = useState('');
     const [ownGoals, setOwnGoals] = useState('');
+    const [penaltyMisses, setPenaltyMisses] = useState('');
+    const [penaltySaves, setPenaltySaves] = useState('');
 
     const generateRows = (playerStats, fetching) => {
         const renderOldValue = (oldVal, loading) => {
@@ -162,6 +164,18 @@ const EditPlayer = props => {
                 stat: 'Own Goals',
                 oldValue: renderOldValue(playerStats.ownGoals, fetching),
                 newValue: <SmallerInput onChange={setOwnGoals} value={ownGoals} type="number" centerText />
+            },
+            {
+                id: 'penaltySaves',
+                stat: 'Penalty Saves',
+                oldValue: renderOldValue(playerStats.penaltySaves, fetching),
+                newValue: <SmallerInput onChange={setPenaltySaves} value={penaltySaves} type="number" centerText />
+            },
+            {
+                id: 'penaltyMisses',
+                stat: 'Penalty Misses',
+                oldValue: renderOldValue(playerStats.penaltyMisses, fetching),
+                newValue: <SmallerInput onChange={setPenaltyMisses} value={penaltyMisses} type="number" centerText />
             }
         ];
         return rows;
@@ -222,6 +236,8 @@ const EditPlayer = props => {
             isDifferent('goals', props.playerStats.goals, getInteger(parseFloat(goals))),
             isDifferent('assists', props.playerStats.assists, getInteger(parseFloat(assists))),
             isDifferent('ownGoals', props.playerStats.ownGoals, getInteger(parseFloat(ownGoals))),
+            isDifferent('penaltyMisses', props.playerStats.penaltyMisses, getInteger(parseFloat(penaltyMisses))),
+            isDifferent('penaltySaves', props.playerStats.penaltySaves, getInteger(parseFloat(penaltySaves))),
             isDifferent('cleanSheet', props.playerStats.cleanSheet, getBooleanVal(cleanSheet)),
             isDifferent('redCard', props.playerStats.redCard, getBooleanVal(redCard)),
             isDifferent('yellowCard', props.playerStats.yellowCard, getBooleanVal(yellowCard)),
@@ -238,14 +254,18 @@ const EditPlayer = props => {
         setMotm('');
         setDotd('');
         setOwnGoals('');
+        setPenaltyMisses('');
+        setPenaltySaves('');
         props.editPlayerStatsRequest(playerId, week, difference);
         // eslint-disable-next-line
     }, [goals, assists, cleanSheet, redCard, yellowCard, motm,
         props.teamsWithPlayers, props.editPlayerStatsRequest, dotd,
-        ownGoals, playerTeam, playerToEdit, week]);
+        ownGoals, playerTeam, playerToEdit, week, penaltyMisses, penaltySaves]);
 
 
     const rowsToUse = generateRows(props.playerStats, props.fetchingPlayerStats);
+
+    console.log('player stats', props.playerStats);
 
     return (
         <>
@@ -313,7 +333,9 @@ EditPlayer.propTypes = {
         yellowCard: PropTypes.bool,
         manOfTheMatch: PropTypes.bool,
         dickOfTheDay: PropTypes.bool,
-        ownGoals: PropTypes.number
+        ownGoals: PropTypes.number,
+        penaltyMisses: PropTypes.number,
+        penaltySaves: PropTypes.number
     }),
     styles: PropTypes.objectOf(PropTypes.string),
     teamsWithPlayers: PropTypes.objectOf(PropTypes.array)

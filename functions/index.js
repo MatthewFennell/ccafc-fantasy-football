@@ -36,6 +36,7 @@ const operations = admin.firestore.FieldValue;
 
 // // https://firebase.google.com/docs/reference/js/firebase.functions.html#functionserrorcod
 
+// This is used to add own goals, yellow cards, red cards, penalties missed, penalties saved only
 exports.submitExtraResults = functions
     .region(constants.region)
     .https.onCall((data, context) => common.hasPermission(context.auth.uid,

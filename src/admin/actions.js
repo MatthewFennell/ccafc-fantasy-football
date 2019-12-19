@@ -97,6 +97,7 @@ export const REAPPROVE_REJECTED_HIGHLIGHT_SUCCESS = `${pre}REAPPROVE_REJECTED_HI
 export const REAPPROVE_REJECTED_HIGHLIGHT_ERROR = `${pre}REAPPROVE_REJECTED_HIGHLIGHT_ERROR`;
 
 export const SUBMIT_EXTRA_STATS_REQUEST = `${pre}SUBMIT_EXTRA_STATS_REQUEST`;
+export const SUBMIT_EXTRA_STATS_SUCCESS = `${pre}SUBMIT_EXTRA_STATS_SUCCESS`;
 export const SUBMIT_EXTRA_STATS_ERROR = `${pre}SUBMIT_EXTRA_STATS_ERROR`;
 
 export const submitExtraStatsRequest = (
@@ -109,6 +110,10 @@ export const submitExtraStatsRequest = (
     penaltySaved,
     penaltyMissed,
     ownGoal
+});
+
+export const submitExtraStatsSuccess = () => ({
+    type: SUBMIT_EXTRA_STATS_SUCCESS
 });
 
 export const submitExtraStatsError = error => ({
