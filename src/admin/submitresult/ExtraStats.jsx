@@ -58,8 +58,14 @@ const ExtraStats = props => {
             nameToId(penaltyMissed),
             nameToId(ownGoals)
         );
+        setYellowCard('');
+        setRedCard('');
+        setPenaltyMissed('');
+        setPenaltySaved('');
+        setOwnGoals('');
+        // eslint-disable-next-line
     }, [gameWeek, yellowCard, redCard, penaltySaved,
-        penaltyMissed, ownGoals, props.submitExtraStatsRequest]);
+        penaltyMissed, ownGoals, props.submitExtraStatsRequest, nameToId]);
 
     console.log('submittingExtraResult', props.submittingExtraResult);
 

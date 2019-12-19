@@ -44,7 +44,6 @@ exports.updateWeeklyPlayers = functions.region(constants.region).firestore
         const difference = common.calculateDifference(change.before.data(), change.after.data());
         const points = common.calculatePointDifference(difference,
             change.after.data().position);
-        console.log('diff', difference);
         return db.collection('weekly-players').where('player_id', '==', change.after.data().player_id)
             .where('week', '==', change.after.data().week).get()
             .then(

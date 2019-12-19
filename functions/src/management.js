@@ -92,7 +92,6 @@ exports.rollOverToNextYear = functions
                 if (league.size === 1) {
                     db.collection('users').get().then(users => {
                         users.docs.forEach((user, index) => {
-                            console.log('adding user', user.id);
                             db.collection('leagues-points').add({
                                 league_id: league.docs[0].id,
                                 user_id: user.id,

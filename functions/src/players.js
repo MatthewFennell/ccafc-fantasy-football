@@ -107,7 +107,6 @@ exports.editPlayerStats = functions
                         .where('week', '==', data.week).get()
                         .then(
                             result => {
-                                console.log('data', data);
                                 if (result.size > 1) {
                                     throw new functions.https.HttpsError('invalid-argument', 'There are multiple player points entries');
                                 }
@@ -115,8 +114,6 @@ exports.editPlayerStats = functions
                                 if (result.size === 0) {
                                     const points = common.calculatePointDifference(data.difference,
                                         player.position);
-                                    console.log('points diff', points);
-                                    console.log('diff a', data.difference);
                                     return db.collection('player-points').add({
                                         week: data.week,
                                         player_id: data.playerId,
@@ -136,18 +133,11 @@ exports.editPlayerStats = functions
                                         name: player.name
                                     });
                                 }
-                                console.log('already exists');
-                                console.log('player', player);
-                                console.log('result', result.docs[0].data());
-
                                 const doc = result.docs[0];
                                 const difference = common.calculateDifference(result.docs[0].data(),
                                     data.difference);
-                                console.log('diff', difference);
                                 const points = common.calculatePointDifference(difference,
                                     player.position);
-
-                                console.log('points', points);
 
                                 return result.docs[0].ref.update({
                                     goals: fp.has('goals')(data.difference) ? data.difference.goals : doc.data().goals,
