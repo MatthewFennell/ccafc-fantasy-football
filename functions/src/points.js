@@ -167,10 +167,11 @@ exports.submitResult = functions
             // Update or create player points object
             playerIds.forEach(playerId => {
                 const {
-                    position, goals, assists, cleanSheet, redCard, yellowCard, manOfTheMatch, dickOfTheDay, ownGoals, team, name
+                    position, goals, assists, cleanSheet, redCard, yellowCard,
+                    manOfTheMatch, dickOfTheDay, ownGoals, team, name
                 } = playerStats[playerId];
                 const points = common.calculatePoints(position,
-                    goals, assists, cleanSheet, redCard, yellowCard, dickOfTheDay, ownGoals);
+                    goals, assists, cleanSheet, redCard, yellowCard, dickOfTheDay, ownGoals, 0, 0);
 
                 db.collection('player-points').where('player_id', '==', playerId).where('week', '==', data.week).get()
                     .then(playerDocs => {
@@ -189,7 +190,9 @@ exports.submitResult = functions
                                 dickOfTheDay,
                                 ownGoals,
                                 team,
-                                name
+                                name,
+                                penaltyMisses: 0,
+                                penaltySaves: 0
                             });
                         } else if (playerDocs.size > 1) {
                             throw new functions.https.HttpsError('invalid-argument', 'Somehow that player points has multiple entries');
