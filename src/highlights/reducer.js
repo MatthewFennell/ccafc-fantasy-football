@@ -88,13 +88,37 @@ const highlightsReducer = (state = initialState, action) => {
         return fp.set('loadingVideosToBeApproved', false)(state);
     }
     case adminActions.DELETE_HIGHLIGHT_SUCCESS: {
-        return fp.set('videos', state.videos.filter(x => x.id !== action.highlight.id))(state);
+        return {
+            ...state,
+            videos: state.videos.filter(x => x.id !== action.highlight.id),
+            loadingVideos: false
+        };
     }
     case adminActions.APPROVE_HIGHLIGHT_SUCCESS: {
-        return fp.set('videos', state.videos.concat([action.highlight]))(state);
+        return {
+            ...state,
+            videos: state.videos.concat([action.highlight]),
+            loadingVideos: false
+        };
     }
     case adminActions.REAPPROVE_REJECTED_HIGHLIGHT_SUCCESS: {
-        return fp.set('videos', state.videos.concat([action.highlight]))(state);
+        return {
+            ...state,
+            videos: state.videos.concat([action.highlight]),
+            loadingVideos: false
+        };
+    }
+    case adminActions.APPROVE_HIGHLIGHT_REQUEST: {
+        return fp.set('loadingVideos', true)(state);
+    }
+    case adminActions.REAPPROVE_REJECTED_HIGHLIGHT_REQUEST: {
+        return fp.set('loadingVideos', true)(state);
+    }
+    case adminActions.REAPPROVE_REJECTED_HIGHLIGHT_ERROR: {
+        return fp.set('loadingVideos', false)(state);
+    }
+    case adminActions.DELETE_HIGHLIGHT_REQUEST: {
+        return fp.set('loadingVideos', true)(state);
     }
     default:
         return state;

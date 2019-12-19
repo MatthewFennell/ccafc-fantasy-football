@@ -278,6 +278,9 @@ const adminReducer = (state = initState, action) => {
     case actions.FETCH_ALL_REJECTED_HIGHLIGHTS_REQUEST: {
         return fp.set('loadingRejectedHighlights', true)(state);
     }
+    case actions.REAPPROVE_REJECTED_HIGHLIGHT_REQUEST: {
+        return fp.set('loadingRejectedHighlights', true)(state);
+    }
     case actions.FETCH_ALL_REJECTED_HIGHLIGHTS_SUCCESS: {
         return {
             ...state,
@@ -292,17 +295,25 @@ const adminReducer = (state = initState, action) => {
     case actions.REAPPROVE_REJECTED_HIGHLIGHT_SUCCESS: {
         return {
             ...state,
-            rejectedHighlights: state.rejectedHighlights.filter(x => x.id !== action.highlight.id)
+            rejectedHighlights: state.rejectedHighlights.filter(x => x.id !== action.highlight.id),
+            loadingRejectedHighlights: false
         };
     }
     case actions.DELETE_HIGHLIGHT_SUCCESS: {
         return {
             ...state,
-            rejectedHighlights: state.rejectedHighlights.concat([action.highlight])
+            rejectedHighlights: state.rejectedHighlights.concat([action.highlight]),
+            loadingRejectedHighlights: false
         };
     }
     case actions.ALREADY_FETCHED_REJECTED_HIGHLIGHTS: {
         return fp.set('loadingRejectedHighlights', false)(state);
+    }
+    case actions.REAPPROVE_REJECTED_HIGHLIGHT_ERROR: {
+        return fp.set('loadingRejectedHighlights', false)(state);
+    }
+    case actions.DELETE_HIGHLIGHT_REQUEST: {
+        return fp.set('loadingRejectedHighlights', true)(state);
     }
     default:
         return state;
