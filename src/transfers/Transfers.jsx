@@ -99,6 +99,15 @@ const Transfers = props => {
         setRemoveModalOpen(false);
     }, [setPlayerTableOpen, playerToRemove, positionFilter]);
 
+    const selectReplacementDesktop = useCallback(() => {
+        props.removePlayerFromCurrentTeam(playerToRemove);
+        setSortBy('position');
+        setPositionFilter(playerToRemove.position || positionFilter);
+        setPlayerTableOpen(true);
+        setRemoveModalOpen(false);
+        // eslint-disable-next-line
+    }, [setPlayerTableOpen, playerToRemove, positionFilter, props.removePlayerFromCurrentTeam]);
+
     const restorePlayer = useCallback(() => {
         props.restorePlayerRequest(playerToRestore.id);
         setRestoreModalOpen(false);
@@ -203,7 +212,7 @@ const Transfers = props => {
                             removePlayer={removePlayer}
                             restoreModalOpen={restoreModalOpen}
                             restorePlayer={restorePlayer}
-                            selectReplacement={selectReplacement}
+                            selectReplacement={selectReplacementDesktop}
                             setPositionFilter={setPositionFilter}
                             sortBy={sortBy}
                             stateObj={stateObj}

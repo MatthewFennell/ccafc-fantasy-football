@@ -123,6 +123,7 @@ function* editPlayerStats(action) {
         const playerStats = yield call(api.getPlayerStats,
             { playerId: action.playerId, week: action.week });
         yield put(actions.fetchPlayerStatsSuccess(playerStats));
+        yield put(actions.editPlayerStatsSuccess());
     } catch (error) {
         yield put(actions.editPlayerStatsError(error));
     }
