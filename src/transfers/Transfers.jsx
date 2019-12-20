@@ -174,12 +174,23 @@ const Transfers = props => {
                         <Desktop
                             allPlayers={props.allPlayers}
                             allTeams={props.allTeams}
+                            closeRemoveModal={closeRemove}
+                            closeRestoreModal={closeRestore}
+                            closeTransfersError={props.closeTransfersError}
                             currentTeam={props.currentTeam}
                             fetchingOriginalTeam={props.fetchingOriginalTeam}
                             onPlayerClick={onPlayerClick}
                             originalTeam={props.originalTeam}
+                            playerToRemove={playerToRemove}
                             remainingBudget={props.remainingBudget}
+                            removeModalOpen={removeModalOpen}
+                            removePlayer={removePlayer}
+                            restoreModalOpen={restoreModalOpen}
+                            restorePlayer={restorePlayer}
+                            selectReplacement={selectReplacement}
                             stateObj={stateObj}
+                            transfersError={props.transfersError}
+                            transfersErrorCode={props.transfersErrorCode}
                             undoTransferChanges={props.undoTransferChanges}
                             updateTeamRequest={props.updateTeamRequest}
                         />

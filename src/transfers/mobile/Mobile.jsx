@@ -4,15 +4,13 @@ import { noop } from 'lodash';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import defaultStyles from './Mobile.module.scss';
 import Pitch from '../../common/pitch/Pitch';
-import ErrorModal from '../../common/modal/ErrorModal';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Table from './Table';
-import StyledModal from '../../common/modal/StyledModal';
 import * as constants from '../../constants';
+import Modals from '../common/Modals';
 
 const teamsAreDifferent = (original, current) => {
     const playersInCurrentNotInOriginal = current.filter(c => !original.some(x => x.id === c.id));
-    console.log('length', playersInCurrentNotInOriginal.length);
     return playersInCurrentNotInOriginal.length > 0 && current.length === 11;
 };
 
@@ -84,60 +82,19 @@ const Mobile = props => (
                 />
             </div>
         </div>
-        <ErrorModal
-            closeModal={props.closeTransfersError}
-            headerMessage="Transfer Error"
-            isOpen={props.transfersError.length > 0}
-            errorCode={props.transfersErrorCode}
-            errorMessage={props.transfersError}
+        <Modals
+            closeRemoveModal={props.closeRemoveModal}
+            closeRestoreModal={props.closeRestoreModal}
+            closeTransfersError={props.closeTransfersError}
+            playerToRemove={props.playerToRemove}
+            removeModalOpen={props.removeModalOpen}
+            removePlayer={props.removePlayer}
+            restoreModalOpen={props.restoreModalOpen}
+            restorePlayer={props.restorePlayer}
+            selectReplacement={props.selectReplacement}
+            transfersError={props.transfersError}
+            transfersErrorCode={props.transfersErrorCode}
         />
-        <StyledModal
-            backdrop
-            closeModal={props.closeRemoveModal}
-            isOpen={props.removeModalOpen}
-            headerMessage={props.playerToRemove.id !== undefined ? 'Replace / Remove Player' : 'Add Player'}
-            toggleModal={props.closeRemoveModal}
-        >
-            <div className={props.styles.modalWrapper}>
-                <div className={props.styles.buttonsWrapper}>
-                    <StyledButton
-                        color="primary"
-                        onClick={props.selectReplacement}
-                        text={props.playerToRemove.id !== undefined ? 'Select Replacement' : 'Add Player'}
-                    />
-                    {props.playerToRemove.id !== undefined && (
-                        <StyledButton
-                            color="primary"
-                            onClick={props.removePlayer}
-                            text="Remove Player"
-                        />
-                    )}
-
-                </div>
-            </div>
-        </StyledModal>
-        <StyledModal
-            backdrop
-            closeModal={props.closeRestoreModal}
-            isOpen={props.restoreModalOpen}
-            headerMessage="Restoring player"
-            toggleModal={props.closeRestoreModal}
-        >
-            <div className={props.styles.modalWrapper}>
-                <div className={props.styles.buttonsWrapper}>
-                    <StyledButton
-                        color="primary"
-                        onClick={props.selectReplacement}
-                        text="Select Replacement"
-                    />
-                    <StyledButton
-                        color="primary"
-                        onClick={props.restorePlayer}
-                        text="Restore player"
-                    />
-                </div>
-            </div>
-        </StyledModal>
     </>
 );
 
