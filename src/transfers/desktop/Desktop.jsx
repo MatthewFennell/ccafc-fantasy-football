@@ -62,6 +62,8 @@ const Desktop = props => (
             <div className={props.styles.tableWrapper}>
                 <Table
                     allPlayers={props.allPlayers}
+                    allTeams={props.allTeams}
+                    activeTeam={props.currentTeam}
                     desktopColumns={props.desktopColumns}
                     fetchingAllPlayers={props.fetchingAllPlayers}
                     onTransfersRequest={props.onTransfersRequest}
@@ -89,6 +91,7 @@ const Desktop = props => (
 
 Desktop.defaultProps = {
     allPlayers: [],
+    allTeams: [],
     closeRemoveModal: noop,
     closeRestoreModal: noop,
     closeTransfersError: noop,
@@ -118,6 +121,7 @@ Desktop.defaultProps = {
 
 Desktop.propTypes = {
     allPlayers: PropTypes.arrayOf(PropTypes.shape({})),
+    allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     closeRemoveModal: PropTypes.func,
     closeRestoreModal: PropTypes.func,
     closeTransfersError: PropTypes.func,
