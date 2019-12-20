@@ -1,5 +1,6 @@
 import React from 'react';
 import fp from 'lodash/fp';
+import classNames from 'classnames';
 import * as constants from '../constants';
 import { invalidFormations } from './invalidFormations';
 import StyledButton from '../common/StyledButton/StyledButton';
@@ -155,11 +156,25 @@ export const canReplacePlayer = (oldPlayer, newPlayer, currentTeam) => {
     return canAddPlayer(newPlayer, currentTeam.filter(x => x.id !== oldPlayer.id));
 };
 
-export const desktopColumns = [
+const headerCell = (sortBy, activeSort, styles, expectedSort) => (
+    <div
+        className={classNames({
+            [styles.activeSort]: activeSort === expectedSort,
+            [styles.headerCell]: true
+        })}
+        role="button"
+        tabIndex={0}
+        onClick={() => sortBy(expectedSort)}
+    >
+        {expectedSort}
+    </div>
+);
+
+export const desktopColumns = (sortBy, activeSort, styles) => [
     {
         id: 'name',
         name: 'Name',
-        label: 'Name',
+        label: headerCell(sortBy, activeSort, styles, 'Name'),
         fixed: true,
         active: true,
         align: 'center'
@@ -167,7 +182,7 @@ export const desktopColumns = [
     {
         id: 'position',
         name: 'Pos',
-        label: 'Position',
+        label: headerCell(sortBy, activeSort, styles, 'Position'),
         fixed: false,
         active: true,
         align: 'center'
@@ -175,7 +190,7 @@ export const desktopColumns = [
     {
         id: 'team',
         name: 'Team',
-        label: 'Team',
+        label: headerCell(sortBy, activeSort, styles, 'Team'),
         fixed: false,
         active: true,
         align: 'center'
@@ -183,7 +198,7 @@ export const desktopColumns = [
     {
         id: 'price',
         name: 'Price',
-        label: 'Price',
+        label: headerCell(sortBy, activeSort, styles, 'Price'),
         fixed: false,
         active: true,
         align: 'center'
@@ -191,7 +206,7 @@ export const desktopColumns = [
     {
         id: 'points',
         name: 'Points',
-        label: 'Points',
+        label: headerCell(sortBy, activeSort, styles, 'Points'),
         fixed: false,
         active: true,
         align: 'center'
@@ -199,7 +214,7 @@ export const desktopColumns = [
     {
         id: 'goals',
         name: 'Goals',
-        label: 'Goals',
+        label: headerCell(sortBy, activeSort, styles, 'Goals'),
         fixed: false,
         active: true,
         align: 'center'
@@ -207,7 +222,7 @@ export const desktopColumns = [
     {
         id: 'assists',
         name: 'Assists',
-        label: 'Assists',
+        label: headerCell(sortBy, activeSort, styles, 'Assists'),
         fixed: false,
         active: true,
         align: 'center'
@@ -215,7 +230,7 @@ export const desktopColumns = [
     {
         id: 'previousScore',
         name: 'Previous Score',
-        label: 'Previous Score',
+        label: headerCell(sortBy, activeSort, styles, 'PreviousScore'),
         fixed: false,
         active: true,
         align: 'center'

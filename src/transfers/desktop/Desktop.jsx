@@ -10,7 +10,6 @@ import Table from './Table';
 
 const teamsAreDifferent = (original, current) => {
     const playersInCurrentNotInOriginal = current.filter(c => !original.some(x => x.id === c.id));
-    console.log('length', playersInCurrentNotInOriginal.length);
     return playersInCurrentNotInOriginal.length > 0 && current.length === 11;
 };
 
@@ -66,8 +65,10 @@ const Desktop = props => (
                     activeTeam={props.currentTeam}
                     desktopColumns={props.desktopColumns}
                     fetchingAllPlayers={props.fetchingAllPlayers}
+                    isAscendingSort={props.isAscendingSort}
                     onTransfersRequest={props.onTransfersRequest}
                     positionFilter={props.positionFilter}
+                    sortBy={props.sortBy}
                     stateObj={props.stateObj}
                     setPositionFilter={props.setPositionFilter}
                 />
@@ -100,6 +101,7 @@ Desktop.defaultProps = {
     originalTeam: [],
     fetchingAllPlayers: false,
     fetchingOriginalTeam: false,
+    isAscendingSort: false,
     onPlayerClick: noop,
     onTransfersRequest: noop,
     playerToRemove: {},
@@ -111,6 +113,7 @@ Desktop.defaultProps = {
     restorePlayer: noop,
     selectReplacement: noop,
     setPositionFilter: noop,
+    sortBy: '',
     stateObj: {},
     styles: defaultStyles,
     transfersError: '',
@@ -130,6 +133,7 @@ Desktop.propTypes = {
     originalTeam: PropTypes.arrayOf(PropTypes.shape({})),
     fetchingAllPlayers: PropTypes.bool,
     fetchingOriginalTeam: PropTypes.bool,
+    isAscendingSort: PropTypes.bool,
     onPlayerClick: PropTypes.func,
     onTransfersRequest: PropTypes.func,
     playerToRemove: PropTypes.oneOfType([
@@ -149,10 +153,11 @@ Desktop.propTypes = {
     restorePlayer: PropTypes.func,
     selectReplacement: PropTypes.func,
     setPositionFilter: PropTypes.func,
+    sortBy: PropTypes.string,
     stateObj: PropTypes.shape({}),
     styles: PropTypes.objectOf(PropTypes.string),
-    transfersError: PropTypes.objectOf(PropTypes.string),
-    transfersErrorCode: PropTypes.objectOf(PropTypes.string),
+    transfersError: PropTypes.string,
+    transfersErrorCode: PropTypes.string,
     undoTransferChanges: PropTypes.func,
     updateTeamRequest: PropTypes.func
 };

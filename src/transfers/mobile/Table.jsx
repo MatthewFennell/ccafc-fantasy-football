@@ -13,9 +13,9 @@ import Dropdown from '../../common/dropdown/Dropdown';
 import Slider from '../../common/slider/Slider';
 import modalStyles from './StyledModal.module.scss';
 import {
-    RadioAscDesc, RadioPosition, sortListAscDesc
+    RadioAscDesc, RadioPosition
 } from './helpers';
-import { marks } from '../common/helpers';
+import { marks, sortListAscDesc } from '../common/helpers';
 
 const Table = props => {
     const {

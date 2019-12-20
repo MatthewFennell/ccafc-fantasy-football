@@ -1,5 +1,4 @@
 import React from 'react';
-import fp from 'lodash/fp';
 import RadioButton from '../../common/radio/RadioButton';
 import StyledButton from '../../common/StyledButton/StyledButton';
 
@@ -81,16 +80,6 @@ export const marks = [
         label: '10'
     }
 ];
-
-export const sortListAscDesc = (list, direction, property) => {
-    if (direction === 'Asc') {
-        return fp.sortBy(property)(list);
-    }
-    if (direction === 'Desc') {
-        return fp.sortBy(property)(list).reverse();
-    }
-    return list;
-};
 
 export const getColumns = openModal => [
     {

@@ -2,6 +2,12 @@
 
 .dropdownsWrapper{
     display: flex;
+
+    > * {
+        flex-grow: 1;
+        justify-content: center;
+        text-align: center;
+    }
 }
 
 .filterWrapper{
@@ -19,8 +25,8 @@
 }
 
 .rightHandWrapper{
-    margin-left: 10%;
-    margin-right: 10%;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
 .gridWrapper{

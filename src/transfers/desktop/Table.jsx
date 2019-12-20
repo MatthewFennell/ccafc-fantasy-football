@@ -7,7 +7,7 @@ import StyledInput from '../../common/StyledInput/StyledInput';
 import inputStyles from '../common/InputStyles.module.scss';
 import Dropdown from '../../common/dropdown/Dropdown';
 import Slider from '../../common/slider/Slider';
-import { generateMarks } from '../common/helpers';
+import { generateMarks, sortListAscDescDesktop } from '../common/helpers';
 
 const positionOptions = [
     {
@@ -58,9 +58,34 @@ const Table = props => {
 
         byName = byName.filter(x => x.price >= minPrice);
         byName = byName.filter(x => x.price <= maxPrice);
+
+
+        if (props.sortBy === 'Name') {
+            return sortListAscDescDesktop(byName, !props.isAscendingSort, 'name');
+        }
+        if (props.sortBy === 'Position') {
+            return sortListAscDescDesktop(byName, props.isAscendingSort, 'position');
+        }
+        if (props.sortBy === 'Team') {
+            return sortListAscDescDesktop(byName, props.isAscendingSort, 'team');
+        }
+        if (props.sortBy === 'Points') {
+            return sortListAscDescDesktop(byName, props.isAscendingSort, 'points');
+        }
+        if (props.sortBy === 'Goals') {
+            return sortListAscDescDesktop(byName, props.isAscendingSort, 'goals');
+        }
+        if (props.sortBy === 'Assists') {
+            return sortListAscDescDesktop(byName, props.isAscendingSort, 'assists');
+        }
+        if (props.sortBy === 'Price') {
+            return sortListAscDescDesktop(byName, props.isAscendingSort, 'price');
+        }
+        if (props.sortBy === 'PreviousScore') {
+            return sortListAscDescDesktop(byName, props.isAscendingSort, 'previousScore');
+        }
         return byName;
     };
-
 
     return (
         <div className={props.styles.tableWrapper}>
@@ -101,6 +126,7 @@ const Table = props => {
                 <Grid
                     columns={props.desktopColumns.filter(x => x.active)}
                     loading={props.fetchingAllPlayers}
+                    maxHeightGrid
                     onRowClick={props.onTransfersRequest}
                     rows={filterPlayers(props.allPlayers, searchByName).map(x => ({
                         ...x,
@@ -119,9 +145,11 @@ Table.defaultProps = {
     allTeams: [],
     desktopColumns: [],
     fetchingAllPlayers: false,
+    isAscendingSort: false,
     onTransfersRequest: noop,
     positionFilter: '',
     setPositionFilter: noop,
+    sortBy: '',
     stateObj: {
         maxPrice: 0,
         minPrice: 0,
@@ -141,9 +169,11 @@ Table.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     desktopColumns: PropTypes.arrayOf(PropTypes.shape({})),
     fetchingAllPlayers: PropTypes.bool,
+    isAscendingSort: PropTypes.bool,
     onTransfersRequest: PropTypes.func,
     positionFilter: PropTypes.string,
     setPositionFilter: PropTypes.func,
+    sortBy: PropTypes.string,
     stateObj: PropTypes.shape({
         maxPrice: PropTypes.number,
         minPrice: PropTypes.number,

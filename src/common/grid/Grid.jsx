@@ -21,6 +21,9 @@ const defaultGridStyles = {
     tableWrapper: {
         // maxHeight: 440,
         overflow: 'auto'
+    },
+    maxHeightSet: {
+        maxHeight: 400
     }
 };
 
@@ -50,6 +53,7 @@ const Grid = props => {
         <Paper className={classes.root}>
             <div className={classNames({
                 [classes.tableWrapper]: true,
+                [classes.maxHeightSet]: props.maxHeightGrid,
                 [props.styles.tableWrap]: true
             })}
             >
@@ -67,7 +71,7 @@ const Grid = props => {
                     </div>
                 </div>
                 {props.loading && <Linear color={props.loadingColor} />}
-                <Table>
+                <Table stickyHeader aria-label="sticky table">
                     {/* <Table stickyHeader> */}
                     <TableHead>
                         <TableRow>
@@ -147,6 +151,7 @@ Grid.defaultProps = {
     gridStyles: defaultGridStyles,
     loading: false,
     loadingColor: 'primary',
+    maxHeightGrid: false,
     numberOfUsersInLeague: 0,
     setPage: noop,
     setRowsPerPage: noop,
@@ -182,6 +187,7 @@ Grid.propTypes = {
     gridStyles: PropTypes.objectOf(PropTypes.shape({})),
     loading: PropTypes.bool,
     loadingColor: PropTypes.string,
+    maxHeightGrid: PropTypes.bool,
     setPage: PropTypes.func,
     setRowsPerPage: PropTypes.func,
     onRowClick: PropTypes.func,

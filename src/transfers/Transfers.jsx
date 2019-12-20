@@ -13,6 +13,7 @@ import Mobile from './mobile/Mobile';
 import { getColumns } from './mobile/helpers';
 import Desktop from './desktop/Desktop';
 import { desktopColumns } from './helpers';
+import defaultStyles from './Transfers.module.scss';
 
 const Transfers = props => {
     useEffect(() => {
@@ -31,7 +32,7 @@ const Transfers = props => {
 
     const [playerTableOpen, setPlayerTableOpen] = useState(false);
     const [sortBy, setSortBy] = useState('points');
-    const [positionFilter, setPositionFilter] = useState('GOALKEEPER');
+    const [positionFilter, setPositionFilter] = useState('');
 
     const [columnModalOpen, setColumnModalOpen] = useState(false);
     const [nameFilter, setNameFilter] = useState('Asc');
@@ -45,6 +46,7 @@ const Transfers = props => {
     const [priceFilter, setPriceFilter] = useState('Asc');
     const [previousScoreFilter, setPreviousScoreFilter] = useState('Desc');
     const [myColumns, setMyColumns] = useState(getColumns(() => setColumnModalOpen(true)));
+    const [isAscendingSort, setIsAscendingSort] = useState(false);
 
     const stateObj = {
         myColumns,
@@ -129,6 +131,15 @@ const Transfers = props => {
         setPlayerTableOpen(false);
     }, [setPlayerTableOpen]);
 
+    const desktopSortBy = useCallback(sort => {
+        if (sortBy === sort) {
+            setIsAscendingSort(!isAscendingSort);
+        } else {
+            setIsAscendingSort(false);
+        }
+        setSortBy(sort);
+    }, [sortBy, isAscendingSort]);
+
     return (
         <Media queries={{
             mobile: '(max-width: 599px)',
@@ -178,9 +189,10 @@ const Transfers = props => {
                             closeRestoreModal={closeRestore}
                             closeTransfersError={props.closeTransfersError}
                             currentTeam={props.currentTeam}
-                            desktopColumns={desktopColumns}
+                            desktopColumns={desktopColumns(desktopSortBy, sortBy, props.styles)}
                             fetchingAllPlayers={props.fetchingAllPlayers}
                             fetchingOriginalTeam={props.fetchingOriginalTeam}
+                            isAscendingSort={isAscendingSort}
                             onPlayerClick={onPlayerClick}
                             onTransfersRequest={onTransfersRequest}
                             originalTeam={props.originalTeam}
@@ -193,6 +205,7 @@ const Transfers = props => {
                             restorePlayer={restorePlayer}
                             selectReplacement={selectReplacement}
                             setPositionFilter={setPositionFilter}
+                            sortBy={sortBy}
                             stateObj={stateObj}
                             transfersError={props.transfersError}
                             transfersErrorCode={props.transfersErrorCode}
@@ -215,6 +228,7 @@ Transfers.defaultProps = {
     fetchingOriginalTeam: false,
     originalTeam: [],
     remainingBudget: 0,
+    styles: defaultStyles,
     transfersError: '',
     transfersErrorCode: ''
 };
@@ -239,6 +253,7 @@ Transfers.propTypes = {
     replacePlayerRequest: PropTypes.func.isRequired,
     removePlayerFromCurrentTeam: PropTypes.func.isRequired,
     restorePlayerRequest: PropTypes.func.isRequired,
+    styles: PropTypes.objectOf(PropTypes.string),
     transfersError: PropTypes.string,
     transfersErrorCode: PropTypes.string,
     undoTransferChanges: PropTypes.func.isRequired,
