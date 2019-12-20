@@ -2,10 +2,22 @@
 
 .transfersWrapperDesktop {
     display: flex;
+    // height: 90vh;
+    // overflow: scroll;
 
     > div {
         flex-grow: 1;
     }
+}
+
+.pitchWrapper{
+    overflow: hidden;
+    height: 90vh;
+}
+
+.tableWrapper{
+    overflow: scroll;
+    height: 90vh;
 }
 
 .transfersHeader{

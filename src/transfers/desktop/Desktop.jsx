@@ -65,7 +65,9 @@ const Desktop = props => (
                     desktopColumns={props.desktopColumns}
                     fetchingAllPlayers={props.fetchingAllPlayers}
                     onTransfersRequest={props.onTransfersRequest}
+                    positionFilter={props.positionFilter}
                     stateObj={props.stateObj}
+                    setPositionFilter={props.setPositionFilter}
                 />
             </div>
         </div>
@@ -91,18 +93,21 @@ Desktop.defaultProps = {
     closeRestoreModal: noop,
     closeTransfersError: noop,
     currentTeam: [],
+    desktopColumns: [],
     originalTeam: [],
     fetchingAllPlayers: false,
     fetchingOriginalTeam: false,
     onPlayerClick: noop,
     onTransfersRequest: noop,
     playerToRemove: {},
+    positionFilter: '',
     remainingBudget: 0,
     removePlayer: noop,
     removeModalOpen: false,
     restoreModalOpen: false,
     restorePlayer: noop,
     selectReplacement: noop,
+    setPositionFilter: noop,
     stateObj: {},
     styles: defaultStyles,
     transfersError: '',
@@ -117,6 +122,7 @@ Desktop.propTypes = {
     closeRestoreModal: PropTypes.func,
     closeTransfersError: PropTypes.func,
     currentTeam: PropTypes.arrayOf(PropTypes.shape({})),
+    desktopColumns: PropTypes.arrayOf(PropTypes.shape({})),
     originalTeam: PropTypes.arrayOf(PropTypes.shape({})),
     fetchingAllPlayers: PropTypes.bool,
     fetchingOriginalTeam: PropTypes.bool,
@@ -131,12 +137,14 @@ Desktop.propTypes = {
             id: PropTypes.string
         })
     ]),
+    positionFilter: PropTypes.string,
     remainingBudget: PropTypes.number,
     removeModalOpen: PropTypes.bool,
     removePlayer: PropTypes.func,
     restoreModalOpen: PropTypes.bool,
     restorePlayer: PropTypes.func,
     selectReplacement: PropTypes.func,
+    setPositionFilter: PropTypes.func,
     stateObj: PropTypes.shape({}),
     styles: PropTypes.objectOf(PropTypes.string),
     transfersError: PropTypes.objectOf(PropTypes.string),

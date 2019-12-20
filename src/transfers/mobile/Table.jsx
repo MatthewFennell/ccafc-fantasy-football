@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import defaultStyles from './Table.module.scss';
 import Grid from '../../common/grid/Grid';
 import StyledInput from '../../common/StyledInput/StyledInput';
-import inputStyles from './InputStyles.module.scss';
+import inputStyles from '../common/InputStyles.module.scss';
 import StyledModal from '../../common/modal/StyledModal';
 import TableModal from './TableModal';
 import Dropdown from '../../common/dropdown/Dropdown';

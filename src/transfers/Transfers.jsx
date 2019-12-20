@@ -185,12 +185,14 @@ const Transfers = props => {
                             onTransfersRequest={onTransfersRequest}
                             originalTeam={props.originalTeam}
                             playerToRemove={playerToRemove}
+                            positionFilter={positionFilter}
                             remainingBudget={props.remainingBudget}
                             removeModalOpen={removeModalOpen}
                             removePlayer={removePlayer}
                             restoreModalOpen={restoreModalOpen}
                             restorePlayer={restorePlayer}
                             selectReplacement={selectReplacement}
+                            setPositionFilter={setPositionFilter}
                             stateObj={stateObj}
                             transfersError={props.transfersError}
                             transfersErrorCode={props.transfersErrorCode}
