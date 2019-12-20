@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Media from 'react-media';
 import { fetchUserStatsRequest } from '../overview/actions';
 import { fetchActiveTeamRequest } from '../currentteam/actions';
 import {
@@ -10,6 +11,7 @@ import {
 } from './actions';
 import Mobile from './mobile/Mobile';
 import { getColumns } from './mobile/helpers';
+import Desktop from './desktop/Desktop';
 
 const Transfers = props => {
     useEffect(() => {
@@ -128,39 +130,98 @@ const Transfers = props => {
     }, [setPlayerTableOpen]);
 
     return (
-        <Mobile
-            allPlayers={props.allPlayers}
-            allTeams={props.allTeams}
-            closeRemoveModal={closeRemove}
-            closeRestoreModal={closeRestore}
-            closePlayerTable={closeTable}
-            closeTransfersError={props.closeTransfersError}
-            currentTeam={props.currentTeam}
-            fetchingAllPlayers={props.fetchingAllPlayers}
-            fetchingOriginalTeam={props.fetchingOriginalTeam}
-            onPlayerClick={onPlayerClick}
-            onTransfersRequest={onTransfersRequest}
-            originalTeam={props.originalTeam}
-            playerTableOpen={playerTableOpen}
-            playerToRemove={playerToRemove}
-            positionFilter={positionFilter}
-            setPositionFilter={setPositionFilter}
-            remainingBudget={props.remainingBudget}
-            removeModalOpen={removeModalOpen}
-            removePlayer={removePlayer}
-            restorePlayer={restorePlayer}
-            restoreModalOpen={restoreModalOpen}
-            selectReplacement={selectReplacement}
-            setSortBy={setSortBy}
-            sortBy={sortBy}
-            transfersError={props.transfersError}
-            transfersErrorCode={props.transfersErrorCode}
-            undoTransferChanges={props.undoTransferChanges}
-            updateTeamRequest={props.updateTeamRequest}
-
-            stateObj={stateObj}
-        />
+        <Media queries={{
+            mobile: '(max-width: 599px)',
+            desktop: '(min-width: 600px)'
+        }}
+        >
+            {matches => (
+                <>
+                    {matches.mobile && (
+                        <Mobile
+                            allPlayers={props.allPlayers}
+                            allTeams={props.allTeams}
+                            closeRemoveModal={closeRemove}
+                            closeRestoreModal={closeRestore}
+                            closePlayerTable={closeTable}
+                            closeTransfersError={props.closeTransfersError}
+                            currentTeam={props.currentTeam}
+                            fetchingAllPlayers={props.fetchingAllPlayers}
+                            fetchingOriginalTeam={props.fetchingOriginalTeam}
+                            onPlayerClick={onPlayerClick}
+                            onTransfersRequest={onTransfersRequest}
+                            originalTeam={props.originalTeam}
+                            playerTableOpen={playerTableOpen}
+                            playerToRemove={playerToRemove}
+                            positionFilter={positionFilter}
+                            setPositionFilter={setPositionFilter}
+                            remainingBudget={props.remainingBudget}
+                            removeModalOpen={removeModalOpen}
+                            removePlayer={removePlayer}
+                            restorePlayer={restorePlayer}
+                            restoreModalOpen={restoreModalOpen}
+                            selectReplacement={selectReplacement}
+                            setSortBy={setSortBy}
+                            sortBy={sortBy}
+                            transfersError={props.transfersError}
+                            transfersErrorCode={props.transfersErrorCode}
+                            undoTransferChanges={props.undoTransferChanges}
+                            updateTeamRequest={props.updateTeamRequest}
+                            stateObj={stateObj}
+                        />
+                    )}
+                    {matches.desktop && (
+                        <Desktop
+                            allPlayers={props.allPlayers}
+                            allTeams={props.allTeams}
+                            currentTeam={props.currentTeam}
+                            fetchingOriginalTeam={props.fetchingOriginalTeam}
+                            onPlayerClick={onPlayerClick}
+                            originalTeam={props.originalTeam}
+                            remainingBudget={props.remainingBudget}
+                            stateObj={stateObj}
+                            undoTransferChanges={props.undoTransferChanges}
+                            updateTeamRequest={props.updateTeamRequest}
+                        />
+                    )}
+                </>
+            )}
+        </Media>
     );
+
+    // return (
+    //     <Mobile
+    //         allPlayers={props.allPlayers}
+    //         allTeams={props.allTeams}
+    //         closeRemoveModal={closeRemove}
+    //         closeRestoreModal={closeRestore}
+    //         closePlayerTable={closeTable}
+    //         closeTransfersError={props.closeTransfersError}
+    //         currentTeam={props.currentTeam}
+    //         fetchingAllPlayers={props.fetchingAllPlayers}
+    //         fetchingOriginalTeam={props.fetchingOriginalTeam}
+    //         onPlayerClick={onPlayerClick}
+    //         onTransfersRequest={onTransfersRequest}
+    //         originalTeam={props.originalTeam}
+    //         playerTableOpen={playerTableOpen}
+    //         playerToRemove={playerToRemove}
+    //         positionFilter={positionFilter}
+    //         setPositionFilter={setPositionFilter}
+    //         remainingBudget={props.remainingBudget}
+    //         removeModalOpen={removeModalOpen}
+    //         removePlayer={removePlayer}
+    //         restorePlayer={restorePlayer}
+    //         restoreModalOpen={restoreModalOpen}
+    //         selectReplacement={selectReplacement}
+    //         setSortBy={setSortBy}
+    //         sortBy={sortBy}
+    //         transfersError={props.transfersError}
+    //         transfersErrorCode={props.transfersErrorCode}
+    //         undoTransferChanges={props.undoTransferChanges}
+    //         updateTeamRequest={props.updateTeamRequest}
+    //         stateObj={stateObj}
+    //     />
+    // );
 };
 
 Transfers.defaultProps = {

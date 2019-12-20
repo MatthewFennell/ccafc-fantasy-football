@@ -37,7 +37,6 @@ const Mobile = props => (
                 setPositionFilter={props.setPositionFilter}
                 setSortBy={props.setSortBy}
                 sortBy={props.sortBy}
-
                 stateObj={props.stateObj}
             />
         </SwipeableDrawer>

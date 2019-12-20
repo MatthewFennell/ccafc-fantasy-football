@@ -1,0 +1,28 @@
+@import "../../common/Styles.scss";
+
+.transfersWrapperDesktop {
+    display: flex;
+
+    > div {
+        flex-grow: 1;
+    }
+}
+
+.transfersHeader{
+    padding: $spacing-tiny;
+    margin-left: 10%;
+    margin-right: 10%;
+    display: flex;
+    justify-content: center;
+    background-color: $color-white;
+  
+    > div {
+      width: 33%;
+      @include vertical-center-div();
+    }
+    .remainingBudgetValue, .remainingTransfersValue {
+      font-size: $font-size-small;
+      color: $color-blue;
+      font-weight: bold;
+    }
+  }
