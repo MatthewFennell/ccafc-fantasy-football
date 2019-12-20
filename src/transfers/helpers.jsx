@@ -1,5 +1,6 @@
 import React from 'react';
 import fp from 'lodash/fp';
+import classNames from 'classnames';
 import * as constants from '../constants';
 import { invalidFormations } from './invalidFormations';
 import StyledButton from '../common/StyledButton/StyledButton';
@@ -154,3 +155,84 @@ export const canReplacePlayer = (oldPlayer, newPlayer, currentTeam) => {
     }
     return canAddPlayer(newPlayer, currentTeam.filter(x => x.id !== oldPlayer.id));
 };
+
+const headerCell = (sortBy, activeSort, styles, expectedSort) => (
+    <div
+        className={classNames({
+            [styles.activeSort]: activeSort === expectedSort,
+            [styles.headerCell]: true
+        })}
+        role="button"
+        tabIndex={0}
+        onClick={() => sortBy(expectedSort)}
+    >
+        {expectedSort}
+    </div>
+);
+
+export const desktopColumns = (sortBy, activeSort, styles) => [
+    {
+        id: 'name',
+        name: 'Name',
+        label: headerCell(sortBy, activeSort, styles, 'Name'),
+        fixed: true,
+        active: true,
+        align: 'center'
+    },
+    {
+        id: 'position',
+        name: 'Pos',
+        label: headerCell(sortBy, activeSort, styles, 'Position'),
+        fixed: false,
+        active: true,
+        align: 'center'
+    },
+    {
+        id: 'team',
+        name: 'Team',
+        label: headerCell(sortBy, activeSort, styles, 'Team'),
+        fixed: false,
+        active: true,
+        align: 'center'
+    },
+    {
+        id: 'price',
+        name: 'Price',
+        label: headerCell(sortBy, activeSort, styles, 'Price'),
+        fixed: false,
+        active: true,
+        align: 'center'
+    },
+    {
+        id: 'points',
+        name: 'Points',
+        label: headerCell(sortBy, activeSort, styles, 'Points'),
+        fixed: false,
+        active: true,
+        align: 'center'
+    },
+    {
+        id: 'goals',
+        name: 'Goals',
+        label: headerCell(sortBy, activeSort, styles, 'Goals'),
+        fixed: false,
+        active: true,
+        align: 'center'
+    },
+    {
+        id: 'assists',
+        name: 'Assists',
+        label: headerCell(sortBy, activeSort, styles, 'Assists'),
+        fixed: false,
+        active: true,
+        align: 'center'
+    },
+    {
+        id: 'previousScore',
+        name: 'Previous Score',
+        label: headerCell(sortBy, activeSort, styles, 'PreviousScore'),
+        fixed: false,
+        active: true,
+        align: 'center'
+    }
+];

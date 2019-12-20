@@ -6,15 +6,16 @@ import classNames from 'classnames';
 import defaultStyles from './Table.module.scss';
 import Grid from '../../common/grid/Grid';
 import StyledInput from '../../common/StyledInput/StyledInput';
-import inputStyles from './InputStyles.module.scss';
+import inputStyles from '../common/InputStyles.module.scss';
 import StyledModal from '../../common/modal/StyledModal';
 import TableModal from './TableModal';
 import Dropdown from '../../common/dropdown/Dropdown';
 import Slider from '../../common/slider/Slider';
 import modalStyles from './StyledModal.module.scss';
 import {
-    RadioAscDesc, RadioPosition, marks, sortListAscDesc
+    RadioAscDesc, RadioPosition
 } from './helpers';
+import { marks, sortListAscDesc } from '../common/helpers';
 
 const Table = props => {
     const {

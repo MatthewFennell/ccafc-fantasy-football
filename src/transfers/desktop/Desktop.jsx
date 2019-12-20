@@ -1,45 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import defaultStyles from './Mobile.module.scss';
+import defaultStyles from './Desktop.module.scss';
 import Pitch from '../../common/pitch/Pitch';
 import StyledButton from '../../common/StyledButton/StyledButton';
-import Table from './Table';
 import * as constants from '../../constants';
 import Modals from '../common/Modals';
+import Table from './Table';
 
 const teamsAreDifferent = (original, current) => {
     const playersInCurrentNotInOriginal = current.filter(c => !original.some(x => x.id === c.id));
     return playersInCurrentNotInOriginal.length > 0 && current.length === 11;
 };
 
-const Mobile = props => (
+const Desktop = props => (
     <>
-        <SwipeableDrawer
-            anchor="right"
-            open={props.playerTableOpen}
-            onClose={props.closePlayerTable}
-            onOpen={noop}
-        >
-            <Table
-                activeTeam={props.currentTeam}
-                allPlayers={props.allPlayers}
-                allTeams={props.allTeams}
-                closePlayerTable={props.closePlayerTable}
-                fetchingAllPlayers={props.fetchingAllPlayers}
-                playerToRemove={props.playerToRemove}
-                onTransfersRequest={props.onTransfersRequest}
-                remainingBudget={props.remainingBudget}
-                positionFilter={props.positionFilter}
-                setPositionFilter={props.setPositionFilter}
-                setSortBy={props.setSortBy}
-                sortBy={props.sortBy}
-                stateObj={props.stateObj}
-            />
-        </SwipeableDrawer>
-        <div className={props.styles.pitchWrapper}>
-            <div className={props.styles.currentTeamWrapper}>
+        <div className={props.styles.transfersWrapperDesktop}>
+            <div className={props.styles.pitchWrapper}>
                 <div className={props.styles.transfersHeader}>
                     <div className={props.styles.remainingBudget}>
                         <div className={props.styles.remainingBudgetValue}>
@@ -81,6 +58,21 @@ const Mobile = props => (
                     renderEmptyPlayers
                 />
             </div>
+            <div className={props.styles.tableWrapper}>
+                <Table
+                    allPlayers={props.allPlayers}
+                    allTeams={props.allTeams}
+                    activeTeam={props.currentTeam}
+                    desktopColumns={props.desktopColumns}
+                    fetchingAllPlayers={props.fetchingAllPlayers}
+                    isAscendingSort={props.isAscendingSort}
+                    onTransfersRequest={props.onTransfersRequest}
+                    positionFilter={props.positionFilter}
+                    sortBy={props.sortBy}
+                    stateObj={props.stateObj}
+                    setPositionFilter={props.setPositionFilter}
+                />
+            </div>
         </div>
         <Modals
             closeRemoveModal={props.closeRemoveModal}
@@ -98,54 +90,52 @@ const Mobile = props => (
     </>
 );
 
-Mobile.defaultProps = {
+Desktop.defaultProps = {
     allPlayers: [],
     allTeams: [],
-    closePlayerTable: noop,
     closeRemoveModal: noop,
     closeRestoreModal: noop,
     closeTransfersError: noop,
     currentTeam: [],
+    desktopColumns: [],
+    originalTeam: [],
     fetchingAllPlayers: false,
     fetchingOriginalTeam: false,
-    onTransfersRequest: noop,
+    isAscendingSort: false,
     onPlayerClick: noop,
-    originalTeam: [],
-    remainingBudget: 0,
-    playerTableOpen: false,
+    onTransfersRequest: noop,
     playerToRemove: {},
     positionFilter: '',
+    remainingBudget: 0,
+    removePlayer: noop,
     removeModalOpen: false,
     restoreModalOpen: false,
-    removePlayer: noop,
     restorePlayer: noop,
-    setPositionFilter: noop,
     selectReplacement: noop,
-    setSortBy: noop,
+    setPositionFilter: noop,
     sortBy: '',
+    stateObj: {},
     styles: defaultStyles,
     transfersError: '',
     transfersErrorCode: '',
     undoTransferChanges: noop,
-    updateTeamRequest: noop,
-    stateObj: {}
+    updateTeamRequest: noop
 };
 
-Mobile.propTypes = {
+Desktop.propTypes = {
     allPlayers: PropTypes.arrayOf(PropTypes.shape({})),
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
-    closePlayerTable: PropTypes.func,
     closeRemoveModal: PropTypes.func,
     closeRestoreModal: PropTypes.func,
     closeTransfersError: PropTypes.func,
     currentTeam: PropTypes.arrayOf(PropTypes.shape({})),
+    desktopColumns: PropTypes.arrayOf(PropTypes.shape({})),
+    originalTeam: PropTypes.arrayOf(PropTypes.shape({})),
     fetchingAllPlayers: PropTypes.bool,
     fetchingOriginalTeam: PropTypes.bool,
-    onTransfersRequest: PropTypes.func,
+    isAscendingSort: PropTypes.bool,
     onPlayerClick: PropTypes.func,
-    originalTeam: PropTypes.arrayOf(PropTypes.shape({})),
-    remainingBudget: PropTypes.number,
-    playerTableOpen: PropTypes.bool,
+    onTransfersRequest: PropTypes.func,
     playerToRemove: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.shape({
@@ -156,20 +146,20 @@ Mobile.propTypes = {
         })
     ]),
     positionFilter: PropTypes.string,
+    remainingBudget: PropTypes.number,
     removeModalOpen: PropTypes.bool,
     removePlayer: PropTypes.func,
-    restorePlayer: PropTypes.func,
     restoreModalOpen: PropTypes.bool,
+    restorePlayer: PropTypes.func,
     selectReplacement: PropTypes.func,
     setPositionFilter: PropTypes.func,
-    setSortBy: PropTypes.func,
     sortBy: PropTypes.string,
+    stateObj: PropTypes.shape({}),
     styles: PropTypes.objectOf(PropTypes.string),
     transfersError: PropTypes.string,
     transfersErrorCode: PropTypes.string,
     undoTransferChanges: PropTypes.func,
-    updateTeamRequest: PropTypes.func,
-    stateObj: PropTypes.shape({})
+    updateTeamRequest: PropTypes.func
 };
 
-export default Mobile;
+export default Desktop;

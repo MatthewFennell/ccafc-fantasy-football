@@ -1,0 +1,38 @@
+@import "../../common/Styles.scss";
+
+.transfersWrapperDesktop {
+    display: flex;
+    // height: 90vh;
+    // overflow: scroll;
+
+    > div {
+        flex-grow: 1;
+    }
+}
+
+.pitchWrapper{
+    overflow: hidden;
+    height: 90vh;
+}
+
+.tableWrapper{
+      overflow: scroll;
+      height: 90vh;
+}
+
+.transfersHeader{
+    padding: $spacing-tiny;
+    display: flex;
+    justify-content: center;
+    background-color: $color-white;
+  
+    > div {
+      width: 33%;
+      @include vertical-center-div();
+    }
+    .remainingBudgetValue, .remainingTransfersValue {
+      font-size: $font-size-small;
+      color: $color-blue;
+      font-weight: bold;
+    }
+  }
