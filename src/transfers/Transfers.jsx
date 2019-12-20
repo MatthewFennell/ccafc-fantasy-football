@@ -12,6 +12,7 @@ import {
 import Mobile from './mobile/Mobile';
 import { getColumns } from './mobile/helpers';
 import Desktop from './desktop/Desktop';
+import { desktopColumns } from './helpers';
 
 const Transfers = props => {
     useEffect(() => {
@@ -71,7 +72,6 @@ const Transfers = props => {
         previousScoreFilter,
         setPreviousScoreFilter
     };
-
 
     const onPlayerClick = useCallback(player => {
         if (player.inactive) {
@@ -178,8 +178,11 @@ const Transfers = props => {
                             closeRestoreModal={closeRestore}
                             closeTransfersError={props.closeTransfersError}
                             currentTeam={props.currentTeam}
+                            desktopColumns={desktopColumns}
+                            fetchingAllPlayers={props.fetchingAllPlayers}
                             fetchingOriginalTeam={props.fetchingOriginalTeam}
                             onPlayerClick={onPlayerClick}
+                            onTransfersRequest={onTransfersRequest}
                             originalTeam={props.originalTeam}
                             playerToRemove={playerToRemove}
                             remainingBudget={props.remainingBudget}
@@ -199,40 +202,6 @@ const Transfers = props => {
             )}
         </Media>
     );
-
-    // return (
-    //     <Mobile
-    //         allPlayers={props.allPlayers}
-    //         allTeams={props.allTeams}
-    //         closeRemoveModal={closeRemove}
-    //         closeRestoreModal={closeRestore}
-    //         closePlayerTable={closeTable}
-    //         closeTransfersError={props.closeTransfersError}
-    //         currentTeam={props.currentTeam}
-    //         fetchingAllPlayers={props.fetchingAllPlayers}
-    //         fetchingOriginalTeam={props.fetchingOriginalTeam}
-    //         onPlayerClick={onPlayerClick}
-    //         onTransfersRequest={onTransfersRequest}
-    //         originalTeam={props.originalTeam}
-    //         playerTableOpen={playerTableOpen}
-    //         playerToRemove={playerToRemove}
-    //         positionFilter={positionFilter}
-    //         setPositionFilter={setPositionFilter}
-    //         remainingBudget={props.remainingBudget}
-    //         removeModalOpen={removeModalOpen}
-    //         removePlayer={removePlayer}
-    //         restorePlayer={restorePlayer}
-    //         restoreModalOpen={restoreModalOpen}
-    //         selectReplacement={selectReplacement}
-    //         setSortBy={setSortBy}
-    //         sortBy={sortBy}
-    //         transfersError={props.transfersError}
-    //         transfersErrorCode={props.transfersErrorCode}
-    //         undoTransferChanges={props.undoTransferChanges}
-    //         updateTeamRequest={props.updateTeamRequest}
-    //         stateObj={stateObj}
-    //     />
-    // );
 };
 
 Transfers.defaultProps = {

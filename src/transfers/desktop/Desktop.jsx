@@ -6,6 +6,7 @@ import Pitch from '../../common/pitch/Pitch';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import * as constants from '../../constants';
 import Modals from '../common/Modals';
+import Table from './Table';
 
 const teamsAreDifferent = (original, current) => {
     const playersInCurrentNotInOriginal = current.filter(c => !original.some(x => x.id === c.id));
@@ -58,7 +59,15 @@ const Desktop = props => (
                     renderEmptyPlayers
                 />
             </div>
-            <div className={props.styles.tableWrapper}>Table</div>
+            <div className={props.styles.tableWrapper}>
+                <Table
+                    allPlayers={props.allPlayers}
+                    desktopColumns={props.desktopColumns}
+                    fetchingAllPlayers={props.fetchingAllPlayers}
+                    onTransfersRequest={props.onTransfersRequest}
+                    stateObj={props.stateObj}
+                />
+            </div>
         </div>
         <Modals
             closeRemoveModal={props.closeRemoveModal}
@@ -77,13 +86,16 @@ const Desktop = props => (
 );
 
 Desktop.defaultProps = {
+    allPlayers: [],
     closeRemoveModal: noop,
     closeRestoreModal: noop,
     closeTransfersError: noop,
     currentTeam: [],
     originalTeam: [],
+    fetchingAllPlayers: false,
     fetchingOriginalTeam: false,
     onPlayerClick: noop,
+    onTransfersRequest: noop,
     playerToRemove: {},
     remainingBudget: 0,
     removePlayer: noop,
@@ -91,6 +103,7 @@ Desktop.defaultProps = {
     restoreModalOpen: false,
     restorePlayer: noop,
     selectReplacement: noop,
+    stateObj: {},
     styles: defaultStyles,
     transfersError: '',
     transfersErrorCode: '',
@@ -99,13 +112,16 @@ Desktop.defaultProps = {
 };
 
 Desktop.propTypes = {
+    allPlayers: PropTypes.arrayOf(PropTypes.shape({})),
     closeRemoveModal: PropTypes.func,
     closeRestoreModal: PropTypes.func,
     closeTransfersError: PropTypes.func,
     currentTeam: PropTypes.arrayOf(PropTypes.shape({})),
     originalTeam: PropTypes.arrayOf(PropTypes.shape({})),
+    fetchingAllPlayers: PropTypes.bool,
     fetchingOriginalTeam: PropTypes.bool,
     onPlayerClick: PropTypes.func,
+    onTransfersRequest: PropTypes.func,
     playerToRemove: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.shape({
@@ -121,6 +137,7 @@ Desktop.propTypes = {
     restoreModalOpen: PropTypes.bool,
     restorePlayer: PropTypes.func,
     selectReplacement: PropTypes.func,
+    stateObj: PropTypes.shape({}),
     styles: PropTypes.objectOf(PropTypes.string),
     transfersError: PropTypes.objectOf(PropTypes.string),
     transfersErrorCode: PropTypes.objectOf(PropTypes.string),

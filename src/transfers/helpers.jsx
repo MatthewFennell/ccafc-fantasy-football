@@ -154,3 +154,70 @@ export const canReplacePlayer = (oldPlayer, newPlayer, currentTeam) => {
     }
     return canAddPlayer(newPlayer, currentTeam.filter(x => x.id !== oldPlayer.id));
 };
+
+export const desktopColumns = [
+    {
+        id: 'name',
+        name: 'Name',
+        label: 'Name',
+        fixed: true,
+        active: true,
+        align: 'center'
+    },
+    {
+        id: 'position',
+        name: 'Pos',
+        label: 'Position',
+        fixed: false,
+        active: true,
+        align: 'center'
+    },
+    {
+        id: 'team',
+        name: 'Team',
+        label: 'Team',
+        fixed: false,
+        active: true,
+        align: 'center'
+    },
+    {
+        id: 'price',
+        name: 'Price',
+        label: 'Price',
+        fixed: false,
+        active: true,
+        align: 'center'
+    },
+    {
+        id: 'points',
+        name: 'Points',
+        label: 'Points',
+        fixed: false,
+        active: true,
+        align: 'center'
+    },
+    {
+        id: 'goals',
+        name: 'Goals',
+        label: 'Goals',
+        fixed: false,
+        active: true,
+        align: 'center'
+    },
+    {
+        id: 'assists',
+        name: 'Assists',
+        label: 'Assists',
+        fixed: false,
+        active: true,
+        align: 'center'
+    },
+    {
+        id: 'previousScore',
+        name: 'Previous Score',
+        label: 'Previous Score',
+        fixed: false,
+        active: true,
+        align: 'center'
+    }
+];
