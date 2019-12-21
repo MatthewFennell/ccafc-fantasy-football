@@ -14,42 +14,42 @@ export const columns = [
     {
         id: 'cleanSheet',
         label: 'Clean Sheets',
-        initialActive: false
+        initialActive: true
     },
     {
         id: 'redCard',
         label: 'Reds',
-        initialActive: false
+        initialActive: true
     },
     {
         id: 'yellowCard',
         label: 'Yellows',
-        initialActive: false
+        initialActive: true
     },
     {
         id: 'manOfTheMatch',
         label: 'MotM',
-        initialActive: false
+        initialActive: true
     },
     {
         id: 'dickOfTheDay',
         label: 'DotD',
-        initialActive: false
+        initialActive: true
     },
     {
         id: 'ownGoals',
         label: 'Own Goals',
-        initialActive: false
+        initialActive: true
     },
     {
         id: 'penaltySaves',
         label: 'Penalty Saves',
-        initialActive: false
+        initialActive: true
     },
     {
         id: 'penaltyMisses',
         label: 'Penalty Misses',
-        initialActive: false
+        initialActive: true
     }
 ];
 

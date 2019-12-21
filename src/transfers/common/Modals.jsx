@@ -6,7 +6,7 @@ import StyledModal from '../../common/modal/StyledModal';
 import ErrorModal from '../../common/modal/ErrorModal';
 import StyledButton from '../../common/StyledButton/StyledButton';
 
-const Desktop = props => (
+const Modals = props => (
     <>
         <ErrorModal
             closeModal={props.closeTransfersError}
@@ -65,7 +65,7 @@ const Desktop = props => (
     </>
 );
 
-Desktop.defaultProps = {
+Modals.defaultProps = {
     closeRemoveModal: noop,
     closeRestoreModal: noop,
     closeTransfersError: noop,
@@ -82,7 +82,7 @@ Desktop.defaultProps = {
     transfersErrorCode: ''
 };
 
-Desktop.propTypes = {
+Modals.propTypes = {
     closeRemoveModal: PropTypes.func,
     closeRestoreModal: PropTypes.func,
     closeTransfersError: PropTypes.func,
@@ -99,4 +99,4 @@ Desktop.propTypes = {
     transfersErrorCode: PropTypes.string
 };
 
-export default Desktop;
+export default Modals;

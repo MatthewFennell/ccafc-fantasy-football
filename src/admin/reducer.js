@@ -46,7 +46,8 @@ const initState = {
     loadingRejectedHighlights: false,
     loadedRejectedHighlights: false,
 
-    submittingExtraResults: false
+    submittingExtraResults: false,
+    editingStats: false
 };
 
 const adminReducer = (state = initState, action) => {
@@ -324,6 +325,15 @@ const adminReducer = (state = initState, action) => {
     }
     case actions.SUBMIT_EXTRA_STATS_SUCCESS: {
         return fp.set('submittingExtraResults', false)(state);
+    }
+    case actions.EDIT_PLAYER_STATS_REQUEST: {
+        return fp.set('editingStats', true)(state);
+    }
+    case actions.EDIT_PLAYER_STATS_SUCCESS: {
+        return fp.set('editingStats', false)(state);
+    }
+    case actions.EDIT_PLAYER_STATS_ERROR: {
+        return fp.set('editingStats', false)(state);
     }
     default:
         return state;

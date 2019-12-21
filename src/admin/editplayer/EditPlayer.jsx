@@ -263,7 +263,8 @@ const EditPlayer = props => {
         ownGoals, playerTeam, playerToEdit, week, penaltyMisses, penaltySaves]);
 
 
-    const rowsToUse = generateRows(props.playerStats, props.fetchingPlayerStats);
+    const rowsToUse = generateRows(props.playerStats,
+        props.fetchingPlayerStats || props.editingStats);
 
     console.log('player stats', props.playerStats);
 
@@ -315,6 +316,7 @@ EditPlayer.defaultProps = {
 
 EditPlayer.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
+    editingStats: PropTypes.bool.isRequired,
     editPlayerStatsRequest: PropTypes.func.isRequired,
     fetchingPlayerStats: PropTypes.bool,
     fetchPlayerStatsRequest: PropTypes.func.isRequired,
@@ -350,6 +352,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
     allTeams: state.admin.allTeams,
+    editingStats: state.admin.editingStats,
     fetchingPlayerStats: state.admin.fetchingPlayerStats,
     maxGameWeek: state.overview.maxGameWeek,
     playerStats: state.admin.playerStats,

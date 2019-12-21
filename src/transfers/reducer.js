@@ -150,7 +150,7 @@ const transfersReducer = (state = initialState, action) => {
         const budgetDiff = action.oldPlayer.price - action.newPlayer.price;
         return fp.flow(
             fp.set('currentTeam', state.currentTeam.map(x => (x.id === action.oldPlayer.id ? action.newPlayer : x))),
-            fp.set('remainingBudget', budgetDiff)
+            fp.set('remainingBudget', state.remainingBudget - budgetDiff)
         )(state);
     }
     case actions.UPDATE_TEAM_REQUEST: {
