@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Media from 'react-media';
+import _ from 'lodash';
 import { fetchUserStatsRequest } from '../overview/actions';
 import { fetchActiveTeamRequest } from '../currentteam/actions';
 import {
@@ -86,7 +87,9 @@ const Transfers = props => {
     }, []);
 
     const removePlayer = useCallback(() => {
-        props.removePlayerFromCurrentTeam(playerToRemove);
+        if (!_.isEmpty(playerToRemove)) {
+            props.removePlayerFromCurrentTeam(playerToRemove);
+        }
         setRemoveModalOpen(false);
         setPlayerToRemove({});
         // eslint-disable-next-line
@@ -97,14 +100,20 @@ const Transfers = props => {
         setPositionFilter(playerToRemove.position || positionFilter);
         setPlayerTableOpen(true);
         setRemoveModalOpen(false);
+        setRestoreModalOpen(false);
+        setPlayerToRemove({});
     }, [setPlayerTableOpen, playerToRemove, positionFilter]);
 
     const selectReplacementDesktop = useCallback(() => {
-        props.removePlayerFromCurrentTeam(playerToRemove);
+        if (!_.isEmpty(playerToRemove)) {
+            props.removePlayerFromCurrentTeam(playerToRemove);
+        }
         setSortBy('position');
         setPositionFilter(playerToRemove.position || positionFilter);
         setPlayerTableOpen(true);
         setRemoveModalOpen(false);
+        setRestoreModalOpen(false);
+        setPlayerToRemove({});
         // eslint-disable-next-line
     }, [setPlayerTableOpen, playerToRemove, positionFilter, props.removePlayerFromCurrentTeam]);
 
