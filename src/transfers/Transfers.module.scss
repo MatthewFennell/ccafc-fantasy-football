@@ -5,6 +5,14 @@
     color: $color-blue;
 }
 
-.headerCell:focus{
+.headerCell {
+    cursor: pointer;
+}
+
+.headerCell:hover {
+    color: $color-dark-blue;
+}
+
+.headerCell:focus {
     outline-width: 0px;
 }
