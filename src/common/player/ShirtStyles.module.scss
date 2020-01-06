@@ -1,3 +1,29 @@
-.shirt{
-  color: yellow !important;
+@import "../Styles.scss";
+
+.inactive {
+  color: $color-gray ;
+}
+
+.DEFAULT_GOALKEEPER {
+  color: $color-black;
+}
+
+.DEFAULT_OUTFIELD {
+  color: $color-dark-blue;
+}
+
+.ENGLAND_KEEPER {
+  color: green ;
+}
+
+.ENGLAND_OUTFIELD {
+  color: blue ;
+}
+
+.ITALY_KEEPER {
+  color: red ;
+}
+
+.ITALY_OUTFIELD {
+  color: orange;
 }
