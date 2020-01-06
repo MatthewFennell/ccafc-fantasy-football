@@ -5,9 +5,6 @@ import { noop } from 'lodash';
 import defaultStyles from './Pitch.module.scss';
 import Player from '../player/Player';
 import Spinner from '../spinner/Spinner';
-import defaultActivePlayerStyles from './ActivePlayer.module.scss';
-import defaultGoalkeeperStyles from './Goalkeeper.module.scss';
-import inactivePlayerStyles from './InactivePlayer.module.scss';
 import * as constants from '../../constants';
 
 const Pitch = props => {
@@ -29,17 +26,18 @@ const Pitch = props => {
         return 11 - props.activeTeam.filter(x => !x.inactive).length - numAttIHaveToAdd - numMidIHaveToAdd - numDefIHaveToAdd;
     };
 
-    const renderPlayers = (position, styles) => props.activeTeam
+    const renderPlayers = position => props.activeTeam
         .filter(player => player.position === position).map(player => (
             <Player
                 additionalInfo={props.additionalInfo(player)}
                 isCaptain={props.captain === player.id}
                 name={player.name}
                 onClick={() => props.onPlayerClick(player)}
-                shirtStyles={player.inactive === true ? inactivePlayerStyles : styles}
                 showCaptain={props.showCaptain}
                 size="4x"
                 key={player.name}
+                team={player.team}
+                position={position}
             />
         ));
 
@@ -51,10 +49,11 @@ const Pitch = props => {
         for (let x = 0; x < numToRender; x += 1) {
             players.push(<Player
                 additionalInfo=""
+                inactive
                 name="No player selected"
                 onClick={() => props.onPlayerClick({ position: pos })}
-                shirtStyles={inactivePlayerStyles}
                 size="4x"
+                team={null}
                 key={x}
             />);
         }
@@ -71,20 +70,20 @@ const Pitch = props => {
                 : (
                     <>
                         <div className={props.styles.goalKeepers}>
-                            {renderPlayers('GOALKEEPER', props.goalkeeperStyles)}
+                            {renderPlayers('GOALKEEPER')}
                             {calculateToRender(props.maxInPos.GOALKEEPER, 'GOALKEEPER')}
                         </div>
                         <div className={props.styles.defenders}>
-                            {renderPlayers('DEFENDER', props.activePlayerStyles)}
+                            {renderPlayers('DEFENDER')}
                             {calculateToRender(props.maxInPos.DEFENDER, 'DEFENDER')}
                         </div>
                         <div className={props.styles.midfielders}>
-                            {renderPlayers('MIDFIELDER', props.activePlayerStyles)}
+                            {renderPlayers('MIDFIELDER')}
                             {calculateToRender(props.maxInPos.MIDFIELDER, 'MIDFIELDER')}
                         </div>
 
                         <div className={props.styles.attackers}>
-                            {renderPlayers('ATTACKER', props.activePlayerStyles)}
+                            {renderPlayers('ATTACKER')}
                             {calculateToRender(props.maxInPos.ATTACKER, 'ATTACKER')}
                         </div>
                     </>
@@ -94,11 +93,9 @@ const Pitch = props => {
 };
 
 Pitch.defaultProps = {
-    activePlayerStyles: defaultActivePlayerStyles,
     activeTeam: [],
     additionalInfo: noop,
     captain: '',
-    goalkeeperStyles: defaultGoalkeeperStyles,
     loading: false,
     maxInPos: {
         GOALKEEPER: 1,
@@ -112,7 +109,6 @@ Pitch.defaultProps = {
 };
 
 Pitch.propTypes = {
-    activePlayerStyles: PropTypes.objectOf(PropTypes.string),
     activeTeam: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string,
         position: PropTypes.string,
@@ -120,7 +116,6 @@ Pitch.propTypes = {
     })),
     additionalInfo: PropTypes.func,
     captain: PropTypes.string,
-    goalkeeperStyles: PropTypes.objectOf(PropTypes.string),
     loading: PropTypes.bool,
     maxInPos: PropTypes.shape({
         GOALKEEPER: PropTypes.number,
