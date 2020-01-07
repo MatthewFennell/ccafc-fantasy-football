@@ -8,6 +8,10 @@ const playerPositionsObject = {
     Italy: {
         GOALKEEPER: 'ITALY_KEEPER',
         [constants.POSITIONS.OUTFIELD]: 'ITALY_OUTFIELD'
+    },
+    Brazil: {
+        GOALKEEPER: 'BRAZIL_KEEPER',
+        [constants.POSITIONS.OUTFIELD]: 'BRAZIL_OUTFIELD'
     }
 };
 

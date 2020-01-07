@@ -34,7 +34,6 @@ const Pitch = props => {
                 name={player.name}
                 onClick={() => props.onPlayerClick(player)}
                 showCaptain={props.showCaptain}
-                size="4x"
                 key={player.name}
                 team={player.team}
                 position={position}
@@ -52,7 +51,6 @@ const Pitch = props => {
                 inactive
                 name="No player selected"
                 onClick={() => props.onPlayerClick({ position: pos })}
-                size="4x"
                 team={null}
                 key={x}
             />);
