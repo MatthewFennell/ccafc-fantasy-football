@@ -9,6 +9,7 @@ import * as selectors from './selectors';
 import Spinner from '../common/spinner/Spinner';
 import { generateOverviewRoute } from '../helperFunctions';
 
+
 const Overview = props => {
     useEffect(() => {
         if (props.currentGameWeek || props.currentGameWeek === 0) {
