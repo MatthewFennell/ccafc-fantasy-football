@@ -30,6 +30,7 @@ import Transfers from './transfers/Transfers';
 import Stats from './stats/Stats';
 import Charts from './charts/Charts';
 import Highlights from './highlights/Highlights';
+import Fixtures from './fixtures/Fixtures';
 
 import * as routes from './routes';
 
@@ -53,6 +54,7 @@ const App = props => (
                             <AuthenticatedRoute exact path={`${constants.URL.STATS}/:teamId/:minWeek/:maxWeek`} component={Stats} />
                             <AuthenticatedRoute exact path={constants.URL.CHARTS} component={Charts} />
                             <AuthenticatedRoute exact path={constants.URL.HIGHLIGHTS} component={Highlights} />
+                            <AuthenticatedRoute exact path={constants.URL.FIXTURES} component={Fixtures} />
 
                             <UnauthenticatedRoute path={constants.URL.SIGN_IN} component={SignIn} redirect={`${constants.URL.OVERVIEW}/${props.auth.uid}/${props.maxGameWeek}`} />
                             <UnauthenticatedRoute path={constants.URL.SIGN_UP} component={SignUp} redirect={`${constants.URL.OVERVIEW}/${props.auth.uid}/${props.maxGameWeek}`} />

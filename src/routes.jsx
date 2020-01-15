@@ -40,6 +40,7 @@ import Transfers from './transfers/Transfers';
 import Stats from './stats/Stats';
 import Charts from './charts/Charts';
 import Highlights from './highlights/Highlights';
+import Fixtures from './fixtures/Fixtures';
 
 export const adminLinks = [
     {
@@ -199,5 +200,13 @@ export const signedInLinks = [
         addUserId: false,
         path: () => constants.URL.HIGHLIGHTS,
         urlIncludes: constants.URL.HIGHLIGHTS
+    },
+    {
+        title: 'Fixtures',
+        icon: <VideoLibraryIcon />,
+        component: Fixtures,
+        addUserId: false,
+        path: () => constants.URL.FIXTURES,
+        urlIncludes: constants.URL.FIXTURES
     }
 ];
