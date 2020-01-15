@@ -3,14 +3,26 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import { noop } from 'lodash';
 import defaultStyles from './Overview.module.scss';
-import { fetchUserStatsRequest, fetchUserInfoForWeekRequest, fetchUserInfoForWeekRequestBackground } from './actions';
+import {
+    fetchUserStatsRequest, fetchUserInfoForWeekRequest, fetchUserInfoForWeekRequestBackground,
+    scrapeDataRequest
+} from './actions';
 import * as selectors from './selectors';
 import Spinner from '../common/spinner/Spinner';
 import { generateOverviewRoute } from '../helperFunctions';
 
+const x = 'Mens Football - Premiership';
+
+const y = x.split('-');
+console.log('y', y);
 
 const Overview = props => {
+    useEffect(() => {
+        props.scrapeDataRequest();
+    }, []);
+
     useEffect(() => {
         if (props.currentGameWeek || props.currentGameWeek === 0) {
             props.fetchUserInfoForWeekRequest(props.userId, props.currentGameWeek);
@@ -136,6 +148,7 @@ Overview.defaultProps = {
     maxGameWeek: null,
     remainingBudget: null,
     remainingTransfers: null,
+    scrapeDataRequest: noop,
     styles: defaultStyles,
     totalPoints: null,
     userId: '',
@@ -160,6 +173,7 @@ Overview.propTypes = {
     maxGameWeek: PropTypes.number,
     remainingBudget: PropTypes.number,
     remainingTransfers: PropTypes.number,
+    scrapeDataRequest: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string),
     totalPoints: PropTypes.number,
     userId: PropTypes.string,
@@ -169,7 +183,8 @@ Overview.propTypes = {
 const mapDispatchToProps = {
     fetchUserInfoForWeekRequest,
     fetchUserInfoForWeekRequestBackground,
-    fetchUserStatsRequest
+    fetchUserStatsRequest,
+    scrapeDataRequest
 };
 
 const mapStateToProps = (state, props) => ({

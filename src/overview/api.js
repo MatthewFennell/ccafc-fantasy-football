@@ -17,3 +17,6 @@ export const getUserStats = request => functionToCall('users-userStats')(request
 
 export const getMaxGameWeek = request => functionToCall('users-maxGameWeek')(request)
     .then(data => data.data);
+
+export const scrapeData = request => functionToCall('scrapeData')(request)
+    .then(data => data.data);
