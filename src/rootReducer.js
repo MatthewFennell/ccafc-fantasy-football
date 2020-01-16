@@ -24,13 +24,13 @@ const appReducer = history => combineReducers({
     leagues: leagueReducer,
     firestore: firestoreReducer,
     firebase: firebaseReducer,
+    fixtures: fixturesReducer,
+    highlights: highlightsReducer,
     overview: overviewReducer,
     points: pointsReducer,
     profile: profileReducer,
     transfers: transfersReducer,
     stats: statsReducer,
-    highlights: highlightsReducer,
-    fixtures: fixturesReducer,
     router: connectRouter(history)
 });
 

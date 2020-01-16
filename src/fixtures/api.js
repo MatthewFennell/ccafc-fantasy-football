@@ -1,5 +1,9 @@
 import { functionToCall } from '../api/api';
 
-// eslint-disable-next-line import/prefer-default-export
-export const scrapeData = request => functionToCall('scrapeData')(request)
-    .then(data => data.data);
+export const getFixtures = request => functionToCall('fixtures-findFixtures')(request)
+    .then(response => response.data);
+
+export const setMyTeam = request => functionToCall('setMyTeam')(request);
+
+export const fetchMyTeam = request => functionToCall('getMyTeam')(request)
+    .then(response => response.data);

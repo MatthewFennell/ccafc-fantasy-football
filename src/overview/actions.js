@@ -1,7 +1,5 @@
 const pre = 'OVERVIEW/';
 
-export const SCRAPE_DATA_REQUEST = `${pre}SCRAPE_DATA_REQUEST`;
-
 export const FETCH_MAX_GAMEWEEK_REQUEST = `${pre}FETCH_MAX_GAMEWEEK_REQUEST`;
 export const FETCH_MAX_GAMEWEEK_SUCCESS = `${pre}FETCH_MAX_GAMEWEEK_SUCCESS`;
 export const FETCH_MAX_GAMEWEEK_ERROR = `${pre}FETCH_MAX_GAMEWEEK_ERROR`;
@@ -20,10 +18,6 @@ export const ALREADY_FETCHED_USER_INFO_FOR_WEEK = `${pre}ALREADY_FETCHED_USER_IN
 export const ALREADY_FETCHED_USER_STATS = `${pre}ALREADY_FETCHED_USER_STATS`;
 
 export const FETCH_USER_INFO_FOR_WEEK_REQUEST_BACKGROUND = `${pre}FETCH_USER_INFO_FOR_WEEK_REQUEST_BACKGROUND`;
-
-export const scrapeDataRequest = () => ({
-    type: SCRAPE_DATA_REQUEST
-});
 
 export const fetchUserInfoForWeekRequestBackground = (userId, week) => ({
     type: FETCH_USER_INFO_FOR_WEEK_REQUEST_BACKGROUND,

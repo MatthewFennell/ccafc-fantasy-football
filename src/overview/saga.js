@@ -21,16 +21,6 @@ function* getUserStats(action) {
     }
 }
 
-
-function* scrapeData() {
-    try {
-        const scrapedData = yield call(api.scrapeData);
-        console.log('scraped data', scrapedData);
-    } catch (error) {
-        yield put(actions.fetchMaxGameWeekError(error));
-    }
-}
-
 function* getMaxGameWeek() {
     try {
         const maxGameWeek = yield call(api.getMaxGameWeek);
@@ -63,7 +53,6 @@ export default function* overviewSaga() {
         takeEvery(actions.FETCH_USER_STATS_REQUEST, getUserStats),
         takeEvery(actions.FETCH_MAX_GAMEWEEK_REQUEST, getMaxGameWeek),
         takeEvery(actions.FETCH_USER_INFO_FOR_WEEK_REQUEST, getUserInfoForWeek),
-        takeEvery(actions.FETCH_USER_INFO_FOR_WEEK_REQUEST_BACKGROUND, getUserInfoForWeek),
-        takeEvery(actions.SCRAPE_DATA_REQUEST, scrapeData)
+        takeEvery(actions.FETCH_USER_INFO_FOR_WEEK_REQUEST_BACKGROUND, getUserInfoForWeek)
     ]);
 }

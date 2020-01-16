@@ -16,3 +16,21 @@
         @include vertical-center-div();
     }
 }
+
+.fixturesWrapper{
+    padding: $spacing-medium;
+    margin: $spacing-medium;
+    text-align: center;
+    @include light-box-shadow();
+    background-color: $color-white;
+
+    .extraFilters{
+        display: flex;
+        flex-wrap: wrap;
+
+        > div {
+            flex-grow: 1;
+            @include vertical-center-div();
+        }
+    }
+}

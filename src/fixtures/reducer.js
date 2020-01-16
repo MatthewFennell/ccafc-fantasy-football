@@ -3,7 +3,9 @@ import * as actions from './actions';
 
 const initialState = {
     fixtures: [],
-    loadingFixtures: false
+    loadingFixtures: false,
+    loadingMyTeam: false,
+    myTeam: ''
 };
 
 const fixturesReducer = (state = initialState, action) => {
@@ -20,6 +22,25 @@ const fixturesReducer = (state = initialState, action) => {
     }
     case actions.FETCH_FIXTURES_ERROR: {
         return fp.set('loadingFixtures', false)(state);
+    }
+    case actions.SET_MY_TEAM: {
+        return {
+            ...state,
+            myTeam: action.team,
+            loadingMyTeam: false
+        };
+    }
+    case actions.FETCH_MY_TEAM_REQUEST: {
+        return fp.set('loadingMyTeam', true)(state);
+    }
+    case actions.FETCH_MY_TEAM_ERROR: {
+        return fp.set('loadingMyTeam', false)(state);
+    }
+    case actions.SET_MY_TEAM_ERROR: {
+        return fp.set('loadingMyTeam', false)(state);
+    }
+    case actions.SET_MY_TEAM_REQUEST: {
+        return fp.set('loadingMyTeam', true)(state);
     }
     default:
         return state;
