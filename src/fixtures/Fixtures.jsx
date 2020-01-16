@@ -10,6 +10,48 @@ import Spinner from '../common/spinner/Spinner';
 import RadioButton from '../common/radio/RadioButton';
 import Toggle from '../common/Toggle/Toggle';
 import StyledInput from '../common/StyledInput/StyledInput';
+import Grid from '../common/grid/Grid';
+
+const gridStyles = {
+    root: {
+        width: '100%'
+    },
+    tableWrapper: {
+        // maxHeight: 440,
+        overflow: 'auto'
+    },
+    maxHeightSet: {
+        maxHeight: 400
+    }
+};
+
+const columns = [
+    {
+        id: 'teamOne',
+        label: 'Home',
+        align: 'center'
+    },
+    {
+        id: 'result',
+        label: 'Status',
+        align: 'center'
+    },
+    {
+        id: 'teamTwo',
+        label: 'Away',
+        align: 'center'
+    },
+    {
+        id: 'location',
+        label: 'Location',
+        align: 'center'
+    },
+    {
+        id: 'time',
+        label: 'Time',
+        align: 'center'
+    }
+];
 
 const fixturesFilters = (myTeam, fixtures) => {
     const leagues = fixtures.reduce((prev, curr) => _.uniqBy(
@@ -66,14 +108,31 @@ const generateCollingwoodTeams = fixtures => fixtures
         text: x
     }));
 
+const filterFixtures = (fixtures, league, collingwoodOnly, upcomingOnly, teamName) => {
+    // My team could be selected - causes the league to be the name of their team
+    const leagueFilter = league === 'All' ? () => true
+        : x => x.league === league || x.teamOne === league || x.teamTwo === league;
+
+    const collingwoodOnlyFilter = collingwoodOnly
+        ? x => x.teamOne.includes('Collingwood') || x.teamTwo.includes('Collingwood') : () => true;
+
+    const upcomingOnlyFilter = upcomingOnly ? x => !x.completed : () => true;
+
+    const teamNameFilter = x => x.teamOne.includes(teamName) || x.teamTwo.includes(teamName);
+
+    return fixtures
+        .filter(leagueFilter)
+        .filter(collingwoodOnlyFilter)
+        .filter(upcomingOnlyFilter)
+        .filter(teamNameFilter);
+};
+
 const Fixtures = props => {
     const [myTeam, setMyTeam] = useState('');
     const [radioValue, setRadioValue] = useState(props.myTeam);
     const [collingwoodOnly, setCollingwoodOnly] = useState(false);
     const [upcomingMatchesOnly, setUpcomingMatchesOnly] = useState(false);
     const [teamNameFilter, setTeamNameFilter] = useState('');
-
-    console.log('radio value', radioValue);
 
     useEffect(() => {
         props.fetchFixturesRequest();
@@ -93,7 +152,6 @@ const Fixtures = props => {
         setTeamNameFilter(x);
         setCollingwoodOnly(false);
     }, [teamNameFilter, setTeamNameFilter, collingwoodOnly, setCollingwoodOnly]);
-
 
     return (
         <div>
@@ -157,6 +215,25 @@ const Fixtures = props => {
                         <StyledInput label="Team Name" onChange={searchByTeamName} value={teamNameFilter} />
                     </div>
                 </div>
+                <div>
+                    <Grid
+                        columns={columns}
+                        gridHeader="Fixtures"
+                        loading={props.loadingFixtures}
+                        onRowClick={noop}
+                        rows={filterFixtures(
+                            props.fixtures,
+                            radioValue,
+                            collingwoodOnly,
+                            upcomingMatchesOnly,
+                            teamNameFilter
+                        )}
+                        showPagination={false}
+                        rowsPerPageOptions={[100000]}
+                        maxHeightGrid
+                        gridStyles={gridStyles}
+                    />
+                </div>
             </div>
         </div>
     );
@@ -166,6 +243,7 @@ Fixtures.defaultProps = {
     fetchFixturesRequest: noop,
     fetchMyTeamRequest: noop,
     fixtures: [],
+    loadingFixtures: false,
     loadingMyTeam: false,
     myTeam: '',
     setMyTeamRequest: noop,
@@ -184,6 +262,7 @@ Fixtures.propTypes = {
         completed: PropTypes.bool,
         league: PropTypes.string
     })),
+    loadingFixtures: PropTypes.bool,
     loadingMyTeam: PropTypes.bool,
     myTeam: PropTypes.string,
     setMyTeamRequest: PropTypes.func,
@@ -192,6 +271,7 @@ Fixtures.propTypes = {
 
 const mapStateToProps = state => ({
     fixtures: state.fixtures.fixtures,
+    loadingFixtures: state.fixtures.loadingFixtures,
     loadingMyTeam: state.fixtures.loadingMyTeam,
     myTeam: state.fixtures.myTeam
 });
