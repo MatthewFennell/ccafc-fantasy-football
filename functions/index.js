@@ -4,6 +4,8 @@ const functions = require('firebase-functions');
 const fp = require('lodash/fp');
 const lodash = require('lodash');
 const firestore = require('@google-cloud/firestore');
+const nodemailer = require('nodemailer');
+const smtpTransport = require('nodemailer-smtp-transport');
 const constants = require('./src/constants');
 const common = require('./src/common');
 
@@ -59,4 +61,54 @@ exports.getMyTeam = functions
                 return 'No team set';
             }
         );
+    });
+
+exports.submitFeature = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+
+        // const getDisplayName = id => db.collection('users').doc(id).get()
+        //     .then(user => user.data().displayName);
+
+        return db.collection('feature-requests')
+            .where('userId', '==', context.auth.uid).get().then(
+                requests => {
+                    console.log('config', config);
+                    const transporter = nodemailer.createTransport({
+                        host: 'smtp.gmail.com',
+                        port: 587,
+                        secure: false,
+                        requireTLS: true,
+                        auth: {
+                            user: 'ccafcfantasy@gmail.com',
+                            pass: '1mfnriJ5ndkN5lsl(l'
+                        }
+                    });
+
+                    const mailOptions = {
+                        from: '<noreply.ccafcfantasy@gmail.com>',
+                        to: 'pampoomiofennell@gmail.com',
+                        subject: `${'Tim'} sent a feature request`,
+                        text: data.description
+                    };
+
+
+                    if (requests.size > 30) {
+                        throw new functions.https.HttpsError('invalid-argument', 'A maximum 3 requests are allowed to be active');
+                    }
+                    transporter.sendMail(mailOptions, (error, info) => {
+                        if (error) {
+                            return console.log(error.message);
+                        }
+                        console.log('success', info);
+                    });
+
+                    return db.collection('feature-requests').add({
+                        userId: context.auth.uid,
+                        description: data.description,
+                        dateCreated: operations.serverTimestamp()
+                    });
+                }
+            );
     });

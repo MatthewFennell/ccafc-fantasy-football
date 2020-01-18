@@ -15,6 +15,7 @@ export const URL = {
     CHARTS: '/charts',
     HIGHLIGHTS: '/highlights',
     FIXTURES: '/fixtures',
+    FEATURE_REQUEST: '/feature-request',
 
     CREATE_PLAYER: '/create-player',
     DELETE_PLAYER: '/delete-player',

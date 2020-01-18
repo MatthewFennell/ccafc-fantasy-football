@@ -15,6 +15,7 @@ import statsReducer from './stats/reducer';
 import chartsReducer from './charts/reducer';
 import highlightsReducer from './highlights/reducer';
 import fixturesReducer from './fixtures/reducer';
+import featureRequestReducer from './featurerequest/reducer';
 
 const appReducer = history => combineReducers({
     admin: adminReducer,
@@ -22,6 +23,7 @@ const appReducer = history => combineReducers({
     charts: chartsReducer,
     currentTeam: currentTeamReducer,
     leagues: leagueReducer,
+    featureRequest: featureRequestReducer,
     firestore: firestoreReducer,
     firebase: firebaseReducer,
     fixtures: fixturesReducer,

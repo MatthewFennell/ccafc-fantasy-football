@@ -4,7 +4,6 @@ import {
 import * as actions from './actions';
 import * as api from './api';
 
-
 function* fetchFixtures() {
     try {
         const fixtures = yield call(api.getFixtures);

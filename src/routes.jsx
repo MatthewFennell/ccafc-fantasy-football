@@ -16,6 +16,7 @@ import WavesIcon from '@material-ui/icons/Waves';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import VideoLabelIcon from '@material-ui/icons/VideoLabel';
 import DehazeIcon from '@material-ui/icons/Dehaze';
+import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 
 import fp from 'lodash/fp';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
@@ -42,6 +43,7 @@ import Stats from './stats/Stats';
 import Charts from './charts/Charts';
 import Highlights from './highlights/Highlights';
 import Fixtures from './fixtures/Fixtures';
+import FeatureRequest from './featurerequest/FeatureRequest';
 
 export const adminLinks = [
     {
@@ -209,5 +211,16 @@ export const signedInLinks = [
         addUserId: false,
         path: () => constants.URL.FIXTURES,
         urlIncludes: constants.URL.FIXTURES
+    },
+    {
+        title: 'Feature Request',
+        icon: <QuestionAnswerIcon />,
+        component: FeatureRequest,
+        addUserId: false,
+        path: () => constants.URL.FEATURE_REQUEST,
+        urlIncludes: constants.URL.FEATURE_REQUEST
     }
 ];
+
+
+const x = 5;

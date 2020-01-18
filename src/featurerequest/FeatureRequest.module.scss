@@ -1,0 +1,21 @@
+@import "../common/Styles.scss";
+
+.featureRequestWrapper{
+    padding: $spacing-medium;
+    margin: $spacing-medium;
+    text-align: center;
+    @include light-box-shadow();
+    background-color: $color-white;
+
+    .header{
+        color: $color-blue;
+        font-weight: bold;
+        margin-bottom: $spacing-small;
+    }
+
+    .charactersRemaining{
+        font-weight: bold;
+        color: $color-gray;
+        padding: $spacing-small;
+    }
+}
