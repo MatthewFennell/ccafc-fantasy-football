@@ -15,6 +15,7 @@ import TransferWithinAStationIcon from '@material-ui/icons/TransferWithinAStatio
 import WavesIcon from '@material-ui/icons/Waves';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import VideoLabelIcon from '@material-ui/icons/VideoLabel';
+import DehazeIcon from '@material-ui/icons/Dehaze';
 
 import fp from 'lodash/fp';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
@@ -203,7 +204,7 @@ export const signedInLinks = [
     },
     {
         title: 'Fixtures',
-        icon: <VideoLibraryIcon />,
+        icon: <DehazeIcon />,
         component: Fixtures,
         addUserId: false,
         path: () => constants.URL.FIXTURES,
