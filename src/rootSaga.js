@@ -10,6 +10,7 @@ import transfersSaga from './transfers/saga';
 import statsSaga from './stats/saga';
 import chartsSaga from './charts/saga';
 import highlightSaga from './highlights/saga';
+import fixturesSaga from './fixtures/saga';
 
 export default function* rootSaga() {
     yield all([
@@ -23,6 +24,7 @@ export default function* rootSaga() {
         transfersSaga(),
         statsSaga(),
         chartsSaga(),
-        highlightSaga()
+        highlightSaga(),
+        fixturesSaga()
     ]);
 }

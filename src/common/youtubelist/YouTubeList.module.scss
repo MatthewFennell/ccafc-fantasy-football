@@ -4,13 +4,11 @@
   margin: $spacing-medium;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
 .videoWrapper{
-  min-width: 24%;
   margin: $spacing-small;
-  // margin-left: auto;
-  margin-right: auto;
   background-color: $color-white;
   @include light-box-shadow();
 }

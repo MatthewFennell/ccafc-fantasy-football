@@ -1,29 +1,45 @@
 @import "../Styles.scss";
 
+.player {  
+  background-size: 100% 100%;
+  width: $spacing-massive;
+  height: $spacing-huge;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .inactive {
-  color: $color-gray ;
+  background-image: url("./kits/empty-player.gif");
 }
 
 .DEFAULT_GOALKEEPER {
-  color: $color-black;
+  background-image: url("./kits/Keeper.png");
 }
 
 .DEFAULT_OUTFIELD {
-  color: $color-dark-blue;
+  background-image: url("./kits/temp-kit.gif");
 }
 
 .ENGLAND_KEEPER {
-  color: green ;
+  background-image: url("./kits/Keeper.png");
 }
 
 .ENGLAND_OUTFIELD {
-  color: blue ;
+  background-image: url("./kits/temp-kit.gif");
 }
 
 .ITALY_KEEPER {
-  color: red ;
+  background-image: url("./kits/Keeper.png");
 }
 
 .ITALY_OUTFIELD {
-  color: orange;
+  background-image: url("./kits/Italy.png");
+}
+
+.BRAZIL_KEEPER {
+  background-image: url("./kits/Keeper.png");
+}
+
+.BRAZIL_OUTFIELD {
+  background-image: url("./kits/Brazil.png");
 }

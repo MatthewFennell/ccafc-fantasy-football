@@ -130,7 +130,6 @@ const ApproveHighlights = props => {
     }, [modalAction, activeHightlight, fancyModalOpen, closeFancyModal, reasonToReject]);
 
     const openFancyModal = useCallback((id, action) => {
-        console.log('id', id);
         if (action === modalOptions.REAPPROVE) {
             setModalText('Reapprove highlight');
         }
@@ -164,15 +163,13 @@ const ApproveHighlights = props => {
     </div>
     }));
 
-    console.log('id', activeHightlight);
-
     return (
         <>
             <div className={props.styles.approveHighlightsWrapper}>
                 <div className={props.styles.highlightInfo}>
                 Here you can approve / reject highlights. Please give a reason when rejecting.
                 You can also delete active highlights and reapprove rejected ones.
-                Rejected highlights are automatically once they are at least a month old.
+                Rejected highlights are automatically deleted once they are at least a month old.
                 </div>
             </div>
             <div className={props.styles.highlightsWrapper}>

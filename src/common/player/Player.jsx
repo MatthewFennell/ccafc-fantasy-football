@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MDBIcon } from 'mdbreact';
 import { noop } from 'lodash';
 import fp from 'lodash/fp';
+import classNames from 'classnames';
 import defaultStyles from './Player.module.scss';
 import defaultShirtStyles from './ShirtStyles.module.scss';
 import playerPositionsObject from './TeamMappings';
@@ -21,15 +21,14 @@ const generateClassName = (inactive, team, position) => {
 const Player = props => (
     <div className={props.styles.playerWrapper} onClick={props.onClick} role="button" tabIndex={0}>
         <div className={props.styles.hover}>
-            <div>
-                <MDBIcon
-                    icon="tshirt"
-                    size={props.size}
-                    className={props.shirtStyles[generateClassName(
+            <div
+                className={classNames({
+                    [props.shirtStyles[generateClassName(
                         props.inactive, props.team, props.position
-                    )]}
-                />
-            </div>
+                    )]]: true,
+                    [props.shirtStyles.player]: true
+                })}
+            />
             <div className={props.styles.playerInfoWrapper}>
                 <div className={props.styles.nameText}>
                     {props.name}
@@ -55,7 +54,6 @@ Player.defaultProps = {
     onClick: noop,
     position: '',
     shirtStyles: defaultShirtStyles,
-    size: '3x',
     showCaptain: false,
     styles: defaultStyles,
     team: ''
@@ -73,7 +71,6 @@ Player.propTypes = {
     position: PropTypes.string,
     shirtStyles: PropTypes.objectOf(PropTypes.string),
     showCaptain: PropTypes.bool,
-    size: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
     team: PropTypes.objectOf(PropTypes.string)
 };

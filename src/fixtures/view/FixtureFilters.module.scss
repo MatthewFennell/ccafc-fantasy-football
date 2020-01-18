@@ -1,0 +1,11 @@
+@import "../../common/Styles.scss";
+
+.extraFilters{
+    display: flex;
+    flex-wrap: wrap;
+
+    > div {
+        flex-grow: 1;
+        @include vertical-center-div();
+    }
+}

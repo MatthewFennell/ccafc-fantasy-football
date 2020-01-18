@@ -14,6 +14,7 @@ export const URL = {
     STATS: '/stats',
     CHARTS: '/charts',
     HIGHLIGHTS: '/highlights',
+    FIXTURES: '/fixtures',
 
     CREATE_PLAYER: '/create-player',
     DELETE_PLAYER: '/delete-player',

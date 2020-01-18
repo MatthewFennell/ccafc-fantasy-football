@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import defaultStyles from './Overview.module.scss';
-import { fetchUserStatsRequest, fetchUserInfoForWeekRequest, fetchUserInfoForWeekRequestBackground } from './actions';
+import {
+    fetchUserStatsRequest, fetchUserInfoForWeekRequest, fetchUserInfoForWeekRequestBackground
+} from './actions';
 import * as selectors from './selectors';
 import Spinner from '../common/spinner/Spinner';
 import { generateOverviewRoute } from '../helperFunctions';

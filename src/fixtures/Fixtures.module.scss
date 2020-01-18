@@ -1,0 +1,9 @@
+@import "../common/Styles.scss";
+
+.fixturesWrapper{
+    padding: $spacing-medium;
+    margin: $spacing-medium;
+    text-align: center;
+    @include light-box-shadow();
+    background-color: $color-white;
+}
