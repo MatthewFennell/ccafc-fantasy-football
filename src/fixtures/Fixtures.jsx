@@ -1,131 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import _, { noop } from 'lodash';
+import { noop } from 'lodash';
 import { connect } from 'react-redux';
 import defaultStyles from './Fixtures.module.scss';
 import { fetchFixturesRequest, setMyTeamRequest, fetchMyTeamRequest } from './actions';
-import Dropdown from '../common/dropdown/Dropdown';
-import StyledButton from '../common/StyledButton/StyledButton';
-import Spinner from '../common/spinner/Spinner';
-import RadioButton from '../common/radio/RadioButton';
-import Toggle from '../common/Toggle/Toggle';
-import StyledInput from '../common/StyledInput/StyledInput';
 import Grid from '../common/grid/Grid';
-
-const gridStyles = {
-    root: {
-        width: '100%'
-    },
-    tableWrapper: {
-        // maxHeight: 440,
-        overflow: 'auto'
-    },
-    maxHeightSet: {
-        maxHeight: 400
-    }
-};
-
-const columns = [
-    {
-        id: 'teamOne',
-        label: 'Home',
-        align: 'center'
-    },
-    {
-        id: 'result',
-        label: 'Status',
-        align: 'center'
-    },
-    {
-        id: 'teamTwo',
-        label: 'Away',
-        align: 'center'
-    },
-    {
-        id: 'location',
-        label: 'Location',
-        align: 'center'
-    },
-    {
-        id: 'time',
-        label: 'Time',
-        align: 'center'
-    }
-];
-
-const fixturesFilters = (myTeam, fixtures) => {
-    const leagues = fixtures.reduce((prev, curr) => _.uniqBy(
-        [...prev, curr.league]
-    ), []);
-
-    return [
-        {
-            radioLabel: 'My Team',
-            value: myTeam
-        },
-        {
-            radioLabel: 'All Leagues',
-            value: 'All'
-        }
-    ].concat(leagues.map(x => ({
-        radioLabel: x,
-        value: x
-    })));
-};
-
-const tempOptions = [
-    {
-        id: 'Collingwood A',
-        value: 'Collingwood A',
-        text: 'Collingwood A'
-    },
-    {
-        id: 'Collingwood B',
-        value: 'Collingwood B',
-        text: 'Collingwood B'
-    },
-    {
-        id: 'Collingwood C',
-        value: 'Collingwood C',
-        text: 'Collingwood C'
-    },
-    {
-        id: 'Collingwood D',
-        value: 'Collingwood D',
-        text: 'Collingwood D'
-    }
-];
-
-const generateCollingwoodTeams = fixtures => fixtures
-    .reduce((prev, curr) => _.uniqBy(
-        [...prev, curr.teamOne, curr.teamTwo]
-    ), [])
-    .filter(x => x.includes('Collingwood'))
-    .sort()
-    .map(x => ({
-        id: x,
-        value: x,
-        text: x
-    }));
-
-const filterFixtures = (fixtures, league, collingwoodOnly, upcomingOnly, teamName) => {
-    // My team could be selected - causes the league to be the name of their team
-    const leagueFilter = league === 'All' ? () => true
-        : x => x.league === league || x.teamOne === league || x.teamTwo === league;
-
-    const collingwoodOnlyFilter = collingwoodOnly
-        ? x => x.teamOne.includes('Collingwood') || x.teamTwo.includes('Collingwood') : () => true;
-
-    const upcomingOnlyFilter = upcomingOnly ? x => !x.completed : () => true;
-
-    const teamNameFilter = x => x.teamOne.includes(teamName) || x.teamTwo.includes(teamName);
-
-    return fixtures
-        .filter(leagueFilter)
-        .filter(collingwoodOnlyFilter)
-        .filter(upcomingOnlyFilter)
-        .filter(teamNameFilter);
-};
+import FixtureFilter from './view/FixtureFilters';
+import SetTeam from './view/SetTeam';
+import {
+    generateCollingwoodTeams, gridStyles, fixturesFilters, columns, filterFixtures
+} from './helpers';
 
 const Fixtures = props => {
     const [myTeam, setMyTeam] = useState('');
@@ -137,7 +21,8 @@ const Fixtures = props => {
     useEffect(() => {
         props.fetchFixturesRequest();
         props.fetchMyTeamRequest();
-    }, []);
+        // eslint-disable-next-line
+    }, [props.fetchMyTeamRequest]);
 
     useEffect(() => {
         setRadioValue(props.myTeam);
@@ -146,75 +31,46 @@ const Fixtures = props => {
 
     const updateMyTeam = useCallback(() => {
         props.setMyTeamRequest(myTeam);
+        // eslint-disable-next-line
     }, [props.setMyTeamRequest, props.myTeam, myTeam]);
 
-    const searchByTeamName = useCallback(x => {
-        setTeamNameFilter(x);
+    const searchByTeamName = useCallback(teamName => {
+        setTeamNameFilter(teamName);
         setCollingwoodOnly(false);
-    }, [teamNameFilter, setTeamNameFilter, collingwoodOnly, setCollingwoodOnly]);
+    }, [setTeamNameFilter, setCollingwoodOnly]);
+
+    const toggleCollingwoodOnly = useCallback(() => {
+        setCollingwoodOnly(!collingwoodOnly);
+    }, [collingwoodOnly, setCollingwoodOnly]);
+
+    const toggleUpcomingOnly = useCallback(() => {
+        setUpcomingMatchesOnly(!upcomingMatchesOnly);
+    }, [setUpcomingMatchesOnly, upcomingMatchesOnly]);
 
     return (
         <div>
-            <div className={props.styles.selectTeamWrapper}>
-                <div>
-                    {props.loadingMyTeam ? <Spinner color="secondary" /> : props.myTeam}
-                </div>
-                <div>
-                    <Dropdown
-                        activeValue={myTeam}
-                        onChange={setMyTeam}
-                        options={generateCollingwoodTeams(props.fixtures)}
-                        // options={tempOptions}
-                        title="Set Team"
-                        key="Set Team"
-                    />
-                </div>
-
-                <div>
-                    <StyledButton
-                        onClick={updateMyTeam}
-                        color="primary"
-                        text="Update my team"
-                    />
-                </div>
-            </div>
+            <SetTeam
+                activeTeam={myTeam}
+                loadingMyTeam={props.loadingMyTeam}
+                myTeam={props.myTeam}
+                setActiveTeam={setMyTeam}
+                teamOptions={generateCollingwoodTeams(props.fixtures)}
+                updateMyTeam={updateMyTeam}
+            />
 
             <div className={props.styles.fixturesWrapper}>
-                <RadioButton
-                    radioLabel="Filter"
-                    onChange={setRadioValue}
-                    options={fixturesFilters(props.myTeam, props.fixtures)}
-                    value={radioValue}
+
+                <FixtureFilter
+                    collingwoodOnly={collingwoodOnly}
+                    radioOptions={fixturesFilters(props.myTeam, props.fixtures)}
+                    radioValue={radioValue}
+                    searchByTeamName={searchByTeamName}
+                    setRadioValue={setRadioValue}
+                    teamNameFilter={teamNameFilter}
+                    toggleCollingwoodOnly={toggleCollingwoodOnly}
+                    toggleUpcomingOnly={toggleUpcomingOnly}
+                    upcomingMatchesOnly={upcomingMatchesOnly}
                 />
-                <div className={props.styles.extraFilters}>
-                    <div className={props.styles.collingwoodOnly}>
-                        <div>
-                            Collingwood Only
-                        </div>
-                        <div>
-                            <Toggle
-                                color="primary"
-                                checked={collingwoodOnly}
-                                onChange={() => setCollingwoodOnly(!collingwoodOnly)}
-                            />
-                        </div>
-                    </div>
-                    <div className={props.styles.collingwoodOnly}>
-                        <div>
-                            Upcoming Matches Only
-                        </div>
-                        <div>
-                            <Toggle
-                                color="primary"
-                                checked={upcomingMatchesOnly}
-                                onChange={() => setUpcomingMatchesOnly(!upcomingMatchesOnly)}
-                            />
-                        </div>
-                    </div>
-                    <div className={props.styles.searchByName}>
-                        <StyledInput label="Team Name" onChange={searchByTeamName} value={teamNameFilter} />
-                    </div>
-                </div>
                 <div>
                     <Grid
                         columns={columns}

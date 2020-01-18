@@ -41,8 +41,8 @@ function* loggingIn(action) {
             return null;
         }));
         yield put(actions.setLoadedPermissions(true));
-    } catch (e) {
-        console.log('e', e);
+    } catch (error) {
+        yield put(actions.signInError(error));
     }
 }
 

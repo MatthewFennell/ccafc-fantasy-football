@@ -1,5 +1,5 @@
 import {
-    all, takeEvery, put, call, delay
+    all, takeEvery, put, call
 } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as api from './api';

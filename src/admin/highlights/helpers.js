@@ -48,12 +48,9 @@ export const dateFilters = {
     }
 };
 
-const filterBySearch = (videos, searchFilter) => {
-    console.log('videos', videos);
-    return videos
-        .filter(x => x.email.includes(searchFilter)
+const filterBySearch = (videos, searchFilter) => videos
+    .filter(x => x.email.includes(searchFilter)
     || x.title.toLowerCase().includes(searchFilter.toLowerCase()));
-};
 
 export const filterByDate = (filter, videos, searchFilter) => {
     const { filterFunction } = Object.values(dateFilters).find(x => x.id === filter);
