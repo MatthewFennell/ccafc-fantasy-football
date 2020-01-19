@@ -1,23 +1,12 @@
 import React, { useState, useCallback } from 'react';
 import fp from 'lodash/fp';
 import PropTypes from 'prop-types';
-import _, { noop } from 'lodash';
+import { noop } from 'lodash';
 import classNames from 'classnames';
 import defaultStyles from './ExtraStats.module.scss';
 import Dropdown from '../../common/dropdown/Dropdown';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
-
-const data = {
-    yellowCard: '6jtXCivt9avUONxwnIYW',
-    redCard: '6jtXCivt9avUONxwnIYW',
-    penaltySaved: 'hLMglTGcDoSwf7HLY34T',
-    penaltyMissed: 'DjREj5SXsj0cU66oFVFM'
-};
-
-const uniqueKeys = _.uniq(Object.values(data).filter(x => x !== null));
-
-console.log('unique', uniqueKeys);
 
 const generateWeekOptions = maxGameWeek => {
     const options = [];
@@ -66,8 +55,6 @@ const ExtraStats = props => {
         // eslint-disable-next-line
     }, [gameWeek, yellowCard, redCard, penaltySaved,
         penaltyMissed, ownGoals, props.submitExtraStatsRequest, nameToId]);
-
-    console.log('submittingExtraResult', props.submittingExtraResult);
 
     return (
         <div className={props.styles.extraStatsWrapper}>

@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import defaultStyles from './MyFeatureRequests.module.scss';
+import FeatureRequest from '../common/featurerequest/FeatureRequest';
 
 const MyFeatureRequests = props => {
-    console.log('feature request', props.featureRequests);
+    const y = 5;
 
     return (
         <div className={props.styles.myRequestsWrapper}>
-            {props.featureRequests.map(x => <div> Feature Request </div>)}
+            {props.featureRequests.map(x => <FeatureRequest details={x} showAuthor />)}
         </div>
     );
 };

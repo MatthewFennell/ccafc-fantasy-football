@@ -1,0 +1,23 @@
+@import "../Styles.scss";
+
+.featureRequestWrapper {
+    margin: $spacing-medium;
+    padding: $spacing-medium;
+    background-color: $color-white;
+    @include light-box-shadow();
+
+    .author {
+        justify-content: center;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .comments {
+        margin-top: $spacing-medium;
+        font-size: $font-size-large;
+    }
+}
+
+.shiftRight{
+    margin-left: $spacing-medium;
+}

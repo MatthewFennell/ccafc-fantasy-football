@@ -83,7 +83,8 @@ exports.submitFeature = functions
                             userId: context.auth.uid,
                             description: data.description,
                             dateCreated: operations.serverTimestamp(),
-                            displayName
+                            displayName,
+                            comments: []
                         });
                     }
                 ));
