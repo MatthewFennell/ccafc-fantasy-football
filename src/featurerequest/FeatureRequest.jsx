@@ -1,10 +1,13 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { noop } from 'lodash';
+import _, { noop } from 'lodash';
 import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 import defaultStyles from './FeatureRequest.module.scss';
 import { submitFeatureRequest } from './actions';
 import StyledButton from '../common/StyledButton/StyledButton';
+import MyFeatureRequests from './MyFeatureRequests';
 
 const maxLength = 256;
 
@@ -25,43 +28,65 @@ const FeatureRequest = props => {
     }, [description, props.submitFeatureRequest]);
 
     return (
-        <div className={props.styles.featureRequestWrapper}>
-            <div className={props.styles.header}>
+        <>
+            <div className={props.styles.featureRequestWrapper}>
+                <div className={props.styles.header}>
                 Enter a description of the feature you would like to see added to the site
-            </div>
-            <textarea
-                value={description}
-                onChange={updateDescription}
-            />
-            <div className={props.styles.charactersRemaining}>
-                {charactersLeft(description)}
-            </div>
+                </div>
+                <textarea
+                    value={description}
+                    onChange={updateDescription}
+                />
+                <div className={props.styles.charactersRemaining}>
+                    {charactersLeft(description)}
+                </div>
 
-            <StyledButton
-                onClick={submitRequest}
-                color="primary"
-                text="Submit feature request"
+                <StyledButton
+                    onClick={submitRequest}
+                    color="primary"
+                    text="Submit feature request"
+                />
+            </div>
+            <MyFeatureRequests
+                featureRequests={_.map(props.featureRequests, (value, id) => ({ id, ...value }))}
             />
-        </div>
+        </>
     );
 };
 
 FeatureRequest.defaultProps = {
+    featureRequests: {},
     styles: defaultStyles,
     submitFeatureRequest: noop
 };
 
 FeatureRequest.propTypes = {
+    featureRequests: PropTypes.objectOf(PropTypes.shape({
+        dateCreated: PropTypes.any,
+        description: PropTypes.string,
+        userId: PropTypes.string
+    })),
     styles: PropTypes.objectOf(PropTypes.string),
     submitFeatureRequest: PropTypes.func
 };
 
 const mapStateToProps = state => ({
-
+    auth: state.firebase.auth,
+    featureRequests: state.firestore.data.featureRequests
 });
 
 const mapDispatchToProps = {
     submitFeatureRequest
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FeatureRequest);
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    firestoreConnect(props => [
+        {
+            collection: 'feature-requests',
+            storeAs: 'featureRequests',
+            where: [
+                ['userId', '==', props.auth.uid]]
+        }
+    ]),
+)(FeatureRequest);
