@@ -22,7 +22,7 @@ const dummyComments = [
         comments: [
             {
                 displayName: 'Fred',
-                message: 'nest me oh please'
+                message: 'nest me oh please. This is a bit of a longer comment just to see how thing work. Hopefully they work well, Im confident it will'
             },
             {
                 displayName: 'Alex',
