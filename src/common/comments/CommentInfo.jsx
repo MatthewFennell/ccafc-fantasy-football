@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
+import moment from 'moment';
 import defaultStyles from './CommentInfo.module.scss';
 
 const CommentInfo = props => (
@@ -10,7 +11,7 @@ const CommentInfo = props => (
                 {props.displayName}
             </div>
             <div className={props.styles.date}>
-                15 days ago
+                {moment(props.date).fromNow()}
             </div>
 
         </div>
@@ -32,6 +33,7 @@ const CommentInfo = props => (
 );
 
 CommentInfo.defaultProps = {
+    date: null,
     displayName: '',
     isTopLevel: false,
     message: '',
@@ -40,6 +42,7 @@ CommentInfo.defaultProps = {
 };
 
 CommentInfo.propTypes = {
+    date: PropTypes.string,
     displayName: PropTypes.string,
     isTopLevel: PropTypes.bool,
     message: PropTypes.string,

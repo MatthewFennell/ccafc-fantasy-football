@@ -10,7 +10,9 @@ const Comment = props => {
     const [replyOpen, setReplyOpen] = useState(false);
     const [replyText, setReplyText] = useState('');
 
-    const { displayName, message, id } = props.details;
+    const {
+        date, displayName, message, id
+    } = props.details;
 
     const cancelReply = useCallback(() => {
         setReplyText('');
@@ -33,6 +35,7 @@ const Comment = props => {
                 </div>
                 <div className={props.styles.messageWrapper}>
                     <CommentInfo
+                        date={date}
                         displayName={displayName}
                         message={message}
                         isTopLevel={props.isTopLevel}
@@ -62,6 +65,7 @@ Comment.defaultProps = {
 
 Comment.propTypes = {
     details: PropTypes.shape({
+        date: PropTypes.string,
         displayName: PropTypes.string,
         id: PropTypes.string,
         message: PropTypes.string

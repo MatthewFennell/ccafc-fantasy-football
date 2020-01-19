@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import defaultStyles from './FeatureRequest.module.scss';
-import { submitFeatureRequest } from './actions';
+import { submitFeatureRequest, addCommentToFeatureRequest } from './actions';
 import StyledButton from '../common/StyledButton/StyledButton';
 import MyFeatureRequests from './MyFeatureRequests';
 
@@ -23,14 +23,11 @@ const FeatureRequest = props => {
         }
     }, [setDescription, description]);
 
-    const addNewComment = useCallback((comment, featureId) => {
-        console.log('Adding a new comment', comment);
-        console.log('feature id', featureId);
-    }, []);
-
-    const test = comment => {
+    const addNewComment = useCallback(id => comment => {
+        console.log('id', id);
         console.log('comment', comment);
-    };
+        props.addCommentToFeatureRequest(comment, id);
+    }, [props.addCommentToFeatureRequest]);
 
     const addNewReply = useCallback((message, origin) => {
         console.log('Adding a new reply', `${message}, to origin ${origin}`);
@@ -61,7 +58,7 @@ const FeatureRequest = props => {
                 />
             </div>
             <MyFeatureRequests
-                addNewComment={test}
+                addNewComment={addNewComment}
                 addNewReply={addNewReply}
                 featureRequests={_.map(props.featureRequests, (value, id) => ({ id, ...value }))}
             />
@@ -70,12 +67,14 @@ const FeatureRequest = props => {
 };
 
 FeatureRequest.defaultProps = {
+    addCommentToFeatureRequest: noop,
     featureRequests: {},
     styles: defaultStyles,
     submitFeatureRequest: noop
 };
 
 FeatureRequest.propTypes = {
+    addCommentToFeatureRequest: PropTypes.func,
     featureRequests: PropTypes.objectOf(PropTypes.shape({
         dateCreated: PropTypes.any,
         description: PropTypes.string,
@@ -91,6 +90,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+    addCommentToFeatureRequest,
     submitFeatureRequest
 };
 

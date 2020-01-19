@@ -1,11 +1,10 @@
-const pre = 'featurerequest/';
+const pre = 'features/';
 
 export const SUBMIT_FEATURE_REQUEST = `${pre}SUBMIT_FEATURE_REQUEST`;
 export const SUBMIT_FEATURE_ERROR = `${pre}SUBMIT_FEATURE_ERROR`;
 
-
-export const ADD_COMMENT_REQUEST = `${pre}ADD_COMMENT_REQUEST`;
-export const ADD_COMMENT_ERROR = `${pre}ADD_COMMENT_ERROR`;
+export const ADD_COMMENT_TO_FEATURE_REQUEST = `${pre}ADD_COMMENT_TO_FEATURE_REQUEST`;
+export const ADD_COMMENT_TO_FEATURE_ERROR = `${pre}ADD_COMMENT_TO_FEATURE_ERROR`;
 
 export const submitFeatureRequest = description => ({
     type: SUBMIT_FEATURE_REQUEST,
@@ -17,7 +16,13 @@ export const submitFeatureError = error => ({
     error
 });
 
-export const addCommentRequest = description => ({
-    type: ADD_COMMENT_REQUEST,
-    description
+export const addCommentToFeatureRequest = (comment, featureId) => ({
+    type: ADD_COMMENT_TO_FEATURE_REQUEST,
+    comment,
+    featureId
+});
+
+export const addCommentToFeatureError = error => ({
+    type: ADD_COMMENT_TO_FEATURE_ERROR,
+    error
 });

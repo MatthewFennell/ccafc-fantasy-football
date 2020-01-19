@@ -4,6 +4,7 @@ const functions = require('firebase-functions');
 const fp = require('lodash/fp');
 const lodash = require('lodash');
 const firestore = require('@google-cloud/firestore');
+const moment = require('moment');
 const constants = require('./src/constants');
 const common = require('./src/common');
 
@@ -88,4 +89,28 @@ exports.submitFeature = functions
                         });
                     }
                 ));
+    });
+
+
+exports.addCommentToFeature = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db.collection('feature-requests').doc(data.featureId).get()
+            .then(feature => {
+                if (!feature.exists) {
+                    throw new functions.https.HttpsError('not-found', 'Invalid Feature ID');
+                }
+
+                const getDisplayName = id => db.collection('users').doc(id).get()
+                    .then(user => user.data().displayName,);
+
+                return getDisplayName(context.auth.uid).then(displayName => feature.ref.update({
+                    comments: [...feature.data().comments, {
+                        displayName,
+                        message: data.comment,
+                        date: moment().format()
+                    }]
+                }));
+            });
     });
