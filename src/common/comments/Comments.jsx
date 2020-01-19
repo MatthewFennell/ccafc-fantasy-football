@@ -16,8 +16,8 @@ const RenderComments = props => {
     }, [newComment]);
 
     const addNewComment = useCallback(() => {
-        console.log('adding new comment', newComment);
-    }, [newComment]);
+        props.addNewComment(newComment);
+    }, [newComment, props.addNewComment]);
 
     const renderComment = (comment, isTopLevel, submitReply) => {
         if (hasChildren(comment)) {
@@ -67,21 +67,23 @@ const RenderComments = props => {
                     </div>
                 </div>
             </div>
-            {renderCommentsRecursively(props.comments, props.submitReply)}
+            {renderCommentsRecursively(props.comments, props.addNewReply)}
         </div>
     );
 };
 
 RenderComments.defaultProps = {
+    addNewComment: noop,
+    addNewReply: noop,
     comments: [],
-    styles: defaultStyles,
-    submitReply: noop
+    styles: defaultStyles
 };
 
 RenderComments.propTypes = {
+    addNewComment: PropTypes.func,
+    addNewReply: PropTypes.func,
     comments: PropTypes.arrayOf(PropTypes.shape({})),
-    styles: PropTypes.objectOf(PropTypes.string),
-    submitReply: PropTypes.func
+    styles: PropTypes.objectOf(PropTypes.string)
 };
 
 export default RenderComments;

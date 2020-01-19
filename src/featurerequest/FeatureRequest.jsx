@@ -23,6 +23,19 @@ const FeatureRequest = props => {
         }
     }, [setDescription, description]);
 
+    const addNewComment = useCallback((comment, featureId) => {
+        console.log('Adding a new comment', comment);
+        console.log('feature id', featureId);
+    }, []);
+
+    const test = comment => {
+        console.log('comment', comment);
+    };
+
+    const addNewReply = useCallback((message, origin) => {
+        console.log('Adding a new reply', `${message}, to origin ${origin}`);
+    }, []);
+
     const submitRequest = useCallback(() => {
         props.submitFeatureRequest(description);
     }, [description, props.submitFeatureRequest]);
@@ -48,6 +61,8 @@ const FeatureRequest = props => {
                 />
             </div>
             <MyFeatureRequests
+                addNewComment={test}
+                addNewReply={addNewReply}
                 featureRequests={_.map(props.featureRequests, (value, id) => ({ id, ...value }))}
             />
         </>
