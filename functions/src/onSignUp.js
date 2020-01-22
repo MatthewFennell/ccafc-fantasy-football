@@ -106,16 +106,14 @@ exports.increaseNumberOfUsers = functions
 exports.createUserAccount = functions
     .region(constants.region)
     .auth.user()
-    .onCreate(user => {
-        return db.doc(`users/${user.uid}`).set({
-            displayName: user.displayName,
-            email: user.email,
-            total_points: 0,
-            remaining_transfers: 0,
-            remaining_budget: 100,
-            teamName: 'Default Team Name'
-        });
-    });
+    .onCreate(user => db.doc(`users/${user.uid}`).set({
+        displayName: user.displayName,
+        email: user.email,
+        total_points: 0,
+        remaining_transfers: 0,
+        remaining_budget: 100,
+        teamName: 'Default Team Name'
+    }));
 
 exports.verifyFacebookEmail = functions
     .region(constants.region)
