@@ -40,10 +40,10 @@ FeatureRequest.propTypes = {
     addNewComment: PropTypes.func,
     addNewReply: PropTypes.func,
     details: PropTypes.shape({
-        comments: PropTypes.arrayOf({
+        comments: PropTypes.arrayOf(PropTypes.shape({
             displayName: PropTypes.string,
             message: PropTypes.string
-        }),
+        })),
         description: PropTypes.string,
         displayName: PropTypes.string,
         id: PropTypes.string,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchAllTeamsRequest } from './actions';
@@ -15,20 +15,30 @@ const Charts = props => {
     const [graphOpen, setGraphOpen] = useState(true);
     const [leagueTableOpen, setLeagueTableOpen] = useState(true);
 
-    const GraphSection = WithCollapsable(Graph, graphOpen, setGraphOpen, 'Graphs');
-    const LeagueTableSection = WithCollapsable(LeagueTable, leagueTableOpen, setLeagueTableOpen, 'League Table');
+    const setOpen = useCallback(open => {
+        setLeagueTableOpen(open);
+    }, [setLeagueTableOpen]);
+
+    const GraphSection = WithCollapsable(Graph);
+    const LeagueTableSection = WithCollapsable(LeagueTable);
 
     return (
         <>
             <GraphSection
                 allTeams={props.allTeams}
+                isOpen={graphOpen}
                 fetchingAllTeams={props.fetchingAllTeams}
                 maxGameweek={props.maxGameweek}
+                toggle={setGraphOpen}
+                title="Graphs"
             />
             <LeagueTableSection
                 allTeams={props.allTeams}
                 loading={props.fetchingAllTeams}
                 maxGameweek={props.maxGameweek}
+                isOpen={leagueTableOpen}
+                toggle={setOpen}
+                title="LeagueTable"
             />
         </>
     );

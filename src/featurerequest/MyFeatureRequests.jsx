@@ -3,22 +3,25 @@ import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import defaultStyles from './MyFeatureRequests.module.scss';
 import FeatureRequest from '../common/featurerequest/FeatureRequest';
-import WithCollapsableTwo from '../common/collapsableHOC/WithCollapsableTwo';
+import WithCollapsable from '../common/collapsableHOC/WithCollapsable';
 
 const MyFeatureRequests = props => {
-    const GraphSection = WithCollapsableTwo(FeatureRequest, props.toggleFeature, 'Feature Request');
-
+    const Feature = WithCollapsable(FeatureRequest);
     return (
-        <div className={props.styles.myRequestsWrapper}>
+        <div className={props.styles.allFeatureRequests}>
             {props.featureRequests.map(x => (
-                <GraphSection
-                    addNewComment={props.addNewComment(x.id)}
-                    addNewReply={props.addNewReply(x.id)}
-                    details={x}
-                    showAuthor
-                    id={x.id}
-                    isOpen={props.featuresOpen.includes(x.id)}
-                />
+                <div className={props.styles.featureWrapper}>
+                    <Feature
+                        addNewComment={props.addNewComment(x.id)}
+                        addNewReply={props.addNewReply(x.id)}
+                        details={x}
+                        showAuthor
+                        id={x.id}
+                        isOpen={props.featuresOpen.includes(x.id)}
+                        title={`Feature Request by ${x.displayName}`}
+                        toggle={props.toggleFeature}
+                    />
+                </div>
             ))}
         </div>
     );

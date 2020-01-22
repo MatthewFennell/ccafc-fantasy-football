@@ -1,9 +1,13 @@
 @import "../common/Styles.scss";
 
-.myRequestsWrapper{
-    // padding: $spacing-medium;
-    // margin: $spacing-medium;
-    // text-align: center;
-    // @include light-box-shadow();
-    // background-color: $color-white;
+
+.allFeatureRequests{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+    .featureWrapper{
+        max-width: 45%;
+        min-width: 45%;
+    }
 }
