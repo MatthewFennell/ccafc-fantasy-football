@@ -9,7 +9,7 @@ const MyFeatureRequests = props => (
         {props.featureRequests.map(x => (
             <FeatureRequest
                 addNewComment={props.addNewComment(x.id)}
-                addNewReply={props.addNewReply}
+                addNewReply={props.addNewReply(x.id)}
                 details={x}
                 showAuthor
             />

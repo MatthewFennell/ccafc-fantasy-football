@@ -3,6 +3,9 @@
 .comments {
     margin-top: $spacing-medium;
     font-size: $font-size-large;
+    overflow-y: scroll;
+    height: 300px;
+    
 }
 
 .shiftRight{

@@ -21,7 +21,8 @@ const Comment = props => {
 
     const submitReply = useCallback(() => {
         props.submitReply(replyText, id);
-    }, [props.details, replyText]);
+        setReplyText('');
+    }, [setReplyText, props.details, replyText]);
 
     const openReply = useCallback(() => {
         setReplyOpen(true);

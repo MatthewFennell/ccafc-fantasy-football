@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import defaultStyles from './FeatureRequest.module.scss';
-import { submitFeatureRequest, addCommentToFeatureRequest } from './actions';
+import { addReplyToCommentRequest, submitFeatureRequest, addCommentToFeatureRequest } from './actions';
 import StyledButton from '../common/StyledButton/StyledButton';
 import MyFeatureRequests from './MyFeatureRequests';
 
@@ -29,9 +29,9 @@ const FeatureRequest = props => {
         props.addCommentToFeatureRequest(comment, id);
     }, [props.addCommentToFeatureRequest]);
 
-    const addNewReply = useCallback((message, origin) => {
-        console.log('Adding a new reply', `${message}, to origin ${origin}`);
-    }, []);
+    const addNewReply = useCallback(id => (message, origin) => {
+        props.addReplyToCommentRequest(message, id, origin);
+    }, [props.addReplyToCommentRequest]);
 
     const submitRequest = useCallback(() => {
         props.submitFeatureRequest(description);
@@ -68,6 +68,7 @@ const FeatureRequest = props => {
 
 FeatureRequest.defaultProps = {
     addCommentToFeatureRequest: noop,
+    addReplyToCommentRequest: noop,
     featureRequests: {},
     styles: defaultStyles,
     submitFeatureRequest: noop
@@ -75,6 +76,7 @@ FeatureRequest.defaultProps = {
 
 FeatureRequest.propTypes = {
     addCommentToFeatureRequest: PropTypes.func,
+    addReplyToCommentRequest: PropTypes.func,
     featureRequests: PropTypes.objectOf(PropTypes.shape({
         dateCreated: PropTypes.any,
         description: PropTypes.string,
@@ -91,6 +93,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     addCommentToFeatureRequest,
+    addReplyToCommentRequest,
     submitFeatureRequest
 };
 

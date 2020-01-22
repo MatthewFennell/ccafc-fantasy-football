@@ -17,7 +17,8 @@ const RenderComments = props => {
 
     const addNewComment = useCallback(() => {
         props.addNewComment(newComment);
-    }, [newComment, props.addNewComment]);
+        setNewComment('');
+    }, [newComment, props.addNewComment, setNewComment]);
 
     const renderComment = (comment, isTopLevel, submitReply) => {
         if (hasChildren(comment)) {

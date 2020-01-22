@@ -4,6 +4,18 @@ import {
 import * as actions from './actions';
 import * as api from './api';
 
+function* addReplyToComment(action) {
+    try {
+        yield call(api.addReplyToComment, {
+            reply: action.reply,
+            featureId: action.featureId,
+            commentId: action.commentId
+        });
+    } catch (error) {
+        yield put(actions.addReplyToCommentError(error));
+    }
+}
+
 function* addCommentToFeature(action) {
     try {
         yield call(api.addCommentToFeature,
@@ -24,6 +36,7 @@ function* submitFeature(action) {
 export default function* featureRequestSaga() {
     yield all([
         takeEvery(actions.SUBMIT_FEATURE_REQUEST, submitFeature),
-        takeEvery(actions.ADD_COMMENT_TO_FEATURE_REQUEST, addCommentToFeature)
+        takeEvery(actions.ADD_COMMENT_TO_FEATURE_REQUEST, addCommentToFeature),
+        takeEvery(actions.ADD_REPLY_TO_COMMENT_REQUEST, addReplyToComment)
     ]);
 }

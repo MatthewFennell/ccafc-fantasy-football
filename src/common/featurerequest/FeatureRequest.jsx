@@ -5,7 +5,9 @@ import defaultStyles from './FeatureRequest.module.scss';
 import Comments from '../comments/Comments';
 
 const FeatureRequest = props => {
-    const { comments, description, displayName } = props.details;
+    const {
+        comments, description, displayName
+    } = props.details;
 
     return (
         <div className={props.styles.featureRequestWrapper}>

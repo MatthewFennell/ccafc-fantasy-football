@@ -4,14 +4,24 @@
     max-width: 50%;
     min-width: 50%;
     margin: $spacing-medium;
-    padding: $spacing-medium;
+    // padding: $spacing-medium;
     background-color: $color-white;
     @include light-box-shadow();
+
+    > div {
+        padding-left: $spacing-small;
+        padding-right: $spacing-small;
+    }
 
     .author {
         justify-content: center;
         text-align: center;
         font-weight: bold;
+        padding-top: $spacing-small;
+    }
+
+    .description{
+        margin-top: $spacing-small;
     }
 
     .comments {
