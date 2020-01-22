@@ -22,7 +22,8 @@ const Comment = props => {
     const submitReply = useCallback(() => {
         props.submitReply(replyText, id);
         setReplyText('');
-    }, [setReplyText, props.details, replyText]);
+        // eslint-disable-next-line
+    }, [setReplyText, props.details, replyText, id]);
 
     const openReply = useCallback(() => {
         setReplyOpen(true);

@@ -15,6 +15,7 @@ const WithCollapsable = Component => {
             } else {
                 props.toggle(false);
             }
+            // eslint-disable-next-line
         }, [props.id, props.toggle]);
 
         const toggleOpen = useCallback(() => {
@@ -23,6 +24,7 @@ const WithCollapsable = Component => {
             } else {
                 props.toggle(true);
             }
+            // eslint-disable-next-line
         }, [props.id, props.toggle]);
 
         if (props.isOpen) {

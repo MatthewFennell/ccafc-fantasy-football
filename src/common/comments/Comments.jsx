@@ -13,12 +13,13 @@ const RenderComments = props => {
 
     const cancelReply = useCallback(() => {
         setNewComment('');
-    }, [newComment]);
+    }, [setNewComment]);
 
     const addNewComment = useCallback(() => {
         props.addNewComment(newComment);
         setNewComment('');
-    }, [props.addNewComment, setNewComment]);
+        // eslint-disable-next-line
+    }, [props.addNewComment, setNewComment, newComment]);
 
     const renderComment = (comment, isTopLevel, submitReply) => {
         if (hasChildren(comment)) {

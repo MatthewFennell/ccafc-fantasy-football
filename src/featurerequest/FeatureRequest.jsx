@@ -21,18 +21,21 @@ const FeatureRequest = props => {
         if (text.length <= 180) {
             setDescription(text);
         }
-    }, [setDescription, description]);
+    }, [setDescription]);
 
     const addNewComment = useCallback(id => comment => {
         props.addCommentToFeatureRequest(comment, id);
+        // eslint-disable-next-line
     }, [props.addCommentToFeatureRequest]);
 
     const addNewReply = useCallback(id => (message, origin) => {
         props.addReplyToCommentRequest(message, id, origin);
+        // eslint-disable-next-line
     }, [props.addReplyToCommentRequest]);
 
     const submitRequest = useCallback(() => {
         props.submitFeatureRequest(description);
+        // eslint-disable-next-line
     }, [description, props.submitFeatureRequest]);
 
     const [featuresOpen, setFeaturesOpen] = useState([]);
@@ -43,7 +46,7 @@ const FeatureRequest = props => {
         } else {
             setFeaturesOpen(featuresOpen.filter(x => x !== id));
         }
-    });
+    }, [setFeaturesOpen, featuresOpen]);
 
 
     return (
