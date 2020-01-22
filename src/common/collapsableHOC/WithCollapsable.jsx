@@ -4,6 +4,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import defaultStyles from './WithCollapsable.module.scss';
 
+// Can't move inside - don't know if it is open
 const WithCollapsable = (Component, isOpen, setOpen, title) => {
     if (isOpen) {
         const NormalComponent = props => {
@@ -11,7 +12,7 @@ const WithCollapsable = (Component, isOpen, setOpen, title) => {
             return (
                 <div className={props.styles.collapsableWrapper}>
                     <div className={props.styles.expandLess}>
-                        <ExpandLessIcon onClick={() => setOpen(false)} />
+                        <ExpandLessIcon onClick={() => setOpen(false, props.id)} />
                     </div>
                     <Component {...args} />
                 </div>
@@ -33,7 +34,7 @@ const WithCollapsable = (Component, isOpen, setOpen, title) => {
         <div className={props.styles.expandWrapper}>
             <div className={props.styles.iconWrapper}>
                 <div
-                    onClick={() => setOpen(true)}
+                    onClick={() => setOpen(true, props.id)}
                     role="button"
                     tabIndex={0}
                     className={props.styles.collapsedTitle}
@@ -41,7 +42,7 @@ const WithCollapsable = (Component, isOpen, setOpen, title) => {
                     {`${title} (Click to expand)`}
                 </div>
                 <div className={props.styles.expandIcon}>
-                    <ExpandMoreIcon onClick={() => setOpen(true)} />
+                    <ExpandMoreIcon onClick={() => setOpen(true, props.id)} />
                 </div>
             </div>
         </div>

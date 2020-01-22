@@ -24,8 +24,6 @@ const FeatureRequest = props => {
     }, [setDescription, description]);
 
     const addNewComment = useCallback(id => comment => {
-        console.log('id', id);
-        console.log('comment', comment);
         props.addCommentToFeatureRequest(comment, id);
     }, [props.addCommentToFeatureRequest]);
 
@@ -36,6 +34,17 @@ const FeatureRequest = props => {
     const submitRequest = useCallback(() => {
         props.submitFeatureRequest(description);
     }, [description, props.submitFeatureRequest]);
+
+    const [featuresOpen, setFeaturesOpen] = useState([]);
+
+    const toggleFeature = useCallback((isOpen, id) => {
+        if (isOpen) {
+            setFeaturesOpen(_.union(featuresOpen, [id]));
+        } else {
+            setFeaturesOpen(featuresOpen.filter(x => x !== id));
+        }
+    });
+
 
     return (
         <>
@@ -60,7 +69,9 @@ const FeatureRequest = props => {
             <MyFeatureRequests
                 addNewComment={addNewComment}
                 addNewReply={addNewReply}
+                featuresOpen={featuresOpen}
                 featureRequests={_.map(props.featureRequests, (value, id) => ({ id, ...value }))}
+                toggleFeature={toggleFeature}
             />
         </>
     );

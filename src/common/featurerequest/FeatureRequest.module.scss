@@ -1,12 +1,8 @@
 @import "../Styles.scss";
 
 .featureRequestWrapper {
-    max-width: 50%;
-    min-width: 50%;
-    margin: $spacing-medium;
     // padding: $spacing-medium;
     background-color: $color-white;
-    @include light-box-shadow();
 
     > div {
         padding-left: $spacing-small;
