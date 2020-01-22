@@ -53,7 +53,6 @@ exports.getMyTeam = functions
         common.isAuthenticated(context);
         return db.collection('users-teams').doc(context.auth.uid).get().then(
             doc => {
-                console.log('in here');
                 if (doc.exists) {
                     return doc.data().team || 'No team set';
                 }

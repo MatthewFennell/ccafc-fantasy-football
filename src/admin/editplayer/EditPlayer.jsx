@@ -266,8 +266,6 @@ const EditPlayer = props => {
     const rowsToUse = generateRows(props.playerStats,
         props.fetchingPlayerStats || props.editingStats);
 
-    console.log('player stats', props.playerStats);
-
     return (
         <>
             <div className={props.styles.findPlayerDropdowns}>

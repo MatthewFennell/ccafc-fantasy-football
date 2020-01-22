@@ -90,7 +90,6 @@ exports.increaseNumberOfUsers = functions
     .auth.user()
     .onCreate(() => db.collection('application-info').get().then(
         appInfo => {
-            console.log('SOMEHOW I AM IN HERE');
             if (appInfo.empty) {
                 db.collection('application-info').add({
                     total_weeks: 0,
@@ -108,7 +107,6 @@ exports.createUserAccount = functions
     .region(constants.region)
     .auth.user()
     .onCreate(user => {
-        console.log('CREATING A USER');
         return db.doc(`users/${user.uid}`).set({
             displayName: user.displayName,
             email: user.email,
