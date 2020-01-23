@@ -1,0 +1,32 @@
+@import "../Styles.scss";
+
+.featureRequestWrapper {
+    // padding: $spacing-medium;
+    background-color: $color-white;
+
+    > div {
+        padding-left: $spacing-small;
+        padding-right: $spacing-small;
+    }
+
+    .author {
+        justify-content: center;
+        text-align: center;
+        font-weight: bold;
+        padding-top: $spacing-small;
+    }
+
+    .description{
+        margin-top: $spacing-small;
+        font-weight: bold;
+    }
+
+    .comments {
+        margin-top: $spacing-medium;
+        font-size: $font-size-large;
+    }
+}
+
+.shiftRight{
+    margin-left: $spacing-medium;
+}

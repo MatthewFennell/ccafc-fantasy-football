@@ -90,7 +90,6 @@ exports.increaseNumberOfUsers = functions
     .auth.user()
     .onCreate(() => db.collection('application-info').get().then(
         appInfo => {
-            console.log('SOMEHOW I AM IN HERE');
             if (appInfo.empty) {
                 db.collection('application-info').add({
                     total_weeks: 0,
@@ -107,17 +106,14 @@ exports.increaseNumberOfUsers = functions
 exports.createUserAccount = functions
     .region(constants.region)
     .auth.user()
-    .onCreate(user => {
-        console.log('CREATING A USER');
-        return db.doc(`users/${user.uid}`).set({
-            displayName: user.displayName,
-            email: user.email,
-            total_points: 0,
-            remaining_transfers: 0,
-            remaining_budget: 100,
-            teamName: 'Default Team Name'
-        });
-    });
+    .onCreate(user => db.doc(`users/${user.uid}`).set({
+        displayName: user.displayName,
+        email: user.email,
+        total_points: 0,
+        remaining_transfers: 0,
+        remaining_budget: 100,
+        teamName: 'Default Team Name'
+    }));
 
 exports.verifyFacebookEmail = functions
     .region(constants.region)

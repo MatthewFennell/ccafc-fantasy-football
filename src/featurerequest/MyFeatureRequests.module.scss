@@ -1,0 +1,13 @@
+@import "../common/Styles.scss";
+
+
+.allFeatureRequests{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+    .featureWrapper{
+        max-width: 45%;
+        min-width: 45%;
+    }
+}

@@ -9,7 +9,7 @@ import StyledInput from '../../common/StyledInput/StyledInput';
 const FixtureFilters = props => (
     <>
         <RadioButton
-            radioLabel="Filter"
+            radioLabel=""
             onChange={props.setRadioValue}
             options={props.radioOptions}
             value={props.radioValue}

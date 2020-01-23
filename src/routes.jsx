@@ -15,38 +15,20 @@ import TransferWithinAStationIcon from '@material-ui/icons/TransferWithinAStatio
 import WavesIcon from '@material-ui/icons/Waves';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import VideoLabelIcon from '@material-ui/icons/VideoLabel';
+import DehazeIcon from '@material-ui/icons/Dehaze';
+import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 
 import fp from 'lodash/fp';
-import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import CreatePlayer from './admin/createplayer/CreatePlayer';
-import CreateTeam from './admin/createteam/CreateTeam';
-import SubmitResult from './admin/submitresult/SubmitResult';
-import DeletePlayer from './admin/deleteplayer/DeletePlayer';
-import SignIn from './auth/SignIn';
-import SignUp from './auth/SignUp';
-import DeleteTeam from './admin/deleteteam/DeleteTeam';
-import Points from './points/Points';
-import TriggerWeek from './admin/triggerweek/TriggerWeek';
-import EditPlayer from './admin/editplayer/EditPlayer';
-import ManageUsers from './admin/manageusers/ManageUsers';
-import ApproveHighlights from './admin/highlights/ApproveHighlights';
-
-import Overview from './overview/Overview';
-import Leagues from './leagues/Leagues';
-
+import * as adminComponents from './adminComponents';
+import * as rootComponents from './rootComponents';
 import * as constants from './constants';
-import CurrentTeam from './currentteam/CurrentTeam';
-import Transfers from './transfers/Transfers';
-import Stats from './stats/Stats';
-import Charts from './charts/Charts';
-import Highlights from './highlights/Highlights';
-import Fixtures from './fixtures/Fixtures';
 
 export const adminLinks = [
     {
         title: 'Create Player',
         icon: <PersonAddIcon />,
-        component: CreatePlayer,
+        component: adminComponents.CreatePlayer,
         path: () => constants.URL.CREATE_PLAYER,
         urlIncludes: constants.URL.CREATE_PLAYER,
         permissionRequired: constants.PERMISSIONS.CREATE_PLAYER
@@ -54,7 +36,7 @@ export const adminLinks = [
     {
         title: 'Delete Player',
         icon: <DeleteIcon />,
-        component: DeletePlayer,
+        component: adminComponents.DeletePlayer,
         path: () => constants.URL.DELETE_PLAYER,
         urlIncludes: constants.URL.DELETE_PLAYER,
         permissionRequired: constants.PERMISSIONS.DELETE_PLAYER
@@ -62,7 +44,7 @@ export const adminLinks = [
     {
         title: 'Create Team',
         icon: <PersonAddIcon />,
-        component: CreateTeam,
+        component: adminComponents.CreateTeam,
         path: () => constants.URL.CREATE_TEAM,
         urlIncludes: constants.URL.CREATE_TEAM,
         permissionRequired: constants.PERMISSIONS.CREATE_TEAM
@@ -70,7 +52,7 @@ export const adminLinks = [
     {
         title: 'Delete Team',
         icon: <DeleteIcon />,
-        component: DeleteTeam,
+        component: adminComponents.DeleteTeam,
         path: () => constants.URL.DELETE_TEAM,
         urlIncludes: constants.URL.DELETE_TEAM,
         permissionRequired: constants.PERMISSIONS.DELETE_TEAM
@@ -78,7 +60,7 @@ export const adminLinks = [
     {
         title: 'Submit Result',
         icon: <PersonAddIcon />,
-        component: SubmitResult,
+        component: adminComponents.SubmitResult,
         path: () => constants.URL.SUBMIT_RESULT,
         urlIncludes: constants.URL.SUBMIT_RESULT,
         permissionRequired: constants.PERMISSIONS.SUBMIT_RESULT
@@ -86,7 +68,7 @@ export const adminLinks = [
     {
         title: 'Trigger Week',
         icon: <WhatshotIcon />,
-        component: TriggerWeek,
+        component: adminComponents.TriggerWeek,
         path: () => constants.URL.TRIGGER_WEEK,
         urlIncludes: constants.URL.TRIGGER_WEEK,
         permissionRequired: constants.PERMISSIONS.TRIGGER_WEEK
@@ -94,7 +76,7 @@ export const adminLinks = [
     {
         title: 'Edit Player',
         icon: <EditIcon />,
-        component: EditPlayer,
+        component: adminComponents.EditPlayer,
         path: () => constants.URL.EDIT_PLAYER,
         urlIncludes: constants.URL.EDIT_PLAYER,
         permissionRequired: constants.PERMISSIONS.EDIT_PLAYER
@@ -102,7 +84,7 @@ export const adminLinks = [
     {
         title: 'Manage Users',
         icon: <SupervisorAccountIcon />,
-        component: ManageUsers,
+        component: adminComponents.ManageUsers,
         addUserId: false,
         path: () => constants.URL.MANAGE_USERS,
         urlIncludes: constants.URL.MANAGE_USERS,
@@ -111,7 +93,7 @@ export const adminLinks = [
     {
         title: 'Approve Highlights',
         icon: <VideoLabelIcon />,
-        component: ApproveHighlights,
+        component: adminComponents.ApproveHighlights,
         addUserId: false,
         path: () => constants.URL.APPROVE_HIGHLIGHTS,
         urlIncludes: constants.URL.APPROVE_HIGHLIGHTS,
@@ -123,14 +105,14 @@ export const signedOutLinks = [
     {
         title: 'Sign In',
         icon: <DoubleArrowIcon />,
-        component: SignIn,
+        component: rootComponents.SignIn,
         path: () => constants.URL.SIGN_IN,
         urlIncludes: constants.URL.SIGN_IN
     },
     {
         title: 'Sign Up',
         icon: <AccountBoxIcon />,
-        component: SignUp,
+        component: rootComponents.SignUp,
         path: () => constants.URL.SIGN_UP,
         urlIncludes: constants.URL.SIGN_UP
     }
@@ -140,7 +122,7 @@ export const signedInLinks = [
     {
         title: 'Overview',
         icon: <HomeIcon />,
-        component: Overview,
+        component: rootComponents.Overview,
         addUserId: false,
         path: props => `${constants.URL.OVERVIEW}/${fp.get('userId')(props)}/${fp.get('maxGameWeek')(props)}`,
         urlIncludes: constants.URL.OVERVIEW
@@ -148,7 +130,7 @@ export const signedInLinks = [
     {
         title: 'Current Team',
         icon: <PeopleAltIcon />,
-        component: CurrentTeam,
+        component: rootComponents.CurrentTeam,
         addUserId: true,
         path: props => `${constants.URL.CURRENT_TEAM}/${fp.get('userId')(props)}`,
         urlIncludes: constants.URL.CURRENT_TEAM
@@ -156,7 +138,7 @@ export const signedInLinks = [
     {
         title: 'Points',
         icon: <GradeIcon />,
-        component: Points,
+        component: rootComponents.Points,
         addUserId: false,
         path: props => `${constants.URL.POINTS}/${fp.get('userId')(props)}/${fp.get('maxGameWeek')(props)}`,
         urlIncludes: constants.URL.POINTS
@@ -164,7 +146,7 @@ export const signedInLinks = [
     {
         title: 'Leagues',
         icon: <LayersIcon />,
-        component: Leagues,
+        component: rootComponents.Leagues,
         addUserId: false,
         path: () => constants.URL.LEAGUES,
         urlIncludes: constants.URL.LEAGUES
@@ -172,7 +154,7 @@ export const signedInLinks = [
     {
         title: 'Transfers',
         icon: <TransferWithinAStationIcon />,
-        component: Transfers,
+        component: rootComponents.Transfers,
         addUserId: false,
         path: () => constants.URL.TRANSFERS,
         urlIncludes: constants.URL.TRANSFERS
@@ -180,7 +162,7 @@ export const signedInLinks = [
     {
         title: 'Stats',
         icon: <WavesIcon />,
-        component: Stats,
+        component: rootComponents.Stats,
         addUserId: false,
         path: props => `${constants.URL.STATS}/none/${fp.get('maxGameWeek')(props)}/${fp.get('maxGameWeek')(props)}`,
         urlIncludes: constants.URL.STATS
@@ -188,7 +170,7 @@ export const signedInLinks = [
     {
         title: 'Charts',
         icon: <EqualizerIcon />,
-        component: Charts,
+        component: rootComponents.Charts,
         addUserId: false,
         path: () => constants.URL.CHARTS,
         urlIncludes: constants.URL.CHARTS
@@ -196,17 +178,25 @@ export const signedInLinks = [
     {
         title: 'Highlights',
         icon: <VideoLibraryIcon />,
-        component: Highlights,
+        component: rootComponents.Highlights,
         addUserId: false,
         path: () => constants.URL.HIGHLIGHTS,
         urlIncludes: constants.URL.HIGHLIGHTS
     },
     {
         title: 'Fixtures',
-        icon: <VideoLibraryIcon />,
-        component: Fixtures,
+        icon: <DehazeIcon />,
+        component: rootComponents.Fixtures,
         addUserId: false,
         path: () => constants.URL.FIXTURES,
         urlIncludes: constants.URL.FIXTURES
+    },
+    {
+        title: 'Feature Request',
+        icon: <QuestionAnswerIcon />,
+        component: rootComponents.FeatureRequest,
+        addUserId: false,
+        path: () => constants.URL.FEATURE_REQUEST,
+        urlIncludes: constants.URL.FEATURE_REQUEST
     }
 ];

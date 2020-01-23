@@ -11,6 +11,7 @@ import statsSaga from './stats/saga';
 import chartsSaga from './charts/saga';
 import highlightSaga from './highlights/saga';
 import fixturesSaga from './fixtures/saga';
+import featuresRequestSaga from './featurerequest/saga';
 
 export default function* rootSaga() {
     yield all([
@@ -25,6 +26,7 @@ export default function* rootSaga() {
         statsSaga(),
         chartsSaga(),
         highlightSaga(),
-        fixturesSaga()
+        fixturesSaga(),
+        featuresRequestSaga()
     ]);
 }

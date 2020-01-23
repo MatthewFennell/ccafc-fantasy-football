@@ -67,7 +67,7 @@ const SubmitVideo = props => {
     const [exampleOpen, setExampleOpen] = useState(false);
     const [videoTitle, setVideoTitle] = useState('');
 
-    const CollapsableYouTube = WithCollapsable(CustomYouTube, exampleOpen, setExampleOpen, 'Check your video ID works');
+    const CollapsableYouTube = WithCollapsable(CustomYouTube);
 
     const onReady = e => e.target.pauseVideo();
 
@@ -154,6 +154,9 @@ const SubmitVideo = props => {
                     </div>
                 </div>
                 <CollapsableYouTube
+                    isOpen={exampleOpen}
+                    toggle={setExampleOpen}
+                    title="Check your video ID works"
                     videoId={video}
                     opts={opts}
                     onReady={onReady}

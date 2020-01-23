@@ -7,3 +7,9 @@
     @include light-box-shadow();
     background-color: $color-white;
 }
+
+@media only screen and (max-width: 600px) {
+    .fixturesWrapper {
+      padding: 0px;
+    }
+  }

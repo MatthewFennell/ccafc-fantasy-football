@@ -15,14 +15,10 @@ const ErrorModal = props => (
     >
         <div className={props.styles.modalWrapper}>
             <div>
-              Code:
-                {' '}
-                {props.errorCode}
+                {`Code: ${props.errorCode}`}
             </div>
             <div>
-              Message:
-                {' '}
-                {props.errorMessage}
+                {`Message: ${props.errorMessage}`}
             </div>
 
         </div>
