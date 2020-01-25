@@ -23,6 +23,7 @@ const FeatureRequest = props => {
                 <Comments
                     addNewComment={props.addNewComment}
                     addNewReply={props.addNewReply}
+                    deleteComment={props.deleteComment}
                     comments={comments}
                     loggedInUserId={props.loggedInUserId}
                 />
@@ -34,6 +35,7 @@ const FeatureRequest = props => {
 FeatureRequest.defaultProps = {
     addNewComment: noop,
     addNewReply: noop,
+    deleteComment: noop,
     details: {},
     showAuthor: false,
     styles: defaultStyles,
@@ -43,6 +45,7 @@ FeatureRequest.defaultProps = {
 FeatureRequest.propTypes = {
     addNewComment: PropTypes.func,
     addNewReply: PropTypes.func,
+    deleteComment: PropTypes.func,
     details: PropTypes.shape({
         comments: PropTypes.arrayOf(PropTypes.shape({
             displayName: PropTypes.string,

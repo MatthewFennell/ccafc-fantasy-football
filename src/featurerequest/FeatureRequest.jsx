@@ -5,7 +5,10 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import defaultStyles from './FeatureRequest.module.scss';
-import { addReplyToCommentRequest, submitFeatureRequest, addCommentToFeatureRequest } from './actions';
+import {
+    addReplyToCommentRequest, submitFeatureRequest, addCommentToFeatureRequest,
+    deleteCommentRequest
+} from './actions';
 import StyledButton from '../common/StyledButton/StyledButton';
 import MyFeatureRequests from './MyFeatureRequests';
 
@@ -48,6 +51,10 @@ const FeatureRequest = props => {
         }
     }, [setFeaturesOpen, featuresOpen]);
 
+    const deleteComment = useCallback(id => commentId => {
+        props.deleteCommentRequest(id, commentId);
+        // eslint-disable-next-line
+    }, props.deleteCommentRequest)
 
     return (
         <>
@@ -72,6 +79,7 @@ const FeatureRequest = props => {
             <MyFeatureRequests
                 addNewComment={addNewComment}
                 addNewReply={addNewReply}
+                deleteComment={deleteComment}
                 featuresOpen={featuresOpen}
                 featureRequests={_.map(props.featureRequests, (value, id) => ({ id, ...value }))}
                 toggleFeature={toggleFeature}
@@ -98,6 +106,7 @@ FeatureRequest.propTypes = {
     auth: PropTypes.shape({
         uid: PropTypes.string
     }),
+    deleteCommentRequest: PropTypes.func.isRequired,
     featureRequests: PropTypes.objectOf(PropTypes.shape({
         dateCreated: PropTypes.any,
         description: PropTypes.string,
@@ -115,6 +124,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     addCommentToFeatureRequest,
     addReplyToCommentRequest,
+    deleteCommentRequest,
     submitFeatureRequest
 };
 

@@ -38,10 +38,23 @@ function* submitFeature(action) {
     }
 }
 
+function* deleteComment(action) {
+    try {
+        yield call(api.deleteComment, {
+            collection: 'feature-requests',
+            collectionId: action.featureId,
+            commentId: action.commentId
+        });
+    } catch (error) {
+        yield put(actions.deleteCommentError(error));
+    }
+}
+
 export default function* featureRequestSaga() {
     yield all([
         takeEvery(actions.SUBMIT_FEATURE_REQUEST, submitFeature),
         takeEvery(actions.ADD_COMMENT_TO_FEATURE_REQUEST, addCommentToFeature),
-        takeEvery(actions.ADD_REPLY_TO_COMMENT_REQUEST, addReplyToComment)
+        takeEvery(actions.ADD_REPLY_TO_COMMENT_REQUEST, addReplyToComment),
+        takeEvery(actions.DELETE_COMMENT_REQUEST, deleteComment)
     ]);
 }

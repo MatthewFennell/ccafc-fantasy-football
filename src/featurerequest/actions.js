@@ -7,7 +7,11 @@ export const ADD_COMMENT_TO_FEATURE_REQUEST = `${pre}ADD_COMMENT_TO_FEATURE_REQU
 export const ADD_COMMENT_TO_FEATURE_ERROR = `${pre}ADD_COMMENT_TO_FEATURE_ERROR`;
 
 export const ADD_REPLY_TO_COMMENT_REQUEST = `${pre}ADD_REPLY_TO_COMMENT_REQUEST`;
-export const ADD_REPLY_TO_COMMENT_ERROR = `${pre}ADD_REPLY_TO_COMMENT_ERROR`;
+export const ADD_REPLY_TO_COMMENT_ERROR = `${pre}ADD_REPLY_TO_COMMENT_ERROR`; // TO:DO - Make common section for comments
+// Object creators / action definers etc
+
+export const DELETE_COMMENT_REQUEST = `${pre}DELETE_COMMENT_REQUEST`;
+export const DELETE_COMMENT_ERROR = `${pre}DELETE_COMMENT_ERROR`;
 
 export const submitFeatureRequest = description => ({
     type: SUBMIT_FEATURE_REQUEST,
@@ -39,5 +43,16 @@ export const addReplyToCommentRequest = (reply, featureId, commentId) => ({
 
 export const addReplyToCommentError = error => ({
     type: ADD_REPLY_TO_COMMENT_ERROR,
+    error
+});
+
+export const deleteCommentRequest = (featureId, commentId) => ({
+    type: DELETE_COMMENT_REQUEST,
+    featureId,
+    commentId
+});
+
+export const deleteCommentError = error => ({
+    type: DELETE_COMMENT_ERROR,
     error
 });

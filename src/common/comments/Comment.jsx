@@ -38,6 +38,7 @@ const Comment = props => {
                 <div className={props.styles.messageWrapper}>
                     <CommentInfo
                         date={date}
+                        deleteComment={() => props.deleteComment(id)}
                         displayName={displayName}
                         message={message}
                         isTopLevel={props.isTopLevel}
@@ -61,6 +62,7 @@ const Comment = props => {
 };
 
 Comment.defaultProps = {
+    deleteComment: noop,
     details: {},
     isTopLevel: false,
     styles: defaultStyles,
@@ -69,11 +71,13 @@ Comment.defaultProps = {
 };
 
 Comment.propTypes = {
+    deleteComment: PropTypes.func,
     details: PropTypes.shape({
         date: PropTypes.string,
         displayName: PropTypes.string,
         id: PropTypes.string,
-        message: PropTypes.string
+        message: PropTypes.string,
+        userId: PropTypes.string
     }),
     isTopLevel: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),

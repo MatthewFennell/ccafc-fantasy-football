@@ -16,7 +16,12 @@ const CommentInfo = props => (
             </div>
             {props.loggedInUserId === props.userId
             && (
-                <div className={props.styles.deleteComment}>
+                <div
+                    className={props.styles.deleteComment}
+                    onClick={props.deleteComment}
+                    role="button"
+                    tabIndex={0}
+                >
                     <DeleteIcon fontSize="small" color="primary" />
                 </div>
             )}
@@ -41,6 +46,7 @@ const CommentInfo = props => (
 
 CommentInfo.defaultProps = {
     date: null,
+    deleteComment: noop,
     displayName: '',
     loggedInUserId: '',
     isTopLevel: false,
@@ -52,6 +58,7 @@ CommentInfo.defaultProps = {
 
 CommentInfo.propTypes = {
     date: PropTypes.string,
+    deleteComment: PropTypes.func,
     displayName: PropTypes.string,
     loggedInUserId: PropTypes.string,
     isTopLevel: PropTypes.bool,

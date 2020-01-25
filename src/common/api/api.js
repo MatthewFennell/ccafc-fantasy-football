@@ -6,3 +6,6 @@ export const addComment = request => functionToCall('comments-addComment')(reque
 
 export const addReply = request => functionToCall('comments-addReply')(request)
     .then(response => response.data);
+
+export const deleteComment = request => functionToCall('deleteComment')(request)
+    .then(response => response.data);
