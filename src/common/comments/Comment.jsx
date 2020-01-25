@@ -29,6 +29,15 @@ const Comment = props => {
         setReplyOpen(true);
     }, [setReplyOpen]);
 
+    const deleteMessage = useCallback(() => {
+        if (props.parentId) {
+            props.deleteReply(props.parentId, id);
+        } else {
+            props.deleteComment(id);
+        }
+        // eslint-disable-next-line
+    }, [id, props.parentId, props.deleteComment]);
+
     return (
         <div className={props.styles.commentWrapper}>
             <div className={props.styles.userInfo}>
@@ -38,7 +47,7 @@ const Comment = props => {
                 <div className={props.styles.messageWrapper}>
                     <CommentInfo
                         date={date}
-                        deleteComment={() => props.deleteComment(id)}
+                        deleteMessage={deleteMessage}
                         displayName={displayName}
                         message={message}
                         isTopLevel={props.isTopLevel}
@@ -63,8 +72,10 @@ const Comment = props => {
 
 Comment.defaultProps = {
     deleteComment: noop,
+    deleteReply: noop,
     details: {},
     isTopLevel: false,
+    parentId: null,
     styles: defaultStyles,
     submitReply: noop,
     loggedInUserId: ''
@@ -72,6 +83,7 @@ Comment.defaultProps = {
 
 Comment.propTypes = {
     deleteComment: PropTypes.func,
+    deleteReply: PropTypes.func,
     details: PropTypes.shape({
         date: PropTypes.string,
         displayName: PropTypes.string,
@@ -80,6 +92,7 @@ Comment.propTypes = {
         userId: PropTypes.string
     }),
     isTopLevel: PropTypes.bool,
+    parentId: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
     submitReply: PropTypes.func,
     loggedInUserId: PropTypes.string

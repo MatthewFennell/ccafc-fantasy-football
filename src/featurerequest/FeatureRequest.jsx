@@ -7,7 +7,7 @@ import { compose } from 'redux';
 import defaultStyles from './FeatureRequest.module.scss';
 import {
     addReplyToCommentRequest, submitFeatureRequest, addCommentToFeatureRequest,
-    deleteCommentRequest
+    deleteCommentRequest, deleteReplyRequest
 } from './actions';
 import StyledButton from '../common/StyledButton/StyledButton';
 import MyFeatureRequests from './MyFeatureRequests';
@@ -51,10 +51,15 @@ const FeatureRequest = props => {
         }
     }, [setFeaturesOpen, featuresOpen]);
 
-    const deleteComment = useCallback(id => commentId => {
-        props.deleteCommentRequest(id, commentId);
+    const deleteComment = useCallback(featureId => commentId => {
+        props.deleteCommentRequest(featureId, commentId);
         // eslint-disable-next-line
     }, props.deleteCommentRequest)
+
+    const deleteReply = useCallback(featureId => (commentId, replyId) => {
+        props.deleteReplyRequest(featureId, commentId, replyId);
+        // eslint-disable-next-line
+    }, props.deleteReplyRequest)
 
     return (
         <>
@@ -80,6 +85,7 @@ const FeatureRequest = props => {
                 addNewComment={addNewComment}
                 addNewReply={addNewReply}
                 deleteComment={deleteComment}
+                deleteReply={deleteReply}
                 featuresOpen={featuresOpen}
                 featureRequests={_.map(props.featureRequests, (value, id) => ({ id, ...value }))}
                 toggleFeature={toggleFeature}
@@ -107,6 +113,7 @@ FeatureRequest.propTypes = {
         uid: PropTypes.string
     }),
     deleteCommentRequest: PropTypes.func.isRequired,
+    deleteReplyRequest: PropTypes.func.isRequired,
     featureRequests: PropTypes.objectOf(PropTypes.shape({
         dateCreated: PropTypes.any,
         description: PropTypes.string,
@@ -125,12 +132,13 @@ const mapDispatchToProps = {
     addCommentToFeatureRequest,
     addReplyToCommentRequest,
     deleteCommentRequest,
+    deleteReplyRequest,
     submitFeatureRequest
 };
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
-    firestoreConnect(props => [
+    firestoreConnect(() => [
         {
             collection: 'feature-requests',
             storeAs: 'featureRequests'

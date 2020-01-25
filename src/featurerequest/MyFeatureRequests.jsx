@@ -15,6 +15,7 @@ const MyFeatureRequests = props => {
                         addNewComment={props.addNewComment(x.id)}
                         addNewReply={props.addNewReply(x.id)}
                         deleteComment={props.deleteComment(x.id)}
+                        deleteReply={props.deleteReply(x.id)}
                         details={x}
                         showAuthor
                         id={x.id}
@@ -33,6 +34,7 @@ MyFeatureRequests.defaultProps = {
     addNewComment: noop,
     addNewReply: noop,
     deleteComment: noop,
+    deleteReply: noop,
     featureRequests: [],
     featuresOpen: [],
     styles: defaultStyles,
@@ -44,6 +46,7 @@ MyFeatureRequests.propTypes = {
     addNewComment: PropTypes.func,
     addNewReply: PropTypes.func,
     deleteComment: PropTypes.func,
+    deleteReply: PropTypes.func,
     featureRequests: PropTypes.arrayOf(PropTypes.shape({
         description: PropTypes.string,
         id: PropTypes.string,

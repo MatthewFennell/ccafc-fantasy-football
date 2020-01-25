@@ -39,21 +39,3 @@ const operations = admin.firestore.FieldValue;
 // currently at v8.13.0 for node
 
 // // https://firebase.google.com/docs/reference/js/firebase.functions.html#functionserrorcod
-
-exports.deleteComment = functions
-    .region(constants.region)
-    .https.onCall((data, context) => {
-        common.isAuthenticated(context);
-        return db.collection(data.collection).doc(data.collectionId).get()
-            .then(item => {
-                if (!item.exists) {
-                    throw new functions.https.HttpsError('not-found', 'Invalid ID');
-                }
-                if (item.data().userId !== context.auth.uid) {
-                    throw new functions.https.HttpsError('unauthenticated', 'You are not authorized to perform this operation');
-                }
-                return item.ref.update({
-                    comments: item.data().comments.filter(x => x.id !== data.commentId)
-                });
-            });
-    });

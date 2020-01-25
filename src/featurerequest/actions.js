@@ -13,6 +13,9 @@ export const ADD_REPLY_TO_COMMENT_ERROR = `${pre}ADD_REPLY_TO_COMMENT_ERROR`; //
 export const DELETE_COMMENT_REQUEST = `${pre}DELETE_COMMENT_REQUEST`;
 export const DELETE_COMMENT_ERROR = `${pre}DELETE_COMMENT_ERROR`;
 
+export const DELETE_REPLY_REQUEST = `${pre}DELETE_REPLY_REQUEST`;
+export const DELETE_REPLY_ERROR = `${pre}DELETE_REPLY_ERROR`;
+
 export const submitFeatureRequest = description => ({
     type: SUBMIT_FEATURE_REQUEST,
     description
@@ -54,5 +57,17 @@ export const deleteCommentRequest = (featureId, commentId) => ({
 
 export const deleteCommentError = error => ({
     type: DELETE_COMMENT_ERROR,
+    error
+});
+
+export const deleteReplyRequest = (featureId, commentId, replyId) => ({
+    type: DELETE_REPLY_REQUEST,
+    featureId,
+    commentId,
+    replyId
+});
+
+export const deleteReplyError = error => ({
+    type: DELETE_REPLY_ERROR,
     error
 });

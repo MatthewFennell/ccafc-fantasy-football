@@ -50,6 +50,7 @@ exports.addReply = functions
                 }
                 const getDisplayName = id => db.collection('users').doc(id).get()
                     .then(user => user.data().displayName);
+                const { id } = db.collection('users').doc();
                 return getDisplayName(context.auth.uid)
                     .then(displayName => item.ref.update({
                         comments: item.data().comments.map(x => (x.id === data.commentId ? {
@@ -58,7 +59,8 @@ exports.addReply = functions
                                 displayName,
                                 userId: context.auth.uid,
                                 message: data.reply,
-                                date: moment().format()
+                                date: moment().format(),
+                                id
                             }]
                         } : x))
                     }));
@@ -66,4 +68,44 @@ exports.addReply = functions
             .then(() => db.collection(data.collection).doc(data.collectionId).get().then(item => ({
                 ...item.data(), id: item.id
             })));
+    });
+
+
+exports.deleteComment = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db.collection(data.collection).doc(data.collectionId).get()
+            .then(item => {
+                if (!item.exists) {
+                    throw new functions.https.HttpsError('not-found', 'Invalid ID');
+                }
+                if (item.data().userId !== context.auth.uid) {
+                    throw new functions.https.HttpsError('unauthenticated', 'You are not authorized to perform this operation');
+                }
+                return item.ref.update({
+                    comments: item.data().comments.filter(x => x.id !== data.commentId)
+                });
+            });
+    });
+
+exports.deleteReply = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db.collection(data.collection).doc(data.collectionId).get()
+            .then(item => {
+                if (!item.exists) {
+                    throw new functions.https.HttpsError('not-found', 'Invalid ID');
+                }
+                if (item.data().userId !== context.auth.uid) {
+                    throw new functions.https.HttpsError('unauthenticated', 'You are not authorized to perform this operation');
+                }
+                return item.ref.update({
+                    comments: item.data().comments.map(x => (x.id === data.commentId ? {
+                        ...x,
+                        comments: x.comments.filter(y => y.id !== data.replyId)
+                    } : x))
+                });
+            });
     });
