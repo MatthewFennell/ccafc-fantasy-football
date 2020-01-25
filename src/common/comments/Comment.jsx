@@ -11,7 +11,7 @@ const Comment = props => {
     const [replyText, setReplyText] = useState('');
 
     const {
-        date, displayName, message, id
+        date, displayName, message, id, userId
     } = props.details;
 
     const cancelReply = useCallback(() => {
@@ -42,6 +42,8 @@ const Comment = props => {
                         message={message}
                         isTopLevel={props.isTopLevel}
                         setReplyOpen={openReply}
+                        loggedInUserId={props.loggedInUserId}
+                        userId={userId}
                     />
                     {replyOpen && props.isTopLevel && (
                         <AddReply
@@ -62,7 +64,8 @@ Comment.defaultProps = {
     details: {},
     isTopLevel: false,
     styles: defaultStyles,
-    submitReply: noop
+    submitReply: noop,
+    loggedInUserId: ''
 };
 
 Comment.propTypes = {
@@ -74,7 +77,8 @@ Comment.propTypes = {
     }),
     isTopLevel: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),
-    submitReply: PropTypes.func
+    submitReply: PropTypes.func,
+    loggedInUserId: PropTypes.string
 };
 
 export default Comment;

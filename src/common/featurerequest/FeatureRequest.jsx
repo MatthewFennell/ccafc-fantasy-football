@@ -24,6 +24,7 @@ const FeatureRequest = props => {
                     addNewComment={props.addNewComment}
                     addNewReply={props.addNewReply}
                     comments={comments}
+                    loggedInUserId={props.loggedInUserId}
                 />
             </div>
         </div>
@@ -35,7 +36,8 @@ FeatureRequest.defaultProps = {
     addNewReply: noop,
     details: {},
     showAuthor: false,
-    styles: defaultStyles
+    styles: defaultStyles,
+    loggedInUserId: ''
 };
 
 FeatureRequest.propTypes = {
@@ -52,7 +54,8 @@ FeatureRequest.propTypes = {
         userId: PropTypes.string
     }),
     showAuthor: PropTypes.bool,
-    styles: PropTypes.objectOf(PropTypes.string)
+    styles: PropTypes.objectOf(PropTypes.string),
+    loggedInUserId: PropTypes.string
 };
 
 export default FeatureRequest;

@@ -75,6 +75,7 @@ const FeatureRequest = props => {
                 featuresOpen={featuresOpen}
                 featureRequests={_.map(props.featureRequests, (value, id) => ({ id, ...value }))}
                 toggleFeature={toggleFeature}
+                loggedInUserId={props.auth.uid}
             />
         </>
     );
@@ -83,6 +84,9 @@ const FeatureRequest = props => {
 FeatureRequest.defaultProps = {
     addCommentToFeatureRequest: noop,
     addReplyToCommentRequest: noop,
+    auth: {
+        uid: null
+    },
     featureRequests: {},
     styles: defaultStyles,
     submitFeatureRequest: noop
@@ -91,6 +95,9 @@ FeatureRequest.defaultProps = {
 FeatureRequest.propTypes = {
     addCommentToFeatureRequest: PropTypes.func,
     addReplyToCommentRequest: PropTypes.func,
+    auth: PropTypes.shape({
+        uid: PropTypes.string
+    }),
     featureRequests: PropTypes.objectOf(PropTypes.shape({
         dateCreated: PropTypes.any,
         description: PropTypes.string,
@@ -116,9 +123,7 @@ export default compose(
     firestoreConnect(props => [
         {
             collection: 'feature-requests',
-            storeAs: 'featureRequests',
-            where: [
-                ['userId', '==', props.auth.uid]]
+            storeAs: 'featureRequests'
         }
     ]),
 )(FeatureRequest);

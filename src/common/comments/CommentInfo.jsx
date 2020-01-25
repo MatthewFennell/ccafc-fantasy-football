@@ -14,9 +14,12 @@ const CommentInfo = props => (
             <div className={props.styles.date}>
                 {moment(props.date).fromNow()}
             </div>
-            <div className={props.styles.deleteComment}>
-                <DeleteIcon />
-            </div>
+            {props.loggedInUserId === props.userId
+            && (
+                <div className={props.styles.deleteComment}>
+                    <DeleteIcon fontSize="small" color="primary" />
+                </div>
+            )}
 
         </div>
         <div className={props.styles.commentMessage}>
@@ -39,19 +42,23 @@ const CommentInfo = props => (
 CommentInfo.defaultProps = {
     date: null,
     displayName: '',
+    loggedInUserId: '',
     isTopLevel: false,
     message: '',
     setReplyOpen: noop,
-    styles: defaultStyles
+    styles: defaultStyles,
+    userId: ''
 };
 
 CommentInfo.propTypes = {
     date: PropTypes.string,
     displayName: PropTypes.string,
+    loggedInUserId: PropTypes.string,
     isTopLevel: PropTypes.bool,
     message: PropTypes.string,
     setReplyOpen: PropTypes.func,
-    styles: PropTypes.objectOf(PropTypes.string)
+    styles: PropTypes.objectOf(PropTypes.string),
+    userId: PropTypes.string
 };
 
 export default CommentInfo;

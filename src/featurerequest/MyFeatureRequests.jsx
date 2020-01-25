@@ -20,6 +20,7 @@ const MyFeatureRequests = props => {
                         isOpen={props.featuresOpen.includes(x.id)}
                         title={`Feature Request by ${x.displayName}`}
                         toggle={props.toggleFeature}
+                        loggedInUserId={props.loggedInUserId}
                     />
                 </div>
             ))}
@@ -33,7 +34,8 @@ MyFeatureRequests.defaultProps = {
     featureRequests: [],
     featuresOpen: [],
     styles: defaultStyles,
-    toggleFeature: noop
+    toggleFeature: noop,
+    loggedInUserId: ''
 };
 
 MyFeatureRequests.propTypes = {
@@ -46,7 +48,8 @@ MyFeatureRequests.propTypes = {
     })),
     featuresOpen: PropTypes.arrayOf(PropTypes.string),
     styles: PropTypes.objectOf(PropTypes.string),
-    toggleFeature: PropTypes.func
+    toggleFeature: PropTypes.func,
+    loggedInUserId: PropTypes.string
 };
 
 export default MyFeatureRequests;

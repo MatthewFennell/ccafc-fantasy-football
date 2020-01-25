@@ -21,7 +21,7 @@ const RenderComments = props => {
         // eslint-disable-next-line
     }, [props.addNewComment, setNewComment, newComment]);
 
-    const renderComment = (comment, isTopLevel, submitReply) => {
+    const renderComment = (comment, isTopLevel, submitReply, loggedInUserId) => {
         if (hasChildren(comment)) {
             return (
                 <>
@@ -29,6 +29,7 @@ const RenderComments = props => {
                         details={comment}
                         isTopLevel={isTopLevel}
                         submitReply={submitReply}
+                        loggedInUserId={loggedInUserId}
                     />
                     <div className={props.styles.shiftRight}>
                         {comment.comments.map(x => renderComment(x, false))}
@@ -41,12 +42,14 @@ const RenderComments = props => {
                 details={comment}
                 isTopLevel={isTopLevel}
                 submitReply={submitReply}
+                loggedInUserId={loggedInUserId}
             />
         );
     };
 
     const renderCommentsRecursively = (comments, submitReply) => comments
-        .map(x => renderComment(x, true, submitReply));
+        .map(x => renderComment(x, true, submitReply, props.loggedInUserId));
+
 
     return (
         <div className={props.styles.comments}>
@@ -78,14 +81,16 @@ RenderComments.defaultProps = {
     addNewComment: noop,
     addNewReply: noop,
     comments: [],
-    styles: defaultStyles
+    styles: defaultStyles,
+    loggedInUserId: ''
 };
 
 RenderComments.propTypes = {
     addNewComment: PropTypes.func,
     addNewReply: PropTypes.func,
     comments: PropTypes.arrayOf(PropTypes.shape({})),
-    styles: PropTypes.objectOf(PropTypes.string)
+    styles: PropTypes.objectOf(PropTypes.string),
+    loggedInUserId: PropTypes.string
 };
 
 export default RenderComments;

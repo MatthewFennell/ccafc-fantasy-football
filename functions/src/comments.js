@@ -28,6 +28,7 @@ exports.addComment = functions
                             message: data.comment,
                             date: moment().format(),
                             id,
+                            userId: context.auth.uid,
                             comments: []
                         }]
                     }));
@@ -55,6 +56,7 @@ exports.addReply = functions
                             ...x,
                             comments: [...x.comments, {
                                 displayName,
+                                userId: context.auth.uid,
                                 message: data.reply,
                                 date: moment().format()
                             }]
