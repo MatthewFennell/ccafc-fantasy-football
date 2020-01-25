@@ -54,7 +54,7 @@ const FeatureRequest = props => {
     const deleteComment = useCallback(featureId => commentId => {
         props.deleteCommentRequest(featureId, commentId);
         // eslint-disable-next-line
-    }, props.deleteCommentRequest)
+    }, [props.deleteCommentRequest])
 
     const deleteReply = useCallback(featureId => (commentId, replyId) => {
         props.deleteReplyRequest(featureId, commentId, replyId);

@@ -35,6 +35,10 @@ export const ADD_REPLY_TO_VIDEO_REQUEST = `${pre}ADD_REPLY_TO_VIDEO_REQUEST`;
 export const ADD_REPLY_TO_VIDEO_SUCCESS = `${pre}ADD_REPLY_TO_VIDEO_SUCCESS`;
 export const ADD_REPLY_TO_VIDEO_ERROR = `${pre}ADD_REPLY_TO_VIDEO_ERROR`;
 
+export const DELETE_COMMENT_REQUEST = `${pre}DELETE_COMMENT_REQUEST`;
+export const DELETE_COMMENT_SUCCESS = `${pre}DELETE_COMMENT_SUCCESS`;
+export const DELETE_COMMENT_ERROR = `${pre}DELETE_COMMENT_ERROR`;
+
 export const alreadyFetchedRejectedVideos = () => ({
     type: ALREADY_FETCHED_REJECTED_VIDEOS
 });
@@ -165,5 +169,23 @@ export const addReplyToVideoSuccess = video => ({
 
 export const addReplyToVideoError = error => ({
     type: ADD_REPLY_TO_VIDEO_ERROR,
+    error
+});
+
+export const deleteCommentRequest = (videoId, commentId, replyId) => ({
+    type: DELETE_COMMENT_REQUEST,
+    videoId,
+    commentId,
+    replyId
+});
+
+export const deleteCommentSuccess = (videoId, commentId) => ({
+    type: DELETE_COMMENT_SUCCESS,
+    videoId,
+    commentId
+});
+
+export const deleteCommentError = error => ({
+    type: DELETE_COMMENT_ERROR,
     error
 });

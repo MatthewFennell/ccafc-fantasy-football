@@ -59,6 +59,7 @@ const YouTubeList = props => {
                                             comments={x.comments}
                                             date={generateTime(x.dateCreated)}
                                             dateCreated={x.dateCreated}
+                                            deleteComment={props.deleteComment(x.id)}
                                             displayName={x.displayName}
                                             downvoteHighlightRequest={props
                                                 .downvoteHighlightRequest}
@@ -108,6 +109,7 @@ YouTubeList.defaultProps = {
     addNewReply: noop,
     authId: '',
     approversPage: false,
+    deleteComment: noop,
     downvoteHighlightRequest: noop,
     loading: false,
     openConfirm: noop,
@@ -125,6 +127,7 @@ YouTubeList.propTypes = {
     addNewReply: PropTypes.func,
     authId: PropTypes.string,
     approversPage: PropTypes.bool,
+    deleteComment: PropTypes.func,
     downvoteHighlightRequest: PropTypes.func,
     loading: PropTypes.bool,
     openConfirm: PropTypes.func,

@@ -132,6 +132,15 @@ const highlightsReducer = (state = initialState, action) => {
             videos: state.videos.map(x => (x.id === action.video.id ? action.video : x))
         };
     }
+    case actions.DELETE_COMMENT_SUCCESS: {
+        return {
+            ...state,
+            videos: state.videos.map(x => (x.id === action.videoId ? ({
+                ...x,
+                comments: x.comments.filter(y => y.id !== action.commentId)
+            }) : x))
+        };
+    }
     default:
         return state;
     }

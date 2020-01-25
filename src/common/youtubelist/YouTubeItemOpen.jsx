@@ -9,7 +9,6 @@ import Comments from '../comments/Comments';
 
 const YouTubeItemOpen = props => {
     const onReady = e => e.target.pauseVideo();
-    console.log('comments', props.comments);
     return (
         <div className={props.styles.openVideoItemWrapper}>
             <div className={props.styles.expandedWrapper}>
@@ -68,6 +67,7 @@ const YouTubeItemOpen = props => {
                 <Comments
                     addNewComment={props.addNewComment}
                     addNewReply={props.addNewReply}
+                    deleteComment={props.deleteComment}
                     comments={props.comments}
                     userId={props.authId}
                 />
@@ -83,6 +83,7 @@ YouTubeItemOpen.defaultProps = {
     authId: '',
     comments: [],
     date: '',
+    deleteComment: noop,
     displayName: '',
     downvoteHighlightRequest: noop,
     email: '',
@@ -106,6 +107,7 @@ YouTubeItemOpen.propTypes = {
     authId: PropTypes.string,
     comments: PropTypes.arrayOf(PropTypes.shape({})),
     date: PropTypes.string,
+    deleteComment: PropTypes.func,
     displayName: PropTypes.string,
     downvoteHighlightRequest: PropTypes.func,
     email: PropTypes.string,
