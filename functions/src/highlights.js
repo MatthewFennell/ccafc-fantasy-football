@@ -25,7 +25,8 @@ exports.submitHighlightForApproval = functions
                         dateCreated: operations.serverTimestamp(),
                         upvotes: [context.auth.uid],
                         downvotes: [],
-                        displayName: user.displayName
+                        displayName: user.displayName,
+                        comments: []
                     });
                 }
             ));

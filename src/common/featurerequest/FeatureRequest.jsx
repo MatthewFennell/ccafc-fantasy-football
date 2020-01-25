@@ -19,11 +19,13 @@ const FeatureRequest = props => {
             <div className={props.styles.description}>
                 {`Feature description: ${description}`}
             </div>
-            <Comments
-                addNewComment={props.addNewComment}
-                addNewReply={props.addNewReply}
-                comments={comments}
-            />
+            <div className={props.styles.commentsWrapper}>
+                <Comments
+                    addNewComment={props.addNewComment}
+                    addNewReply={props.addNewReply}
+                    comments={comments}
+                />
+            </div>
         </div>
     );
 };

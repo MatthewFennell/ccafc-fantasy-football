@@ -52,8 +52,11 @@ const YouTubeList = props => {
                                             <ExpandLessIcon onClick={() => toggleFeature(x.id)} />
                                         </div>
                                         <YouTubeItemOpen
+                                            addNewComment={props.addNewComment(x.id)}
+                                            addNewReply={props.addNewReply(x.id)}
                                             approversPage={props.approversPage}
                                             authId={props.authId}
+                                            comments={x.comments}
                                             date={generateTime(x.dateCreated)}
                                             dateCreated={x.dateCreated}
                                             displayName={x.displayName}
@@ -101,6 +104,8 @@ const YouTubeList = props => {
 };
 
 YouTubeList.defaultProps = {
+    addNewComment: noop,
+    addNewReply: noop,
     authId: '',
     approversPage: false,
     downvoteHighlightRequest: noop,
@@ -116,6 +121,8 @@ YouTubeList.defaultProps = {
 };
 
 YouTubeList.propTypes = {
+    addNewComment: PropTypes.func,
+    addNewReply: PropTypes.func,
     authId: PropTypes.string,
     approversPage: PropTypes.bool,
     downvoteHighlightRequest: PropTypes.func,

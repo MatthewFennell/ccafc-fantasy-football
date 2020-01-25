@@ -6,9 +6,10 @@ import * as api from './api';
 
 function* addReplyToComment(action) {
     try {
-        yield call(api.addReplyToComment, {
+        yield call(api.addReply, {
+            collection: 'feature-requests',
             reply: action.reply,
-            featureId: action.featureId,
+            collectionId: action.featureId,
             commentId: action.commentId
         });
     } catch (error) {
@@ -18,8 +19,12 @@ function* addReplyToComment(action) {
 
 function* addCommentToFeature(action) {
     try {
-        yield call(api.addCommentToFeature,
-            { comment: action.comment, featureId: action.featureId });
+        yield call(api.addComment,
+            {
+                collection: 'feature-requests',
+                comment: action.comment,
+                collectionId: action.featureId
+            });
     } catch (error) {
         yield put(actions.addCommentToFeatureError(error));
     }

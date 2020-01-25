@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import moment from 'moment';
+import DeleteIcon from '@material-ui/icons/Delete';
 import defaultStyles from './CommentInfo.module.scss';
 
 const CommentInfo = props => (
@@ -12,6 +13,9 @@ const CommentInfo = props => (
             </div>
             <div className={props.styles.date}>
                 {moment(props.date).fromNow()}
+            </div>
+            <div className={props.styles.deleteComment}>
+                <DeleteIcon />
             </div>
 
         </div>

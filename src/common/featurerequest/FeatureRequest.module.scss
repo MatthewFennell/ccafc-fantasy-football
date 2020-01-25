@@ -25,6 +25,11 @@
         margin-top: $spacing-medium;
         font-size: $font-size-large;
     }
+
+    .commentsWrapper{
+        height: 300px;
+        overflow-y: scroll;
+    }
 }
 
 .shiftRight{

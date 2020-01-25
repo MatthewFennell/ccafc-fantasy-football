@@ -76,6 +76,34 @@ function* rejectedHighlights() {
     }
 }
 
+function* addCommentToVideo(action) {
+    try {
+        const newHighlight = yield call(api.addComment, ({
+            collection: 'highlights', // TO:DO Replace with constants for database collection names
+            collectionId: action.videoId,
+            comment: action.comment
+        }));
+        yield put(actions.addCommentToVideoSuccess(newHighlight));
+    } catch (error) {
+        yield put(actions.addCommentToVideoError(error));
+    }
+}
+
+
+function* addReplyToVideo(action) {
+    try {
+        const newHighlight = yield call(api.addReply, ({
+            collection: 'highlights', // TO:DO Replace with constants for database collection names
+            collectionId: action.videoId,
+            commentId: action.commentId,
+            reply: action.reply
+        }));
+        yield put(actions.addReplyToVideoSuccess(newHighlight));
+    } catch (error) {
+        yield put(actions.addReplyToVideoError(error));
+    }
+}
+
 export default function* overviewSaga() {
     yield all([
         takeEvery(actions.SUBMIT_HIGHLIGHT_REQUEST, submitHighlight),
@@ -83,6 +111,8 @@ export default function* overviewSaga() {
         takeEvery(actions.UPVOTE_HIGHLIGHT_REQUEST, upvoteHighlight),
         takeEvery(actions.DOWNVOTE_HIGHLIGHT_REQUEST, downvoteHighlight),
         takeEvery(actions.FETCH_USER_HIGHLIGHTS_TO_BE_APPROVED_REQUEST, highlightsToBeApproved),
-        takeEvery(actions.FETCH_REJECTED_HIGHLIGHTS_REQUEST, rejectedHighlights)
+        takeEvery(actions.FETCH_REJECTED_HIGHLIGHTS_REQUEST, rejectedHighlights),
+        takeEvery(actions.ADD_COMMENT_TO_VIDEO_REQUEST, addCommentToVideo),
+        takeEvery(actions.ADD_REPLY_TO_VIDEO_REQUEST, addReplyToVideo)
     ]);
 }
