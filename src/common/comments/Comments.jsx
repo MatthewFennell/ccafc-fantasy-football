@@ -33,7 +33,13 @@ const RenderComments = props => {
                         loggedInUserId={loggedInUserId}
                     />
                     <div className={props.styles.shiftRight}>
-                        {comment.comments.map(x => renderComment(x, false))}
+                        {comment.comments.map(x => renderComment(
+                            x,
+                            false,
+                            noop,
+                            loggedInUserId,
+                            noop
+                        ))}
                     </div>
                 </>
             );
@@ -49,8 +55,10 @@ const RenderComments = props => {
         );
     };
 
-    const renderCommentsRecursively = (comments, submitReply) => comments
-        .map(x => renderComment(x, true, submitReply, props.loggedInUserId, props.deleteComment));
+    console.log('logged in user', props.loggedInUserId);
+
+    const renderCommentsRecursively = (comments, submitReply, loggedInUserId) => comments
+        .map(x => renderComment(x, true, submitReply, loggedInUserId, props.deleteComment));
 
 
     return (
@@ -74,7 +82,7 @@ const RenderComments = props => {
                     </div>
                 </div>
             </div>
-            {renderCommentsRecursively(props.comments, props.addNewReply)}
+            {renderCommentsRecursively(props.comments, props.addNewReply, props.loggedInUserId)}
         </div>
     );
 };

@@ -15,6 +15,12 @@
         margin-right: $spacing-small;
         cursor: pointer;
     }
+
+    .deleteComment:hover{
+        :first-child {
+            color: $color-red;
+        }
+    }
 }
 
 .date{
