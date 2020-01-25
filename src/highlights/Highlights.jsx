@@ -7,7 +7,8 @@ import StyledButton from '../common/StyledButton/StyledButton';
 import {
     closeHighlightError, submitHighlightRequest, submitHighlightError, fetchHighlightsRequest,
     upvoteHighlightRequest, downvoteHighlightRequest, fetchUserHighlightsToBeApprovedRequest,
-    fetchRejectedHighlightsRequest, addCommentToVideoRequest, addReplyToVideoRequest
+    fetchRejectedHighlightsRequest, addCommentToVideoRequest, addReplyToVideoRequest,
+    deleteCommentRequest, deleteReplyRequest
 } from './actions';
 import ErrorModal from '../common/modal/ErrorModal';
 import YouTubeList from '../common/youtubelist/YouTubeList';
@@ -39,6 +40,16 @@ const Highlights = props => {
         props.addReplyToVideoRequest(message, id, origin);
         // eslint-disable-next-line
     }, [props.addReplyToVideoRequest]);
+
+    const deleteComment = useCallback(videoId => commentId => {
+        props.deleteCommentRequest(videoId, commentId);
+        // eslint-disable-next-line
+    }, [props.deleteCommentRequest])
+
+    const deleteReply = useCallback(featureId => (commentId, replyId) => {
+        props.deleteReplyRequest(featureId, commentId, replyId);
+        // eslint-disable-next-line
+    }, props.deleteReplyRequest)
 
     return (
         <>
@@ -95,6 +106,8 @@ const Highlights = props => {
                 addNewComment={addNewComment}
                 addNewReply={addNewReply}
                 authId={props.auth.uid}
+                deleteComment={deleteComment}
+                deleteReply={deleteReply}
                 downvoteHighlightRequest={props.downvoteHighlightRequest}
                 loading={props.loadingVideos}
                 videos={helpers.sortVideos(filterBy, sortBy, props.videos, searchFilter)}
@@ -145,6 +158,8 @@ Highlights.propTypes = {
         uid: PropTypes.string
     }),
     closeHighlightError: PropTypes.func.isRequired,
+    deleteCommentRequest: PropTypes.func.isRequired,
+    deleteReplyRequest: PropTypes.func.isRequired,
     downvoteHighlightRequest: PropTypes.func.isRequired,
     loadingVideosToBeApproved: PropTypes.bool,
     loadingRejectedVideos: PropTypes.bool,
@@ -167,6 +182,8 @@ const mapDispatchToProps = {
     addCommentToVideoRequest,
     addReplyToVideoRequest,
     closeHighlightError,
+    deleteCommentRequest,
+    deleteReplyRequest,
     downvoteHighlightRequest,
     fetchRejectedHighlightsRequest,
     fetchHighlightsRequest,

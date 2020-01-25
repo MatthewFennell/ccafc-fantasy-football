@@ -132,6 +132,27 @@ const highlightsReducer = (state = initialState, action) => {
             videos: state.videos.map(x => (x.id === action.video.id ? action.video : x))
         };
     }
+    case actions.DELETE_COMMENT_SUCCESS: {
+        return {
+            ...state,
+            videos: state.videos.map(x => (x.id === action.videoId ? ({
+                ...x,
+                comments: x.comments.filter(y => y.id !== action.commentId)
+            }) : x))
+        };
+    }
+    case actions.DELETE_REPLY_SUCCESS: {
+        return {
+            ...state,
+            videos: state.videos.map(x => (x.id === action.videoId ? ({
+                ...x,
+                comments: x.comments.map(y => (y.id === action.commentId ? ({
+                    ...y,
+                    comments: y.comments.filter(z => z.id !== action.replyId)
+                }) : y))
+            }) : x))
+        };
+    }
     default:
         return state;
     }

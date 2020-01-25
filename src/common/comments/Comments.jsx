@@ -63,7 +63,7 @@ const RenderComments = props => {
 
     const renderCommentsRecursively = (comments, submitReply, loggedInUserId) => comments
         .map(x => renderComment(x, true, submitReply, loggedInUserId, props.deleteComment,
-            props.deleteReply, noop));
+            props.deleteReply, null));
 
 
     return (

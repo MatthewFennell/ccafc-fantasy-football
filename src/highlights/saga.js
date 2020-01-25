@@ -89,7 +89,6 @@ function* addCommentToVideo(action) {
     }
 }
 
-
 function* addReplyToVideo(action) {
     try {
         const newHighlight = yield call(api.addReply, ({
@@ -104,6 +103,33 @@ function* addReplyToVideo(action) {
     }
 }
 
+function* deleteComment(action) {
+    try {
+        yield call(api.deleteComment, {
+            collection: 'highlights',
+            collectionId: action.videoId,
+            commentId: action.commentId
+        });
+        yield put(actions.deleteCommentSuccess(action.videoId, action.commentId));
+    } catch (error) {
+        yield put(actions.deleteCommentError(error));
+    }
+}
+
+function* deleteReply(action) {
+    try {
+        yield call(api.deleteReply, {
+            collection: 'highlights',
+            collectionId: action.videoId,
+            commentId: action.commentId,
+            replyId: action.replyId
+        });
+        yield put(actions.deleteReplySuccess(action.videoId, action.commentId, action.replyId));
+    } catch (error) {
+        yield put(actions.deleteReplyError(error));
+    }
+}
+
 export default function* overviewSaga() {
     yield all([
         takeEvery(actions.SUBMIT_HIGHLIGHT_REQUEST, submitHighlight),
@@ -113,6 +139,8 @@ export default function* overviewSaga() {
         takeEvery(actions.FETCH_USER_HIGHLIGHTS_TO_BE_APPROVED_REQUEST, highlightsToBeApproved),
         takeEvery(actions.FETCH_REJECTED_HIGHLIGHTS_REQUEST, rejectedHighlights),
         takeEvery(actions.ADD_COMMENT_TO_VIDEO_REQUEST, addCommentToVideo),
-        takeEvery(actions.ADD_REPLY_TO_VIDEO_REQUEST, addReplyToVideo)
+        takeEvery(actions.ADD_REPLY_TO_VIDEO_REQUEST, addReplyToVideo),
+        takeEvery(actions.DELETE_COMMENT_REQUEST, deleteComment),
+        takeEvery(actions.DELETE_REPLY_REQUEST, deleteReply)
     ]);
 }
