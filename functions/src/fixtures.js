@@ -7,8 +7,6 @@ const constants = require('./constants');
 
 const db = admin.firestore();
 
-const operations = admin.firestore.FieldValue;
-
 exports.findFixtures = functions
     .region(constants.region)
     .https.onCall((data, context) => {
@@ -75,4 +73,28 @@ exports.findFixtures = functions
 
         return Promise.all(promises)
             .then(result => result.reduce((prev, cur) => prev.concat(transformHtml(cur.data)), []));
+    });
+
+
+exports.setMyTeam = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db.collection('users-teams').doc(context.auth.uid).set({
+            team: data.team
+        });
+    });
+
+exports.getMyTeam = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db.collection('users-teams').doc(context.auth.uid).get().then(
+            doc => {
+                if (doc.exists) {
+                    return doc.data().team || 'No team set';
+                }
+                return 'No team set';
+            }
+        );
     });

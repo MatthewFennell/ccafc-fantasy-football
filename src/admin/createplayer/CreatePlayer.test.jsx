@@ -10,7 +10,7 @@ import styles from './CreatePlayer.module.scss';
 configure({ adapter: new Adapter() });
 
 describe('Create Player', () => {
-    it('The Create Player component renders with crashing', () => {
+    it('The Create Player component renders without crashing', () => {
         const wrapper = shallow(<CreatePlayerUnconnected
             closeCreatePlayerError={noop}
             creatingPlayer={false}

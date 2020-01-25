@@ -25,7 +25,7 @@ const dummyComponent = () => (
 );
 
 describe('UnauthenticatedRoute', () => {
-    it('The UnauthenticatedRoute component renders with crashing', () => {
+    it('The UnauthenticatedRoute component renders without crashing', () => {
         expect(() => shallow(
             <Provider store={store}>
                 <Router>

@@ -8,7 +8,7 @@ import { EditPlayerUnconnected } from './EditPlayer';
 configure({ adapter: new Adapter() });
 
 describe('Edit Player', () => {
-    it('The Edit Player component renders with crashing', () => {
+    it('The Edit Player component renders without crashing', () => {
         const wrapper = shallow(<EditPlayerUnconnected
             editPlayerStatsRequest={noop}
             fetchPlayerStatsRequest={noop}

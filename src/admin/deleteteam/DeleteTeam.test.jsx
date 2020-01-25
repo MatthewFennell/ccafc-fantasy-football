@@ -10,7 +10,7 @@ import styles from './DeleteTeam.module.scss';
 configure({ adapter: new Adapter() });
 
 describe('Delete Team', () => {
-    it('The Delete Team component renders with crashing', () => {
+    it('The Delete Team component renders without crashing', () => {
         const wrapper = shallow(<DeleteTeamUnconnected
             closeDeleteTeamError={noop}
             deletingTeam={false}
