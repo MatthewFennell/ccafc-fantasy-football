@@ -10,7 +10,7 @@ import styles from './CreateTeam.module.scss';
 configure({ adapter: new Adapter() });
 
 describe('Create Team', () => {
-    it('The Create Team component renders with crashing', () => {
+    it('The Create Team component renders without crashing', () => {
         const wrapper = shallow(<CreateTeamUnconnected
             closeCreateTeamError={noop}
             creatingTeam={false}

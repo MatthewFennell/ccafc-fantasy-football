@@ -10,7 +10,7 @@ import styles from './DeletePlayer.module.scss';
 configure({ adapter: new Adapter() });
 
 describe('Delete Player', () => {
-    it('The Delete Player component renders with crashing', () => {
+    it('The Delete Player component renders without crashing', () => {
         const wrapper = shallow(<DeletePlayerUnconnected
             closeDeletePlayerError={noop}
             deletingPlayer={false}

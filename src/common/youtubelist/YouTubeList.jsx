@@ -1,16 +1,14 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import fp from 'lodash/fp';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import moment from 'moment';
 import { noop } from 'lodash';
 import classNames from 'classnames';
 import defaultStyles from './YouTubeList.module.scss';
-import CustomYouTube from '../youtube/YouTube';
-import StyledButton from '../StyledButton/StyledButton';
-import Voting from './Voting';
 import Spinner from '../spinner/Spinner';
+import YouTubeItemOpen from './YouTubeItemOpen';
+import YouTubeItemClosed from './YouTubeItemClosed';
 
 const defaultOpts = {
     height: '390',
@@ -24,12 +22,15 @@ const defaultOpts = {
 const generateTime = date => moment(new Date(date._seconds * 1000)).startOf('second').fromNow();
 
 const YouTubeList = props => {
-    const [openVids, setOpenVids] = useState({});
-    const onReady = e => e.target.pauseVideo();
+    const [videosOpen, setVideosOpen] = useState([]);
 
-    const toggleVideo = useCallback(id => {
-        setOpenVids(fp.set(id, !fp.get(id)(openVids))(openVids));
-    }, [openVids, setOpenVids]);
+    const toggleFeature = useCallback(id => {
+        if (!videosOpen.includes(id)) {
+            setVideosOpen([...videosOpen, id]);
+        } else {
+            setVideosOpen(videosOpen.filter(x => x !== id));
+        }
+    }, [setVideosOpen, videosOpen]);
 
     return (
         <>
@@ -40,83 +41,54 @@ const YouTubeList = props => {
                             <div
                                 className={classNames({
                                     [props.styles.videoWrapper]: true,
-                                    [props.styles.notExpandedVideoWrapper]: !fp.get(x.id)(openVids)
+                                    [props.styles.notExpandedVideoWrapper]: videosOpen
+                                        .includes(x.id)
                                 })}
                                 key={x.id}
                             >
-                                {fp.get(x.id)(openVids) ? (
+                                {videosOpen.includes(x.id) ? (
                                     <>
                                         <div className={props.styles.expandLess}>
-                                            <ExpandLessIcon onClick={() => toggleVideo(x.id)} />
+                                            <ExpandLessIcon onClick={() => toggleFeature(x.id)} />
                                         </div>
-                                        <div className={props.styles.expandedWrapper}>
-                                            <div className={props.styles.userInfo}>
-                                                <div className={props.styles.videoTitle}>
-                                                    {`Title: ${x.title}`}
-                                                </div>
-                                                <div className={props.styles.email}>
-                                                    {`Author: ${x.displayName}`}
-                                                </div>
-                                                <div className={props.styles.email}>
-                                                    {`Email: ${x.email}`}
-                                                </div>
-                                                <div className={props.styles.dateCreated}>
-                                                    {`Created: ${generateTime(x.dateCreated)}`}
-                                                </div>
-                                            </div>
-                                            {props.approversPage
-                                && (
-                                    <div className={props.styles.buttonWrapper}>
-                                        <div><StyledButton text="Approve" onClick={() => props.openConfirm(x.id)} /></div>
-                                        <div><StyledButton text="Reject" onClick={() => props.openReject(x.id)} color="secondary" /></div>
-                                    </div>
-                                ) }
-                                            {props.votingPage && (
-                                                <Voting
-                                                    authId={props.authId}
-                                                    downvoteHighlightRequest={props
-                                                        .downvoteHighlightRequest}
-                                                    video={x}
-                                                    upvote={props.upvote}
-                                                    upvoteHighlightRequest={props
-                                                        .upvoteHighlightRequest}
-                                                />
-                                            )}
-                                        </div>
-                                        <div className={props.styles.video}>
-                                            <CustomYouTube
-                                                videoId={x.videoId}
-                                                opts={props.opts}
-                                                onReady={onReady}
-                                            />
-                                        </div>
+                                        <YouTubeItemOpen
+                                            approversPage={props.approversPage}
+                                            authId={props.authId}
+                                            date={generateTime(x.dateCreated)}
+                                            dateCreated={x.dateCreated}
+                                            displayName={x.displayName}
+                                            downvoteHighlightRequest={props
+                                                .downvoteHighlightRequest}
+                                            email={x.email}
+                                            openConfirm={props.openConfirm}
+                                            openReject={props.openReject}
+                                            opts={props.opts}
+                                            upvote={props.upvote}
+                                            upvoteHighlightRequest={props.upvoteHighlightRequest}
+                                            video={x}
+                                            videoId={x.id}
+                                            videoLinkId={x.videoId}
+                                            votingPage={props.votingPage}
+                                            youTubeTitle={x.title}
+                                        />
                                     </>
                                 ) : (
                                     <div className={props.styles.collapsedVideoWrapper}>
-                                        <div tabIndex={0} role="button" className={props.styles.expandIcon} onClick={() => toggleVideo(x.id)}>
+                                        <div tabIndex={0} role="button" className={props.styles.expandIcon} onClick={() => toggleFeature(x.id)}>
                                             <ExpandMoreIcon />
                                         </div>
-                                        <div
-                                            onClick={() => toggleVideo(x.id)}
-                                            role="button"
-                                            tabIndex={0}
-                                            className={props.styles.collapsedTitle}
-                                        >
-                                            <div>{`Title: ${x.title}`}</div>
-                                            <div>{`Author: ${x.displayName}`}</div>
-                                            <div>{`Created ${generateTime(x.dateCreated)}`}</div>
-                                        </div>
-                                        {props.votingPage && (
-                                            <Voting
-                                                authId={props.authId}
-                                                downvoteHighlightRequest={props
-                                                    .downvoteHighlightRequest}
-                                                video={x}
-                                                upvote={props.upvote}
-                                                upvoteHighlightRequest={props
-                                                    .upvoteHighlightRequest}
-                                            />
-                                        )}
+                                        <YouTubeItemClosed
+                                            authId={props.authId}
+                                            author={x.displayName}
+                                            date={generateTime(x.dateCreated)}
+                                            downvoteHighlightRequest={props
+                                                .downvoteHighlightRequest}
+                                            title={x.title}
+                                            upvote={props.upvote}
+                                            upvoteHighlightRequest={props.upvoteHighlightRequest}
+                                            video={x}
+                                            votingPage={props.votingPage}
+                                        />
                                     </div>
                                 )}
                             </div>

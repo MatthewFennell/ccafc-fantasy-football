@@ -11,6 +11,8 @@
   margin: $spacing-small;
   background-color: $color-white;
   @include light-box-shadow();
+  max-width: 33%;
+  min-width: 30%;
 }
 
 @media only screen and (max-width: 600px) {
@@ -21,7 +23,8 @@
 }
 
 .notExpandedVideoWrapper{
-  max-width: 24%;
+  max-width: 33%;
+  min-width: 30%;
 }
 
 .userInfo{
@@ -55,17 +58,6 @@
   padding: 0px $spacing-medium $spacing-average $spacing-medium;
 }
 
-.expandedWrapper{
-  display: flex;
-  > div {
-    flex-grow: 1;
-  }
-  .buttonWrapper{
-    display: flex;
-    justify-content: center;
-  }
-}
-
 .expandIcon{
   cursor: pointer;
   outline: none;
@@ -79,17 +71,9 @@
 .expandLess{
   text-align: right;
   margin-right: $spacing-small;
+  padding-top: $spacing-small;
 
   :first-child{
     cursor: pointer;
   }
-}
-
-.videoTitle, .email, .dateCreated {
-  text-align: center;
-  font-weight: bold;
-  width: 75%;
-  margin-left: auto;
-  margin-right: auto;
-  word-break: break-word;
 }

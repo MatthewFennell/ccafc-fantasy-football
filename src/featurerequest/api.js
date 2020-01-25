@@ -1,6 +1,6 @@
 import { functionToCall } from '../api/api';
 
-export const submitFeature = request => functionToCall('submitFeature')(request);
+export const submitFeature = request => functionToCall('features-submitFeature')(request);
 
-export const addCommentToFeature = request => functionToCall('addCommentToFeature')(request);
-export const addReplyToComment = request => functionToCall('addReplyToComment')(request);
+export const addCommentToFeature = request => functionToCall('features-addCommentToFeature')(request);
+export const addReplyToComment = request => functionToCall('features-addReplyToComment')(request);

@@ -30,7 +30,7 @@ const state = {
 const store = mockStore(() => state);
 
 describe('Sign In', () => {
-    it('The Sign In component renders with crashing', () => {
+    it('The Sign In component renders without crashing', () => {
         expect(() => shallow(
             <Provider store={store}>
                 <Router>
