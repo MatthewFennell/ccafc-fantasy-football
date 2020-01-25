@@ -116,6 +116,20 @@ function* deleteComment(action) {
     }
 }
 
+function* deleteReply(action) {
+    try {
+        yield call(api.deleteReply, {
+            collection: 'highlights',
+            collectionId: action.videoId,
+            commentId: action.commentId,
+            replyId: action.replyId
+        });
+        yield put(actions.deleteReplySuccess(action.videoId, action.commentId, action.replyId));
+    } catch (error) {
+        yield put(actions.deleteReplyError(error));
+    }
+}
+
 export default function* overviewSaga() {
     yield all([
         takeEvery(actions.SUBMIT_HIGHLIGHT_REQUEST, submitHighlight),
@@ -126,6 +140,7 @@ export default function* overviewSaga() {
         takeEvery(actions.FETCH_REJECTED_HIGHLIGHTS_REQUEST, rejectedHighlights),
         takeEvery(actions.ADD_COMMENT_TO_VIDEO_REQUEST, addCommentToVideo),
         takeEvery(actions.ADD_REPLY_TO_VIDEO_REQUEST, addReplyToVideo),
-        takeEvery(actions.DELETE_COMMENT_REQUEST, deleteComment)
+        takeEvery(actions.DELETE_COMMENT_REQUEST, deleteComment),
+        takeEvery(actions.DELETE_REPLY_REQUEST, deleteReply)
     ]);
 }

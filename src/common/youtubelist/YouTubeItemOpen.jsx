@@ -68,8 +68,9 @@ const YouTubeItemOpen = props => {
                     addNewComment={props.addNewComment}
                     addNewReply={props.addNewReply}
                     deleteComment={props.deleteComment}
+                    deleteReply={props.deleteReply}
+                    loggedInUserId={props.authId}
                     comments={props.comments}
-                    userId={props.authId}
                 />
             </div>
         </div>
@@ -84,6 +85,7 @@ YouTubeItemOpen.defaultProps = {
     comments: [],
     date: '',
     deleteComment: noop,
+    deleteReply: noop,
     displayName: '',
     downvoteHighlightRequest: noop,
     email: '',
@@ -108,6 +110,7 @@ YouTubeItemOpen.propTypes = {
     comments: PropTypes.arrayOf(PropTypes.shape({})),
     date: PropTypes.string,
     deleteComment: PropTypes.func,
+    deleteReply: PropTypes.func,
     displayName: PropTypes.string,
     downvoteHighlightRequest: PropTypes.func,
     email: PropTypes.string,

@@ -39,6 +39,10 @@ export const DELETE_COMMENT_REQUEST = `${pre}DELETE_COMMENT_REQUEST`;
 export const DELETE_COMMENT_SUCCESS = `${pre}DELETE_COMMENT_SUCCESS`;
 export const DELETE_COMMENT_ERROR = `${pre}DELETE_COMMENT_ERROR`;
 
+export const DELETE_REPLY_REQUEST = `${pre}DELETE_REPLY_REQUEST`;
+export const DELETE_REPLY_SUCCESS = `${pre}DELETE_REPLY_SUCCESS`;
+export const DELETE_REPLY_ERROR = `${pre}DELETE_REPLY_ERROR`;
+
 export const alreadyFetchedRejectedVideos = () => ({
     type: ALREADY_FETCHED_REJECTED_VIDEOS
 });
@@ -187,5 +191,24 @@ export const deleteCommentSuccess = (videoId, commentId) => ({
 
 export const deleteCommentError = error => ({
     type: DELETE_COMMENT_ERROR,
+    error
+});
+
+export const deleteReplyRequest = (videoId, commentId, replyId) => ({
+    type: DELETE_REPLY_REQUEST,
+    videoId,
+    commentId,
+    replyId
+});
+
+export const deleteReplySuccess = (videoId, commentId, replyId) => ({
+    type: DELETE_REPLY_SUCCESS,
+    videoId,
+    commentId,
+    replyId
+});
+
+export const deleteReplyError = error => ({
+    type: DELETE_REPLY_ERROR,
     error
 });
