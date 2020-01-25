@@ -7,7 +7,7 @@ import StyledButton from '../common/StyledButton/StyledButton';
 import {
     closeHighlightError, submitHighlightRequest, submitHighlightError, fetchHighlightsRequest,
     upvoteHighlightRequest, downvoteHighlightRequest, fetchUserHighlightsToBeApprovedRequest,
-    fetchRejectedHighlightsRequest
+    fetchRejectedHighlightsRequest, addCommentToVideoRequest, addReplyToVideoRequest
 } from './actions';
 import ErrorModal from '../common/modal/ErrorModal';
 import YouTubeList from '../common/youtubelist/YouTubeList';
@@ -29,6 +29,16 @@ const Highlights = props => {
     const openSubmitVideo = useCallback(() => {
         setSubmitVideoOpen(true);
     }, [setSubmitVideoOpen]);
+
+    const addNewComment = useCallback(id => comment => {
+        props.addCommentToVideoRequest(comment, id);
+        // eslint-disable-next-line
+    }, [props.addCommentToFeatureRequest]);
+
+    const addNewReply = useCallback(id => (message, origin) => {
+        props.addReplyToVideoRequest(message, id, origin);
+        // eslint-disable-next-line
+    }, [props.addReplyToVideoRequest]);
 
     return (
         <>
@@ -82,6 +92,8 @@ const Highlights = props => {
                 </div>
             </div>
             <YouTubeList
+                addNewComment={addNewComment}
+                addNewReply={addNewReply}
                 authId={props.auth.uid}
                 downvoteHighlightRequest={props.downvoteHighlightRequest}
                 loading={props.loadingVideos}
@@ -127,6 +139,8 @@ Highlights.defaultProps = {
 };
 
 Highlights.propTypes = {
+    addCommentToVideoRequest: PropTypes.func.isRequired,
+    addReplyToVideoRequest: PropTypes.func.isRequired,
     auth: PropTypes.shape({
         uid: PropTypes.string
     }),
@@ -150,6 +164,8 @@ Highlights.propTypes = {
 };
 
 const mapDispatchToProps = {
+    addCommentToVideoRequest,
+    addReplyToVideoRequest,
     closeHighlightError,
     downvoteHighlightRequest,
     fetchRejectedHighlightsRequest,

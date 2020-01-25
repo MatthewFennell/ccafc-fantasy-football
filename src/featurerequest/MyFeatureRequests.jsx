@@ -14,12 +14,15 @@ const MyFeatureRequests = props => {
                     <Feature
                         addNewComment={props.addNewComment(x.id)}
                         addNewReply={props.addNewReply(x.id)}
+                        deleteComment={props.deleteComment(x.id)}
+                        deleteReply={props.deleteReply(x.id)}
                         details={x}
                         showAuthor
                         id={x.id}
                         isOpen={props.featuresOpen.includes(x.id)}
                         title={`Feature Request by ${x.displayName}`}
                         toggle={props.toggleFeature}
+                        loggedInUserId={props.loggedInUserId}
                     />
                 </div>
             ))}
@@ -30,15 +33,20 @@ const MyFeatureRequests = props => {
 MyFeatureRequests.defaultProps = {
     addNewComment: noop,
     addNewReply: noop,
+    deleteComment: noop,
+    deleteReply: noop,
     featureRequests: [],
     featuresOpen: [],
     styles: defaultStyles,
-    toggleFeature: noop
+    toggleFeature: noop,
+    loggedInUserId: ''
 };
 
 MyFeatureRequests.propTypes = {
     addNewComment: PropTypes.func,
     addNewReply: PropTypes.func,
+    deleteComment: PropTypes.func,
+    deleteReply: PropTypes.func,
     featureRequests: PropTypes.arrayOf(PropTypes.shape({
         description: PropTypes.string,
         id: PropTypes.string,
@@ -46,7 +54,8 @@ MyFeatureRequests.propTypes = {
     })),
     featuresOpen: PropTypes.arrayOf(PropTypes.string),
     styles: PropTypes.objectOf(PropTypes.string),
-    toggleFeature: PropTypes.func
+    toggleFeature: PropTypes.func,
+    loggedInUserId: PropTypes.string
 };
 
 export default MyFeatureRequests;

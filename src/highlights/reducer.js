@@ -120,6 +120,18 @@ const highlightsReducer = (state = initialState, action) => {
     case adminActions.DELETE_HIGHLIGHT_REQUEST: {
         return fp.set('loadingVideos', true)(state);
     }
+    case actions.ADD_COMMENT_TO_VIDEO_SUCCESS: {
+        return {
+            ...state,
+            videos: state.videos.map(x => (x.id === action.video.id ? action.video : x))
+        };
+    }
+    case actions.ADD_REPLY_TO_VIDEO_SUCCESS: {
+        return {
+            ...state,
+            videos: state.videos.map(x => (x.id === action.video.id ? action.video : x))
+        };
+    }
     default:
         return state;
     }

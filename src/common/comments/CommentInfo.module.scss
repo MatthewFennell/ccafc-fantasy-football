@@ -10,6 +10,17 @@
         color: $color-blue;
         font-weight: bold;
     }
+    .deleteComment{
+        margin-left: auto;
+        margin-right: $spacing-small;
+        cursor: pointer;
+    }
+
+    .deleteComment:hover{
+        :first-child {
+            color: $color-red;
+        }
+    }
 }
 
 .date{

@@ -5,9 +5,11 @@ import defaultStyles from './YouTubeItem.module.scss';
 import CustomYouTube from '../youtube/YouTube';
 import StyledButton from '../StyledButton/StyledButton';
 import Voting from './Voting';
+import Comments from '../comments/Comments';
 
-const YouTubeIcon = props => {
+const YouTubeItemOpen = props => {
     const onReady = e => e.target.pauseVideo();
+    console.log('comments', props.comments);
     return (
         <div className={props.styles.openVideoItemWrapper}>
             <div className={props.styles.expandedWrapper}>
@@ -62,13 +64,24 @@ const YouTubeIcon = props => {
                     onReady={onReady}
                 />
             </div>
+            <div className={props.styles.commentsWrapper}>
+                <Comments
+                    addNewComment={props.addNewComment}
+                    addNewReply={props.addNewReply}
+                    comments={props.comments}
+                    userId={props.authId}
+                />
+            </div>
         </div>
     );
 };
 
-YouTubeIcon.defaultProps = {
+YouTubeItemOpen.defaultProps = {
+    addNewComment: noop,
+    addNewReply: noop,
     approversPage: false,
     authId: '',
+    comments: [],
     date: '',
     displayName: '',
     downvoteHighlightRequest: noop,
@@ -86,9 +99,12 @@ YouTubeIcon.defaultProps = {
     youTubeTitle: ''
 };
 
-YouTubeIcon.propTypes = {
+YouTubeItemOpen.propTypes = {
+    addNewComment: PropTypes.func,
+    addNewReply: PropTypes.func,
     approversPage: PropTypes.bool,
     authId: PropTypes.string,
+    comments: PropTypes.arrayOf(PropTypes.shape({})),
     date: PropTypes.string,
     displayName: PropTypes.string,
     downvoteHighlightRequest: PropTypes.func,
@@ -106,4 +122,4 @@ YouTubeIcon.propTypes = {
     youTubeTitle: PropTypes.string
 };
 
-export default YouTubeIcon;
+export default YouTubeItemOpen;

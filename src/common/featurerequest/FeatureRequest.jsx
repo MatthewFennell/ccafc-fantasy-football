@@ -19,11 +19,16 @@ const FeatureRequest = props => {
             <div className={props.styles.description}>
                 {`Feature description: ${description}`}
             </div>
-            <Comments
-                addNewComment={props.addNewComment}
-                addNewReply={props.addNewReply}
-                comments={comments}
-            />
+            <div className={props.styles.commentsWrapper}>
+                <Comments
+                    addNewComment={props.addNewComment}
+                    addNewReply={props.addNewReply}
+                    deleteComment={props.deleteComment}
+                    deleteReply={props.deleteReply}
+                    comments={comments}
+                    loggedInUserId={props.loggedInUserId}
+                />
+            </div>
         </div>
     );
 };
@@ -31,14 +36,19 @@ const FeatureRequest = props => {
 FeatureRequest.defaultProps = {
     addNewComment: noop,
     addNewReply: noop,
+    deleteComment: noop,
+    deleteReply: noop,
     details: {},
     showAuthor: false,
-    styles: defaultStyles
+    styles: defaultStyles,
+    loggedInUserId: ''
 };
 
 FeatureRequest.propTypes = {
     addNewComment: PropTypes.func,
     addNewReply: PropTypes.func,
+    deleteComment: PropTypes.func,
+    deleteReply: PropTypes.func,
     details: PropTypes.shape({
         comments: PropTypes.arrayOf(PropTypes.shape({
             displayName: PropTypes.string,
@@ -50,7 +60,8 @@ FeatureRequest.propTypes = {
         userId: PropTypes.string
     }),
     showAuthor: PropTypes.bool,
-    styles: PropTypes.objectOf(PropTypes.string)
+    styles: PropTypes.objectOf(PropTypes.string),
+    loggedInUserId: PropTypes.string
 };
 
 export default FeatureRequest;

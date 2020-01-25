@@ -11,7 +11,7 @@ const Comment = props => {
     const [replyText, setReplyText] = useState('');
 
     const {
-        date, displayName, message, id
+        date, displayName, message, id, userId
     } = props.details;
 
     const cancelReply = useCallback(() => {
@@ -29,6 +29,15 @@ const Comment = props => {
         setReplyOpen(true);
     }, [setReplyOpen]);
 
+    const deleteMessage = useCallback(() => {
+        if (props.parentId) {
+            props.deleteReply(props.parentId, id);
+        } else {
+            props.deleteComment(id);
+        }
+        // eslint-disable-next-line
+    }, [id, props.parentId, props.deleteComment]);
+
     return (
         <div className={props.styles.commentWrapper}>
             <div className={props.styles.userInfo}>
@@ -38,10 +47,13 @@ const Comment = props => {
                 <div className={props.styles.messageWrapper}>
                     <CommentInfo
                         date={date}
+                        deleteMessage={deleteMessage}
                         displayName={displayName}
                         message={message}
                         isTopLevel={props.isTopLevel}
                         setReplyOpen={openReply}
+                        loggedInUserId={props.loggedInUserId}
+                        userId={userId}
                     />
                     {replyOpen && props.isTopLevel && (
                         <AddReply
@@ -59,22 +71,31 @@ const Comment = props => {
 };
 
 Comment.defaultProps = {
+    deleteComment: noop,
+    deleteReply: noop,
     details: {},
     isTopLevel: false,
+    parentId: null,
     styles: defaultStyles,
-    submitReply: noop
+    submitReply: noop,
+    loggedInUserId: ''
 };
 
 Comment.propTypes = {
+    deleteComment: PropTypes.func,
+    deleteReply: PropTypes.func,
     details: PropTypes.shape({
         date: PropTypes.string,
         displayName: PropTypes.string,
         id: PropTypes.string,
-        message: PropTypes.string
+        message: PropTypes.string,
+        userId: PropTypes.string
     }),
     isTopLevel: PropTypes.bool,
+    parentId: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
-    submitReply: PropTypes.func
+    submitReply: PropTypes.func,
+    loggedInUserId: PropTypes.string
 };
 
 export default Comment;

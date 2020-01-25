@@ -5,7 +5,10 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import defaultStyles from './FeatureRequest.module.scss';
-import { addReplyToCommentRequest, submitFeatureRequest, addCommentToFeatureRequest } from './actions';
+import {
+    addReplyToCommentRequest, submitFeatureRequest, addCommentToFeatureRequest,
+    deleteCommentRequest, deleteReplyRequest
+} from './actions';
 import StyledButton from '../common/StyledButton/StyledButton';
 import MyFeatureRequests from './MyFeatureRequests';
 
@@ -48,6 +51,15 @@ const FeatureRequest = props => {
         }
     }, [setFeaturesOpen, featuresOpen]);
 
+    const deleteComment = useCallback(featureId => commentId => {
+        props.deleteCommentRequest(featureId, commentId);
+        // eslint-disable-next-line
+    }, props.deleteCommentRequest)
+
+    const deleteReply = useCallback(featureId => (commentId, replyId) => {
+        props.deleteReplyRequest(featureId, commentId, replyId);
+        // eslint-disable-next-line
+    }, props.deleteReplyRequest)
 
     return (
         <>
@@ -72,9 +84,12 @@ const FeatureRequest = props => {
             <MyFeatureRequests
                 addNewComment={addNewComment}
                 addNewReply={addNewReply}
+                deleteComment={deleteComment}
+                deleteReply={deleteReply}
                 featuresOpen={featuresOpen}
                 featureRequests={_.map(props.featureRequests, (value, id) => ({ id, ...value }))}
                 toggleFeature={toggleFeature}
+                loggedInUserId={props.auth.uid}
             />
         </>
     );
@@ -83,6 +98,9 @@ const FeatureRequest = props => {
 FeatureRequest.defaultProps = {
     addCommentToFeatureRequest: noop,
     addReplyToCommentRequest: noop,
+    auth: {
+        uid: null
+    },
     featureRequests: {},
     styles: defaultStyles,
     submitFeatureRequest: noop
@@ -91,6 +109,11 @@ FeatureRequest.defaultProps = {
 FeatureRequest.propTypes = {
     addCommentToFeatureRequest: PropTypes.func,
     addReplyToCommentRequest: PropTypes.func,
+    auth: PropTypes.shape({
+        uid: PropTypes.string
+    }),
+    deleteCommentRequest: PropTypes.func.isRequired,
+    deleteReplyRequest: PropTypes.func.isRequired,
     featureRequests: PropTypes.objectOf(PropTypes.shape({
         dateCreated: PropTypes.any,
         description: PropTypes.string,
@@ -108,17 +131,17 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     addCommentToFeatureRequest,
     addReplyToCommentRequest,
+    deleteCommentRequest,
+    deleteReplyRequest,
     submitFeatureRequest
 };
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
-    firestoreConnect(props => [
+    firestoreConnect(() => [
         {
             collection: 'feature-requests',
-            storeAs: 'featureRequests',
-            where: [
-                ['userId', '==', props.auth.uid]]
+            storeAs: 'featureRequests'
         }
     ]),
 )(FeatureRequest);

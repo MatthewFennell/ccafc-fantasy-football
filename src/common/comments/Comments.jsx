@@ -21,32 +21,50 @@ const RenderComments = props => {
         // eslint-disable-next-line
     }, [props.addNewComment, setNewComment, newComment]);
 
-    const renderComment = (comment, isTopLevel, submitReply) => {
+    const renderComment = (comment,
+        isTopLevel, submitReply, loggedInUserId, deleteComment, deleteReply, parentId) => {
         if (hasChildren(comment)) {
             return (
                 <>
                     <Comment
+                        deleteComment={deleteComment}
+                        deleteReply={deleteReply}
                         details={comment}
                         isTopLevel={isTopLevel}
                         submitReply={submitReply}
+                        loggedInUserId={loggedInUserId}
                     />
                     <div className={props.styles.shiftRight}>
-                        {comment.comments.map(x => renderComment(x, false))}
+                        {comment.comments.map(x => renderComment(
+                            x,
+                            false,
+                            noop,
+                            loggedInUserId,
+                            noop,
+                            deleteReply,
+                            comment.id
+                        ))}
                     </div>
                 </>
             );
         }
         return (
             <Comment
+                deleteComment={deleteComment}
+                deleteReply={deleteReply}
                 details={comment}
                 isTopLevel={isTopLevel}
                 submitReply={submitReply}
+                loggedInUserId={loggedInUserId}
+                parentId={parentId}
             />
         );
     };
 
-    const renderCommentsRecursively = (comments, submitReply) => comments
-        .map(x => renderComment(x, true, submitReply));
+    const renderCommentsRecursively = (comments, submitReply, loggedInUserId) => comments
+        .map(x => renderComment(x, true, submitReply, loggedInUserId, props.deleteComment,
+            props.deleteReply, noop));
+
 
     return (
         <div className={props.styles.comments}>
@@ -69,7 +87,7 @@ const RenderComments = props => {
                     </div>
                 </div>
             </div>
-            {renderCommentsRecursively(props.comments, props.addNewReply)}
+            {renderCommentsRecursively(props.comments, props.addNewReply, props.loggedInUserId)}
         </div>
     );
 };
@@ -78,14 +96,20 @@ RenderComments.defaultProps = {
     addNewComment: noop,
     addNewReply: noop,
     comments: [],
-    styles: defaultStyles
+    deleteComment: noop,
+    deleteReply: noop,
+    styles: defaultStyles,
+    loggedInUserId: ''
 };
 
 RenderComments.propTypes = {
     addNewComment: PropTypes.func,
     addNewReply: PropTypes.func,
     comments: PropTypes.arrayOf(PropTypes.shape({})),
-    styles: PropTypes.objectOf(PropTypes.string)
+    deleteComment: PropTypes.func,
+    deleteReply: PropTypes.func,
+    styles: PropTypes.objectOf(PropTypes.string),
+    loggedInUserId: PropTypes.string
 };
 
 export default RenderComments;

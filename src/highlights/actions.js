@@ -27,6 +27,14 @@ export const FETCH_REJECTED_HIGHLIGHTS_SUCCESS = `${pre}FETCH_REJECTED_HIGHLIGHT
 export const FETCH_REJECTED_HIGHLIGHTS_ERROR = `${pre}FETCH_REJECTED_HIGHLIGHTS_ERROR`;
 export const ALREADY_FETCHED_REJECTED_VIDEOS = `${pre}ALREADY_FETCHED_REJECTED_VIDEOS`;
 
+export const ADD_COMMENT_TO_VIDEO_REQUEST = `${pre}ADD_COMMENT_TO_VIDEO_REQUEST`;
+export const ADD_COMMENT_TO_VIDEO_SUCCESS = `${pre}ADD_COMMENT_TO_VIDEO_SUCCESS`;
+export const ADD_COMMENT_TO_VIDEO_ERROR = `${pre}ADD_COMMENT_TO_VIDEO_ERROR`;
+
+export const ADD_REPLY_TO_VIDEO_REQUEST = `${pre}ADD_REPLY_TO_VIDEO_REQUEST`;
+export const ADD_REPLY_TO_VIDEO_SUCCESS = `${pre}ADD_REPLY_TO_VIDEO_SUCCESS`;
+export const ADD_REPLY_TO_VIDEO_ERROR = `${pre}ADD_REPLY_TO_VIDEO_ERROR`;
+
 export const alreadyFetchedRejectedVideos = () => ({
     type: ALREADY_FETCHED_REJECTED_VIDEOS
 });
@@ -124,4 +132,38 @@ export const submitHighlightError = error => ({
 
 export const closeHighlightError = () => ({
     type: CLOSE_HIGHLIGHT_ERROR
+});
+
+export const addCommentToVideoRequest = (comment, videoId) => ({
+    type: ADD_COMMENT_TO_VIDEO_REQUEST,
+    comment,
+    videoId
+});
+
+export const addCommentToVideoSuccess = video => ({
+    type: ADD_COMMENT_TO_VIDEO_SUCCESS,
+    video
+});
+
+export const addCommentToVideoError = error => ({
+    type: ADD_COMMENT_TO_VIDEO_ERROR,
+    error
+});
+
+export const addReplyToVideoRequest = (reply, videoId, commentId) => ({
+    type: ADD_REPLY_TO_VIDEO_REQUEST,
+    reply,
+    videoId,
+    commentId
+});
+
+export const addReplyToVideoSuccess = video => ({
+    type: ADD_REPLY_TO_VIDEO_SUCCESS,
+    video
+});
+
+
+export const addReplyToVideoError = error => ({
+    type: ADD_REPLY_TO_VIDEO_ERROR,
+    error
 });
