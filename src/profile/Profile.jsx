@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import firebase from 'firebase';
+import _ from 'lodash';
 import {
     linkProfileToFacebook, linkProfileToGoogle, updateTeamNameRequest,
     closeAccountLinkError, updateDisplayNameRequest, closeDisplayNameError,
@@ -72,7 +73,8 @@ const Profile = props => {
                     updateErrorCode={props.updateTeamNameErrorCode}
                 />
                 <SelectProfilePicture
-                    potentialPictures={potentialPictures}
+                    currentPhotoUrl={props.profile.photoUrl}
+                    potentialPictures={_.union(potentialPictures, [props.profile.photoUrl])}
                     updateProfilePicture={updateProfilePicture}
                 />
             </div>
@@ -166,6 +168,7 @@ Profile.propTypes = {
     profile: PropTypes.shape({
         displayName: PropTypes.string,
         email: PropTypes.string,
+        photoUrl: PropTypes.string,
         teamName: PropTypes.string
     }),
     styles: PropTypes.objectOf(PropTypes.string),

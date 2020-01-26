@@ -4,19 +4,64 @@
     @include light-box-shadow();
     margin: $spacing-medium;
     padding: $spacing-small;
-    display: flex;
 
-    .imageWrapper{
-        margin: $spacing-medium;
+    .uploadOwnIconMessage{
+        font-weight: bold;
+        color: $color-blue;
+        font-size: $font-size-large;
+    }
 
-        .profilePicture{
-            height: 200px;
-            width: 200px;
-            cursor: pointer;
+    .potentialPicturesWrapper{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+
+        .imageWrapper{
+            margin: $spacing-medium;
+
+            .activeAvatarText{
+                font-weight: bold;
+            }
+
+            .hidden {
+                visibility: hidden;
+            }
+
+            .profilePicture{
+                height: 200px;
+                width: 200px;
+                cursor: pointer;
+            }
+
+            .profilePicture:hover{
+                box-shadow: 0 4px 8px 0 $color-hover, 0 6px 20px 0 $color-hover;
+            }
+        }
+    }
+
+    .ownPictureOptions{
+        display: flex;
+
+        > div {
+            flex-grow: 1;
         }
 
-        .profilePicture:hover{
-            box-shadow: 0 4px 8px 0 $color-hover, 0 6px 20px 0 $color-hover;
+        .exampleImage{
+            height: 100px;
+            width: 100px;
+        }
+
+        .enterOwnUrl{
+            text-align: left;
+            color: $color-blue;
+            font-weight: bold;
+            width: 50%;
+            margin-left: $spacing-medium;;
+            margin-right: $spacing-medium;;
+        }
+
+        .infoText{
+            text-align: center;
         }
     }
 }
