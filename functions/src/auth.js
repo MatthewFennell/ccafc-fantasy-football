@@ -10,37 +10,6 @@ const db = admin.firestore();
 
 const operations = admin.firestore.FieldValue;
 
-exports.updateDisplayName = functions
-    .region(constants.region)
-    .https.onCall((data, context) => {
-        if (!data.displayName) {
-            throw new functions.https.HttpsError('invalid-argument', 'Must provide a valid display name');
-        }
-        common.isAuthenticated(context);
-        return db.collection('users').doc(context.auth.uid).update({
-            displayName: data.displayName
-        }).then(
-            () => db.collection('leagues-points').where('user_id', '==', context.auth.uid).get().then(
-                leagues => leagues.docs.forEach(league => league.ref.update({
-                    username: data.displayName
-                }))
-            )
-        );
-    });
-
-exports.updateTeamName = functions
-    .region(constants.region)
-    .https.onCall((data, context) => {
-        common.isAuthenticated(context);
-        return db.collection('users').doc(context.auth.uid).update({
-            teamName: data.teamName
-        }).then(() => db.collection('leagues-points').where('user_id', '==', context.auth.uid).get().then(
-            result => result.docs.forEach(doc => doc.ref.update({
-                teamName: data.teamName
-            }))
-        ));
-    });
-
 exports.usersWithExtraRoles = functions
     .region(constants.region)
     .https.onCall((data, context) => {
