@@ -76,10 +76,9 @@ exports.updateProfilePicture = functions
                     }
                 })
             ).then(() => {
-                console.log('featuresToUpdate', featuresToUpdate);
-                const updatePromises = [];
+                const featuresPromises = [];
                 featuresToUpdate.forEach(x => {
-                    db.collection('feature-requests').doc(x).get().then(
+                    featuresPromises.push(db.collection('feature-requests').doc(x).get().then(
                         feature => {
                             feature.ref.update({
                                 comments: feature.data().comments.map(y => (y.userId === context.auth.uid ? ({
@@ -98,7 +97,11 @@ exports.updateProfilePicture = functions
                                 })))
                             });
                         }
-                    );
+                    ));
+                });
+
+                Promise.all(featuresPromises).then(() => {
+                    console.log('done');
                 });
             });
         });
