@@ -34,6 +34,7 @@ exports.highlights = require('./src/highlights');
 exports.fixtures = require('./src/fixtures');
 exports.features = require('./src/features');
 exports.comments = require('./src/comments');
+exports.profile = require('./src/profile');
 
 const operations = admin.firestore.FieldValue;
 // currently at v8.13.0 for node

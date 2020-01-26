@@ -112,7 +112,8 @@ exports.createUserAccount = functions
         total_points: 0,
         remaining_transfers: 0,
         remaining_budget: 100,
-        teamName: 'Default Team Name'
+        teamName: 'Default Team Name',
+        photoUrl: user.photoURL
     }));
 
 exports.verifyFacebookEmail = functions

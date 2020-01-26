@@ -18,18 +18,22 @@ exports.addComment = functions
                     throw new functions.https.HttpsError('not-found', 'Invalid ID');
                 }
                 const getDisplayName = id => db.collection('users').doc(id).get()
-                    .then(user => user.data().displayName,);
+                    .then(user => ({
+                        displayName: user.data().displayName,
+                        photoUrl: user.data().photoUrl
+                    }));
 
                 const { id } = db.collection('users').doc();
                 return getDisplayName(context.auth.uid)
-                    .then(displayName => item.ref.update({
+                    .then(user => item.ref.update({
                         comments: [...item.data().comments, {
-                            displayName,
+                            displayName: user.displayName,
                             message: data.comment,
                             date: moment().format(),
                             id,
                             userId: context.auth.uid,
-                            comments: []
+                            comments: [],
+                            photoUrl: user.photoUrl
                         }]
                     }));
             })
@@ -49,18 +53,22 @@ exports.addReply = functions
                     throw new functions.https.HttpsError('not-found', 'Invalid ID');
                 }
                 const getDisplayName = id => db.collection('users').doc(id).get()
-                    .then(user => user.data().displayName);
+                    .then(user => ({
+                        displayName: user.data().displayName,
+                        photoUrl: user.data().photoUrl
+                    }));
                 const { id } = db.collection('users').doc();
                 return getDisplayName(context.auth.uid)
-                    .then(displayName => item.ref.update({
+                    .then(user => item.ref.update({
                         comments: item.data().comments.map(x => (x.id === data.commentId ? {
                             ...x,
                             comments: [...x.comments, {
-                                displayName,
+                                displayName: user.displayName,
                                 userId: context.auth.uid,
                                 message: data.reply,
                                 date: moment().format(),
-                                id
+                                id,
+                                photoUrl: user.photoUrl
                             }]
                         } : x))
                     }));

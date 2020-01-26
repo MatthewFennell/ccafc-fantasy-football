@@ -19,6 +19,7 @@ function* linkProfileToFacebook() {
     try {
         const provider = new firebase.auth.FacebookAuthProvider();
         yield firebase.auth().currentUser.linkWithPopup(provider);
+        yield call(api.linkFacebookAccount);
     } catch (error) {
         yield put(actions.linkProfileToFacebookError(error));
     }
@@ -57,12 +58,25 @@ function* deleteAccount(action) {
     }
 }
 
+function* updateProfilePicture(action) {
+    try {
+        yield call(api.updateProfilePicture, ({
+            photoUrl: action.photoUrl
+        }));
+        const userId = firebase.auth().currentUser.uid;
+        yield put(actions.updateProfilePictureSuccess(action.photoUrl, userId));
+    } catch (error) {
+        yield put(actions.updateProfilePictureError(error));
+    }
+}
+
 export default function* authSaga() {
     yield all([
         takeEvery(actions.LINK_PROFILE_TO_GOOGLE, linkProfileToGoogle),
         takeEvery(actions.LINK_PROFILE_TO_FACEBOOK, linkProfileToFacebook),
         takeEvery(actions.UPDATE_DISPLAY_NAME_REQUEST, updateDisplayName),
         takeEvery(actions.UPDATE_TEAM_NAME_REQUEST, updateTeamName),
-        takeEvery(actions.DELETE_ACCOUNT_REQUEST, deleteAccount)
+        takeEvery(actions.DELETE_ACCOUNT_REQUEST, deleteAccount),
+        takeEvery(actions.UPDATE_PROFILE_PICTURE_REQUEST, updateProfilePicture)
     ]);
 }

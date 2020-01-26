@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import FaceIcon from '@material-ui/icons/Face';
+import classNames from 'classnames';
 import defaultStyles from './Comment.module.scss';
 import AddReply from './AddReply';
 import CommentInfo from './CommentInfo';
@@ -11,8 +12,10 @@ const Comment = props => {
     const [replyText, setReplyText] = useState('');
 
     const {
-        date, displayName, message, id, userId
+        date, displayName, message, id, userId, photoUrl
     } = props.details;
+
+    console.log('photoUrl', photoUrl);
 
     const cancelReply = useCallback(() => {
         setReplyText('');
@@ -42,7 +45,16 @@ const Comment = props => {
         <div className={props.styles.commentWrapper}>
             <div className={props.styles.userInfo}>
                 <div className={props.styles.userIcon}>
-                    <FaceIcon color="secondary" />
+                    {photoUrl ? (
+                        <img
+                            className={classNames({
+                                [props.styles.smallerImage]: !props.isTopLevel,
+                                [props.styles.profilePicture]: true
+                            })}
+                            src={photoUrl}
+                            alt="new"
+                        />
+                    ) : <FaceIcon color="secondary" />}
                 </div>
                 <div className={props.styles.messageWrapper}>
                     <CommentInfo
@@ -89,7 +101,8 @@ Comment.propTypes = {
         displayName: PropTypes.string,
         id: PropTypes.string,
         message: PropTypes.string,
-        userId: PropTypes.string
+        userId: PropTypes.string,
+        photoUrl: PropTypes.string
     }),
     isTopLevel: PropTypes.bool,
     parentId: PropTypes.string,

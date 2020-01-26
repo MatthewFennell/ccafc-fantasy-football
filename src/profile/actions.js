@@ -23,6 +23,26 @@ export const DELETE_ACCOUNT_SUCCESS = `${pre}DELETE_ACCOUNT_SUCCESS`;
 export const DELETE_ACCOUNT_ERROR = `${pre}DELETE_ACCOUNT_ERROR`;
 export const CLOSE_DELETE_ACCOUNT_ERROR = `${pre}CLOSE_DELETE_ACCOUNT_ERROR`;
 
+export const UPDATE_PROFILE_PICTURE_REQUEST = `${pre}UPDATE_PROFILE_PICTURE_REQUEST`;
+export const UPDATE_PROFILE_PICTURE_SUCCESS = `${pre}UPDATE_PROFILE_PICTURE_SUCCESS`;
+export const UPDATE_PROFILE_PICTURE_ERROR = `${pre}UPDATE_PROFILE_PICTURE_ERROR`;
+
+export const updateProfilePictureRequest = photoUrl => ({
+    type: UPDATE_PROFILE_PICTURE_REQUEST,
+    photoUrl
+});
+
+export const updateProfilePictureSuccess = (photoUrl, userId) => ({
+    type: UPDATE_PROFILE_PICTURE_SUCCESS,
+    photoUrl,
+    userId
+});
+
+export const updateProfilePictureError = error => ({
+    type: UPDATE_PROFILE_PICTURE_ERROR,
+    error
+});
+
 export const deleteAccountSucces = () => ({
     type: DELETE_ACCOUNT_SUCCESS
 });
