@@ -14,6 +14,7 @@ const SelectProfilePicture = props => {
         if (photoUrl !== props.currentPhotoUrl) {
             props.updateProfilePicture(photoUrl);
         }
+        // eslint-disable-next-line
     }, [props.updateProfilePicture, setOwnPhotoUrl, props.currentPhotoUrl]);
 
     return (
