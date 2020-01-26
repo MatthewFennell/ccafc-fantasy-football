@@ -5,6 +5,11 @@
     margin: $spacing-medium;
     padding: $spacing-small;
 
+    .selectAvatar{
+        font-size: $font-size-huge;
+        color: $color-dark-blue;
+    }
+
     .uploadOwnIconMessage{
         font-weight: bold;
         color: $color-blue;
@@ -16,11 +21,14 @@
         flex-wrap: wrap;
         justify-content: space-evenly;
 
+        
+
         .imageWrapper{
             margin: $spacing-medium;
 
-            .activeAvatarText{
+            .activeAvatar{
                 font-weight: bold;
+                color: $color-blue;
             }
 
             .hidden {
@@ -39,29 +47,34 @@
         }
     }
 
-    .ownPictureOptions{
-        display: flex;
+    .selectOwnPictureWrapper{
+        border-right: 1px solid $color-separator;
+        border-left: 1px solid $color-separator;
 
-        > div {
-            flex-grow: 1;
-        }
+        .ownPictureOptions{
+            display: flex;
 
-        .exampleImage{
-            height: 100px;
-            width: 100px;
-        }
+            > div {
+                flex-grow: 1;
+            }
 
-        .enterOwnUrl{
-            text-align: left;
-            color: $color-blue;
-            font-weight: bold;
-            width: 50%;
-            margin-left: $spacing-medium;;
-            margin-right: $spacing-medium;;
-        }
+            .exampleImage{
+                height: 100px;
+                width: 100px;
+            }
 
-        .infoText{
-            text-align: center;
+            .enterOwnUrl{
+                text-align: left;
+                color: $color-blue;
+                font-weight: bold;
+                width: 50%;
+                margin-left: $spacing-medium;;
+                margin-right: $spacing-medium;;
+            }
+
+            .infoText{
+                text-align: center;
+            }
         }
     }
 }

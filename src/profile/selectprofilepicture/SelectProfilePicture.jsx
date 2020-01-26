@@ -18,10 +18,12 @@ const SelectProfilePicture = props => {
 
     return (
         <div className={props.styles.selectProfilePictureWrapper}>
+            <div className={props.styles.selectAvatar}>
+                Select your own avatar
+            </div>
             <div className={props.styles.potentialPicturesWrapper}>
                 {props.potentialPictures.map(photoUrl => (
                     <div className={props.styles.imageWrapper}>
-
                         <div className={classNames({
                             [props.styles.activeAvatar]: true,
                             [props.styles.hidden]: props.currentPhotoUrl !== photoUrl
