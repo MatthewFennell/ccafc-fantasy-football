@@ -85,7 +85,8 @@ function* addCommentToVideo(action) {
         }));
         yield put(actions.addCommentToVideoSuccess(newHighlight));
     } catch (error) {
-        yield put(actions.addCommentToVideoError(error));
+        console.log('error', error.message);
+        yield put(actions.commentError(error));
     }
 }
 
@@ -99,7 +100,7 @@ function* addReplyToVideo(action) {
         }));
         yield put(actions.addReplyToVideoSuccess(newHighlight));
     } catch (error) {
-        yield put(actions.addReplyToVideoError(error));
+        yield put(actions.commentError(error));
     }
 }
 
@@ -112,7 +113,7 @@ function* deleteComment(action) {
         });
         yield put(actions.deleteCommentSuccess(action.videoId, action.commentId));
     } catch (error) {
-        yield put(actions.deleteCommentError(error));
+        yield put(actions.commentError(error));
     }
 }
 
@@ -126,7 +127,7 @@ function* deleteReply(action) {
         });
         yield put(actions.deleteReplySuccess(action.videoId, action.commentId, action.replyId));
     } catch (error) {
-        yield put(actions.deleteReplyError(error));
+        yield put(actions.commentError(error));
     }
 }
 

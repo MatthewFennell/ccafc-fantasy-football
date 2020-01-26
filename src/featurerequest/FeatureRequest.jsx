@@ -7,10 +7,11 @@ import { compose } from 'redux';
 import defaultStyles from './FeatureRequest.module.scss';
 import {
     addReplyToCommentRequest, submitFeatureRequest, addCommentToFeatureRequest,
-    deleteCommentRequest, deleteReplyRequest
+    deleteCommentRequest, deleteReplyRequest, closeCommentError
 } from './actions';
 import StyledButton from '../common/StyledButton/StyledButton';
 import MyFeatureRequests from './MyFeatureRequests';
+import ErrorModal from '../common/modal/ErrorModal';
 
 const maxLength = 256;
 
@@ -92,11 +93,20 @@ const FeatureRequest = props => {
                 toggleFeature={toggleFeature}
                 loggedInUserId={props.auth.uid}
             />
+            <ErrorModal
+                closeModal={props.closeCommentError}
+                headerMessage="Comment Error"
+                isOpen={props.commentError.length > 0}
+                errorCode={props.commentErrorCode}
+                errorMessage={props.commentError}
+            />
         </>
     );
 };
 
 FeatureRequest.defaultProps = {
+    commentError: '',
+    commentErrorCode: '',
     addCommentToFeatureRequest: noop,
     addReplyToCommentRequest: noop,
     auth: {
@@ -108,11 +118,14 @@ FeatureRequest.defaultProps = {
 };
 
 FeatureRequest.propTypes = {
+    commentError: PropTypes.string,
+    commentErrorCode: PropTypes.string,
     addCommentToFeatureRequest: PropTypes.func,
     addReplyToCommentRequest: PropTypes.func,
     auth: PropTypes.shape({
         uid: PropTypes.string
     }),
+    closeCommentError: PropTypes.func.isRequired,
     deleteCommentRequest: PropTypes.func.isRequired,
     deleteReplyRequest: PropTypes.func.isRequired,
     featureRequests: PropTypes.objectOf(PropTypes.shape({
@@ -125,6 +138,8 @@ FeatureRequest.propTypes = {
 };
 
 const mapStateToProps = state => ({
+    commentError: state.features.commentError,
+    commentErrorCode: state.features.commentErrorCode,
     auth: state.firebase.auth,
     featureRequests: state.firestore.data.featureRequests
 });
@@ -132,6 +147,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     addCommentToFeatureRequest,
     addReplyToCommentRequest,
+    closeCommentError,
     deleteCommentRequest,
     deleteReplyRequest,
     submitFeatureRequest

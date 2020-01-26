@@ -13,7 +13,7 @@ function* addReplyToComment(action) {
             commentId: action.commentId
         });
     } catch (error) {
-        yield put(actions.addReplyToCommentError(error));
+        yield put(actions.commentError(error));
     }
 }
 
@@ -26,7 +26,7 @@ function* addCommentToFeature(action) {
                 collectionId: action.featureId
             });
     } catch (error) {
-        yield put(actions.addCommentToFeatureError(error));
+        yield put(actions.commentError(error));
     }
 }
 

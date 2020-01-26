@@ -18,8 +18,6 @@ const MyFeatureRequests = props => {
         }
     });
 
-    console.log('features to update', featuresToUpdate);
-
     return (
         <div className={props.styles.allFeatureRequests}>
             {props.featureRequests.map(x => (
