@@ -38,8 +38,9 @@ const FeatureRequest = props => {
 
     const submitRequest = useCallback(() => {
         props.submitFeatureRequest(description);
+        setDescription('');
         // eslint-disable-next-line
-    }, [description, props.submitFeatureRequest]);
+    }, [description, props.submitFeatureRequest, setDescription]);
 
     const [featuresOpen, setFeaturesOpen] = useState([]);
 

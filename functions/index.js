@@ -39,3 +39,20 @@ const operations = admin.firestore.FieldValue;
 // currently at v8.13.0 for node
 
 // // https://firebase.google.com/docs/reference/js/firebase.functions.html#functionserrorcod
+
+exports.linkFacebookAccount = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return admin.auth().getUser(context.auth.uid).then(
+            user => {
+                const facebookProfilePicture = user.providerData.find(x => x.providerId === 'facebook.com').photoURL;
+                if (facebookProfilePicture) {
+                    return db.collection('users').doc(context.auth.uid).update({
+                        photoUrl: facebookProfilePicture
+                    });
+                }
+                return Promise.resolve();
+            }
+        );
+    });
