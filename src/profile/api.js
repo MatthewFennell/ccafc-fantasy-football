@@ -7,3 +7,5 @@ export const updateTeamName = request => functionToCall('auth-updateTeamName')(r
 export const deleteUser = request => functionToCall('auth-deleteUser')(request);
 
 export const linkFacebookAccount = request => functionToCall('linkFacebookAccount')(request);
+
+export const updateProfilePicture = request => functionToCall('updateProfilePicture')(request);

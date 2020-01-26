@@ -12,6 +12,11 @@
     }
 }
 
+.profilePicture{
+    max-height: 50px;
+    max-width: 50px;
+}
+
 .smallerImage{
     transform: scale(0.7, 0.7);
 }

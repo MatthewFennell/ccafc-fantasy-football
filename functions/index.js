@@ -56,3 +56,50 @@ exports.linkFacebookAccount = functions
             }
         );
     });
+
+exports.updateProfilePicture = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+
+        return db.collection('users').doc(context.auth.uid).update({
+            photoUrl: data.photoUrl
+        }).then(() => {
+            let featuresToUpdate = [];
+            return db.collection('feature-requests').get().then(
+                features => features.docs.forEach(feature => {
+                    if (feature.data().comments.some(y => y.userId === context.auth.uid)) {
+                        featuresToUpdate = lodash.union(featuresToUpdate, [feature.id]);
+                    }
+                    if (feature.data().comments.some(y => y.comments.some(z => z.userId === context.auth.uid))) {
+                        featuresToUpdate = lodash.union(featuresToUpdate, [feature.id]);
+                    }
+                })
+            ).then(() => {
+                console.log('featuresToUpdate', featuresToUpdate);
+                const updatePromises = [];
+                featuresToUpdate.forEach(x => {
+                    db.collection('feature-requests').doc(x).get().then(
+                        feature => {
+                            feature.ref.update({
+                                comments: feature.data().comments.map(y => (y.userId === context.auth.uid ? ({
+                                    ...y,
+                                    photoUrl: data.photoUrl,
+                                    comments: y.comments.map(z => (z.userId === context.auth.uid ? ({
+                                        ...z,
+                                        photoUrl: data.photoUrl
+                                    }) : z))
+                                }) : ({
+                                    ...y,
+                                    comments: y.comments.map(z => (z.userId === context.auth.uid ? ({
+                                        ...z,
+                                        photoUrl: data.photoUrl
+                                    }) : y))
+                                })))
+                            });
+                        }
+                    );
+                });
+            });
+        });
+    });

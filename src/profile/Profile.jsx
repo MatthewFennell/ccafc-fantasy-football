@@ -1,10 +1,12 @@
 import React, { useState, useCallback } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import firebase from 'firebase';
 import {
     linkProfileToFacebook, linkProfileToGoogle, updateTeamNameRequest,
     closeAccountLinkError, updateDisplayNameRequest, closeDisplayNameError,
-    closeTeamNameError, deleteAccountRequest, closeDeleteAccountError
+    closeTeamNameError, deleteAccountRequest, closeDeleteAccountError,
+    updateProfilePictureRequest
 } from './actions';
 import defaultStyles from './Profile.module.scss';
 import LinkAccounts from './linkaccounts/LinkAccounts';
@@ -14,6 +16,7 @@ import StyledButton from '../common/StyledButton/StyledButton';
 import StyledInput from '../common/StyledInput/StyledInput';
 import ErrorModal from '../common/modal/ErrorModal';
 import Spinner from '../common/spinner/Spinner';
+import SelectProfilePicture from './selectprofilepicture/SelectProfilePicture';
 
 const Profile = props => {
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -30,6 +33,13 @@ const Profile = props => {
         setEmail('');
         // eslint-disable-next-line
     }, [props.deleteAccountRequest]);
+
+    const updateProfilePicture = useCallback(photoUrl => {
+        props.updateProfilePictureRequest(photoUrl);
+        // eslint-disable-next-line
+    }, [props.updateProfilePictureRequest])
+
+    const potentialPictures = firebase.auth().currentUser.providerData.map(x => x.photoURL);
 
     return (
         <div className={props.styles.profileWrapper}>
@@ -61,7 +71,12 @@ const Profile = props => {
                     updateError={props.updateTeamNameError}
                     updateErrorCode={props.updateTeamNameErrorCode}
                 />
+                <SelectProfilePicture
+                    potentialPictures={potentialPictures}
+                    updateProfilePicture={updateProfilePicture}
+                />
             </div>
+
             <div className={props.styles.deleteButtonWrapper}>
                 <StyledButton color="secondary" text="Delete Account" onClick={() => setDeleteModalOpen(true)} />
             </div>
@@ -159,6 +174,7 @@ Profile.propTypes = {
     updatingDisplayName: PropTypes.bool,
     updateDisplayNameError: PropTypes.string,
     updateDisplayNameErrorCode: PropTypes.string,
+    updateProfilePictureRequest: PropTypes.func.isRequired,
     updatingTeamName: PropTypes.bool,
     updateTeamNameError: PropTypes.string,
     updateTeamNameErrorCode: PropTypes.string
@@ -173,6 +189,7 @@ const mapDispatchToProps = {
     linkProfileToFacebook,
     linkProfileToGoogle,
     updateDisplayNameRequest,
+    updateProfilePictureRequest,
     updateTeamNameRequest
 };
 

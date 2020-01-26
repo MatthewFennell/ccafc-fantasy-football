@@ -48,7 +48,8 @@ const Comment = props => {
                     {photoUrl ? (
                         <img
                             className={classNames({
-                                [props.styles.smallerImage]: !props.isTopLevel
+                                [props.styles.smallerImage]: !props.isTopLevel,
+                                [props.styles.profilePicture]: true
                             })}
                             src={photoUrl}
                             alt="new"

@@ -21,9 +21,7 @@
   .bodyWrapper{
     display: flex;
     flex-wrap: wrap;
-    > div {
-      flex-grow: 1;
-    }
+    justify-content: space-evenly;
   }
   .deleteButtonWrapper{
     padding: $spacing-small;
