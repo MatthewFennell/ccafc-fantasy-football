@@ -1,6 +1,7 @@
 import fp from 'lodash/fp';
 import * as actions from './actions';
 import * as adminActions from '../admin/actions';
+import * as profileActions from '../profile/actions';
 
 const initialState = {
     loadingVideos: false,
@@ -151,6 +152,28 @@ const highlightsReducer = (state = initialState, action) => {
                     comments: y.comments.filter(z => z.id !== action.replyId)
                 }) : y))
             }) : x))
+        };
+    }
+    case profileActions.UPDATE_PROFILE_PICTURE_SUCCESS: {
+        return {
+            ...state,
+            videos: state.videos.map(x => ({
+                ...x,
+                comments: x.comments.map(y => (y.userId === action.userId ? ({
+                    ...y,
+                    comments: y.comments.map(z => (z.userId === action.userId ? ({
+                        ...z,
+                        photoUrl: action.photoUrl
+                    }) : z)),
+                    photoUrl: action.photoUrl
+                }) : ({
+                    ...y,
+                    comments: y.comments.map(z => (z.userId === action.userId ? ({
+                        ...z,
+                        photoUrl: action.photoUrl
+                    }) : z))
+                })))
+            }))
         };
     }
     default:

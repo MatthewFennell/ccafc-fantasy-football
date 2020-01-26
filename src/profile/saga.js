@@ -63,6 +63,8 @@ function* updateProfilePicture(action) {
         yield call(api.updateProfilePicture, ({
             photoUrl: action.photoUrl
         }));
+        const userId = firebase.auth().currentUser.uid;
+        yield put(actions.updateProfilePictureSuccess(action.photoUrl, userId));
     } catch (error) {
         yield put(actions.updateProfilePictureError(error));
     }

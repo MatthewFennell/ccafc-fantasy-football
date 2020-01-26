@@ -57,52 +57,63 @@ exports.linkFacebookAccount = functions
         );
     });
 
+
+const updateComments = (database, newUrl, userId) => {
+    let documentsToUpdate = [];
+    return db.collection(database).get().then(
+        documents => documents.docs.forEach(doc => {
+            if (doc.data().comments.some(y => y.userId === userId)) {
+                documentsToUpdate = lodash.union(documentsToUpdate, [doc.id]);
+            }
+            if (doc.data().comments.some(y => y.comments.some(z => z.userId === userId))) {
+                documentsToUpdate = lodash.union(documentsToUpdate, [doc.id]);
+            }
+        })
+    ).then(() => {
+        const documentPromises = [];
+        documentsToUpdate.forEach(x => {
+            documentPromises.push(db.collection(database).doc(x).get().then(
+                document => {
+                    document.ref.update({
+                        comments: document.data().comments.map(y => (y.userId === userId ? ({
+                            ...y,
+                            photoUrl: newUrl,
+                            comments: y.comments.map(z => (z.userId === userId ? ({
+                                ...z,
+                                photoUrl: newUrl
+                            }) : z))
+                        }) : ({
+                            ...y,
+                            comments: y.comments.map(z => (z.userId === userId ? ({
+                                ...z,
+                                photoUrl: newUrl
+                            }) : y))
+                        })))
+                    });
+                }
+            ));
+        });
+        return documentPromises;
+    });
+};
+
 exports.updateProfilePicture = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-
         return db.collection('users').doc(context.auth.uid).update({
             photoUrl: data.photoUrl
         }).then(() => {
-            let featuresToUpdate = [];
-            return db.collection('feature-requests').get().then(
-                features => features.docs.forEach(feature => {
-                    if (feature.data().comments.some(y => y.userId === context.auth.uid)) {
-                        featuresToUpdate = lodash.union(featuresToUpdate, [feature.id]);
-                    }
-                    if (feature.data().comments.some(y => y.comments.some(z => z.userId === context.auth.uid))) {
-                        featuresToUpdate = lodash.union(featuresToUpdate, [feature.id]);
-                    }
-                })
+            updateComments('feature-requests', data.photoUrl, context.auth.uid).then(
+                featuresPromises => {
+                    Promise.all(featuresPromises);
+                }
             ).then(() => {
-                const featuresPromises = [];
-                featuresToUpdate.forEach(x => {
-                    featuresPromises.push(db.collection('feature-requests').doc(x).get().then(
-                        feature => {
-                            feature.ref.update({
-                                comments: feature.data().comments.map(y => (y.userId === context.auth.uid ? ({
-                                    ...y,
-                                    photoUrl: data.photoUrl,
-                                    comments: y.comments.map(z => (z.userId === context.auth.uid ? ({
-                                        ...z,
-                                        photoUrl: data.photoUrl
-                                    }) : z))
-                                }) : ({
-                                    ...y,
-                                    comments: y.comments.map(z => (z.userId === context.auth.uid ? ({
-                                        ...z,
-                                        photoUrl: data.photoUrl
-                                    }) : y))
-                                })))
-                            });
-                        }
-                    ));
-                });
-
-                Promise.all(featuresPromises).then(() => {
-                    console.log('done');
-                });
+                updateComments('highlights', data.photoUrl, context.auth.uid).then(
+                    highlightsPromises => {
+                        Promise.all(highlightsPromises);
+                    }
+                );
             });
         });
     });
