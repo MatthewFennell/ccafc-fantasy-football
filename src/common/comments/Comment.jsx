@@ -15,8 +15,6 @@ const Comment = props => {
         date, displayName, message, id, userId, photoUrl
     } = props.details;
 
-    console.log('photoUrl', photoUrl);
-
     const cancelReply = useCallback(() => {
         setReplyText('');
         setReplyOpen(false);

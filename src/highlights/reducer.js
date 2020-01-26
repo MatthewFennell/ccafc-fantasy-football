@@ -15,7 +15,10 @@ const initialState = {
 
     loadedVideos: false,
     loadedRejectedVideos: false,
-    loadedVideosToBeApproved: false
+    loadedVideosToBeApproved: false,
+
+    commentError: '',
+    commentErrorCode: ''
 };
 
 const highlightsReducer = (state = initialState, action) => {
@@ -174,6 +177,21 @@ const highlightsReducer = (state = initialState, action) => {
                     }) : z))
                 })))
             }))
+        };
+    }
+    case actions.COMMENT_ERROR: {
+        console.log('comment', action.error.message);
+        return {
+            ...state,
+            commentError: action.error.message,
+            commentErrorCode: action.error.code
+        };
+    }
+    case actions.CLOSE_COMMENT_ERROR: {
+        return {
+            ...state,
+            commentError: '',
+            commentErrorCode: ''
         };
     }
     default:

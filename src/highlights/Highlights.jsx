@@ -8,7 +8,7 @@ import {
     closeHighlightError, submitHighlightRequest, submitHighlightError, fetchHighlightsRequest,
     upvoteHighlightRequest, downvoteHighlightRequest, fetchUserHighlightsToBeApprovedRequest,
     fetchRejectedHighlightsRequest, addCommentToVideoRequest, addReplyToVideoRequest,
-    deleteCommentRequest, deleteReplyRequest
+    deleteCommentRequest, deleteReplyRequest, closeCommentError
 } from './actions';
 import ErrorModal from '../common/modal/ErrorModal';
 import YouTubeList from '../common/youtubelist/YouTubeList';
@@ -134,12 +134,21 @@ const Highlights = props => {
                 errorCode={props.highlightErrorCode}
                 errorMessage={props.highlightError}
             />
+            <ErrorModal
+                closeModal={props.closeCommentError}
+                headerMessage="Comment Error"
+                isOpen={props.commentError.length > 0}
+                errorCode={props.commentErrorCode}
+                errorMessage={props.commentError}
+            />
         </>
     );
 };
 
 Highlights.defaultProps = {
     auth: '',
+    commentError: '',
+    commentErrorCode: '',
     highlightError: '',
     highlightErrorCode: '',
     loadingVideos: false,
@@ -157,6 +166,9 @@ Highlights.propTypes = {
     auth: PropTypes.shape({
         uid: PropTypes.string
     }),
+    commentError: PropTypes.string,
+    commentErrorCode: PropTypes.string,
+    closeCommentError: PropTypes.func.isRequired,
     closeHighlightError: PropTypes.func.isRequired,
     deleteCommentRequest: PropTypes.func.isRequired,
     deleteReplyRequest: PropTypes.func.isRequired,
@@ -181,6 +193,7 @@ Highlights.propTypes = {
 const mapDispatchToProps = {
     addCommentToVideoRequest,
     addReplyToVideoRequest,
+    closeCommentError,
     closeHighlightError,
     deleteCommentRequest,
     deleteReplyRequest,
@@ -195,6 +208,8 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
     auth: state.firebase.auth,
+    commentError: state.highlights.commentError,
+    commentErrorCode: state.highlights.commentErrorCode,
     highlightError: state.highlights.submitLinkError,
     highlightErrorCode: state.highlights.submitLinkErrorCode,
     loadingVideos: state.highlights.loadingVideos,

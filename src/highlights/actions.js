@@ -33,15 +33,16 @@ export const ADD_COMMENT_TO_VIDEO_ERROR = `${pre}ADD_COMMENT_TO_VIDEO_ERROR`;
 
 export const ADD_REPLY_TO_VIDEO_REQUEST = `${pre}ADD_REPLY_TO_VIDEO_REQUEST`;
 export const ADD_REPLY_TO_VIDEO_SUCCESS = `${pre}ADD_REPLY_TO_VIDEO_SUCCESS`;
+
+export const CLOSE_COMMENT_ERROR = `${pre}CLOSE_COMMENT_ERROR`;
+export const COMMENT_ERROR = `${pre}COMMENT_ERROR`;
 export const ADD_REPLY_TO_VIDEO_ERROR = `${pre}ADD_REPLY_TO_VIDEO_ERROR`;
 
 export const DELETE_COMMENT_REQUEST = `${pre}DELETE_COMMENT_REQUEST`;
 export const DELETE_COMMENT_SUCCESS = `${pre}DELETE_COMMENT_SUCCESS`;
-export const DELETE_COMMENT_ERROR = `${pre}DELETE_COMMENT_ERROR`;
 
 export const DELETE_REPLY_REQUEST = `${pre}DELETE_REPLY_REQUEST`;
 export const DELETE_REPLY_SUCCESS = `${pre}DELETE_REPLY_SUCCESS`;
-export const DELETE_REPLY_ERROR = `${pre}DELETE_REPLY_ERROR`;
 
 export const alreadyFetchedRejectedVideos = () => ({
     type: ALREADY_FETCHED_REJECTED_VIDEOS
@@ -153,9 +154,13 @@ export const addCommentToVideoSuccess = video => ({
     video
 });
 
-export const addCommentToVideoError = error => ({
-    type: ADD_COMMENT_TO_VIDEO_ERROR,
+export const commentError = error => ({
+    type: COMMENT_ERROR,
     error
+});
+
+export const closeCommentError = () => ({
+    type: CLOSE_COMMENT_ERROR
 });
 
 export const addReplyToVideoRequest = (reply, videoId, commentId) => ({
@@ -168,12 +173,6 @@ export const addReplyToVideoRequest = (reply, videoId, commentId) => ({
 export const addReplyToVideoSuccess = video => ({
     type: ADD_REPLY_TO_VIDEO_SUCCESS,
     video
-});
-
-
-export const addReplyToVideoError = error => ({
-    type: ADD_REPLY_TO_VIDEO_ERROR,
-    error
 });
 
 export const deleteCommentRequest = (videoId, commentId, replyId) => ({
@@ -189,11 +188,6 @@ export const deleteCommentSuccess = (videoId, commentId) => ({
     commentId
 });
 
-export const deleteCommentError = error => ({
-    type: DELETE_COMMENT_ERROR,
-    error
-});
-
 export const deleteReplyRequest = (videoId, commentId, replyId) => ({
     type: DELETE_REPLY_REQUEST,
     videoId,
@@ -206,9 +200,4 @@ export const deleteReplySuccess = (videoId, commentId, replyId) => ({
     videoId,
     commentId,
     replyId
-});
-
-export const deleteReplyError = error => ({
-    type: DELETE_REPLY_ERROR,
-    error
 });
