@@ -89,3 +89,13 @@ module.exports.ROLE_PERMISSIONS = {
         PERMISSIONS.APPROVE_HIGHLIGHTS
     ]
 };
+
+module.exports.leaguesForFixtures = [
+    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=19',
+    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=20',
+    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=21',
+    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=22',
+    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=23',
+    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=24',
+    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=77'
+];
