@@ -51,25 +51,10 @@ exports.findFixtures = functions
             return fixtures;
         };
 
-        const temp = 'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=19';
-        const temp2 = 'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=20';
-        const temp3 = 'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=21';
-        const temp4 = 'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=22';
-        const prem = 'https://www.teamdurham.com/collegesport/league/?league=19';
-        const div1 = 'https://www.teamdurham.com/collegesport/league/?league=20';
-        const div2 = 'https://www.teamdurham.com/collegesport/league/?league=21';
-        const div3 = 'https://www.teamdurham.com/collegesport/league/?league=22';
-        const div4 = 'https://www.teamdurham.com/collegesport/league/?league=23';
-        const div5 = 'https://www.teamdurham.com/collegesport/league/?league=24';
-        const div6 = 'https://www.teamdurham.com/collegesport/league/?league=77';
-
+        const promises = constants.leaguesForFixtures.map(leagueUrl => axios.get(leagueUrl));
         // const promises = [
-        //     axios.get(prem), axios.get(div1), axios.get(div2), axios.get(div3),
-        //     axios.get(div4), axios.get(div5), axios.get(div6)
+        //     axios.get(temp), axios.get(temp2), axios.get(temp3)
         // ];
-        const promises = [
-            axios.get(temp), axios.get(temp2), axios.get(temp3)
-        ];
 
         return Promise.all(promises)
             .then(result => result.reduce((prev, cur) => prev.concat(transformHtml(cur.data)), []));

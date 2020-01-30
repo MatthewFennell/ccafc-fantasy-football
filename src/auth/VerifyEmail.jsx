@@ -10,7 +10,8 @@ import ErrorModal from '../common/modal/ErrorModal';
 const VerifyEmail = props => (
     <>
         <div className={props.styles.verifyEmailMessage}>
-            {`A verification link has been sent to ${props.email}. Please click on the link to verify your account.` }
+            {`A verification link has been sent to ${props.email}. Please click on the link to verify your account. 
+            If you signed in with Facebook, try refreshing the page` }
             <div className={props.styles.resendEmailButtonWrapper}>
                 <StyledButton
                     color="primary"
