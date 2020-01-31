@@ -1,11 +1,10 @@
 /* eslint-disable no-underscore-dangle */
-
 export const dateFilters = {
     pastDay: {
         label: 'Past 24 hours',
         id: 'pastDay',
         filterFunction: d => {
-            const date = new Date(d.dateCreated._seconds * 1000);
+            const date = new Date(d.dateCreated.seconds * 1000);
             const yesterday = new Date();
             yesterday.setDate(yesterday.getDate() - 1);
             return date > yesterday;
@@ -15,7 +14,7 @@ export const dateFilters = {
         label: 'Past week',
         id: 'pastWeek',
         filterFunction: d => {
-            const date = new Date(d.dateCreated._seconds * 1000);
+            const date = new Date(d.dateCreated.seconds * 1000);
             const lastWeek = new Date();
             lastWeek.setDate(lastWeek.getDate() - 7);
             return date > lastWeek;
@@ -25,7 +24,7 @@ export const dateFilters = {
         label: 'Past month',
         id: 'pastMonth',
         filterFunction: d => {
-            const date = new Date(d.dateCreated._seconds * 1000);
+            const date = new Date(d.dateCreated.seconds * 1000);
             const lastMonth = new Date();
             lastMonth.setMonth(lastMonth.getMonth() - 1);
             return date > lastMonth;
@@ -52,13 +51,13 @@ export const sortByFilters = {
     newestFirst: {
         label: 'Newest First',
         id: 'newestFirst',
-        sortFunction: vids => vids.sort((a, b) => b.dateCreated._seconds - a.dateCreated._seconds),
+        sortFunction: vids => vids.sort((a, b) => b.dateCreated.seconds - a.dateCreated.seconds),
         isDateRelated: true
     },
     oldestFirst: {
         label: 'Oldest First',
         id: 'oldestFirst',
-        sortFunction: vids => vids.sort((a, b) => a.dateCreated._seconds - b.dateCreated._seconds),
+        sortFunction: vids => vids.sort((a, b) => a.dateCreated.seconds - b.dateCreated.seconds),
         isDateRelated: true
     },
     mostPopular: {

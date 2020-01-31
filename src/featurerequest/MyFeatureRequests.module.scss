@@ -19,10 +19,30 @@
     }
 }
 
-.sortByWrapper{
+.featureRequestHeader {
     padding: $spacing-medium;
     text-align: center;
     background-color: $color-white;
     margin: $spacing-medium;
     @include light-box-shadow();
-  }
+    display: flex;
+    flex-wrap: wrap;
+> div {
+    flex-grow: 1;
+}
+
+.featureRequestMessage {
+    font-size: $font-size-enormous;
+    text-align: center;
+    color: $color-blue;
+    font-weight: bold;
+}
+
+.openSubmitVideo{
+    text-align: center;
+}
+}
+
+.sortByWrapper{
+text-align: center;
+}

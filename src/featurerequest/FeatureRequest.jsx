@@ -37,8 +37,9 @@ const FeatureRequest = props => {
     const submitRequest = useCallback(() => {
         props.submitFeatureRequest(description);
         setDescription('');
+        setSubmitFeatureRequestOpen(false);
         // eslint-disable-next-line
-    }, [description, props.submitFeatureRequest, setDescription]);
+    }, [description, props.submitFeatureRequest, setDescription, setSubmitFeatureRequestOpen]);
 
     const [featuresOpen, setFeaturesOpen] = useState([]);
 
@@ -76,6 +77,7 @@ const FeatureRequest = props => {
                 deleteReply={deleteReply}
                 featuresOpen={featuresOpen}
                 featureRequests={_.map(props.featureRequests, (value, id) => ({ id, ...value }))}
+                setSubmitFeatureRequestOpen={setSubmitFeatureRequestOpen}
                 toggleFeature={toggleFeature}
                 loggedInUserId={props.auth.uid}
             />
