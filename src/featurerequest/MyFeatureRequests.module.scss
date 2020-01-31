@@ -2,12 +2,27 @@
 
 
 .allFeatureRequests{
+    flex-wrap: wrap;
+    margin: $spacing-medium;
+    // @include light-box-shadow();
+    padding: $spacing-small;
+}
+
+.featuresWrapper{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
 
-    .featureWrapper{
-        max-width: 45%;
-        min-width: 45%;
+    > div {
+        max-width: 50%;
+        min-width: 50%;
     }
 }
+
+.sortByWrapper{
+    padding: $spacing-medium;
+    text-align: center;
+    background-color: $color-white;
+    margin: $spacing-medium;
+    @include light-box-shadow();
+  }

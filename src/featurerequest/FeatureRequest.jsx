@@ -4,21 +4,18 @@ import _, { noop } from 'lodash';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
-import defaultStyles from './FeatureRequest.module.scss';
 import {
     addReplyToCommentRequest, submitFeatureRequest, addCommentToFeatureRequest,
     deleteCommentRequest, deleteReplyRequest, closeCommentError
 } from './actions';
-import StyledButton from '../common/StyledButton/StyledButton';
 import MyFeatureRequests from './MyFeatureRequests';
 import ErrorModal from '../common/modal/ErrorModal';
+import SubmitFeature from './SubmitFeature';
 
-const maxLength = 256;
-
-const charactersLeft = description => `${maxLength - (description.length || 0)} characters left`;
 
 const FeatureRequest = props => {
     const [description, setDescription] = useState('');
+    const [submitFeatureRequestOpen, setSubmitFeatureRequestOpen] = useState(false);
 
     const updateDescription = useCallback(e => {
         const text = e.target.value;
@@ -61,28 +58,17 @@ const FeatureRequest = props => {
     const deleteReply = useCallback(featureId => (commentId, replyId) => {
         props.deleteReplyRequest(featureId, commentId, replyId);
         // eslint-disable-next-line
-    }, props.deleteReplyRequest)
+    }, [props.deleteReplyRequest])
 
     return (
         <>
-            <div className={props.styles.featureRequestWrapper}>
-                <div className={props.styles.header}>
-                Enter a description of the feature you would like to see added to the site
-                </div>
-                <textarea
-                    value={description}
-                    onChange={updateDescription}
-                />
-                <div className={props.styles.charactersRemaining}>
-                    {charactersLeft(description)}
-                </div>
-
-                <StyledButton
-                    onClick={submitRequest}
-                    color="primary"
-                    text="Submit feature request"
-                />
-            </div>
+            <SubmitFeature
+                closeSubmitFeature={() => setSubmitFeatureRequestOpen(false)}
+                description={description}
+                submitFeatureOpen={submitFeatureRequestOpen}
+                submitRequest={submitRequest}
+                updateDescription={updateDescription}
+            />
             <MyFeatureRequests
                 addNewComment={addNewComment}
                 addNewReply={addNewReply}
@@ -113,7 +99,6 @@ FeatureRequest.defaultProps = {
         uid: null
     },
     featureRequests: {},
-    styles: defaultStyles,
     submitFeatureRequest: noop
 };
 
@@ -133,7 +118,6 @@ FeatureRequest.propTypes = {
         description: PropTypes.string,
         userId: PropTypes.string
     })),
-    styles: PropTypes.objectOf(PropTypes.string),
     submitFeatureRequest: PropTypes.func
 };
 

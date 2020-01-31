@@ -52,9 +52,6 @@ exports.findFixtures = functions
         };
 
         const promises = constants.leaguesForFixtures.map(leagueUrl => axios.get(leagueUrl));
-        // const promises = [
-        //     axios.get(temp), axios.get(temp2), axios.get(temp3)
-        // ];
 
         return Promise.all(promises)
             .then(result => result.reduce((prev, cur) => prev.concat(transformHtml(cur.data)), []));

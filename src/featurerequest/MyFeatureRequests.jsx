@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import _, { noop } from 'lodash';
 import defaultStyles from './MyFeatureRequests.module.scss';
 import FeatureRequest from '../common/featurerequest/FeatureRequest';
 import WithCollapsable from '../common/collapsableHOC/WithCollapsable';
+import RadioButton from '../common/radio/RadioButton';
+import * as helpers from './helpers';
 
 const MyFeatureRequests = props => {
+    const [filterBy, setFilterBy] = useState('allTime');
+    const [sortBy, setSortBy] = useState('newestFirst');
     const Feature = WithCollapsable(FeatureRequest);
     let featuresToUpdate = [];
 
@@ -18,25 +22,54 @@ const MyFeatureRequests = props => {
         }
     });
 
+    const generateFilteredFeatures = features => helpers.sortVideos(filterBy, sortBy, features, '');
+
     return (
         <div className={props.styles.allFeatureRequests}>
-            {props.featureRequests.map(x => (
-                <div className={props.styles.featureWrapper}>
-                    <Feature
-                        addNewComment={props.addNewComment(x.id)}
-                        addNewReply={props.addNewReply(x.id)}
-                        deleteComment={props.deleteComment(x.id)}
-                        deleteReply={props.deleteReply(x.id)}
-                        details={x}
-                        showAuthor
-                        id={x.id}
-                        isOpen={props.featuresOpen.includes(x.id)}
-                        title={`Feature Request by ${x.displayName}`}
-                        toggle={props.toggleFeature}
-                        loggedInUserId={props.loggedInUserId}
+            <div className={props.styles.sortByWrapper}>
+                <div>
+                    <RadioButton
+                        radioLabel="Filter By Date"
+                        onChange={setFilterBy}
+                        options={Object.values(helpers.dateFilters).map(x => ({
+                            radioLabel: x.label,
+                            value: x.id
+                        }))}
+                        value={filterBy}
                     />
                 </div>
-            ))}
+                <div>
+                    <RadioButton
+                        radioLabel="Sort By"
+                        onChange={setSortBy}
+                        options={Object.values(helpers.sortByFilters)
+                            .filter(x => x.isDateRelated).map(x => ({
+                                radioLabel: x.label,
+                                value: x.id
+                            }))}
+                        value={sortBy}
+                    />
+                </div>
+            </div>
+            <div className={props.styles.featuresWrapper}>
+                {generateFilteredFeatures(props.featureRequests).map(x => (
+                    <div className={props.styles.featureWrapper}>
+                        <Feature
+                            addNewComment={props.addNewComment(x.id)}
+                            addNewReply={props.addNewReply(x.id)}
+                            deleteComment={props.deleteComment(x.id)}
+                            deleteReply={props.deleteReply(x.id)}
+                            details={x}
+                            showAuthor
+                            id={x.id}
+                            isOpen={props.featuresOpen.includes(x.id)}
+                            title={`Feature Request by ${x.displayName}`}
+                            toggle={props.toggleFeature}
+                            loggedInUserId={props.loggedInUserId}
+                        />
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };

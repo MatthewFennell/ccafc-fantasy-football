@@ -35,11 +35,9 @@ export const dateFilters = {
         label: 'Past year',
         id: 'pastYear',
         filterFunction: d => {
-            const date = new Date(d.dateCreated._seconds * 1000);
+            const date = new Date(d.dateCreated.seconds * 1000);
             const lastYear = new Date();
             lastYear.setFullYear(lastYear.getFullYear() - 1);
-            console.log('highlight date', d);
-            console.log('date', date);
             return date > lastYear;
         }
     },
@@ -54,30 +52,33 @@ export const sortByFilters = {
     newestFirst: {
         label: 'Newest First',
         id: 'newestFirst',
-        sortFunction: vids => vids.sort((a, b) => b.dateCreated._seconds - a.dateCreated._seconds)
+        sortFunction: vids => vids.sort((a, b) => b.dateCreated._seconds - a.dateCreated._seconds),
+        isDateRelated: true
     },
     oldestFirst: {
         label: 'Oldest First',
         id: 'oldestFirst',
-        sortFunction: vids => vids.sort((a, b) => a.dateCreated._seconds - b.dateCreated._seconds)
+        sortFunction: vids => vids.sort((a, b) => a.dateCreated._seconds - b.dateCreated._seconds),
+        isDateRelated: true
     },
     mostPopular: {
         label: 'Most Popular',
         id: 'mostPopular',
         sortFunction: vids => vids.sort((a, b) => (b.upvotes.length - b.downvotes.length)
-        - (a.upvotes.length - a.downvotes.length))
+        - (a.upvotes.length - a.downvotes.length)),
+        isDateRelated: false
     },
     leastPopular: {
         label: 'Least Popular',
         id: 'leastPopular',
         sortFunction: vids => vids.sort((a, b) => (a.upvotes.length - a.downvotes.length)
-        - (b.upvotes.length - b.downvotes.length))
+        - (b.upvotes.length - b.downvotes.length)),
+        isDateRelated: false
     }
 };
 
 const filterBySearch = (videos, searchFilter) => videos
-    .filter(x => x.email.includes(searchFilter)
-    || x.title.toLowerCase().includes(searchFilter.toLowerCase()));
+    .filter(x => x.displayName.includes(searchFilter));
 
 const sortBy = (sort, videos, searchFilter) => {
     const { sortFunction } = Object.values(sortByFilters).find(x => x.id === sort);
@@ -91,12 +92,3 @@ const filterByDate = (filter, sort, videos, searchFilter) => {
 
 export const sortVideos = (filter, sort, videos,
     searchFilter) => filterByDate(filter, sort, videos, searchFilter);
-
-export const generateKarma = myVideos => {
-    let karma = 0;
-    myVideos.forEach(vid => {
-        karma += vid.upvotes.length;
-        karma -= vid.downvotes.length;
-    });
-    return karma ? `+${karma}` : karma;
-};
