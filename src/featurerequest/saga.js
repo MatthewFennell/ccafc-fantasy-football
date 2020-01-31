@@ -3,6 +3,7 @@ import {
 } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as api from './api';
+import { successDelay } from '../constants';
 
 function* addReplyToComment(action) {
     try {
@@ -34,7 +35,7 @@ function* submitFeature(action) {
     try {
         yield call(api.submitFeature, { description: action.description });
         yield put(actions.setSuccessMessage('Feature submitted successfully'));
-        yield delay(5000);
+        yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
     } catch (error) {
         yield put(actions.featureRequestError(error, 'Submit Feature Error'));

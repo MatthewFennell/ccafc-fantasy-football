@@ -87,3 +87,12 @@ export const PERMISSIONS = {
     APPROVE_HIGHLIGHTS: 'APPROVE_HIGHLIGHTS',
     ROLL_OVER_YEAR: 'ROLL_OVER_YEAR'
 };
+
+export const successDelay = 3500;
+
+// Things to fix
+
+// All admin should be same error
+
+// Error messages for managing users
+// Empty edit player stats fails and crashes

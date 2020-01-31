@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import fp from 'lodash/fp';
+import { noop } from 'lodash';
 import defaultStyles from './SubmitResult.module.scss';
 import {
     fetchTeamsRequest, fetchPlayersForTeamRequest, submitResultRequest,
-    closeSubmitResultError, submitExtraStatsRequest
+    submitExtraStatsRequest, closeSuccessMessage,
+    closeAdminError
 } from '../actions';
 import Dropdown from '../../common/dropdown/Dropdown';
 import StyledInput from '../../common/StyledInput/StyledInput';
@@ -14,6 +16,7 @@ import { isDefensive } from '../../helperFunctions';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
 import ErrorModal from '../../common/modal/ErrorModal';
+import SuccessModal from '../../common/modal/SuccessModal';
 import ExtraStats from './ExtraStats';
 
 const generateWeekOptions = maxGameWeek => {
@@ -216,11 +219,11 @@ const SubmitResult = props => {
                     />
                 </div>
                 <ErrorModal
-                    closeModal={props.closeSubmitResultError}
-                    headerMessage="Submit Result Error"
-                    isOpen={props.submitResultError.length > 0}
-                    errorCode={props.submitResultErrorCode}
-                    errorMessage={props.submitResultError}
+                    closeModal={props.closeAdminError}
+                    headerMessage={props.errorHeader}
+                    isOpen={props.errorMessage.length > 0}
+                    errorCode={props.errorCode}
+                    errorMessage={props.errorMessage}
                 />
                 <div className={classNames({
                     [props.styles.hidden]: !props.submittingResult
@@ -238,34 +241,49 @@ const SubmitResult = props => {
                 submittingExtraResult={props.submittingExtraResult}
                 teamsWithPlayers={props.teamsWithPlayers}
             />
+            <SuccessModal
+                backdrop
+                closeModal={props.closeSuccessMessage}
+                isOpen={props.successMessage.length}
+                headerMessage={props.successMessage}
+                toggleModal={noop}
+            />
         </>
     );
 };
 
 SubmitResult.defaultProps = {
     allTeams: [],
+    errorMessage: '',
+    errorCode: '',
+    errorHeader: '',
     maxGameWeek: null,
+    successMessage: '',
     styles: defaultStyles
 };
 
 SubmitResult.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
-    closeSubmitResultError: PropTypes.func.isRequired,
+    closeAdminError: PropTypes.func.isRequired,
+    closeSuccessMessage: PropTypes.func.isRequired,
+    errorMessage: PropTypes.string,
+    errorCode: PropTypes.string,
+    errorHeader: PropTypes.string,
     fetchTeamsRequest: PropTypes.func.isRequired,
     fetchPlayersForTeamRequest: PropTypes.func.isRequired,
     maxGameWeek: PropTypes.number,
     styles: PropTypes.objectOf(PropTypes.string),
-    submitResultError: PropTypes.string.isRequired,
-    submitResultErrorCode: PropTypes.string.isRequired,
     submitResultRequest: PropTypes.func.isRequired,
     submittingResult: PropTypes.bool.isRequired,
     submitExtraStatsRequest: PropTypes.func.isRequired,
     submittingExtraResult: PropTypes.bool.isRequired,
+    successMessage: PropTypes.string,
     teamsWithPlayers: PropTypes.objectOf(PropTypes.array).isRequired
 };
 
 const mapDispatchToProps = {
-    closeSubmitResultError,
+    closeAdminError,
+    closeSuccessMessage,
     fetchTeamsRequest,
     fetchPlayersForTeamRequest,
     submitResultRequest,
@@ -274,11 +292,15 @@ const mapDispatchToProps = {
 
 const mapStateToprops = state => ({
     allTeams: state.admin.allTeams,
+    errorMessage: state.admin.errorMessage,
+    errorCode: state.admin.errorCode,
+    errorHeader: state.admin.errorHeader,
     maxGameWeek: state.overview.maxGameWeek,
     submittingResult: state.admin.submittingResult,
     submittingExtraResult: state.admin.submittingExtraResults,
     submitResultError: state.admin.submitResultError,
     submitResultErrorCode: state.admin.submitResultErrorCode,
+    successMessage: state.admin.successMessage,
     teamsWithPlayers: state.admin.teamsWithPlayers
 });
 

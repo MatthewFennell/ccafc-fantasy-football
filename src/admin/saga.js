@@ -1,11 +1,12 @@
 import {
-    all, call, takeEvery, put, select
+    all, call, takeEvery, put, select, delay, takeLatest
 } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as api from './api';
 import * as selectors from './selectors';
 import { fetchMaxGameWeekRequest } from '../overview/actions';
 import { signOut } from '../auth/actions';
+import { successDelay } from '../constants';
 
 function* fetchTeams() {
     try {
@@ -15,7 +16,7 @@ function* fetchTeams() {
             yield put(actions.fetchTeamsSuccess(allTeams));
         }
     } catch (error) {
-        yield put(actions.fetchTeamsError(error));
+        yield put(actions.setAdminError(error, 'Fetch Teams Error'));
     }
 }
 
@@ -29,8 +30,11 @@ function* createPlayer(action) {
             previousScore: action.previousScore
         });
         yield put(actions.createPlayerSuccess());
+        yield put(actions.setSuccessMessage('Player successfully created'));
+        yield delay(successDelay);
+        yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.createPlayerError(error));
+        yield put(actions.setAdminError(error, 'Create Player Error'));
     }
 }
 
@@ -40,8 +44,11 @@ function* createTeam(action) {
         yield put(actions.createTeamSuccess());
         const allTeams = yield call(api.getAllTeams);
         yield put(actions.fetchTeamsSuccess(allTeams));
+        yield put(actions.setSuccessMessage('Team successfully created'));
+        yield delay(successDelay);
+        yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.createTeamError(error));
+        yield put(actions.setAdminError(error, 'Create Team Error'));
     }
 }
 
@@ -53,7 +60,7 @@ function* getPlayersForTeam(action) {
             yield put(actions.fetchPlayersForTeamSuccess(action.teamName, playersInTeam));
         }
     } catch (error) {
-        yield put(actions.createTeamError(error));
+        yield put(actions.setAdminError(error, 'Get Players for team error'));
     }
 }
 
@@ -68,8 +75,11 @@ function* submitResult(action) {
                 players: action.players
             });
         yield put(actions.submitResultSuccess());
+        yield put(actions.setSuccessMessage('Result successfully submitted'));
+        yield delay(successDelay);
+        yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.submitResultError(error));
+        yield put(actions.setAdminError(error, 'Submit Result Error'));
     }
 }
 
@@ -77,8 +87,11 @@ function* deletePlayer(action) {
     try {
         yield call(api.deletePlayer, { playerId: action.playerId });
         yield put(actions.deletePlayerSuccess());
+        yield put(actions.setSuccessMessage('Player successfully deleted'));
+        yield delay(successDelay);
+        yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.deletePlayerError(error));
+        yield put(actions.setAdminError(error, 'Delete Player Error'));
     }
 }
 
@@ -91,8 +104,11 @@ function* deleteTeam(action) {
         yield put(actions.deleteTeamSuccess());
         const allTeams = yield call(api.getAllTeams);
         yield put(actions.fetchTeamsSuccess(allTeams));
+        yield put(actions.setSuccessMessage('Team successfully deleted'));
+        yield delay(successDelay);
+        yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.deleteTeamError(error));
+        yield put(actions.setAdminError(error, 'Delete Team Error'));
     }
 }
 
@@ -101,8 +117,11 @@ function* triggerWeek(action) {
         yield call(api.triggerWeeklyTeams, { week: action.week });
         yield put(actions.triggerWeekSuccess());
         yield put(fetchMaxGameWeekRequest());
+        yield put(actions.setSuccessMessage(`Week ${action.week} successfully triggered`));
+        yield delay(successDelay);
+        yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.triggerWeekError(error));
+        yield put(actions.setAdminError(error, 'Trigger Week Error'));
     }
 }
 
@@ -112,7 +131,7 @@ function* getPlayerStats(action) {
             { playerId: action.playerId, week: action.week });
         yield put(actions.fetchPlayerStatsSuccess(playerStats));
     } catch (error) {
-        yield put(actions.fetchPlayerStatsError(error));
+        yield put(actions.setAdminError(error, 'Get Player Stats Error'));
     }
 }
 
@@ -124,8 +143,11 @@ function* editPlayerStats(action) {
             { playerId: action.playerId, week: action.week });
         yield put(actions.fetchPlayerStatsSuccess(playerStats));
         yield put(actions.editPlayerStatsSuccess());
+        yield put(actions.setSuccessMessage('Played successfully edited'));
+        yield delay(successDelay);
+        yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.editPlayerStatsError(error));
+        yield put(actions.setAdminError(error, 'Edit Player Stats Error'));
     }
 }
 
@@ -139,7 +161,7 @@ function* usersWithExtraRoles() {
             yield put(actions.alreadyFetchedUsersWithExtraRoles());
         }
     } catch (error) {
-        yield put(actions.fetchUsersWithExtraRolesError(error));
+        yield put(actions.setAdminError(error, 'Fetch User Roles Error'));
     }
 }
 
@@ -152,8 +174,11 @@ function* addUserRole(action) {
         }));
         const extraRoles = yield call(api.getUsersWithExtraRoles);
         yield put(actions.fetchUsersWithExtraRolesSuccess(extraRoles));
+        yield put(actions.setSuccessMessage('User role successfully added'));
+        yield delay(successDelay);
+        yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.addUserRoleError(error));
+        yield put(actions.setAdminError(error, 'Add User Role Error'));
     }
 }
 
@@ -166,8 +191,11 @@ function* removeUserRole(action) {
         }));
         const extraRoles = yield call(api.getUsersWithExtraRoles);
         yield put(actions.fetchUsersWithExtraRolesSuccess(extraRoles));
+        yield put(actions.setSuccessMessage('User role successfully removed'));
+        yield delay(successDelay);
+        yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.removeUserRoleError(error));
+        yield put(actions.setAdminError(error, 'Remove User Role Error'));
     }
 }
 
@@ -176,7 +204,7 @@ function* clearDatabase() {
         yield call(api.clearDatabase);
         yield put(signOut());
     } catch (error) {
-        yield put(actions.clearDatabaseError(error));
+        yield put(actions.setAdminError(error, 'Clear Database Error'));
     }
 }
 
@@ -184,7 +212,7 @@ function* rollOverToNextYear() {
     try {
         yield call(api.rollOverToNextYear);
     } catch (error) {
-        yield put(actions.rollOverToNextYearError(error));
+        yield put(actions.setAdminError(error, 'Rolling Over To Next Year Error'));
     }
 }
 
@@ -192,7 +220,7 @@ function* deleteAllOldUsers() {
     try {
         yield call(api.deleteAllOldUsers);
     } catch (error) {
-        yield put(actions.deleteAllOldUsersError(error));
+        yield put(actions.setAdminError(error, 'Delete All Users Error'));
     }
 }
 
@@ -206,7 +234,7 @@ function* fetchHighlightsForApproval() {
             yield put(actions.alreadyFetchedHighlightsForApproval());
         }
     } catch (error) {
-        yield put(actions.fetchHighlightsForApprovalError(error));
+        yield put(actions.setAdminError(error, 'Fetch Highlights For Approval Error'));
     }
 }
 
@@ -214,8 +242,11 @@ function* approveHighlight(action) {
     try {
         const highlight = yield call(api.approveHighlight, ({ highlightId: action.highlightId }));
         yield put(actions.approveHighlightSuccess(highlight));
+        yield put(actions.setSuccessMessage('Highlight successfully approved'));
+        yield delay(successDelay);
+        yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.approveHighlightError(error));
+        yield put(actions.setAdminError(error, 'Approve Highlight Error'));
     }
 }
 
@@ -226,8 +257,11 @@ function* rejectHighlight(action) {
             reason: action.reason
         }));
         yield put(actions.rejectHighlightSuccess(highlight));
+        yield put(actions.setSuccessMessage('Highlight successfully rejected'));
+        yield delay(successDelay);
+        yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.rejectHighlightError(error));
+        yield put(actions.setAdminError(error, 'Reject Highlight Error'));
     }
 }
 
@@ -238,8 +272,11 @@ function* deleteHighlight(action) {
             reason: action.reason
         }));
         yield put(actions.deleteHighlightSuccess(highlight));
+        yield put(actions.setSuccessMessage('Highlight successfully deleted'));
+        yield delay(successDelay);
+        yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.deleteHighlightError(error));
+        yield put(actions.setAdminError(error, 'Delete Highlight Error'));
     }
 }
 
@@ -253,7 +290,7 @@ function* fetchRejectedHighlights() {
             yield put(actions.alreadyFetchedRejectedHighlights());
         }
     } catch (error) {
-        yield put(actions.fetchAllRejectedHighlightsError(error));
+        yield put(actions.setAdminError(error, 'Fetch Rejected Highlights Error'));
     }
 }
 
@@ -262,8 +299,11 @@ function* reapproveRejectedHighlight(action) {
         const highlight = yield call(api.reapproveRejectedHighlight,
             ({ highlightId: action.highlightId }));
         yield put(actions.reapproveRejectedHighlightSuccess(highlight));
+        yield put(actions.setSuccessMessage('Highlight successfully reapproved'));
+        yield delay(successDelay);
+        yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.reapproveRejectedHighlightError(error));
+        yield put(actions.setAdminError(error, 'Reapprove Rejected Highlight Error'));
     }
 }
 
@@ -279,34 +319,34 @@ function* submitExtraResults(action) {
         }));
         yield put(actions.submitExtraStatsSuccess());
     } catch (error) {
-        yield put(actions.submitExtraStatsError(error));
+        yield put(actions.setAdminError(error, 'Submit Extra Results Error'));
     }
 }
 
 export default function* adminSaga() {
     yield all([
         takeEvery(actions.FETCH_TEAMS_REQUEST, fetchTeams),
-        takeEvery(actions.CREATE_PLAYER_REQUEST, createPlayer),
-        takeEvery(actions.CREATE_TEAM_REQUEST, createTeam),
+        takeLatest(actions.CREATE_PLAYER_REQUEST, createPlayer),
+        takeLatest(actions.CREATE_TEAM_REQUEST, createTeam),
         takeEvery(actions.FETCH_PLAYERS_FOR_TEAM_REQUEST, getPlayersForTeam),
-        takeEvery(actions.SUBMIT_RESULT_REQUEST, submitResult),
-        takeEvery(actions.DELETE_PLAYER_REQUEST, deletePlayer),
-        takeEvery(actions.DELETE_TEAM_REQUEST, deleteTeam),
-        takeEvery(actions.TRIGGER_WEEK_REQUEST, triggerWeek),
+        takeLatest(actions.SUBMIT_RESULT_REQUEST, submitResult),
+        takeLatest(actions.DELETE_PLAYER_REQUEST, deletePlayer),
+        takeLatest(actions.DELETE_TEAM_REQUEST, deleteTeam),
+        takeLatest(actions.TRIGGER_WEEK_REQUEST, triggerWeek),
         takeEvery(actions.FETCH_PLAYER_STATS_REQUEST, getPlayerStats),
-        takeEvery(actions.EDIT_PLAYER_STATS_REQUEST, editPlayerStats),
+        takeLatest(actions.EDIT_PLAYER_STATS_REQUEST, editPlayerStats),
         takeEvery(actions.FETCH_USERS_WITH_EXTRA_ROLES_REQUEST, usersWithExtraRoles),
-        takeEvery(actions.ADD_USER_ROLE_REQUEST, addUserRole),
-        takeEvery(actions.REMOVE_USER_ROLE_REQUEST, removeUserRole),
+        takeLatest(actions.ADD_USER_ROLE_REQUEST, addUserRole),
+        takeLatest(actions.REMOVE_USER_ROLE_REQUEST, removeUserRole),
         takeEvery(actions.CLEAR_DATABASE_REQUEST, clearDatabase),
         takeEvery(actions.ROLL_OVER_TO_NEXT_YEAR_REQUEST, rollOverToNextYear),
         takeEvery(actions.DELETE_ALL_OLD_USERS_REQUEST, deleteAllOldUsers),
         takeEvery(actions.FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST, fetchHighlightsForApproval),
-        takeEvery(actions.APPROVE_HIGHLIGHT_REQUEST, approveHighlight),
-        takeEvery(actions.REJECT_HIGHLIGHT_REQUEST, rejectHighlight),
-        takeEvery(actions.DELETE_HIGHLIGHT_REQUEST, deleteHighlight),
+        takeLatest(actions.APPROVE_HIGHLIGHT_REQUEST, approveHighlight),
+        takeLatest(actions.REJECT_HIGHLIGHT_REQUEST, rejectHighlight),
+        takeLatest(actions.DELETE_HIGHLIGHT_REQUEST, deleteHighlight),
         takeEvery(actions.FETCH_ALL_REJECTED_HIGHLIGHTS_REQUEST, fetchRejectedHighlights),
-        takeEvery(actions.REAPPROVE_REJECTED_HIGHLIGHT_REQUEST, reapproveRejectedHighlight),
+        takeLatest(actions.REAPPROVE_REJECTED_HIGHLIGHT_REQUEST, reapproveRejectedHighlight),
         takeEvery(actions.SUBMIT_EXTRA_STATS_REQUEST, submitExtraResults)
     ]);
 }

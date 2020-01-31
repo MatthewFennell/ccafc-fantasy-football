@@ -1,9 +1,10 @@
 import {
-    all, takeEvery, put, call, select
+    all, takeEvery, put, call, select, delay
 } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as api from './api';
 import * as selectors from './selectors';
+import { successDelay } from '../constants';
 
 function* submitHighlight(action) {
     try {
@@ -11,8 +12,11 @@ function* submitHighlight(action) {
             videoId: action.videoId,
             title: action.title
         });
+        yield put(actions.setSuccessMessage('Highlight successfully submitted for approval'));
+        yield delay(successDelay);
+        yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.submitHighlightError(error));
+        yield put(actions.setHighlightError(error, 'Submit Highlight Error'));
     }
 }
 
@@ -26,7 +30,7 @@ function* getHighlights() {
             yield put(actions.alreadyFetchedVideos());
         }
     } catch (error) {
-        yield put(actions.fetchHighlightsError(error));
+        yield put(actions.setHighlightError(error, 'Fetching Hightlights Error'));
     }
 }
 
@@ -35,7 +39,7 @@ function* upvoteHighlight(action) {
         const result = yield call(api.upvoteHighlight, ({ highlightId: action.highlightId }));
         yield put(actions.upvoteHighlightSuccess(result));
     } catch (error) {
-        yield put(actions.upvoteHighlightError(error));
+        yield put(actions.setHighlightError(error, 'Upvoting Highlight Error'));
     }
 }
 
@@ -44,7 +48,7 @@ function* downvoteHighlight(action) {
         const result = yield call(api.downvoteHighlight, ({ highlightId: action.highlightId }));
         yield put(actions.downvoteHighlightSuccess(result));
     } catch (error) {
-        yield put(actions.downvoteHighlightError(error));
+        yield put(actions.setHighlightError(error, 'Downvoting Highlight Error'));
     }
 }
 
@@ -58,7 +62,7 @@ function* highlightsToBeApproved() {
             yield put(actions.alreadyFetchedApprovedHighlights());
         }
     } catch (error) {
-        yield put(actions.fetchUserHighlightsToBeApprovedError(error));
+        yield put(actions.setHighlightError(error, 'Fetch Approval Highlights Error'));
     }
 }
 
@@ -72,7 +76,7 @@ function* rejectedHighlights() {
             yield put(actions.alreadyFetchedRejectedVideos());
         }
     } catch (error) {
-        yield put(actions.fetchRejectedHighlightsError(error));
+        yield put(actions.setHighlightError(error, 'Fetch Rejected Highlights Error'));
     }
 }
 
@@ -85,8 +89,7 @@ function* addCommentToVideo(action) {
         }));
         yield put(actions.addCommentToVideoSuccess(newHighlight));
     } catch (error) {
-        console.log('error', error.message);
-        yield put(actions.commentError(error));
+        yield put(actions.setHighlightError(error, 'Add Comment Error'));
     }
 }
 
@@ -100,7 +103,7 @@ function* addReplyToVideo(action) {
         }));
         yield put(actions.addReplyToVideoSuccess(newHighlight));
     } catch (error) {
-        yield put(actions.commentError(error));
+        yield put(actions.setHighlightError(error, 'Add Reply Error'));
     }
 }
 
@@ -113,7 +116,7 @@ function* deleteComment(action) {
         });
         yield put(actions.deleteCommentSuccess(action.videoId, action.commentId));
     } catch (error) {
-        yield put(actions.commentError(error));
+        yield put(actions.setHighlightError(error, 'Delete Comment Error'));
     }
 }
 
@@ -127,7 +130,7 @@ function* deleteReply(action) {
         });
         yield put(actions.deleteReplySuccess(action.videoId, action.commentId, action.replyId));
     } catch (error) {
-        yield put(actions.commentError(error));
+        yield put(actions.setHighlightError(error, 'Delete Reply Error'));
     }
 }
 

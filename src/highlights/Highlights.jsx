@@ -2,15 +2,17 @@ import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
+import { noop } from 'lodash';
 import defaultStyles from './Highlights.module.scss';
 import StyledButton from '../common/StyledButton/StyledButton';
 import {
-    closeHighlightError, submitHighlightRequest, submitHighlightError, fetchHighlightsRequest,
+    closeHighlightError, submitHighlightRequest, fetchHighlightsRequest,
     upvoteHighlightRequest, downvoteHighlightRequest, fetchUserHighlightsToBeApprovedRequest,
     fetchRejectedHighlightsRequest, addCommentToVideoRequest, addReplyToVideoRequest,
-    deleteCommentRequest, deleteReplyRequest, closeCommentError
+    deleteCommentRequest, deleteReplyRequest, closeSuccessMessage
 } from './actions';
 import ErrorModal from '../common/modal/ErrorModal';
+import SuccessModal from '../common/modal/SuccessModal';
 import YouTubeList from '../common/youtubelist/YouTubeList';
 import SubmitVideo from './SubmitVideo';
 import RadioButton from '../common/radio/RadioButton';
@@ -129,17 +131,17 @@ const Highlights = props => {
             />
             <ErrorModal
                 closeModal={props.closeHighlightError}
-                headerMessage="Submit Highlight Error"
-                isOpen={props.highlightError.length > 0}
-                errorCode={props.highlightErrorCode}
-                errorMessage={props.highlightError}
+                headerMessage={props.errorHeader}
+                isOpen={props.errorMessage.length > 0}
+                errorCode={props.errorCode}
+                errorMessage={props.errorMessage}
             />
-            <ErrorModal
-                closeModal={props.closeCommentError}
-                headerMessage="Comment Error"
-                isOpen={props.commentError.length > 0}
-                errorCode={props.commentErrorCode}
-                errorMessage={props.commentError}
+            <SuccessModal
+                backdrop
+                closeModal={props.closeSuccessMessage}
+                isOpen={props.successMessage.length}
+                headerMessage={props.successMessage}
+                toggleModal={noop}
             />
         </>
     );
@@ -147,13 +149,13 @@ const Highlights = props => {
 
 Highlights.defaultProps = {
     auth: '',
-    commentError: '',
-    commentErrorCode: '',
-    highlightError: '',
-    highlightErrorCode: '',
+    errorMessage: '',
+    errorCode: '',
+    errorHeader: '',
     loadingVideos: false,
     loadingVideosToBeApproved: false,
     loadingRejectedVideos: false,
+    successMessage: '',
     styles: defaultStyles,
     videos: [],
     videosToBeApproved: [],
@@ -166,10 +168,11 @@ Highlights.propTypes = {
     auth: PropTypes.shape({
         uid: PropTypes.string
     }),
-    commentError: PropTypes.string,
-    commentErrorCode: PropTypes.string,
-    closeCommentError: PropTypes.func.isRequired,
     closeHighlightError: PropTypes.func.isRequired,
+    closeSuccessMessage: PropTypes.func.isRequired,
+    errorMessage: PropTypes.string,
+    errorCode: PropTypes.string,
+    errorHeader: PropTypes.string,
     deleteCommentRequest: PropTypes.func.isRequired,
     deleteReplyRequest: PropTypes.func.isRequired,
     downvoteHighlightRequest: PropTypes.func.isRequired,
@@ -178,12 +181,11 @@ Highlights.propTypes = {
     fetchHighlightsRequest: PropTypes.func.isRequired,
     fetchRejectedHighlightsRequest: PropTypes.func.isRequired,
     fetchUserHighlightsToBeApproved: PropTypes.func.isRequired,
-    highlightError: PropTypes.string,
-    highlightErrorCode: PropTypes.string,
     loadingVideos: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),
     submitHighlightError: PropTypes.func.isRequired,
     submitHighlightRequest: PropTypes.func.isRequired,
+    successMessage: PropTypes.string,
     videos: PropTypes.arrayOf(PropTypes.shape({})),
     videosToBeApproved: PropTypes.arrayOf(PropTypes.shape({})),
     videosRejected: PropTypes.arrayOf(PropTypes.shape({})),
@@ -193,15 +195,14 @@ Highlights.propTypes = {
 const mapDispatchToProps = {
     addCommentToVideoRequest,
     addReplyToVideoRequest,
-    closeCommentError,
     closeHighlightError,
+    closeSuccessMessage,
     deleteCommentRequest,
     deleteReplyRequest,
     downvoteHighlightRequest,
     fetchRejectedHighlightsRequest,
     fetchHighlightsRequest,
     fetchUserHighlightsToBeApproved: fetchUserHighlightsToBeApprovedRequest,
-    submitHighlightError,
     submitHighlightRequest,
     upvoteHighlightRequest
 };
@@ -210,11 +211,15 @@ const mapStateToProps = state => ({
     auth: state.firebase.auth,
     commentError: state.highlights.commentError,
     commentErrorCode: state.highlights.commentErrorCode,
+    errorMessage: state.highlights.errorMessage,
+    errorCode: state.highlights.errorCode,
+    errorHeader: state.highlights.errorHeader,
     highlightError: state.highlights.submitLinkError,
     highlightErrorCode: state.highlights.submitLinkErrorCode,
     loadingVideos: state.highlights.loadingVideos,
     loadingVideosToBeApproved: state.highlights.loadingVideosToBeApproved,
     loadingRejectedVideos: state.highlights.loadingRejectedVideos,
+    successMessage: state.highlights.successMessage,
     videos: state.highlights.videos,
     videosToBeApproved: state.highlights.videosToBeApproved,
     videosRejected: state.highlights.videosRejected

@@ -62,6 +62,11 @@ exports.setMyTeam = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
+
+        if (!data.team || !data.team.includes('Collingwood')) {
+            throw new functions.https.HttpsError('invalid-argument', 'Please select a valid team');
+        }
+
         return db.collection('users-teams').doc(context.auth.uid).set({
             team: data.team
         });

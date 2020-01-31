@@ -2,104 +2,98 @@ const pre = 'ADMIN/';
 
 export const FETCH_TEAMS_REQUEST = `${pre}FETCH_TEAMS_REQUEST`;
 export const FETCH_TEAMS_SUCCESS = `${pre}FETCH_TEAMS_SUCCESS`;
-export const FETCH_TEAMS_ERROR = `${pre}FETCH_TEAMS_ERROR`;
 
 export const CREATE_PLAYER_REQUEST = `${pre}CREATE_PLAYER_REQUEST`;
 export const CREATE_PLAYER_SUCCESS = `${pre}CREATE_PLAYER_SUCCESS`;
-export const CREATE_PLAYER_ERROR = `${pre}CREATE_PLAYER_ERROR`;
-export const CLOSE_CREATE_PLAYER_ERROR = `${pre}CLOSE_CREATE_PLAYER_ERROR`;
 
 export const CREATE_TEAM_REQUEST = `${pre}CREATE_TEAM_REQUEST`;
 export const CREATE_TEAM_SUCCESS = `${pre}CREATE_TEAM_SUCCESS`;
-export const CREATE_TEAM_ERROR = `${pre}CREATE_TEAM_ERROR`;
-export const CLOSE_CREATE_TEAM_ERROR = `${pre}CLOSE_CREATE_TEAM_ERROR`;
 
 export const SUBMIT_RESULT_REQUEST = `${pre}SUBMIT_RESULT_REQUEST`;
 export const SUBMIT_RESULT_SUCCESS = `${pre}SUBMIT_RESULT_SUCCESS`;
-export const SUBMIT_RESULT_ERROR = `${pre}SUBMIT_RESULT_ERROR`;
-export const CLOSE_SUBMIT_RESULT_ERROR = `${pre}CLOSE_SUBMIT_RESULT_ERROR`;
 
 export const FETCH_PLAYERS_FOR_TEAM_REQUEST = `${pre}FETCH_PLAYERS_FOR_TEAM_REQUEST`;
 export const FETCH_PLAYERS_FOR_TEAM_SUCCESS = `${pre}FETCH_PLAYERS_FOR_TEAM_SUCCESS`;
 
 export const DELETE_PLAYER_REQUEST = `${pre}DELETE_PLAYER_REQUEST`;
 export const DELETE_PLAYER_SUCCESS = `${pre}DELETE_PLAYER_SUCCESS`;
-export const DELETE_PLAYER_ERROR = `${pre}DELETE_PLAYER_ERROR`;
-export const CLOSE_DELETE_PLAYER_ERROR = `${pre}CLOSE_DELETE_PLAYER_ERROR`;
 
 export const DELETE_TEAM_REQUEST = `${pre}DELETE_TEAM_REQUEST`;
 export const DELETE_TEAM_SUCCESS = `${pre}DELETE_TEAM_SUCCESS`;
-export const DELETE_TEAM_ERROR = `${pre}DELETE_TEAM_ERROR`;
-export const CLOSE_DELETE_TEAM_ERROR = `${pre}CLOSE_DELETE_TEAM_ERROR`;
 
 export const TRIGGER_WEEK_REQUEST = `${pre}TRIGGER_WEEK_REQUEST`;
 export const TRIGGER_WEEK_SUCCESS = `${pre}TRIGGER_WEEK_SUCCESS`;
-export const TRIGGER_WEEK_ERROR = `${pre}TRIGGER_WEEK_ERROR`;
-export const CLOSE_TRIGGER_WEEK_ERROR = `${pre}CLOSE_TRIGGER_WEEK_ERROR`;
 
 export const FETCH_PLAYER_STATS_REQUEST = `${pre}FETCH_PLAYER_STATS_REQUEST`;
 export const FETCH_PLAYER_STATS_SUCCESS = `${pre}FETCH_PLAYER_STATS_SUCCESS`;
-export const FETCH_PLAYER_STATS_ERROR = `${pre}FETCH_PLAYER_STATS_ERROR`;
-export const CLOSE_FETCH_PLAYER_STATS_ERROR = `${pre}CLOSE_FETCH_PLAYER_STATS_ERROR`;
 
 export const EDIT_PLAYER_STATS_REQUEST = `${pre}EDIT_PLAYER_STATS_REQUEST`;
 export const EDIT_PLAYER_STATS_SUCCESS = `${pre}EDIT_PLAYER_STATS_SUCCESS`;
-export const EDIT_PLAYER_STATS_ERROR = `${pre}EDIT_PLAYER_STATS_ERROR`;
 
 export const FETCH_USERS_WITH_EXTRA_ROLES_REQUEST = `${pre}FETCH_USERS_WITH_EXTRA_ROLES_REQUEST`;
 export const FETCH_USERS_WITH_EXTRA_ROLES_SUCCESS = `${pre}FETCH_USERS_WITH_EXTRA_ROLES_SUCCESS`;
-export const FETCH_USERS_WITH_EXTRA_ROLES_ERROR = `${pre}FETCH_USERS_WITH_EXTRA_ROLES_ERROR`;
 export const LOAD_USERS_WITH_EXTRA_ROLES = `${pre}LOAD_USERS_WITH_EXTRA_ROLES`;
 export const ALREADY_FETCHED_USERS_WITH_EXTRA_ROLES = `${pre}ALREADY_FETCHED_USERS_WITH_EXTRA_ROLES`;
 
 export const FETCH_INITIAL_USERS_REQUEST = `${pre}FETCH_INITIAL_USERS_REQUEST`;
 export const FETCH_INITIAL_USERS_SUCCESS = `${pre}FETCH_INITIAL_USERS_SUCCESS`;
-export const FETCH_INITIAL_USERS_ERROR = `${pre}FETCH_INITIAL_USERS_ERROR`;
 
 export const ADD_USER_ROLE_REQUEST = `${pre}ADD_USER_ROLE_REQUEST`;
 export const REMOVE_USER_ROLE_REQUEST = `${pre}REMOVE_USER_ROLE_REQUEST`;
-export const ADD_USER_ROLE_ERROR = `${pre}ADD_USER_ROLE_ERROR`;
-export const REMOVE_USER_ROLE_ERROR = `${pre}REMOVE_USER_ROLE_ERROR`;
-export const CLOSE_REMOVE_USER_ROLE_ERROR = `${pre}CLOSE_REMOVE_USER_ROLE_ERROR`;
 
 export const CLEAR_DATABASE_REQUEST = `${pre}CLEAR_DATABASE_REQUEST`;
-export const CLEAR_DATABASE_ERROR = `${pre}CLEAR_DATABASE_ERROR`;
 
 export const ROLL_OVER_TO_NEXT_YEAR_REQUEST = `${pre}ROLL_OVER_TO_NEXT_YEAR_REQUEST`;
-export const ROLL_OVER_TO_NEXT_YEAR_ERROR = `${pre}ROLL_OVER_TO_NEXT_YEAR_ERROR`;
 
 export const DELETE_ALL_OLD_USERS_REQUEST = `${pre}DELETE_ALL_OLD_USERS_REQUEST`;
-export const DELETE_ALL_OLD_USERS_ERROR = `${pre}DELETE_ALL_OLD_USERS_ERROR`;
 
 export const FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST = `${pre}FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST`;
 export const FETCH_HIGHLIGHTS_FOR_APPROVAL_SUCCESS = `${pre}FETCH_HIGHLIGHTS_FOR_APPROVAL_SUCCESS`;
-export const FETCH_HIGHLIGHTS_FOR_APPROVAL_ERROR = `${pre}FETCH_HIGHLIGHTS_FOR_APPROVAL_ERROR`;
 export const ALREADY_FETCHED_HIGHLIGHTS_FOR_APPROVAL = `${pre}ALREADY_FETCHED_HIGHLIGHTS_FOR_APPROVAL`;
 
 export const APPROVE_HIGHLIGHT_REQUEST = `${pre}APPROVE_HIGHLIGHT_REQUEST`;
 export const APPROVE_HIGHLIGHT_SUCCESS = `${pre}APPROVE_HIGHLIGHT_SUCCESS`;
-export const APPROVE_HIGHLIGHT_ERROR = `${pre}APPROVE_HIGHLIGHT_ERROR`;
 
 export const REJECT_HIGHLIGHT_REQUEST = `${pre}REJECT_HIGHLIGHT_REQUEST`;
 export const REJECT_HIGHLIGHT_SUCCESS = `${pre}REJECT_HIGHLIGHT_SUCCESS`;
-export const REJECT_HIGHLIGHT_ERROR = `${pre}REJECT_HIGHLIGHT_ERROR`;
 
 export const DELETE_HIGHLIGHT_REQUEST = `${pre}DELETE_HIGHLIGHT_REQUEST`;
 export const DELETE_HIGHLIGHT_SUCCESS = `${pre}DELETE_HIGHLIGHT_SUCCESS`;
-export const DELETE_HIGHLIGHT_ERROR = `${pre}DELETE_HIGHLIGHT_ERROR`;
 
 export const FETCH_ALL_REJECTED_HIGHLIGHTS_REQUEST = `${pre}FETCH_ALL_REJECTED_HIGHLIGHTS_REQUEST`;
 export const FETCH_ALL_REJECTED_HIGHLIGHTS_SUCCESS = `${pre}FETCH_ALL_REJECTED_HIGHLIGHTS_SUCCESS`;
-export const FETCH_ALL_REJECTED_HIGHLIGHTS_ERROR = `${pre}FETCH_ALL_REJECTED_HIGHLIGHTS_ERROR`;
 export const ALREADY_FETCHED_REJECTED_HIGHLIGHTS = `${pre}ALREADY_FETCHED_REJECTED_HIGHLIGHTS`;
 
 export const REAPPROVE_REJECTED_HIGHLIGHT_REQUEST = `${pre}REAPPROVE_REJECTED_HIGHLIGHT_REQUEST`;
 export const REAPPROVE_REJECTED_HIGHLIGHT_SUCCESS = `${pre}REAPPROVE_REJECTED_HIGHLIGHT_SUCCESS`;
-export const REAPPROVE_REJECTED_HIGHLIGHT_ERROR = `${pre}REAPPROVE_REJECTED_HIGHLIGHT_ERROR`;
 
 export const SUBMIT_EXTRA_STATS_REQUEST = `${pre}SUBMIT_EXTRA_STATS_REQUEST`;
 export const SUBMIT_EXTRA_STATS_SUCCESS = `${pre}SUBMIT_EXTRA_STATS_SUCCESS`;
-export const SUBMIT_EXTRA_STATS_ERROR = `${pre}SUBMIT_EXTRA_STATS_ERROR`;
+
+export const SET_SUCCESS_MESSAGE = `${pre}SET_SUCCESS_MESSAGE`;
+export const CLOSE_SUCCESS_MESSAGE = `${pre}CLOSE_SUCCESS_MESSAGE`;
+
+export const SET_ADMIN_ERROR = `${pre}SET_ADMIN_ERROR`;
+export const CLOSE_ADMIN_ERROR = `${pre}CLOSE_ADMIN_ERROR`;
+
+export const setAdminError = (error, header) => ({
+    type: SET_ADMIN_ERROR,
+    error,
+    header
+});
+
+export const closeAdminError = () => ({
+    type: CLOSE_ADMIN_ERROR
+});
+
+export const setSuccessMessage = message => ({
+    type: SET_SUCCESS_MESSAGE,
+    message
+});
+
+export const closeSuccessMessage = () => ({
+    type: CLOSE_SUCCESS_MESSAGE
+});
 
 export const submitExtraStatsRequest = (
     gameWeek, yellowCard, redCard, penaltySaved, penaltyMissed, ownGoal
@@ -117,11 +111,6 @@ export const submitExtraStatsSuccess = () => ({
     type: SUBMIT_EXTRA_STATS_SUCCESS
 });
 
-export const submitExtraStatsError = error => ({
-    type: SUBMIT_EXTRA_STATS_ERROR,
-    error
-});
-
 export const reapproveRejectedHighlightRequest = highlightId => ({
     type: REAPPROVE_REJECTED_HIGHLIGHT_REQUEST,
     highlightId
@@ -132,11 +121,6 @@ export const reapproveRejectedHighlightSuccess = highlight => ({
     highlight
 });
 
-export const reapproveRejectedHighlightError = highlightId => ({
-    type: REAPPROVE_REJECTED_HIGHLIGHT_ERROR,
-    highlightId
-});
-
 export const fetchAllRejectedHighlightsRequest = () => ({
     type: FETCH_ALL_REJECTED_HIGHLIGHTS_REQUEST
 });
@@ -144,11 +128,6 @@ export const fetchAllRejectedHighlightsRequest = () => ({
 export const fetchAllRejectedHighlightsSuccess = highlights => ({
     type: FETCH_ALL_REJECTED_HIGHLIGHTS_SUCCESS,
     highlights
-});
-
-export const fetchAllRejectedHighlightsError = error => ({
-    type: FETCH_ALL_REJECTED_HIGHLIGHTS_ERROR,
-    error
 });
 
 export const alreadyFetchedRejectedHighlights = () => ({
@@ -166,11 +145,6 @@ export const deleteHighlightSuccess = highlight => ({
     highlight
 });
 
-export const deleteHighlightError = error => ({
-    type: DELETE_HIGHLIGHT_ERROR,
-    error
-});
-
 export const alreadyFetchedHighlightsForApproval = () => ({
     type: ALREADY_FETCHED_HIGHLIGHTS_FOR_APPROVAL
 });
@@ -185,11 +159,6 @@ export const approveHighlightSuccess = highlight => ({
     highlight
 });
 
-export const approveHighlightError = error => ({
-    type: APPROVE_HIGHLIGHT_ERROR,
-    error
-});
-
 export const rejectHighlightRequest = (highlightId, reason) => ({
     type: REJECT_HIGHLIGHT_REQUEST,
     highlightId,
@@ -201,11 +170,6 @@ export const rejectHighlightSuccess = highlight => ({
     highlight
 });
 
-export const rejectHighlightError = error => ({
-    type: REJECT_HIGHLIGHT_ERROR,
-    error
-});
-
 export const fetchHighlightsForApprovalSuccess = highlights => ({
     type: FETCH_HIGHLIGHTS_FOR_APPROVAL_SUCCESS,
     highlights
@@ -215,41 +179,20 @@ export const fetchHighlightsForApprovalRequest = () => ({
     type: FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST
 });
 
-export const fetchHighlightsForApprovalError = error => ({
-    type: FETCH_HIGHLIGHTS_FOR_APPROVAL_ERROR,
-    error
-});
-
 export const deleteAllOldUsersRequest = () => ({
     type: DELETE_ALL_OLD_USERS_REQUEST
-});
-
-export const deleteAllOldUsersError = () => ({
-    type: DELETE_ALL_OLD_USERS_ERROR
 });
 
 export const rollOverToNextYearRequest = () => ({
     type: ROLL_OVER_TO_NEXT_YEAR_REQUEST
 });
 
-export const rollOverToNextYearError = () => ({
-    type: ROLL_OVER_TO_NEXT_YEAR_ERROR
-});
-
 export const clearDatabaseRequest = () => ({
     type: CLEAR_DATABASE_REQUEST
 });
 
-export const clearDatabaseError = () => ({
-    type: CLEAR_DATABASE_ERROR
-});
-
 export const alreadyFetchedUsersWithExtraRoles = () => ({
     type: ALREADY_FETCHED_USERS_WITH_EXTRA_ROLES
-});
-
-export const closeRemoveUserRoleError = () => ({
-    type: CLOSE_REMOVE_USER_ROLE_ERROR
 });
 
 export const loadUsersWithExtraRoles = () => ({
@@ -268,16 +211,6 @@ export const removeUserRoleRequest = (email, role) => ({
     role
 });
 
-export const addUserRoleError = error => ({
-    type: ADD_USER_ROLE_ERROR,
-    error
-});
-
-export const removeUserRoleError = error => ({
-    type: REMOVE_USER_ROLE_ERROR,
-    error
-});
-
 export const fetchUsersWithExtraRolesRequest = () => ({
     type: FETCH_USERS_WITH_EXTRA_ROLES_REQUEST
 });
@@ -285,11 +218,6 @@ export const fetchUsersWithExtraRolesRequest = () => ({
 export const fetchUsersWithExtraRolesSuccess = usersWithExtraRoles => ({
     type: FETCH_USERS_WITH_EXTRA_ROLES_SUCCESS,
     usersWithExtraRoles
-});
-
-export const fetchUsersWithExtraRolesError = error => ({
-    type: FETCH_USERS_WITH_EXTRA_ROLES_ERROR,
-    error
 });
 
 // -------------------------------------------------------------------- \\
@@ -305,11 +233,6 @@ export const editPlayerStatsSuccess = () => ({
     type: EDIT_PLAYER_STATS_SUCCESS
 });
 
-export const editPlayerStatsError = error => ({
-    type: EDIT_PLAYER_STATS_ERROR,
-    error
-});
-
 // -------------------------------------------------------------------- \\
 
 export const fetchPlayerStatsRequest = (playerId, week) => ({
@@ -323,11 +246,6 @@ export const fetchPlayerStatsSuccess = playerStats => ({
     playerStats
 });
 
-export const fetchPlayerStatsError = error => ({
-    type: FETCH_PLAYER_STATS_ERROR,
-    error
-});
-
 // -------------------------------------------------------------------- \\
 
 export const triggerWeekRequest = week => ({
@@ -339,16 +257,6 @@ export const triggerWeekSuccess = () => ({
     type: TRIGGER_WEEK_SUCCESS
 });
 
-export const triggerWeekError = error => ({
-    type: TRIGGER_WEEK_ERROR,
-    error
-});
-
-export const closeTriggerWeekError = () => ({
-    type: CLOSE_TRIGGER_WEEK_ERROR
-});
-
-
 // -------------------------------------------------------------------- \\
 
 export const fetchTeamsRequest = () => ({
@@ -358,11 +266,6 @@ export const fetchTeamsRequest = () => ({
 export const fetchTeamsSuccess = teams => ({
     type: FETCH_TEAMS_SUCCESS,
     teams
-});
-
-export const fetchTeamsError = error => ({
-    type: FETCH_TEAMS_ERROR,
-    error
 });
 
 // -------------------------------------------------------------------- \\
@@ -380,15 +283,6 @@ export const createPlayerSuccess = () => ({
     type: CREATE_PLAYER_SUCCESS
 });
 
-export const createPlayerError = error => ({
-    type: CREATE_PLAYER_ERROR,
-    error
-});
-
-export const closeCreatePlayerError = () => ({
-    type: CLOSE_CREATE_PLAYER_ERROR
-});
-
 // -------------------------------------------------------------------- \\
 
 export const createTeamRequest = teamName => ({
@@ -398,16 +292,6 @@ export const createTeamRequest = teamName => ({
 
 export const createTeamSuccess = () => ({
     type: CREATE_TEAM_SUCCESS
-});
-
-export const createTeamError = error => ({
-    type: CREATE_TEAM_ERROR,
-    error
-});
-
-
-export const closeCreateTeamError = () => ({
-    type: CLOSE_CREATE_TEAM_ERROR
 });
 
 // -------------------------------------------------------------------- \\
@@ -423,15 +307,6 @@ export const submitResultRequest = (teamId, goalsFor, goalsAgainst, week, player
 
 export const submitResultSuccess = () => ({
     type: SUBMIT_RESULT_SUCCESS
-});
-
-export const submitResultError = error => ({
-    type: SUBMIT_RESULT_ERROR,
-    error
-});
-
-export const closeSubmitResultError = () => ({
-    type: CLOSE_SUBMIT_RESULT_ERROR
 });
 
 // -------------------------------------------------------------------- \\
@@ -458,15 +333,6 @@ export const deletePlayerSuccess = () => ({
     type: DELETE_PLAYER_SUCCESS
 });
 
-export const deletePlayerError = error => ({
-    type: DELETE_PLAYER_ERROR,
-    error
-});
-
-export const closeDeletePlayerError = () => ({
-    type: CLOSE_DELETE_PLAYER_ERROR
-});
-
 // -------------------------------------------------------------------- \\
 
 export const deleteTeamRequest = (teamId, teamName) => ({
@@ -477,15 +343,6 @@ export const deleteTeamRequest = (teamId, teamName) => ({
 
 export const deleteTeamSuccess = () => ({
     type: DELETE_TEAM_SUCCESS
-});
-
-export const deleteTeamError = error => ({
-    type: DELETE_TEAM_ERROR,
-    error
-});
-
-export const closeDeleteTeamError = () => ({
-    type: CLOSE_DELETE_TEAM_ERROR
 });
 
 // -------------------------------------------------------------------- \\

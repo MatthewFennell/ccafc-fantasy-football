@@ -12,6 +12,31 @@ export const FETCH_MY_TEAM_ERROR = `${pre}FETCH_MY_TEAM_ERROR`;
 
 export const SET_MY_TEAM = `${pre}SET_MY_TEAM`;
 
+export const SET_FIXTURES_ERROR = `${pre}SET_FIXTURES_ERROR`;
+export const CLOSE_FIXTURES_ERROR = `${pre}CLOSE_FIXTURES_ERROR`;
+
+export const SET_SUCCESS_MESSAGE = `${pre}SET_SUCCESS_MESSAGE`;
+export const CLOSE_SUCCESS_MESSAGE = `${pre}CLOSE_SUCCESS_MESSAGE`;
+
+export const setSuccessMessage = message => ({
+    type: SET_SUCCESS_MESSAGE,
+    message
+});
+
+export const closeSuccessMessage = () => ({
+    type: CLOSE_SUCCESS_MESSAGE
+});
+
+export const closeFixturesError = () => ({
+    type: CLOSE_FIXTURES_ERROR
+});
+
+export const setFixturesError = (error, header) => ({
+    type: SET_FIXTURES_ERROR,
+    error,
+    header
+});
+
 export const setMyTeam = team => ({
     type: SET_MY_TEAM,
     team

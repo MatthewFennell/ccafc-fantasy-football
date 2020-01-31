@@ -2,19 +2,20 @@ import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Media from 'react-media';
-import _ from 'lodash';
+import _, { noop } from 'lodash';
 import { fetchUserStatsRequest } from '../overview/actions';
 import { fetchActiveTeamRequest } from '../currentteam/actions';
 import {
     fetchAllPlayersRequest, fetchAllTeamsRequest, addPlayerToCurrentTeamRequest,
     closeTransfersError, undoTransferChanges, removePlayerFromCurrentTeam,
-    updateTeamRequest, restorePlayerRequest, replacePlayerRequest
+    updateTeamRequest, restorePlayerRequest, replacePlayerRequest, closeSuccessMessage
 } from './actions';
 import Mobile from './mobile/Mobile';
 import { getColumns } from './mobile/helpers';
 import Desktop from './desktop/Desktop';
 import { desktopColumns } from './helpers';
 import defaultStyles from './Transfers.module.scss';
+import SuccessModal from '../common/modal/SuccessModal';
 
 const Transfers = props => {
     useEffect(() => {
@@ -159,81 +160,90 @@ const Transfers = props => {
     }, [sortBy, isAscendingSort]);
 
     return (
-        <Media queries={{
-            mobile: '(max-width: 599px)',
-            desktop: '(min-width: 600px)'
-        }}
-        >
-            {matches => (
-                <>
-                    {matches.mobile && (
-                        <Mobile
-                            allPlayers={props.allPlayers}
-                            allTeams={props.allTeams}
-                            closeRemoveModal={closeRemove}
-                            closeRestoreModal={closeRestore}
-                            closePlayerTable={closeTable}
-                            closeTransfersError={props.closeTransfersError}
-                            currentTeam={props.currentTeam}
-                            fetchingAllPlayers={props.fetchingAllPlayers}
-                            fetchingOriginalTeam={props.fetchingOriginalTeam}
-                            onPlayerClick={onPlayerClick}
-                            onTransfersRequest={onTransfersRequest}
-                            originalTeam={props.originalTeam}
-                            playerTableOpen={playerTableOpen}
-                            playerToRemove={playerToRemove}
-                            positionFilter={positionFilter}
-                            setPositionFilter={setPositionFilter}
-                            remainingBudget={props.remainingBudget}
-                            removeModalOpen={removeModalOpen}
-                            removePlayer={removePlayer}
-                            restorePlayer={restorePlayer}
-                            restoreModalOpen={restoreModalOpen}
-                            selectReplacement={selectReplacement}
-                            setSortBy={setSortBy}
-                            sortBy={sortBy}
-                            transfersError={props.transfersError}
-                            transfersErrorCode={props.transfersErrorCode}
-                            undoTransferChanges={props.undoTransferChanges}
-                            updateTeamRequest={props.updateTeamRequest}
-                            stateObj={stateObj}
-                        />
-                    )}
-                    {matches.desktop && (
-                        <Desktop
-                            allPlayers={props.allPlayers}
-                            allTeams={props.allTeams}
-                            closeRemoveModal={closeRemove}
-                            closeRestoreModal={closeRestore}
-                            closeTransfersError={props.closeTransfersError}
-                            currentTeam={props.currentTeam}
-                            desktopColumns={desktopColumns(desktopSortBy, sortBy, props.styles)}
-                            fetchingAllPlayers={props.fetchingAllPlayers}
-                            fetchingOriginalTeam={props.fetchingOriginalTeam}
-                            isAscendingSort={isAscendingSort}
-                            onPlayerClick={onPlayerClick}
-                            onTransfersRequest={onTransfersRequest}
-                            originalTeam={props.originalTeam}
-                            playerToRemove={playerToRemove}
-                            positionFilter={positionFilter}
-                            remainingBudget={props.remainingBudget}
-                            removeModalOpen={removeModalOpen}
-                            removePlayer={removePlayer}
-                            restoreModalOpen={restoreModalOpen}
-                            restorePlayer={restorePlayer}
-                            selectReplacement={selectReplacementDesktop}
-                            setPositionFilter={setPositionFilter}
-                            sortBy={sortBy}
-                            stateObj={stateObj}
-                            transfersError={props.transfersError}
-                            transfersErrorCode={props.transfersErrorCode}
-                            undoTransferChanges={props.undoTransferChanges}
-                            updateTeamRequest={props.updateTeamRequest}
-                        />
-                    )}
-                </>
-            )}
-        </Media>
+        <>
+            <Media queries={{
+                mobile: '(max-width: 599px)',
+                desktop: '(min-width: 600px)'
+            }}
+            >
+                {matches => (
+                    <>
+                        {matches.mobile && (
+                            <Mobile
+                                allPlayers={props.allPlayers}
+                                allTeams={props.allTeams}
+                                closeRemoveModal={closeRemove}
+                                closeRestoreModal={closeRestore}
+                                closePlayerTable={closeTable}
+                                closeTransfersError={props.closeTransfersError}
+                                currentTeam={props.currentTeam}
+                                fetchingAllPlayers={props.fetchingAllPlayers}
+                                fetchingOriginalTeam={props.fetchingOriginalTeam}
+                                onPlayerClick={onPlayerClick}
+                                onTransfersRequest={onTransfersRequest}
+                                originalTeam={props.originalTeam}
+                                playerTableOpen={playerTableOpen}
+                                playerToRemove={playerToRemove}
+                                positionFilter={positionFilter}
+                                setPositionFilter={setPositionFilter}
+                                remainingBudget={props.remainingBudget}
+                                removeModalOpen={removeModalOpen}
+                                removePlayer={removePlayer}
+                                restorePlayer={restorePlayer}
+                                restoreModalOpen={restoreModalOpen}
+                                selectReplacement={selectReplacement}
+                                setSortBy={setSortBy}
+                                sortBy={sortBy}
+                                transfersError={props.transfersError}
+                                transfersErrorCode={props.transfersErrorCode}
+                                undoTransferChanges={props.undoTransferChanges}
+                                updateTeamRequest={props.updateTeamRequest}
+                                stateObj={stateObj}
+                            />
+                        )}
+                        {matches.desktop && (
+                            <Desktop
+                                allPlayers={props.allPlayers}
+                                allTeams={props.allTeams}
+                                closeRemoveModal={closeRemove}
+                                closeRestoreModal={closeRestore}
+                                closeTransfersError={props.closeTransfersError}
+                                currentTeam={props.currentTeam}
+                                desktopColumns={desktopColumns(desktopSortBy, sortBy, props.styles)}
+                                fetchingAllPlayers={props.fetchingAllPlayers}
+                                fetchingOriginalTeam={props.fetchingOriginalTeam}
+                                isAscendingSort={isAscendingSort}
+                                onPlayerClick={onPlayerClick}
+                                onTransfersRequest={onTransfersRequest}
+                                originalTeam={props.originalTeam}
+                                playerToRemove={playerToRemove}
+                                positionFilter={positionFilter}
+                                remainingBudget={props.remainingBudget}
+                                removeModalOpen={removeModalOpen}
+                                removePlayer={removePlayer}
+                                restoreModalOpen={restoreModalOpen}
+                                restorePlayer={restorePlayer}
+                                selectReplacement={selectReplacementDesktop}
+                                setPositionFilter={setPositionFilter}
+                                sortBy={sortBy}
+                                stateObj={stateObj}
+                                transfersError={props.transfersError}
+                                transfersErrorCode={props.transfersErrorCode}
+                                undoTransferChanges={props.undoTransferChanges}
+                                updateTeamRequest={props.updateTeamRequest}
+                            />
+                        )}
+                    </>
+                )}
+            </Media>
+            <SuccessModal
+                backdrop
+                closeModal={props.closeSuccessMessage}
+                isOpen={props.successMessage.length}
+                headerMessage={props.successMessage}
+                toggleModal={noop}
+            />
+        </>
     );
 };
 
@@ -246,6 +256,7 @@ Transfers.defaultProps = {
     fetchingOriginalTeam: false,
     originalTeam: [],
     remainingBudget: 0,
+    successMessage: '',
     styles: defaultStyles,
     transfersError: '',
     transfersErrorCode: ''
@@ -258,6 +269,7 @@ Transfers.propTypes = {
     auth: PropTypes.shape({
         uid: PropTypes.string
     }),
+    closeSuccessMessage: PropTypes.func.isRequired,
     closeTransfersError: PropTypes.func.isRequired,
     currentTeam: PropTypes.arrayOf(PropTypes.shape({})),
     fetchingAllPlayers: PropTypes.bool,
@@ -271,6 +283,7 @@ Transfers.propTypes = {
     replacePlayerRequest: PropTypes.func.isRequired,
     removePlayerFromCurrentTeam: PropTypes.func.isRequired,
     restorePlayerRequest: PropTypes.func.isRequired,
+    successMessage: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
     transfersError: PropTypes.string,
     transfersErrorCode: PropTypes.string,
@@ -280,6 +293,7 @@ Transfers.propTypes = {
 
 const mapDispatchToProps = {
     addPlayerToCurrentTeamRequest,
+    closeSuccessMessage,
     closeTransfersError,
     fetchActiveTeamRequest,
     fetchAllPlayersRequest,
@@ -301,6 +315,7 @@ const mapStateToProps = state => ({
     fetchingOriginalTeam: state.transfers.fetchingOriginalTeam,
     originalTeam: state.transfers.originalTeam,
     remainingBudget: state.transfers.remainingBudget,
+    successMessage: state.transfers.successMessage,
     transfersError: state.transfers.transfersError,
     transfersErrorCode: state.transfers.transfersErrorCode
 });

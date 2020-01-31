@@ -2,12 +2,16 @@ import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import { noop } from 'lodash';
 import defaultStyles from './CreatePlayer.module.scss';
 import StyledInput from '../../common/StyledInput/StyledInput';
 import Dropdown from '../../common/dropdown/Dropdown';
-import { closeCreatePlayerError, createPlayerRequest, fetchTeamsRequest } from '../actions';
+import {
+    closeAdminError, createPlayerRequest, fetchTeamsRequest, closeSuccessMessage
+} from '../actions';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import ErrorModal from '../../common/modal/ErrorModal';
+import SuccessModal from '../../common/modal/SuccessModal';
 import Spinner from '../../common/spinner/Spinner';
 
 const options = [
@@ -37,60 +41,77 @@ const CreatePlayer = props => {
         props.createPlayerRequest, previousScore]);
 
     return (
-        <div className={props.styles.createPlayerWrapper}>
-            <div className={props.styles.createPlayerHeader}>
-                <StyledButton
-                    color="primary"
-                    onClick={createPlayer}
-                    text="Create Player"
+        <>
+            <div className={props.styles.createPlayerWrapper}>
+                <div className={props.styles.createPlayerHeader}>
+                    <StyledButton
+                        color="primary"
+                        onClick={createPlayer}
+                        text="Create Player"
+                    />
+                </div>
+                <div className={props.styles.createPlayerForm}>
+                    <StyledInput label="Name" onChange={setPlayerName} value={playerName} />
+                    <StyledInput label="Price" onChange={setPlayerPrice} type="number" value={playerPrice} />
+                    <div className={props.styles.createPlayerDropdowns}>
+                        <Dropdown activeValue={playerPosition} onChange={setPlayerPosition} options={options} title="Position" />
+                        <Dropdown activeValue={playerTeam} onChange={setPlayerTeam} options={props.allTeams} title="Team" />
+                        <StyledInput label="Previous Score" onChange={setPreviousScore} type="number" value={previousScore.toString()} />
+                    </div>
+                </div>
+                <ErrorModal
+                    closeModal={props.closeAdminError}
+                    headerMessage={props.errorHeader}
+                    isOpen={props.errorMessage.length > 0}
+                    errorCode={props.errorCode}
+                    errorMessage={props.errorMessage}
                 />
-            </div>
-            <div className={props.styles.createPlayerForm}>
-                <StyledInput label="Name" onChange={setPlayerName} value={playerName} />
-                <StyledInput label="Price" onChange={setPlayerPrice} type="number" value={playerPrice} />
-                <div className={props.styles.createPlayerDropdowns}>
-                    <Dropdown activeValue={playerPosition} onChange={setPlayerPosition} options={options} title="Position" />
-                    <Dropdown activeValue={playerTeam} onChange={setPlayerTeam} options={props.allTeams} title="Team" />
-                    <StyledInput label="Previous Score" onChange={setPreviousScore} type="number" value={previousScore.toString()} />
+
+                <div className={classNames({
+                    [props.styles.hidden]: !props.creatingPlayer
+                })}
+                >
+                    <Spinner color="secondary" />
                 </div>
             </div>
-            <ErrorModal
-                closeModal={props.closeCreatePlayerError}
-                headerMessage="Create Player Error"
-                isOpen={props.createPlayerError.length > 0}
-                errorCode={props.createPlayerErrorCode}
-                errorMessage={props.createPlayerError}
+            <SuccessModal
+                backdrop
+                closeModal={props.closeSuccessMessage}
+                isOpen={props.successMessage.length}
+                headerMessage={props.successMessage}
+                toggleModal={noop}
             />
-
-            <div className={classNames({
-                [props.styles.hidden]: !props.creatingPlayer
-            })}
-            >
-                <Spinner color="secondary" />
-            </div>
-        </div>
+        </>
     );
 };
 
 CreatePlayer.defaultProps = {
     allTeams: [],
-    styles: defaultStyles
+    errorMessage: '',
+    errorCode: '',
+    errorHeader: '',
+    styles: defaultStyles,
+    successMessage: ''
 };
 
 CreatePlayer.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
-    closeCreatePlayerError: PropTypes.func.isRequired,
+    closeAdminError: PropTypes.func.isRequired,
+    closeSuccessMessage: PropTypes.func.isRequired,
     creatingPlayer: PropTypes.bool.isRequired,
-    createPlayerError: PropTypes.string.isRequired,
-    createPlayerErrorCode: PropTypes.string.isRequired,
     createPlayerRequest: PropTypes.func.isRequired,
+    errorMessage: PropTypes.string,
+    errorCode: PropTypes.string,
+    errorHeader: PropTypes.string,
     fetchTeamsRequest: PropTypes.func.isRequired,
-    styles: PropTypes.objectOf(PropTypes.string)
+    styles: PropTypes.objectOf(PropTypes.string),
+    successMessage: PropTypes.string
 };
 
 const mapDispatchToProps = {
-    closeCreatePlayerError,
+    closeAdminError,
     createPlayerRequest,
+    closeSuccessMessage,
     fetchTeamsRequest
 };
 
@@ -98,7 +119,11 @@ const mapStateToProps = state => ({
     allTeams: state.admin.allTeams,
     creatingPlayer: state.admin.creatingPlayer,
     createPlayerError: state.admin.createPlayerError,
-    createPlayerErrorCode: state.admin.createPlayerErrorCode
+    createPlayerErrorCode: state.admin.createPlayerErrorCode,
+    errorMessage: state.admin.errorMessage,
+    errorCode: state.admin.errorCode,
+    errorHeader: state.admin.errorHeader,
+    successMessage: state.admin.successMessage
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePlayer);
