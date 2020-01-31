@@ -6,8 +6,8 @@ import { noop } from 'lodash';
 import defaultStyles from './ManageUsers.module.scss';
 import {
     fetchUsersWithExtraRolesRequest, addUserRoleRequest, removeUserRoleRequest,
-    closeRemoveUserRoleError, clearDatabaseRequest, rollOverToNextYearRequest,
-    deleteAllOldUsersRequest, closeSuccessMessage
+    clearDatabaseRequest, rollOverToNextYearRequest,
+    deleteAllOldUsersRequest, closeSuccessMessage, closeAdminError
 } from '../actions';
 import Grid from '../../common/grid/Grid';
 import StyledButton from '../../common/StyledButton/StyledButton';
@@ -166,13 +166,6 @@ const ManageUsers = props => {
                     submit={removeRole}
                     text={`Are you sure you want to remove ${role === 'ALL' ? 'all roles ' : role} from ${email}`}
                 />
-                <ErrorModal
-                    closeModal={props.closeRemoveUserRoleError}
-                    headerMessage="Remove Role Error"
-                    isOpen={props.removeUserRoleError.length > 0}
-                    errorCode={props.removeUserRoleErrorCode}
-                    errorMessage={props.removeUserRoleError}
-                />
                 <div className={props.styles.clearDatabaseWrapper}>
                     <StyledButton
                         onClick={props.clearDatabaseRequest}
@@ -191,6 +184,13 @@ const ManageUsers = props => {
                     />
                 </div>
             </div>
+            <ErrorModal
+                closeModal={props.closeAdminError}
+                headerMessage={props.errorHeader}
+                isOpen={props.errorMessage.length > 0}
+                errorCode={props.errorCode}
+                errorMessage={props.errorMessage}
+            />
             <SuccessModal
                 backdrop
                 closeModal={props.closeSuccessMessage}
@@ -204,9 +204,10 @@ const ManageUsers = props => {
 
 ManageUsers.defaultProps = {
     allRoles: [],
+    errorMessage: '',
+    errorCode: '',
+    errorHeader: '',
     fetchingUsersWithExtraRoles: false,
-    removeUserRoleError: '',
-    removeUserRoleErrorCode: '',
     successMessage: '',
     styles: defaultStyles,
     usersWithExtraRoles: [],
@@ -217,14 +218,15 @@ ManageUsers.propTypes = {
     allRoles: PropTypes.arrayOf(PropTypes.string),
     addUserRoleRequest: PropTypes.func.isRequired,
     clearDatabaseRequest: PropTypes.func.isRequired,
-    closeRemoveUserRoleError: PropTypes.func.isRequired,
+    closeAdminError: PropTypes.func.isRequired,
     closeSuccessMessage: PropTypes.func.isRequired,
     deleteAllOldUsersRequest: PropTypes.func.isRequired,
+    errorMessage: PropTypes.string,
+    errorCode: PropTypes.string,
+    errorHeader: PropTypes.string,
     fetchingUsersWithExtraRoles: PropTypes.bool,
     fetchUsersWithExtraRolesRequest: PropTypes.func.isRequired,
     removeUserRoleRequest: PropTypes.func.isRequired,
-    removeUserRoleError: PropTypes.string,
-    removeUserRoleErrorCode: PropTypes.string,
     rollOverToNextYearRequest: PropTypes.func.isRequired,
     successMessage: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
@@ -238,9 +240,9 @@ ManageUsers.propTypes = {
 
 const mapDispatchToProps = {
     addUserRoleRequest,
+    closeAdminError,
     clearDatabaseRequest,
     closeSuccessMessage,
-    closeRemoveUserRoleError,
     deleteAllOldUsersRequest,
     fetchUsersWithExtraRolesRequest,
     removeUserRoleRequest,
@@ -249,9 +251,10 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
     allRoles: state.auth.allRoles,
+    errorMessage: state.admin.errorMessage,
+    errorCode: state.admin.errorCode,
+    errorHeader: state.admin.errorHeader,
     fetchingUsersWithExtraRoles: state.admin.fetchingUsersWithExtraRoles,
-    removeUserRoleError: state.admin.removeUserRoleError,
-    removeUserRoleErrorCode: state.admin.removeUserRoleErrorCode,
     successMessage: state.admin.successMessage,
     usersWithExtraRoles: state.admin.usersWithExtraRoles,
     permissionMappings: state.auth.permissionMappings

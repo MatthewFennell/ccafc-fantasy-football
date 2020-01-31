@@ -7,7 +7,7 @@ import { noop } from 'lodash';
 import defaultStyles from './EditPlayer.module.scss';
 import {
     fetchTeamsRequest, fetchPlayersForTeamRequest, fetchPlayerStatsRequest, editPlayerStatsRequest,
-    closeSuccessMessage
+    closeSuccessMessage, closeAdminError
 } from '../actions';
 import Dropdown from '../../common/dropdown/Dropdown';
 import Grid from '../../common/grid/Grid';
@@ -15,6 +15,7 @@ import StyledInput from '../../common/StyledInput/StyledInput';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
 import SuccessModal from '../../common/modal/SuccessModal';
+import ErrorModal from '../../common/modal/ErrorModal';
 
 const generateWeekOptions = maxGameWeek => {
     const options = [];
@@ -302,6 +303,13 @@ const EditPlayer = props => {
                     />
                 </div>
             </div>
+            <ErrorModal
+                closeModal={props.closeAdminError}
+                headerMessage={props.errorHeader}
+                isOpen={props.errorMessage.length > 0}
+                errorCode={props.errorCode}
+                errorMessage={props.errorMessage}
+            />
             <SuccessModal
                 backdrop
                 closeModal={props.closeSuccessMessage}
@@ -315,6 +323,9 @@ const EditPlayer = props => {
 
 EditPlayer.defaultProps = {
     allTeams: [],
+    errorMessage: '',
+    errorCode: '',
+    errorHeader: '',
     fetchingPlayerStats: false,
     maxGameWeek: null,
     playerStats: {},
@@ -325,9 +336,13 @@ EditPlayer.defaultProps = {
 
 EditPlayer.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
+    closeAdminError: PropTypes.func.isRequired,
     closeSuccessMessage: PropTypes.func.isRequired,
     editingStats: PropTypes.bool.isRequired,
     editPlayerStatsRequest: PropTypes.func.isRequired,
+    errorMessage: PropTypes.string,
+    errorCode: PropTypes.string,
+    errorHeader: PropTypes.string,
     fetchingPlayerStats: PropTypes.bool,
     fetchPlayerStatsRequest: PropTypes.func.isRequired,
     fetchPlayersForTeamRequest: PropTypes.func.isRequired,
@@ -355,6 +370,7 @@ EditPlayer.propTypes = {
 };
 
 const mapDispatchToProps = {
+    closeAdminError,
     closeSuccessMessage,
     editPlayerStatsRequest,
     fetchPlayersForTeamRequest,
@@ -365,6 +381,9 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
     allTeams: state.admin.allTeams,
     editingStats: state.admin.editingStats,
+    errorMessage: state.admin.errorMessage,
+    errorCode: state.admin.errorCode,
+    errorHeader: state.admin.errorHeader,
     fetchingPlayerStats: state.admin.fetchingPlayerStats,
     maxGameWeek: state.overview.maxGameWeek,
     playerStats: state.admin.playerStats,

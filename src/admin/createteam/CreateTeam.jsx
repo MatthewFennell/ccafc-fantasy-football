@@ -5,7 +5,9 @@ import classNames from 'classnames';
 import { noop } from 'lodash';
 import defaultStyles from './CreateTeam.module.scss';
 import StyledInput from '../../common/StyledInput/StyledInput';
-import { closeCreateTeamError, createTeamRequest, closeSuccessMessage } from '../actions';
+import {
+    createTeamRequest, closeSuccessMessage, closeAdminError
+} from '../actions';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import ErrorModal from '../../common/modal/ErrorModal';
 import SuccessModal from '../../common/modal/SuccessModal';
@@ -34,11 +36,11 @@ const CreateTeam = props => {
                     <StyledInput label="Team Name" onChange={setTeamName} value={teamName} />
                 </div>
                 <ErrorModal
-                    closeModal={props.closeCreateTeamError}
-                    headerMessage="Create Team Error"
-                    isOpen={props.createTeamError.length > 0}
-                    errorCode={props.createTeamErrorCode}
-                    errorMessage={props.createTeamError}
+                    closeModal={props.closeAdminError}
+                    headerMessage={props.errorHeader}
+                    isOpen={props.errorMessage.length > 0}
+                    errorCode={props.errorCode}
+                    errorMessage={props.errorMessage}
                 />
                 <div className={classNames({
                     [props.styles.hidden]: !props.creatingTeam
@@ -59,31 +61,36 @@ const CreateTeam = props => {
 };
 
 CreateTeam.defaultProps = {
+    errorMessage: '',
+    errorCode: '',
+    errorHeader: '',
     styles: defaultStyles,
     successMessage: ''
 };
 
 CreateTeam.propTypes = {
-    closeCreateTeamError: PropTypes.func.isRequired,
+    closeAdminError: PropTypes.func.isRequired,
     closeSuccessMessage: PropTypes.func.isRequired,
     creatingTeam: PropTypes.bool.isRequired,
-    createTeamError: PropTypes.string.isRequired,
-    createTeamErrorCode: PropTypes.string.isRequired,
     createTeamRequest: PropTypes.func.isRequired,
+    errorMessage: PropTypes.string,
+    errorCode: PropTypes.string,
+    errorHeader: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
     successMessage: PropTypes.string
 };
 
 const mapDispatchToProps = {
-    closeCreateTeamError,
+    closeAdminError,
     closeSuccessMessage,
     createTeamRequest
 };
 
 const mapStateToProps = state => ({
     creatingTeam: state.admin.creatingTeam,
-    createTeamError: state.admin.createTeamError,
-    createTeamErrorCode: state.admin.createTeamErrorCode,
+    errorMessage: state.admin.errorMessage,
+    errorCode: state.admin.errorCode,
+    errorHeader: state.admin.errorHeader,
     successMessage: state.admin.successMessage
 });
 

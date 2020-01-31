@@ -16,7 +16,7 @@ function* fetchTeams() {
             yield put(actions.fetchTeamsSuccess(allTeams));
         }
     } catch (error) {
-        yield put(actions.fetchTeamsError(error));
+        yield put(actions.setAdminError(error, 'Fetch Teams Error'));
     }
 }
 
@@ -34,7 +34,7 @@ function* createPlayer(action) {
         yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.createPlayerError(error));
+        yield put(actions.setAdminError(error, 'Create Player Error'));
     }
 }
 
@@ -48,7 +48,7 @@ function* createTeam(action) {
         yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.createTeamError(error));
+        yield put(actions.setAdminError(error, 'Create Team Error'));
     }
 }
 
@@ -60,7 +60,7 @@ function* getPlayersForTeam(action) {
             yield put(actions.fetchPlayersForTeamSuccess(action.teamName, playersInTeam));
         }
     } catch (error) {
-        yield put(actions.createTeamError(error));
+        yield put(actions.setAdminError(error, 'Get Players for team error'));
     }
 }
 
@@ -79,7 +79,7 @@ function* submitResult(action) {
         yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.submitResultError(error));
+        yield put(actions.setAdminError(error, 'Submit Result Error'));
     }
 }
 
@@ -91,7 +91,7 @@ function* deletePlayer(action) {
         yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.deletePlayerError(error));
+        yield put(actions.setAdminError(error, 'Delete Player Error'));
     }
 }
 
@@ -108,7 +108,7 @@ function* deleteTeam(action) {
         yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.deleteTeamError(error));
+        yield put(actions.setAdminError(error, 'Delete Team Error'));
     }
 }
 
@@ -121,7 +121,7 @@ function* triggerWeek(action) {
         yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.triggerWeekError(error));
+        yield put(actions.setAdminError(error, 'Trigger Week Error'));
     }
 }
 
@@ -131,7 +131,7 @@ function* getPlayerStats(action) {
             { playerId: action.playerId, week: action.week });
         yield put(actions.fetchPlayerStatsSuccess(playerStats));
     } catch (error) {
-        yield put(actions.fetchPlayerStatsError(error));
+        yield put(actions.setAdminError(error, 'Get Player Stats Error'));
     }
 }
 
@@ -147,7 +147,7 @@ function* editPlayerStats(action) {
         yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.editPlayerStatsError(error));
+        yield put(actions.setAdminError(error, 'Edit Player Stats Error'));
     }
 }
 
@@ -161,7 +161,7 @@ function* usersWithExtraRoles() {
             yield put(actions.alreadyFetchedUsersWithExtraRoles());
         }
     } catch (error) {
-        yield put(actions.fetchUsersWithExtraRolesError(error));
+        yield put(actions.setAdminError(error, 'Fetch User Roles Error'));
     }
 }
 
@@ -178,7 +178,7 @@ function* addUserRole(action) {
         yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.addUserRoleError(error));
+        yield put(actions.setAdminError(error, 'Add User Role Error'));
     }
 }
 
@@ -195,7 +195,7 @@ function* removeUserRole(action) {
         yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.removeUserRoleError(error));
+        yield put(actions.setAdminError(error, 'Remove User Role Error'));
     }
 }
 
@@ -204,7 +204,7 @@ function* clearDatabase() {
         yield call(api.clearDatabase);
         yield put(signOut());
     } catch (error) {
-        yield put(actions.clearDatabaseError(error));
+        yield put(actions.setAdminError(error, 'Clear Database Error'));
     }
 }
 
@@ -212,7 +212,7 @@ function* rollOverToNextYear() {
     try {
         yield call(api.rollOverToNextYear);
     } catch (error) {
-        yield put(actions.rollOverToNextYearError(error));
+        yield put(actions.setAdminError(error, 'Rolling Over To Next Year Error'));
     }
 }
 
@@ -220,7 +220,7 @@ function* deleteAllOldUsers() {
     try {
         yield call(api.deleteAllOldUsers);
     } catch (error) {
-        yield put(actions.deleteAllOldUsersError(error));
+        yield put(actions.setAdminError(error, 'Delete All Users Error'));
     }
 }
 
@@ -234,7 +234,7 @@ function* fetchHighlightsForApproval() {
             yield put(actions.alreadyFetchedHighlightsForApproval());
         }
     } catch (error) {
-        yield put(actions.fetchHighlightsForApprovalError(error));
+        yield put(actions.setAdminError(error, 'Fetch Highlights For Approval Error'));
     }
 }
 
@@ -246,7 +246,7 @@ function* approveHighlight(action) {
         yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.approveHighlightError(error));
+        yield put(actions.setAdminError(error, 'Approve Highlight Error'));
     }
 }
 
@@ -261,7 +261,7 @@ function* rejectHighlight(action) {
         yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.rejectHighlightError(error));
+        yield put(actions.setAdminError(error, 'Reject Highlight Error'));
     }
 }
 
@@ -276,7 +276,7 @@ function* deleteHighlight(action) {
         yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.deleteHighlightError(error));
+        yield put(actions.setAdminError(error, 'Delete Highlight Error'));
     }
 }
 
@@ -290,7 +290,7 @@ function* fetchRejectedHighlights() {
             yield put(actions.alreadyFetchedRejectedHighlights());
         }
     } catch (error) {
-        yield put(actions.fetchAllRejectedHighlightsError(error));
+        yield put(actions.setAdminError(error, 'Fetch Rejected Highlights Error'));
     }
 }
 
@@ -303,7 +303,7 @@ function* reapproveRejectedHighlight(action) {
         yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.reapproveRejectedHighlightError(error));
+        yield put(actions.setAdminError(error, 'Reapprove Rejected Highlight Error'));
     }
 }
 
@@ -319,7 +319,7 @@ function* submitExtraResults(action) {
         }));
         yield put(actions.submitExtraStatsSuccess());
     } catch (error) {
-        yield put(actions.submitExtraStatsError(error));
+        yield put(actions.setAdminError(error, 'Submit Extra Results Error'));
     }
 }
 

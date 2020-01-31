@@ -7,7 +7,7 @@ import defaultStyles from './CreatePlayer.module.scss';
 import StyledInput from '../../common/StyledInput/StyledInput';
 import Dropdown from '../../common/dropdown/Dropdown';
 import {
-    closeCreatePlayerError, createPlayerRequest, fetchTeamsRequest, closeSuccessMessage
+    closeAdminError, createPlayerRequest, fetchTeamsRequest, closeSuccessMessage
 } from '../actions';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import ErrorModal from '../../common/modal/ErrorModal';
@@ -60,11 +60,11 @@ const CreatePlayer = props => {
                     </div>
                 </div>
                 <ErrorModal
-                    closeModal={props.closeCreatePlayerError}
-                    headerMessage="Create Player Error"
-                    isOpen={props.createPlayerError.length > 0}
-                    errorCode={props.createPlayerErrorCode}
-                    errorMessage={props.createPlayerError}
+                    closeModal={props.closeAdminError}
+                    headerMessage={props.errorHeader}
+                    isOpen={props.errorMessage.length > 0}
+                    errorCode={props.errorCode}
+                    errorMessage={props.errorMessage}
                 />
 
                 <div className={classNames({
@@ -87,25 +87,29 @@ const CreatePlayer = props => {
 
 CreatePlayer.defaultProps = {
     allTeams: [],
+    errorMessage: '',
+    errorCode: '',
+    errorHeader: '',
     styles: defaultStyles,
     successMessage: ''
 };
 
 CreatePlayer.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
-    closeCreatePlayerError: PropTypes.func.isRequired,
+    closeAdminError: PropTypes.func.isRequired,
     closeSuccessMessage: PropTypes.func.isRequired,
     creatingPlayer: PropTypes.bool.isRequired,
-    createPlayerError: PropTypes.string.isRequired,
-    createPlayerErrorCode: PropTypes.string.isRequired,
     createPlayerRequest: PropTypes.func.isRequired,
+    errorMessage: PropTypes.string,
+    errorCode: PropTypes.string,
+    errorHeader: PropTypes.string,
     fetchTeamsRequest: PropTypes.func.isRequired,
     styles: PropTypes.objectOf(PropTypes.string),
     successMessage: PropTypes.string
 };
 
 const mapDispatchToProps = {
-    closeCreatePlayerError,
+    closeAdminError,
     createPlayerRequest,
     closeSuccessMessage,
     fetchTeamsRequest
@@ -116,6 +120,9 @@ const mapStateToProps = state => ({
     creatingPlayer: state.admin.creatingPlayer,
     createPlayerError: state.admin.createPlayerError,
     createPlayerErrorCode: state.admin.createPlayerErrorCode,
+    errorMessage: state.admin.errorMessage,
+    errorCode: state.admin.errorCode,
+    errorHeader: state.admin.errorHeader,
     successMessage: state.admin.successMessage
 });
 

@@ -8,12 +8,13 @@ import defaultStyles from './ApproveHighlights.module.scss';
 import {
     fetchHighlightsForApprovalRequest, approveHighlightRequest, rejectHighlightRequest,
     deleteHighlightRequest, fetchAllRejectedHighlightsRequest, reapproveRejectedHighlightRequest,
-    closeSuccessMessage
+    closeSuccessMessage, closeAdminError
 } from '../actions';
 import YouTubeList from '../../common/youtubelist/YouTubeList';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import StyledModal from '../../common/modal/StyledModal';
 import SuccessModal from '../../common/modal/SuccessModal';
+import ErrorModal from '../../common/modal/ErrorModal';
 import StyledInput from '../../common/StyledInput/StyledInput';
 import Spinner from '../../common/spinner/Spinner';
 import { fetchHighlightsRequest } from '../../highlights/actions';
@@ -271,6 +272,13 @@ const ApproveHighlights = props => {
                     </div>
                 </div>
             </StyledModal>
+            <ErrorModal
+                closeModal={props.closeAdminError}
+                headerMessage={props.errorHeader}
+                isOpen={props.errorMessage.length > 0}
+                errorCode={props.errorCode}
+                errorMessage={props.errorMessage}
+            />
             <SuccessModal
                 backdrop
                 closeModal={props.closeSuccessMessage}
@@ -283,6 +291,9 @@ const ApproveHighlights = props => {
 };
 
 ApproveHighlights.defaultProps = {
+    errorMessage: '',
+    errorCode: '',
+    errorHeader: '',
     highlightsForApproval: [],
     loadingRejectedHighlights: false,
     loadingHighlightsForApproval: false,
@@ -295,8 +306,12 @@ ApproveHighlights.defaultProps = {
 
 ApproveHighlights.propTypes = {
     approveHighlightRequest: PropTypes.func.isRequired,
+    closeAdminError: PropTypes.func.isRequired,
     closeSuccessMessage: PropTypes.func.isRequired,
     deleteHighlightRequest: PropTypes.func.isRequired,
+    errorMessage: PropTypes.string,
+    errorCode: PropTypes.string,
+    errorHeader: PropTypes.string,
     fetchAllRejectedHighlightsRequest: PropTypes.func.isRequired,
     fetchHighlightsRequest: PropTypes.func.isRequired,
     fetchHighlightsForApprovalRequest: PropTypes.func.isRequired,
@@ -318,6 +333,7 @@ ApproveHighlights.propTypes = {
 
 const mapDispatchToProps = {
     approveHighlightRequest,
+    closeAdminError,
     closeSuccessMessage,
     deleteHighlightRequest,
     fetchAllRejectedHighlightsRequest,
@@ -328,6 +344,9 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
+    errorMessage: state.admin.errorMessage,
+    errorCode: state.admin.errorCode,
+    errorHeader: state.admin.errorHeader,
     highlightsForApproval: state.admin.highlightsForApproval,
     loadingVideos: state.highlights.loadingVideos,
     loadingRejectedHighlights: state.admin.loadingRejectedHighlights,

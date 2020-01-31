@@ -95,3 +95,4 @@ export const successDelay = 3500;
 // All admin should be same error
 
 // Error messages for managing users
+// Empty edit player stats fails and crashes
