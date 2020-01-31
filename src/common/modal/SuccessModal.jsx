@@ -9,6 +9,7 @@ import './ModalBackground.css';
 
 const SuccessModal = props => (
     <MDBContainer className={props.styles.modalWrapper}>
+
         <MDBModal
             position={props.position}
             backdrop={props.backdrop}
