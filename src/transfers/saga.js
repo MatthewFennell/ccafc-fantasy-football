@@ -1,5 +1,5 @@
 import {
-    all, takeEvery, put, call, select
+    all, takeEvery, put, call, select, delay
 } from 'redux-saga/effects';
 import firebase from 'firebase';
 import * as actions from './actions';
@@ -7,6 +7,7 @@ import * as api from './api';
 import * as selectors from './selectors';
 import * as helpers from './helpers';
 import * as currentTeamActions from '../currentteam/actions';
+import { successDelay } from '../constants';
 
 function* fetchAllPlayers() {
     try {
@@ -57,6 +58,9 @@ function* updateTeam() {
         const activeTeam = yield call(api.fetchActiveTeam, { userId: myId });
         yield put(currentTeamActions.fetchActiveTeamSuccess(myId,
             activeTeam.players, activeTeam.captain));
+        yield put(actions.setSuccessMessage('Team successfully updated'));
+        yield delay(successDelay);
+        yield put(actions.closeSuccessMessage());
     } catch (error) {
         yield put(actions.updateTeamError(error));
     }

@@ -10,33 +10,20 @@ const initialState = {
     videos: [],
     videosToBeApproved: [],
     videosRejected: [],
-    submitLinkError: '',
-    submitLinkErrorCode: '',
 
     loadedVideos: false,
     loadedRejectedVideos: false,
     loadedVideosToBeApproved: false,
 
-    commentError: '',
-    commentErrorCode: ''
+    errorHeader: '',
+    errorMessage: '',
+    errorCode: '',
+
+    successMessage: ''
 };
 
 const highlightsReducer = (state = initialState, action) => {
     switch (action.type) {
-    case actions.SUBMIT_HIGHLIGHT_ERROR: {
-        return {
-            ...state,
-            submitLinkError: action.error.message,
-            submitLinkErrorCode: action.error.code
-        };
-    }
-    case actions.CLOSE_HIGHLIGHT_ERROR: {
-        return {
-            ...state,
-            submitLinkError: '',
-            submitLinkErrorCode: ''
-        };
-    }
     case actions.FETCH_HIGHLIGHTS_SUCCESS: {
         return {
             ...state,
@@ -118,9 +105,6 @@ const highlightsReducer = (state = initialState, action) => {
     case adminActions.REAPPROVE_REJECTED_HIGHLIGHT_REQUEST: {
         return fp.set('loadingVideos', true)(state);
     }
-    case adminActions.REAPPROVE_REJECTED_HIGHLIGHT_ERROR: {
-        return fp.set('loadingVideos', false)(state);
-    }
     case adminActions.DELETE_HIGHLIGHT_REQUEST: {
         return fp.set('loadingVideos', true)(state);
     }
@@ -179,20 +163,29 @@ const highlightsReducer = (state = initialState, action) => {
             }))
         };
     }
-    case actions.COMMENT_ERROR: {
-        console.log('comment', action.error.message);
+    case actions.SET_HIGHLIGHT_ERROR: {
         return {
             ...state,
-            commentError: action.error.message,
-            commentErrorCode: action.error.code
+            errorMessage: action.error.message,
+            errorCode: action.error.code,
+            errorHeader: action.header,
+            loadingFixtures: false,
+            loadingMyTeam: false
         };
     }
-    case actions.CLOSE_COMMENT_ERROR: {
+    case actions.CLOSE_HIGHLIGHT_ERROR: {
         return {
             ...state,
-            commentError: '',
-            commentErrorCode: ''
+            errorMessage: '',
+            errorCode: '',
+            errorHeader: ''
         };
+    }
+    case actions.SET_SUCCESS_MESSAGE: {
+        return fp.set('successMessage', action.message)(state);
+    }
+    case actions.CLOSE_SUCCESS_MESSAGE: {
+        return fp.set('successMessage', '')(state);
     }
     default:
         return state;

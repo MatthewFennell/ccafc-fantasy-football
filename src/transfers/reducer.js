@@ -18,7 +18,9 @@ const initialState = {
 
     allTeams: [],
     transfersError: '',
-    transfersErrorCode: ''
+    transfersErrorCode: '',
+
+    successMessage: ''
 };
 
 const transfersReducer = (state = initialState, action) => {
@@ -155,6 +157,12 @@ const transfersReducer = (state = initialState, action) => {
     }
     case actions.UPDATE_TEAM_REQUEST: {
         return fp.set('fetchingOriginalTeam', true)(state);
+    }
+    case actions.SET_SUCCESS_MESSAGE: {
+        return fp.set('successMessage', action.message)(state);
+    }
+    case actions.CLOSE_SUCCESS_MESSAGE: {
+        return fp.set('successMessage', '')(state);
     }
     default:
         return state;

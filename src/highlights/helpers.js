@@ -38,8 +38,6 @@ export const dateFilters = {
             const date = new Date(d.dateCreated._seconds * 1000);
             const lastYear = new Date();
             lastYear.setFullYear(lastYear.getFullYear() - 1);
-            console.log('highlight date', d);
-            console.log('date', date);
             return date > lastYear;
         }
     },

@@ -3,6 +3,7 @@ import {
 } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as api from './api';
+import { successDelay } from '../constants';
 
 function* fetchFixtures() {
     try {
@@ -18,7 +19,7 @@ function* setMyTeam(action) {
         yield call(api.setMyTeam, { team: action.team });
         yield put(actions.setMyTeam(action.team));
         yield put(actions.setSuccessMessage('Team successfully set'));
-        yield delay(2500);
+        yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
     } catch (error) {
         yield put(actions.setFixturesError(error, 'Error Setting Team'));

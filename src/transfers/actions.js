@@ -26,6 +26,18 @@ export const UNDO_TRANSFER_CHANGES = `${pre}UNDO_TRANSFER_CHANGES`;
 export const UPDATE_TEAM_REQUEST = `${pre}UPDATE_TEAM_REQUEST`;
 export const UPDATE_TEAM_ERROR = `${pre}UPDATE_TEAM_ERROR`;
 
+export const SET_SUCCESS_MESSAGE = `${pre}SET_SUCCESS_MESSAGE`;
+export const CLOSE_SUCCESS_MESSAGE = `${pre}CLOSE_SUCCESS_MESSAGE`;
+
+export const setSuccessMessage = message => ({
+    type: SET_SUCCESS_MESSAGE,
+    message
+});
+
+export const closeSuccessMessage = () => ({
+    type: CLOSE_SUCCESS_MESSAGE
+});
+
 export const replacePlayerSuccess = (oldPlayer, newPlayer) => ({
     type: REPLACE_PLAYER_SUCCESS,
     oldPlayer,
