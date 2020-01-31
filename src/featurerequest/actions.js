@@ -1,44 +1,47 @@
 const pre = 'features/';
 
-export const SUBMIT_FEATURE_REQUEST = `${pre}SUBMIT_FEATURE_REQUEST`;
-export const SUBMIT_FEATURE_ERROR = `${pre}SUBMIT_FEATURE_ERROR`;
 
 export const ADD_COMMENT_TO_FEATURE_REQUEST = `${pre}ADD_COMMENT_TO_FEATURE_REQUEST`;
-export const COMMENT_ERROR = `${pre}COMMENT_ERROR`;
-export const CLOSE_COMMENT_ERROR = `${pre}CLOSE_COMMENT_ERROR`;
-
 export const ADD_REPLY_TO_COMMENT_REQUEST = `${pre}ADD_REPLY_TO_COMMENT_REQUEST`;
-// Object creators / action definers etc
 
 export const DELETE_COMMENT_REQUEST = `${pre}DELETE_COMMENT_REQUEST`;
-export const DELETE_COMMENT_ERROR = `${pre}DELETE_COMMENT_ERROR`;
-
 export const DELETE_REPLY_REQUEST = `${pre}DELETE_REPLY_REQUEST`;
-export const DELETE_REPLY_ERROR = `${pre}DELETE_REPLY_ERROR`;
+
+export const SET_SUCCESS_MESSAGE = `${pre}SET_SUCCESS_MESSAGE`;
+export const CLOSE_SUCCESS_MESSAGE = `${pre}CLOSE_SUCCESS_MESSAGE`;
+
+export const SUBMIT_FEATURE_REQUEST = `${pre}SUBMIT_FEATURE_REQUEST`;
+export const FEATURE_REQUEST_ERROR = `${pre}FEATURE_REQUEST_ERROR`;
+export const CLOSE_FEATURE_REQUEST_ERROR = `${pre}CLOSE_FEATURE_REQUEST_ERROR`;
+
+export const closeFeatureRequestError = () => ({
+    type: CLOSE_FEATURE_REQUEST_ERROR
+});
+
+export const featureRequestError = (error, header) => ({
+    type: FEATURE_REQUEST_ERROR,
+    error,
+    header
+});
+
+export const setSuccessMessage = message => ({
+    type: SET_SUCCESS_MESSAGE,
+    message
+});
+
+export const closeSuccessMessage = () => ({
+    type: CLOSE_SUCCESS_MESSAGE
+});
 
 export const submitFeatureRequest = description => ({
     type: SUBMIT_FEATURE_REQUEST,
     description
 });
 
-export const submitFeatureError = error => ({
-    type: SUBMIT_FEATURE_ERROR,
-    error
-});
-
 export const addCommentToFeatureRequest = (comment, featureId) => ({
     type: ADD_COMMENT_TO_FEATURE_REQUEST,
     comment,
     featureId
-});
-
-export const commentError = error => ({
-    type: COMMENT_ERROR,
-    error
-});
-
-export const closeCommentError = () => ({
-    type: CLOSE_COMMENT_ERROR
 });
 
 export const addReplyToCommentRequest = (reply, featureId, commentId) => ({
@@ -54,19 +57,9 @@ export const deleteCommentRequest = (featureId, commentId) => ({
     commentId
 });
 
-export const deleteCommentError = error => ({
-    type: DELETE_COMMENT_ERROR,
-    error
-});
-
 export const deleteReplyRequest = (featureId, commentId, replyId) => ({
     type: DELETE_REPLY_REQUEST,
     featureId,
     commentId,
     replyId
-});
-
-export const deleteReplyError = error => ({
-    type: DELETE_REPLY_ERROR,
-    error
 });

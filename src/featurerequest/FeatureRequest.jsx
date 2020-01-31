@@ -4,21 +4,19 @@ import _, { noop } from 'lodash';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
-import defaultStyles from './FeatureRequest.module.scss';
 import {
     addReplyToCommentRequest, submitFeatureRequest, addCommentToFeatureRequest,
-    deleteCommentRequest, deleteReplyRequest, closeCommentError
+    deleteCommentRequest, deleteReplyRequest, closeFeatureRequestError, closeSuccessMessage
 } from './actions';
-import StyledButton from '../common/StyledButton/StyledButton';
 import MyFeatureRequests from './MyFeatureRequests';
 import ErrorModal from '../common/modal/ErrorModal';
+import SubmitFeature from './SubmitFeature';
+import SuccessModal from '../common/modal/SuccessModal';
 
-const maxLength = 256;
-
-const charactersLeft = description => `${maxLength - (description.length || 0)} characters left`;
 
 const FeatureRequest = props => {
     const [description, setDescription] = useState('');
+    const [submitFeatureRequestOpen, setSubmitFeatureRequestOpen] = useState(false);
 
     const updateDescription = useCallback(e => {
         const text = e.target.value;
@@ -40,8 +38,9 @@ const FeatureRequest = props => {
     const submitRequest = useCallback(() => {
         props.submitFeatureRequest(description);
         setDescription('');
+        setSubmitFeatureRequestOpen(false);
         // eslint-disable-next-line
-    }, [description, props.submitFeatureRequest, setDescription]);
+    }, [description, props.submitFeatureRequest, setDescription, setSubmitFeatureRequestOpen]);
 
     const [featuresOpen, setFeaturesOpen] = useState([]);
 
@@ -61,28 +60,17 @@ const FeatureRequest = props => {
     const deleteReply = useCallback(featureId => (commentId, replyId) => {
         props.deleteReplyRequest(featureId, commentId, replyId);
         // eslint-disable-next-line
-    }, props.deleteReplyRequest)
+    }, [props.deleteReplyRequest])
 
     return (
         <>
-            <div className={props.styles.featureRequestWrapper}>
-                <div className={props.styles.header}>
-                Enter a description of the feature you would like to see added to the site
-                </div>
-                <textarea
-                    value={description}
-                    onChange={updateDescription}
-                />
-                <div className={props.styles.charactersRemaining}>
-                    {charactersLeft(description)}
-                </div>
-
-                <StyledButton
-                    onClick={submitRequest}
-                    color="primary"
-                    text="Submit feature request"
-                />
-            </div>
+            <SubmitFeature
+                closeSubmitFeature={() => setSubmitFeatureRequestOpen(false)}
+                description={description}
+                submitFeatureOpen={submitFeatureRequestOpen}
+                submitRequest={submitRequest}
+                updateDescription={updateDescription}
+            />
             <MyFeatureRequests
                 addNewComment={addNewComment}
                 addNewReply={addNewReply}
@@ -90,42 +78,54 @@ const FeatureRequest = props => {
                 deleteReply={deleteReply}
                 featuresOpen={featuresOpen}
                 featureRequests={_.map(props.featureRequests, (value, id) => ({ id, ...value }))}
+                setSubmitFeatureRequestOpen={setSubmitFeatureRequestOpen}
                 toggleFeature={toggleFeature}
                 loggedInUserId={props.auth.uid}
             />
             <ErrorModal
-                closeModal={props.closeCommentError}
-                headerMessage="Comment Error"
-                isOpen={props.commentError.length > 0}
-                errorCode={props.commentErrorCode}
-                errorMessage={props.commentError}
+                closeModal={props.closeFeatureRequestError}
+                headerMessage={props.errorHeader}
+                isOpen={props.errorMessage.length > 0}
+                errorCode={props.errorCode}
+                errorMessage={props.errorMessage}
+            />
+            <SuccessModal
+                backdrop
+                closeModal={props.closeSuccessMessage}
+                isOpen={props.successMessage.length}
+                headerMessage={props.successMessage}
+                toggleModal={noop}
             />
         </>
     );
 };
 
 FeatureRequest.defaultProps = {
-    commentError: '',
-    commentErrorCode: '',
+    closeSuccessMessage: noop,
+    errorMessage: '',
+    errorCode: '',
+    errorHeader: '',
     addCommentToFeatureRequest: noop,
     addReplyToCommentRequest: noop,
     auth: {
         uid: null
     },
     featureRequests: {},
-    styles: defaultStyles,
-    submitFeatureRequest: noop
+    submitFeatureRequest: noop,
+    successMessage: ''
 };
 
 FeatureRequest.propTypes = {
-    commentError: PropTypes.string,
-    commentErrorCode: PropTypes.string,
+    closeSuccessMessage: PropTypes.func,
+    errorMessage: PropTypes.string,
+    errorCode: PropTypes.string,
+    errorHeader: PropTypes.string,
     addCommentToFeatureRequest: PropTypes.func,
     addReplyToCommentRequest: PropTypes.func,
     auth: PropTypes.shape({
         uid: PropTypes.string
     }),
-    closeCommentError: PropTypes.func.isRequired,
+    closeFeatureRequestError: PropTypes.func.isRequired,
     deleteCommentRequest: PropTypes.func.isRequired,
     deleteReplyRequest: PropTypes.func.isRequired,
     featureRequests: PropTypes.objectOf(PropTypes.shape({
@@ -133,21 +133,24 @@ FeatureRequest.propTypes = {
         description: PropTypes.string,
         userId: PropTypes.string
     })),
-    styles: PropTypes.objectOf(PropTypes.string),
-    submitFeatureRequest: PropTypes.func
+    submitFeatureRequest: PropTypes.func,
+    successMessage: PropTypes.string
 };
 
 const mapStateToProps = state => ({
-    commentError: state.features.commentError,
-    commentErrorCode: state.features.commentErrorCode,
     auth: state.firebase.auth,
-    featureRequests: state.firestore.data.featureRequests
+    errorMessage: state.features.errorMessage,
+    errorCode: state.features.errorCode,
+    errorHeader: state.features.errorHeader,
+    featureRequests: state.firestore.data.featureRequests,
+    successMessage: state.features.successMessage
 });
 
 const mapDispatchToProps = {
     addCommentToFeatureRequest,
     addReplyToCommentRequest,
-    closeCommentError,
+    closeFeatureRequestError,
+    closeSuccessMessage,
     deleteCommentRequest,
     deleteReplyRequest,
     submitFeatureRequest

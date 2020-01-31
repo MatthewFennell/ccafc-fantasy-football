@@ -19,7 +19,7 @@ exports.submitFeature = functions
             .then(displayName => db.collection('feature-requests')
                 .where('userId', '==', context.auth.uid).get().then(
                     requests => {
-                        if (requests.size > 10) {
+                        if (requests.size >= 10) {
                             throw new functions.https.HttpsError('invalid-argument', 'A maximum 10 requests are allowed to be active');
                         }
 

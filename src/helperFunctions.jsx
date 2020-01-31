@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import moment from 'moment';
 import * as constants from './constants';

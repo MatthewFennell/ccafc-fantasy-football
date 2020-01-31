@@ -2,12 +2,47 @@
 
 
 .allFeatureRequests{
+    flex-wrap: wrap;
+    margin: $spacing-medium;
+    // @include light-box-shadow();
+    padding: $spacing-small;
+}
+
+.featuresWrapper{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
 
-    .featureWrapper{
-        max-width: 45%;
-        min-width: 45%;
+    > div {
+        max-width: 50%;
+        min-width: 50%;
     }
+}
+
+.featureRequestHeader {
+    padding: $spacing-medium;
+    text-align: center;
+    background-color: $color-white;
+    margin: $spacing-medium;
+    @include light-box-shadow();
+    display: flex;
+    flex-wrap: wrap;
+> div {
+    flex-grow: 1;
+}
+
+.featureRequestMessage {
+    font-size: $font-size-enormous;
+    text-align: center;
+    color: $color-blue;
+    font-weight: bold;
+}
+
+.openSubmitVideo{
+    text-align: center;
+}
+}
+
+.sortByWrapper{
+text-align: center;
 }
