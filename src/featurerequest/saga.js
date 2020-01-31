@@ -1,5 +1,5 @@
 import {
-    all, takeEvery, put, call
+    all, takeEvery, put, call, delay, takeLatest
 } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as api from './api';
@@ -13,7 +13,7 @@ function* addReplyToComment(action) {
             commentId: action.commentId
         });
     } catch (error) {
-        yield put(actions.commentError(error));
+        yield put(actions.featureRequestError(error, 'Reply Error'));
     }
 }
 
@@ -26,15 +26,18 @@ function* addCommentToFeature(action) {
                 collectionId: action.featureId
             });
     } catch (error) {
-        yield put(actions.commentError(error));
+        yield put(actions.featureRequestError(error, 'Comment Error'));
     }
 }
 
 function* submitFeature(action) {
     try {
         yield call(api.submitFeature, { description: action.description });
+        yield put(actions.setSuccessMessage('Feature submitted successfully'));
+        yield delay(5000);
+        yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.submitFeatureError(error));
+        yield put(actions.featureRequestError(error, 'Submit Feature Error'));
     }
 }
 
@@ -46,7 +49,7 @@ function* deleteComment(action) {
             commentId: action.commentId
         });
     } catch (error) {
-        yield put(actions.deleteCommentError(error));
+        yield put(actions.featureRequestError(error, 'Delete Comment Error'));
     }
 }
 
@@ -59,13 +62,13 @@ function* deleteReply(action) {
             replyId: action.replyId
         });
     } catch (error) {
-        yield put(actions.deleteReplyError(error));
+        yield put(actions.featureRequestError(error, 'Delete Reply Error'));
     }
 }
 
 export default function* featureRequestSaga() {
     yield all([
-        takeEvery(actions.SUBMIT_FEATURE_REQUEST, submitFeature),
+        takeLatest(actions.SUBMIT_FEATURE_REQUEST, submitFeature),
         takeEvery(actions.ADD_COMMENT_TO_FEATURE_REQUEST, addCommentToFeature),
         takeEvery(actions.ADD_REPLY_TO_COMMENT_REQUEST, addReplyToComment),
         takeEvery(actions.DELETE_COMMENT_REQUEST, deleteComment),

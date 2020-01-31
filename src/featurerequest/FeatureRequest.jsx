@@ -6,11 +6,12 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import {
     addReplyToCommentRequest, submitFeatureRequest, addCommentToFeatureRequest,
-    deleteCommentRequest, deleteReplyRequest, closeCommentError
+    deleteCommentRequest, deleteReplyRequest, closeFeatureRequestError, closeSuccessMessage
 } from './actions';
 import MyFeatureRequests from './MyFeatureRequests';
 import ErrorModal from '../common/modal/ErrorModal';
 import SubmitFeature from './SubmitFeature';
+import SuccessModal from '../common/modal/SuccessModal';
 
 
 const FeatureRequest = props => {
@@ -82,37 +83,49 @@ const FeatureRequest = props => {
                 loggedInUserId={props.auth.uid}
             />
             <ErrorModal
-                closeModal={props.closeCommentError}
-                headerMessage="Comment Error"
-                isOpen={props.commentError.length > 0}
-                errorCode={props.commentErrorCode}
-                errorMessage={props.commentError}
+                closeModal={props.closeFeatureRequestError}
+                headerMessage={props.errorHeader}
+                isOpen={props.errorMessage.length > 0}
+                errorCode={props.errorCode}
+                errorMessage={props.errorMessage}
+            />
+            <SuccessModal
+                backdrop
+                closeModal={props.closeSuccessMessage}
+                isOpen={props.successMessage.length}
+                headerMessage={props.successMessage}
+                toggleModal={noop}
             />
         </>
     );
 };
 
 FeatureRequest.defaultProps = {
-    commentError: '',
-    commentErrorCode: '',
+    closeSuccessMessage: noop,
+    errorMessage: '',
+    errorCode: '',
+    errorHeader: '',
     addCommentToFeatureRequest: noop,
     addReplyToCommentRequest: noop,
     auth: {
         uid: null
     },
     featureRequests: {},
-    submitFeatureRequest: noop
+    submitFeatureRequest: noop,
+    successMessage: ''
 };
 
 FeatureRequest.propTypes = {
-    commentError: PropTypes.string,
-    commentErrorCode: PropTypes.string,
+    closeSuccessMessage: PropTypes.func,
+    errorMessage: PropTypes.string,
+    errorCode: PropTypes.string,
+    errorHeader: PropTypes.string,
     addCommentToFeatureRequest: PropTypes.func,
     addReplyToCommentRequest: PropTypes.func,
     auth: PropTypes.shape({
         uid: PropTypes.string
     }),
-    closeCommentError: PropTypes.func.isRequired,
+    closeFeatureRequestError: PropTypes.func.isRequired,
     deleteCommentRequest: PropTypes.func.isRequired,
     deleteReplyRequest: PropTypes.func.isRequired,
     featureRequests: PropTypes.objectOf(PropTypes.shape({
@@ -120,20 +133,24 @@ FeatureRequest.propTypes = {
         description: PropTypes.string,
         userId: PropTypes.string
     })),
-    submitFeatureRequest: PropTypes.func
+    submitFeatureRequest: PropTypes.func,
+    successMessage: PropTypes.string
 };
 
 const mapStateToProps = state => ({
-    commentError: state.features.commentError,
-    commentErrorCode: state.features.commentErrorCode,
     auth: state.firebase.auth,
-    featureRequests: state.firestore.data.featureRequests
+    errorMessage: state.features.errorMessage,
+    errorCode: state.features.errorCode,
+    errorHeader: state.features.errorHeader,
+    featureRequests: state.firestore.data.featureRequests,
+    successMessage: state.features.successMessage
 });
 
 const mapDispatchToProps = {
     addCommentToFeatureRequest,
     addReplyToCommentRequest,
-    closeCommentError,
+    closeFeatureRequestError,
+    closeSuccessMessage,
     deleteCommentRequest,
     deleteReplyRequest,
     submitFeatureRequest

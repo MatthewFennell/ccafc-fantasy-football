@@ -1,24 +1,36 @@
+import fp from 'lodash/fp';
 import * as actions from './actions';
 
 const initState = {
-    commentError: '',
-    commentErrorCode: ''
+    errorHeader: '',
+    errorMessage: '',
+    errorCode: '',
+
+    successMessage: ''
 };
 
 const featureReducer = (state = initState, action) => {
     switch (action.type) {
-    case actions.COMMENT_ERROR: {
+    case actions.SET_SUCCESS_MESSAGE: {
+        return fp.set('successMessage', action.message)(state);
+    }
+    case actions.CLOSE_SUCCESS_MESSAGE: {
+        return fp.set('successMessage', '')(state);
+    }
+    case actions.FEATURE_REQUEST_ERROR: {
         return {
             ...state,
-            commentError: action.error.message,
-            commentErrorCode: action.error.code
+            errorMessage: action.error.message,
+            errorCode: action.error.code,
+            errorHeader: action.header
         };
     }
-    case actions.CLOSE_COMMENT_ERROR: {
+    case actions.CLOSE_FEATURE_REQUEST_ERROR: {
         return {
             ...state,
-            commentError: '',
-            commentErrorCode: ''
+            errorMessage: '',
+            errorCode: '',
+            errorHeader: ''
         };
     }
     default:
