@@ -47,7 +47,9 @@ const initState = {
     loadedRejectedHighlights: false,
 
     submittingExtraResults: false,
-    editingStats: false
+    editingStats: false,
+
+    successMessage: ''
 };
 
 const adminReducer = (state = initState, action) => {
@@ -334,6 +336,12 @@ const adminReducer = (state = initState, action) => {
     }
     case actions.EDIT_PLAYER_STATS_ERROR: {
         return fp.set('editingStats', false)(state);
+    }
+    case actions.SET_SUCCESS_MESSAGE: {
+        return fp.set('successMessage', action.message)(state);
+    }
+    case actions.CLOSE_SUCCESS_MESSAGE: {
+        return fp.set('successMessage', '')(state);
     }
     default:
         return state;

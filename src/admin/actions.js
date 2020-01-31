@@ -101,6 +101,18 @@ export const SUBMIT_EXTRA_STATS_REQUEST = `${pre}SUBMIT_EXTRA_STATS_REQUEST`;
 export const SUBMIT_EXTRA_STATS_SUCCESS = `${pre}SUBMIT_EXTRA_STATS_SUCCESS`;
 export const SUBMIT_EXTRA_STATS_ERROR = `${pre}SUBMIT_EXTRA_STATS_ERROR`;
 
+export const SET_SUCCESS_MESSAGE = `${pre}SET_SUCCESS_MESSAGE`;
+export const CLOSE_SUCCESS_MESSAGE = `${pre}CLOSE_SUCCESS_MESSAGE`;
+
+export const setSuccessMessage = message => ({
+    type: SET_SUCCESS_MESSAGE,
+    message
+});
+
+export const closeSuccessMessage = () => ({
+    type: CLOSE_SUCCESS_MESSAGE
+});
+
 export const submitExtraStatsRequest = (
     gameWeek, yellowCard, redCard, penaltySaved, penaltyMissed, ownGoal
 ) => ({

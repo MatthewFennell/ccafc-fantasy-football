@@ -2,11 +2,12 @@ import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import { noop } from 'lodash';
 import defaultStyles from './ManageUsers.module.scss';
 import {
     fetchUsersWithExtraRolesRequest, addUserRoleRequest, removeUserRoleRequest,
     closeRemoveUserRoleError, clearDatabaseRequest, rollOverToNextYearRequest,
-    deleteAllOldUsersRequest
+    deleteAllOldUsersRequest, closeSuccessMessage
 } from '../actions';
 import Grid from '../../common/grid/Grid';
 import StyledButton from '../../common/StyledButton/StyledButton';
@@ -16,6 +17,7 @@ import Dropdown from '../../common/dropdown/Dropdown';
 import Menu from '../../common/menu/Menu';
 import ConfirmModal from '../../common/modal/ConfirmModal';
 import ErrorModal from '../../common/modal/ErrorModal';
+import SuccessModal from '../../common/modal/SuccessModal';
 import RolesToPermissions from './RolesToPermissions';
 
 const columnsForAllUsers = allRoles => [
@@ -116,78 +118,87 @@ const ManageUsers = props => {
     const generateToggleRows = rows => rows.map(row => generateRow(row));
 
     return (
-        <div className={props.styles.manageUsersWrapper}>
-            <div className={props.styles.extraRolesWrapper}>
-                <Grid
-                    columns={columnsForAllUsers(props.allRoles)}
-                    gridHeader={(
-                        <div className={props.styles.manageUserGridHeaderWrapper}>
-                            <div className={props.styles.gridHeaderText}>
+        <>
+            <div className={props.styles.manageUsersWrapper}>
+                <div className={props.styles.extraRolesWrapper}>
+                    <Grid
+                        columns={columnsForAllUsers(props.allRoles)}
+                        gridHeader={(
+                            <div className={props.styles.manageUserGridHeaderWrapper}>
+                                <div className={props.styles.gridHeaderText}>
                             Users with extra roles
+                                </div>
+                                <div className={props.styles.addRoleButton}>
+                                    <StyledButton text="Add Role" onClick={() => setAddRoleModalOpen(true)} />
+                                </div>
                             </div>
-                            <div className={props.styles.addRoleButton}>
-                                <StyledButton text="Add Role" onClick={() => setAddRoleModalOpen(true)} />
-                            </div>
-                        </div>
-                    )}
-                    loading={props.fetchingUsersWithExtraRoles}
-                    rows={generateToggleRows(props.usersWithExtraRoles)}
-                />
-            </div>
-            <div className={props.styles.rolesToPermissionsWrapper}>
-                <RolesToPermissions
-                    allRoles={props.allRoles}
-                    permissionMappings={props.permissionMappings}
-                />
-            </div>
-            <StyledModal
-                backdrop
-                closeModal={closeModal}
-                error
-                isOpen={addRoleModalOpen}
-                headerMessage="Add Role"
-            >
-                <div className={props.styles.modalWrapper}>
-                    <div><StyledInput label="Email" onChange={setEmail} value={email} /></div>
-                    <div className={props.styles.modalButtons}>
-                        <Dropdown activeValue={role} onChange={setRole} options={rolesForDropdown(props.allRoles)} title="Role" />
-                        <StyledButton text="Confirm" onClick={addUserRole} />
-                        <StyledButton text="Cancel" color="secondary" onClick={closeModal} />
-                    </div>
+                        )}
+                        loading={props.fetchingUsersWithExtraRoles}
+                        rows={generateToggleRows(props.usersWithExtraRoles)}
+                    />
                 </div>
-            </StyledModal>
-            <ConfirmModal
-                cancel={closeModal}
-                closeModal={closeModal}
-                isOpen={removeRoleModalOpen}
-                submit={removeRole}
-                text={`Are you sure you want to remove ${role === 'ALL' ? 'all roles ' : role} from ${email}`}
-            />
-            <ErrorModal
-                closeModal={props.closeRemoveUserRoleError}
-                headerMessage="Remove Role Error"
-                isOpen={props.removeUserRoleError.length > 0}
-                errorCode={props.removeUserRoleErrorCode}
-                errorMessage={props.removeUserRoleError}
-            />
-            <div className={props.styles.clearDatabaseWrapper}>
-                <StyledButton
-                    onClick={props.clearDatabaseRequest}
-                    color="secondary"
-                    text="Clear DB"
+                <div className={props.styles.rolesToPermissionsWrapper}>
+                    <RolesToPermissions
+                        allRoles={props.allRoles}
+                        permissionMappings={props.permissionMappings}
+                    />
+                </div>
+                <StyledModal
+                    backdrop
+                    closeModal={closeModal}
+                    error
+                    isOpen={addRoleModalOpen}
+                    headerMessage="Add Role"
+                >
+                    <div className={props.styles.modalWrapper}>
+                        <div><StyledInput label="Email" onChange={setEmail} value={email} /></div>
+                        <div className={props.styles.modalButtons}>
+                            <Dropdown activeValue={role} onChange={setRole} options={rolesForDropdown(props.allRoles)} title="Role" />
+                            <StyledButton text="Confirm" onClick={addUserRole} />
+                            <StyledButton text="Cancel" color="secondary" onClick={closeModal} />
+                        </div>
+                    </div>
+                </StyledModal>
+                <ConfirmModal
+                    cancel={closeModal}
+                    closeModal={closeModal}
+                    isOpen={removeRoleModalOpen}
+                    submit={removeRole}
+                    text={`Are you sure you want to remove ${role === 'ALL' ? 'all roles ' : role} from ${email}`}
                 />
-                <StyledButton
-                    onClick={props.rollOverToNextYearRequest}
-                    color="secondary"
-                    text="Roll Over to Next Year"
+                <ErrorModal
+                    closeModal={props.closeRemoveUserRoleError}
+                    headerMessage="Remove Role Error"
+                    isOpen={props.removeUserRoleError.length > 0}
+                    errorCode={props.removeUserRoleErrorCode}
+                    errorMessage={props.removeUserRoleError}
                 />
-                <StyledButton
-                    onClick={props.deleteAllOldUsersRequest}
-                    color="secondary"
-                    text="Delete all old users"
-                />
+                <div className={props.styles.clearDatabaseWrapper}>
+                    <StyledButton
+                        onClick={props.clearDatabaseRequest}
+                        color="secondary"
+                        text="Clear DB"
+                    />
+                    <StyledButton
+                        onClick={props.rollOverToNextYearRequest}
+                        color="secondary"
+                        text="Roll Over to Next Year"
+                    />
+                    <StyledButton
+                        onClick={props.deleteAllOldUsersRequest}
+                        color="secondary"
+                        text="Delete all old users"
+                    />
+                </div>
             </div>
-        </div>
+            <SuccessModal
+                backdrop
+                closeModal={props.closeSuccessMessage}
+                isOpen={props.successMessage.length}
+                headerMessage={props.successMessage}
+                toggleModal={noop}
+            />
+        </>
     );
 };
 
@@ -196,6 +207,7 @@ ManageUsers.defaultProps = {
     fetchingUsersWithExtraRoles: false,
     removeUserRoleError: '',
     removeUserRoleErrorCode: '',
+    successMessage: '',
     styles: defaultStyles,
     usersWithExtraRoles: [],
     permissionMappings: {}
@@ -206,6 +218,7 @@ ManageUsers.propTypes = {
     addUserRoleRequest: PropTypes.func.isRequired,
     clearDatabaseRequest: PropTypes.func.isRequired,
     closeRemoveUserRoleError: PropTypes.func.isRequired,
+    closeSuccessMessage: PropTypes.func.isRequired,
     deleteAllOldUsersRequest: PropTypes.func.isRequired,
     fetchingUsersWithExtraRoles: PropTypes.bool,
     fetchUsersWithExtraRolesRequest: PropTypes.func.isRequired,
@@ -213,6 +226,7 @@ ManageUsers.propTypes = {
     removeUserRoleError: PropTypes.string,
     removeUserRoleErrorCode: PropTypes.string,
     rollOverToNextYearRequest: PropTypes.func.isRequired,
+    successMessage: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
     usersWithExtraRoles: PropTypes.arrayOf(PropTypes.shape({
         roles: PropTypes.arrayOf(PropTypes.string),
@@ -225,6 +239,7 @@ ManageUsers.propTypes = {
 const mapDispatchToProps = {
     addUserRoleRequest,
     clearDatabaseRequest,
+    closeSuccessMessage,
     closeRemoveUserRoleError,
     deleteAllOldUsersRequest,
     fetchUsersWithExtraRolesRequest,
@@ -237,6 +252,7 @@ const mapStateToProps = state => ({
     fetchingUsersWithExtraRoles: state.admin.fetchingUsersWithExtraRoles,
     removeUserRoleError: state.admin.removeUserRoleError,
     removeUserRoleErrorCode: state.admin.removeUserRoleErrorCode,
+    successMessage: state.admin.successMessage,
     usersWithExtraRoles: state.admin.usersWithExtraRoles,
     permissionMappings: state.auth.permissionMappings
 });

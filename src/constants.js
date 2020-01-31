@@ -89,3 +89,9 @@ export const PERMISSIONS = {
 };
 
 export const successDelay = 3500;
+
+// Things to fix
+
+// All admin should be same error
+
+// Error messages for managing users

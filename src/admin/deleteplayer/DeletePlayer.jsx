@@ -3,13 +3,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import fp from 'lodash/fp';
+import { noop } from 'lodash';
 import defaultStyles from './DeletePlayer.module.scss';
 import Dropdown from '../../common/dropdown/Dropdown';
 import {
-    closeDeletePlayerError, fetchTeamsRequest, fetchPlayersForTeamRequest, deletePlayerRequest
+    closeDeletePlayerError, fetchTeamsRequest, fetchPlayersForTeamRequest, deletePlayerRequest,
+    closeSuccessMessage
 } from '../actions';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import ErrorModal from '../../common/modal/ErrorModal';
+import SuccessModal from '../../common/modal/SuccessModal';
 import Spinner from '../../common/spinner/Spinner';
 
 const DeletePlayer = props => {
@@ -39,46 +42,57 @@ const DeletePlayer = props => {
     }, [playerName, props.deletePlayerRequest, nameToId]);
 
     return (
-        <div className={props.styles.deletePlayerWrapper}>
-            <div className={props.styles.deletePlayerHeader}>
-                <StyledButton
-                    color="primary"
-                    onClick={deletePlayer}
-                    text="Delete Player"
-                />
-            </div>
-            <div className={props.styles.deletePlayerForm}>
-                <div className={props.styles.deletePlayerDropdowns}>
-                    <Dropdown activeValue={playerTeam} onChange={setTeam} options={props.allTeams} title="Team" key="Team" />
-                    <Dropdown activeValue={playerName} onChange={setPlayerName} options={playersForActiveTeam} title="Player" key="Player" />
+        <>
+            <div className={props.styles.deletePlayerWrapper}>
+                <div className={props.styles.deletePlayerHeader}>
+                    <StyledButton
+                        color="primary"
+                        onClick={deletePlayer}
+                        text="Delete Player"
+                    />
                 </div>
+                <div className={props.styles.deletePlayerForm}>
+                    <div className={props.styles.deletePlayerDropdowns}>
+                        <Dropdown activeValue={playerTeam} onChange={setTeam} options={props.allTeams} title="Team" key="Team" />
+                        <Dropdown activeValue={playerName} onChange={setPlayerName} options={playersForActiveTeam} title="Player" key="Player" />
+                    </div>
 
+                </div>
+                <ErrorModal
+                    closeModal={props.closeDeletePlayerError}
+                    headerMessage="Delete Player Error"
+                    isOpen={props.deletePlayerError.length > 0}
+                    errorCode={props.deletePlayerErrorCode}
+                    errorMessage={props.deletePlayerError}
+                />
+
+                <div className={classNames({
+                    [props.styles.hidden]: !props.deletingPlayer
+                })}
+                >
+                    <Spinner color="secondary" />
+                </div>
             </div>
-            <ErrorModal
-                closeModal={props.closeDeletePlayerError}
-                headerMessage="Delete Player Error"
-                isOpen={props.deletePlayerError.length > 0}
-                errorCode={props.deletePlayerErrorCode}
-                errorMessage={props.deletePlayerError}
+            <SuccessModal
+                backdrop
+                closeModal={props.closeSuccessMessage}
+                isOpen={props.successMessage.length}
+                headerMessage={props.successMessage}
+                toggleModal={noop}
             />
-
-            <div className={classNames({
-                [props.styles.hidden]: !props.deletingPlayer
-            })}
-            >
-                <Spinner color="secondary" />
-            </div>
-        </div>
+        </>
     );
 };
 
 DeletePlayer.defaultProps = {
     allTeams: [],
+    successMessage: '',
     styles: defaultStyles
 };
 
 DeletePlayer.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
+    closeSuccessMessage: PropTypes.func.isRequired,
     closeDeletePlayerError: PropTypes.func.isRequired,
     deletePlayerError: PropTypes.string.isRequired,
     deletePlayerErrorCode: PropTypes.string.isRequired,
@@ -87,11 +101,13 @@ DeletePlayer.propTypes = {
     fetchTeamsRequest: PropTypes.func.isRequired,
     fetchPlayersForTeamRequest: PropTypes.func.isRequired,
     styles: PropTypes.objectOf(PropTypes.string),
+    successMessage: PropTypes.string,
     teamsWithPlayers: PropTypes.objectOf(PropTypes.array).isRequired
 };
 
 const mapDispatchToProps = {
     closeDeletePlayerError,
+    closeSuccessMessage,
     deletePlayerRequest,
     fetchTeamsRequest,
     fetchPlayersForTeamRequest
@@ -102,6 +118,7 @@ const mapStateToProps = state => ({
     deletePlayerError: state.admin.deletePlayerError,
     deletePlayerErrorCode: state.admin.deletePlayerErrorCode,
     deletingPlayer: state.admin.deletingPlayer,
+    successMessage: state.admin.successMessage,
     teamsWithPlayers: state.admin.teamsWithPlayers
 });
 
