@@ -88,5 +88,6 @@ export const filterFixtures = (fixtures, league, collingwoodOnly, upcomingOnly, 
         .filter(leagueFilter)
         .filter(collingwoodOnlyFilter)
         .filter(upcomingOnlyFilter)
-        .filter(teamNameFilter);
+        .filter(teamNameFilter)
+        .map(fixture => ({ ...fixture, id: `${fixture.teamOne}-${fixture.teamTwo}` }));
 };

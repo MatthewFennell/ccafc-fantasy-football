@@ -92,7 +92,7 @@ const FeatureRequest = props => {
             <SuccessModal
                 backdrop
                 closeModal={props.closeSuccessMessage}
-                isOpen={props.successMessage.length}
+                isOpen={props.successMessage.length > 0}
                 headerMessage={props.successMessage}
                 toggleModal={noop}
             />

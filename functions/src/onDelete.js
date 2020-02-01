@@ -41,9 +41,7 @@ exports.reorderPositions = functions.region(constants.region).firestore
 
 exports.deleteUsersWithRoles = functions.region(constants.region).firestore
     .document('users/{id}')
-    .onDelete(snapshot => db.collection('users-with-roles').where('userId', '==', snapshot.id).get().then(
-        result => result.docs.map(doc => doc.ref.delete())
-    ));
+    .onDelete(snapshot => db.collection('users-with-roles').doc(snapshot.id).delete());
 
 exports.deleteWeeklyPlayers = functions.region(constants.region).firestore
     .document('users/{id}')

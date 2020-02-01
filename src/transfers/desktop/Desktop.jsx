@@ -58,21 +58,19 @@ const Desktop = props => (
                     renderEmptyPlayers
                 />
             </div>
-            <div className={props.styles.tableWrapper}>
-                <Table
-                    allPlayers={props.allPlayers}
-                    allTeams={props.allTeams}
-                    activeTeam={props.currentTeam}
-                    desktopColumns={props.desktopColumns}
-                    fetchingAllPlayers={props.fetchingAllPlayers}
-                    isAscendingSort={props.isAscendingSort}
-                    onTransfersRequest={props.onTransfersRequest}
-                    positionFilter={props.positionFilter}
-                    sortBy={props.sortBy}
-                    stateObj={props.stateObj}
-                    setPositionFilter={props.setPositionFilter}
-                />
-            </div>
+            <Table
+                allPlayers={props.allPlayers}
+                allTeams={props.allTeams}
+                activeTeam={props.currentTeam}
+                desktopColumns={props.desktopColumns}
+                fetchingAllPlayers={props.fetchingAllPlayers}
+                isAscendingSort={props.isAscendingSort}
+                onTransfersRequest={props.onTransfersRequest}
+                positionFilter={props.positionFilter}
+                sortBy={props.sortBy}
+                stateObj={props.stateObj}
+                setPositionFilter={props.setPositionFilter}
+            />
         </div>
         <Modals
             closeRemoveModal={props.closeRemoveModal}

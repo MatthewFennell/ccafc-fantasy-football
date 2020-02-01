@@ -3,42 +3,33 @@ import * as actions from './actions';
 
 const initState = {
     allTeams: [],
+    teamsWithPlayers: {},
+    playerStats: {},
+    usersWithExtraRoles: [],
+    highlightsForApproval: [],
+    rejectedHighlights: [],
 
     creatingPlayer: false,
-
-    creatingTeam: false,
-
-    teamsWithPlayers: {},
-
     deletingPlayer: false,
-
+    creatingTeam: false,
     deletingTeam: false,
-    deleteTeamError: false,
-    deleteTeamErrorCode: false,
 
     submittingResult: false,
-
+    submittingExtraResults: false,
+    editingStats: false,
     triggeringWeek: false,
 
-    playerStats: {},
     fetchingPlayerStats: false,
-
-    usersWithExtraRoles: [],
     fetchingUsersWithExtraRoles: false,
 
-    highlightsForApproval: [],
     loadingHighlightsForApproval: false,
     loadedHighlightsForApproval: false,
-
-    rejectedHighlights: [],
     loadingRejectedHighlights: false,
     loadedRejectedHighlights: false,
 
-    submittingExtraResults: false,
-    editingStats: false,
+    updatingSubs: false,
 
     successMessage: '',
-
     errorHeader: '',
     errorMessage: '',
     errorCode: ''
@@ -236,6 +227,12 @@ const adminReducer = (state = initState, action) => {
             loadingRejectedHighlights: false,
             editingStats: false
         };
+    }
+    case actions.SET_HAS_PAID_SUBS_REQUEST: {
+        return fp.set('updatingSubs', true)(state);
+    }
+    case actions.SET_HAS_PAID_SUBS_SUCCESS: {
+        return fp.set('updatingSubs', false)(state);
     }
     default:
         return state;

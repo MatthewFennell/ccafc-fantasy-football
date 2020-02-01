@@ -5,6 +5,8 @@ const constants = require('./constants');
 const db = admin.firestore();
 const config = functions.config();
 
+const operations = admin.firestore.FieldValue;
+
 exports.createInitialLeague = functions
     .region(constants.region)
     .auth.user()
@@ -75,12 +77,20 @@ exports.setAdminUserClaims = functions
         if (user.email === config.admin.email) {
             return admin.auth().setCustomUserClaims(user.uid, {
                 [constants.ROLES.ADMIN]: true
-            }).then(() => db.collection('users-with-roles').add({
-                displayName: user.displayName,
-                email: user.email,
-                roles: [constants.ROLES.ADMIN],
-                userId: user.uid
-            }));
+            }).then(() => db.collection('users-with-roles').doc(user.uid).get().then(
+                doc => {
+                    if (doc.exists) {
+                        return doc.ref.update({
+                            roles: operations.arrayUnion(constants.ROLES.ADMIN)
+                        });
+                    }
+                    return db.collection('users-with-roles').doc(user.uid).set({
+                        displayName: user.displayName,
+                        email: user.email,
+                        roles: [constants.ROLES.ADMIN]
+                    });
+                }
+            ));
         }
         return Promise.resolve();
     });

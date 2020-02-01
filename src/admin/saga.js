@@ -323,6 +323,17 @@ function* submitExtraResults(action) {
     }
 }
 
+function* setHasPaidSubs(action) {
+    try {
+        yield call(api.setHasPaidSubs, ({
+            changes: action.changes
+        }));
+        yield put(actions.setHasPaidSubsSuccess(action.changes));
+    } catch (error) {
+        yield put(actions.setAdminError(error, 'Set Subs Paid Error'));
+    }
+}
+
 export default function* adminSaga() {
     yield all([
         takeEvery(actions.FETCH_TEAMS_REQUEST, fetchTeams),
@@ -347,6 +358,7 @@ export default function* adminSaga() {
         takeLatest(actions.DELETE_HIGHLIGHT_REQUEST, deleteHighlight),
         takeEvery(actions.FETCH_ALL_REJECTED_HIGHLIGHTS_REQUEST, fetchRejectedHighlights),
         takeLatest(actions.REAPPROVE_REJECTED_HIGHLIGHT_REQUEST, reapproveRejectedHighlight),
-        takeEvery(actions.SUBMIT_EXTRA_STATS_REQUEST, submitExtraResults)
+        takeEvery(actions.SUBMIT_EXTRA_STATS_REQUEST, submitExtraResults),
+        takeEvery(actions.SET_HAS_PAID_SUBS_REQUEST, setHasPaidSubs)
     ]);
 }

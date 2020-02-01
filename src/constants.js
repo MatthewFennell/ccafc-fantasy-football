@@ -25,7 +25,8 @@ export const URL = {
     TRIGGER_WEEK: '/trigger-week',
     EDIT_PLAYER: '/edit-player',
     MANAGE_USERS: '/manage-users',
-    APPROVE_HIGHLIGHTS: '/approve-highlights'
+    APPROVE_HIGHLIGHTS: '/approve-highlights',
+    MANAGE_SUBS: '/manage-subs'
 };
 
 export const POSITIONS = {
@@ -85,14 +86,12 @@ export const PERMISSIONS = {
     EDIT_PLAYER: 'EDIT_PLAYER',
     MANAGE_USERS: 'MANAGE_USERS',
     APPROVE_HIGHLIGHTS: 'APPROVE_HIGHLIGHTS',
-    ROLL_OVER_YEAR: 'ROLL_OVER_YEAR'
+    ROLL_OVER_YEAR: 'ROLL_OVER_YEAR',
+    MANAGE_SUBS: 'MANAGE_SUBS'
 };
 
 export const successDelay = 3500;
 
 // Things to fix
 
-// All admin should be same error
-
-// Error messages for managing users
-// Empty edit player stats fails and crashes
+// Cancel button focus goes blue?

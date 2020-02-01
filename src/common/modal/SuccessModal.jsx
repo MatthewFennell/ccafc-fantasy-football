@@ -32,6 +32,7 @@ const SuccessModal = props => (
 
 SuccessModal.defaultProps = {
     backdrop: false,
+    children: null,
     closeModal: noop,
     headerMessage: '',
     isOpen: false,
@@ -46,7 +47,7 @@ SuccessModal.propTypes = {
     children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node
-    ]).isRequired,
+    ]),
     headerMessage: PropTypes.string,
     isOpen: PropTypes.bool,
     position: PropTypes.string,

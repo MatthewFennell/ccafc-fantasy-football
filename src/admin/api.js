@@ -45,3 +45,5 @@ export const rejectHighlight = request => functionToCall('highlights-rejectHighl
 export const deleteHighlight = request => functionToCall('highlights-deleteHighlight')(request).then(response => response.data);
 export const rejectedHighlights = request => functionToCall('highlights-getRejectedHighlights')(request).then(response => response.data);
 export const reapproveRejectedHighlight = request => functionToCall('highlights-reapproveRejectedHighlight')(request).then(response => response.data);
+
+export const setHasPaidSubs = request => functionToCall('clubSubs-setHasPaidSubs')(request);

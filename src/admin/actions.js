@@ -76,6 +76,19 @@ export const CLOSE_SUCCESS_MESSAGE = `${pre}CLOSE_SUCCESS_MESSAGE`;
 export const SET_ADMIN_ERROR = `${pre}SET_ADMIN_ERROR`;
 export const CLOSE_ADMIN_ERROR = `${pre}CLOSE_ADMIN_ERROR`;
 
+export const SET_HAS_PAID_SUBS_REQUEST = `${pre}SET_HAS_PAID_SUBS_REQUEST`;
+export const SET_HAS_PAID_SUBS_SUCCESS = `${pre}SET_HAS_PAID_SUBS_SUCCESS`;
+
+export const setHasPaidSubsSuccess = changes => ({
+    type: SET_HAS_PAID_SUBS_SUCCESS,
+    changes
+});
+
+export const setHasPaidSubsRequest = changes => ({
+    type: SET_HAS_PAID_SUBS_REQUEST,
+    changes
+});
+
 export const setAdminError = (error, header) => ({
     type: SET_ADMIN_ERROR,
     error,

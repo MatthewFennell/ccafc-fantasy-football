@@ -125,7 +125,7 @@ ExtraStats.defaultProps = {
     styles: defaultStyles,
     submitExtraStatsRequest: noop,
     submittingExtraResult: false,
-    teamsWithPlayers: []
+    teamsWithPlayers: {}
 };
 
 ExtraStats.propTypes = {
@@ -135,7 +135,7 @@ ExtraStats.propTypes = {
     styles: PropTypes.objectOf(PropTypes.string),
     submitExtraStatsRequest: PropTypes.func,
     submittingExtraResult: PropTypes.bool,
-    teamsWithPlayers: PropTypes.arrayOf(PropTypes.shape({}))
+    teamsWithPlayers: PropTypes.objectOf(PropTypes.array)
 };
 
 export default ExtraStats;

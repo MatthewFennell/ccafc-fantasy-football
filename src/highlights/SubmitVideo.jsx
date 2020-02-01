@@ -48,7 +48,6 @@ const columns = [
 
 const opts = {
     height: '390',
-    // width: '100%',
     playerVars: { // https://developers.google.com/youtube/player_parameters
         autoplay: 0
     }
@@ -89,7 +88,7 @@ const SubmitVideo = props => {
             props.submitHighlightError({
                 code: 'Invalid title',
                 message: 'Title must be at least 4 characters long'
-            });
+            }, 'Error submitting highlight');
         }
         props.closeSubmitVideo();
         setVideo('');
