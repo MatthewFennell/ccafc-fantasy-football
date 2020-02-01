@@ -2,6 +2,7 @@ import fp from 'lodash/fp';
 import * as overviewActions from '../overview/actions';
 import * as currentTeamActions from '../currentteam/actions';
 import * as actions from './actions';
+import * as adminActions from '../admin/actions';
 
 const initialState = {
     remainingTransfers: 0,
@@ -163,6 +164,16 @@ const transfersReducer = (state = initialState, action) => {
     }
     case actions.CLOSE_SUCCESS_MESSAGE: {
         return fp.set('successMessage', '')(state);
+    }
+    case adminActions.SET_HAS_PAID_SUBS_SUCCESS: {
+        return {
+            ...state,
+            allPlayers: state.allPlayers
+                .map(player => (action.changes.some(x => x.playerId === player.id) ? ({
+                    ...player,
+                    hasPaidSubs: action.changes.find(y => y.playerId === player.id).hasPaidSubs
+                }) : player))
+        };
     }
     default:
         return state;

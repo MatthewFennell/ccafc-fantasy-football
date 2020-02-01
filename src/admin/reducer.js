@@ -27,6 +27,8 @@ const initState = {
     loadingRejectedHighlights: false,
     loadedRejectedHighlights: false,
 
+    updatingSubs: false,
+
     successMessage: '',
     errorHeader: '',
     errorMessage: '',
@@ -225,6 +227,12 @@ const adminReducer = (state = initState, action) => {
             loadingRejectedHighlights: false,
             editingStats: false
         };
+    }
+    case actions.SET_HAS_PAID_SUBS_REQUEST: {
+        return fp.set('updatingSubs', true)(state);
+    }
+    case actions.SET_HAS_PAID_SUBS_SUCCESS: {
+        return fp.set('updatingSubs', false)(state);
     }
     default:
         return state;

@@ -18,6 +18,7 @@ import VideoLabelIcon from '@material-ui/icons/VideoLabel';
 import DehazeIcon from '@material-ui/icons/Dehaze';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 
 import fp from 'lodash/fp';
 import * as adminComponents from './adminComponents';
@@ -98,6 +99,15 @@ export const adminLinks = [
         path: () => constants.URL.APPROVE_HIGHLIGHTS,
         urlIncludes: constants.URL.APPROVE_HIGHLIGHTS,
         permissionRequired: constants.PERMISSIONS.APPROVE_HIGHLIGHTS
+    },
+    {
+        title: 'Manage Subs',
+        icon: <AttachMoneyIcon />,
+        component: adminComponents.ManageSubs,
+        addUserId: false,
+        path: () => constants.URL.MANAGE_SUBS,
+        urlIncludes: constants.URL.MANAGE_SUBS,
+        permissionRequired: constants.PERMISSIONS.MANAGE_SUBS
     }
 ];
 

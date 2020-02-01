@@ -10,3 +10,4 @@ export { default as TriggerWeek } from './admin/triggerweek/TriggerWeek';
 export { default as EditPlayer } from './admin/editplayer/EditPlayer';
 export { default as ManageUsers } from './admin/manageusers/ManageUsers';
 export { default as ApproveHighlights } from './admin/highlights/ApproveHighlights';
+export { default as ManageSubs } from './admin/managesubs/ManageSubs';
