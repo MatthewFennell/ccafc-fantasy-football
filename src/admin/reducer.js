@@ -3,42 +3,31 @@ import * as actions from './actions';
 
 const initState = {
     allTeams: [],
+    teamsWithPlayers: {},
+    playerStats: {},
+    usersWithExtraRoles: [],
+    highlightsForApproval: [],
+    rejectedHighlights: [],
 
     creatingPlayer: false,
-
-    creatingTeam: false,
-
-    teamsWithPlayers: {},
-
     deletingPlayer: false,
-
+    creatingTeam: false,
     deletingTeam: false,
-    deleteTeamError: false,
-    deleteTeamErrorCode: false,
 
     submittingResult: false,
-
+    submittingExtraResults: false,
+    editingStats: false,
     triggeringWeek: false,
 
-    playerStats: {},
     fetchingPlayerStats: false,
-
-    usersWithExtraRoles: [],
     fetchingUsersWithExtraRoles: false,
 
-    highlightsForApproval: [],
     loadingHighlightsForApproval: false,
     loadedHighlightsForApproval: false,
-
-    rejectedHighlights: [],
     loadingRejectedHighlights: false,
     loadedRejectedHighlights: false,
 
-    submittingExtraResults: false,
-    editingStats: false,
-
     successMessage: '',
-
     errorHeader: '',
     errorMessage: '',
     errorCode: ''

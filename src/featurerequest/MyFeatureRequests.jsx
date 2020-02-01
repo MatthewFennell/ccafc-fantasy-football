@@ -70,7 +70,7 @@ const MyFeatureRequests = props => {
             </div>
             <div className={props.styles.featuresWrapper}>
                 {generateFilteredFeatures().map(x => (
-                    <div className={props.styles.featureWrapper}>
+                    <div className={props.styles.featureWrapper} key={x.id}>
                         <Feature
                             addNewComment={props.addNewComment(x.id)}
                             addNewReply={props.addNewReply(x.id)}

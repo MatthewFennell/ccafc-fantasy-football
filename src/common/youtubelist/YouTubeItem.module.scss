@@ -2,15 +2,16 @@
 
 .expandedWrapper{
     display: flex;
+    flex-wrap: wrap;
     > div {
       flex-grow: 1;
     }
     .buttonWrapper{
       display: flex;
       justify-content: center;
+      flex-wrap: wrap;
     }
   }
-
 
 .videoTitle, .email, .dateCreated {
     text-align: center;
@@ -32,6 +33,7 @@
   }
 
 .closedVideoItemWrapper{
+    padding-bottom: $spacing-small;
     > div {
         font-weight: bold;
         margin-left: auto;

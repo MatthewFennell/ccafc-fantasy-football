@@ -248,7 +248,12 @@ const EditPlayer = props => {
             isDifferent('manOfTheMatch', props.playerStats.manOfTheMatch, getBooleanVal(motm)),
             isDifferent('dickOfTheDay', props.playerStats.dickOfTheDay, getBooleanVal(dotd)),
         )({});
-        const playerId = fp.get('id')(props.teamsWithPlayers[playerTeam].find(x => x.value === playerToEdit));
+
+        const playerId = fp.flow(
+            fp.get(playerTeam),
+            fp.find(x => x.value === playerToEdit),
+            fp.get('id')
+        )(props.teamsWithPlayers);
 
         setGoals('');
         setAssists('');
@@ -260,6 +265,7 @@ const EditPlayer = props => {
         setOwnGoals('');
         setPenaltyMisses('');
         setPenaltySaves('');
+
         props.editPlayerStatsRequest(playerId, week, difference);
         // eslint-disable-next-line
     }, [goals, assists, cleanSheet, redCard, yellowCard, motm,
@@ -313,7 +319,7 @@ const EditPlayer = props => {
             <SuccessModal
                 backdrop
                 closeModal={props.closeSuccessMessage}
-                isOpen={props.successMessage.length}
+                isOpen={props.successMessage.length > 0}
                 headerMessage={props.successMessage}
                 toggleModal={noop}
             />

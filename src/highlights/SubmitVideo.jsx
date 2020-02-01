@@ -89,7 +89,7 @@ const SubmitVideo = props => {
             props.submitHighlightError({
                 code: 'Invalid title',
                 message: 'Title must be at least 4 characters long'
-            });
+            }, 'Error submitting highlight');
         }
         props.closeSubmitVideo();
         setVideo('');

@@ -96,6 +96,9 @@ exports.editPlayerStats = functions
             if (!common.isIntegerGreaterThanEqualZero(data.week)) {
                 throw new functions.https.HttpsError('invalid-argument', 'Invalid week');
             }
+            if (!data.playerId) {
+                throw new functions.https.HttpsError('invalid-argument', 'Invalid player id');
+            }
             return db.collection('players').doc(data.playerId).get().then(doc => {
                 if (doc.exists) {
                     return doc.data();

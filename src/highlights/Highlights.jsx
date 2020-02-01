@@ -9,7 +9,7 @@ import {
     closeHighlightError, submitHighlightRequest, fetchHighlightsRequest,
     upvoteHighlightRequest, downvoteHighlightRequest, fetchUserHighlightsToBeApprovedRequest,
     fetchRejectedHighlightsRequest, addCommentToVideoRequest, addReplyToVideoRequest,
-    deleteCommentRequest, deleteReplyRequest, closeSuccessMessage
+    deleteCommentRequest, deleteReplyRequest, closeSuccessMessage, setHighlightError
 } from './actions';
 import ErrorModal from '../common/modal/ErrorModal';
 import SuccessModal from '../common/modal/SuccessModal';
@@ -51,7 +51,7 @@ const Highlights = props => {
     const deleteReply = useCallback(featureId => (commentId, replyId) => {
         props.deleteReplyRequest(featureId, commentId, replyId);
         // eslint-disable-next-line
-    }, props.deleteReplyRequest)
+    }, [props.deleteReplyRequest])
 
     return (
         <>
@@ -124,7 +124,7 @@ const Highlights = props => {
                 loadingRejectedVideos={props.loadingRejectedVideos}
                 submitVideoOpen={submitVideoOpen}
                 submitHighlightRequest={props.submitHighlightRequest}
-                submitHighlightError={props.submitHighlightError}
+                submitHighlightError={props.setHighlightError}
                 videosToBeApproved={props.videosToBeApproved}
                 videosRejected={props.videosRejected}
                 myVideos={props.videos.filter(x => x.userId === props.auth.uid)}
@@ -139,7 +139,7 @@ const Highlights = props => {
             <SuccessModal
                 backdrop
                 closeModal={props.closeSuccessMessage}
-                isOpen={props.successMessage.length}
+                isOpen={props.successMessage.length > 0}
                 headerMessage={props.successMessage}
                 toggleModal={noop}
             />
@@ -183,7 +183,7 @@ Highlights.propTypes = {
     fetchUserHighlightsToBeApproved: PropTypes.func.isRequired,
     loadingVideos: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),
-    submitHighlightError: PropTypes.func.isRequired,
+    setHighlightError: PropTypes.func.isRequired,
     submitHighlightRequest: PropTypes.func.isRequired,
     successMessage: PropTypes.string,
     videos: PropTypes.arrayOf(PropTypes.shape({})),
@@ -203,6 +203,7 @@ const mapDispatchToProps = {
     fetchRejectedHighlightsRequest,
     fetchHighlightsRequest,
     fetchUserHighlightsToBeApproved: fetchUserHighlightsToBeApprovedRequest,
+    setHighlightError,
     submitHighlightRequest,
     upvoteHighlightRequest
 };

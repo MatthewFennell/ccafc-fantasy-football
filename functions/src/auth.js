@@ -38,8 +38,7 @@ exports.addUserRole = functions
                             return db.collection('users-with-roles').add({
                                 roles: [data.role],
                                 email: data.email,
-                                displayName: user.displayName,
-                                userId: user.uid
+                                displayName: user.displayName
                             });
                         }
                         return result.docs[0].ref.update({
