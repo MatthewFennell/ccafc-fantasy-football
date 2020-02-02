@@ -27,3 +27,13 @@
         background-color: 	#F0F0F0
     }
 }
+
+@media only screen and (max-width: 600px) {
+    .nextFixturesWrapper {
+      left: 30%;
+
+      .datesWrapper {
+        width: 90%;
+      }
+    }
+  }
