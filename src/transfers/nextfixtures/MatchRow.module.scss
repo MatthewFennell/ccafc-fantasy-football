@@ -9,6 +9,11 @@
     width: 50%;
 }
 
+.leftHand {
+    display: flex;
+    align-items: center;
+}
+
 .rightHand {
     display: flex; 
     justify-content: space-evenly;
@@ -17,9 +22,6 @@
     }
     .info {
         color: $color-gray;
-    }
-
-    .infoRowWithAuto{
         margin-left: auto;
     }
 }
@@ -30,13 +32,12 @@
 }
 
 .teamOne {
+    width: 100%;
     text-align: right;
 }
 
 .matchLive{
     display: flex;
-    margin-left: auto;
-    margin-right: $spacing-small;
 
     .greenIcon {
         color: $color-green;
@@ -79,4 +80,13 @@
     font-weight: bold;
     margin-right: $spacing-tiny;
     margin-left: $spacing-tiny;
+}
+
+@media only screen and (max-width: 600px) {
+    
+    .leftHand, .rightHand {
+        > div {
+            font-size: $font-size-small;
+        }
+    }
 }

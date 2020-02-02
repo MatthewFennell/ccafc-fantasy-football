@@ -8,6 +8,7 @@ import StyledButton from '../../common/StyledButton/StyledButton';
 import Table from './Table';
 import * as constants from '../../constants';
 import Modals from '../common/Modals';
+import NextFixtures from '../nextfixtures/NextFixtures';
 
 const teamsAreDifferent = (original, current) => {
     const playersInCurrentNotInOriginal = current.filter(c => !original.some(x => x.id === c.id));
@@ -79,6 +80,10 @@ const Mobile = props => (
                     }}
                     onPlayerClick={props.onPlayerClick}
                     renderEmptyPlayers
+                />
+                <NextFixtures
+                    allTeams={props.allTeams}
+                    fixtures={props.fixtures.filter(x => !x.completed)}
                 />
             </div>
         </div>

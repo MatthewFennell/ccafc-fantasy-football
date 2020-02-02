@@ -183,6 +183,7 @@ const Transfers = props => {
                                 currentTeam={props.currentTeam}
                                 fetchingAllPlayers={props.fetchingAllPlayers}
                                 fetchingOriginalTeam={props.fetchingOriginalTeam}
+                                fixtures={props.fixtures}
                                 onPlayerClick={onPlayerClick}
                                 onTransfersRequest={onTransfersRequest}
                                 originalTeam={props.originalTeam}
@@ -216,6 +217,7 @@ const Transfers = props => {
                                 desktopColumns={desktopColumns(desktopSortBy, sortBy, props.styles)}
                                 fetchingAllPlayers={props.fetchingAllPlayers}
                                 fetchingOriginalTeam={props.fetchingOriginalTeam}
+                                fixtures={props.fixtures}
                                 isAscendingSort={isAscendingSort}
                                 onPlayerClick={onPlayerClick}
                                 onTransfersRequest={onTransfersRequest}
@@ -240,10 +242,10 @@ const Transfers = props => {
                     </>
                 )}
             </Media>
-            <NextFixtures
+            {/* <NextFixtures
                 allTeams={props.allTeams}
                 fixtures={props.fixtures.filter(x => !x.completed)}
-            />
+            /> */}
             <SuccessModal
                 backdrop
                 closeModal={props.closeSuccessMessage}

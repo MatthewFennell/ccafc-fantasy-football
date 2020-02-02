@@ -7,6 +7,7 @@ import StyledButton from '../../common/StyledButton/StyledButton';
 import * as constants from '../../constants';
 import Modals from '../common/Modals';
 import Table from './Table';
+import NextFixtures from '../nextfixtures/NextFixtures';
 
 const teamsAreDifferent = (original, current) => {
     const playersInCurrentNotInOriginal = current.filter(c => !original.some(x => x.id === c.id));
@@ -72,6 +73,10 @@ const Desktop = props => (
                 setPositionFilter={props.setPositionFilter}
             />
         </div>
+        <NextFixtures
+            allTeams={props.allTeams}
+            fixtures={props.fixtures.filter(x => !x.completed)}
+        />
         <Modals
             closeRemoveModal={props.closeRemoveModal}
             closeRestoreModal={props.closeRestoreModal}
@@ -99,6 +104,7 @@ Desktop.defaultProps = {
     originalTeam: [],
     fetchingAllPlayers: false,
     fetchingOriginalTeam: false,
+    fixtures: [],
     isAscendingSort: false,
     onPlayerClick: noop,
     onTransfersRequest: noop,
@@ -131,6 +137,15 @@ Desktop.propTypes = {
     originalTeam: PropTypes.arrayOf(PropTypes.shape({})),
     fetchingAllPlayers: PropTypes.bool,
     fetchingOriginalTeam: PropTypes.bool,
+    fixtures: PropTypes.arrayOf(PropTypes.shape({
+        teamOne: PropTypes.string,
+        result: PropTypes.string,
+        teamTwo: PropTypes.string,
+        location: PropTypes.string,
+        time: PropTypes.string,
+        completed: PropTypes.bool,
+        league: PropTypes.string
+    })),
     isAscendingSort: PropTypes.bool,
     onPlayerClick: PropTypes.func,
     onTransfersRequest: PropTypes.func,

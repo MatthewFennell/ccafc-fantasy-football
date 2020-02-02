@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import classNames from 'classnames';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import defaultStyles from './MatchRow.module.scss';
 
@@ -11,20 +10,22 @@ const isLive = date => moment()
     .isAfter(moment(date, 'DD-MM-YYYY hh:mm'))
     && moment().isBefore(moment(date, 'DD-MM-YYYY hh:mm').add(100, 'minutes'));
 
+const renderTeamName = name => {
+    if (name.includes('St. Hild & St. Bede')) {
+        return name.replace('St. Hild & St. Bede', 'Hild Bede');
+    }
+    if (name.includes('Josephine Butler')) {
+        return name.replace('Josephine Butler', 'Butler');
+    }
+    if (name.includes('St. Cuthbert\'s')) {
+        return name.replace('St. Cuthbert\'s', 'Cuths');
+    }
+    return name;
+};
+
 const MatchRow = props => (
     <div className={props.styles.matchWrapper}>
         <div className={props.styles.leftHand}>
-            <div className={props.styles.teamOne}>
-                {props.match.teamOne}
-            </div>
-        </div>
-        <div className={props.styles.versus}>
-            VS
-        </div>
-        <div className={props.styles.rightHand}>
-            <div className={props.styles.teamTwo}>
-                {props.match.teamTwo}
-            </div>
             {isLive(props.match.time) && (
                 <div className={props.styles.matchLive}>
                     <div className={props.styles.greenIcon}>
@@ -35,11 +36,18 @@ const MatchRow = props => (
                     </div>
                 </div>
             )}
-            <div className={classNames({
-                [props.styles.infoRowWithAuto]: !isLive(props.match.time),
-                [props.styles.info]: true
-            })}
-            >
+            <div className={props.styles.teamOne}>
+                {renderTeamName(props.match.teamOne)}
+            </div>
+        </div>
+        <div className={props.styles.versus}>
+            VS
+        </div>
+        <div className={props.styles.rightHand}>
+            <div className={props.styles.teamTwo}>
+                {renderTeamName(props.match.teamTwo)}
+            </div>
+            <div className={props.styles.info}>
                 {convertToDate(props.match.time)}
             </div>
         </div>
