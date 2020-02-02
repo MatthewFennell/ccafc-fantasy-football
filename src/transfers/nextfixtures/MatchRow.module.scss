@@ -1,0 +1,82 @@
+@import "../../common/Styles.scss";
+
+.matchWrapper{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.leftHand, .rightHand {
+    width: 50%;
+}
+
+.rightHand {
+    display: flex; 
+    justify-content: space-evenly;
+    > div {
+        @include vertical-center-div();
+    }
+    .info {
+        color: $color-gray;
+    }
+
+    .infoRowWithAuto{
+        margin-left: auto;
+    }
+}
+
+.teamOne, .teamTwo {
+    font-size: $font-size-medium;
+    color: $color-dark-blue;
+}
+
+.teamOne {
+    text-align: right;
+}
+
+.matchLive{
+    display: flex;
+    margin-left: auto;
+    margin-right: $spacing-small;
+
+    .greenIcon {
+        color: $color-green;
+    }
+    .liveText {
+        margin-left: $spacing-tiny;
+        color: $color-red;
+        -webkit-animation: flickerAnimation 2s infinite;
+        -moz-animation: flickerAnimation 2s infinite;
+        -o-animation: flickerAnimation 2s infinite;
+         animation: flickerAnimation 2s infinite;
+    }
+}
+
+@keyframes flickerAnimation {
+    0%   { opacity:1; }
+    50%  { opacity:0; }
+    100% { opacity:1; }
+  }
+  @-o-keyframes flickerAnimation{
+    0%   { opacity:1; }
+    50%  { opacity:0; }
+    100% { opacity:1; }
+  }
+  @-moz-keyframes flickerAnimation{
+    0%   { opacity:1; }
+    50%  { opacity:0; }
+    100% { opacity:1; }
+  }
+  @-webkit-keyframes flickerAnimation{
+    0%   { opacity:1; }
+    50%  { opacity:0; }
+    100% { opacity:1; }
+  }
+
+.versus {
+    width: 5%;
+    text-align: center;
+    @include vertical-center-div();
+    font-weight: bold;
+    margin-right: $spacing-tiny;
+    margin-left: $spacing-tiny;
+}

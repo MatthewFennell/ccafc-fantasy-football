@@ -3,13 +3,17 @@
 .transfersWrapperDesktop {
     display: flex;
     > div {
-        flex-grow: 1;
+        width: 50%;
     }
 }
 
 .pitchWrapper{
     overflow: hidden;
-    height: 90vh;
+    // height: 90vh;
+    margin: $spacing-small;
+    // padding: $spacing-medium;
+    background-color: $color-white;
+    @include light-box-shadow();
 }
 
 .transfersHeader{
