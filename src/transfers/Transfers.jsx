@@ -17,7 +17,6 @@ import Desktop from './desktop/Desktop';
 import { desktopColumns } from './helpers';
 import defaultStyles from './Transfers.module.scss';
 import SuccessModal from '../common/modal/SuccessModal';
-import NextFixtures from './nextfixtures/NextFixtures';
 
 const Transfers = props => {
     useEffect(() => {
