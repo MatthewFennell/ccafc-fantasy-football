@@ -10,12 +10,14 @@ import {
     closeTransfersError, undoTransferChanges, removePlayerFromCurrentTeam,
     updateTeamRequest, restorePlayerRequest, replacePlayerRequest, closeSuccessMessage
 } from './actions';
+import { fetchFixturesRequest } from '../fixtures/actions';
 import Mobile from './mobile/Mobile';
 import { getColumns } from './mobile/helpers';
 import Desktop from './desktop/Desktop';
 import { desktopColumns } from './helpers';
 import defaultStyles from './Transfers.module.scss';
 import SuccessModal from '../common/modal/SuccessModal';
+import NextFixtures from './nextfixtures/NextFixtures';
 
 const Transfers = props => {
     useEffect(() => {
@@ -23,9 +25,11 @@ const Transfers = props => {
         props.fetchActiveTeamRequest(props.auth.uid);
         props.fetchAllPlayersRequest();
         props.fetchAllTeamsRequest();
+        props.fetchFixturesRequest();
         // eslint-disable-next-line
     }, [props.fetchUserStatsRequest, props.auth.uid,
-        props.fetchActiveTeamRequest, props.fetchAllPlayersRequest, props.fetchAllTeamsRequest]);
+        props.fetchActiveTeamRequest, props.fetchAllPlayersRequest,
+        props.fetchAllTeamsRequest, fetchFixturesRequest]);
 
     const [removeModalOpen, setRemoveModalOpen] = useState(false);
     const [restoreModalOpen, setRestoreModalOpen] = useState(false);
@@ -236,6 +240,10 @@ const Transfers = props => {
                     </>
                 )}
             </Media>
+            <NextFixtures
+                allTeams={props.allTeams}
+                fixtures={props.fixtures.filter(x => !x.completed)}
+            />
             <SuccessModal
                 backdrop
                 closeModal={props.closeSuccessMessage}
@@ -254,6 +262,7 @@ Transfers.defaultProps = {
     currentTeam: [],
     fetchingAllPlayers: false,
     fetchingOriginalTeam: false,
+    fixtures: [],
     originalTeam: [],
     remainingBudget: 0,
     successMessage: '',
@@ -277,7 +286,17 @@ Transfers.propTypes = {
     fetchActiveTeamRequest: PropTypes.func.isRequired,
     fetchAllTeamsRequest: PropTypes.func.isRequired,
     fetchingOriginalTeam: PropTypes.bool,
+    fixtures: PropTypes.arrayOf(PropTypes.shape({
+        teamOne: PropTypes.string,
+        result: PropTypes.string,
+        teamTwo: PropTypes.string,
+        location: PropTypes.string,
+        time: PropTypes.string,
+        completed: PropTypes.bool,
+        league: PropTypes.string
+    })),
     fetchUserStatsRequest: PropTypes.func.isRequired,
+    fetchFixturesRequest: PropTypes.func.isRequired,
     originalTeam: PropTypes.arrayOf(PropTypes.shape({})),
     remainingBudget: PropTypes.number,
     replacePlayerRequest: PropTypes.func.isRequired,
@@ -298,6 +317,7 @@ const mapDispatchToProps = {
     fetchActiveTeamRequest,
     fetchAllPlayersRequest,
     fetchAllTeamsRequest,
+    fetchFixturesRequest,
     fetchUserStatsRequest,
     replacePlayerRequest,
     restorePlayerRequest,
@@ -313,6 +333,7 @@ const mapStateToProps = state => ({
     currentTeam: state.transfers.currentTeam,
     fetchingAllPlayers: state.transfers.fetchingAllPlayers,
     fetchingOriginalTeam: state.transfers.fetchingOriginalTeam,
+    fixtures: state.fixtures.fixtures,
     originalTeam: state.transfers.originalTeam,
     remainingBudget: state.transfers.remainingBudget,
     successMessage: state.transfers.successMessage,
