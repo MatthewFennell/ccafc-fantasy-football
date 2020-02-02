@@ -113,6 +113,7 @@ Mobile.defaultProps = {
     currentTeam: [],
     fetchingAllPlayers: false,
     fetchingOriginalTeam: false,
+    fixtures: [],
     onTransfersRequest: noop,
     onPlayerClick: noop,
     originalTeam: [],
@@ -146,6 +147,15 @@ Mobile.propTypes = {
     currentTeam: PropTypes.arrayOf(PropTypes.shape({})),
     fetchingAllPlayers: PropTypes.bool,
     fetchingOriginalTeam: PropTypes.bool,
+    fixtures: PropTypes.arrayOf(PropTypes.shape({
+        teamOne: PropTypes.string,
+        result: PropTypes.string,
+        teamTwo: PropTypes.string,
+        location: PropTypes.string,
+        time: PropTypes.string,
+        completed: PropTypes.bool,
+        league: PropTypes.string
+    })),
     onTransfersRequest: PropTypes.func,
     onPlayerClick: PropTypes.func,
     originalTeam: PropTypes.arrayOf(PropTypes.shape({})),
