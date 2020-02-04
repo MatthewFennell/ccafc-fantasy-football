@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import React from 'react';
 import moment from 'moment';
+import _ from 'lodash';
 import * as constants from './constants';
 
 export const isDefensive = position => position.toLowerCase() === 'goalkeeper' || position.toLowerCase() === 'defender';
@@ -19,4 +20,20 @@ export const generateYouTubeLinkFromId = id => (
         {`https://www.youtube.com/watch?v=${id}`}
 
     </a>
+);
+
+export const uniqueCollegeTeamsFromFixtures = (fixtures, team) => fixtures
+    .reduce((acc, cur) => _.union(acc, [cur.teamOne, cur.teamTwo]
+        .filter(x => x.includes(team))), []);
+
+const convertToDate = d => moment(d, 'DD-MM-YYYY hh:mm');
+const isFutureTense = date => moment(date, 'DD-MM-YYYY hh:mm')
+    .isAfter(moment().subtract(constants.matchLengthMinutes, 'minutes'));
+
+export const filterFixturesByTime = (fixtures, isFuture) => fixtures
+    .filter(x => (isFuture ? isFutureTense(x.time) : !isFutureTense(x.time)));
+
+export const sortMatchesByDate = (fixtures, isDesc) => (isDesc
+    ? fixtures.sort((a, b) => (convertToDate(a.time) > convertToDate(b.time) ? -1 : 1))
+    : fixtures.sort((a, b) => (convertToDate(a.time) > convertToDate(b.time) ? 1 : -1))
 );

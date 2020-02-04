@@ -4,7 +4,7 @@ import moment from 'moment';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import defaultStyles from './MatchRow.module.scss';
 
-const convertToDate = d => moment(d, 'DD-MM-YYYY hh:mm').format('HH:mm');
+const covertToTime = d => moment(d, 'DD-MM-YYYY hh:mm').format('HH:mm');
 
 const isLive = date => moment()
     .isAfter(moment(date, 'DD-MM-YYYY hh:mm'))
@@ -48,7 +48,7 @@ const MatchRow = props => (
                 {renderTeamName(props.match.teamTwo)}
             </div>
             <div className={props.styles.info}>
-                {convertToDate(props.match.time)}
+                {covertToTime(props.match.time)}
             </div>
         </div>
     </div>

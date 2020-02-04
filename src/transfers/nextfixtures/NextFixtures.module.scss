@@ -28,6 +28,10 @@
     }
 }
 
+.loadingUpcomingMatches {
+    text-align: center;
+}
+
 @media only screen and (max-width: 600px) {
     .nextFixturesWrapper {
       left: 30%;
@@ -36,4 +40,4 @@
         width: 90%;
       }
     }
-  }
+}
