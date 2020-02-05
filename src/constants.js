@@ -91,6 +91,7 @@ export const PERMISSIONS = {
 };
 
 export const successDelay = 3500;
+export const matchLengthMinutes = 100;
 
 // Things to fix
 

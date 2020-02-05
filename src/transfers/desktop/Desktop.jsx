@@ -76,6 +76,7 @@ const Desktop = props => (
         <NextFixtures
             allTeams={props.allTeams}
             fixtures={props.fixtures.filter(x => !x.completed)}
+            loadingFixtures={props.loadingFixtures}
         />
         <Modals
             closeRemoveModal={props.closeRemoveModal}
@@ -106,6 +107,7 @@ Desktop.defaultProps = {
     fetchingOriginalTeam: false,
     fixtures: [],
     isAscendingSort: false,
+    loadingFixtures: false,
     onPlayerClick: noop,
     onTransfersRequest: noop,
     playerToRemove: {},
@@ -147,6 +149,7 @@ Desktop.propTypes = {
         league: PropTypes.string
     })),
     isAscendingSort: PropTypes.bool,
+    loadingFixtures: PropTypes.bool,
     onPlayerClick: PropTypes.func,
     onTransfersRequest: PropTypes.func,
     playerToRemove: PropTypes.oneOfType([

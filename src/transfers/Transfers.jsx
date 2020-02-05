@@ -183,6 +183,7 @@ const Transfers = props => {
                                 fetchingAllPlayers={props.fetchingAllPlayers}
                                 fetchingOriginalTeam={props.fetchingOriginalTeam}
                                 fixtures={props.fixtures}
+                                loadingFixtures={props.loadingFixtures}
                                 onPlayerClick={onPlayerClick}
                                 onTransfersRequest={onTransfersRequest}
                                 originalTeam={props.originalTeam}
@@ -218,6 +219,7 @@ const Transfers = props => {
                                 fetchingOriginalTeam={props.fetchingOriginalTeam}
                                 fixtures={props.fixtures}
                                 isAscendingSort={isAscendingSort}
+                                loadingFixtures={props.loadingFixtures}
                                 onPlayerClick={onPlayerClick}
                                 onTransfersRequest={onTransfersRequest}
                                 originalTeam={props.originalTeam}
@@ -241,10 +243,6 @@ const Transfers = props => {
                     </>
                 )}
             </Media>
-            {/* <NextFixtures
-                allTeams={props.allTeams}
-                fixtures={props.fixtures.filter(x => !x.completed)}
-            /> */}
             <SuccessModal
                 backdrop
                 closeModal={props.closeSuccessMessage}
@@ -264,6 +262,7 @@ Transfers.defaultProps = {
     fetchingAllPlayers: false,
     fetchingOriginalTeam: false,
     fixtures: [],
+    loadingFixtures: false,
     originalTeam: [],
     remainingBudget: 0,
     successMessage: '',
@@ -298,6 +297,7 @@ Transfers.propTypes = {
     })),
     fetchUserStatsRequest: PropTypes.func.isRequired,
     fetchFixturesRequest: PropTypes.func.isRequired,
+    loadingFixtures: PropTypes.bool,
     originalTeam: PropTypes.arrayOf(PropTypes.shape({})),
     remainingBudget: PropTypes.number,
     replacePlayerRequest: PropTypes.func.isRequired,
@@ -335,6 +335,7 @@ const mapStateToProps = state => ({
     fetchingAllPlayers: state.transfers.fetchingAllPlayers,
     fetchingOriginalTeam: state.transfers.fetchingOriginalTeam,
     fixtures: state.fixtures.fixtures,
+    loadingFixtures: state.fixtures.loadingFixtures,
     originalTeam: state.transfers.originalTeam,
     remainingBudget: state.transfers.remainingBudget,
     successMessage: state.transfers.successMessage,

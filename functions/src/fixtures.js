@@ -25,30 +25,49 @@ exports.findFixtures = functions
             return null;
         };
 
-        const generateFixtures = (list, league) => {
+        const generateLeagueFixtures = (list, league) => {
             const fixtures = [];
             for (let x = 0; x < list.length; x += 5) {
                 fixtures.push(
                     generateFixture(list[x], list[x + 1], list[x + 2], list[x + 3], list[x + 4])
                 );
             }
-            return fixtures.filter(x => x !== null).map(x => ({ ...x, league }));
+            return fixtures.filter(x => x !== null).map(x => ({ ...x, league, isCup: false }));
+        };
+
+        const generateCupFixtures = (list, league) => {
+            const fixtures = [];
+            for (let x = 0; x < list.length; x += 6) {
+                fixtures.push(
+                    generateFixture(list[x + 1], list[x + 2], list[x + 3], list[x + 4], list[x + 5])
+                );
+            }
+            return fixtures.filter(x => x !== null).map(x => ({ ...x, league, isCup: true }));
         };
 
         const transformHtml = html => {
             const $ = cheerio.load(html);
             const arr = [];
 
+            const format = $('h1').text();
+
             const splitLeague = $('h3').text().split('-');
-            const league = splitLeague.length > 1 ? splitLeague[1].trimLeft() : null;
+            let league = splitLeague.length > 1 ? splitLeague[1].trimLeft() : null;
+
+            if (splitLeague.some(x => x.includes('Floodlit'))) {
+                league = 'Floodlit';
+            }
+            if (splitLeague.some(x => x.includes('Trophy'))) {
+                league = 'Trophy';
+            }
 
             $('td').each((i, el) => {
                 const item = $(el).text();
                 arr.push(item.trim().trimLeft().trimRight().replace(/(\r\n|\n|\r)/gm, '')
                     .replace(/\s\s+/g, ' '));
             });
-            const fixtures = generateFixtures(arr, league);
-            return fixtures;
+
+            return format === 'Knockout' ? generateCupFixtures(arr, league) : generateLeagueFixtures(arr, league);
         };
 
         const promises = constants.leaguesForFixtures.map(leagueUrl => axios.get(leagueUrl));

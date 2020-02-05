@@ -84,6 +84,7 @@ const Mobile = props => (
                 <NextFixtures
                     allTeams={props.allTeams}
                     fixtures={props.fixtures.filter(x => !x.completed)}
+                    loadingFixtures={props.loadingFixtures}
                 />
             </div>
         </div>
@@ -114,6 +115,7 @@ Mobile.defaultProps = {
     fetchingAllPlayers: false,
     fetchingOriginalTeam: false,
     fixtures: [],
+    loadingFixtures: false,
     onTransfersRequest: noop,
     onPlayerClick: noop,
     originalTeam: [],
@@ -156,6 +158,7 @@ Mobile.propTypes = {
         completed: PropTypes.bool,
         league: PropTypes.string
     })),
+    loadingFixtures: PropTypes.bool,
     onTransfersRequest: PropTypes.func,
     onPlayerClick: PropTypes.func,
     originalTeam: PropTypes.arrayOf(PropTypes.shape({})),

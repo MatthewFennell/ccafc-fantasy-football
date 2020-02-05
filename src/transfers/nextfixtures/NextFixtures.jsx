@@ -4,26 +4,23 @@ import _ from 'lodash';
 import moment from 'moment';
 import defaultStyles from './NextFixtures.module.scss';
 import MatchRow from './MatchRow';
-
-const convertToDate = d => moment(d, 'DD-MM-YYYY hh:mm');
+import * as helpers from '../../helperFunctions';
+import Spinner from '../../common/spinner/Spinner';
 
 const convertToDay = d => moment(d, 'DD-MM-YYYY')
     .format('ddd, MMMM Do YYYY');
 
-const isFuture = date => moment(date, 'DD-MM-YYYY hh:mm').isAfter(moment().subtract(100, 'minutes'));
-
 const NextFixtures = props => {
-    const uniqueTeams = props.fixtures.reduce((acc, cur) => _.union(acc,
-        [cur.teamOne, cur.teamTwo].filter(x => x.includes('Collingwood'))), []);
-
-    const sortedByDateFixtures = props.fixtures.filter(x => isFuture(x.time))
-        .sort((a, b) => (convertToDate(a.time) > convertToDate(b.time) ? 1 : -1));
+    const uniqueTeams = helpers.uniqueCollegeTeamsFromFixtures(props.fixtures, 'Collingwood');
+    const futureMatches = helpers.filterFixturesByTime(props.fixtures, true);
+    const sortedByDateFixtures = helpers.sortMatchesByDate(futureMatches, false);
 
     const nextMatchPerTeam = uniqueTeams.map(x => sortedByDateFixtures
         .find(y => y.teamOne === x || y.teamTwo === x));
 
-    const removedDuplicates = _.uniqBy(nextMatchPerTeam, x => x.teamOne + x.teamTwo)
-        .sort((a, b) => (convertToDate(a.time) > convertToDate(b.time) ? 1 : -1));
+    const removedDuplicates = _.uniqBy(nextMatchPerTeam, x => x.teamOne + x.teamTwo);
+
+    const removedDuplicatedSorted = helpers.sortMatchesByDate(removedDuplicates, false);
 
     const daysOfYear = _.uniq(removedDuplicates.map(x => convertToDay(x.time)));
 
@@ -33,23 +30,29 @@ const NextFixtures = props => {
                 Upcoming Fixtures
             </div>
 
-            {daysOfYear.map(x => (
-                <div className={props.styles.datesWrapper}>
-                    <div className={props.styles.dateHeader}>
-                        {x}
+            {props.loadingFixtures
+                ? (
+                    <div className={props.styles.loadingUpcomingMatches}>
+                        <Spinner color="secondary" />
                     </div>
-                    <div className={props.styles.setOfMatchesWrapper}>
-                        {removedDuplicates.filter(match => convertToDay(match.time) === x)
-                            .map(match => <MatchRow match={match} />)}
+                ) : daysOfYear.map(x => (
+                    <div className={props.styles.datesWrapper}>
+                        <div className={props.styles.dateHeader}>
+                            {x}
+                        </div>
+                        <div className={props.styles.setOfMatchesWrapper}>
+                            {removedDuplicatedSorted.filter(match => convertToDay(match.time) === x)
+                                .map(match => <MatchRow match={match} />)}
+                        </div>
                     </div>
-                </div>
-            ))}
+                ))}
         </div>
     );
 };
 
 NextFixtures.defaultProps = {
     fixtures: [],
+    loadingFixtures: false,
     styles: defaultStyles
 };
 
@@ -63,6 +66,7 @@ NextFixtures.propTypes = {
         completed: PropTypes.bool,
         league: PropTypes.string
     })),
+    loadingFixtures: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 

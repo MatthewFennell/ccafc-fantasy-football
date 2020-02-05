@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import * as helpers from '../helperFunctions';
 
 export const gridStyles = {
     root: {
@@ -84,10 +85,12 @@ export const filterFixtures = (fixtures, league, collingwoodOnly, upcomingOnly, 
 
     const teamNameFilter = x => x.teamOne.includes(teamName) || x.teamTwo.includes(teamName);
 
-    return fixtures
+    const filteredFixtures = fixtures
         .filter(leagueFilter)
         .filter(collingwoodOnlyFilter)
         .filter(upcomingOnlyFilter)
         .filter(teamNameFilter)
         .map(fixture => ({ ...fixture, id: `${fixture.teamOne}-${fixture.teamTwo}` }));
+
+    return helpers.sortMatchesByDate(filteredFixtures, false);
 };

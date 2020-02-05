@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import { MDBIcon } from 'mdbreact';
 import defaultStyles from './MatchRow.module.scss';
 
-const convertToDate = d => moment(d, 'DD-MM-YYYY hh:mm').format('HH:mm');
+const covertToTime = d => moment(d, 'DD-MM-YYYY hh:mm').format('HH:mm');
 
 const isLive = date => moment()
     .isAfter(moment(date, 'DD-MM-YYYY hh:mm'))
@@ -37,6 +38,13 @@ const MatchRow = props => (
                 </div>
             )}
             <div className={props.styles.teamOne}>
+                {props.match.isCup
+                && (
+                    <div className={props.styles.trophyIcon}>
+                        <MDBIcon icon="trophy" />
+                    </div>
+                ) }
+
                 {renderTeamName(props.match.teamOne)}
             </div>
         </div>
@@ -44,11 +52,12 @@ const MatchRow = props => (
             VS
         </div>
         <div className={props.styles.rightHand}>
+
             <div className={props.styles.teamTwo}>
                 {renderTeamName(props.match.teamTwo)}
             </div>
             <div className={props.styles.info}>
-                {convertToDate(props.match.time)}
+                {covertToTime(props.match.time)}
             </div>
         </div>
     </div>
@@ -61,6 +70,7 @@ MatchRow.defaultProps = {
 
 MatchRow.propTypes = {
     match: PropTypes.shape({
+        isCup: PropTypes.bool,
         teamOne: PropTypes.string,
         result: PropTypes.string,
         teamTwo: PropTypes.string,
