@@ -103,5 +103,7 @@ module.exports.leaguesForFixtures = [
     'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=22',
     'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=23',
     'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=24',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=77'
+    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=77',
+    'https://www.dur.ac.uk/teamdurham/participation/collegesport/knockout/?knockout=111', // Floodlit
+    'https://www.dur.ac.uk/teamdurham/participation/collegesport/knockout/?knockout=113' // Cup
 ];

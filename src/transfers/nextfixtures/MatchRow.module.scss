@@ -34,6 +34,13 @@
 .teamOne {
     width: 100%;
     text-align: right;
+    display: flex;
+    justify-content: flex-end;
+
+    .trophyIcon {
+        margin-right: $spacing-small;
+        color: $color-trophy;
+    }
 }
 
 .matchLive{
