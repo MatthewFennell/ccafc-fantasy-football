@@ -4,6 +4,7 @@ import moment from 'moment';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import { MDBIcon } from 'mdbreact';
 import defaultStyles from './MatchRow.module.scss';
+import { renderCollegeIcon } from './helpers';
 
 const covertToTime = d => moment(d, 'DD-MM-YYYY hh:mm').format('HH:mm');
 
@@ -23,6 +24,7 @@ const renderTeamName = name => {
     }
     return name;
 };
+
 
 const MatchRow = props => (
     <div className={props.styles.matchWrapper}>
@@ -44,8 +46,8 @@ const MatchRow = props => (
                         <MDBIcon icon="trophy" />
                     </div>
                 ) }
-
                 {renderTeamName(props.match.teamOne)}
+                {renderCollegeIcon(props.match.teamOne, props.styles)}
             </div>
         </div>
         <div className={props.styles.versus}>
@@ -54,6 +56,7 @@ const MatchRow = props => (
         <div className={props.styles.rightHand}>
 
             <div className={props.styles.teamTwo}>
+                {renderCollegeIcon(props.match.teamTwo, props.styles)}
                 {renderTeamName(props.match.teamTwo)}
             </div>
             <div className={props.styles.info}>
