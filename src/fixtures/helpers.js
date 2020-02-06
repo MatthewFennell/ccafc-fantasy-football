@@ -58,7 +58,7 @@ export const fixturesFilters = (myTeam, fixtures) => {
     ].concat(leagues.map(x => ({
         radioLabel: x,
         value: x
-    })));
+    }))).filter(x => x.value !== 'No team set' && x.value);
 };
 
 export const generateCollingwoodTeams = fixtures => fixtures

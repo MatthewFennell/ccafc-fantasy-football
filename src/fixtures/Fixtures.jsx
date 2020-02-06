@@ -18,10 +18,13 @@ import SuccessModal from '../common/modal/SuccessModal';
 
 const Fixtures = props => {
     const [myTeam, setMyTeam] = useState('');
-    const [radioValue, setRadioValue] = useState(props.myTeam);
+    const [radioValue, setRadioValue] = useState('All');
     const [collingwoodOnly, setCollingwoodOnly] = useState(false);
     const [upcomingMatchesOnly, setUpcomingMatchesOnly] = useState(false);
     const [teamNameFilter, setTeamNameFilter] = useState('');
+
+    console.log('myTeam', props.myTeam);
+    console.log('radio value', radioValue);
 
     useEffect(() => {
         props.fetchFixturesRequest();
@@ -30,7 +33,11 @@ const Fixtures = props => {
     }, [props.fetchMyTeamRequest]);
 
     useEffect(() => {
-        setRadioValue(props.myTeam);
+        if (props.myTeam !== 'No team set') {
+            setRadioValue(props.myTeam);
+        } else {
+            setRadioValue('All');
+        }
     }, [props.myTeam]);
 
 
@@ -51,6 +58,8 @@ const Fixtures = props => {
     const toggleUpcomingOnly = useCallback(() => {
         setUpcomingMatchesOnly(!upcomingMatchesOnly);
     }, [setUpcomingMatchesOnly, upcomingMatchesOnly]);
+
+    console.log('fixtures', props.fixtures);
 
     return (
         <>
