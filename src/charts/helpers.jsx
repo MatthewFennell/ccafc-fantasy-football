@@ -19,7 +19,7 @@ const generateAccumulation = (team, maxWeek) => {
         fp.set('week-0.totalPoints', 0)
     )(result);
 
-    for (let week = 1; week <= maxWeek; week++) {
+    for (let week = 1; week <= maxWeek; week += 1) {
         const currentResults = team.results.filter(t => t.week === week);
         let totalPoints = 0;
         let totalGoalsFor = 0;
@@ -58,7 +58,7 @@ export const findGraphData = (allTeams, activeTeams, graphMode, maxGameweek) => 
     // Add all the selected team names
     output.push(['x'].concat(includedTeams.map(team => team.team_name)));
 
-    for (let week = 1; week <= maxGameweek; week++) {
+    for (let week = 1; week <= maxGameweek; week += 1) {
         const weekData = [week];
         includedTeams.forEach(team => {
             const resultsForThatWeek = team.results.filter(x => x.week === week);
@@ -189,7 +189,7 @@ export const columns = [
 
 export const marks = maxWeek => {
     const result = [];
-    for (let x = 1; x <= maxWeek; x++) {
+    for (let x = 1; x <= maxWeek; x += 1) {
         result.push({ value: x, label: x.toString() });
     }
     return result;

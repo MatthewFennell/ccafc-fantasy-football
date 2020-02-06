@@ -85,6 +85,7 @@ const Mobile = props => (
                     allTeams={props.allTeams}
                     fixtures={props.fixtures.filter(x => !x.completed)}
                     loadingFixtures={props.loadingFixtures}
+                    showCollegeCrest={false}
                 />
             </div>
         </div>

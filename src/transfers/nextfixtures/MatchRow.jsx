@@ -47,7 +47,8 @@ const MatchRow = props => (
                     </div>
                 ) }
                 {renderTeamName(props.match.teamOne)}
-                {renderCollegeIcon(props.match.teamOne, props.styles)}
+                {props.showCollegeCrest
+                && renderCollegeIcon(props.match.teamOne, props.styles)}
             </div>
         </div>
         <div className={props.styles.versus}>
@@ -56,7 +57,8 @@ const MatchRow = props => (
         <div className={props.styles.rightHand}>
 
             <div className={props.styles.teamTwo}>
-                {renderCollegeIcon(props.match.teamTwo, props.styles)}
+                {props.showCollegeCrest
+                && renderCollegeIcon(props.match.teamTwo, props.styles)}
                 {renderTeamName(props.match.teamTwo)}
             </div>
             <div className={props.styles.info}>
@@ -68,6 +70,7 @@ const MatchRow = props => (
 
 MatchRow.defaultProps = {
     match: {},
+    showCollegeCrest: false,
     styles: defaultStyles
 };
 
@@ -82,6 +85,7 @@ MatchRow.propTypes = {
         completed: PropTypes.bool,
         league: PropTypes.string
     }),
+    showCollegeCrest: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 

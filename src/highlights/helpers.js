@@ -96,5 +96,5 @@ export const generateKarma = myVideos => {
         karma += vid.upvotes.length;
         karma -= vid.downvotes.length;
     });
-    return karma ? `+${karma}` : karma;
+    return karma > 0 ? `+${karma}` : karma.toString();
 };

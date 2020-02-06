@@ -42,7 +42,12 @@ const NextFixtures = props => {
                         </div>
                         <div className={props.styles.setOfMatchesWrapper}>
                             {removedDuplicatedSorted.filter(match => convertToDay(match.time) === x)
-                                .map(match => <MatchRow match={match} />)}
+                                .map(match => (
+                                    <MatchRow
+                                        match={match}
+                                        showCollegeCrest={props.showCollegeCrest}
+                                    />
+                                ))}
                         </div>
                     </div>
                 ))}
@@ -53,6 +58,7 @@ const NextFixtures = props => {
 NextFixtures.defaultProps = {
     fixtures: [],
     loadingFixtures: false,
+    showCollegeCrest: false,
     styles: defaultStyles
 };
 
@@ -67,6 +73,7 @@ NextFixtures.propTypes = {
         league: PropTypes.string
     })),
     loadingFixtures: PropTypes.bool,
+    showCollegeCrest: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 
