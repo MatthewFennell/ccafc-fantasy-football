@@ -15,6 +15,12 @@
   min-width: 30%;
 }
 
+.notExpandedVideoWrapper{
+  max-width: 33%;
+  min-width: 30%;
+}
+
+
 @media only screen and (max-width: 600px) {
   .videoWrapper{
     min-width: 100%;
@@ -22,10 +28,6 @@
   }
 }
 
-.notExpandedVideoWrapper{
-  max-width: 33%;
-  min-width: 30%;
-}
 
 .userInfo{
   width: 50%;
