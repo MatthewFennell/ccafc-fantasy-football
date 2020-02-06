@@ -219,4 +219,12 @@ describe('Other', () => {
     it('Is defensive defender', () => {
         expect(helpers.isDefensive('defender')).toEqual(true);
     });
+
+    it('Generating points route', () => {
+        expect(helpers.generatePointsRoute('userId', 'week')).toEqual('/points/userId/week');
+    });
+
+    it('Generating overview route', () => {
+        expect(helpers.generateOverviewRoute('userId', 'week')).toEqual('/overview/userId/week');
+    });
 });

@@ -23,9 +23,6 @@ const Fixtures = props => {
     const [upcomingMatchesOnly, setUpcomingMatchesOnly] = useState(false);
     const [teamNameFilter, setTeamNameFilter] = useState('');
 
-    console.log('myTeam', props.myTeam);
-    console.log('radio value', radioValue);
-
     useEffect(() => {
         props.fetchFixturesRequest();
         props.fetchMyTeamRequest();
@@ -58,8 +55,6 @@ const Fixtures = props => {
     const toggleUpcomingOnly = useCallback(() => {
         setUpcomingMatchesOnly(!upcomingMatchesOnly);
     }, [setUpcomingMatchesOnly, upcomingMatchesOnly]);
-
-    console.log('fixtures', props.fixtures);
 
     return (
         <>
