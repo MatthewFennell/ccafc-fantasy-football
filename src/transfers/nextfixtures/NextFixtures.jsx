@@ -13,6 +13,9 @@ const convertToDay = d => moment(d, 'DD-MM-YYYY')
 const NextFixtures = props => {
     const uniqueTeams = helpers.uniqueCollegeTeamsFromFixtures(props.fixtures, 'Collingwood');
     const futureMatches = helpers.filterFixturesByTime(props.fixtures, true);
+
+
+    console.log('future matches', futureMatches);
     const sortedByDateFixtures = helpers.sortMatchesByDate(futureMatches, false);
 
     const nextMatchPerTeam = uniqueTeams.map(x => sortedByDateFixtures
