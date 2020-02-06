@@ -31,6 +31,37 @@ const players = [
     }
 ];
 
+const playersWithFalseValues = [
+    {
+        goals: 5,
+        player_id: 'playerOne',
+        assists: 10,
+        week: 2,
+        penaltyMisses: 5,
+        manOfTheMatch: true,
+        dickOfTheDay: true,
+        ownGoals: 1,
+        cleanSheet: true,
+        yellowCard: true,
+        penaltySaves: 1,
+        redCard: true
+    },
+    {
+        goals: 4,
+        player_id: 'playerOne',
+        assists: 1,
+        week: 3,
+        penaltyMisses: 7,
+        manOfTheMatch: false,
+        dickOfTheDay: false,
+        ownGoals: 0,
+        cleanSheet: false,
+        yellowCard: false,
+        penaltySaves: 0,
+        redCard: false
+    }
+];
+
 describe('Stats max / min week operations', () => {
     it('Generates correct week tickers', () => {
         expect(helpers.marks(5)).toEqual([
@@ -142,6 +173,25 @@ describe('Combining player stats together', () => {
                 assists: 10,
                 week: 2,
                 penaltyMisses: 5,
+                manOfTheMatch: 1,
+                dickOfTheDay: 1,
+                ownGoals: 1,
+                cleanSheet: 1,
+                yellowCard: 1,
+                penaltySaves: 1,
+                redCard: 1
+            }
+        ]);
+    });
+
+    it('Players including false values', () => {
+        expect(helpers.combinePlayers(playersWithFalseValues, 0, 5)).toEqual([
+            {
+                goals: 9,
+                player_id: 'playerOne',
+                assists: 11,
+                week: 3,
+                penaltyMisses: 12,
                 manOfTheMatch: 1,
                 dickOfTheDay: 1,
                 ownGoals: 1,
