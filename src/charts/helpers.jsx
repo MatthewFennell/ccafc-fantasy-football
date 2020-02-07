@@ -98,7 +98,7 @@ const sortLeagueTable = leagueTable => leagueTable.sort((a, b) => {
     }
 
     if (a.gamesPlayed - b.gamesPlayed !== 0) {
-        return a.gamesPlayed - b.gamesPlayed;
+        return b.gamesPlayed - a.gamesPlayed;
     }
 
     if (a.wins - b.wins !== 0) {
@@ -107,7 +107,7 @@ const sortLeagueTable = leagueTable => leagueTable.sort((a, b) => {
     return 0;
 });
 
-const makeBold = val => <div style={{ fontWeight: 'bold' }}>{val}</div>;
+export const makeBold = val => <div style={{ fontWeight: 'bold' }}>{val}</div>;
 
 export const generateLeagueTable = (activeTeams, weekStart, weekEnd) => {
     const rows = [];
