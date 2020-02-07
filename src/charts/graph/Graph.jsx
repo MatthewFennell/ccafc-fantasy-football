@@ -103,7 +103,7 @@ const Graph = props => {
                     data={graphData}
                     options={{
                         hAxis: {
-                            title: 'Time',
+                            title: 'Week',
                             ticks: fp.range(1, props.maxGameweek + 1),
                             viewWindow: { min: 1 }
                         },

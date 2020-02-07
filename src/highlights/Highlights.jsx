@@ -25,8 +25,6 @@ const Highlights = props => {
         // eslint-disable-next-line
     }, []);
 
-    console.log('videos', props.videos);
-
     const [submitVideoOpen, setSubmitVideoOpen] = useState(false);
     const [filterBy, setFilterBy] = useState('allTime');
     const [sortBy, setSortBy] = useState('newestFirst');
