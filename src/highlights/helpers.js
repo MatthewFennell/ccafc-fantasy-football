@@ -73,7 +73,7 @@ export const sortByFilters = {
     }
 };
 
-const filterBySearch = (videos, searchFilter) => videos
+export const filterBySearch = (videos, searchFilter) => videos
     .filter(x => x.email.includes(searchFilter)
     || x.title.toLowerCase().includes(searchFilter.toLowerCase()));
 
