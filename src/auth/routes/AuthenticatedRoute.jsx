@@ -42,3 +42,5 @@ AuthenticatedRoute.propTypes = {
 };
 
 export default connect(mapStateToProps)(AuthenticatedRoute);
+
+export { AuthenticatedRoute as AuthenticatedRouteUnconnected };

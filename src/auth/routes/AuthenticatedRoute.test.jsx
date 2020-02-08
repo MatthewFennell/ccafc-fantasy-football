@@ -1,40 +1,44 @@
+
 import React from 'react';
-import { shallow, configure } from 'enzyme';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import Adapter from 'enzyme-adapter-react-16';
-import { BrowserRouter as Router } from 'react-router-dom';
-import AuthenticatedRoute from './AuthenticatedRoute';
+import { noop } from 'lodash';
+import { shallow, mount } from '../../enzyme';
+import AuthenticatedRoute, { AuthenticatedRouteUnconnected } from './AuthenticatedRoute';
+import { initState } from '../reducer';
 
-configure({ adapter: new Adapter() });
-const mockStore = configureMockStore();
-
-const state = {
-    firebase: {
-        auth: {
-            uid: 'test-uid',
-            emailVerified: true
-        }
-    },
+const mockfirebaseStore = {
     auth: {
-        loadedPermissions: true
+        email: 'email',
+        uid: 'uid'
     }
 };
 
-const store = mockStore(() => state);
+describe('Authenticated Route', () => {
+    it('The Authenticated Route component renders without crashing', () => {
+        const wrapper = shallow(<AuthenticatedRouteUnconnected component={noop} />);
+        expect(() => wrapper).not.toThrow();
+    });
+});
 
-const dummyComponent = () => (
-    <div>Dummy Component</div>
-);
 
-describe('AuthenticatedRoute', () => {
-    it('The AuthenticatedRoute component renders without crashing', () => {
-        expect(() => shallow(
-            <Provider store={store}>
+describe('Authenticated Route connected', () => {
+    it('Connected authenticated route', () => {
+        const mockStore = configureMockStore([]);
+        const mockStoreInitialized = mockStore({
+            auth: initState,
+            firebase: mockfirebaseStore
+        });
+
+        const wrapper = mount(
+            <Provider store={mockStoreInitialized}>
                 <Router>
-                    <AuthenticatedRoute component={dummyComponent} />
+                    <AuthenticatedRoute component={noop} />
                 </Router>
             </Provider>
-        )).not.toThrow();
+        );
+
+        expect(() => wrapper).not.toThrow();
     });
 });

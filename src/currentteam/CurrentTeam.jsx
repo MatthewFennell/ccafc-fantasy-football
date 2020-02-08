@@ -66,7 +66,8 @@ CurrentTeam.defaultProps = {
     activeTeam: [],
     captain: '',
     fetchingForUser: false,
-    styles: defaultStyles
+    styles: defaultStyles,
+    userId: ''
 };
 
 CurrentTeam.propTypes = {
@@ -83,7 +84,7 @@ CurrentTeam.propTypes = {
     }).isRequired,
     makeCaptainRequest: PropTypes.func.isRequired,
     styles: PropTypes.objectOf(PropTypes.string),
-    userId: PropTypes.string.isRequired
+    userId: PropTypes.string
 };
 
 const mapStateToProps = (state, props) => ({
@@ -99,3 +100,5 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CurrentTeam));
+
+export { CurrentTeam as CurrentTeamUnconnected };

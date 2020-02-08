@@ -148,7 +148,9 @@ const Highlights = props => {
 };
 
 Highlights.defaultProps = {
-    auth: '',
+    auth: {
+        uid: ''
+    },
     errorMessage: '',
     errorCode: '',
     errorHeader: '',
@@ -227,3 +229,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Highlights);
+
+export { Highlights as HighlightsUnconnected };

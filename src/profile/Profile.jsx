@@ -217,3 +217,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+
+export { Profile as ProfileUnconnected };

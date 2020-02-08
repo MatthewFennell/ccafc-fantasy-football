@@ -305,3 +305,5 @@ const mapStateToprops = state => ({
 });
 
 export default connect(mapStateToprops, mapDispatchToProps)(SubmitResult);
+
+export { SubmitResult as SubmitResultUnconnected };

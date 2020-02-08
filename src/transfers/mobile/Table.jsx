@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { noop } from 'lodash';
+import _, { noop } from 'lodash';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import classNames from 'classnames';
 import defaultStyles from './Table.module.scss';
@@ -207,8 +207,8 @@ const Table = props => {
                     columnOptions={myColumns}
                     setSortBy={props.setSortBy}
                     sortBy={props.sortBy}
-                    sortingComponent={findSortingComponent(myColumns
-                        .find(x => x.id === props.sortBy).id)}
+                    sortingComponent={_.get(findSortingComponent(myColumns
+                        .find(x => x.id === props.sortBy)), 'id') || ''}
                     toggleColumns={toggleColumns}
                 />
             </StyledModal>

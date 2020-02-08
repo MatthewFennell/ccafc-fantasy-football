@@ -80,3 +80,5 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NewNavbar));
+
+export { NewNavbar as NewNavbarUnconnected };

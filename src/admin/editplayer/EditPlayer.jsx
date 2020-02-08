@@ -272,7 +272,6 @@ const EditPlayer = props => {
         props.teamsWithPlayers, props.editPlayerStatsRequest, dotd,
         ownGoals, playerTeam, playerToEdit, week, penaltyMisses, penaltySaves]);
 
-
     const rowsToUse = generateRows(props.playerStats,
         props.fetchingPlayerStats || props.editingStats);
 
@@ -280,7 +279,12 @@ const EditPlayer = props => {
         <>
             <div className={props.styles.findPlayerDropdowns}>
                 <div className={props.styles.teamDropdown}>
-                    <Dropdown activeValue={playerTeam} onChange={setTeam} options={props.allTeams} title="Team" />
+                    <Dropdown
+                        activeValue={playerTeam}
+                        onChange={setTeam}
+                        options={props.allTeams}
+                        title="Team"
+                    />
                 </div>
                 <div className={props.styles.playerDropdown}>
                     <Dropdown
@@ -291,7 +295,12 @@ const EditPlayer = props => {
                     />
                 </div>
                 <div>
-                    <Dropdown activeValue={week} onChange={setWeekToEdit} options={generateWeekOptions(props.maxGameWeek)} title="Week" />
+                    <Dropdown
+                        activeValue={week}
+                        onChange={setWeekToEdit}
+                        options={generateWeekOptions(props.maxGameWeek)}
+                        title="Week"
+                    />
                 </div>
             </div>
             <div className={props.styles.oldStatsWrapper}>

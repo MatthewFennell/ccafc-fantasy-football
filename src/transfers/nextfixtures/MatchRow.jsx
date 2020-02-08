@@ -13,6 +13,9 @@ const isLive = date => moment()
     && moment().isBefore(moment(date, 'DD-MM-YYYY hh:mm').add(100, 'minutes'));
 
 const renderTeamName = name => {
+    if (!name) {
+        return '';
+    }
     if (name.includes('St. Hild & St. Bede')) {
         return name.replace('St. Hild & St. Bede', 'Hild Bede');
     }

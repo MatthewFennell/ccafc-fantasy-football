@@ -357,3 +357,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ApproveHighlights);
+
+export { ApproveHighlights as ApproveHighlightsUnconnected };

@@ -1,7 +1,7 @@
 import fp from 'lodash/fp';
 import * as actions from './actions';
 
-const initState = {
+export const initState = {
     errorHeader: '',
     errorMessage: '',
     errorCode: '',

@@ -72,7 +72,7 @@ Player.propTypes = {
     shirtStyles: PropTypes.objectOf(PropTypes.string),
     showCaptain: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),
-    team: PropTypes.objectOf(PropTypes.string)
+    team: PropTypes.string
 };
 
 export default Player;

@@ -1,7 +1,7 @@
 import fp from 'lodash/fp';
 import * as actions from './actions';
 
-const initialState = {
+export const initialState = {
     userInfo: { },
     userStats: { },
     maxGameWeek: null

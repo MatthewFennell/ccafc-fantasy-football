@@ -1,18 +1,19 @@
 
 import React from 'react';
-import { shallow, configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 import { noop } from 'lodash';
-import { CreateTeamUnconnected } from './CreateTeam';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
+import { shallow, mount } from '../../enzyme';
+import CreateTeam, { CreateTeamUnconnected } from './CreateTeam';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import styles from './CreateTeam.module.scss';
-
-configure({ adapter: new Adapter() });
+import { initState } from '../reducer';
 
 describe('Create Team', () => {
     it('The Create Team component renders without crashing', () => {
         const wrapper = shallow(<CreateTeamUnconnected
-            closeCreateTeamError={noop}
+            closeSuccessMessage={noop}
+            closeAdminError={noop}
             creatingTeam={false}
             createTeamRequest={noop}
             createTeamError=""
@@ -23,7 +24,8 @@ describe('Create Team', () => {
 
     it('Create player should have a single Create Player button', () => {
         const wrapper = shallow(<CreateTeamUnconnected
-            closeCreateTeamError={noop}
+            closeSuccessMessage={noop}
+            closeAdminError={noop}
             creatingTeam={false}
             createTeamRequest={noop}
             createTeamError=""
@@ -35,7 +37,8 @@ describe('Create Team', () => {
     it('Clicking Create Team sends a Create Team request', () => {
         const mockFn = jest.fn(noop);
         const wrapper = shallow(<CreateTeamUnconnected
-            closeCreateTeamError={noop}
+            closeSuccessMessage={noop}
+            closeAdminError={noop}
             creatingTeam={false}
             createTeamRequest={mockFn}
             createTeamError=""
@@ -47,7 +50,8 @@ describe('Create Team', () => {
 
     it('There is a class with hidden only if the team is not being created', () => {
         const wrapper = shallow(<CreateTeamUnconnected
-            closeCreateTeamError={noop}
+            closeSuccessMessage={noop}
+            closeAdminError={noop}
             creatingTeam={false}
             createTeamRequest={noop}
             createTeamError=""
@@ -58,12 +62,30 @@ describe('Create Team', () => {
 
     it('There is not a class with hidden only if the team being created', () => {
         const wrapper = shallow(<CreateTeamUnconnected
-            closeCreateTeamError={noop}
+            closeSuccessMessage={noop}
+            closeAdminError={noop}
             creatingTeam
             createTeamRequest={noop}
             createTeamError=""
             createTeamErrorCode=""
         />);
         expect(wrapper.find({ className: styles.hidden })).toHaveLength(0);
+    });
+});
+
+describe('Create Team connected', () => {
+    it('Connected create team', () => {
+        const mockStore = configureMockStore([]);
+        const mockStoreInitialized = mockStore({
+            admin: initState
+        });
+
+        const wrapper = mount( // enzyme
+            <Provider store={mockStoreInitialized}>
+                <CreateTeam />
+            </Provider>
+        );
+
+        expect(() => wrapper).not.toThrow();
     });
 });

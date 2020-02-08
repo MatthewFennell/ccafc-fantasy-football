@@ -165,3 +165,5 @@ export default compose(
         }
     ]),
 )(FeatureRequest);
+
+export { FeatureRequest as FeatureRequestUnconnected };

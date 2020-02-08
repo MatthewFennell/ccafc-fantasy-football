@@ -174,3 +174,5 @@ const mapStateToProps = (state, props) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Stats);
+
+export { Stats as StatsUnconnected };

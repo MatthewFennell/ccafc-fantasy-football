@@ -261,3 +261,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageUsers);
+
+export { ManageUsers as ManageUsersUnconnected };

@@ -64,3 +64,5 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(VerifyEmail);
+
+export { VerifyEmail as VerifyEmailUnconnected };

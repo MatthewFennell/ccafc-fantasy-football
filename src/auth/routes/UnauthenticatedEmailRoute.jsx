@@ -28,3 +28,5 @@ UnauthenticatedEmailRoute.propTypes = {
 };
 
 export default connect(mapStateToProps)(UnauthenticatedEmailRoute);
+
+export { UnauthenticatedEmailRoute as UnauthenticatedEmailRouteUnconnected };

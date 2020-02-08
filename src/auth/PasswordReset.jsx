@@ -56,3 +56,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PasswordReset);
+
+export { PasswordReset as PasswordResetUnconnected };

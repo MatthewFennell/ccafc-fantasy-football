@@ -34,3 +34,5 @@ UnauthenticatedRoute.propTypes = {
 };
 
 export default connect(mapStateToProps)(UnauthenticatedRoute);
+
+export { UnauthenticatedRoute as UnauthenticatedRouteUnconnected };

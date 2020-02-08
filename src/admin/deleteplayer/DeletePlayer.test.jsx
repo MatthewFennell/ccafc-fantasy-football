@@ -1,18 +1,19 @@
 
 import React from 'react';
-import { shallow, configure, mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 import { noop } from 'lodash';
-import { DeletePlayerUnconnected } from './DeletePlayer';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
+import { shallow, mount } from '../../enzyme';
+import DeletePlayer, { DeletePlayerUnconnected } from './DeletePlayer';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import styles from './DeletePlayer.module.scss';
-
-configure({ adapter: new Adapter() });
+import { initState } from '../reducer';
 
 describe('Delete Player', () => {
     it('The Delete Player component renders without crashing', () => {
         const wrapper = shallow(<DeletePlayerUnconnected
-            closeDeletePlayerError={noop}
+            closeSuccessMessage={noop}
+            closeAdminError={noop}
             deletingPlayer={false}
             deletePlayerRequest={noop}
             fetchTeamsRequest={noop}
@@ -28,7 +29,8 @@ describe('Delete Player', () => {
         const mockFn = jest.fn(noop);
 
         mount(<DeletePlayerUnconnected
-            closeDeletePlayerError={noop}
+            closeSuccessMessage={noop}
+            closeAdminError={noop}
             deletingPlayer={false}
             deletePlayerRequest={noop}
             fetchPlayersForTeamRequest={noop}
@@ -42,7 +44,8 @@ describe('Delete Player', () => {
 
     it('Delete player should have a single Delete Player button', () => {
         const wrapper = shallow(<DeletePlayerUnconnected
-            closeDeletePlayerError={noop}
+            closeSuccessMessage={noop}
+            closeAdminError={noop}
             deletingPlayer={false}
             deletePlayerRequest={noop}
             fetchTeamsRequest={noop}
@@ -57,7 +60,8 @@ describe('Delete Player', () => {
     it('Clicking Delete Player sends a Delete Player request', () => {
         const mockFn = jest.fn(noop);
         const wrapper = shallow(<DeletePlayerUnconnected
-            closeDeletePlayerError={noop}
+            closeSuccessMessage={noop}
+            closeAdminError={noop}
             deletingPlayer={false}
             deletePlayerRequest={mockFn}
             fetchTeamsRequest={noop}
@@ -72,7 +76,8 @@ describe('Delete Player', () => {
 
     it('There is a class with hidden only if the player is not being deleted', () => {
         const wrapper = shallow(<DeletePlayerUnconnected
-            closeDeletePlayerError={noop}
+            closeSuccessMessage={noop}
+            closeAdminError={noop}
             deletingPlayer={false}
             deletePlayerRequest={noop}
             fetchTeamsRequest={noop}
@@ -86,7 +91,8 @@ describe('Delete Player', () => {
 
     it('There is not a class with hidden only if the player being deleted', () => {
         const wrapper = shallow(<DeletePlayerUnconnected
-            closeDeletePlayerError={noop}
+            closeSuccessMessage={noop}
+            closeAdminError={noop}
             deletingPlayer
             deletePlayerRequest={noop}
             fetchTeamsRequest={noop}
@@ -96,5 +102,22 @@ describe('Delete Player', () => {
             teamsWithPlayers={{}}
         />);
         expect(wrapper.find({ className: styles.hidden })).toHaveLength(0);
+    });
+});
+
+describe('Delete Player connected', () => {
+    it('Connected delete player', () => {
+        const mockStore = configureMockStore([]);
+        const mockStoreInitialized = mockStore({
+            admin: initState
+        });
+
+        const wrapper = mount( // enzyme
+            <Provider store={mockStoreInitialized}>
+                <DeletePlayer />
+            </Provider>
+        );
+
+        expect(() => wrapper).not.toThrow();
     });
 });
