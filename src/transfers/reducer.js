@@ -4,7 +4,7 @@ import * as currentTeamActions from '../currentteam/actions';
 import * as actions from './actions';
 import * as adminActions from '../admin/actions';
 
-const initialState = {
+export const initialState = {
     remainingTransfers: 0,
     remainingBudget: 0,
     originalBudget: 0,

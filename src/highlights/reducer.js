@@ -3,7 +3,7 @@ import * as actions from './actions';
 import * as adminActions from '../admin/actions';
 import * as profileActions from '../profile/actions';
 
-const initialState = {
+export const initialState = {
     loadingVideos: false,
     loadingVideosToBeApproved: false,
     loadingRejectedVideos: false,

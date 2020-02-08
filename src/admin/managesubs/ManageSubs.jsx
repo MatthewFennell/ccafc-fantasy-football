@@ -121,8 +121,8 @@ const ManageSubs = props => {
                         value={toggleFilter}
                     />
                     <StyledInput
-                        onChange={setNameFilter}
-                        value={setNameFitlerWithReset}
+                        onChange={setNameFitlerWithReset}
+                        value={nameFilter}
                         label="Name"
                     />
                 </div>
@@ -181,3 +181,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageSubs);
+
+export { ManageSubs as ManageSubsUnconnected };
