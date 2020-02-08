@@ -18,7 +18,7 @@ export const initialState = {
 
     usersInLeague: {},
 
-    fetchingLeague: false,
+    fetchingLeagues: false,
     fetchingUsersInLeague: false,
 
     fetchedAllUsersInLeague: {}
@@ -33,7 +33,7 @@ const authReducer = (state = initialState, action) => {
             fetchingLeagues: false
         };
     }
-    case actions.fetchLeaguesError: {
+    case actions.FETCH_LEAGUES_ERROR: {
         return fp.set('fetchingLeagues', false)(state);
     }
     case actions.ALREADY_FETCHED_LEAGUES: {
@@ -132,7 +132,7 @@ const authReducer = (state = initialState, action) => {
         return fp.set(`usersInLeague.${action.leagueId}.fetching`, false)(state);
     }
     case actions.ALREADY_FETCHED_USERS_IN_LEAGUE: {
-        return fp.set(`fetchingUsersInLeague.${action.leagueId}.fetching`, false)(state);
+        return fp.set(`usersInLeague.${action.leagueId}.fetching`, false)(state);
     }
     case actions.FETCH_MORE_USER_IN_LEAGUE_SUCCESS: {
         // Add then sort by position (remove network nonsense)
