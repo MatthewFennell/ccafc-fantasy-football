@@ -43,7 +43,7 @@ export const updateProfilePictureError = error => ({
     error
 });
 
-export const deleteAccountSucces = () => ({
+export const deleteAccountSuccess = () => ({
     type: DELETE_ACCOUNT_SUCCESS
 });
 

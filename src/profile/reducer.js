@@ -40,6 +40,7 @@ const profileReducer = (state = initialState, action) => {
     case actions.CLOSE_ACCOUNT_LINK_ERROR: {
         return {
             ...state,
+            attemptedEmailToLink: '',
             linkAccountError: '',
             linkAccountErrorCode: ''
         };
@@ -101,7 +102,7 @@ const profileReducer = (state = initialState, action) => {
         };
     }
     case actions.DELETE_ACCOUNT_REQUEST: {
-        return fp.set('deletingAccount', true)(false);
+        return fp.set('deletingAccount', true)(state);
     }
     case actions.DELETE_ACCOUNT_SUCCESS: {
         return fp.set('deletingAccount', false)(state);
