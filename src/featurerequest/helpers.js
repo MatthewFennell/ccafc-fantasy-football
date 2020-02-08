@@ -51,28 +51,12 @@ export const sortByFilters = {
     newestFirst: {
         label: 'Newest First',
         id: 'newestFirst',
-        sortFunction: vids => vids.sort((a, b) => b.dateCreated.seconds - a.dateCreated.seconds),
-        isDateRelated: true
+        sortFunction: vids => vids.sort((a, b) => b.dateCreated.seconds - a.dateCreated.seconds)
     },
     oldestFirst: {
         label: 'Oldest First',
         id: 'oldestFirst',
-        sortFunction: vids => vids.sort((a, b) => a.dateCreated.seconds - b.dateCreated.seconds),
-        isDateRelated: true
-    },
-    mostPopular: {
-        label: 'Most Popular',
-        id: 'mostPopular',
-        sortFunction: vids => vids.sort((a, b) => (b.upvotes.length - b.downvotes.length)
-        - (a.upvotes.length - a.downvotes.length)),
-        isDateRelated: false
-    },
-    leastPopular: {
-        label: 'Least Popular',
-        id: 'leastPopular',
-        sortFunction: vids => vids.sort((a, b) => (a.upvotes.length - a.downvotes.length)
-        - (b.upvotes.length - b.downvotes.length)),
-        isDateRelated: false
+        sortFunction: vids => vids.sort((a, b) => a.dateCreated.seconds - b.dateCreated.seconds)
     }
 };
 
