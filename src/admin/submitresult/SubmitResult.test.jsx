@@ -1,15 +1,12 @@
 
 import React from 'react';
-import { shallow, configure, mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 import { noop } from 'lodash';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
+import { shallow, mount } from '../../enzyme';
 import SubmitResult, { SubmitResultUnconnected } from './SubmitResult';
 import { initState } from '../reducer';
 import { initialState as overviewInitState } from '../../overview/reducer';
-
-configure({ adapter: new Adapter() });
 
 describe('Submit Result', () => {
     it('The Submit Result component renders without crashing', () => {

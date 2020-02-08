@@ -11,6 +11,8 @@
     "bootstrap-css-only": "^4.3.1",
     "classnames": "^2.2.6",
     "connected-react-router": "^6.0.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.14.0",
     "eslint-plugin-jest": "^22.16.0",
     "firebase": "^5.11.1",
     "firebase-tools": "^7.8.1",
@@ -52,7 +54,7 @@
     "test:coverage": "react-scripts test --env=jsdom --coverage --coverageDirectory=coverage/jest --watchAll=false"
   },
   "devDependencies": {
-    "enzyme": "^3.10.0",
+    "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "eslint": "^6.2.2",
     "eslint-config-airbnb": "^18.0.1",

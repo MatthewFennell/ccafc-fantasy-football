@@ -1,15 +1,12 @@
 
 import React from 'react';
-import { shallow, configure, mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import { noop } from 'lodash';
+import { shallow, mount } from '../../enzyme';
 import AdminRoute, { AdminRouteUnconnected } from './AdminRoute';
 import { initState } from '../reducer';
-
-configure({ adapter: new Adapter() });
 
 const mockfirebaseStore = {
     auth: {

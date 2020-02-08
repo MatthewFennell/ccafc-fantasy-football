@@ -1,15 +1,12 @@
 
 import React from 'react';
-import { shallow, configure, mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 import { noop } from 'lodash';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
+import { shallow, mount } from '../../enzyme';
 import ApproveHighlights, { ApproveHighlightsUnconnected } from './ApproveHighlights';
 import { initState } from '../reducer';
 import { initialState as highlightsInitState } from '../../highlights/reducer';
-
-configure({ adapter: new Adapter() });
 
 describe('Approve Highlights', () => {
     it('The Approve Highlights component renders without crashing', () => {

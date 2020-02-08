@@ -1,16 +1,13 @@
 
 import React from 'react';
-import { shallow, configure, mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 import { noop } from 'lodash';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
+import { shallow, mount } from '../../enzyme';
 import CreatePlayer, { CreatePlayerUnconnected } from './CreatePlayer';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import styles from './CreatePlayer.module.scss';
 import { initState } from '../reducer';
-
-configure({ adapter: new Adapter() });
 
 describe('Create Player', () => {
     it('The Create Player component renders without crashing', () => {

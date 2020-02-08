@@ -1,16 +1,13 @@
 
 import React from 'react';
-import { shallow, configure, mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 import { noop } from 'lodash';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
+import { shallow, mount } from '../../enzyme';
 import DeleteTeam, { DeleteTeamUnconnected } from './DeleteTeam';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import styles from './DeleteTeam.module.scss';
 import { initState } from '../reducer';
-
-configure({ adapter: new Adapter() });
 
 describe('Delete Team', () => {
     it('The Delete Team component renders without crashing', () => {

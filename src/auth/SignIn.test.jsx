@@ -1,11 +1,10 @@
 
 import firebase from 'firebase';
 import React from 'react';
-import { shallow, configure } from 'enzyme';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import Adapter from 'enzyme-adapter-react-16';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { shallow } from '../enzyme';
 import SignIn from './SignIn';
 
 beforeAll(() => {
@@ -17,7 +16,6 @@ beforeAll(() => {
     firebase.auth.TwitterAuthProvider = 'TwitterProvider';
 });
 
-configure({ adapter: new Adapter() });
 const mockStore = configureMockStore();
 
 const state = {
