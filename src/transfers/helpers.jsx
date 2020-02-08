@@ -1,105 +1,7 @@
 import React from 'react';
-import fp from 'lodash/fp';
 import classNames from 'classnames';
 import * as constants from '../constants';
 import { invalidFormations } from './invalidFormations';
-import StyledButton from '../common/StyledButton/StyledButton';
-
-export const generateTeamOptions = teams => teams.map(team => ({
-    id: team.id,
-    text: team.team_name,
-    value: team.team_name
-}));
-
-export const positions = Object.keys(constants.POSITIONS).map(pos => ({
-    id: pos,
-    text: pos[0] + pos.slice(1).toLowerCase(),
-    value: pos[0] + pos.slice(1).toLowerCase()
-}));
-
-export const sortByOptions = [
-    {
-        id: 'points',
-        text: 'Points',
-        value: 'points'
-    },
-    {
-        id: 'goals',
-        text: 'Goals',
-        value: 'goals'
-    },
-    {
-        id: 'assists',
-        text: 'Assists',
-        value: 'assists'
-    },
-    {
-        id: 'price',
-        text: 'Price',
-        value: 'price'
-    }
-];
-
-export const numberRange = (min, max, interval) => {
-    const result = [];
-    for (let x = min; x <= max; x += interval) {
-        result.push({
-            id: x.toFixed(1),
-            text: x.toFixed(1),
-            value: x.toFixed(1)
-        });
-    }
-    return result;
-};
-
-
-export const columnsWhenSmallScreen = sortBy => [
-    {
-        id: 'name',
-        label: 'Player',
-        align: 'center'
-    },
-    {
-        id: 'pos',
-        label: <StyledButton text="Price" smallButton />,
-        align: 'center'
-    },
-    {
-        id: 'team',
-        label: <StyledButton text="Price" smallButton />,
-        align: 'center'
-    },
-    {
-        id: 'price',
-        label: <div>HELLO</div>,
-        align: 'center'
-    }
-].concat(sortByOptions.filter(x => x.value === sortBy).map(x => ({
-    id: x.id,
-    label: x.text,
-    align: 'center'
-})));
-
-export const filterPlayers = (players, team, position, minPrice, maxPrice, sortBy, name) => {
-    const sortByVal = val => (val !== '' ? fp.orderBy(val, 'desc') : fp.identity);
-
-    const shouldFilter = (key, val) => (val !== '' ? fp.filter(x => x[key] === val)
-        : fp.identity);
-
-    return fp.flow(
-        sortByVal(sortBy),
-        shouldFilter('team', team),
-        shouldFilter('position', position.toUpperCase()),
-        minPrice !== '' ? fp.filter(x => x.price >= minPrice) : fp.identity,
-        maxPrice !== '' ? fp.filter(x => x.price <= maxPrice) : fp.identity,
-        name !== '' ? fp.filter(x => x.name.toLowerCase().includes(name.toLowerCase())) : fp.identity,
-        fp.map(player => ({
-            ...player,
-            pos: player.position[0] + player.position.slice(1, 3).toLowerCase(),
-            price: `£${player.price.toFixed(1)}`
-        }))
-    )(players);
-};
 
 const error = (code, message) => ({
     code,
@@ -156,7 +58,7 @@ export const canReplacePlayer = (oldPlayer, newPlayer, currentTeam) => {
     return canAddPlayer(newPlayer, currentTeam.filter(x => x.id !== oldPlayer.id));
 };
 
-const headerCell = (sortBy, activeSort, styles, expectedSort) => (
+export const headerCell = (sortBy, activeSort, styles, expectedSort) => (
     <div
         className={classNames({
             [styles.activeSort]: activeSort === expectedSort,
