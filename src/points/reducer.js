@@ -1,11 +1,11 @@
 import fp from 'lodash/fp';
 import * as actions from './actions';
 
-export const initState = {
+export const initialState = {
     userTeams: {}
 };
 
-const pointsReducer = (state = initState, action) => {
+const pointsReducer = (state = initialState, action) => {
     switch (action.type) {
     case actions.FETCH_USER_POINTS_FOR_WEEK_SUCCESS: {
         return fp.flow(

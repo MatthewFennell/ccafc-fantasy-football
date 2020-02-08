@@ -6,8 +6,8 @@ import configureMockStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { shallow, mount } from '../enzyme';
 import NewNavbar, { NewNavbarUnconnected } from './NewNavbar';
-import { initialState as overviewInitState } from '../overview/reducer';
-import { initState as authInitState } from '../auth/reducer';
+import { initialState as overviewinitialState } from '../overview/reducer';
+import { initialState as authinitialState } from '../auth/reducer';
 
 const mockHistory = {
     location: {
@@ -38,9 +38,9 @@ describe('Navbar connected', () => {
     it('Connected navbar', () => {
         const mockStore = configureMockStore([]);
         const mockStoreInitialized = mockStore({
-            auth: authInitState,
+            auth: authinitialState,
             firebase: mockfirebaseStore,
-            overview: overviewInitState,
+            overview: overviewinitialState,
             router: mockHistory
         });
 

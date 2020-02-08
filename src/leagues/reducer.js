@@ -1,7 +1,7 @@
 import fp from 'lodash/fp';
 import * as actions from './actions';
 
-export const initState = {
+export const initialState = {
     createLeagueError: '',
     createLeagueErrorCode: '',
     creatingLeague: false,
@@ -24,7 +24,7 @@ export const initState = {
     fetchedAllUsersInLeague: {}
 };
 
-const authReducer = (state = initState, action) => {
+const authReducer = (state = initialState, action) => {
     switch (action.type) {
     case actions.FETCH_LEAGUES_SUCCESS: {
         return {

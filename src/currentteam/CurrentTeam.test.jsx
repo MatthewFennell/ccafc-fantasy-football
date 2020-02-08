@@ -6,7 +6,7 @@ import configureMockStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { shallow, mount } from '../enzyme';
 import CurrentTeam, { CurrentTeamUnconnected } from './CurrentTeam';
-import { initState } from './reducer';
+import { initialState } from './reducer';
 
 const mockHistory = {
     location: {
@@ -38,7 +38,7 @@ describe('CurrentTeam connected', () => {
     it('Connected current team', () => {
         const mockStore = configureMockStore([]);
         const mockStoreInitialized = mockStore({
-            currentTeam: initState,
+            currentTeam: initialState,
             history: mockHistory,
             match: mockMatch
         });

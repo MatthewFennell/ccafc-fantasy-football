@@ -6,9 +6,9 @@ import configureMockStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { shallow, mount } from '../enzyme';
 import Stats, { StatsUnconnected } from './Stats';
-import { initState } from './reducer';
-import { initState as adminInitState } from '../admin/reducer';
-import { initialState as overviewInitState } from '../overview/reducer';
+import { initialState } from './reducer';
+import { initialState as admininitialState } from '../admin/reducer';
+import { initialState as overviewinitialState } from '../overview/reducer';
 
 const mockHistory = {
     location: {
@@ -32,13 +32,13 @@ describe('Stats connected', () => {
     it('Connected stats', () => {
         const mockStore = configureMockStore([]);
         const mockStoreInitialized = mockStore({
-            admin: adminInitState,
-            overview: overviewInitState,
-            stats: initState,
+            admin: admininitialState,
+            overview: overviewinitialState,
+            stats: initialState,
             history: mockHistory
         });
 
-        const wrapper = mount( // enzyme
+        const wrapper = mount(
             <Provider store={mockStoreInitialized}>
                 <Router>
                     <Stats history={mockHistory} />

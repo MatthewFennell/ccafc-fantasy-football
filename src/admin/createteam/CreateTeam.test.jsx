@@ -7,7 +7,7 @@ import { shallow, mount } from '../../enzyme';
 import CreateTeam, { CreateTeamUnconnected } from './CreateTeam';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import styles from './CreateTeam.module.scss';
-import { initState } from '../reducer';
+import { initialState } from '../reducer';
 
 describe('Create Team', () => {
     it('The Create Team component renders without crashing', () => {
@@ -77,10 +77,10 @@ describe('Create Team connected', () => {
     it('Connected create team', () => {
         const mockStore = configureMockStore([]);
         const mockStoreInitialized = mockStore({
-            admin: initState
+            admin: initialState
         });
 
-        const wrapper = mount( // enzyme
+        const wrapper = mount(
             <Provider store={mockStoreInitialized}>
                 <CreateTeam />
             </Provider>

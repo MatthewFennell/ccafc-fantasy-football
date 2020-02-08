@@ -1,7 +1,7 @@
 import fp from 'lodash/fp';
 import * as actions from './actions';
 
-export const initState = {
+export const initialState = {
     attemptedEmailToLink: '',
     linkAccountErrorCode: '',
     linkAccountError: '',
@@ -19,7 +19,7 @@ export const initState = {
     deleteAccountErrorCode: ''
 };
 
-const profileReducer = (state = initState, action) => {
+const profileReducer = (state = initialState, action) => {
     switch (action.type) {
     case actions.LINK_PROFILE_TO_FACEBOOK_ERROR: {
         return {

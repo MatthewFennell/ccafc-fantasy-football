@@ -1,7 +1,7 @@
 import fp from 'lodash/fp';
 import * as actions from './actions';
 
-export const initState = {
+export const initialState = {
     authError: null,
 
     passwordResetErrorCode: '',
@@ -25,7 +25,7 @@ export const initState = {
     allRoles: []
 };
 
-const authReducer = (state = initState, action) => {
+const authReducer = (state = initialState, action) => {
     switch (action.type) {
     case actions.SIGN_UP_ERROR: {
         return {

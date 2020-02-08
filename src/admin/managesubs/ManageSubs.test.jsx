@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import { shallow, mount } from '../../enzyme';
 import ManageSubs, { ManageSubsUnconnected } from './ManageSubs';
-import { initState } from '../reducer';
-import { initialState as transfersInitState } from '../../transfers/reducer';
+import { initialState } from '../reducer';
+import { initialState as transfersinitialState } from '../../transfers/reducer';
 
 describe('Manage Subs', () => {
     it('The Manage Subs component renders without crashing', () => {
@@ -24,11 +24,11 @@ describe('Manage Subs connected', () => {
     it('Connected manage subs', () => {
         const mockStore = configureMockStore([]);
         const mockStoreInitialized = mockStore({
-            admin: initState,
-            transfers: transfersInitState
+            admin: initialState,
+            transfers: transfersinitialState
         });
 
-        const wrapper = mount( // enzyme
+        const wrapper = mount(
             <Provider store={mockStoreInitialized}>
                 <ManageSubs />
             </Provider>

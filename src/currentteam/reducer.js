@@ -1,11 +1,11 @@
 import fp from 'lodash/fp';
 import * as actions from './actions';
 
-export const initState = {
+export const initialState = {
     activeTeam: {}
 };
 
-const activeTeamReducer = (state = initState, action) => {
+const activeTeamReducer = (state = initialState, action) => {
     switch (action.type) {
     case actions.FETCH_ACTIVE_TEAM_SUCCESS: {
         return fp.flow(

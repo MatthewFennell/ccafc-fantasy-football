@@ -7,7 +7,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { shallow, mount } from '../enzyme';
 import Transfers, { TransfersUnconnected } from './Transfers';
 import { initialState } from './reducer';
-import { initialState as fixturesInitState } from '../fixtures/reducer';
+import { initialState as fixturesinitialState } from '../fixtures/reducer';
 
 
 const mockHistory = {
@@ -57,12 +57,12 @@ describe('Transfers connected', () => {
         const mockStore = configureMockStore([]);
         const mockStoreInitialized = mockStore({
             firebase: mockfirebaseStore,
-            fixtures: fixturesInitState,
+            fixtures: fixturesinitialState,
             history: mockHistory,
             transfers: initialState
         });
 
-        const wrapper = mount( // enzyme
+        const wrapper = mount(
             <Provider store={mockStoreInitialized}>
                 <Router>
                     <Transfers history={mockHistory} />

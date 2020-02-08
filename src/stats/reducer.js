@@ -1,11 +1,11 @@
 import fp from 'lodash/fp';
 import * as actions from './actions';
 
-export const initState = {
+export const initialState = {
     teamStatsByWeek: {}
 };
 
-const statsReducer = (state = initState, action) => {
+const statsReducer = (state = initialState, action) => {
     switch (action.type) {
     case actions.FETCH_TEAM_STATS_BY_WEEK_REQUEST: {
         const range = fp.range(action.minWeek, action.maxWeek + 1);

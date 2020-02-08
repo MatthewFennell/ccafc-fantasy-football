@@ -1,12 +1,12 @@
 import fp from 'lodash/fp';
 import * as actions from './actions';
 
-export const initState = {
+export const initialState = {
     allTeams: [],
     fetchingAllTeams: false
 };
 
-const chartsReducer = (state = initState, action) => {
+const chartsReducer = (state = initialState, action) => {
     switch (action.type) {
     case actions.FETCH_ALL_TEAMS_REQUEST: {
         return fp.set('fetchingAllTeams', true)(state);

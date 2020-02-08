@@ -7,7 +7,7 @@ import { shallow, mount } from '../../enzyme';
 import DeletePlayer, { DeletePlayerUnconnected } from './DeletePlayer';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import styles from './DeletePlayer.module.scss';
-import { initState } from '../reducer';
+import { initialState } from '../reducer';
 
 describe('Delete Player', () => {
     it('The Delete Player component renders without crashing', () => {
@@ -109,10 +109,10 @@ describe('Delete Player connected', () => {
     it('Connected delete player', () => {
         const mockStore = configureMockStore([]);
         const mockStoreInitialized = mockStore({
-            admin: initState
+            admin: initialState
         });
 
-        const wrapper = mount( // enzyme
+        const wrapper = mount(
             <Provider store={mockStoreInitialized}>
                 <DeletePlayer />
             </Provider>
