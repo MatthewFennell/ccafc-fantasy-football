@@ -47,3 +47,5 @@ AdminRoute.propTypes = {
 };
 
 export default connect(mapStateToProps)(AdminRoute);
+
+export { AdminRoute as AdminRouteUnconnected };

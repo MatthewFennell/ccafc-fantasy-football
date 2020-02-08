@@ -65,7 +65,6 @@ describe('Edit Player connected', () => {
             <Router>
                 <EditPlayer />
             </Router>
-
         </Provider>
     );
 

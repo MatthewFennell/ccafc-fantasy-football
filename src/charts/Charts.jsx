@@ -68,3 +68,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Charts);
+
+export { Charts as ChartsUnconnected };

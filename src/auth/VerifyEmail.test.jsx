@@ -2,14 +2,11 @@
 import React from 'react';
 import { shallow, configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { noop } from 'lodash';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import { noop } from 'lodash';
-import AuthenticatedRoute, { AuthenticatedRouteUnconnected } from './AuthenticatedRoute';
-import { initState } from '../reducer';
-
-configure({ adapter: new Adapter() });
+import VerifyEmail, { VerifyEmailUnconnected } from './VerifyEmail';
+import { initState } from './reducer';
 
 const mockfirebaseStore = {
     auth: {
@@ -18,26 +15,31 @@ const mockfirebaseStore = {
     }
 };
 
-describe('Admin Route', () => {
-    it('The Admin Route component renders without crashing', () => {
-        const wrapper = shallow(<AuthenticatedRouteUnconnected component={noop} />);
+configure({ adapter: new Adapter() });
+
+describe('Reset Password', () => {
+    it('The Reset Password component renders without crashing', () => {
+        const wrapper = shallow(<VerifyEmailUnconnected
+            closeSuccessMessage={noop}
+            closeAdminError={noop}
+            closeEmailVerificationError={noop}
+            resendEmailVerificationRequest={noop}
+        />);
         expect(() => wrapper).not.toThrow();
     });
 });
 
 
-describe('Admin Route connected', () => {
+describe('Verify Email connected', () => {
     const mockStore = configureMockStore([]);
     const mockStoreInitialized = mockStore({
         auth: initState,
         firebase: mockfirebaseStore
     });
 
-    const wrapper = mount(
+    const wrapper = mount( // enzyme
         <Provider store={mockStoreInitialized}>
-            <Router>
-                <AuthenticatedRoute component={noop} />
-            </Router>
+            <VerifyEmail />
         </Provider>
     );
 

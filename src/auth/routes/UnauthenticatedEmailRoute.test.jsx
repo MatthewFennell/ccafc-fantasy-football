@@ -6,7 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import { noop } from 'lodash';
-import UnauthenticatedRoute, { UnauthenticatedRouteUnconnected } from './UnauthenticatedRoute';
+import UnauthenticatedEmailRoute, { UnauthenticatedEmailRouteUnconnected } from './UnauthenticatedEmailRoute';
 import { initState } from '../reducer';
 
 configure({ adapter: new Adapter() });
@@ -20,7 +20,7 @@ const mockfirebaseStore = {
 
 describe('Unauthenticated Route', () => {
     it('The Unauthenticated Route component renders without crashing', () => {
-        const wrapper = shallow(<UnauthenticatedRouteUnconnected
+        const wrapper = shallow(<UnauthenticatedEmailRouteUnconnected
             component={noop}
         />);
         expect(() => wrapper).not.toThrow();
@@ -37,7 +37,7 @@ describe('Unauthenticated Route connected', () => {
     const wrapper = mount(
         <Provider store={mockStoreInitialized}>
             <Router>
-                <UnauthenticatedRoute component={() => <div />} />
+                <UnauthenticatedEmailRoute component={() => <div />} />
             </Router>
         </Provider>
     );

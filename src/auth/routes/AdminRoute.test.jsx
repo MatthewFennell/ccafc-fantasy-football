@@ -6,7 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import { noop } from 'lodash';
-import UnauthenticatedRoute, { UnauthenticatedRouteUnconnected } from './UnauthenticatedRoute';
+import AdminRoute, { AdminRouteUnconnected } from './AdminRoute';
 import { initState } from '../reducer';
 
 configure({ adapter: new Adapter() });
@@ -18,16 +18,15 @@ const mockfirebaseStore = {
     }
 };
 
-describe('Unauthenticated Route', () => {
-    it('The Unauthenticated Route component renders without crashing', () => {
-        const wrapper = shallow(<UnauthenticatedRouteUnconnected
-            component={noop}
-        />);
+describe('Admin Route', () => {
+    it('The Admin Route component renders without crashing', () => {
+        const wrapper = shallow(<AdminRouteUnconnected component={noop} />);
         expect(() => wrapper).not.toThrow();
     });
 });
 
-describe('Unauthenticated Route connected', () => {
+
+describe('Admin Route connected', () => {
     const mockStore = configureMockStore([]);
     const mockStoreInitialized = mockStore({
         auth: initState,
@@ -37,7 +36,7 @@ describe('Unauthenticated Route connected', () => {
     const wrapper = mount(
         <Provider store={mockStoreInitialized}>
             <Router>
-                <UnauthenticatedRoute component={() => <div />} />
+                <AdminRoute component={noop} />
             </Router>
         </Provider>
     );
