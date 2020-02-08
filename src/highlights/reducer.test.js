@@ -9,6 +9,14 @@ describe('Leagues reducer', () => {
         expect(reducer(undefined, {})).toEqual(initialState);
     });
 
+    it('fetch highlights request', () => {
+        const action = actions.fetchHighlightsRequest();
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            loadingVideos: true
+        });
+    });
+
     it('fetch highlights success', () => {
         const videos = ['a', 'b', 'c'];
         const action = actions.fetchHighlightsSuccess(videos);
@@ -26,6 +34,10 @@ describe('Leagues reducer', () => {
         const oldVideos = [{
             id: 'highlightId',
             upvotes: ['userOne']
+        },
+        {
+            id: 'not touched',
+            upvotes: []
         }];
         const newVideo = {
             id: 'highlightId',
@@ -37,7 +49,10 @@ describe('Leagues reducer', () => {
             videos: oldVideos
         }, action)).toEqual({
             ...initialState,
-            videos: [newVideo]
+            videos: [newVideo, {
+                id: 'not touched',
+                upvotes: []
+            }]
         });
     });
 
@@ -45,6 +60,9 @@ describe('Leagues reducer', () => {
         const oldVideos = [{
             id: 'highlightId',
             upvotes: ['userOne', 'userTwo']
+        }, {
+            id: 'not touched',
+            upvotes: []
         }];
         const newVideo = {
             id: 'highlightId',
@@ -56,7 +74,10 @@ describe('Leagues reducer', () => {
             videos: oldVideos
         }, action)).toEqual({
             ...initialState,
-            videos: [newVideo]
+            videos: [newVideo, {
+                id: 'not touched',
+                upvotes: []
+            }]
         });
     });
 
@@ -256,6 +277,9 @@ describe('Leagues reducer', () => {
             id: 'videoId',
             title: 'yes',
             comments: []
+        }, {
+            id: 'not touched',
+            upvotes: []
         }];
         const action = actions.addCommentToVideoSuccess(video);
         expect(reducer({
@@ -263,7 +287,10 @@ describe('Leagues reducer', () => {
             videos: currentVideos
         }, action)).toEqual({
             ...initialState,
-            videos: [video]
+            videos: [video, {
+                id: 'not touched',
+                upvotes: []
+            }]
         });
     });
 
@@ -278,6 +305,9 @@ describe('Leagues reducer', () => {
             id: 'videoId',
             title: 'yes',
             comments: []
+        }, {
+            id: 'not touched',
+            upvotes: []
         }];
         const action = actions.addReplyToVideoSuccess(video);
         expect(reducer({
@@ -285,7 +315,10 @@ describe('Leagues reducer', () => {
             videos: currentVideos
         }, action)).toEqual({
             ...initialState,
-            videos: [video]
+            videos: [video, {
+                id: 'not touched',
+                upvotes: []
+            }]
         });
     });
 
@@ -303,6 +336,10 @@ describe('Leagues reducer', () => {
                     comment: 'message'
                 }
             ]
+        },
+        {
+            id: 'not touched',
+            upvotes: []
         }];
         const remainingVideos = [
             {
@@ -314,6 +351,10 @@ describe('Leagues reducer', () => {
                         title: 'oh'
                     }
                 ]
+            },
+            {
+                id: 'not touched',
+                upvotes: []
             }
         ];
         const action = actions.deleteCommentSuccess('videoId', 'commentId');
@@ -356,6 +397,9 @@ describe('Leagues reducer', () => {
                     ]
                 }
             ]
+        }, {
+            id: 'not touched',
+            upvotes: []
         }];
         const newVideos = [{
             id: 'videoId',
@@ -382,6 +426,9 @@ describe('Leagues reducer', () => {
                     ]
                 }
             ]
+        }, {
+            id: 'not touched',
+            upvotes: []
         }];
         const action = actions.deleteReplySuccess('videoId', 'commentId', 'replyId');
         expect(reducer({
@@ -409,6 +456,11 @@ describe('Leagues reducer', () => {
                             reply: 'keep me',
                             userId: 'userId',
                             photoUrl: 'originalPhotoId'
+                        },
+                        {
+                            id: 'not touched',
+                            userId: 'ignored',
+                            upvotes: []
                         }
                     ]
                 },
@@ -423,6 +475,11 @@ describe('Leagues reducer', () => {
                         {
                             id: 'another Id',
                             reply: 'hey'
+                        },
+                        {
+                            id: 'touched',
+                            userId: 'userId',
+                            photoUrl: 'originalPhotoId'
                         }
                     ]
                 }
@@ -443,6 +500,11 @@ describe('Leagues reducer', () => {
                             reply: 'keep me',
                             userId: 'userId',
                             photoUrl: 'newPhotoId'
+                        },
+                        {
+                            id: 'not touched',
+                            userId: 'ignored',
+                            upvotes: []
                         }
                     ]
                 },
@@ -457,6 +519,11 @@ describe('Leagues reducer', () => {
                         {
                             id: 'another Id',
                             reply: 'hey'
+                        },
+                        {
+                            id: 'touched',
+                            userId: 'userId',
+                            photoUrl: 'newPhotoId'
                         }
                     ]
                 }
