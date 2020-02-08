@@ -25,19 +25,21 @@ describe('Unauthenticated Route', () => {
 });
 
 describe('Unauthenticated Route connected', () => {
-    const mockStore = configureMockStore([]);
-    const mockStoreInitialized = mockStore({
-        auth: initState,
-        firebase: mockfirebaseStore
+    it('Connected unauthenticated route', () => {
+        const mockStore = configureMockStore([]);
+        const mockStoreInitialized = mockStore({
+            auth: initState,
+            firebase: mockfirebaseStore
+        });
+
+        const wrapper = mount(
+            <Provider store={mockStoreInitialized}>
+                <Router>
+                    <UnauthenticatedRoute component={() => <div />} />
+                </Router>
+            </Provider>
+        );
+
+        expect(() => wrapper).not.toThrow();
     });
-
-    const wrapper = mount(
-        <Provider store={mockStoreInitialized}>
-            <Router>
-                <UnauthenticatedRoute component={() => <div />} />
-            </Router>
-        </Provider>
-    );
-
-    expect(() => wrapper).not.toThrow();
 });

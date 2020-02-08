@@ -21,17 +21,19 @@ describe('Manage Subs', () => {
 });
 
 describe('Manage Subs connected', () => {
-    const mockStore = configureMockStore([]);
-    const mockStoreInitialized = mockStore({
-        admin: initState,
-        transfers: transfersInitState
+    it('Connected manage subs', () => {
+        const mockStore = configureMockStore([]);
+        const mockStoreInitialized = mockStore({
+            admin: initState,
+            transfers: transfersInitState
+        });
+
+        const wrapper = mount( // enzyme
+            <Provider store={mockStoreInitialized}>
+                <ManageSubs />
+            </Provider>
+        );
+
+        expect(() => wrapper).not.toThrow();
     });
-
-    const wrapper = mount( // enzyme
-        <Provider store={mockStoreInitialized}>
-            <ManageSubs />
-        </Provider>
-    );
-
-    expect(() => wrapper).not.toThrow();
 });

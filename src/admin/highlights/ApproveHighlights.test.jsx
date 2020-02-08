@@ -26,17 +26,19 @@ describe('Approve Highlights', () => {
 });
 
 describe('Approve Highlights connected', () => {
-    const mockStore = configureMockStore([]);
-    const mockStoreInitialized = mockStore({
-        admin: initState,
-        highlights: highlightsInitState
+    it('Connected approve highlights', () => {
+        const mockStore = configureMockStore([]);
+        const mockStoreInitialized = mockStore({
+            admin: initState,
+            highlights: highlightsInitState
+        });
+
+        const wrapper = mount( // enzyme
+            <Provider store={mockStoreInitialized}>
+                <ApproveHighlights />
+            </Provider>
+        );
+
+        expect(() => wrapper).not.toThrow();
     });
-
-    const wrapper = mount( // enzyme
-        <Provider store={mockStoreInitialized}>
-            <ApproveHighlights />
-        </Provider>
-    );
-
-    expect(() => wrapper).not.toThrow();
 });

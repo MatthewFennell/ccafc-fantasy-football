@@ -8,8 +8,19 @@ import defaultStyles from './styles/LeagueForm.module.scss';
 
 const CreateLeague = props => (
     <div className={props.styles.createLeagueWrapper}>
-        <StyledInput label="League Name" onChange={props.setLeagueName} styles={inputOverrideStyles} value={props.leagueName} />
-        <StyledInput label="Start Week" onChange={props.setStartWeek} styles={inputOverrideStyles} type="number" value={props.startWeek} />
+        <StyledInput
+            label="League Name"
+            onChange={props.setLeagueName}
+            styles={inputOverrideStyles}
+            value={props.leagueName}
+        />
+        <StyledInput
+            label="Start Week"
+            onChange={props.setStartWeek}
+            styles={inputOverrideStyles}
+            type="number"
+            value={props.startWeek.toString()}
+        />
         <StyledButton
             color="primary"
             onClick={props.onCreate}
@@ -33,7 +44,7 @@ CreateLeague.propTypes = {
     onCreate: PropTypes.func,
     setLeagueName: PropTypes.func,
     setStartWeek: PropTypes.func,
-    startWeek: PropTypes.string,
+    startWeek: PropTypes.number,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 

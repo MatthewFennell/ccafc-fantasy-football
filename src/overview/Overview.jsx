@@ -188,3 +188,5 @@ const mapStateToProps = (state, props) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Overview);
+
+export { Overview as OverviewUnconnected };

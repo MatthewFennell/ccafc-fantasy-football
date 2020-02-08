@@ -44,6 +44,7 @@ TableModal.defaultProps = {
     columnOptions: [],
     setSortBy: noop,
     sortBy: '',
+    sortingComponent: '',
     styles: defaultStyles,
     toggleColumns: noop
 };
@@ -58,7 +59,7 @@ TableModal.propTypes = {
     sortingComponent: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node
-    ]).isRequired,
+    ]),
     styles: PropTypes.objectOf(PropTypes.string),
     toggleColumns: PropTypes.func
 };

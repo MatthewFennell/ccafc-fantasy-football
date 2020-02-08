@@ -25,17 +25,19 @@ describe('Manage Users', () => {
 });
 
 describe('Manage Users connected', () => {
-    const mockStore = configureMockStore([]);
-    const mockStoreInitialized = mockStore({
-        admin: initState,
-        auth: authInitState
+    it('Connected manage users', () => {
+        const mockStore = configureMockStore([]);
+        const mockStoreInitialized = mockStore({
+            admin: initState,
+            auth: authInitState
+        });
+
+        const wrapper = mount( // enzyme
+            <Provider store={mockStoreInitialized}>
+                <ManageUsers />
+            </Provider>
+        );
+
+        expect(() => wrapper).not.toThrow();
     });
-
-    const wrapper = mount( // enzyme
-        <Provider store={mockStoreInitialized}>
-            <ManageUsers />
-        </Provider>
-    );
-
-    expect(() => wrapper).not.toThrow();
 });

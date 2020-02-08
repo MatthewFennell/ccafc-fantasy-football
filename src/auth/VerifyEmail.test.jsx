@@ -28,17 +28,19 @@ describe('Reset Password', () => {
 
 
 describe('Verify Email connected', () => {
-    const mockStore = configureMockStore([]);
-    const mockStoreInitialized = mockStore({
-        auth: initState,
-        firebase: mockfirebaseStore
+    it('Connected verify email', () => {
+        const mockStore = configureMockStore([]);
+        const mockStoreInitialized = mockStore({
+            auth: initState,
+            firebase: mockfirebaseStore
+        });
+
+        const wrapper = mount( // enzyme
+            <Provider store={mockStoreInitialized}>
+                <VerifyEmail />
+            </Provider>
+        );
+
+        expect(() => wrapper).not.toThrow();
     });
-
-    const wrapper = mount( // enzyme
-        <Provider store={mockStoreInitialized}>
-            <VerifyEmail />
-        </Provider>
-    );
-
-    expect(() => wrapper).not.toThrow();
 });

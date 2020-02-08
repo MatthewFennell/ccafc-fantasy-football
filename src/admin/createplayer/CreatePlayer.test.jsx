@@ -95,16 +95,18 @@ describe('Create Player', () => {
 
 
 describe('Create Player connected', () => {
-    const mockStore = configureMockStore([]);
-    const mockStoreInitialized = mockStore({
-        admin: initState
+    it('Connected create player', () => {
+        const mockStore = configureMockStore([]);
+        const mockStoreInitialized = mockStore({
+            admin: initState
+        });
+
+        const wrapper = mount( // enzyme
+            <Provider store={mockStoreInitialized}>
+                <CreatePlayer />
+            </Provider>
+        );
+
+        expect(() => wrapper).not.toThrow();
     });
-
-    const wrapper = mount( // enzyme
-        <Provider store={mockStoreInitialized}>
-            <CreatePlayer />
-        </Provider>
-    );
-
-    expect(() => wrapper).not.toThrow();
 });

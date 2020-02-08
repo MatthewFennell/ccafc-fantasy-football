@@ -19,17 +19,19 @@ describe('Charts', () => {
 
 
 describe('Charts connected', () => {
-    const mockStore = configureMockStore([]);
-    const mockStoreInitialized = mockStore({
-        charts: initState,
-        overview: overviewInitState
+    it('Connected charts', () => {
+        const mockStore = configureMockStore([]);
+        const mockStoreInitialized = mockStore({
+            charts: initState,
+            overview: overviewInitState
+        });
+
+        const wrapper = mount( // enzyme
+            <Provider store={mockStoreInitialized}>
+                <Charts />
+            </Provider>
+        );
+
+        expect(() => wrapper).not.toThrow();
     });
-
-    const wrapper = mount( // enzyme
-        <Provider store={mockStoreInitialized}>
-            <Charts />
-        </Provider>
-    );
-
-    expect(() => wrapper).not.toThrow();
 });

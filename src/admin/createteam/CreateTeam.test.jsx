@@ -74,16 +74,18 @@ describe('Create Team', () => {
 });
 
 describe('Create Team connected', () => {
-    const mockStore = configureMockStore([]);
-    const mockStoreInitialized = mockStore({
-        admin: initState
+    it('Connected create team', () => {
+        const mockStore = configureMockStore([]);
+        const mockStoreInitialized = mockStore({
+            admin: initState
+        });
+
+        const wrapper = mount( // enzyme
+            <Provider store={mockStoreInitialized}>
+                <CreateTeam />
+            </Provider>
+        );
+
+        expect(() => wrapper).not.toThrow();
     });
-
-    const wrapper = mount( // enzyme
-        <Provider store={mockStoreInitialized}>
-            <CreateTeam />
-        </Provider>
-    );
-
-    expect(() => wrapper).not.toThrow();
 });

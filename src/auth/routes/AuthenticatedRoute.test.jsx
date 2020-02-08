@@ -15,28 +15,30 @@ const mockfirebaseStore = {
     }
 };
 
-describe('Admin Route', () => {
-    it('The Admin Route component renders without crashing', () => {
+describe('Authenticated Route', () => {
+    it('The Authenticated Route component renders without crashing', () => {
         const wrapper = shallow(<AuthenticatedRouteUnconnected component={noop} />);
         expect(() => wrapper).not.toThrow();
     });
 });
 
 
-describe('Admin Route connected', () => {
-    const mockStore = configureMockStore([]);
-    const mockStoreInitialized = mockStore({
-        auth: initState,
-        firebase: mockfirebaseStore
+describe('Authenticated Route connected', () => {
+    it('Connected authenticated route', () => {
+        const mockStore = configureMockStore([]);
+        const mockStoreInitialized = mockStore({
+            auth: initState,
+            firebase: mockfirebaseStore
+        });
+
+        const wrapper = mount(
+            <Provider store={mockStoreInitialized}>
+                <Router>
+                    <AuthenticatedRoute component={noop} />
+                </Router>
+            </Provider>
+        );
+
+        expect(() => wrapper).not.toThrow();
     });
-
-    const wrapper = mount(
-        <Provider store={mockStoreInitialized}>
-            <Router>
-                <AuthenticatedRoute component={noop} />
-            </Router>
-        </Provider>
-    );
-
-    expect(() => wrapper).not.toThrow();
 });

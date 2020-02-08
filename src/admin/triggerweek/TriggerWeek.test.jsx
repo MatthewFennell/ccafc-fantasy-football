@@ -20,17 +20,19 @@ describe('Trigger Week', () => {
 });
 
 describe('Trigger Week connected', () => {
-    const mockStore = configureMockStore([]);
-    const mockStoreInitialized = mockStore({
-        admin: initState,
-        overview: overviewInitState
+    it('Connected trigger week', () => {
+        const mockStore = configureMockStore([]);
+        const mockStoreInitialized = mockStore({
+            admin: initState,
+            overview: overviewInitState
+        });
+
+        const wrapper = mount( // enzyme
+            <Provider store={mockStoreInitialized}>
+                <TriggerWeek />
+            </Provider>
+        );
+
+        expect(() => wrapper).not.toThrow();
     });
-
-    const wrapper = mount( // enzyme
-        <Provider store={mockStoreInitialized}>
-            <TriggerWeek />
-        </Provider>
-    );
-
-    expect(() => wrapper).not.toThrow();
 });

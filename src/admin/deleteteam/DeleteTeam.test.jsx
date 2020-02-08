@@ -79,16 +79,18 @@ describe('Delete Team', () => {
 });
 
 describe('DeleteTeam connected', () => {
-    const mockStore = configureMockStore([]);
-    const mockStoreInitialized = mockStore({
-        admin: initState
+    it('Connected delete team', () => {
+        const mockStore = configureMockStore([]);
+        const mockStoreInitialized = mockStore({
+            admin: initState
+        });
+
+        const wrapper = mount( // enzyme
+            <Provider store={mockStoreInitialized}>
+                <DeleteTeam />
+            </Provider>
+        );
+
+        expect(() => wrapper).not.toThrow();
     });
-
-    const wrapper = mount( // enzyme
-        <Provider store={mockStoreInitialized}>
-            <DeleteTeam />
-        </Provider>
-    );
-
-    expect(() => wrapper).not.toThrow();
 });

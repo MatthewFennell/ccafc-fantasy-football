@@ -106,16 +106,18 @@ describe('Delete Player', () => {
 });
 
 describe('Delete Player connected', () => {
-    const mockStore = configureMockStore([]);
-    const mockStoreInitialized = mockStore({
-        admin: initState
+    it('Connected delete player', () => {
+        const mockStore = configureMockStore([]);
+        const mockStoreInitialized = mockStore({
+            admin: initState
+        });
+
+        const wrapper = mount( // enzyme
+            <Provider store={mockStoreInitialized}>
+                <DeletePlayer />
+            </Provider>
+        );
+
+        expect(() => wrapper).not.toThrow();
     });
-
-    const wrapper = mount( // enzyme
-        <Provider store={mockStoreInitialized}>
-            <DeletePlayer />
-        </Provider>
-    );
-
-    expect(() => wrapper).not.toThrow();
 });

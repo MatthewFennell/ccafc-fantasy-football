@@ -24,19 +24,21 @@ describe('Admin Route', () => {
 
 
 describe('Admin Route connected', () => {
-    const mockStore = configureMockStore([]);
-    const mockStoreInitialized = mockStore({
-        auth: initState,
-        firebase: mockfirebaseStore
+    it('Connected admin route', () => {
+        const mockStore = configureMockStore([]);
+        const mockStoreInitialized = mockStore({
+            auth: initState,
+            firebase: mockfirebaseStore
+        });
+
+        const wrapper = mount(
+            <Provider store={mockStoreInitialized}>
+                <Router>
+                    <AdminRoute component={noop} />
+                </Router>
+            </Provider>
+        );
+
+        expect(() => wrapper).not.toThrow();
     });
-
-    const wrapper = mount(
-        <Provider store={mockStoreInitialized}>
-            <Router>
-                <AdminRoute component={noop} />
-            </Router>
-        </Provider>
-    );
-
-    expect(() => wrapper).not.toThrow();
 });

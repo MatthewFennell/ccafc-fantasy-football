@@ -33,7 +33,7 @@ const columns = [
 const Leagues = props => {
     const [createLeagueOpen, setCreateLeagueOpen] = useState(false);
     const [leagueName, setLeagueName] = useState('');
-    const [startWeek, setStartWeek] = useState('');
+    const [startWeek, setStartWeek] = useState(0);
 
     const [joinLeagueOpen, setJoinLeagueOpen] = useState(false);
     const [leagueNameToJoin, setLeagueNameToJoin] = useState('');
@@ -209,3 +209,5 @@ const mapStateToProps = state => ({
 
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Leagues));
+
+export { Leagues as LeaguesUnconnected };

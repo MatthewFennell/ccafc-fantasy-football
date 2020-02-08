@@ -21,16 +21,18 @@ describe('Reset Password', () => {
 
 
 describe('Password Reset connected', () => {
-    const mockStore = configureMockStore([]);
-    const mockStoreInitialized = mockStore({
-        auth: initState
+    it('Connected password reset', () => {
+        const mockStore = configureMockStore([]);
+        const mockStoreInitialized = mockStore({
+            auth: initState
+        });
+
+        const wrapper = mount( // enzyme
+            <Provider store={mockStoreInitialized}>
+                <PasswordReset />
+            </Provider>
+        );
+
+        expect(() => wrapper).not.toThrow();
     });
-
-    const wrapper = mount( // enzyme
-        <Provider store={mockStoreInitialized}>
-            <PasswordReset />
-        </Provider>
-    );
-
-    expect(() => wrapper).not.toThrow();
 });

@@ -344,3 +344,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Transfers);
+
+export { Transfers as TransfersUnconnected };

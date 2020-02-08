@@ -51,19 +51,21 @@ describe('Edit Player', () => {
 });
 
 describe('Edit Player connected', () => {
-    const mockStore = configureMockStore([]);
-    const mockStoreInitialized = mockStore({
-        admin: initState,
-        overview: overviewInitState
+    it('Connected edit player', () => {
+        const mockStore = configureMockStore([]);
+        const mockStoreInitialized = mockStore({
+            admin: initState,
+            overview: overviewInitState
+        });
+
+        const wrapper = mount( // enzyme
+            <Provider store={mockStoreInitialized}>
+                <Router>
+                    <EditPlayer />
+                </Router>
+            </Provider>
+        );
+
+        expect(() => wrapper).not.toThrow();
     });
-
-    const wrapper = mount( // enzyme
-        <Provider store={mockStoreInitialized}>
-            <Router>
-                <EditPlayer />
-            </Router>
-        </Provider>
-    );
-
-    expect(() => wrapper).not.toThrow();
 });

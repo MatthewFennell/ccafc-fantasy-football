@@ -182,3 +182,5 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Fixtures);
+
+export { Fixtures as FixturesUnconnected };

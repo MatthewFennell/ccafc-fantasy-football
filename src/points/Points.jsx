@@ -147,3 +147,5 @@ const mapStateToProps = (state, props) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Points);
+
+export { Points as PointsUnconnected };

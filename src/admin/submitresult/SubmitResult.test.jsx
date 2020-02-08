@@ -26,17 +26,19 @@ describe('Submit Result', () => {
 });
 
 describe('Submit Result connected', () => {
-    const mockStore = configureMockStore([]);
-    const mockStoreInitialized = mockStore({
-        admin: initState,
-        overview: overviewInitState
+    it('Connected submit result', () => {
+        const mockStore = configureMockStore([]);
+        const mockStoreInitialized = mockStore({
+            admin: initState,
+            overview: overviewInitState
+        });
+
+        const wrapper = mount( // enzyme
+            <Provider store={mockStoreInitialized}>
+                <SubmitResult />
+            </Provider>
+        );
+
+        expect(() => wrapper).not.toThrow();
     });
-
-    const wrapper = mount( // enzyme
-        <Provider store={mockStoreInitialized}>
-            <SubmitResult />
-        </Provider>
-    );
-
-    expect(() => wrapper).not.toThrow();
 });
