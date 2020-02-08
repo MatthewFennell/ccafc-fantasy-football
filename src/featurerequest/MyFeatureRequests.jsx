@@ -59,7 +59,7 @@ const MyFeatureRequests = props => {
                             radioLabel="Sort By"
                             onChange={setSortBy}
                             options={Object.values(helpers.sortByFilters)
-                                .filter(x => x.isDateRelated).map(x => ({
+                                .map(x => ({
                                     radioLabel: x.label,
                                     value: x.id
                                 }))}
