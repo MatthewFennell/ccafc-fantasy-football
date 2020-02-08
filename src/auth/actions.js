@@ -54,7 +54,7 @@ export const resendEmailVerificationRequest = () => ({
 });
 
 export const resendEmailVerificationSuccess = () => ({
-    type: RESEND_VERIFICATION_EMAIL_REQUEST
+    type: RESEND_VERIFICATION_EMAIL_SUCCESS
 });
 
 export const resendEmailVerificationError = error => ({

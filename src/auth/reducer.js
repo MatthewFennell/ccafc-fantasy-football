@@ -73,7 +73,7 @@ const authReducer = (state = initialState, action) => {
         return fp.set('userPermissions', fp.union(action.permissions)(state.userPermissions))(state);
     }
     case actions.SET_LOADED_PERMISSIONS: {
-        return fp.set('loadedPermissions', true)(state);
+        return fp.set('loadedPermissions', action.loaded)(state);
     }
     case actions.SET_PERMISSIONS_MAPPINGS_AND_ROLES: {
         return {
