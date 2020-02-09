@@ -27,10 +27,13 @@ const api = {
     getPlayersInTeam: () => 'players in team',
     getPlayerStats: () => 'player stats',
     getUsersWithExtraRoles: () => 'extra roles',
+    reapproveRejectedHighlight: () => 'reapproved rejected highlight',
     rejectHighlight: () => 'rejected highlight',
     rejectedHighlights: () => 'all rejected highlights',
     removeUserRole: noop,
     rollOverToNextYear: noop,
+    setHasPaidSubs: noop,
+    submitExtraResults: noop,
     submitResult: noop,
     triggerWeeklyTeams: noop
 };
@@ -538,6 +541,76 @@ describe('Admin saga', () => {
         return expectSaga(sagas.fetchRejectedHighlights, api, action)
             .provide([{ select: alreadyFetchedInfo(false) }])
             .put(actions.fetchAllRejectedHighlightsSuccess('all rejected highlights'))
+            .run();
+    });
+
+    it('fetch rejected highlights error', () => {
+        const error = new Error('error');
+        const action = actions.fetchAllRejectedHighlightsRequest();
+        return expectSaga(sagas.fetchRejectedHighlights, api, action)
+            .provide([
+                [matchers.call.fn(api.rejectedHighlights), throwError(error)],
+                { select: alreadyFetchedInfo(false) }
+            ])
+            .put(actions.setAdminError(error, 'Fetch Rejected Highlights Error'))
+            .run();
+    });
+
+    it('reapprove rejected highlights', () => {
+        const action = actions.reapproveRejectedHighlightRequest();
+        return expectSaga(sagas.reapproveRejectedHighlight, api, action)
+            .provide({ call: provideDelay })
+            .put(actions.reapproveRejectedHighlightSuccess('reapproved rejected highlight'))
+            .put(actions.setSuccessMessage('Highlight successfully reapproved'))
+            .delay(successDelay)
+            .put(actions.closeSuccessMessage())
+            .run();
+    });
+
+    it('reapprove rejected highlight error', () => {
+        const error = new Error('error');
+        const action = actions.reapproveRejectedHighlightRequest();
+        return expectSaga(sagas.reapproveRejectedHighlight, api, action)
+            .provide([
+                [matchers.call.fn(api.reapproveRejectedHighlight), throwError(error)]
+            ])
+            .put(actions.setAdminError(error, 'Reapprove Rejected Highlight Error'))
+            .run();
+    });
+
+    it('submit extra result', () => {
+        const action = actions.submitExtraStatsRequest(null);
+        return expectSaga(sagas.submitExtraResults, api, action)
+            .put(actions.submitExtraStatsSuccess())
+            .run();
+    });
+
+    it('submit extra result error', () => {
+        const error = new Error('error');
+        const action = actions.submitExtraStatsRequest(null);
+        return expectSaga(sagas.submitExtraResults, api, action)
+            .provide([
+                [matchers.call.fn(api.submitExtraResults), throwError(error)]
+            ])
+            .put(actions.setAdminError(error, 'Submit Extra Results Error'))
+            .run();
+    });
+
+    it('set has paid subs', () => {
+        const action = actions.setHasPaidSubsRequest('changes');
+        return expectSaga(sagas.setHasPaidSubs, api, action)
+            .put(actions.setHasPaidSubsSuccess('changes'))
+            .run();
+    });
+
+    it('set has paid subs error', () => {
+        const error = new Error('error');
+        const action = actions.setHasPaidSubsRequest('changes');
+        return expectSaga(sagas.setHasPaidSubs, api, action)
+            .provide([
+                [matchers.call.fn(api.setHasPaidSubs), throwError(error)]
+            ])
+            .put(actions.setAdminError(error, 'Set Subs Paid Error'))
             .run();
     });
 });
