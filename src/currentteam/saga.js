@@ -3,10 +3,10 @@ import {
 } from 'redux-saga/effects';
 import firebase from 'firebase';
 import * as actions from './actions';
-import * as api from './api';
+import * as teamApi from './api';
 import * as selectors from './selectors';
 
-function* fetchActiveTeam(forced, action) {
+export function* fetchActiveTeam(forced, api, action) {
     try {
         const fetchedAlready = yield select(selectors.getAlreadyFetchedForUser, action.userId);
         if (!fetchedAlready || forced) {
@@ -21,7 +21,7 @@ function* fetchActiveTeam(forced, action) {
     }
 }
 
-function* makeCaptain(action) {
+export function* makeCaptain(api, action) {
     try {
         yield call(api.makeCaptain, { playerId: action.playerId });
         yield put(actions.reloadActiveTeamRequest(firebase.auth().currentUser.uid));
@@ -32,8 +32,8 @@ function* makeCaptain(action) {
 
 export default function* leaguesSaga() {
     yield all([
-        takeEvery(actions.FETCH_ACTIVE_TEAM_REQUEST, fetchActiveTeam, false),
-        takeEvery(actions.MAKE_CAPTAIN_REQUEST, makeCaptain),
-        takeEvery(actions.RELOAD_ACTIVE_TEAM_REQUEST, fetchActiveTeam, true)
+        takeEvery(actions.FETCH_ACTIVE_TEAM_REQUEST, fetchActiveTeam, false, teamApi),
+        takeEvery(actions.MAKE_CAPTAIN_REQUEST, makeCaptain, teamApi),
+        takeEvery(actions.RELOAD_ACTIVE_TEAM_REQUEST, fetchActiveTeam, true, teamApi)
     ]);
 }

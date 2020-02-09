@@ -2,10 +2,10 @@ import {
     all, takeEvery, put, call, select
 } from 'redux-saga/effects';
 import * as actions from './actions';
-import * as api from './api';
+import * as chartsApi from './api';
 import * as selectors from './selectors';
 
-function* fetchAllTeams() {
+export function* fetchAllTeams(api) {
     try {
         const fetchedTeams = yield select(selectors.getAllTeams);
         if (fetchedTeams && fetchedTeams.length === 0) {
@@ -21,6 +21,6 @@ function* fetchAllTeams() {
 
 export default function* chartsSaga() {
     yield all([
-        takeEvery(actions.FETCH_ALL_TEAMS_REQUEST, fetchAllTeams)
+        takeEvery(actions.FETCH_ALL_TEAMS_REQUEST, fetchAllTeams, chartsApi)
     ]);
 }
