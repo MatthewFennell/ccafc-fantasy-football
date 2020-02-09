@@ -2,10 +2,10 @@ import {
     all, takeEvery, put, call, delay, takeLatest
 } from 'redux-saga/effects';
 import * as actions from './actions';
-import * as api from './api';
+import * as fixturesApi from './api';
 import { successDelay } from '../constants';
 
-function* fetchFixtures() {
+export function* fetchFixtures(api) {
     try {
         const fixtures = yield call(api.getFixtures);
         yield put(actions.fetchFixturesSuccess(fixtures));
@@ -14,7 +14,7 @@ function* fetchFixtures() {
     }
 }
 
-function* setMyTeam(action) {
+export function* setMyTeam(api, action) {
     try {
         yield call(api.setMyTeam, { team: action.team });
         yield put(actions.setMyTeam(action.team));
@@ -26,19 +26,19 @@ function* setMyTeam(action) {
     }
 }
 
-function* fetchMyTeam() {
+export function* fetchMyTeam(api) {
     try {
         const myTeam = yield call(api.fetchMyTeam);
         yield put(actions.setMyTeam(myTeam));
     } catch (error) {
-        yield put(actions.fetchMyTeamError(error));
+        yield put(actions.setFixturesError(error, 'Error Fetching Team'));
     }
 }
 
 export default function* fixturesSaga() {
     yield all([
-        takeEvery(actions.FETCH_FIXTURES_REQUEST, fetchFixtures),
-        takeLatest(actions.SET_MY_TEAM_REQUEST, setMyTeam),
-        takeEvery(actions.FETCH_MY_TEAM_REQUEST, fetchMyTeam)
+        takeEvery(actions.FETCH_FIXTURES_REQUEST, fetchFixtures, fixturesApi),
+        takeLatest(actions.SET_MY_TEAM_REQUEST, setMyTeam, fixturesApi),
+        takeEvery(actions.FETCH_MY_TEAM_REQUEST, fetchMyTeam, fixturesApi)
     ]);
 }

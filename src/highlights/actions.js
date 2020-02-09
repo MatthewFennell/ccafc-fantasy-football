@@ -145,11 +145,10 @@ export const addReplyToVideoSuccess = video => ({
     video
 });
 
-export const deleteCommentRequest = (videoId, commentId, replyId) => ({
+export const deleteCommentRequest = (videoId, commentId) => ({
     type: DELETE_COMMENT_REQUEST,
     videoId,
-    commentId,
-    replyId
+    commentId
 });
 
 export const deleteCommentSuccess = (videoId, commentId) => ({

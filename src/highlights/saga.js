@@ -2,11 +2,11 @@ import {
     all, takeEvery, put, call, select, delay
 } from 'redux-saga/effects';
 import * as actions from './actions';
-import * as api from './api';
+import * as highlightsApi from './api';
 import * as selectors from './selectors';
 import { successDelay } from '../constants';
 
-function* submitHighlight(action) {
+export function* submitHighlight(api, action) {
     try {
         yield call(api.submitVideo, {
             videoId: action.videoId,
@@ -20,7 +20,7 @@ function* submitHighlight(action) {
     }
 }
 
-function* getHighlights() {
+export function* getHighlights(api) {
     try {
         const fetchedVideos = yield select(selectors.fetchedVideos);
         if (!fetchedVideos) {
@@ -30,11 +30,11 @@ function* getHighlights() {
             yield put(actions.alreadyFetchedVideos());
         }
     } catch (error) {
-        yield put(actions.setHighlightError(error, 'Fetching Hightlights Error'));
+        yield put(actions.setHighlightError(error, 'Fetching Highlights Error'));
     }
 }
 
-function* upvoteHighlight(action) {
+export function* upvoteHighlight(api, action) {
     try {
         const result = yield call(api.upvoteHighlight, ({ highlightId: action.highlightId }));
         yield put(actions.upvoteHighlightSuccess(result));
@@ -43,7 +43,7 @@ function* upvoteHighlight(action) {
     }
 }
 
-function* downvoteHighlight(action) {
+export function* downvoteHighlight(api, action) {
     try {
         const result = yield call(api.downvoteHighlight, ({ highlightId: action.highlightId }));
         yield put(actions.downvoteHighlightSuccess(result));
@@ -52,7 +52,7 @@ function* downvoteHighlight(action) {
     }
 }
 
-function* highlightsToBeApproved() {
+export function* highlightsToBeApproved(api) {
     try {
         const alreadyFetched = yield select(selectors.fetchedApprovedVideos);
         if (!alreadyFetched) {
@@ -66,7 +66,7 @@ function* highlightsToBeApproved() {
     }
 }
 
-function* rejectedHighlights() {
+export function* rejectedHighlights(api) {
     try {
         const alreadyFetched = yield select(selectors.fetchedRejectedVideos);
         if (!alreadyFetched) {
@@ -80,7 +80,7 @@ function* rejectedHighlights() {
     }
 }
 
-function* addCommentToVideo(action) {
+export function* addCommentToVideo(api, action) {
     try {
         const newHighlight = yield call(api.addComment, ({
             collection: 'highlights', // TO:DO Replace with constants for database collection names
@@ -93,7 +93,7 @@ function* addCommentToVideo(action) {
     }
 }
 
-function* addReplyToVideo(action) {
+export function* addReplyToVideo(api, action) {
     try {
         const newHighlight = yield call(api.addReply, ({
             collection: 'highlights', // TO:DO Replace with constants for database collection names
@@ -107,7 +107,7 @@ function* addReplyToVideo(action) {
     }
 }
 
-function* deleteComment(action) {
+export function* deleteComment(api, action) {
     try {
         yield call(api.deleteComment, {
             collection: 'highlights',
@@ -120,7 +120,7 @@ function* deleteComment(action) {
     }
 }
 
-function* deleteReply(action) {
+export function* deleteReply(api, action) {
     try {
         yield call(api.deleteReply, {
             collection: 'highlights',
@@ -136,15 +136,16 @@ function* deleteReply(action) {
 
 export default function* overviewSaga() {
     yield all([
-        takeEvery(actions.SUBMIT_HIGHLIGHT_REQUEST, submitHighlight),
-        takeEvery(actions.FETCH_HIGHLIGHTS_REQUEST, getHighlights),
-        takeEvery(actions.UPVOTE_HIGHLIGHT_REQUEST, upvoteHighlight),
-        takeEvery(actions.DOWNVOTE_HIGHLIGHT_REQUEST, downvoteHighlight),
-        takeEvery(actions.FETCH_USER_HIGHLIGHTS_TO_BE_APPROVED_REQUEST, highlightsToBeApproved),
-        takeEvery(actions.FETCH_REJECTED_HIGHLIGHTS_REQUEST, rejectedHighlights),
-        takeEvery(actions.ADD_COMMENT_TO_VIDEO_REQUEST, addCommentToVideo),
-        takeEvery(actions.ADD_REPLY_TO_VIDEO_REQUEST, addReplyToVideo),
-        takeEvery(actions.DELETE_COMMENT_REQUEST, deleteComment),
-        takeEvery(actions.DELETE_REPLY_REQUEST, deleteReply)
+        takeEvery(actions.SUBMIT_HIGHLIGHT_REQUEST, submitHighlight, highlightsApi),
+        takeEvery(actions.FETCH_HIGHLIGHTS_REQUEST, getHighlights, highlightsApi),
+        takeEvery(actions.UPVOTE_HIGHLIGHT_REQUEST, upvoteHighlight, highlightsApi),
+        takeEvery(actions.DOWNVOTE_HIGHLIGHT_REQUEST, downvoteHighlight, highlightsApi),
+        takeEvery(actions.FETCH_USER_HIGHLIGHTS_TO_BE_APPROVED_REQUEST,
+            highlightsToBeApproved, highlightsApi),
+        takeEvery(actions.FETCH_REJECTED_HIGHLIGHTS_REQUEST, rejectedHighlights, highlightsApi),
+        takeEvery(actions.ADD_COMMENT_TO_VIDEO_REQUEST, addCommentToVideo, highlightsApi),
+        takeEvery(actions.ADD_REPLY_TO_VIDEO_REQUEST, addReplyToVideo, highlightsApi),
+        takeEvery(actions.DELETE_COMMENT_REQUEST, deleteComment, highlightsApi),
+        takeEvery(actions.DELETE_REPLY_REQUEST, deleteReply, highlightsApi)
     ]);
 }

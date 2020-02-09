@@ -13,7 +13,7 @@ const statsReducer = (state = initialState, action) => {
         return fp.set(`teamStatsByWeek.${action.teamId}.fetching`, fp.union(range, currentLoading))(state);
     }
     case actions.FETCH_TEAM_STATS_BY_WEEK_ERROR: {
-        return fp.set(`teamStatsByWeek.${action.teamId}.fetching`, false)(state);
+        return fp.set(`teamStatsByWeek.${action.teamId}.fetching`, [])(state);
     }
     case actions.FETCH_TEAM_STATS_BY_WEEK_SUCCESS: {
         const fetchInfo = property => fp.flow(
@@ -36,3 +36,5 @@ const statsReducer = (state = initialState, action) => {
 };
 
 export default statsReducer;
+
+// TO;DO - refactor so it doesn't need teamStatsByWeek - everything uses it, may as well remove

@@ -39,9 +39,6 @@ const fixturesReducer = (state = initialState, action) => {
     case actions.FETCH_MY_TEAM_REQUEST: {
         return fp.set('loadingMyTeam', true)(state);
     }
-    case actions.FETCH_MY_TEAM_ERROR: {
-        return fp.set('loadingMyTeam', false)(state);
-    }
     case actions.SET_MY_TEAM_ERROR: {
         return fp.set('loadingMyTeam', false)(state);
     }

@@ -2,10 +2,10 @@ import {
     all, takeEvery, put, call, delay, takeLatest
 } from 'redux-saga/effects';
 import * as actions from './actions';
-import * as api from './api';
+import * as featuresApi from './api';
 import { successDelay } from '../constants';
 
-function* addReplyToComment(action) {
+export function* addReplyToComment(api, action) {
     try {
         yield call(api.addReply, {
             collection: 'feature-requests',
@@ -18,7 +18,7 @@ function* addReplyToComment(action) {
     }
 }
 
-function* addCommentToFeature(action) {
+export function* addCommentToFeature(api, action) {
     try {
         yield call(api.addComment,
             {
@@ -31,7 +31,7 @@ function* addCommentToFeature(action) {
     }
 }
 
-function* submitFeature(action) {
+export function* submitFeature(api, action) {
     try {
         yield call(api.submitFeature, { description: action.description });
         yield put(actions.setSuccessMessage('Feature submitted successfully'));
@@ -42,7 +42,7 @@ function* submitFeature(action) {
     }
 }
 
-function* deleteComment(action) {
+export function* deleteComment(api, action) {
     try {
         yield call(api.deleteComment, {
             collection: 'feature-requests',
@@ -54,7 +54,7 @@ function* deleteComment(action) {
     }
 }
 
-function* deleteReply(action) {
+export function* deleteReply(api, action) {
     try {
         yield call(api.deleteReply, {
             collection: 'feature-requests',
@@ -69,10 +69,10 @@ function* deleteReply(action) {
 
 export default function* featureRequestSaga() {
     yield all([
-        takeLatest(actions.SUBMIT_FEATURE_REQUEST, submitFeature),
-        takeEvery(actions.ADD_COMMENT_TO_FEATURE_REQUEST, addCommentToFeature),
-        takeEvery(actions.ADD_REPLY_TO_COMMENT_REQUEST, addReplyToComment),
-        takeEvery(actions.DELETE_COMMENT_REQUEST, deleteComment),
-        takeEvery(actions.DELETE_REPLY_REQUEST, deleteReply)
+        takeLatest(actions.SUBMIT_FEATURE_REQUEST, submitFeature, featuresApi),
+        takeEvery(actions.ADD_COMMENT_TO_FEATURE_REQUEST, addCommentToFeature, featuresApi),
+        takeEvery(actions.ADD_REPLY_TO_COMMENT_REQUEST, addReplyToComment, featuresApi),
+        takeEvery(actions.DELETE_COMMENT_REQUEST, deleteComment, featuresApi),
+        takeEvery(actions.DELETE_REPLY_REQUEST, deleteReply, featuresApi)
     ]);
 }
