@@ -5,13 +5,13 @@ import {
 import { push } from 'connected-react-router';
 import fp from 'lodash/fp';
 import * as actions from './actions';
-import * as api from './api';
+import * as leaguesApi from './api';
 import * as selectors from './selectors';
 import * as constants from '../constants';
 
 const PAGE_BUFFER = 3;
 
-function* fetchLeagues() {
+export function* fetchLeagues(api) {
     try {
         const alreadyFetched = yield select(selectors.getLeagues);
         if (alreadyFetched && alreadyFetched.length === 0) {
@@ -25,7 +25,7 @@ function* fetchLeagues() {
     }
 }
 
-function* fetchUsersInLeague(action) {
+export function* fetchUsersInLeague(api, action) {
     try {
         const usersForThatLeague = yield select(selectors.getUsersInLeagueWithId, action.leagueId);
         const fetchedAllUsersInLeague = yield select(selectors.getFetchedAllUsersInLeague, action.leagueId);
@@ -64,7 +64,7 @@ function* fetchUsersInLeague(action) {
     }
 }
 
-function* createLeague(action) {
+export function* createLeague(api, action) {
     try {
         yield call(api.createLeague, {
             leagueName: action.leagueName,
@@ -77,7 +77,7 @@ function* createLeague(action) {
     }
 }
 
-function* joinLeague(action) {
+export function* joinLeague(api, action) {
     try {
         yield call(api.joinLeague, { leagueName: action.leagueName });
         const myLeagues = yield call(api.getLeaguesIAmIn);
@@ -87,7 +87,7 @@ function* joinLeague(action) {
     }
 }
 
-function* leaveLeague(action) {
+export function* leaveLeague(api, action) {
     try {
         yield call(api.leaveLeague, { leagueId: action.leagueId });
         const myLeagues = yield call(api.getLeaguesIAmIn);
@@ -100,10 +100,10 @@ function* leaveLeague(action) {
 
 export default function* leaguesSaga() {
     yield all([
-        takeEvery(actions.FETCH_LEAGUES_REQUEST, fetchLeagues),
-        takeEvery(actions.FETCH_USERS_IN_LEAGUE_REQUEST, fetchUsersInLeague),
-        takeEvery(actions.CREATE_LEAGUE_REQUEST, createLeague),
-        takeEvery(actions.JOIN_LEAGUE_REQUEST, joinLeague),
-        takeEvery(actions.LEAVE_LEAGUE_REQUEST, leaveLeague)
+        takeEvery(actions.FETCH_LEAGUES_REQUEST, fetchLeagues, leaguesApi),
+        takeEvery(actions.FETCH_USERS_IN_LEAGUE_REQUEST, fetchUsersInLeague, leaguesApi),
+        takeEvery(actions.CREATE_LEAGUE_REQUEST, createLeague, leaguesApi),
+        takeEvery(actions.JOIN_LEAGUE_REQUEST, joinLeague, leaguesApi),
+        takeEvery(actions.LEAVE_LEAGUE_REQUEST, leaveLeague, leaguesApi)
     ]);
 }
