@@ -3,16 +3,16 @@ import {
 } from 'redux-saga/effects';
 import firebase from 'firebase';
 import * as actions from './actions';
-import * as api from './api';
+import * as transfersApi from './api';
 import * as selectors from './selectors';
 import * as helpers from './helpers';
 import * as currentTeamActions from '../currentteam/actions';
 import { successDelay } from '../constants';
 
-function* fetchAllPlayers() {
+export function* fetchAllPlayers(api) {
     try {
         const alreadyFetched = yield select(selectors.getAllPlayers);
-        if (alreadyFetched.length === 0) {
+        if (alreadyFetched && alreadyFetched.length === 0) {
             const allPlayers = yield call(api.getAllPlayers);
             yield put(actions.fetchAllPlayersSuccess(allPlayers));
         }
@@ -21,10 +21,10 @@ function* fetchAllPlayers() {
     }
 }
 
-function* fetchAllTeams() {
+export function* fetchAllTeams(api) {
     try {
         const alreadyFetched = yield select(selectors.getAllTeams);
-        if (alreadyFetched.length === 0) {
+        if (alreadyFetched && alreadyFetched.length === 0) {
             const allTeams = yield call(api.getAllTeams);
             yield put(actions.fetchAllTeamsSuccess(allTeams));
         } else {
@@ -35,7 +35,7 @@ function* fetchAllTeams() {
     }
 }
 
-function* addPlayerToCurrentTeam(action) {
+export function* addPlayerToCurrentTeam(action) {
     const currentTeam = yield select(selectors.getCurrentTeam);
     const canAddPlayer = helpers.canAddPlayer(action.player, currentTeam);
     if (canAddPlayer === true) {
@@ -48,7 +48,7 @@ function* addPlayerToCurrentTeam(action) {
     }
 }
 
-function* updateTeam() {
+export function* updateTeam(api) {
     try {
         const currentTeam = yield select(selectors.getCurrentTeam);
         yield call(api.updateTeam, {
@@ -66,7 +66,7 @@ function* updateTeam() {
     }
 }
 
-function* replacePlayer(action) {
+export function* replacePlayer(action) {
     const currentTeam = yield select(selectors.getCurrentTeam);
     const canAddPlayer = helpers.canReplacePlayer(action.oldPlayer, action.newPlayer, currentTeam);
     if (canAddPlayer === true) {
@@ -78,10 +78,10 @@ function* replacePlayer(action) {
 
 export default function* transfersSaga() {
     yield all([
-        takeEvery(actions.FETCH_ALL_PLAYERS_REQUEST, fetchAllPlayers),
-        takeEvery(actions.FETCH_ALL_TEAMS_REQUEST, fetchAllTeams),
+        takeEvery(actions.FETCH_ALL_PLAYERS_REQUEST, fetchAllPlayers, transfersApi),
+        takeEvery(actions.FETCH_ALL_TEAMS_REQUEST, fetchAllTeams, transfersApi),
         takeEvery(actions.ADD_PLAYER_TO_CURRENT_TEAM_REQUEST, addPlayerToCurrentTeam),
-        takeEvery(actions.UPDATE_TEAM_REQUEST, updateTeam),
+        takeEvery(actions.UPDATE_TEAM_REQUEST, updateTeam, transfersApi),
         takeEvery(actions.REPLACE_PLAYER_REQUEST, replacePlayer)
     ]);
 }

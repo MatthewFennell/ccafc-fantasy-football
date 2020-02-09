@@ -2,13 +2,13 @@ import {
     all, call, takeEvery, put, select, delay, takeLatest
 } from 'redux-saga/effects';
 import * as actions from './actions';
-import * as api from './api';
+import * as adminApi from './api';
 import * as selectors from './selectors';
 import { fetchMaxGameWeekRequest } from '../overview/actions';
 import { signOut } from '../auth/actions';
 import { successDelay } from '../constants';
 
-function* fetchTeams() {
+export function* fetchTeams(api) {
     try {
         const alreadyFetched = yield select(selectors.getAllTeams);
         if (alreadyFetched && alreadyFetched.length === 0) {
@@ -20,7 +20,7 @@ function* fetchTeams() {
     }
 }
 
-function* createPlayer(action) {
+export function* createPlayer(api, action) {
     try {
         yield call(api.createPlayer, {
             name: action.name,
@@ -38,7 +38,7 @@ function* createPlayer(action) {
     }
 }
 
-function* createTeam(action) {
+export function* createTeam(api, action) {
     try {
         yield call(api.createTeam, ({ teamName: action.teamName }));
         yield put(actions.createTeamSuccess());
@@ -52,7 +52,7 @@ function* createTeam(action) {
     }
 }
 
-function* getPlayersForTeam(action) {
+export function* getPlayersForTeam(api, action) {
     try {
         const alreadyFetched = yield select(selectors.getPlayersInTeam, action.teamName);
         if (!alreadyFetched) {
@@ -64,7 +64,7 @@ function* getPlayersForTeam(action) {
     }
 }
 
-function* submitResult(action) {
+export function* submitResult(api, action) {
     try {
         yield call(api.submitResult,
             {
@@ -83,7 +83,7 @@ function* submitResult(action) {
     }
 }
 
-function* deletePlayer(action) {
+export function* deletePlayer(api, action) {
     try {
         yield call(api.deletePlayer, { playerId: action.playerId });
         yield put(actions.deletePlayerSuccess());
@@ -95,7 +95,7 @@ function* deletePlayer(action) {
     }
 }
 
-function* deleteTeam(action) {
+export function* deleteTeam(api, action) {
     try {
         yield call(api.deleteTeam, {
             teamId: action.teamId,
@@ -112,7 +112,7 @@ function* deleteTeam(action) {
     }
 }
 
-function* triggerWeek(action) {
+export function* triggerWeek(api, action) {
     try {
         yield call(api.triggerWeeklyTeams, { week: action.week });
         yield put(actions.triggerWeekSuccess());
@@ -125,7 +125,7 @@ function* triggerWeek(action) {
     }
 }
 
-function* getPlayerStats(action) {
+export function* getPlayerStats(api, action) {
     try {
         const playerStats = yield call(api.getPlayerStats,
             { playerId: action.playerId, week: action.week });
@@ -135,7 +135,7 @@ function* getPlayerStats(action) {
     }
 }
 
-function* editPlayerStats(action) {
+export function* editPlayerStats(api, action) {
     try {
         yield call(api.editStats,
             { playerId: action.playerId, week: action.week, difference: action.difference });
@@ -151,10 +151,10 @@ function* editPlayerStats(action) {
     }
 }
 
-function* usersWithExtraRoles() {
+export function* usersWithExtraRoles(api) {
     try {
         const alreadyFetched = yield select(selectors.getUsersWithExtraRoles);
-        if (alreadyFetched.length === 0) {
+        if (alreadyFetched && alreadyFetched.length === 0) {
             const extraRoles = yield call(api.getUsersWithExtraRoles);
             yield put(actions.fetchUsersWithExtraRolesSuccess(extraRoles));
         } else {
@@ -165,7 +165,7 @@ function* usersWithExtraRoles() {
     }
 }
 
-function* addUserRole(action) {
+export function* addUserRole(api, action) {
     try {
         yield put(actions.loadUsersWithExtraRoles());
         yield call(api.addUserRole, ({
@@ -182,7 +182,7 @@ function* addUserRole(action) {
     }
 }
 
-function* removeUserRole(action) {
+export function* removeUserRole(api, action) {
     try {
         yield put(actions.loadUsersWithExtraRoles());
         yield call(api.removeUserRole, ({
@@ -199,7 +199,7 @@ function* removeUserRole(action) {
     }
 }
 
-function* clearDatabase() {
+export function* clearDatabase(api) {
     try {
         yield call(api.clearDatabase);
         yield put(signOut());
@@ -208,7 +208,7 @@ function* clearDatabase() {
     }
 }
 
-function* rollOverToNextYear() {
+export function* rollOverToNextYear(api) {
     try {
         yield call(api.rollOverToNextYear);
     } catch (error) {
@@ -216,7 +216,7 @@ function* rollOverToNextYear() {
     }
 }
 
-function* deleteAllOldUsers() {
+export function* deleteAllOldUsers(api) {
     try {
         yield call(api.deleteAllOldUsers);
     } catch (error) {
@@ -224,7 +224,7 @@ function* deleteAllOldUsers() {
     }
 }
 
-function* fetchHighlightsForApproval() {
+export function* fetchHighlightsForApproval(api) {
     try {
         const fetchedHighlights = yield select(selectors.fetchedHighlightsForApproval);
         if (!fetchedHighlights) {
@@ -238,7 +238,7 @@ function* fetchHighlightsForApproval() {
     }
 }
 
-function* approveHighlight(action) {
+export function* approveHighlight(api, action) {
     try {
         const highlight = yield call(api.approveHighlight, ({ highlightId: action.highlightId }));
         yield put(actions.approveHighlightSuccess(highlight));
@@ -250,7 +250,7 @@ function* approveHighlight(action) {
     }
 }
 
-function* rejectHighlight(action) {
+export function* rejectHighlight(api, action) {
     try {
         const highlight = yield call(api.rejectHighlight, ({
             highlightId: action.highlightId,
@@ -265,7 +265,7 @@ function* rejectHighlight(action) {
     }
 }
 
-function* deleteHighlight(action) {
+export function* deleteHighlight(api, action) {
     try {
         const highlight = yield call(api.deleteHighlight, ({
             highlightId: action.highlightId,
@@ -280,7 +280,7 @@ function* deleteHighlight(action) {
     }
 }
 
-function* fetchRejectedHighlights() {
+export function* fetchRejectedHighlights(api) {
     try {
         const fetchedHighlights = yield select(selectors.fetchedRejectedHighlights);
         if (!fetchedHighlights) {
@@ -294,7 +294,7 @@ function* fetchRejectedHighlights() {
     }
 }
 
-function* reapproveRejectedHighlight(action) {
+export function* reapproveRejectedHighlight(api, action) {
     try {
         const highlight = yield call(api.reapproveRejectedHighlight,
             ({ highlightId: action.highlightId }));
@@ -307,7 +307,7 @@ function* reapproveRejectedHighlight(action) {
     }
 }
 
-function* submitExtraResults(action) {
+export function* submitExtraResults(api, action) {
     try {
         yield call(api.submitExtraResults, ({
             gameWeek: action.gameWeek,
@@ -323,7 +323,7 @@ function* submitExtraResults(action) {
     }
 }
 
-function* setHasPaidSubs(action) {
+export function* setHasPaidSubs(api, action) {
     try {
         yield call(api.setHasPaidSubs, ({
             changes: action.changes
@@ -336,29 +336,31 @@ function* setHasPaidSubs(action) {
 
 export default function* adminSaga() {
     yield all([
-        takeEvery(actions.FETCH_TEAMS_REQUEST, fetchTeams),
-        takeLatest(actions.CREATE_PLAYER_REQUEST, createPlayer),
-        takeLatest(actions.CREATE_TEAM_REQUEST, createTeam),
-        takeEvery(actions.FETCH_PLAYERS_FOR_TEAM_REQUEST, getPlayersForTeam),
-        takeLatest(actions.SUBMIT_RESULT_REQUEST, submitResult),
-        takeLatest(actions.DELETE_PLAYER_REQUEST, deletePlayer),
-        takeLatest(actions.DELETE_TEAM_REQUEST, deleteTeam),
-        takeLatest(actions.TRIGGER_WEEK_REQUEST, triggerWeek),
-        takeEvery(actions.FETCH_PLAYER_STATS_REQUEST, getPlayerStats),
-        takeLatest(actions.EDIT_PLAYER_STATS_REQUEST, editPlayerStats),
-        takeEvery(actions.FETCH_USERS_WITH_EXTRA_ROLES_REQUEST, usersWithExtraRoles),
-        takeLatest(actions.ADD_USER_ROLE_REQUEST, addUserRole),
-        takeLatest(actions.REMOVE_USER_ROLE_REQUEST, removeUserRole),
-        takeEvery(actions.CLEAR_DATABASE_REQUEST, clearDatabase),
-        takeEvery(actions.ROLL_OVER_TO_NEXT_YEAR_REQUEST, rollOverToNextYear),
-        takeEvery(actions.DELETE_ALL_OLD_USERS_REQUEST, deleteAllOldUsers),
-        takeEvery(actions.FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST, fetchHighlightsForApproval),
-        takeLatest(actions.APPROVE_HIGHLIGHT_REQUEST, approveHighlight),
-        takeLatest(actions.REJECT_HIGHLIGHT_REQUEST, rejectHighlight),
-        takeLatest(actions.DELETE_HIGHLIGHT_REQUEST, deleteHighlight),
-        takeEvery(actions.FETCH_ALL_REJECTED_HIGHLIGHTS_REQUEST, fetchRejectedHighlights),
-        takeLatest(actions.REAPPROVE_REJECTED_HIGHLIGHT_REQUEST, reapproveRejectedHighlight),
-        takeEvery(actions.SUBMIT_EXTRA_STATS_REQUEST, submitExtraResults),
-        takeEvery(actions.SET_HAS_PAID_SUBS_REQUEST, setHasPaidSubs)
+        takeEvery(actions.FETCH_TEAMS_REQUEST, fetchTeams, adminApi),
+        takeLatest(actions.CREATE_PLAYER_REQUEST, createPlayer, adminApi),
+        takeLatest(actions.CREATE_TEAM_REQUEST, createTeam, adminApi),
+        takeEvery(actions.FETCH_PLAYERS_FOR_TEAM_REQUEST, getPlayersForTeam, adminApi),
+        takeLatest(actions.SUBMIT_RESULT_REQUEST, submitResult, adminApi),
+        takeLatest(actions.DELETE_PLAYER_REQUEST, deletePlayer, adminApi),
+        takeLatest(actions.DELETE_TEAM_REQUEST, deleteTeam, adminApi),
+        takeLatest(actions.TRIGGER_WEEK_REQUEST, triggerWeek, adminApi),
+        takeEvery(actions.FETCH_PLAYER_STATS_REQUEST, getPlayerStats, adminApi),
+        takeLatest(actions.EDIT_PLAYER_STATS_REQUEST, editPlayerStats, adminApi),
+        takeEvery(actions.FETCH_USERS_WITH_EXTRA_ROLES_REQUEST, usersWithExtraRoles, adminApi),
+        takeLatest(actions.ADD_USER_ROLE_REQUEST, addUserRole, adminApi),
+        takeLatest(actions.REMOVE_USER_ROLE_REQUEST, removeUserRole, adminApi),
+        takeEvery(actions.CLEAR_DATABASE_REQUEST, clearDatabase, adminApi),
+        takeEvery(actions.ROLL_OVER_TO_NEXT_YEAR_REQUEST, rollOverToNextYear, adminApi),
+        takeEvery(actions.DELETE_ALL_OLD_USERS_REQUEST, deleteAllOldUsers, adminApi),
+        takeEvery(actions.FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST, fetchHighlightsForApproval,
+            adminApi),
+        takeLatest(actions.APPROVE_HIGHLIGHT_REQUEST, approveHighlight, adminApi),
+        takeLatest(actions.REJECT_HIGHLIGHT_REQUEST, rejectHighlight, adminApi),
+        takeLatest(actions.DELETE_HIGHLIGHT_REQUEST, deleteHighlight, adminApi),
+        takeEvery(actions.FETCH_ALL_REJECTED_HIGHLIGHTS_REQUEST, fetchRejectedHighlights, adminApi),
+        takeLatest(actions.REAPPROVE_REJECTED_HIGHLIGHT_REQUEST, reapproveRejectedHighlight,
+            adminApi),
+        takeEvery(actions.SUBMIT_EXTRA_STATS_REQUEST, submitExtraResults, adminApi),
+        takeEvery(actions.SET_HAS_PAID_SUBS_REQUEST, setHasPaidSubs, adminApi)
     ]);
 }

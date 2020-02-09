@@ -3,10 +3,10 @@ import {
 } from 'redux-saga/effects';
 import firebase from 'firebase';
 import * as actions from './actions';
-import * as api from './api';
+import * as profileApi from './api';
 import { signOut } from '../auth/actions';
 
-function* linkProfileToGoogle() {
+export function* linkProfileToGoogle() {
     try {
         const provider = new firebase.auth.GoogleAuthProvider();
         yield firebase.auth().currentUser.linkWithPopup(provider);
@@ -15,7 +15,7 @@ function* linkProfileToGoogle() {
     }
 }
 
-function* linkProfileToFacebook() {
+export function* linkProfileToFacebook(api) {
     try {
         const provider = new firebase.auth.FacebookAuthProvider();
         yield firebase.auth().currentUser.linkWithPopup(provider);
@@ -25,7 +25,7 @@ function* linkProfileToFacebook() {
     }
 }
 
-function* updateDisplayName(action) {
+export function* updateDisplayName(api, action) {
     try {
         yield call(api.updateDisplayName, { displayName: action.displayName });
         yield put(actions.updateDisplayNameSuccess());
@@ -34,7 +34,7 @@ function* updateDisplayName(action) {
     }
 }
 
-function* updateTeamName(action) {
+export function* updateTeamName(api, action) {
     try {
         yield call(api.updateTeamName, { teamName: action.teamName });
         yield put(actions.updateTeamNameSuccess());
@@ -43,7 +43,7 @@ function* updateTeamName(action) {
     }
 }
 
-function* deleteAccount(action) {
+export function* deleteAccount(api, action) {
     try {
         const currentEmail = firebase.auth().currentUser.email;
         if (currentEmail !== action.email) {
@@ -58,7 +58,7 @@ function* deleteAccount(action) {
     }
 }
 
-function* updateProfilePicture(action) {
+export function* updateProfilePicture(api, action) {
     try {
         yield call(api.updateProfilePicture, ({
             photoUrl: action.photoUrl
@@ -72,11 +72,11 @@ function* updateProfilePicture(action) {
 
 export default function* authSaga() {
     yield all([
-        takeEvery(actions.LINK_PROFILE_TO_GOOGLE, linkProfileToGoogle),
-        takeEvery(actions.LINK_PROFILE_TO_FACEBOOK, linkProfileToFacebook),
-        takeEvery(actions.UPDATE_DISPLAY_NAME_REQUEST, updateDisplayName),
-        takeEvery(actions.UPDATE_TEAM_NAME_REQUEST, updateTeamName),
-        takeEvery(actions.DELETE_ACCOUNT_REQUEST, deleteAccount),
-        takeEvery(actions.UPDATE_PROFILE_PICTURE_REQUEST, updateProfilePicture)
+        takeEvery(actions.LINK_PROFILE_TO_GOOGLE, linkProfileToGoogle, profileApi),
+        takeEvery(actions.LINK_PROFILE_TO_FACEBOOK, linkProfileToFacebook, profileApi),
+        takeEvery(actions.UPDATE_DISPLAY_NAME_REQUEST, updateDisplayName, profileApi),
+        takeEvery(actions.UPDATE_TEAM_NAME_REQUEST, updateTeamName, profileApi),
+        takeEvery(actions.DELETE_ACCOUNT_REQUEST, deleteAccount, profileApi),
+        takeEvery(actions.UPDATE_PROFILE_PICTURE_REQUEST, updateProfilePicture, profileApi)
     ]);
 }
