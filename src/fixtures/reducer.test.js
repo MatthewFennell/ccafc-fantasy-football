@@ -59,17 +59,6 @@ describe('Fixtures reducer', () => {
         });
     });
 
-    it('fetch my team error', () => {
-        const action = actions.fetchMyTeamError(null);
-        expect(reducer({
-            ...initialState,
-            loadingMyTeam: true
-        }, action)).toEqual({
-            ...initialState,
-            loadingMyTeam: false
-        });
-    });
-
     it('set my team error', () => {
         const action = actions.setMyTeamError(null);
         expect(reducer({

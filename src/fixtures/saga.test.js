@@ -15,13 +15,6 @@ const api = {
 };
 
 describe('Fixtures saga', () => {
-    const alreadyFetchedInfo = fetched => ({ selector }, next) => {
-        if (selector === selectors.fetchedVideos) {
-            return fetched;
-        }
-        return next();
-    };
-
     // Deals with yield delay(x)
     const provideDelay = ({ fn }, next) => ((fn.name === 'delayP') ? null : next());
 
