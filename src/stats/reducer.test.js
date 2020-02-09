@@ -25,18 +25,6 @@ describe('Stats reducer', () => {
         });
     });
 
-    it('fetch team stats by week error', () => {
-        const action = actions.fetchTeamStatsByWeekError('teamId');
-        expect(reducer(initialState, action)).toEqual({
-            ...initialState,
-            teamStatsByWeek: {
-                teamId: {
-                    fetching: []
-                }
-            }
-        });
-    });
-
     it('fetch team stats by week success', () => {
         const previousStats = ['a', 'b', 'c', 'd'];
         const previousWeeksFetched = [1, 2, 3];
