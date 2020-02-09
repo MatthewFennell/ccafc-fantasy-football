@@ -7,7 +7,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import * as firebase from 'firebase';
 import { shallow, mount } from '../enzyme';
 import Profile, { ProfileUnconnected } from './Profile';
-import { initState } from './reducer';
+import { initialState } from './reducer';
 
 const onAuthStateChanged = jest.fn();
 
@@ -96,10 +96,10 @@ describe('Profile connected', () => {
         const mockStoreInitialized = mockStore({
             firebase: mockfirebaseStore,
             history: mockHistory,
-            profile: initState
+            profile: initialState
         });
 
-        const wrapper = mount( // enzyme
+        const wrapper = mount(
             <Provider store={mockStoreInitialized}>
                 <Router>
                     <Profile />

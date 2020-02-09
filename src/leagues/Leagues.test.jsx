@@ -6,7 +6,7 @@ import configureMockStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { shallow, mount } from '../enzyme';
 import Leagues, { LeaguesUnconnected } from './Leagues';
-import { initState } from './reducer';
+import { initialState } from './reducer';
 
 const mockHistory = {
     location: {
@@ -33,11 +33,11 @@ describe('Leagues connected', () => {
     it('Connected leagues', () => {
         const mockStore = configureMockStore([]);
         const mockStoreInitialized = mockStore({
-            leagues: initState,
+            leagues: initialState,
             history: mockHistory
         });
 
-        const wrapper = mount( // enzyme
+        const wrapper = mount(
             <Provider store={mockStoreInitialized}>
                 <Router>
                     <Leagues />

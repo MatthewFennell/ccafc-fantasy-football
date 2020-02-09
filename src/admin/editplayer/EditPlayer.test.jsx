@@ -6,8 +6,8 @@ import configureMockStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { shallow, mount } from '../../enzyme';
 import EditPlayer, { EditPlayerUnconnected } from './EditPlayer';
-import { initState } from '../reducer';
-import { initialState as overviewInitState } from '../../overview/reducer';
+import { initialState } from '../reducer';
+import { initialState as overviewinitialState } from '../../overview/reducer';
 
 describe('Edit Player', () => {
     it('The Edit Player component renders without crashing', () => {
@@ -54,11 +54,11 @@ describe('Edit Player connected', () => {
     it('Connected edit player', () => {
         const mockStore = configureMockStore([]);
         const mockStoreInitialized = mockStore({
-            admin: initState,
-            overview: overviewInitState
+            admin: initialState,
+            overview: overviewinitialState
         });
 
-        const wrapper = mount( // enzyme
+        const wrapper = mount(
             <Provider store={mockStoreInitialized}>
                 <Router>
                     <EditPlayer />

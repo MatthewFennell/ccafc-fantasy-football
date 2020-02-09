@@ -7,7 +7,7 @@ import { shallow, mount } from '../../enzyme';
 import CreatePlayer, { CreatePlayerUnconnected } from './CreatePlayer';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import styles from './CreatePlayer.module.scss';
-import { initState } from '../reducer';
+import { initialState } from '../reducer';
 
 describe('Create Player', () => {
     it('The Create Player component renders without crashing', () => {
@@ -98,10 +98,10 @@ describe('Create Player connected', () => {
     it('Connected create player', () => {
         const mockStore = configureMockStore([]);
         const mockStoreInitialized = mockStore({
-            admin: initState
+            admin: initialState
         });
 
-        const wrapper = mount( // enzyme
+        const wrapper = mount(
             <Provider store={mockStoreInitialized}>
                 <CreatePlayer />
             </Provider>

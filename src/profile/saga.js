@@ -50,7 +50,7 @@ function* deleteAccount(action) {
             yield put(actions.deleteAccountError({ code: 'not-found', message: 'That is not your email' }));
         } else {
             yield call(api.deleteUser, { email: action.email });
-            yield put(actions.deleteAccountSucces());
+            yield put(actions.deleteAccountSuccess());
             yield put(signOut());
         }
     } catch (error) {

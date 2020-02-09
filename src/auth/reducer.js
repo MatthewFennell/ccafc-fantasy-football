@@ -1,7 +1,7 @@
 import fp from 'lodash/fp';
 import * as actions from './actions';
 
-export const initState = {
+export const initialState = {
     authError: null,
 
     passwordResetErrorCode: '',
@@ -25,7 +25,7 @@ export const initState = {
     allRoles: []
 };
 
-const authReducer = (state = initState, action) => {
+const authReducer = (state = initialState, action) => {
     switch (action.type) {
     case actions.SIGN_UP_ERROR: {
         return {
@@ -73,7 +73,7 @@ const authReducer = (state = initState, action) => {
         return fp.set('userPermissions', fp.union(action.permissions)(state.userPermissions))(state);
     }
     case actions.SET_LOADED_PERMISSIONS: {
-        return fp.set('loadedPermissions', true)(state);
+        return fp.set('loadedPermissions', action.loaded)(state);
     }
     case actions.SET_PERMISSIONS_MAPPINGS_AND_ROLES: {
         return {

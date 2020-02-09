@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import { shallow, mount } from '../../enzyme';
 import SubmitResult, { SubmitResultUnconnected } from './SubmitResult';
-import { initState } from '../reducer';
-import { initialState as overviewInitState } from '../../overview/reducer';
+import { initialState } from '../reducer';
+import { initialState as overviewinitialState } from '../../overview/reducer';
 
 describe('Submit Result', () => {
     it('The Submit Result component renders without crashing', () => {
@@ -29,11 +29,11 @@ describe('Submit Result connected', () => {
     it('Connected submit result', () => {
         const mockStore = configureMockStore([]);
         const mockStoreInitialized = mockStore({
-            admin: initState,
-            overview: overviewInitState
+            admin: initialState,
+            overview: overviewinitialState
         });
 
-        const wrapper = mount( // enzyme
+        const wrapper = mount(
             <Provider store={mockStoreInitialized}>
                 <SubmitResult />
             </Provider>

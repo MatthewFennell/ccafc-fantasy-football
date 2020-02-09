@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import { shallow, mount } from '../enzyme';
 import Charts, { ChartsUnconnected } from './Charts';
-import { initState } from './reducer';
-import { initialState as overviewInitState } from '../overview/reducer';
+import { initialState } from './reducer';
+import { initialState as overviewinitialState } from '../overview/reducer';
 
 describe('Charts', () => {
     it('The Charts component renders without crashing', () => {
@@ -22,11 +22,11 @@ describe('Charts connected', () => {
     it('Connected charts', () => {
         const mockStore = configureMockStore([]);
         const mockStoreInitialized = mockStore({
-            charts: initState,
-            overview: overviewInitState
+            charts: initialState,
+            overview: overviewinitialState
         });
 
-        const wrapper = mount( // enzyme
+        const wrapper = mount(
             <Provider store={mockStoreInitialized}>
                 <Charts />
             </Provider>

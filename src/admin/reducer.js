@@ -1,7 +1,7 @@
 import fp from 'lodash/fp';
 import * as actions from './actions';
 
-export const initState = {
+export const initialState = {
     allTeams: [],
     teamsWithPlayers: {},
     playerStats: {},
@@ -35,7 +35,7 @@ export const initState = {
     errorCode: ''
 };
 
-const adminReducer = (state = initState, action) => {
+const adminReducer = (state = initialState, action) => {
     switch (action.type) {
     case actions.FETCH_TEAMS_SUCCESS: {
         return {

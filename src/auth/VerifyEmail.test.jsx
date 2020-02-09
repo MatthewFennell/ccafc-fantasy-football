@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import { shallow, mount } from '../enzyme';
 import VerifyEmail, { VerifyEmailUnconnected } from './VerifyEmail';
-import { initState } from './reducer';
+import { initialState } from './reducer';
 
 const mockfirebaseStore = {
     auth: {
@@ -31,11 +31,11 @@ describe('Verify Email connected', () => {
     it('Connected verify email', () => {
         const mockStore = configureMockStore([]);
         const mockStoreInitialized = mockStore({
-            auth: initState,
+            auth: initialState,
             firebase: mockfirebaseStore
         });
 
-        const wrapper = mount( // enzyme
+        const wrapper = mount(
             <Provider store={mockStoreInitialized}>
                 <VerifyEmail />
             </Provider>

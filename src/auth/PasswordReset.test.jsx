@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import { shallow, mount } from '../enzyme';
 import PasswordReset, { PasswordResetUnconnected } from './PasswordReset';
-import { initState } from './reducer';
+import { initialState } from './reducer';
 
 describe('Reset Password', () => {
     it('The Reset Password component renders without crashing', () => {
@@ -24,10 +24,10 @@ describe('Password Reset connected', () => {
     it('Connected password reset', () => {
         const mockStore = configureMockStore([]);
         const mockStoreInitialized = mockStore({
-            auth: initState
+            auth: initialState
         });
 
-        const wrapper = mount( // enzyme
+        const wrapper = mount(
             <Provider store={mockStoreInitialized}>
                 <PasswordReset />
             </Provider>

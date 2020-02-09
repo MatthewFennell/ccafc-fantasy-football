@@ -6,8 +6,8 @@ import configureMockStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { shallow, mount } from '../enzyme';
 import Points, { PointsUnconnected } from './Points';
-import { initState } from './reducer';
-import { initialState as overviewInitState } from '../overview/reducer';
+import { initialState } from './reducer';
+import { initialState as overviewinitialState } from '../overview/reducer';
 
 const mockHistory = {
     location: {
@@ -31,12 +31,12 @@ describe('Points connected', () => {
     it('Connected points', () => {
         const mockStore = configureMockStore([]);
         const mockStoreInitialized = mockStore({
-            overview: overviewInitState,
-            points: initState,
+            overview: overviewinitialState,
+            points: initialState,
             history: mockHistory
         });
 
-        const wrapper = mount( // enzyme
+        const wrapper = mount(
             <Provider store={mockStoreInitialized}>
                 <Router>
                     <Points history={mockHistory} />

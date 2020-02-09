@@ -1,7 +1,7 @@
 import fp from 'lodash/fp';
 import * as actions from './actions';
 
-export const initState = {
+export const initialState = {
     attemptedEmailToLink: '',
     linkAccountErrorCode: '',
     linkAccountError: '',
@@ -19,7 +19,7 @@ export const initState = {
     deleteAccountErrorCode: ''
 };
 
-const profileReducer = (state = initState, action) => {
+const profileReducer = (state = initialState, action) => {
     switch (action.type) {
     case actions.LINK_PROFILE_TO_FACEBOOK_ERROR: {
         return {
@@ -40,6 +40,7 @@ const profileReducer = (state = initState, action) => {
     case actions.CLOSE_ACCOUNT_LINK_ERROR: {
         return {
             ...state,
+            attemptedEmailToLink: '',
             linkAccountError: '',
             linkAccountErrorCode: ''
         };
@@ -101,7 +102,7 @@ const profileReducer = (state = initState, action) => {
         };
     }
     case actions.DELETE_ACCOUNT_REQUEST: {
-        return fp.set('deletingAccount', true)(false);
+        return fp.set('deletingAccount', true)(state);
     }
     case actions.DELETE_ACCOUNT_SUCCESS: {
         return fp.set('deletingAccount', false)(state);

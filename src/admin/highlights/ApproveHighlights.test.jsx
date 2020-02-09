@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import { shallow, mount } from '../../enzyme';
 import ApproveHighlights, { ApproveHighlightsUnconnected } from './ApproveHighlights';
-import { initState } from '../reducer';
-import { initialState as highlightsInitState } from '../../highlights/reducer';
+import { initialState } from '../reducer';
+import { initialState as highlightsinitialState } from '../../highlights/reducer';
 
 describe('Approve Highlights', () => {
     it('The Approve Highlights component renders without crashing', () => {
@@ -29,11 +29,11 @@ describe('Approve Highlights connected', () => {
     it('Connected approve highlights', () => {
         const mockStore = configureMockStore([]);
         const mockStoreInitialized = mockStore({
-            admin: initState,
-            highlights: highlightsInitState
+            admin: initialState,
+            highlights: highlightsinitialState
         });
 
-        const wrapper = mount( // enzyme
+        const wrapper = mount(
             <Provider store={mockStoreInitialized}>
                 <ApproveHighlights />
             </Provider>

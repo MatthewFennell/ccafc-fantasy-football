@@ -6,7 +6,7 @@ import configureMockStore from 'redux-mock-store';
 import { noop } from 'lodash';
 import { shallow, mount } from '../../enzyme';
 import AuthenticatedRoute, { AuthenticatedRouteUnconnected } from './AuthenticatedRoute';
-import { initState } from '../reducer';
+import { initialState } from '../reducer';
 
 const mockfirebaseStore = {
     auth: {
@@ -27,7 +27,7 @@ describe('Authenticated Route connected', () => {
     it('Connected authenticated route', () => {
         const mockStore = configureMockStore([]);
         const mockStoreInitialized = mockStore({
-            auth: initState,
+            auth: initialState,
             firebase: mockfirebaseStore
         });
 

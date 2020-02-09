@@ -168,9 +168,7 @@ const highlightsReducer = (state = initialState, action) => {
             ...state,
             errorMessage: action.error.message,
             errorCode: action.error.code,
-            errorHeader: action.header,
-            loadingFixtures: false,
-            loadingMyTeam: false
+            errorHeader: action.header
         };
     }
     case actions.CLOSE_HIGHLIGHT_ERROR: {

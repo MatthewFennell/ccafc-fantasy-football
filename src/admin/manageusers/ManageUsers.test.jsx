@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import { shallow, mount } from '../../enzyme';
 import ManageUsers, { ManageUsersUnconnected } from './ManageUsers';
-import { initState } from '../reducer';
-import { initState as authInitState } from '../../auth/reducer';
+import { initialState } from '../reducer';
+import { initialState as authinitialState } from '../../auth/reducer';
 
 describe('Manage Users', () => {
     it('The Manage Users component renders without crashing', () => {
@@ -28,11 +28,11 @@ describe('Manage Users connected', () => {
     it('Connected manage users', () => {
         const mockStore = configureMockStore([]);
         const mockStoreInitialized = mockStore({
-            admin: initState,
-            auth: authInitState
+            admin: initialState,
+            auth: authinitialState
         });
 
-        const wrapper = mount( // enzyme
+        const wrapper = mount(
             <Provider store={mockStoreInitialized}>
                 <ManageUsers />
             </Provider>

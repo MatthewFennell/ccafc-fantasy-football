@@ -1,7 +1,7 @@
 import fp from 'lodash/fp';
 import * as actions from './actions';
 
-export const initState = {
+export const initialState = {
     createLeagueError: '',
     createLeagueErrorCode: '',
     creatingLeague: false,
@@ -18,13 +18,13 @@ export const initState = {
 
     usersInLeague: {},
 
-    fetchingLeague: false,
+    fetchingLeagues: false,
     fetchingUsersInLeague: false,
 
     fetchedAllUsersInLeague: {}
 };
 
-const authReducer = (state = initState, action) => {
+const authReducer = (state = initialState, action) => {
     switch (action.type) {
     case actions.FETCH_LEAGUES_SUCCESS: {
         return {
@@ -33,7 +33,7 @@ const authReducer = (state = initState, action) => {
             fetchingLeagues: false
         };
     }
-    case actions.fetchLeaguesError: {
+    case actions.FETCH_LEAGUES_ERROR: {
         return fp.set('fetchingLeagues', false)(state);
     }
     case actions.ALREADY_FETCHED_LEAGUES: {
@@ -132,7 +132,7 @@ const authReducer = (state = initState, action) => {
         return fp.set(`usersInLeague.${action.leagueId}.fetching`, false)(state);
     }
     case actions.ALREADY_FETCHED_USERS_IN_LEAGUE: {
-        return fp.set(`fetchingUsersInLeague.${action.leagueId}.fetching`, false)(state);
+        return fp.set(`usersInLeague.${action.leagueId}.fetching`, false)(state);
     }
     case actions.FETCH_MORE_USER_IN_LEAGUE_SUCCESS: {
         // Add then sort by position (remove network nonsense)
