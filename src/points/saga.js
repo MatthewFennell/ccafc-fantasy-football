@@ -3,9 +3,9 @@ import {
 } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as selectors from './selectors';
-import * as api from './api';
+import * as pointsApi from './api';
 
-function* getUserPointsForWeek(action) {
+export function* getUserPointsForWeek(api, action) {
     try {
         const alreadyFetched = yield select(selectors.alreadyFetchedUserPoints,
             action.userId, action.week);
@@ -25,7 +25,8 @@ function* getUserPointsForWeek(action) {
 
 export default function* overviewSaga() {
     yield all([
-        takeEvery(actions.FETCH_USER_POINTS_FOR_WEEK_REQUEST, getUserPointsForWeek),
-        takeEvery(actions.FETCH_USER_POINTS_FOR_WEEK_REQUEST_BACKGROUND, getUserPointsForWeek)
+        takeEvery(actions.FETCH_USER_POINTS_FOR_WEEK_REQUEST, getUserPointsForWeek, pointsApi),
+        takeEvery(actions.FETCH_USER_POINTS_FOR_WEEK_REQUEST_BACKGROUND, getUserPointsForWeek,
+            pointsApi)
     ]);
 }

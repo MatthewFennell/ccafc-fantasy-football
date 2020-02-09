@@ -19,9 +19,7 @@ export const fetchTeamStatsByWeekSuccess = (teamId, minWeek, maxWeek, stats) => 
     stats
 });
 
-export const fetchTeamStatsByWeekError = (teamId, week, error) => ({
+export const fetchTeamStatsByWeekError = error => ({
     type: FETCH_TEAM_STATS_BY_WEEK_ERROR,
-    teamId,
-    week,
     error
 });
