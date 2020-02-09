@@ -3,9 +3,9 @@ import {
 } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as selectors from './selectors';
-import * as api from './api';
+import * as overviewApi from './api';
 
-function* getUserStats(action) {
+export function* getUserStats(api, action) {
     try {
         const fetchedStats = yield select(selectors.alreadyFetchedUserStats, action.userId);
         if (!fetchedStats) {
@@ -21,7 +21,7 @@ function* getUserStats(action) {
     }
 }
 
-function* getMaxGameWeek() {
+export function* getMaxGameWeek(api) {
     try {
         const maxGameWeek = yield call(api.getMaxGameWeek);
         yield put(actions.fetchMaxGameWeekSuccess(maxGameWeek));
@@ -30,7 +30,7 @@ function* getMaxGameWeek() {
     }
 }
 
-function* getUserInfoForWeek(action) {
+export function* getUserInfoForWeek(api, action) {
     try {
         const alreadyFetched = yield select(selectors.alreadyFetchedUserInfo,
             action.userId, action.week);
@@ -50,9 +50,10 @@ function* getUserInfoForWeek(action) {
 
 export default function* overviewSaga() {
     yield all([
-        takeEvery(actions.FETCH_USER_STATS_REQUEST, getUserStats),
-        takeEvery(actions.FETCH_MAX_GAMEWEEK_REQUEST, getMaxGameWeek),
-        takeEvery(actions.FETCH_USER_INFO_FOR_WEEK_REQUEST, getUserInfoForWeek),
-        takeEvery(actions.FETCH_USER_INFO_FOR_WEEK_REQUEST_BACKGROUND, getUserInfoForWeek)
+        takeEvery(actions.FETCH_USER_STATS_REQUEST, getUserStats, overviewApi),
+        takeEvery(actions.FETCH_MAX_GAMEWEEK_REQUEST, getMaxGameWeek, overviewApi),
+        takeEvery(actions.FETCH_USER_INFO_FOR_WEEK_REQUEST, getUserInfoForWeek, overviewApi),
+        takeEvery(actions.FETCH_USER_INFO_FOR_WEEK_REQUEST_BACKGROUND, getUserInfoForWeek,
+            overviewApi)
     ]);
 }
