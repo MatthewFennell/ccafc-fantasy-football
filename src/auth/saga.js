@@ -5,7 +5,7 @@ import firebase from 'firebase';
 import { push } from 'connected-react-router';
 import { constants } from 'react-redux-firebase';
 import * as actions from './actions';
-import * as api from './api';
+import * as authApi from './api';
 import * as consts from '../constants';
 import { fetchMaxGameWeekRequest } from '../overview/actions';
 
@@ -14,7 +14,7 @@ const actionCodeSettings = {
     handleCodeInApp: true
 };
 
-function* signOut() {
+export function* signOut() {
     try {
         yield firebase.auth().signOut();
         yield put(actions.signOutSuccess());
@@ -23,7 +23,7 @@ function* signOut() {
     }
 }
 
-function* loggingIn(action) {
+export function* loggingIn(api, action) {
     try {
         yield put(fetchMaxGameWeekRequest());
         if (action.auth && !action.auth.emailVerified) {
@@ -46,7 +46,7 @@ function* loggingIn(action) {
     }
 }
 
-function* signUp(action) {
+export function* signUp(api, action) {
     try {
         yield firebase.auth().createUserWithEmailAndPassword(action.email, action.password);
         yield call(api.updateDisplayName, ({ displayName: action.displayName }));
@@ -56,7 +56,7 @@ function* signUp(action) {
     }
 }
 
-function* signIn(action) {
+export function* signIn(action) {
     try {
         yield firebase
             .auth()
@@ -67,7 +67,7 @@ function* signIn(action) {
     }
 }
 
-function* sendResetPasswordEmail(action) {
+export function* sendResetPasswordEmail(action) {
     try {
         yield firebase.auth().sendPasswordResetEmail(action.email);
     } catch (error) {
@@ -75,7 +75,7 @@ function* sendResetPasswordEmail(action) {
     }
 }
 
-function* resendVerificationEmall() {
+export function* resendVerificationEmall() {
     try {
         yield firebase.auth().currentUser.sendEmailVerification(actionCodeSettings);
         yield put(actions.resendEmailVerificationSuccess());
@@ -87,8 +87,8 @@ function* resendVerificationEmall() {
 export default function* authSaga() {
     yield all([
         takeEvery(actions.SIGN_OUT, signOut),
-        takeEvery(constants.actionTypes.LOGIN, loggingIn),
-        takeEvery(actions.SIGN_UP, signUp),
+        takeEvery(constants.actionTypes.LOGIN, loggingIn, authApi),
+        takeEvery(actions.SIGN_UP, signUp, authApi),
         takeEvery(actions.SIGN_IN, signIn),
         takeEvery(actions.SEND_PASSWORD_RESET_EMAIL, sendResetPasswordEmail),
         takeEvery(actions.RESEND_VERIFICATION_EMAIL_REQUEST, resendVerificationEmall)

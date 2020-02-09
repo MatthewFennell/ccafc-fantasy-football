@@ -1,7 +1,6 @@
 import { expectSaga } from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
-import { noop } from 'lodash';
 import * as sagas from './saga';
 import * as actions from './actions';
 import * as selectors from './selectors';
