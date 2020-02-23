@@ -43,31 +43,6 @@ describe('Submit Result connected', () => {
     });
 
     it('Submitting a result', () => {
-        const mockStore = configureMockStore([]);
-        const mockStoreInitialized = mockStore({
-            admin: {
-                ...initialState,
-                allTeams: [
-                    {
-                        id: 'teamOne',
-                        text: 'teamOne',
-                        value: 'teamOne'
-                    },
-                    {
-                        id: 'teamTwo',
-                        text: 'teamTwo',
-                        value: 'teamTwo'
-                    },
-                    {
-                        id: 'teamThree',
-                        text: 'teamThree',
-                        value: 'teamThree'
-                    }
-                ]
-            },
-            overview: overviewinitialState
-        });
-
         const mockCallback = jest.fn(noop);
 
         const wrapper = mount(
