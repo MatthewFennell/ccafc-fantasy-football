@@ -6,7 +6,8 @@
     "shell": "firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
+    "logs": "firebase functions:log",
+    "test": "mocha --reporter spec"
   },
   "engines": {
     "node": "8"
@@ -26,7 +27,8 @@
     "npm": "^6.13.0"
   },
   "devDependencies": {
-    "firebase-functions-test": "^0.1.6"
+    "firebase-functions-test": "^0.1.7",
+    "mocha": "^7.0.1"
   },
   "private": true
 }
