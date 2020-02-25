@@ -15,10 +15,10 @@ import StyledModal from '../../common/modal/StyledModal';
 import StyledInput from '../../common/StyledInput/StyledInput';
 import Dropdown from '../../common/dropdown/Dropdown';
 import Menu from '../../common/menu/Menu';
-import ConfirmModal from '../../common/modal/ConfirmModal';
 import ErrorModal from '../../common/modal/ErrorModal';
 import SuccessModal from '../../common/modal/SuccessModal';
 import RolesToPermissions from './RolesToPermissions';
+import ConfirmModal from '../../common/modal/ConfirmModal';
 
 const columnsForAllUsers = allRoles => [
     {
@@ -160,9 +160,9 @@ const ManageUsers = props => {
                     </div>
                 </StyledModal>
                 <ConfirmModal
-                    cancel={closeModal}
                     closeModal={closeModal}
                     isOpen={removeRoleModalOpen}
+                    cancel={closeModal}
                     submit={removeRole}
                     text={`Are you sure you want to remove ${role === 'ALL' ? 'all roles ' : role} from ${email}`}
                 />

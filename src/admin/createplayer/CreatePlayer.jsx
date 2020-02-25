@@ -10,9 +10,9 @@ import {
     closeAdminError, createPlayerRequest, fetchTeamsRequest, closeSuccessMessage
 } from '../actions';
 import StyledButton from '../../common/StyledButton/StyledButton';
-import ErrorModal from '../../common/modal/ErrorModal';
 import SuccessModal from '../../common/modal/SuccessModal';
 import Spinner from '../../common/spinner/Spinner';
+import ErrorModal from '../../common/modal/ErrorModal';
 
 const options = [
     { value: 'GOALKEEPER', text: 'Goalkeeper', id: 'GOALKEEPER' },
