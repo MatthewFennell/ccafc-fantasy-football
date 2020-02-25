@@ -113,6 +113,7 @@ const Fixtures = props => {
                 backdrop
                 closeModal={props.closeSuccessMessage}
                 isOpen={props.successMessage.length > 0}
+                isSuccess
                 headerMessage={props.successMessage}
                 toggleModal={noop}
             />

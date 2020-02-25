@@ -11,11 +11,11 @@ import * as selectors from './selectors';
 import Grid from '../common/grid/Grid';
 import * as constants from '../constants';
 import StyledButton from '../common/StyledButton/StyledButton';
-import StyledModal from '../common/modal/StyledModal';
 import CreateLeagueForm from './CreateLeagueForm';
 import JoinLeagueForm from './JoinLeagueForm';
 import ErrorModal from '../common/modal/ErrorModal';
 import Spinner from '../common/spinner/Spinner';
+import SuccessModal from '../common/modal/SuccessModal';
 
 const columns = [
     {
@@ -87,7 +87,7 @@ const Leagues = props => {
                     text="Join league"
                 />
             </div>
-            <StyledModal
+            <SuccessModal
                 backdrop
                 closeModal={() => setCreateLeagueOpen(false)}
                 isOpen={createLeagueOpen}
@@ -103,8 +103,8 @@ const Leagues = props => {
                         onCreate={onLeagueCreate}
                     />
                 </div>
-            </StyledModal>
-            <StyledModal
+            </SuccessModal>
+            <SuccessModal
                 backdrop
                 closeModal={() => setJoinLeagueOpen(false)}
                 isOpen={joinLeagueOpen}
@@ -118,7 +118,7 @@ const Leagues = props => {
                         onJoin={onLeagueJoin}
                     />
                 </div>
-            </StyledModal>
+            </SuccessModal>
             <ErrorModal
                 closeModal={props.closeCreateLeagueError}
                 headerMessage="Error creating league"

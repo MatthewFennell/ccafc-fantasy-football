@@ -10,7 +10,7 @@ import { fetchUserPointsForWeekRequest, fetchUserPointsForWeekRequestBackground 
 import Pitch from '../common/pitch/Pitch';
 import activePlayerStyles from './ShirtStyles/ActivePlayer.module.scss';
 import goalkeeperStyles from './ShirtStyles/Goalkeeper.module.scss';
-import StyledModal from '../common/modal/StyledModal';
+import SuccessModal from '../common/modal/SuccessModal';
 import PointsTable from './PointsTable/PointsTable';
 import { generatePointsRoute } from '../helperFunctions';
 
@@ -77,7 +77,7 @@ const Points = props => {
                     showCaptain
                 />
             </div>
-            <StyledModal
+            <SuccessModal
                 backdrop
                 closeModal={() => setPlayerModalOpen(false)}
                 error
@@ -95,7 +95,7 @@ const Points = props => {
                         No stats for empty players
                         </div>
                     ) }
-            </StyledModal>
+            </SuccessModal>
         </div>
     );
 };

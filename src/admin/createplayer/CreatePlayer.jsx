@@ -10,9 +10,9 @@ import {
     closeAdminError, createPlayerRequest, fetchTeamsRequest, closeSuccessMessage
 } from '../actions';
 import StyledButton from '../../common/StyledButton/StyledButton';
-import SuccessModal from '../../common/modal/SuccessModal';
 import Spinner from '../../common/spinner/Spinner';
 import ErrorModal from '../../common/modal/ErrorModal';
+import SuccessModal from '../../common/modal/SuccessModal';
 
 const options = [
     { value: 'GOALKEEPER', text: 'Goalkeeper', id: 'GOALKEEPER' },
@@ -78,6 +78,7 @@ const CreatePlayer = props => {
                 backdrop
                 closeModal={props.closeSuccessMessage}
                 isOpen={props.successMessage.length > 0}
+                isSuccess
                 headerMessage={props.successMessage}
                 toggleModal={noop}
             />

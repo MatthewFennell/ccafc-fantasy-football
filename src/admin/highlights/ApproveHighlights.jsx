@@ -12,7 +12,6 @@ import {
 } from '../actions';
 import YouTubeList from '../../common/youtubelist/YouTubeList';
 import StyledButton from '../../common/StyledButton/StyledButton';
-import StyledModal from '../../common/modal/StyledModal';
 import SuccessModal from '../../common/modal/SuccessModal';
 import ErrorModal from '../../common/modal/ErrorModal';
 import StyledInput from '../../common/StyledInput/StyledInput';
@@ -256,7 +255,7 @@ const ApproveHighlights = props => {
                     />
                 </div>
             </div>
-            <StyledModal
+            <SuccessModal
                 backdrop
                 closeModal={closeFancyModal}
                 error
@@ -271,7 +270,7 @@ const ApproveHighlights = props => {
                         <StyledButton text="Cancel" color="secondary" onClick={closeFancyModal} />
                     </div>
                 </div>
-            </StyledModal>
+            </SuccessModal>
             <ErrorModal
                 closeModal={props.closeAdminError}
                 headerMessage={props.errorHeader}
@@ -283,6 +282,7 @@ const ApproveHighlights = props => {
                 backdrop
                 closeModal={props.closeSuccessMessage}
                 isOpen={props.successMessage.length > 0}
+                isSuccess
                 headerMessage={props.successMessage}
                 toggleModal={noop}
             />

@@ -10,8 +10,8 @@ import {
 } from '../actions';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import ErrorModal from '../../common/modal/ErrorModal';
-import SuccessModal from '../../common/modal/SuccessModal';
 import Spinner from '../../common/spinner/Spinner';
+import SuccessModal from '../../common/modal/SuccessModal';
 
 const CreateTeam = props => {
     const [teamName, setTeamName] = useState('');
@@ -53,6 +53,7 @@ const CreateTeam = props => {
                 backdrop
                 closeModal={props.closeSuccessMessage}
                 isOpen={props.successMessage.length > 0}
+                isSuccess
                 headerMessage={props.successMessage}
                 toggleModal={noop}
             />

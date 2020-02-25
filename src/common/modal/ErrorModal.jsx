@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import defaultStyles from './ErrorModal.module.scss';
-import WithModal from './NewModal';
+import WithModal from './WithModal';
 
 const ErrorModal = props => (
     <>

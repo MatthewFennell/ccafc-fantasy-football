@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import defaultStyles from './ConfirmModal.module.scss';
 import StyledButton from '../StyledButton/StyledButton';
-import WithModal from './NewModal';
+import WithModal from './WithModal';
 
 const ConfirmModal = props => (
     <>

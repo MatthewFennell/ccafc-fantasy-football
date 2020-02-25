@@ -9,10 +9,9 @@ import Dropdown from '../common/dropdown/Dropdown';
 import * as selectors from './selectors';
 import * as constants from '../constants';
 import { fetchTeamStatsByWeekRequest } from './actions';
-import StyledModal from '../common/modal/StyledModal';
+import SuccessModal from '../common/modal/SuccessModal';
 import EditFilter from './editfilter/EditFilter';
 import { columns, weeksToRequest, combinePlayers } from './helpers';
-import modalStyles from './StyledModal.module.scss';
 import WeekStats from './weekstats/WeekStats';
 import Toggle from '../common/Toggle/Toggle';
 
@@ -107,12 +106,11 @@ const Stats = props => {
 
 
             </div>
-            <StyledModal
+            <SuccessModal
                 backdrop
                 closeModal={() => setEditFilterModalOpen(false)}
                 isOpen={editFilterModalOpen}
                 headerMessage="Edit Filters"
-                styles={modalStyles}
             >
                 <EditFilter
                     activeColumns={activeColumns}
@@ -122,7 +120,7 @@ const Stats = props => {
                     maxWeek={props.maxWeek}
                     minWeek={props.minWeek}
                 />
-            </StyledModal>
+            </SuccessModal>
         </>
     );
 };

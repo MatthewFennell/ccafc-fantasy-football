@@ -4,6 +4,7 @@ import { noop } from 'lodash';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import CloseIcon from '@material-ui/icons/Close';
+import classNames from 'classnames';
 import defaultStyles from './NewModal.module.scss';
 
 const getModalStyle = () => ({
@@ -28,7 +29,7 @@ const WithModal = Component => {
         // getModalStyle is not a pure function, we roll the style only on the first render
         const [modalStyle] = useState(getModalStyle);
         const {
-            styles, isOpen, closeModal, headerMessage, ...args
+            styles, isError, isSuccess, isOpen, closeModal, headerMessage, ...args
         } = props; // Need to not pass down styles
 
         return (
@@ -44,7 +45,12 @@ const WithModal = Component => {
                             <div className={props.styles.closeModalIcon}>
                                 <CloseIcon onClick={props.closeModal} />
                             </div>
-                            <div className={props.styles.headerWrapper}>
+                            <div className={classNames({
+                                [props.styles.headerWrapper]: true,
+                                [props.styles.isError]: props.isError,
+                                [props.styles.isSuccess]: props.isSuccess
+                            })}
+                            >
                                 {props.headerMessage}
                             </div>
                             <Component {...args} />
@@ -60,6 +66,8 @@ const WithModal = Component => {
         closeModal: noop,
         headerMessage: '',
         isOpen: false,
+        isError: false,
+        isSuccess: false,
         styles: defaultStyles,
         submit: noop
     };
@@ -69,6 +77,8 @@ const WithModal = Component => {
         closeModal: PropTypes.func,
         headerMessage: PropTypes.string,
         isOpen: PropTypes.bool,
+        isError: PropTypes.bool,
+        isSuccess: PropTypes.bool,
         styles: PropTypes.objectOf(PropTypes.string),
         submit: PropTypes.func
     };

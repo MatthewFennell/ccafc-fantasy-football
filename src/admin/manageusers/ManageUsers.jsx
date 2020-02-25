@@ -11,7 +11,6 @@ import {
 } from '../actions';
 import Grid from '../../common/grid/Grid';
 import StyledButton from '../../common/StyledButton/StyledButton';
-import StyledModal from '../../common/modal/StyledModal';
 import StyledInput from '../../common/StyledInput/StyledInput';
 import Dropdown from '../../common/dropdown/Dropdown';
 import Menu from '../../common/menu/Menu';
@@ -143,7 +142,7 @@ const ManageUsers = props => {
                         permissionMappings={props.permissionMappings}
                     />
                 </div>
-                <StyledModal
+                <SuccessModal
                     backdrop
                     closeModal={closeModal}
                     error
@@ -158,7 +157,7 @@ const ManageUsers = props => {
                             <StyledButton text="Cancel" color="secondary" onClick={closeModal} />
                         </div>
                     </div>
-                </StyledModal>
+                </SuccessModal>
                 <ConfirmModal
                     closeModal={closeModal}
                     isOpen={removeRoleModalOpen}
@@ -195,6 +194,7 @@ const ManageUsers = props => {
                 backdrop
                 closeModal={props.closeSuccessMessage}
                 isOpen={props.successMessage.length > 0}
+                isSuccess
                 headerMessage={props.successMessage}
                 toggleModal={noop}
             />
