@@ -5,7 +5,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import CloseIcon from '@material-ui/icons/Close';
 import classNames from 'classnames';
-import defaultStyles from './NewModal.module.scss';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
+import defaultStyles from './WithModal.module.scss';
 
 const getModalStyle = () => ({
     top: '50%',
@@ -35,27 +37,35 @@ const WithModal = Component => {
         return (
             <div>
                 <Modal
-                    aria-labelledby="simple-modal-title"
-                    aria-describedby="simple-modal-description"
+                    aria-labelledby="transition-modal-title"
+                    aria-describedby="transition-modal-description"
+                    className={classes.modal}
                     open={props.isOpen}
                     onClose={props.closeModal}
+                    closeAfterTransition
+                    BackdropComponent={Backdrop}
+                    BackdropProps={{
+                        timeout: 500
+                    }}
                 >
-                    <div style={modalStyle} className={classes.paper}>
-                        <div className={props.styles.modalContextWrapper}>
-                            <div className={props.styles.closeModalIcon}>
-                                <CloseIcon onClick={props.closeModal} />
+                    <Fade in={props.isOpen}>
+                        <div style={modalStyle} className={classes.paper}>
+                            <div className={props.styles.modalContextWrapper}>
+                                <div className={props.styles.closeModalIcon}>
+                                    <CloseIcon onClick={props.closeModal} />
+                                </div>
+                                <div className={classNames({
+                                    [props.styles.headerWrapper]: true,
+                                    [props.styles.isError]: props.isError,
+                                    [props.styles.isSuccess]: props.isSuccess
+                                })}
+                                >
+                                    {props.headerMessage}
+                                </div>
+                                <Component {...args} />
                             </div>
-                            <div className={classNames({
-                                [props.styles.headerWrapper]: true,
-                                [props.styles.isError]: props.isError,
-                                [props.styles.isSuccess]: props.isSuccess
-                            })}
-                            >
-                                {props.headerMessage}
-                            </div>
-                            <Component {...args} />
                         </div>
-                    </div>
+                    </Fade>
                 </Modal>
             </div>
         );
