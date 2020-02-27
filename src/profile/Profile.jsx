@@ -11,7 +11,7 @@ import {
 } from './actions';
 import defaultStyles from './Profile.module.scss';
 import LinkAccounts from './linkaccounts/LinkAccounts';
-import StyledModal from '../common/modal/StyledModal';
+import SuccessModal from '../common/modal/SuccessModal';
 import Update from './update/Update';
 import StyledButton from '../common/StyledButton/StyledButton';
 import StyledInput from '../common/StyledInput/StyledInput';
@@ -82,7 +82,7 @@ const Profile = props => {
             <div className={props.styles.deleteButtonWrapper}>
                 <StyledButton color="secondary" text="Delete Account" onClick={() => setDeleteModalOpen(true)} />
             </div>
-            <StyledModal
+            <SuccessModal
                 backdrop
                 closeModal={props.closeAccountLinkError}
                 error
@@ -103,8 +103,8 @@ const Profile = props => {
                         </div>
                     )}
                 </div>
-            </StyledModal>
-            <StyledModal
+            </SuccessModal>
+            <SuccessModal
                 backdrop
                 closeModal={closeModal}
                 error
@@ -117,7 +117,7 @@ const Profile = props => {
                 </div>
                 <StyledInput label="Email" onChange={setEmail} value={email} />
                 <StyledButton color="primary" text="Confirm" onClick={deleteAccount} />
-            </StyledModal>
+            </SuccessModal>
             <ErrorModal
                 closeModal={props.closeDeleteAccountError}
                 headerMessage="Delete Account Error"

@@ -7,11 +7,10 @@ import defaultStyles from './Table.module.scss';
 import Grid from '../../common/grid/Grid';
 import StyledInput from '../../common/StyledInput/StyledInput';
 import inputStyles from '../common/InputStyles.module.scss';
-import StyledModal from '../../common/modal/StyledModal';
+import SuccessModal from '../../common/modal/SuccessModal';
 import TableModal from './TableModal';
 import Dropdown from '../../common/dropdown/Dropdown';
 import Slider from '../../common/slider/Slider';
-import modalStyles from './StyledModal.module.scss';
 import {
     RadioAscDesc, RadioPosition
 } from './helpers';
@@ -195,12 +194,11 @@ const Table = props => {
                 </div>
 
             </div>
-            <StyledModal
+            <SuccessModal
                 backdrop
                 closeModal={() => setColumnModalOpen(false)}
                 isOpen={columnModalOpen}
                 headerMessage="Select Columns (3 Max)"
-                styles={modalStyles}
             >
                 <TableModal
                     activeColumns={myColumns.filter(x => x.active)}
@@ -211,7 +209,7 @@ const Table = props => {
                         .find(x => x.id === props.sortBy)), 'id') || ''}
                     toggleColumns={toggleColumns}
                 />
-            </StyledModal>
+            </SuccessModal>
         </>
     );
 };

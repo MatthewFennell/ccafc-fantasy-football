@@ -12,9 +12,8 @@ import { routerMiddleware } from 'connected-react-router';
 import { firebaseApp } from './config/fbConfig';
 import createRootReducer from './rootReducer';
 import rootSaga from './rootSaga';
-import '@fortawesome/fontawesome-free/css/all.min.css';
-import 'bootstrap-css-only/css/bootstrap.min.css';
-import 'mdbreact/dist/css/mdb.css';
+// import '@fortawesome/fontawesome-free/css/all.min.css';
+// import 'bootstrap-css-only/css/bootstrap.min.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 

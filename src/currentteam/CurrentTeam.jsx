@@ -52,9 +52,9 @@ const CurrentTeam = props => {
                 />
             </div>
             <ConfirmModal
-                cancel={closeModal}
                 closeModal={closeModal}
                 isOpen={playerModalOpen}
+                cancel={closeModal}
                 submit={submit}
                 text="Make captain?"
             />

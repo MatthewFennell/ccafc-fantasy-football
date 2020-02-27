@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import defaultStyles from './Modals.module.scss';
-import StyledModal from '../../common/modal/StyledModal';
+import SuccessModal from '../../common/modal/SuccessModal';
 import ErrorModal from '../../common/modal/ErrorModal';
 import StyledButton from '../../common/StyledButton/StyledButton';
 
@@ -15,7 +15,7 @@ const Modals = props => (
             errorCode={props.transfersErrorCode}
             errorMessage={props.transfersError}
         />
-        <StyledModal
+        <SuccessModal
             backdrop
             closeModal={props.closeRemoveModal}
             isOpen={props.removeModalOpen}
@@ -39,8 +39,8 @@ const Modals = props => (
 
                 </div>
             </div>
-        </StyledModal>
-        <StyledModal
+        </SuccessModal>
+        <SuccessModal
             backdrop
             closeModal={props.closeRestoreModal}
             isOpen={props.restoreModalOpen}
@@ -61,7 +61,7 @@ const Modals = props => (
                     />
                 </div>
             </div>
-        </StyledModal>
+        </SuccessModal>
     </>
 );
 

@@ -8,10 +8,10 @@ import Grid from '../common/grid/Grid';
 import defaultStyles from './styles/Leagues.module.scss';
 import * as constants from '../constants';
 import StyledButton from '../common/StyledButton/StyledButton';
-import ConfirmModal from '../common/modal/ConfirmModal';
 import Spinner from '../common/spinner/Spinner';
 import ErrorModal from '../common/modal/ErrorModal';
 import { generatePointsRoute } from '../helperFunctions';
+import ConfirmModal from '../common/modal/ConfirmModal';
 
 const columns = gameWeek => [
     {
