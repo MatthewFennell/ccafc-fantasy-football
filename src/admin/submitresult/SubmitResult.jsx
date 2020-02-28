@@ -11,13 +11,14 @@ import {
     closeAdminError
 } from '../actions';
 import Dropdown from '../../common/dropdown/Dropdown';
-import StyledInput from '../../common/StyledInput/StyledInput';
 import { isDefensive } from '../../helperFunctions';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
 import ErrorModal from '../../common/modal/ErrorModal';
 import SuccessModal from '../../common/modal/SuccessModal';
 import ExtraStats from './ExtraStats';
+import TextInput from '../../common/TextInput/TextInput';
+import * as textInputConstants from '../../common/TextInput/constants';
 
 const generateWeekOptions = maxGameWeek => {
     const options = [];
@@ -176,8 +177,20 @@ const SubmitResult = props => {
             <div className={props.styles.submitResultWrapper}>
                 <Dropdown activeValue={teamName} onChange={setTeam} options={props.allTeams} title="Team" />
                 <div className={props.styles.goalsForWrapper}>
-                    <StyledInput label="Goals For" onChange={setGoalsFor} type="number" value={goalsFor} />
-                    <StyledInput label="Goals Against" onChange={setGoalsAgainst} type="number" value={goalsAgainst} />
+                    <TextInput
+                        label="Goals For"
+                        onChange={setGoalsFor}
+                        type="number"
+                        value={goalsFor}
+                        icon={textInputConstants.textInputIcons.football}
+                    />
+                    <TextInput
+                        label="Goals Against"
+                        onChange={setGoalsAgainst}
+                        type="number"
+                        value={goalsAgainst}
+                        icon={textInputConstants.textInputIcons.football}
+                    />
                 </div>
 
                 <div className={props.styles.goalScorersWrapper}>

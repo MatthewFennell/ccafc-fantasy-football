@@ -3,10 +3,6 @@
 .replyingWrapper{
     margin-left: $spacing-small;
     width: 100%;
-    :first-child {
-        margin-top: 0px;
-        margin-bottom: 0px;
-    }
 
     .replyOptions{
         display: flex;

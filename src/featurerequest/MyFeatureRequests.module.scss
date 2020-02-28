@@ -27,22 +27,28 @@
     @include light-box-shadow();
     display: flex;
     flex-wrap: wrap;
-> div {
-    flex-grow: 1;
-}
+    > div {
+        flex-grow: 1;
+    }
 
-.featureRequestMessage {
-    font-size: $font-size-enormous;
-    text-align: center;
-    color: $color-blue;
-    font-weight: bold;
-}
+    .searchFilter {
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
-.openSubmitVideo{
-    text-align: center;
-}
+    .featureRequestMessage {
+        font-size: $font-size-enormous;
+        text-align: center;
+        color: $color-blue;
+        font-weight: bold;
+    }
+
+    .openSubmitVideo {
+        text-align: center;
+    }
 }
 
 .sortByWrapper{
-text-align: center;
+    text-align: center;
 }

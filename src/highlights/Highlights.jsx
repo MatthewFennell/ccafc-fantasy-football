@@ -17,7 +17,8 @@ import YouTubeList from '../common/youtubelist/YouTubeList';
 import SubmitVideo from './SubmitVideo';
 import RadioButton from '../common/radio/RadioButton';
 import * as helpers from './helpers';
-import StyledInput from '../common/StyledInput/StyledInput';
+import TextInput from '../common/TextInput/TextInput';
+import * as textInputConstants from '../common/TextInput/constants';
 
 const Highlights = props => {
     useEffect(() => {
@@ -65,7 +66,12 @@ const Highlights = props => {
                             <StyledButton onClick={openSubmitVideo} text="Submit a Video" color="primary" />
                         </div>
                         <div className={props.styles.searchFilter}>
-                            <StyledInput label="Search videos" onChange={setSearchFilter} value={searchFilter} />
+                            <TextInput
+                                label="Search videos"
+                                onChange={setSearchFilter}
+                                value={searchFilter}
+                                icon={textInputConstants.textInputIcons.search}
+                            />
                         </div>
                     </div>
                     <div className={props.styles.sortByWrapper}>

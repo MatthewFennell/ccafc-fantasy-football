@@ -14,13 +14,13 @@ import YouTubeList from '../../common/youtubelist/YouTubeList';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import SuccessModal from '../../common/modal/SuccessModal';
 import ErrorModal from '../../common/modal/ErrorModal';
-import StyledInput from '../../common/StyledInput/StyledInput';
 import Spinner from '../../common/spinner/Spinner';
 import { fetchHighlightsRequest } from '../../highlights/actions';
 import Grid from '../../common/grid/Grid';
 import { generateTimeSinceNow, generateYouTubeLinkFromId } from '../../helperFunctions';
 import * as helpers from './helpers';
 import RadioButton from '../../common/radio/RadioButton';
+import TextInput from '../../common/TextInput/TextInput';
 
 const columns = [
     {
@@ -214,7 +214,11 @@ const ApproveHighlights = props => {
                         />
                     </div>
                     <div className={props.styles.videoSearchFilter}>
-                        <StyledInput label="Filter by author / title" onChange={setSearchBy} value={searchBy} />
+                        <TextInput
+                            label="Filter by author / title"
+                            onChange={setSearchBy}
+                            value={searchBy}
+                        />
                     </div>
                 </div>
                 <div className={props.styles.gridWrapper}>
@@ -243,7 +247,11 @@ const ApproveHighlights = props => {
                         />
                     </div>
                     <div className={props.styles.videoSearchFilter}>
-                        <StyledInput label="Filter by author / title" onChange={setSearchByRejected} value={searchByRejected} />
+                        <TextInput
+                            label="Filter by author / title"
+                            onChange={setSearchByRejected}
+                            value={searchByRejected}
+                        />
                     </div>
                 </div>
                 <div className={props.styles.gridWrapper}>
@@ -264,7 +272,15 @@ const ApproveHighlights = props => {
             >
                 <div className={props.styles.modalWrapper}>
                     {(modalAction === modalOptions.REJECT || modalAction === modalOptions.DELETE)
-                    && <div><StyledInput label="Reason" onChange={setReasonToReject} value={reasonToReject} /></div>}
+                    && (
+                        <div>
+                            <TextInput
+                                label="Reason"
+                                onChange={setReasonToReject}
+                                value={reasonToReject}
+                            />
+                        </div>
+                    )}
                     <div className={props.styles.modalButtons}>
                         <StyledButton text="Confirm" onClick={confirmFancyModal} />
                         <StyledButton text="Cancel" color="secondary" onClick={closeFancyModal} />

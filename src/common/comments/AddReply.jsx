@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import defaultStyles from './AddReply.module.scss';
-import StyledInput from '../StyledInput/StyledInput';
+import TextInput from '../TextInput/TextInput';
 
 const AddReply = props => (
     <div className={props.styles.replyingWrapper}>
-        <StyledInput
+        <TextInput
             label={props.label}
             value={props.text}
             onChange={props.setText}

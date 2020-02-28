@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import classNames from 'classnames';
 import defaultStyles from './SelectProfilePicture.module.scss';
-import StyledInput from '../../common/StyledInput/StyledInput';
 import StyledButton from '../../common/StyledButton/StyledButton';
+import TextInput from '../../common/TextInput/TextInput';
+import * as textInputConstants from '../../common/TextInput/constants';
 
 const SelectProfilePicture = props => {
     const [ownPhotoUrl, setOwnPhotoUrl] = useState(props.currentPhotoUrl);
@@ -49,10 +50,11 @@ const SelectProfilePicture = props => {
                 </div>
                 <div className={props.styles.ownPictureOptions}>
                     <div className={props.styles.enterOwnUrl}>
-                        <StyledInput
+                        <TextInput
                             onChange={setOwnPhotoUrl}
                             value={ownPhotoUrl}
                             label="Enter the URL of your own image"
+                            icon={textInputConstants.textInputIcons.face}
                         />
                         <div className={props.styles.infoText}>
                             The image to the right is what your avatar will look like.

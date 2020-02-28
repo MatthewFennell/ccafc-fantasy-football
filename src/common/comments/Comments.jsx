@@ -77,7 +77,7 @@ const RenderComments = props => {
                     </div>
                     <div className={props.styles.initialComment}>
                         <AddReply
-                            label="Add a new comment..."
+                            label="Add a new comment"
                             text={newComment}
                             setText={setNewComment}
                             cancelReply={cancelReply}

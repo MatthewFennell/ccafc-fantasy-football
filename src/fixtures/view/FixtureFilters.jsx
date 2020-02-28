@@ -4,7 +4,7 @@ import { noop } from 'lodash';
 import defaultStyles from './FixtureFilters.module.scss';
 import RadioButton from '../../common/radio/RadioButton';
 import Toggle from '../../common/Toggle/Toggle';
-import StyledInput from '../../common/StyledInput/StyledInput';
+import TextInput from '../../common/TextInput/TextInput';
 
 const FixtureFilters = props => (
     <>
@@ -40,7 +40,11 @@ const FixtureFilters = props => (
                 </div>
             </div>
             <div className={props.styles.searchByName}>
-                <StyledInput label="Team Name" onChange={props.searchByTeamName} value={props.teamNameFilter} />
+                <TextInput
+                    label="Team Name"
+                    onChange={props.searchByTeamName}
+                    value={props.teamNameFilter}
+                />
             </div>
         </div>
     </>

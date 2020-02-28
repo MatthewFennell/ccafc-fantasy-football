@@ -4,12 +4,12 @@ import { noop } from 'lodash';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import defaultStyles from './SubmitVideo.module.scss';
-import StyledInput from '../common/StyledInput/StyledInput';
 import StyledButton from '../common/StyledButton/StyledButton';
 import CustomYouTube from '../common/youtube/YouTube';
 import WithCollapsable from '../common/collapsableHOC/WithCollapsable';
 import Grid from '../common/grid/Grid';
 import { generateTimeSinceNow, generateYouTubeLinkFromId } from '../helperFunctions';
+import TextInput from '../common/TextInput/TextInput';
 
 const widthForSmallColumns = 600;
 
@@ -143,8 +143,17 @@ const SubmitVideo = props => {
                 )}
                 <div className={props.styles.addHighlight}>
                     <div className={props.styles.inputWrapper}>
-                        <StyledInput onChange={updateVideoTitle} value={videoTitle} label="Video Title" />
-                        <StyledInput onChange={updateId} value={video} label="YouTube Video ID" onBlur={openExample} />
+                        <TextInput
+                            onChange={updateVideoTitle}
+                            value={videoTitle}
+                            label="Video Title"
+                        />
+                        <TextInput
+                            onChange={updateId}
+                            value={video}
+                            label="YouTube Video ID"
+                            onBlur={openExample}
+                        />
                         <StyledButton onClick={submitVideo} text="Submit Video for Approval" color="primary" />
                     </div>
                     <div className={props.styles.videoIdHint}>

@@ -10,10 +10,11 @@ import StyledButton from '../../common/StyledButton/StyledButton';
 import { setHasPaidSubsRequest } from '../actions';
 import Checkbox from '../../common/Checkbox/Checkbox';
 import Dropdown from '../../common/dropdown/Dropdown';
-import StyledInput from '../../common/StyledInput/StyledInput';
 import RadioButton from '../../common/radio/RadioButton';
 import * as helpers from './helpers';
 import * as constants from './constants';
+import TextInput from '../../common/TextInput/TextInput';
+import * as textInputConstants from '../../common/TextInput/constants';
 
 const ManageSubs = props => {
     useEffect(() => {
@@ -120,10 +121,11 @@ const ManageSubs = props => {
                         options={constants.radioOptions}
                         value={toggleFilter}
                     />
-                    <StyledInput
+                    <TextInput
                         onChange={setNameFitlerWithReset}
                         value={nameFilter}
                         label="Name"
+                        icon={textInputConstants.textInputIcons.user}
                     />
                 </div>
 

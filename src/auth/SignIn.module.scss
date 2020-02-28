@@ -10,8 +10,13 @@
     width: 80%;
     padding: $spacing-large;
     @include light-box-shadow();
-    .signInForm{      
-      .signInMessage{
+    .signInForm{   
+      .textInputsWrapper {
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+      }   
+      .signInMessage {
         margin-top: $spacing-small;
         text-align: center;
         color: $color-blue;

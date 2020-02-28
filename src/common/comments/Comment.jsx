@@ -64,6 +64,7 @@ const Comment = props => {
                         setReplyOpen={openReply}
                         loggedInUserId={props.loggedInUserId}
                         userId={userId}
+                        replyOpen={replyOpen}
                     />
                     {replyOpen && props.isTopLevel && (
                         <AddReply
@@ -72,6 +73,7 @@ const Comment = props => {
                             text={replyText}
                             setText={setReplyText}
                             submitReply={submitReply}
+                            label="Enter reply"
                         />
                     )}
                 </div>

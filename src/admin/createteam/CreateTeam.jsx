@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 import defaultStyles from './CreateTeam.module.scss';
-import StyledInput from '../../common/StyledInput/StyledInput';
 import {
     createTeamRequest, closeSuccessMessage, closeAdminError
 } from '../actions';
@@ -12,6 +11,7 @@ import StyledButton from '../../common/StyledButton/StyledButton';
 import ErrorModal from '../../common/modal/ErrorModal';
 import Spinner from '../../common/spinner/Spinner';
 import SuccessModal from '../../common/modal/SuccessModal';
+import TextInput from '../../common/TextInput/TextInput';
 
 const CreateTeam = props => {
     const [teamName, setTeamName] = useState('');
@@ -33,7 +33,11 @@ const CreateTeam = props => {
                     />
                 </div>
                 <div className={props.styles.createTeamForm}>
-                    <StyledInput label="Team Name" onChange={setTeamName} value={teamName} />
+                    <TextInput
+                        label="Team Name"
+                        onChange={setTeamName}
+                        value={teamName}
+                    />
                 </div>
                 <ErrorModal
                     closeModal={props.closeAdminError}

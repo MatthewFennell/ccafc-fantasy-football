@@ -18,6 +18,8 @@ import ErrorModal from '../../common/modal/ErrorModal';
 import SuccessModal from '../../common/modal/SuccessModal';
 import RolesToPermissions from './RolesToPermissions';
 import ConfirmModal from '../../common/modal/ConfirmModal';
+import TextInput from '../../common/TextInput/TextInput';
+import * as textInputConstants from '../../common/TextInput/constants';
 
 const columnsForAllUsers = allRoles => [
     {
@@ -150,7 +152,14 @@ const ManageUsers = props => {
                     headerMessage="Add Role"
                 >
                     <div className={props.styles.modalWrapper}>
-                        <div><StyledInput label="Email" onChange={setEmail} value={email} /></div>
+                        <div>
+                            <TextInput
+                                label="Email"
+                                onChange={setEmail}
+                                value={email}
+                                icon={textInputConstants.textInputIcons.email}
+                            />
+                        </div>
                         <div className={props.styles.modalButtons}>
                             <Dropdown activeValue={role} onChange={setRole} options={rolesForDropdown(props.allRoles)} title="Role" />
                             <StyledButton text="Confirm" onClick={addUserRole} />
