@@ -26,11 +26,22 @@
   .deleteButtonWrapper{
     padding: $spacing-small;
   }
+}
 
-  .enterEmailMessage{
-    margin-top: $spacing-small;
-    color: $color-red;
-  }
+.enterEmailMessage{
+  margin-top: $spacing-small;
+  color: $color-red;
+  text-align: center;
+}
+
+.emailTextWrapper {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.submitDeleteAccountWrapper {
+  text-align: center;
 }
 
 @media only screen and (max-width: 600px) {

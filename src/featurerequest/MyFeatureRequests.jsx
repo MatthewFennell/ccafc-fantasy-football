@@ -7,7 +7,8 @@ import WithCollapsable from '../common/collapsableHOC/WithCollapsable';
 import RadioButton from '../common/radio/RadioButton';
 import * as helpers from './helpers';
 import StyledButton from '../common/StyledButton/StyledButton';
-import StyledInput from '../common/StyledInput/StyledInput';
+import TextInput from '../common/TextInput/TextInput';
+import * as textInputConstants from '../common/TextInput/constants';
 
 const MyFeatureRequests = props => {
     const [filterBy, setFilterBy] = useState('allTime');
@@ -35,10 +36,11 @@ const MyFeatureRequests = props => {
                         />
                     </div>
                     <div className={props.styles.searchFilter}>
-                        <StyledInput
+                        <TextInput
                             label="Search features by author"
                             onChange={setSearchFilter}
                             value={searchFilter}
+                            icon={textInputConstants.textInputIcons.user}
                         />
                     </div>
                 </div>

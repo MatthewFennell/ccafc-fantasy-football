@@ -19,7 +19,7 @@
     display: flex;
     justify-content: center;
 
-    >div{
+    > * {
       margin-top: $spacing-small;
       margin-right: $spacing-small;
       margin-left: $spacing-small;

@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import classNames from 'classnames';
 import defaultStyles from './Update.module.scss';
-import StyledInput from '../../common/StyledInput/StyledInput';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
 import ErrorModal from '../../common/modal/ErrorModal';
+import TextInput from '../../common/TextInput/TextInput';
+
 
 const Update = props => {
     const [displayName, setDisplayName] = useState('');
@@ -18,7 +19,12 @@ const Update = props => {
 
     return (
         <div className={props.styles.updateWrapper}>
-            <StyledInput label={props.property} onChange={setDisplayName} value={displayName} />
+            <TextInput
+                label={props.property}
+                onChange={setDisplayName}
+                value={displayName}
+                icon={props.icon}
+            />
             <StyledButton
                 color="primary"
                 onClick={update}
@@ -43,6 +49,7 @@ const Update = props => {
 
 Update.defaultProps = {
     closeError: noop,
+    icon: '',
     styles: defaultStyles,
     updateRequest: noop,
     updateError: '',
@@ -53,6 +60,7 @@ Update.defaultProps = {
 
 Update.propTypes = {
     closeError: PropTypes.func,
+    icon: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
     updateRequest: PropTypes.func,
     updateError: PropTypes.string,

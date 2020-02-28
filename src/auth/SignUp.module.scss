@@ -10,7 +10,12 @@
     width: 80%;
     padding: $spacing-large;
     @include light-box-shadow();
-    .signUpForm{      
+    .signUpForm {      
+      .textInputsWrapper {
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+      }
       .signUpMessage{
         margin-top: $spacing-small;
         text-align: center;

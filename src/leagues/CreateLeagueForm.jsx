@@ -1,26 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
-import StyledInput from '../common/StyledInput/StyledInput';
 import inputOverrideStyles from './styles/InputOverride.module.scss';
 import StyledButton from '../common/StyledButton/StyledButton';
 import defaultStyles from './styles/LeagueForm.module.scss';
+import TextInput from '../common/TextInput/TextInput';
 
 const CreateLeague = props => (
     <div className={props.styles.createLeagueWrapper}>
-        <StyledInput
-            label="League Name"
-            onChange={props.setLeagueName}
-            styles={inputOverrideStyles}
-            value={props.leagueName}
-        />
-        <StyledInput
-            label="Start Week"
-            onChange={props.setStartWeek}
-            styles={inputOverrideStyles}
-            type="number"
-            value={props.startWeek.toString()}
-        />
+        <div className={props.styles.textInputsWrapper}>
+            <TextInput
+                label="League Name"
+                onChange={props.setLeagueName}
+                styles={inputOverrideStyles}
+                value={props.leagueName}
+            />
+            <TextInput
+                label="Start Week"
+                onChange={props.setStartWeek}
+                styles={inputOverrideStyles}
+                type="number"
+                value={props.startWeek.toString()}
+            />
+        </div>
         <StyledButton
             color="primary"
             onClick={props.onCreate}

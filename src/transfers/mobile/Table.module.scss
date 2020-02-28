@@ -29,8 +29,9 @@
       }
     }
 
-    .editColumns{
+    .editColumns {
       padding: $spacing-small;
+      text-align: center;
       @include vertical-center-div();
     }
   }

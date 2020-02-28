@@ -30,7 +30,7 @@ const CommentInfo = props => (
         <div className={props.styles.commentMessage}>
             {props.message}
         </div>
-        {props.isTopLevel
+        {props.isTopLevel && !props.replyOpen
             && (
                 <div
                     role="button"
@@ -51,6 +51,7 @@ CommentInfo.defaultProps = {
     loggedInUserId: '',
     isTopLevel: false,
     message: '',
+    replyOpen: false,
     setReplyOpen: noop,
     styles: defaultStyles,
     userId: ''
@@ -63,6 +64,7 @@ CommentInfo.propTypes = {
     loggedInUserId: PropTypes.string,
     isTopLevel: PropTypes.bool,
     message: PropTypes.string,
+    replyOpen: PropTypes.string,
     setReplyOpen: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string),
     userId: PropTypes.string

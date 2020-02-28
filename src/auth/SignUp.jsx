@@ -8,9 +8,10 @@ import { noop } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import { signUp, closeAuthError, signUpError } from './actions';
 import defaultStyles from './SignUp.module.scss';
-import StyledInput from '../common/StyledInput/StyledInput';
 import StyledButton from '../common/StyledButton/StyledButton';
 import ErrorModal from '../common/modal/ErrorModal';
+import TextInput from '../common/TextInput/TextInput';
+import * as textInputConstants from '../common/TextInput/constants';
 
 const SignUp = props => {
     const [email, setEmail] = useState('');
@@ -52,11 +53,32 @@ const SignUp = props => {
                     <div className={props.styles.signUpMessage}>
                     Sign up
                     </div>
-
-                    <StyledInput label="Email" icon="envelope" onChange={e => setEmail(e)} value={email} />
-                    <StyledInput label="Password" type="password" icon="lock" onChange={setPassword} value={password} />
-                    <StyledInput label="Password" type="password" icon="lock" onChange={setPasswordTwo} value={passwordTwo} />
-                    <StyledInput label="Display Name" onChange={e => setDisplayName(e)} value={displayName} />
+                    <div className={props.styles.textInputsWrapper}>
+                        <TextInput
+                            label="Email"
+                            icon={textInputConstants.textInputIcons.email}
+                            onChange={e => setEmail(e)}
+                            value={email}
+                        />
+                        <TextInput
+                            label="Password"
+                            icon={textInputConstants.textInputIcons.lock}
+                            onChange={setPassword}
+                            value={password}
+                        />
+                        <TextInput
+                            label="Password"
+                            icon={textInputConstants.textInputIcons.lock}
+                            onChange={setPasswordTwo}
+                            value={passwordTwo}
+                        />
+                        <TextInput
+                            label="Display Name"
+                            icon={textInputConstants.textInputIcons.user}
+                            onChange={e => setDisplayName(e)}
+                            value={displayName}
+                        />
+                    </div>
 
                     <div className={props.styles.submitButtons}>
                         <StyledButton

@@ -5,7 +5,6 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import classNames from 'classnames';
 import defaultStyles from './Table.module.scss';
 import Grid from '../../common/grid/Grid';
-import StyledInput from '../../common/StyledInput/StyledInput';
 import inputStyles from '../common/InputStyles.module.scss';
 import SuccessModal from '../../common/modal/SuccessModal';
 import TableModal from './TableModal';
@@ -15,6 +14,8 @@ import {
     RadioAscDesc, RadioPosition
 } from './helpers';
 import { marks, sortListAscDesc } from '../common/helpers';
+import TextInput from '../../common/TextInput/TextInput';
+import * as textInputConstants from '../../common/TextInput/constants';
 
 const Table = props => {
     const {
@@ -145,10 +146,11 @@ const Table = props => {
                         />
                     </div>
                     <div className={props.styles.inputWrapper}>
-                        <StyledInput
+                        <TextInput
                             value={searchByName}
                             onChange={setSearchByName}
                             styles={inputStyles}
+                            icon={textInputConstants.textInputIcons.search}
                         />
                     </div>
                     <div className={props.styles.editColumns}>

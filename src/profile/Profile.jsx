@@ -14,10 +14,11 @@ import LinkAccounts from './linkaccounts/LinkAccounts';
 import SuccessModal from '../common/modal/SuccessModal';
 import Update from './update/Update';
 import StyledButton from '../common/StyledButton/StyledButton';
-import StyledInput from '../common/StyledInput/StyledInput';
 import ErrorModal from '../common/modal/ErrorModal';
 import Spinner from '../common/spinner/Spinner';
 import SelectProfilePicture from './selectprofilepicture/SelectProfilePicture';
+import TextInput from '../common/TextInput/TextInput';
+import * as textInputConstants from '../common/TextInput/constants';
 
 const Profile = props => {
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -63,6 +64,7 @@ const Profile = props => {
                     updateRequest={props.updateDisplayNameRequest}
                     updateError={props.updateDisplayNameError}
                     updateErrorCode={props.updateDisplayNameErrorCode}
+                    icon={textInputConstants.textInputIcons.user}
                 />
                 <Update
                     loading={props.updatingTeamName}
@@ -115,8 +117,17 @@ const Profile = props => {
                 <div className={props.styles.enterEmailMessage}>
                     Please confirm your email
                 </div>
-                <StyledInput label="Email" onChange={setEmail} value={email} />
-                <StyledButton color="primary" text="Confirm" onClick={deleteAccount} />
+                <div className={props.styles.emailTextWrapper}>
+                    <TextInput
+                        label="Email"
+                        onChange={setEmail}
+                        value={email}
+                        icon={textInputConstants.textInputIcons.email}
+                    />
+                </div>
+                <div className={props.styles.submitDeleteAccountWrapper}>
+                    <StyledButton color="primary" text="Confirm" onClick={deleteAccount} />
+                </div>
             </SuccessModal>
             <ErrorModal
                 closeModal={props.closeDeleteAccountError}

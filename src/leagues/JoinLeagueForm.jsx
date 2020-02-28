@@ -1,14 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
-import StyledInput from '../common/StyledInput/StyledInput';
 import inputOverrideStyles from './styles/InputOverride.module.scss';
 import StyledButton from '../common/StyledButton/StyledButton';
 import defaultStyles from './styles/LeagueForm.module.scss';
+import TextInput from '../common/TextInput/TextInput';
 
 const JoinLeague = props => (
     <div className={props.styles.joinLeagueWrapper}>
-        <StyledInput label="League Name" onChange={props.setLeagueName} styles={inputOverrideStyles} value={props.leagueNameToJoin} />
+        <div className={props.styles.textInputWrapper}>
+            <TextInput
+                label="League Name"
+                onChange={props.setLeagueName}
+                styles={inputOverrideStyles}
+                value={props.leagueNameToJoin}
+            />
+        </div>
         <StyledButton
             color="primary"
             onClick={props.onJoin}

@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 import defaultStyles from './CreatePlayer.module.scss';
-import StyledInput from '../../common/StyledInput/StyledInput';
 import Dropdown from '../../common/dropdown/Dropdown';
 import {
     closeAdminError, createPlayerRequest, fetchTeamsRequest, closeSuccessMessage
@@ -13,6 +12,8 @@ import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
 import ErrorModal from '../../common/modal/ErrorModal';
 import SuccessModal from '../../common/modal/SuccessModal';
+import TextInput from '../../common/TextInput/TextInput';
+import * as textInputConstants from '../../common/TextInput/constants';
 
 const options = [
     { value: 'GOALKEEPER', text: 'Goalkeeper', id: 'GOALKEEPER' },
@@ -51,12 +52,28 @@ const CreatePlayer = props => {
                     />
                 </div>
                 <div className={props.styles.createPlayerForm}>
-                    <StyledInput label="Name" onChange={setPlayerName} value={playerName} />
-                    <StyledInput label="Price" onChange={setPlayerPrice} type="number" value={playerPrice} />
+                    <TextInput
+                        label="Name"
+                        onChange={setPlayerName}
+                        value={playerName}
+                        icon={textInputConstants.textInputIcons.user}
+                    />
+                    <TextInput
+                        label="Price"
+                        onChange={setPlayerPrice}
+                        type="number"
+                        value={playerPrice}
+                        icon={textInputConstants.textInputIcons.money}
+                    />
                     <div className={props.styles.createPlayerDropdowns}>
                         <Dropdown activeValue={playerPosition} onChange={setPlayerPosition} options={options} title="Position" />
                         <Dropdown activeValue={playerTeam} onChange={setPlayerTeam} options={props.allTeams} title="Team" />
-                        <StyledInput label="Previous Score" onChange={setPreviousScore} type="number" value={previousScore.toString()} />
+                        <TextInput
+                            label="Previous Score"
+                            onChange={setPreviousScore}
+                            type="number"
+                            value={previousScore.toString()}
+                        />
                     </div>
                 </div>
                 <ErrorModal

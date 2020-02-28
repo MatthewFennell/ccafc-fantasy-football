@@ -11,11 +11,11 @@ import {
 } from '../actions';
 import Dropdown from '../../common/dropdown/Dropdown';
 import Grid from '../../common/grid/Grid';
-import StyledInput from '../../common/StyledInput/StyledInput';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
 import SuccessModal from '../../common/modal/SuccessModal';
 import ErrorModal from '../../common/modal/ErrorModal';
+import TextInput from '../../common/TextInput/TextInput';
 
 const generateWeekOptions = maxGameWeek => {
     const options = [];
@@ -60,7 +60,7 @@ const WithSmallDiv = Component => {
     return divWrapper;
 };
 
-const SmallerInput = WithSmallDiv(StyledInput);
+const SmallerInput = WithSmallDiv(TextInput);
 const SmallerDropdown = WithSmallDiv(Dropdown);
 
 const booleanOptions = [
@@ -105,13 +105,13 @@ const EditPlayer = props => {
                 id: 'goals',
                 stat: 'Goals',
                 oldValue: renderOldValue(playerStats.goals, fetching),
-                newValue: <SmallerInput onChange={setGoals} value={goals} type="number" centerText />
+                newValue: <SmallerInput label="Goals" onChange={setGoals} value={goals} type="number" centerText />
             },
             {
                 id: 'assists',
                 stat: 'Assists',
                 oldValue: renderOldValue(playerStats.assists, fetching),
-                newValue: <SmallerInput onChange={setAssists} value={assists} type="number" centerText />
+                newValue: <SmallerInput label="Assists" onChange={setAssists} value={assists} type="number" centerText />
             },
             {
                 id: 'cleanSheet',
@@ -167,19 +167,19 @@ const EditPlayer = props => {
                 id: 'ownGoals',
                 stat: 'Own Goals',
                 oldValue: renderOldValue(playerStats.ownGoals, fetching),
-                newValue: <SmallerInput onChange={setOwnGoals} value={ownGoals} type="number" centerText />
+                newValue: <SmallerInput label="Own Goals" onChange={setOwnGoals} value={ownGoals} type="number" centerText />
             },
             {
                 id: 'penaltySaves',
                 stat: 'Penalty Saves',
                 oldValue: renderOldValue(playerStats.penaltySaves, fetching),
-                newValue: <SmallerInput onChange={setPenaltySaves} value={penaltySaves} type="number" centerText />
+                newValue: <SmallerInput label="Penalty Saves" onChange={setPenaltySaves} value={penaltySaves} type="number" centerText />
             },
             {
                 id: 'penaltyMisses',
                 stat: 'Penalty Misses',
                 oldValue: renderOldValue(playerStats.penaltyMisses, fetching),
-                newValue: <SmallerInput onChange={setPenaltyMisses} value={penaltyMisses} type="number" centerText />
+                newValue: <SmallerInput label="Penalty Misses" onChange={setPenaltyMisses} value={penaltyMisses} type="number" centerText />
             }
         ];
         return rows;
@@ -246,7 +246,7 @@ const EditPlayer = props => {
             isDifferent('redCard', props.playerStats.redCard, getBooleanVal(redCard)),
             isDifferent('yellowCard', props.playerStats.yellowCard, getBooleanVal(yellowCard)),
             isDifferent('manOfTheMatch', props.playerStats.manOfTheMatch, getBooleanVal(motm)),
-            isDifferent('dickOfTheDay', props.playerStats.dickOfTheDay, getBooleanVal(dotd)),
+            isDifferent('dickOfTheDay', props.playerStats.dickOfTheDay, getBooleanVal(dotd))
         )({});
 
         const playerId = fp.flow(
