@@ -11,7 +11,6 @@ import {
 } from '../actions';
 import Grid from '../../common/grid/Grid';
 import StyledButton from '../../common/StyledButton/StyledButton';
-import StyledInput from '../../common/StyledInput/StyledInput';
 import Dropdown from '../../common/dropdown/Dropdown';
 import Menu from '../../common/menu/Menu';
 import ErrorModal from '../../common/modal/ErrorModal';

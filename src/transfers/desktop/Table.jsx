@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import defaultStyles from './Table.module.scss';
 import Grid from '../../common/grid/Grid';
-import StyledInput from '../../common/StyledInput/StyledInput';
 import inputStyles from '../common/InputStyles.module.scss';
 import Dropdown from '../../common/dropdown/Dropdown';
 import Slider from '../../common/slider/Slider';
 import { generateMarks, sortListAscDescDesktop } from '../common/helpers';
+import TextInput from '../../common/TextInput/TextInput';
+import * as textInputConstants from '../../common/TextInput/constants';
 
 const positionOptions = [
     {
@@ -113,11 +114,12 @@ const Table = props => {
                             title="Team"
                         />
                     </div>
-                    <StyledInput
+                    <TextInput
                         value={searchByName}
                         onChange={setSearchByName}
                         styles={inputStyles}
                         label="Player Name"
+                        icon={textInputConstants.textInputIcons.search}
                     />
                 </div>
             </div>

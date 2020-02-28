@@ -10,7 +10,6 @@ import {
 import * as selectors from './selectors';
 import Spinner from '../common/spinner/Spinner';
 import { generateOverviewRoute } from '../helperFunctions';
-import TextInput from '../common/TextInput/TextInput';
 
 const Overview = props => {
     useEffect(() => {
