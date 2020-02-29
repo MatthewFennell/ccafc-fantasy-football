@@ -49,6 +49,10 @@ const CreatePlayer = props => {
                         color="primary"
                         onClick={createPlayer}
                         text="Create Player"
+                        disabled={!playerName
+                            || !playerPosition
+                            || !playerTeam
+                            || (!playerPrice && playerPrice !== 0)}
                     />
                 </div>
                 <div className={props.styles.createPlayerForm}>
@@ -57,6 +61,7 @@ const CreatePlayer = props => {
                         onChange={setPlayerName}
                         value={playerName}
                         icon={textInputConstants.textInputIcons.user}
+                        iconColor="primary"
                     />
                     <TextInput
                         label="Price"
@@ -64,6 +69,7 @@ const CreatePlayer = props => {
                         type="number"
                         value={playerPrice}
                         icon={textInputConstants.textInputIcons.money}
+                        iconColor="primary"
                     />
                     <div className={props.styles.createPlayerDropdowns}>
                         <Dropdown value={playerPosition} onChange={setPlayerPosition} options={options} title="Position" />

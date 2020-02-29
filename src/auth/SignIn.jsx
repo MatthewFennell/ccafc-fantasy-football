@@ -55,12 +55,14 @@ const SignIn = props => {
                             icon={textInputConstants.textInputIcons.email}
                             onChange={e => setEmail(e)}
                             value={email}
+                            iconColor="secondary"
                         />
                         <TextInput
                             label="Password"
                             icon={textInputConstants.textInputIcons.lock}
                             onChange={e => setPassword(e)}
                             value={password}
+                            iconColor="secondary"
                         />
                     </div>
 

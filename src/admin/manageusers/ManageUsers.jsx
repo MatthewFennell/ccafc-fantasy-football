@@ -129,7 +129,10 @@ const ManageUsers = props => {
                             Users with extra roles
                                 </div>
                                 <div className={props.styles.addRoleButton}>
-                                    <StyledButton text="Add Role" onClick={() => setAddRoleModalOpen(true)} />
+                                    <StyledButton
+                                        text="Add Role"
+                                        onClick={() => setAddRoleModalOpen(true)}
+                                    />
                                 </div>
                             </div>
                         )}
@@ -157,12 +160,26 @@ const ManageUsers = props => {
                                 onChange={setEmail}
                                 value={email}
                                 icon={textInputConstants.textInputIcons.email}
+                                iconColor="primary"
                             />
                         </div>
                         <div className={props.styles.modalButtons}>
-                            <Dropdown value={role} onChange={setRole} options={rolesForDropdown(props.allRoles)} title="Role" />
-                            <StyledButton text="Confirm" onClick={addUserRole} />
-                            <StyledButton text="Cancel" color="secondary" onClick={closeModal} />
+                            <Dropdown
+                                value={role}
+                                onChange={setRole}
+                                options={rolesForDropdown(props.allRoles)}
+                                title="Role"
+                            />
+                            <StyledButton
+                                text="Confirm"
+                                onClick={addUserRole}
+                                disabled={!email || !role}
+                            />
+                            <StyledButton
+                                text="Cancel"
+                                color="secondary"
+                                onClick={closeModal}
+                            />
                         </div>
                     </div>
                 </SuccessModal>

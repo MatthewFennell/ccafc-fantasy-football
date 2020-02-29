@@ -157,7 +157,12 @@ const SubmitVideo = props => {
                                 label="YouTube Video ID"
                                 onBlur={openExample}
                             />
-                            <StyledButton onClick={submitVideo} text="Submit Video for Approval" color="primary" />
+                            <StyledButton
+                                onClick={submitVideo}
+                                text="Submit Video for Approval"
+                                color="primary"
+                                disabled={!videoTitle || !video}
+                            />
                         </div>
                     </div>
                     <div className={props.styles.videoIdHint}>

@@ -42,6 +42,7 @@ const AllFeatureRequests = props => {
                             onChange={setSearchFilter}
                             value={searchFilter}
                             icon={textInputConstants.textInputIcons.user}
+                            iconColor="primary"
                         />
                     </div>
                 </div>

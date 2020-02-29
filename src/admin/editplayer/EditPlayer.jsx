@@ -326,6 +326,8 @@ const EditPlayer = props => {
     const rowsToUse = generateRows(props.playerStats,
         props.fetchingPlayerStats || props.editingStats);
 
+    console.log('player to edit', playerToEdit);
+
     return (
         <>
             <div className={props.styles.findPlayerDropdowns}>
@@ -366,6 +368,7 @@ const EditPlayer = props => {
                         color="primary"
                         onClick={editPlayer}
                         text="Edit Stats"
+                        disabled={!playerTeam || !playerToEdit || !week}
                     />
                 </div>
             </div>

@@ -123,6 +123,7 @@ const Profile = props => {
                         onChange={setEmail}
                         value={email}
                         icon={textInputConstants.textInputIcons.email}
+                        iconColor="primary"
                     />
                 </div>
                 <div className={props.styles.submitDeleteAccountWrapper}>

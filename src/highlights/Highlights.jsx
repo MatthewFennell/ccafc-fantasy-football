@@ -94,6 +94,7 @@ const Highlights = props => {
                             onChange={setSearchFilter}
                             value={searchFilter}
                             icon={textInputConstants.textInputIcons.search}
+                            iconColor="primary"
                         />
                     </div>
                 </div>

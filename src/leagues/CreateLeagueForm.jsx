@@ -28,6 +28,7 @@ const CreateLeague = props => (
             onClick={props.onCreate}
             text="Create"
             type="submit"
+            disabled={!props.leagueName}
         />
     </div>
 );

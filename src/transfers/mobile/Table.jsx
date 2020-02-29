@@ -151,6 +151,7 @@ const Table = props => {
                             onChange={setSearchByName}
                             styles={inputStyles}
                             icon={textInputConstants.textInputIcons.search}
+                            iconColor="primary"
                         />
                     </div>
                     <div className={props.styles.editColumns}>

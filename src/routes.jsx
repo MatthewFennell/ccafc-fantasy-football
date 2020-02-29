@@ -28,7 +28,7 @@ import * as constants from './constants';
 export const adminLinks = [
     {
         title: 'Create Player',
-        icon: <PersonAddIcon />,
+        icon: <PersonAddIcon color="primary" />,
         component: adminComponents.CreatePlayer,
         path: () => constants.URL.CREATE_PLAYER,
         urlIncludes: constants.URL.CREATE_PLAYER,
@@ -36,7 +36,7 @@ export const adminLinks = [
     },
     {
         title: 'Delete Player',
-        icon: <DeleteIcon />,
+        icon: <DeleteIcon color="primary" />,
         component: adminComponents.DeletePlayer,
         path: () => constants.URL.DELETE_PLAYER,
         urlIncludes: constants.URL.DELETE_PLAYER,
@@ -44,7 +44,7 @@ export const adminLinks = [
     },
     {
         title: 'Create Team',
-        icon: <PersonAddIcon />,
+        icon: <PersonAddIcon color="primary" />,
         component: adminComponents.CreateTeam,
         path: () => constants.URL.CREATE_TEAM,
         urlIncludes: constants.URL.CREATE_TEAM,
@@ -52,7 +52,7 @@ export const adminLinks = [
     },
     {
         title: 'Delete Team',
-        icon: <DeleteIcon />,
+        icon: <DeleteIcon color="primary" />,
         component: adminComponents.DeleteTeam,
         path: () => constants.URL.DELETE_TEAM,
         urlIncludes: constants.URL.DELETE_TEAM,
@@ -60,7 +60,7 @@ export const adminLinks = [
     },
     {
         title: 'Submit Result',
-        icon: <PersonAddIcon />,
+        icon: <PersonAddIcon color="primary" />,
         component: adminComponents.SubmitResult,
         path: () => constants.URL.SUBMIT_RESULT,
         urlIncludes: constants.URL.SUBMIT_RESULT,
@@ -68,7 +68,7 @@ export const adminLinks = [
     },
     {
         title: 'Trigger Week',
-        icon: <WhatshotIcon />,
+        icon: <WhatshotIcon color="primary" />,
         component: adminComponents.TriggerWeek,
         path: () => constants.URL.TRIGGER_WEEK,
         urlIncludes: constants.URL.TRIGGER_WEEK,
@@ -76,7 +76,7 @@ export const adminLinks = [
     },
     {
         title: 'Edit Player',
-        icon: <EditIcon />,
+        icon: <EditIcon color="primary" />,
         component: adminComponents.EditPlayer,
         path: () => constants.URL.EDIT_PLAYER,
         urlIncludes: constants.URL.EDIT_PLAYER,
@@ -84,7 +84,7 @@ export const adminLinks = [
     },
     {
         title: 'Manage Users',
-        icon: <SupervisorAccountIcon />,
+        icon: <SupervisorAccountIcon color="primary" />,
         component: adminComponents.ManageUsers,
         addUserId: false,
         path: () => constants.URL.MANAGE_USERS,
@@ -93,7 +93,7 @@ export const adminLinks = [
     },
     {
         title: 'Approve Highlights',
-        icon: <VideoLabelIcon />,
+        icon: <VideoLabelIcon color="primary" />,
         component: adminComponents.ApproveHighlights,
         addUserId: false,
         path: () => constants.URL.APPROVE_HIGHLIGHTS,
@@ -102,7 +102,7 @@ export const adminLinks = [
     },
     {
         title: 'Manage Subs',
-        icon: <AttachMoneyIcon />,
+        icon: <AttachMoneyIcon color="primary" />,
         component: adminComponents.ManageSubs,
         addUserId: false,
         path: () => constants.URL.MANAGE_SUBS,
@@ -114,14 +114,14 @@ export const adminLinks = [
 export const signedOutLinks = [
     {
         title: 'Sign In',
-        icon: <DoubleArrowIcon />,
+        icon: <DoubleArrowIcon color="primary" />,
         component: rootComponents.SignIn,
         path: () => constants.URL.SIGN_IN,
         urlIncludes: constants.URL.SIGN_IN
     },
     {
         title: 'Sign Up',
-        icon: <AccountBoxIcon />,
+        icon: <AccountBoxIcon color="primary" />,
         component: rootComponents.SignUp,
         path: () => constants.URL.SIGN_UP,
         urlIncludes: constants.URL.SIGN_UP
@@ -131,7 +131,7 @@ export const signedOutLinks = [
 export const signedInLinks = [
     {
         title: 'Overview',
-        icon: <HomeIcon />,
+        icon: <HomeIcon color="primary" />,
         component: rootComponents.Overview,
         addUserId: false,
         path: props => `${constants.URL.OVERVIEW}/${fp.get('userId')(props)}/${fp.get('maxGameWeek')(props)}`,
@@ -139,7 +139,7 @@ export const signedInLinks = [
     },
     {
         title: 'Current Team',
-        icon: <PeopleAltIcon />,
+        icon: <PeopleAltIcon color="primary" />,
         component: rootComponents.CurrentTeam,
         addUserId: true,
         path: props => `${constants.URL.CURRENT_TEAM}/${fp.get('userId')(props)}`,
@@ -147,7 +147,7 @@ export const signedInLinks = [
     },
     {
         title: 'Points',
-        icon: <GradeIcon />,
+        icon: <GradeIcon color="primary" />,
         component: rootComponents.Points,
         addUserId: false,
         path: props => `${constants.URL.POINTS}/${fp.get('userId')(props)}/${fp.get('maxGameWeek')(props)}`,
@@ -155,7 +155,7 @@ export const signedInLinks = [
     },
     {
         title: 'Leagues',
-        icon: <LayersIcon />,
+        icon: <LayersIcon color="primary" />,
         component: rootComponents.Leagues,
         addUserId: false,
         path: () => constants.URL.LEAGUES,
@@ -163,7 +163,7 @@ export const signedInLinks = [
     },
     {
         title: 'Transfers',
-        icon: <TransferWithinAStationIcon />,
+        icon: <TransferWithinAStationIcon color="primary" />,
         component: rootComponents.Transfers,
         addUserId: false,
         path: () => constants.URL.TRANSFERS,
@@ -171,7 +171,7 @@ export const signedInLinks = [
     },
     {
         title: 'Stats',
-        icon: <WavesIcon />,
+        icon: <WavesIcon color="primary" />,
         component: rootComponents.Stats,
         addUserId: false,
         path: props => `${constants.URL.STATS}/none/${fp.get('maxGameWeek')(props)}/${fp.get('maxGameWeek')(props)}`,
@@ -179,7 +179,7 @@ export const signedInLinks = [
     },
     {
         title: 'Charts',
-        icon: <EqualizerIcon />,
+        icon: <EqualizerIcon color="primary" />,
         component: rootComponents.Charts,
         addUserId: false,
         path: () => constants.URL.CHARTS,
@@ -187,7 +187,7 @@ export const signedInLinks = [
     },
     {
         title: 'Highlights',
-        icon: <VideoLibraryIcon />,
+        icon: <VideoLibraryIcon color="primary" />,
         component: rootComponents.Highlights,
         addUserId: false,
         path: () => constants.URL.HIGHLIGHTS,
@@ -195,7 +195,7 @@ export const signedInLinks = [
     },
     {
         title: 'Fixtures',
-        icon: <DehazeIcon />,
+        icon: <DehazeIcon color="primary" />,
         component: rootComponents.Fixtures,
         addUserId: false,
         path: () => constants.URL.FIXTURES,
@@ -203,7 +203,7 @@ export const signedInLinks = [
     },
     {
         title: 'Feature Request',
-        icon: <QuestionAnswerIcon />,
+        icon: <QuestionAnswerIcon color="primary" />,
         component: rootComponents.FeatureRequest,
         addUserId: false,
         path: () => constants.URL.FEATURE_REQUEST,

@@ -109,3 +109,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(App);
+
+// Base the charts league table off the actual fixtures

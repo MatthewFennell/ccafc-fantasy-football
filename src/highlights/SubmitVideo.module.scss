@@ -11,6 +11,7 @@
 }
 
 .testWrapper { 
+  margin-left: $spacing-medium;
   @include light-box-shadow();
 }
 
@@ -73,5 +74,13 @@
   .videoIdHint {
     margin-left: $spacing-small;
     margin-right: $spacing-small;
+  }
+
+  .testWrapper {
+    margin-left: 0px;
+  }
+
+  .videoIdHint {
+    padding-bottom: $spacing-small;
   }
 }

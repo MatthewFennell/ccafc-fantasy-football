@@ -49,6 +49,7 @@ const DeletePlayer = props => {
                         color="primary"
                         onClick={deletePlayer}
                         text="Delete Player"
+                        disabled={!playerTeam || !playerName}
                     />
                 </div>
                 <div className={props.styles.deletePlayerForm}>

@@ -26,6 +26,7 @@ const Button = props => (
                 onClick={props.updateMyTeam}
                 color="primary"
                 text="Update my team"
+                disabled={Boolean(!props.activeTeam) || props.activeTeam === props.myTeam}
             />
         </div>
     </div>

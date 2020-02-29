@@ -35,6 +35,11 @@
   }
 }
 
+.statsMessage {
+  color: $color-blue;
+  @include vertical-center-div();
+}
+
 @media only screen and (max-width: 600px) {
   .statsHeader {
       margin: 0px !important;

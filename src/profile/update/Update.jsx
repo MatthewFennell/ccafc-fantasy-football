@@ -24,6 +24,7 @@ const Update = props => {
                 onChange={setDisplayName}
                 value={displayName}
                 icon={props.icon}
+                iconColor="secondary"
             />
             <StyledButton
                 color="primary"

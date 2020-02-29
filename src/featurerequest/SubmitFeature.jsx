@@ -31,6 +31,7 @@ const SubmitFeature = props => (
                 onClick={props.submitRequest}
                 color="primary"
                 text="Submit feature request"
+                disabled={!props.description}
             />
         </div>
     </SwipeableDrawer>

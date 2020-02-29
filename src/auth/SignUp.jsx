@@ -59,24 +59,28 @@ const SignUp = props => {
                             icon={textInputConstants.textInputIcons.email}
                             onChange={e => setEmail(e)}
                             value={email}
+                            iconColor="secondary"
                         />
                         <TextInput
                             label="Password"
                             icon={textInputConstants.textInputIcons.lock}
                             onChange={setPassword}
                             value={password}
+                            iconColor="secondary"
                         />
                         <TextInput
                             label="Password"
                             icon={textInputConstants.textInputIcons.lock}
                             onChange={setPasswordTwo}
                             value={passwordTwo}
+                            iconColor="secondary"
                         />
                         <TextInput
                             label="Display Name"
                             icon={textInputConstants.textInputIcons.user}
                             onChange={e => setDisplayName(e)}
                             value={displayName}
+                            iconColor="secondary"
                         />
                     </div>
 
