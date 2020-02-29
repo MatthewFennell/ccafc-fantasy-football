@@ -22,21 +22,21 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const generateIcon = Icon => (
+const generateIcon = (Icon, iconColor) => (
     <InputAdornment position="start">
-        <Icon />
+        <Icon color={iconColor} />
     </InputAdornment>
 );
 
-const iconMapping = {
-    [constants.textInputIcons.user]: generateIcon(AccountCircle),
-    [constants.textInputIcons.email]: generateIcon(EmailIcon),
-    [constants.textInputIcons.lock]: generateIcon(LockIcon),
-    [constants.textInputIcons.football]: generateIcon(SportsSoccerIcon),
-    [constants.textInputIcons.money]: generateIcon(AttachMoneyIcon),
-    [constants.textInputIcons.search]: generateIcon(SearchIcon),
-    [constants.textInputIcons.face]: generateIcon(FaceIcon)
-};
+const iconMapping = iconColor => ({
+    [constants.textInputIcons.user]: generateIcon(AccountCircle, iconColor),
+    [constants.textInputIcons.email]: generateIcon(EmailIcon, iconColor),
+    [constants.textInputIcons.lock]: generateIcon(LockIcon, iconColor),
+    [constants.textInputIcons.football]: generateIcon(SportsSoccerIcon, iconColor),
+    [constants.textInputIcons.money]: generateIcon(AttachMoneyIcon, iconColor),
+    [constants.textInputIcons.search]: generateIcon(SearchIcon, iconColor),
+    [constants.textInputIcons.face]: generateIcon(FaceIcon, iconColor)
+});
 
 const TextInput = props => {
     const classes = useStyles();
@@ -54,7 +54,7 @@ const TextInput = props => {
                 disabled={props.disabled}
                 value={props.value}
                 InputProps={{
-                    startAdornment: iconMapping[props.icon]
+                    startAdornment: iconMapping(props.iconColor)[props.icon]
                 }}
             />
         </form>
@@ -64,6 +64,7 @@ const TextInput = props => {
 TextInput.defaultProps = {
     color: 'primary',
     icon: null,
+    iconColor: '',
     label: '',
     onBlur: noop,
     onChange: noop,
@@ -76,6 +77,7 @@ TextInput.defaultProps = {
 TextInput.propTypes = {
     color: PropTypes.string,
     icon: PropTypes.string,
+    iconColor: PropTypes.string,
     label: PropTypes.string,
     onBlur: PropTypes.func,
     onChange: PropTypes.func,

@@ -1,16 +1,17 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
-import defaultStyles from './MyFeatureRequests.module.scss';
+import defaultStyles from './AllFeatureRequests.module.scss';
 import FeatureRequest from '../common/featurerequest/FeatureRequest';
 import WithCollapsable from '../common/collapsableHOC/WithCollapsable';
-import RadioButton from '../common/radio/RadioButton';
 import * as helpers from './helpers';
 import StyledButton from '../common/StyledButton/StyledButton';
 import TextInput from '../common/TextInput/TextInput';
 import * as textInputConstants from '../common/TextInput/constants';
+import Dropdown from '../common/dropdown/Dropdown';
+import mobileStyles from './MobileWrapperStyles.module.scss';
 
-const MyFeatureRequests = props => {
+const AllFeatureRequests = props => {
     const [filterBy, setFilterBy] = useState('allTime');
     const [sortBy, setSortBy] = useState('newestFirst');
     const [searchFilter, setSearchFilter] = useState('');
@@ -45,29 +46,29 @@ const MyFeatureRequests = props => {
                     </div>
                 </div>
                 <div className={props.styles.sortByWrapper}>
-                    <div>
-                        <RadioButton
-                            radioLabel="Filter By Date"
-                            onChange={setFilterBy}
-                            options={Object.values(helpers.dateFilters).map(x => ({
-                                radioLabel: x.label,
+                    <Dropdown
+                        title="Filter By Date"
+                        key="Filter By Date"
+                        onChange={setFilterBy}
+                        options={Object.values(helpers.dateFilters).map(x => ({
+                            text: x.label,
+                            id: x.id,
+                            value: x.id
+                        }))}
+                        activeValue={filterBy}
+                    />
+                    <Dropdown
+                        title="Sort By"
+                        key="Sort By"
+                        onChange={setSortBy}
+                        options={Object.values(helpers.sortByFilters)
+                            .map(x => ({
+                                text: x.label,
+                                id: x.id,
                                 value: x.id
                             }))}
-                            value={filterBy}
-                        />
-                    </div>
-                    <div>
-                        <RadioButton
-                            radioLabel="Sort By"
-                            onChange={setSortBy}
-                            options={Object.values(helpers.sortByFilters)
-                                .map(x => ({
-                                    radioLabel: x.label,
-                                    value: x.id
-                                }))}
-                            value={sortBy}
-                        />
-                    </div>
+                        activeValue={sortBy}
+                    />
                 </div>
             </div>
             <div className={props.styles.featuresWrapper}>
@@ -85,6 +86,7 @@ const MyFeatureRequests = props => {
                             title={`Feature Request by ${x.displayName}`}
                             toggle={props.toggleFeature}
                             loggedInUserId={props.loggedInUserId}
+                            styles={mobileStyles}
                         />
                     </div>
                 ))}
@@ -93,7 +95,7 @@ const MyFeatureRequests = props => {
     );
 };
 
-MyFeatureRequests.defaultProps = {
+AllFeatureRequests.defaultProps = {
     addNewComment: noop,
     addNewReply: noop,
     deleteComment: noop,
@@ -106,7 +108,7 @@ MyFeatureRequests.defaultProps = {
     loggedInUserId: ''
 };
 
-MyFeatureRequests.propTypes = {
+AllFeatureRequests.propTypes = {
     addNewComment: PropTypes.func,
     addNewReply: PropTypes.func,
     deleteComment: PropTypes.func,
@@ -123,4 +125,4 @@ MyFeatureRequests.propTypes = {
     loggedInUserId: PropTypes.string
 };
 
-export default MyFeatureRequests;
+export default AllFeatureRequests;

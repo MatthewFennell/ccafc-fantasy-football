@@ -36,11 +36,12 @@
     font-weight: bold;
     color: $color-blue;
   }
-  .toggleTeams{
+  .toggleTeams {
     margin-top: $spacing-small;
     display: flex;
     flex-wrap: wrap;
     > div {
+      min-width: 20%;
       flex-grow: 1;
       justify-content: center;
     }

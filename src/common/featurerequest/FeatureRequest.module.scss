@@ -4,21 +4,17 @@
     // padding: $spacing-medium;
     background-color: $color-white;
 
-    > div {
-        padding-left: $spacing-small;
-        padding-right: $spacing-small;
-    }
-
     .author {
-        justify-content: center;
-        text-align: center;
         font-weight: bold;
-        padding-top: $spacing-small;
+        margin-left: $spacing-small;
+        color: $color-green;
     }
 
     .description{
-        margin-top: $spacing-small;
+        margin-left: $spacing-small;
+        margin-bottom: $spacing-small;
         font-weight: bold;
+        color: $color-green;
     }
 
     .comments {
@@ -29,6 +25,8 @@
     .commentsWrapper{
         height: 300px;
         overflow-y: scroll;
+        padding: $spacing-small;
+        background-color: wheat;
     }
 }
 

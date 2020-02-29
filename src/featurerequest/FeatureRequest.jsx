@@ -8,7 +8,7 @@ import {
     addReplyToCommentRequest, submitFeatureRequest, addCommentToFeatureRequest,
     deleteCommentRequest, deleteReplyRequest, closeFeatureRequestError, closeSuccessMessage
 } from './actions';
-import MyFeatureRequests from './MyFeatureRequests';
+import AllFeatureRequests from './AllFeatureRequests';
 import ErrorModal from '../common/modal/ErrorModal';
 import SubmitFeature from './SubmitFeature';
 import SuccessModal from '../common/modal/SuccessModal';
@@ -71,7 +71,7 @@ const FeatureRequest = props => {
                 submitRequest={submitRequest}
                 updateDescription={updateDescription}
             />
-            <MyFeatureRequests
+            <AllFeatureRequests
                 addNewComment={addNewComment}
                 addNewReply={addNewReply}
                 deleteComment={deleteComment}

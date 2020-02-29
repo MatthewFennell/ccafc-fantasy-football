@@ -4,9 +4,9 @@ import { Chart } from 'react-google-charts';
 import fp from 'lodash/fp';
 import defaultStyles from './Graph.module.scss';
 import Spinner from '../../common/spinner/Spinner';
-import RadioButton from '../../common/radio/RadioButton';
 import * as helpers from '../helpers';
 import Switch from '../../common/Switch/Switch';
+import Dropdown from '../../common/dropdown/Dropdown';
 
 const graphTitle = {
     goalsFor: 'Goals Scored Per Week',
@@ -61,32 +61,38 @@ const Graph = props => {
                         ) }
                 </div>
                 <div className={props.styles.radioWrapper}>
-                    <RadioButton
-                        radioLabel="Graph Choice"
+                    <Dropdown
+                        title="Graph Choice"
+                        key="Graph Choice"
                         onChange={setGraphMode}
                         options={[
                             {
-                                radioLabel: 'Goals Scored',
+                                text: 'Goals Scored',
+                                id: helpers.graphModes.goalsFor,
                                 value: helpers.graphModes.goalsFor
                             },
                             {
-                                radioLabel: 'Goals Conceded',
+                                text: 'Goals Conceded',
+                                id: helpers.graphModes.goalsAgainst,
                                 value: helpers.graphModes.goalsAgainst
                             },
                             {
-                                radioLabel: 'Total points',
+                                text: 'Total points',
+                                id: helpers.graphModes.totalPoints,
                                 value: helpers.graphModes.totalPoints
                             },
                             {
-                                radioLabel: 'Total Goals Scored',
+                                text: 'Total Goals Scored',
+                                id: helpers.graphModes.totalGoalsFor,
                                 value: helpers.graphModes.totalGoalsFor
                             },
                             {
-                                radioLabel: 'Total Goals Against',
+                                text: 'Total Goals Against',
+                                id: helpers.graphModes.totalGoalsAgainst,
                                 value: helpers.graphModes.totalGoalsAgainst
                             }
                         ]}
-                        value={graphMode}
+                        activeValue={graphMode}
                     />
                 </div>
             </div>

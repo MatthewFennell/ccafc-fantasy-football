@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import defaultStyles from './AddReply.module.scss';
 import TextInput from '../TextInput/TextInput';
+import * as textInputConstants from '../TextInput/constants';
 
 const AddReply = props => (
     <div className={props.styles.replyingWrapper}>
@@ -10,6 +11,8 @@ const AddReply = props => (
             label={props.label}
             value={props.text}
             onChange={props.setText}
+            icon={textInputConstants.textInputIcons.face}
+            iconColor="secondary"
         />
         <div className={props.styles.replyOptions}>
             <div
