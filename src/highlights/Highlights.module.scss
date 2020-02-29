@@ -21,7 +21,6 @@
 }
 
 .searchFilter{
-  // width: 50%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -53,7 +52,11 @@
 }
 
 .sortByWrapper{
+  @include vertical-center-div();
   text-align: center;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
 }
 
 .karmaWrapper{
@@ -83,13 +86,18 @@
 
 @media only screen and (max-width: 600px) {
   .highlightsWrapper {
+    margin: 0px;
     padding: 0px;
     .highlightsMessage{
+      margin-top: $spacing-small;
       font-size: $spacing-medium;
     }
   }
 
   .karmaWrapper {
     margin-right: $spacing-small;
+  }
+  .searchFilter{
+    width: 80%;
   }
 }

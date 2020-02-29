@@ -49,15 +49,26 @@ const columns = [
 ];
 
 const WithSmallDiv = Component => {
-    const divWrapper = props => (
-        <div style={{
-            width: '25%', marginLeft: 'auto', marginRight: 'auto', textAlign: 'center'
-        }}
+    const DivWrapper = props => (
+        <div
+            className={props.styles.divWrapper}
+            style={{
+                marginLeft: 'auto', marginRight: 'auto', textAlign: 'center'
+            }}
         >
             <Component {...props} />
         </div>
     );
-    return divWrapper;
+
+    DivWrapper.defaultProps = {
+        styles: {}
+    };
+
+    DivWrapper.propTypes = {
+        styles: PropTypes.objectOf(PropTypes.string)
+    };
+
+    return DivWrapper;
 };
 
 const SmallerInput = WithSmallDiv(TextInput);
@@ -105,13 +116,27 @@ const EditPlayer = props => {
                 id: 'goals',
                 stat: 'Goals',
                 oldValue: renderOldValue(playerStats.goals, fetching),
-                newValue: <SmallerInput label="Goals" onChange={setGoals} value={goals} type="number" centerText />
+                newValue: <SmallerInput
+                    label="Goals"
+                    onChange={setGoals}
+                    value={goals}
+                    type="number"
+                    centerText
+                    styles={props.styles}
+                />
             },
             {
                 id: 'assists',
                 stat: 'Assists',
                 oldValue: renderOldValue(playerStats.assists, fetching),
-                newValue: <SmallerInput label="Assists" onChange={setAssists} value={assists} type="number" centerText />
+                newValue: <SmallerInput
+                    label="Assists"
+                    onChange={setAssists}
+                    value={assists}
+                    type="number"
+                    centerText
+                    styles={props.styles}
+                />
             },
             {
                 id: 'cleanSheet',
@@ -120,7 +145,8 @@ const EditPlayer = props => {
                 newValue: <SmallerDropdown
                     onChange={setCleanSheet}
                     options={booleanOptions}
-                    activeValue={cleanSheet}
+                    value={cleanSheet}
+                    styles={props.styles}
                 />
             },
             {
@@ -130,7 +156,8 @@ const EditPlayer = props => {
                 newValue: <SmallerDropdown
                     onChange={setYellowCard}
                     options={booleanOptions}
-                    activeValue={yellowCard}
+                    value={yellowCard}
+                    styles={props.styles}
                 />
             },
             {
@@ -140,7 +167,8 @@ const EditPlayer = props => {
                 newValue: <SmallerDropdown
                     onChange={setRedCard}
                     options={booleanOptions}
-                    activeValue={redCard}
+                    value={redCard}
+                    styles={props.styles}
                 />
             },
             {
@@ -150,7 +178,8 @@ const EditPlayer = props => {
                 newValue: <SmallerDropdown
                     onChange={setMotm}
                     options={booleanOptions}
-                    activeValue={motm}
+                    value={motm}
+                    styles={props.styles}
                 />
             },
             {
@@ -160,26 +189,48 @@ const EditPlayer = props => {
                 newValue: <SmallerDropdown
                     onChange={setDotd}
                     options={booleanOptions}
-                    activeValue={dotd}
+                    value={dotd}
+                    styles={props.styles}
                 />
             },
             {
                 id: 'ownGoals',
                 stat: 'Own Goals',
                 oldValue: renderOldValue(playerStats.ownGoals, fetching),
-                newValue: <SmallerInput label="Own Goals" onChange={setOwnGoals} value={ownGoals} type="number" centerText />
+                newValue: <SmallerInput
+                    label="Own Goals"
+                    onChange={setOwnGoals}
+                    value={ownGoals}
+                    type="number"
+                    centerText
+                    styles={props.styles}
+                />
             },
             {
                 id: 'penaltySaves',
                 stat: 'Penalty Saves',
                 oldValue: renderOldValue(playerStats.penaltySaves, fetching),
-                newValue: <SmallerInput label="Penalty Saves" onChange={setPenaltySaves} value={penaltySaves} type="number" centerText />
+                newValue: <SmallerInput
+                    label="Penalty Saves"
+                    onChange={setPenaltySaves}
+                    value={penaltySaves}
+                    type="number"
+                    centerText
+                    styles={props.styles}
+                />
             },
             {
                 id: 'penaltyMisses',
                 stat: 'Penalty Misses',
                 oldValue: renderOldValue(playerStats.penaltyMisses, fetching),
-                newValue: <SmallerInput label="Penalty Misses" onChange={setPenaltyMisses} value={penaltyMisses} type="number" centerText />
+                newValue: <SmallerInput
+                    label="Penalty Misses"
+                    onChange={setPenaltyMisses}
+                    value={penaltyMisses}
+                    type="number"
+                    centerText
+                    styles={props.styles}
+                />
             }
         ];
         return rows;
@@ -280,7 +331,7 @@ const EditPlayer = props => {
             <div className={props.styles.findPlayerDropdowns}>
                 <div className={props.styles.teamDropdown}>
                     <Dropdown
-                        activeValue={playerTeam}
+                        value={playerTeam}
                         onChange={setTeam}
                         options={props.allTeams}
                         title="Team"
@@ -288,7 +339,7 @@ const EditPlayer = props => {
                 </div>
                 <div className={props.styles.playerDropdown}>
                     <Dropdown
-                        activeValue={playerToEdit}
+                        value={playerToEdit}
                         onChange={setPlayer}
                         options={playersForActiveTeam}
                         title="Player to edit"
@@ -296,7 +347,7 @@ const EditPlayer = props => {
                 </div>
                 <div>
                     <Dropdown
-                        activeValue={week}
+                        value={week}
                         onChange={setWeekToEdit}
                         options={generateWeekOptions(props.maxGameWeek)}
                         title="Week"

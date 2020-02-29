@@ -92,7 +92,7 @@ const Points = props => {
                         </div>
                     ) : (
                         <div className={props.styles.noStats}>
-                        No stats for empty players
+                        Stats will appear here for real players
                         </div>
                     ) }
             </SuccessModal>

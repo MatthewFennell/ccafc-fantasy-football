@@ -5,8 +5,7 @@ import defaultStyles from './EditFilter.module.scss';
 import Slider from '../../common/slider/Slider';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import { marks } from '../helpers';
-import Toggle from '../../common/Toggle/Toggle';
-
+import Switch from '../../common/Switch/Switch';
 
 const EditFilter = props => {
     const [minWeek, setMinWeek] = useState(props.minWeek);
@@ -53,7 +52,7 @@ const EditFilter = props => {
                             {x.label}
                         </div>
                         <div>
-                            <Toggle
+                            <Switch
                                 color="primary"
                                 checked={activeColumns.some(y => y.id === x.id)}
                                 onChange={() => toggle(x)}

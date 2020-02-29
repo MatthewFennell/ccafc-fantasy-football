@@ -48,15 +48,18 @@ export const fixturesFilters = (myTeam, fixtures) => {
 
     return [
         {
-            radioLabel: 'My Team',
+            text: 'My Team',
+            id: myTeam,
             value: myTeam
         },
         {
-            radioLabel: 'All Leagues',
+            text: 'All Leagues',
+            id: 'All',
             value: 'All'
         }
     ].concat(leagues.map(x => ({
-        radioLabel: x,
+        text: x,
+        id: x,
         value: x
     }))).filter(x => x.value !== 'No team set' && x.value);
 };
@@ -75,7 +78,7 @@ export const generateCollingwoodTeams = fixtures => fixtures
 
 export const filterFixtures = (fixtures, league, collingwoodOnly, upcomingOnly, teamName) => {
     // My team could be selected - causes the league to be the name of their team
-    const leagueFilter = league === 'All' ? () => true
+    const leagueFilter = league === 'All' || league === '' ? () => true
         : x => x.league === league || x.teamOne === league || x.teamTwo === league;
 
     const collingwoodOnlyFilter = collingwoodOnly
@@ -90,7 +93,7 @@ export const filterFixtures = (fixtures, league, collingwoodOnly, upcomingOnly, 
         .filter(collingwoodOnlyFilter)
         .filter(upcomingOnlyFilter)
         .filter(teamNameFilter)
-        .map(fixture => ({ ...fixture, id: `${fixture.teamOne}-${fixture.teamTwo}` }));
+        .map(fixture => ({ ...fixture }));
 
     return helpers.sortMatchesByDate(filteredFixtures, false);
 };

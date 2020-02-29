@@ -46,7 +46,7 @@ const Dropdown = props => {
                     open={open}
                     onClose={handleClose}
                     onOpen={handleOpen}
-                    value={props.activeValue}
+                    value={props.value}
                     onChange={handleChange}
                     inputProps={{
                         id: 'demo-controlled-open-select'
@@ -70,14 +70,14 @@ const Dropdown = props => {
 };
 
 Dropdown.defaultProps = {
-    activeValue: '',
+    value: '',
     onChange: noop,
     options: [],
     title: ''
 };
 
 Dropdown.propTypes = {
-    activeValue: PropTypes.oneOfType([
+    value: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number
     ]),

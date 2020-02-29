@@ -109,7 +109,8 @@ const Transfers = props => {
     }, [setPlayerTableOpen, playerToRemove, positionFilter]);
 
     const selectReplacementDesktop = useCallback(() => {
-        if (!_.isEmpty(playerToRemove)) {
+        const { position, ...rest } = playerToRemove;
+        if (!_.isEmpty(rest)) {
             props.removePlayerFromCurrentTeam(playerToRemove);
         }
         setSortBy('position');

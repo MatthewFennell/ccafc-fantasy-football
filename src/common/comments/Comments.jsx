@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
-import FaceIcon from '@material-ui/icons/Face';
 import defaultStyles from './Comments.module.scss';
 import Comment from './Comment';
 import AddReply from './AddReply';
@@ -72,9 +71,6 @@ const RenderComments = props => {
             <hr className={props.styles.commentsDivider} />
             <div className={props.styles.addTopLevelComment}>
                 <div className={props.styles.addNewCommentWrapper}>
-                    <div>
-                        <FaceIcon color="secondary" />
-                    </div>
                     <div className={props.styles.initialComment}>
                         <AddReply
                             label="Add a new comment"

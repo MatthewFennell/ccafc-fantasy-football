@@ -15,10 +15,10 @@ import ErrorModal from '../common/modal/ErrorModal';
 import SuccessModal from '../common/modal/SuccessModal';
 import YouTubeList from '../common/youtubelist/YouTubeList';
 import SubmitVideo from './SubmitVideo';
-import RadioButton from '../common/radio/RadioButton';
 import * as helpers from './helpers';
 import TextInput from '../common/TextInput/TextInput';
 import * as textInputConstants from '../common/TextInput/constants';
+import Dropdown from '../common/dropdown/Dropdown';
 
 const Highlights = props => {
     useEffect(() => {
@@ -65,38 +65,36 @@ const Highlights = props => {
                         <div className={props.styles.openSubmitVideo}>
                             <StyledButton onClick={openSubmitVideo} text="Submit a Video" color="primary" />
                         </div>
-                        <div className={props.styles.searchFilter}>
-                            <TextInput
-                                label="Search videos"
-                                onChange={setSearchFilter}
-                                value={searchFilter}
-                                icon={textInputConstants.textInputIcons.search}
-                            />
-                        </div>
                     </div>
                     <div className={props.styles.sortByWrapper}>
-                        <div>
-                            <RadioButton
-                                radioLabel="Filter By Date"
-                                onChange={setFilterBy}
-                                options={Object.values(helpers.dateFilters).map(x => ({
-                                    radioLabel: x.label,
-                                    value: x.id
-                                }))}
-                                value={filterBy}
-                            />
-                        </div>
-                        <div>
-                            <RadioButton
-                                radioLabel="Sort By"
-                                onChange={setSortBy}
-                                options={Object.values(helpers.sortByFilters).map(x => ({
-                                    radioLabel: x.label,
-                                    value: x.id
-                                }))}
-                                value={sortBy}
-                            />
-                        </div>
+                        <Dropdown
+                            title="Filter By Date"
+                            key="Filter By Date"
+                            onChange={setFilterBy}
+                            options={Object.values(helpers.dateFilters).map(x => ({
+                                text: x.label,
+                                id: x.id,
+                                value: x.id
+                            }))}
+                            value={filterBy}
+                        />
+                        <Dropdown
+                            title="Sort By"
+                            key="Sort By"
+                            onChange={setSortBy}
+                            options={Object.values(helpers.sortByFilters).map(x => ({
+                                text: x.label,
+                                id: x.id,
+                                value: x.id
+                            }))}
+                            value={sortBy}
+                        />
+                        <TextInput
+                            label="Search videos"
+                            onChange={setSearchFilter}
+                            value={searchFilter}
+                            icon={textInputConstants.textInputIcons.search}
+                        />
                     </div>
                 </div>
                 <div className={props.styles.karmaWrapper}>

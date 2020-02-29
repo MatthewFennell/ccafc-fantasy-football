@@ -43,7 +43,7 @@ const DeleteTeam = props => {
                 </div>
                 <div className={props.styles.deleteTeamForm}>
                     <div className={props.styles.deleteTeamDropdowns}>
-                        <Dropdown activeValue={teamName} onChange={setTeamName} options={props.allTeams} title="Team" key="Team" />
+                        <Dropdown value={teamName} onChange={setTeamName} options={props.allTeams} title="Team" key="Team" />
                     </div>
 
                 </div>

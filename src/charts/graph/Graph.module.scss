@@ -4,6 +4,7 @@
   @include vertical-center-div();
   font-size: $font-size-medium;
   padding: $spacing-medium;
+  color: $color-red;
 }
 
 .graphSpinner{
@@ -28,18 +29,18 @@
 }
 
 
-.chartsHeader{
+.chartsHeader {
   text-align: center;
-  margin-bottom: $spacing-medium;
   .chartsText{
     font-weight: bold;
     color: $color-blue;
   }
-  .toggleTeams{
+  .toggleTeams {
     margin-top: $spacing-small;
     display: flex;
     flex-wrap: wrap;
     > div {
+      min-width: 20%;
       flex-grow: 1;
       justify-content: center;
     }

@@ -19,8 +19,9 @@ import { fetchHighlightsRequest } from '../../highlights/actions';
 import Grid from '../../common/grid/Grid';
 import { generateTimeSinceNow, generateYouTubeLinkFromId } from '../../helperFunctions';
 import * as helpers from './helpers';
-import RadioButton from '../../common/radio/RadioButton';
 import TextInput from '../../common/TextInput/TextInput';
+import * as textInputConstants from '../../common/TextInput/constants';
+import Dropdown from '../../common/dropdown/Dropdown';
 
 const columns = [
     {
@@ -198,27 +199,32 @@ const ApproveHighlights = props => {
             )}
 
             <div className={props.styles.allVideos}>
-                <div className={props.styles.highlightInfoWrapper}>
-                    <div className={props.styles.highlightsHeader}>
+                <div className={props.styles.approveHighlightsHeader}>
+                    <div className={props.styles.highlightsHeaderMessage}>
                     All Approved Highlights
                     </div>
-                    <div className={props.styles.dateFilters}>
-                        <RadioButton
-                            radioLabel="Filter By Date"
-                            onChange={setFilterBy}
-                            options={Object.values(helpers.dateFilters).map(x => ({
-                                radioLabel: x.label,
-                                value: x.id
-                            }))}
-                            value={filterBy}
-                        />
-                    </div>
-                    <div className={props.styles.videoSearchFilter}>
-                        <TextInput
-                            label="Filter by author / title"
-                            onChange={setSearchBy}
-                            value={searchBy}
-                        />
+                    <div className={props.styles.highlightInfoWrapper}>
+                        <div className={props.styles.dateFilters}>
+                            <Dropdown
+                                title="Filter By Date"
+                                onChange={setFilterBy}
+                                options={Object.values(helpers.dateFilters).map(x => ({
+                                    text: x.label,
+                                    id: x.id,
+                                    value: x.id
+                                }))}
+                                value={filterBy}
+                            />
+                        </div>
+                        <div className={props.styles.videoSearchFilter}>
+                            <TextInput
+                                label="Filter by author / title"
+                                onChange={setSearchBy}
+                                value={searchBy}
+                                icon={textInputConstants.textInputIcons.search}
+                                iconColor="primary"
+                            />
+                        </div>
                     </div>
                 </div>
                 <div className={props.styles.gridWrapper}>
@@ -231,27 +237,33 @@ const ApproveHighlights = props => {
             </div>
 
             <div className={props.styles.allRejectedVideos}>
-                <div className={props.styles.highlightInfoWrapper}>
-                    <div className={props.styles.highlightsHeader}>
+                <div className={props.styles.rejectedHighlightsHeader}>
+                    <div className={props.styles.highlightsHeaderMessage}>
                     All Rejected Highlights
                     </div>
-                    <div className={props.styles.dateFilters}>
-                        <RadioButton
-                            radioLabel="Filter By Date"
-                            onChange={setFilterByRejected}
-                            options={Object.values(helpers.dateFilters).map(x => ({
-                                radioLabel: x.label,
-                                value: x.id
-                            }))}
-                            value={filterByRejected}
-                        />
-                    </div>
-                    <div className={props.styles.videoSearchFilter}>
-                        <TextInput
-                            label="Filter by author / title"
-                            onChange={setSearchByRejected}
-                            value={searchByRejected}
-                        />
+                    <div className={props.styles.highlightInfoWrapper}>
+
+                        <div className={props.styles.dateFilters}>
+                            <Dropdown
+                                title="Filter By Date"
+                                onChange={setFilterByRejected}
+                                options={Object.values(helpers.dateFilters).map(x => ({
+                                    text: x.label,
+                                    id: x.id,
+                                    value: x.id
+                                }))}
+                                value={filterByRejected}
+                            />
+                        </div>
+                        <div className={props.styles.videoSearchFilter}>
+                            <TextInput
+                                label="Filter by author / title"
+                                onChange={setSearchByRejected}
+                                value={searchByRejected}
+                                icon={textInputConstants.textInputIcons.search}
+                                iconColor="primary"
+                            />
+                        </div>
                     </div>
                 </div>
                 <div className={props.styles.gridWrapper}>

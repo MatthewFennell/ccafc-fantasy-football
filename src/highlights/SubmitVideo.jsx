@@ -10,6 +10,7 @@ import WithCollapsable from '../common/collapsableHOC/WithCollapsable';
 import Grid from '../common/grid/Grid';
 import { generateTimeSinceNow, generateYouTubeLinkFromId } from '../helperFunctions';
 import TextInput from '../common/TextInput/TextInput';
+import mobileCollapsableStyles from './MobileCollapsableStyles.module.scss';
 
 const widthForSmallColumns = 600;
 
@@ -133,28 +134,31 @@ const SubmitVideo = props => {
             onOpen={noop}
         >
             <div className={props.styles.drawerWrapper}>
-                {window.innerWidth < widthForSmallColumns && (
-                    <div className={props.styles.backIcon}>
-                        <ArrowBackIcon
-                            onClick={props.closeSubmitVideo}
-                            fontSize="large"
-                        />
-                    </div>
-                )}
-                <div className={props.styles.addHighlight}>
-                    <div className={props.styles.inputWrapper}>
-                        <TextInput
-                            onChange={updateVideoTitle}
-                            value={videoTitle}
-                            label="Video Title"
-                        />
-                        <TextInput
-                            onChange={updateId}
-                            value={video}
-                            label="YouTube Video ID"
-                            onBlur={openExample}
-                        />
-                        <StyledButton onClick={submitVideo} text="Submit Video for Approval" color="primary" />
+                <div className={props.styles.testWrapper}>
+                    {window.innerWidth < widthForSmallColumns && (
+                        <div className={props.styles.backIcon}>
+                            <ArrowBackIcon
+                                onClick={props.closeSubmitVideo}
+                                fontSize="large"
+                            />
+                        </div>
+                    )}
+
+                    <div className={props.styles.addHighlight}>
+                        <div className={props.styles.inputWrapper}>
+                            <TextInput
+                                onChange={updateVideoTitle}
+                                value={videoTitle}
+                                label="Video Title"
+                            />
+                            <TextInput
+                                onChange={updateId}
+                                value={video}
+                                label="YouTube Video ID"
+                                onBlur={openExample}
+                            />
+                            <StyledButton onClick={submitVideo} text="Submit Video for Approval" color="primary" />
+                        </div>
                     </div>
                     <div className={props.styles.videoIdHint}>
                         e.g. The ID is the section in bold https://www.youtube.com/watch?v=
@@ -168,6 +172,7 @@ const SubmitVideo = props => {
                     videoId={video}
                     opts={opts}
                     onReady={onReady}
+                    styles={mobileCollapsableStyles}
                 />
             </div>
             <div className={props.styles.gridWrapper}>
@@ -181,6 +186,7 @@ const SubmitVideo = props => {
                     showPagination
                     rowsPerPageOptions={[5, 50, 100]}
                 />
+
             </div>
         </SwipeableDrawer>
     );

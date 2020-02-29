@@ -27,6 +27,23 @@
       > div {
         margin: 0px;        
       }
+
+      display: flex;
+      align-items: center;
+
+      :first-child {
+        :first-child {
+          margin-bottom: 0px !important;
+          margin-top: 0px !important;
+          :first-child {
+            background-color: wheat !important;
+            :nth-child(2) {
+                padding: 10px !important;
+            }
+          }
+        
+        }
+      }
     }
 
     .editColumns {

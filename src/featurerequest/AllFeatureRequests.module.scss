@@ -51,4 +51,33 @@
 
 .sortByWrapper{
     text-align: center;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+@media only screen and (max-width: 600px) {
+    .allFeatureRequests {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .featureRequestMessage {
+        font-size: $font-size-large !important;
+    }
+
+    .featureRequestHeader {
+        margin: 0px;
+        margin-bottom: $spacing-medium;
+    }
+
+    .searchFilter {
+        width: 100% !important;
+    }
+
+    .featuresWrapper {
+        > div {
+            max-width: 100%;
+            width: 100%;
+        }
+    }
 }

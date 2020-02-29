@@ -64,7 +64,7 @@ CommentInfo.propTypes = {
     loggedInUserId: PropTypes.string,
     isTopLevel: PropTypes.bool,
     message: PropTypes.string,
-    replyOpen: PropTypes.string,
+    replyOpen: PropTypes.bool,
     setReplyOpen: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string),
     userId: PropTypes.string

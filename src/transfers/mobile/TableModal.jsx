@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import defaultStyles from './TableModal.module.scss';
-import Toggle from '../../common/Toggle/Toggle';
-import RadioButton from '../../common/radio/RadioButton';
+import Switch from '../../common/Switch/Switch';
+import Dropdown from '../../common/dropdown/Dropdown';
 
 const TableModal = props => (
     <div className={props.styles.tableModalWrapper}>
@@ -14,7 +14,7 @@ const TableModal = props => (
                         {x.name}
                     </div>
                     <div>
-                        <Toggle
+                        <Switch
                             color="primary"
                             checked={props.activeColumns.some(y => x.id === y.id)}
                             disabled={(!props.activeColumns.some(y => x.id === y.id)
@@ -28,10 +28,13 @@ const TableModal = props => (
             ))}
         </div>
         <div className={props.styles.sortingWrapper}>
-            <RadioButton
-                radioLabel="Sort By"
+            <Dropdown
+                title="Sort By"
+                key="Sort By"
                 onChange={props.setSortBy}
-                options={props.activeColumns.map(x => ({ ...x, radioLabel: x.name, value: x.id }))}
+                options={props.activeColumns.map(x => ({
+                    ...x, text: x.name, value: x.id, id: x.id
+                }))}
                 value={props.sortBy}
             />
             {props.sortingComponent}

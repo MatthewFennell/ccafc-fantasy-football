@@ -34,3 +34,10 @@
   width: $spacing-massive;
   cursor: pointer;
 }
+
+@media only screen and (max-width: 600px) {
+  .googleLinkWrapper, .facebookLinkWrapper {
+    margin: 0px;
+    margin-top: $spacing-medium;
+  }
+}

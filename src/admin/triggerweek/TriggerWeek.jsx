@@ -38,7 +38,7 @@ const TriggerWeek = props => {
                 </div>
                 <div className={props.styles.triggerWeekForm}>
                     <Dropdown
-                        activeValue={week}
+                        value={week}
                         onChange={setWeek}
                         options={calculateOptions}
                         title="Week"

@@ -275,23 +275,28 @@ describe('Generates Radio Options for filtering fixtures', () => {
     it('Includes All Leagues and my team whe non null', () => {
         expect(helpers.fixturesFilters(myTeam, fixturesWithMultipleLeagues)).toEqual([
             {
-                radioLabel: 'My Team',
+                text: 'My Team',
+                id: myTeam,
                 value: myTeam
             },
             {
-                radioLabel: 'All Leagues',
+                text: 'All Leagues',
+                id: 'All',
                 value: 'All'
             },
             {
-                radioLabel: 'Premiership',
+                text: 'Premiership',
+                id: 'Premiership',
                 value: 'Premiership'
             },
             {
-                radioLabel: 'League One',
+                text: 'League One',
+                id: 'League One',
                 value: 'League One'
             },
             {
-                radioLabel: 'League Two',
+                text: 'League Two',
+                id: 'League Two',
                 value: 'League Two'
             }
         ]);
@@ -300,19 +305,23 @@ describe('Generates Radio Options for filtering fixtures', () => {
     it('Does not show leagues multiple times', () => {
         expect(helpers.fixturesFilters(myTeam, fixturesWithDuplicateLeagues)).toEqual([
             {
-                radioLabel: 'My Team',
+                text: 'My Team',
+                id: myTeam,
                 value: myTeam
             },
             {
-                radioLabel: 'All Leagues',
+                text: 'All Leagues',
+                id: 'All',
                 value: 'All'
             },
             {
-                radioLabel: 'Premiership',
+                text: 'Premiership',
+                id: 'Premiership',
                 value: 'Premiership'
             },
             {
-                radioLabel: 'League Two',
+                text: 'League Two',
+                id: 'League Two',
                 value: 'League Two'
             }
         ]);
@@ -321,19 +330,23 @@ describe('Generates Radio Options for filtering fixtures', () => {
     it('Does not include my team when value is "No team set"', () => {
         expect(helpers.fixturesFilters('No team set', fixturesWithMultipleLeagues)).toEqual([
             {
-                radioLabel: 'All Leagues',
+                text: 'All Leagues',
+                id: 'All',
                 value: 'All'
             },
             {
-                radioLabel: 'Premiership',
+                text: 'Premiership',
+                id: 'Premiership',
                 value: 'Premiership'
             },
             {
-                radioLabel: 'League One',
+                text: 'League One',
+                id: 'League One',
                 value: 'League One'
             },
             {
-                radioLabel: 'League Two',
+                text: 'League Two',
+                id: 'League Two',
                 value: 'League Two'
             }
         ]);
@@ -342,19 +355,23 @@ describe('Generates Radio Options for filtering fixtures', () => {
     it('Does not include my team when value is empty', () => {
         expect(helpers.fixturesFilters('', fixturesWithMultipleLeagues)).toEqual([
             {
-                radioLabel: 'All Leagues',
+                text: 'All Leagues',
+                id: 'All',
                 value: 'All'
             },
             {
-                radioLabel: 'Premiership',
+                text: 'Premiership',
+                id: 'Premiership',
                 value: 'Premiership'
             },
             {
-                radioLabel: 'League One',
+                text: 'League One',
+                id: 'League One',
                 value: 'League One'
             },
             {
-                radioLabel: 'League Two',
+                text: 'League Two',
+                id: 'League Two',
                 value: 'League Two'
             }
         ]);
@@ -375,8 +392,7 @@ describe('Filtering fixtures', () => {
                     time: '12/10/2019 10:45',
                     completed: false,
                     league: 'Premiership',
-                    isCup: false,
-                    id: 'Collingwood A-St. Aidan\'s A'
+                    isCup: false
                 },
                 {
                     teamOne: 'Collingwood B',
@@ -386,8 +402,7 @@ describe('Filtering fixtures', () => {
                     time: '12/10/2019 10:45',
                     completed: false,
                     league: 'Premiership',
-                    isCup: false,
-                    id: 'Collingwood B-St. Aidan\'s A'
+                    isCup: false
                 },
                 {
                     teamOne: 'Collingwood B',
@@ -397,8 +412,7 @@ describe('Filtering fixtures', () => {
                     time: '12/10/2019 10:45',
                     completed: true,
                     league: 'League Two',
-                    isCup: false,
-                    id: 'Collingwood B-St. Aidan\'s A'
+                    isCup: false
                 }
             ]);
     });
@@ -414,8 +428,7 @@ describe('Filtering fixtures', () => {
                     time: '12/10/2019 10:45',
                     completed: true,
                     league: 'League Two',
-                    isCup: false,
-                    id: 'Collingwood B-St. Aidan\'s A'
+                    isCup: false
                 }
             ]);
     });
@@ -431,8 +444,7 @@ describe('Filtering fixtures', () => {
                     time: '12/10/2019 10:45',
                     completed: false,
                     league: 'Premiership',
-                    isCup: false,
-                    id: 'Collingwood A-St. Aidan\'s A'
+                    isCup: false
                 },
                 {
                     teamOne: 'Mildert',
@@ -442,8 +454,7 @@ describe('Filtering fixtures', () => {
                     time: '12/10/2019 10:45',
                     completed: true,
                     league: 'League Two',
-                    isCup: false,
-                    id: 'Mildert-Collingwood A'
+                    isCup: false
                 }
             ]);
     });
@@ -459,8 +470,7 @@ describe('Filtering fixtures', () => {
                     time: '12/10/2019 10:45',
                     completed: false,
                     league: 'Premiership',
-                    isCup: false,
-                    id: 'Collingwood A-St. Aidan\'s A'
+                    isCup: false
                 },
                 {
                     teamOne: 'Collingwood B',
@@ -470,8 +480,7 @@ describe('Filtering fixtures', () => {
                     time: '12/10/2019 10:45',
                     completed: false,
                     league: 'Premiership',
-                    isCup: false,
-                    id: 'Collingwood B-St. Aidan\'s A'
+                    isCup: false
                 }
             ]);
     });
@@ -487,8 +496,7 @@ describe('Filtering fixtures', () => {
                     time: '12/10/2019 10:45',
                     completed: false,
                     league: 'Premiership',
-                    isCup: false,
-                    id: 'pre abcdef after-St. Aidan\'s A'
+                    isCup: false
                 },
                 {
                     teamOne: 'Collingwood B',
@@ -498,8 +506,7 @@ describe('Filtering fixtures', () => {
                     time: '12/10/2019 10:45',
                     completed: true,
                     league: 'League Two',
-                    isCup: false,
-                    id: 'Collingwood B-abcdef and stuff'
+                    isCup: false
                 }
             ]);
     });

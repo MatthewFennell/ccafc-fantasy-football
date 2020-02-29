@@ -62,39 +62,39 @@ const ExtraStats = props => {
                 Extra Stats
             </div>
             <div className={props.styles.dropdownWrapper}>
-                <Dropdown activeValue={teamName} onChange={setTeam} options={props.allTeams} title="Team" />
-                <Dropdown activeValue={gameWeek} onChange={setGameWeek} options={generateWeekOptions(props.maxGameWeek)} title="Week" />
+                <Dropdown value={teamName} onChange={setTeam} options={props.allTeams} title="Team" />
+                <Dropdown value={gameWeek} onChange={setGameWeek} options={generateWeekOptions(props.maxGameWeek)} title="Week" />
                 <Dropdown
                     key="Player"
-                    activeValue={yellowCard}
+                    value={yellowCard}
                     onChange={setYellowCard}
                     options={playersForActiveTeam}
                     title="Yellow Card"
                 />
                 <Dropdown
                     key="RedCard"
-                    activeValue={redCard}
+                    value={redCard}
                     onChange={setRedCard}
                     options={playersForActiveTeam}
                     title="Red Card"
                 />
                 <Dropdown
                     key="PenaltySaved"
-                    activeValue={penaltySaved}
+                    value={penaltySaved}
                     onChange={setPenaltySaved}
                     options={playersForActiveTeam}
                     title="Penalty Saved"
                 />
                 <Dropdown
                     key="PenaltyMissed"
-                    activeValue={penaltyMissed}
+                    value={penaltyMissed}
                     onChange={setPenaltyMissed}
                     options={playersForActiveTeam}
                     title="Penalty Missed"
                 />
                 <Dropdown
                     key="OwnGoals"
-                    activeValue={ownGoals}
+                    value={ownGoals}
                     onChange={setOwnGoals}
                     options={playersForActiveTeam}
                     title="Own Goals"

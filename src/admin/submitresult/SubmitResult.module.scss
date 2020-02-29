@@ -18,6 +18,7 @@
     margin-right: auto;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 
     > * {
       margin-top: $spacing-small;
@@ -61,5 +62,12 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .submitResultWrapper {
+    width: 100%;
+    margin-top: 0px;
   }
 }

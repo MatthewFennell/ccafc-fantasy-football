@@ -10,36 +10,31 @@
   align-items: center;
 }
 
+.testWrapper { 
+  @include light-box-shadow();
+}
+
 .addHighlight {
   padding: $spacing-medium;
   margin: $spacing-medium;
   background-color: $color-white;
-  @include light-box-shadow();
+  // @include light-box-shadow();
 
-  .inputWrapper{
+  .inputWrapper {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
   }
 }
 
-.videoIdHint{
+.videoIdHint {
   text-align: center;
   margin-top: $spacing-small;
   font-size: $font-size-medium;
   word-break: break-word;
 }
 
-@media only screen and (max-width: 600px) {
-  .drawerWrapper{
-    width: 100vw;
-  }
-  .addHighlight{
-    margin-top: 0px;
-  }
-}
-
-.gridWrapper{
+.gridWrapper {
   margin: $spacing-medium;
   background-color: $color-white;
   @include light-box-shadow();
@@ -59,4 +54,24 @@
 .approved{
   color: $color-green;
   font-weight: bold;
+}
+
+@media only screen and (max-width: 600px) {
+  .drawerWrapper{
+    width: 100vw;
+  }
+  .addHighlight{
+    margin: 0px;
+    margin-top: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  .gridWrapper {
+    margin: 0px;
+  }
+
+  .videoIdHint {
+    margin-left: $spacing-small;
+    margin-right: $spacing-small;
+  }
 }

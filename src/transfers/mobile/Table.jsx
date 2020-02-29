@@ -103,7 +103,7 @@ const Table = props => {
                         text: x.team_name
                     }))}
                     onChange={setTeamFilter}
-                    activeValue={teamFilter}
+                    value={teamFilter}
                 />
             );
         }

@@ -11,8 +11,10 @@
     justify-content: center;
     background-color: $color-white;
 
-    .extraStatsTitle{
+    .extraStatsTitle {
         text-align: center;
+        color: $color-blue;
+        font-size: $font-size-medium;
     }
 
     .dropdownWrapper{
@@ -40,3 +42,9 @@
 .central{
     text-align: center;
 }
+
+@media only screen and (max-width: 600px) {
+    .extraStatsWrapper {
+      width: 100%;
+    }
+  }
