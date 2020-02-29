@@ -1,6 +1,7 @@
 import React from 'react';
-
 import fp from 'lodash/fp';
+import { generateCollingwoodTeams } from '../fixtures/helpers';
+
 
 export const graphModes = {
     goalsFor: 'goalsFor',
@@ -109,6 +110,99 @@ const sortLeagueTable = leagueTable => leagueTable.sort((a, b) => {
 
 export const makeBold = val => <div style={{ fontWeight: 'bold' }}>{val}</div>;
 
+const collingwoodOnly = x => x.teamOne.includes('Collingwood') || x.teamTwo.includes('Collingwood');
+
+// goalDifference: 8
+// wins: 4
+// draws: 0
+// losses: 0
+// team: "England"
+// gamesPlayed: 4
+// score: 12
+
+// Calculated from the point of teamOne
+const generateResult = (fixture, isTeamOne) => {
+    let goals = fixture.result.split(' - ').map(x => parseInt(x, 10));
+    goals = isTeamOne ? goals : goals.reverse();
+    if (goals[0] > goals[1]) {
+        return ({
+            goalDifference: goals[0] - goals[1],
+            wins: 1,
+            draws: 0,
+            losses: 0,
+            score: 3
+        });
+    }
+    if (goals[0] === goals[1]) {
+        return ({
+            goalDifference: 0,
+            wins: 0,
+            draws: 1,
+            losses: 0,
+            score: 1
+        });
+    }
+    return ({
+        goalDifference: goals[0] - goals[1],
+        wins: 0,
+        draws: 0,
+        losses: 1,
+        score: 0
+    });
+};
+
+const combineResult = (fixture, result, initialRowObject, property) => ({
+    ...initialRowObject,
+    [fixture[property]]: ({
+        ...initialRowObject[fixture[property]],
+        goalDifference: initialRowObject[fixture[property]]
+            .goalDifference + result.goalDifference,
+        wins: initialRowObject[fixture[property]].wins + result.wins,
+        draws: initialRowObject[fixture[property]].draws + result.draws,
+        losses: initialRowObject[fixture[property]].losses + result.losses,
+        gamesPlayed: initialRowObject[fixture[property]].gamesPlayed + 1,
+        score: initialRowObject[fixture[property]].score + result.score
+    })
+});
+
+export const generateNewTable = fixtures => {
+    const filteredFixtures = fixtures
+        .filter(collingwoodOnly)
+        .filter(x => x.completed)
+        .filter(x => !x.isCup);
+    const collingwoodTeams = generateCollingwoodTeams(fixtures);
+    let initialRowObject = collingwoodTeams.reduce((acc, cur) => ({
+        ...acc,
+        [cur.text]: {
+            goalDifference: 0,
+            wins: 0,
+            draws: 0,
+            losses: 0,
+            gamesPlayed: 0,
+            score: 0
+        }
+    }), {});
+
+    filteredFixtures.forEach(fixture => {
+        if (fixture.teamOne.includes('Collingwood')) {
+            const result = generateResult(fixture, true);
+            initialRowObject = combineResult(fixture, result, initialRowObject, 'teamOne');
+        }
+        if (fixture.teamTwo.includes('Collingwood')) {
+            const result = generateResult(fixture, false);
+            initialRowObject = combineResult(fixture, result, initialRowObject, 'teamTwo');
+        }
+    });
+
+    const result = Object.keys(initialRowObject).map(x => ({
+        ...initialRowObject[x],
+        team: x
+    }));
+
+    return sortLeagueTable(result)
+        .reverse().map((x, pos) => ({ ...x, position: makeBold(pos + 1) }));
+};
+
 export const generateLeagueTable = (activeTeams, weekStart, weekEnd) => {
     const rows = [];
     activeTeams.forEach(team => {
@@ -180,7 +274,7 @@ export const columns = [
         align: 'center'
     },
     {
-        id: 'points',
+        id: 'score',
         label: 'Pts',
         align: 'center',
         renderCell: true

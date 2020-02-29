@@ -5,6 +5,7 @@ import { noop } from 'lodash';
 import * as sagas from './saga';
 import * as actions from './actions';
 import { successDelay } from '../constants';
+import * as selectors from './selectors';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -18,9 +19,19 @@ describe('Fixtures saga', () => {
     // Deals with yield delay(x)
     const provideDelay = ({ fn }, next) => ((fn.name === 'delayP') ? null : next());
 
+    const alreadyFetchedInfo = fetched => ({ selector }, next) => {
+        if (selector === selectors.getFixtures) {
+            return fetched ? ['1', '2', '3'] : [];
+        }
+        return next();
+    };
+
     it('fetch fixtures', () => {
         const action = actions.fetchFixturesRequest();
         return expectSaga(sagas.fetchFixtures, api, action)
+            .provide([
+                { select: alreadyFetchedInfo(false) }
+            ])
             .put(actions.fetchFixturesSuccess('fixtures'))
             .run();
     });
@@ -30,7 +41,8 @@ describe('Fixtures saga', () => {
         const action = actions.fetchFixturesRequest();
         return expectSaga(sagas.fetchFixtures, api, action)
             .provide([
-                [matchers.call.fn(api.getFixtures), throwError(error)]
+                [matchers.call.fn(api.getFixtures), throwError(error)],
+                { select: alreadyFetchedInfo(false) }
             ])
             .put(actions.setFixturesError(error, 'Error Fetching Fixtures'))
             .run();

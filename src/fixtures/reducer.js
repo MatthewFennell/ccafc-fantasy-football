@@ -26,6 +26,9 @@ const fixturesReducer = (state = initialState, action) => {
     case actions.FETCH_FIXTURES_REQUEST: {
         return fp.set('loadingFixtures', true)(state);
     }
+    case actions.ALREADY_FETCHED_FIXTURES: {
+        return fp.set('loadingFixtures', false)(state);
+    }
     case actions.FETCH_FIXTURES_ERROR: {
         return fp.set('loadingFixtures', false)(state);
     }

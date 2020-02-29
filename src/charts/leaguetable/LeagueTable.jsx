@@ -8,7 +8,7 @@ import Slider from '../../common/slider/Slider';
 const LeagueTable = props => {
     const [minWeek, setMinWeek] = useState(1);
     const [maxWeek, setMaxWeek] = useState(props.maxGameweek);
-    const leagueTable = helpers.generateLeagueTable(props.allTeams, minWeek, maxWeek);
+    const leagueTable = helpers.generateNewTable(props.fixtures);
     return (
         <div className={props.styles.leagueTableWrapper}>
             <div className={props.styles.sliderWrapper}>
@@ -46,15 +46,23 @@ const LeagueTable = props => {
 };
 
 LeagueTable.defaultProps = {
-    allTeams: [],
     fetchingAllTeams: false,
+    fixtures: [],
     maxGameweek: 0,
     styles: defaultStyles
 };
 
 LeagueTable.propTypes = {
-    allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     fetchingAllTeams: PropTypes.bool,
+    fixtures: PropTypes.arrayOf(PropTypes.shape({
+        teamOne: PropTypes.string,
+        result: PropTypes.string,
+        teamTwo: PropTypes.string,
+        location: PropTypes.string,
+        time: PropTypes.string,
+        completed: PropTypes.bool,
+        league: PropTypes.string
+    })),
     maxGameweek: PropTypes.number,
     styles: PropTypes.objectOf(PropTypes.string)
 };
