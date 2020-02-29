@@ -120,6 +120,7 @@ const Table = props => {
                         styles={inputStyles}
                         label="Player Name"
                         icon={textInputConstants.textInputIcons.search}
+                        iconColor="primary"
                     />
                 </div>
             </div>

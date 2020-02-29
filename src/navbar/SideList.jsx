@@ -43,7 +43,10 @@ const SideList = props => {
                                 button
                                 key={item.title}
                                 onClick={() => props.redirect(item.path(props))}
-                                className={props.styles.test}
+                                className={classNames({
+                                    [props.styles.activeRoute]: props.currentPath
+                                        .includes(item.urlIncludes)
+                                })}
                             >
                                 <ListItemIcon>{item.icon}</ListItemIcon>
                                 <ListItemText primary={item.title} />

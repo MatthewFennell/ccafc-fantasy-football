@@ -18,6 +18,7 @@ const PasswordReset = props => {
                 label="Email"
                 onChange={setEmail}
                 value={email}
+                iconColor="secondary"
             />
             <div className={props.styles.resetPasswordButton}>
                 <StyledButton

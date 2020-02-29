@@ -105,6 +105,7 @@ const ExtraStats = props => {
                     color="primary"
                     onClick={submitExtraStats}
                     text="Add Extra Stats"
+                    disabled={!teamName || !gameWeek}
                 />
             </div>
             <div className={classNames({

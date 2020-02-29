@@ -34,6 +34,7 @@ const TriggerWeek = props => {
                         color="primary"
                         onClick={triggerWeek}
                         text="Trigger Week"
+                        disabled={!(week && week !== 0)}
                     />
                 </div>
                 <div className={props.styles.triggerWeekForm}>

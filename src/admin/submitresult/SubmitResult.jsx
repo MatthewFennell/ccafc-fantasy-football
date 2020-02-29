@@ -229,6 +229,10 @@ const SubmitResult = props => {
                         color="primary"
                         onClick={submitResult}
                         text="Submit Result"
+                        disabled={!gameWeek
+                            || !teamName
+                            || !(goalsFor && goalsFor !== 0)
+                            || !(goalsAgainst && goalsAgainst !== 0)}
                     />
                 </div>
                 <ErrorModal

@@ -55,6 +55,7 @@ const SelectProfilePicture = props => {
                             value={ownPhotoUrl}
                             label="Enter the URL of your own image"
                             icon={textInputConstants.textInputIcons.face}
+                            iconColor="secondary"
                         />
                         <div className={props.styles.infoText}>
                             The image to the right is what your avatar will look like.

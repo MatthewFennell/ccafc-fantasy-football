@@ -5,23 +5,31 @@
   height: 90%;
   width: 100%;
   overflow-x: hidden;
-  .currentTeamWrapper{
+  .currentTeamWrapper {
     height: 90vh;
     background-color: $color-white;  
     margin-left: auto;;
     margin-right: auto;;
     width: 70%;
+    .hidden {
+      visibility: hidden;
+    }
+
     .transfersHeader{
       padding: $spacing-tiny;
       margin-left: 10%;
       margin-right: 10%;
       display: flex;
-      justify-content: center;
       background-color: $color-white;
+      justify-content: space-evenly;
     
       > div {
-        width: 33%;
+        // width: 33%;
         @include vertical-center-div();
+      }
+
+      .remainingBudget {
+        margin-left: $spacing-small;
       }
       .remainingBudgetValue, .remainingTransfersValue {
         font-size: $font-size-small;
@@ -37,8 +45,10 @@
 }
 
 .saveChanges{
-  color: $color-red;
-  font-weight: bold;
+  color: $color-green;
+      text-align: center;
+      font-size: $font-size-tiny;
+      font-weight: bold;
 }
 
 @media only screen and (max-width: 600px) {

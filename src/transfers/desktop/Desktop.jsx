@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
+import classNames from 'classnames';
 import defaultStyles from './Desktop.module.scss';
 import Pitch from '../../common/pitch/Pitch';
 import StyledButton from '../../common/StyledButton/StyledButton';
@@ -14,86 +15,95 @@ const teamsAreDifferent = (original, current) => {
     return playersInCurrentNotInOriginal.length > 0 && current.length === 11;
 };
 
-const Desktop = props => (
-    <>
-        <div className={props.styles.transfersWrapperDesktop}>
-            <div className={props.styles.pitchWrapper}>
-                <div className={props.styles.transfersHeader}>
-                    <div className={props.styles.remainingBudget}>
-                        <div className={props.styles.remainingBudgetValue}>
-                            {`£${props.remainingBudget} mil`}
+const Desktop = props => {
+    const teamsDiffer = teamsAreDifferent(props.originalTeam, props.currentTeam);
+    return (
+        <>
+            <div className={props.styles.transfersWrapperDesktop}>
+                <div className={props.styles.pitchWrapper}>
+                    <div className={props.styles.transfersHeader}>
+                        <div className={props.styles.remainingBudget}>
+                            <div className={props.styles.remainingBudgetValue}>
+                                <div className={props.styles.remainingBudgetText}>
+                                    Remaining Budget
+                                </div>
+                                <div>{`£${props.remainingBudget} mil`}</div>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <StyledButton
-                            color="primary"
-                            onClick={props.undoTransferChanges}
-                            text="Reset"
-                        />
-                    </div>
-                    <div>
-                        <StyledButton
-                            color="primary"
-                            onClick={props.updateTeamRequest}
-                            text="Confirm"
-                        />
-                        {teamsAreDifferent(props.originalTeam, props.currentTeam)
-                        && (
-                            <div className={props.styles.saveChanges}>
+                        <div>
+                            <StyledButton
+                                color="primary"
+                                onClick={props.undoTransferChanges}
+                                text="Reset"
+                                disabled={!teamsDiffer}
+                            />
+                        </div>
+                        <div>
+                            <StyledButton
+                                color="primary"
+                                onClick={props.updateTeamRequest}
+                                text="Confirm"
+                                disabled={!teamsDiffer}
+                            />
+                            <div className={classNames({
+                                [props.styles.saveChanges]: true,
+                                [props.styles.hidden]: !teamsDiffer
+                            })}
+                            >
                             Save changes
                             </div>
-                        )}
+                        </div>
                     </div>
+                    <Pitch
+                        additionalInfo={player => `£${player.price} mil`}
+                        activeTeam={props.currentTeam}
+                        loading={props.fetchingOriginalTeam}
+                        maxInPos={{
+                            GOALKEEPER: constants.maxPerPosition.GOALKEEPER,
+                            DEFENDER: constants.maxPerPosition.DEFENDER,
+                            MIDFIELDER: constants.maxPerPosition.MIDFIELDER,
+                            ATTACKER: constants.maxPerPosition.ATTACKER
+                        }}
+                        onPlayerClick={props.onPlayerClick}
+                        renderEmptyPlayers
+                    />
                 </div>
-                <Pitch
-                    additionalInfo={player => `£${player.price} mil`}
+                <Table
+                    allPlayers={props.allPlayers}
+                    allTeams={props.allTeams}
                     activeTeam={props.currentTeam}
-                    loading={props.fetchingOriginalTeam}
-                    maxInPos={{
-                        GOALKEEPER: constants.maxPerPosition.GOALKEEPER,
-                        DEFENDER: constants.maxPerPosition.DEFENDER,
-                        MIDFIELDER: constants.maxPerPosition.MIDFIELDER,
-                        ATTACKER: constants.maxPerPosition.ATTACKER
-                    }}
-                    onPlayerClick={props.onPlayerClick}
-                    renderEmptyPlayers
+                    desktopColumns={props.desktopColumns}
+                    fetchingAllPlayers={props.fetchingAllPlayers}
+                    isAscendingSort={props.isAscendingSort}
+                    onTransfersRequest={props.onTransfersRequest}
+                    positionFilter={props.positionFilter}
+                    sortBy={props.sortBy}
+                    stateObj={props.stateObj}
+                    setPositionFilter={props.setPositionFilter}
                 />
             </div>
-            <Table
-                allPlayers={props.allPlayers}
+            <NextFixtures
                 allTeams={props.allTeams}
-                activeTeam={props.currentTeam}
-                desktopColumns={props.desktopColumns}
-                fetchingAllPlayers={props.fetchingAllPlayers}
-                isAscendingSort={props.isAscendingSort}
-                onTransfersRequest={props.onTransfersRequest}
-                positionFilter={props.positionFilter}
-                sortBy={props.sortBy}
-                stateObj={props.stateObj}
-                setPositionFilter={props.setPositionFilter}
+                fixtures={props.fixtures.filter(x => !x.completed)}
+                loadingFixtures={props.loadingFixtures}
+                showCollegeCrest
             />
-        </div>
-        <NextFixtures
-            allTeams={props.allTeams}
-            fixtures={props.fixtures.filter(x => !x.completed)}
-            loadingFixtures={props.loadingFixtures}
-            showCollegeCrest
-        />
-        <Modals
-            closeRemoveModal={props.closeRemoveModal}
-            closeRestoreModal={props.closeRestoreModal}
-            closeTransfersError={props.closeTransfersError}
-            playerToRemove={props.playerToRemove}
-            removeModalOpen={props.removeModalOpen}
-            removePlayer={props.removePlayer}
-            restoreModalOpen={props.restoreModalOpen}
-            restorePlayer={props.restorePlayer}
-            selectReplacement={props.selectReplacement}
-            transfersError={props.transfersError}
-            transfersErrorCode={props.transfersErrorCode}
-        />
-    </>
-);
+            <Modals
+                closeRemoveModal={props.closeRemoveModal}
+                closeRestoreModal={props.closeRestoreModal}
+                closeTransfersError={props.closeTransfersError}
+                playerToRemove={props.playerToRemove}
+                removeModalOpen={props.removeModalOpen}
+                removePlayer={props.removePlayer}
+                restoreModalOpen={props.restoreModalOpen}
+                restorePlayer={props.restorePlayer}
+                selectReplacement={props.selectReplacement}
+                transfersError={props.transfersError}
+                transfersErrorCode={props.transfersErrorCode}
+            />
+        </>
+    );
+};
 
 Desktop.defaultProps = {
     allPlayers: [],

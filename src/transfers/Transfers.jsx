@@ -100,12 +100,17 @@ const Transfers = props => {
     }, [playerToRemove, props.removePlayerFromCurrentTeam]);
 
     const selectReplacement = useCallback(() => {
+        const { position, ...rest } = playerToRemove;
+        if (!_.isEmpty(rest)) {
+            props.removePlayerFromCurrentTeam(playerToRemove);
+        }
         setSortBy('position');
         setPositionFilter(playerToRemove.position || positionFilter);
         setPlayerTableOpen(true);
         setRemoveModalOpen(false);
         setRestoreModalOpen(false);
         setPlayerToRemove({});
+        // eslint-disable-next-line
     }, [setPlayerTableOpen, playerToRemove, positionFilter]);
 
     const selectReplacementDesktop = useCallback(() => {

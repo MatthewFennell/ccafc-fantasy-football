@@ -30,6 +30,7 @@ const CreateTeam = props => {
                         color="primary"
                         onClick={createTeam}
                         text="Create Team"
+                        disabled={!teamName}
                     />
                 </div>
                 <div className={props.styles.createTeamForm}>

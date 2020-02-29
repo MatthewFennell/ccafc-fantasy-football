@@ -21,6 +21,7 @@ const JoinLeague = props => (
             onClick={props.onJoin}
             text="Join"
             type="submit"
+            disabled={!props.leagueNameToJoin}
         />
     </div>
 );

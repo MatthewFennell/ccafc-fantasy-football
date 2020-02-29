@@ -5,6 +5,7 @@ import defaultStyles from './FixtureFilters.module.scss';
 import TextInput from '../../common/TextInput/TextInput';
 import Switch from '../../common/Switch/Switch';
 import Dropdown from '../../common/dropdown/Dropdown';
+import * as textInputConstants from '../../common/TextInput/constants';
 
 const FixtureFilters = props => (
     <>
@@ -24,6 +25,8 @@ const FixtureFilters = props => (
                     label="Team Name"
                     onChange={props.searchByTeamName}
                     value={props.teamNameFilter}
+                    icom={textInputConstants.textInputIcons.search}
+                    iconColor="primary"
                 />
             </div>
             <div className={props.styles.collingwoodOnly}>
