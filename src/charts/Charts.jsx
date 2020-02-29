@@ -5,6 +5,7 @@ import { fetchAllTeamsRequest } from './actions';
 import Graph from './graph/Graph';
 import LeagueTable from './leaguetable/LeagueTable';
 import WithCollapsable from '../common/collapsableHOC/WithCollapsable';
+import mobileCollapsableStyles from './MobileGraphStyles.module.scss';
 
 const Charts = props => {
     useEffect(() => {
@@ -31,6 +32,7 @@ const Charts = props => {
                 maxGameweek={props.maxGameweek}
                 toggle={setGraphOpen}
                 title="Graphs"
+                styles={mobileCollapsableStyles}
             />
             <LeagueTableSection
                 allTeams={props.allTeams}
@@ -39,6 +41,7 @@ const Charts = props => {
                 isOpen={leagueTableOpen}
                 toggle={setOpen}
                 title="LeagueTable"
+                styles={mobileCollapsableStyles}
             />
         </>
     );

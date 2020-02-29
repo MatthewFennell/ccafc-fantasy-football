@@ -1,6 +1,6 @@
 @import "../common/Styles.scss";
 
-.fixturesWrapper{
+.fixturesWrapper, .gridWrapper {
     padding: $spacing-medium;
     margin: $spacing-medium;
     text-align: center;
@@ -11,5 +11,12 @@
 @media only screen and (max-width: 600px) {
     .fixturesWrapper {
       padding: 0px;
+      margin: 0px;
+      margin-top: $spacing-medium;
+    }
+    .gridWrapper {
+      padding: 0px;
+      margin: 0px;
+      margin-top: $spacing-medium;
     }
   }

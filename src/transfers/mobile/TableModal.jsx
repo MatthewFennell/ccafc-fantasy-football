@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import defaultStyles from './TableModal.module.scss';
-import Toggle from '../../common/Toggle/Toggle';
 import RadioButton from '../../common/radio/RadioButton';
+import Switch from '../../common/Switch/Switch';
 
 const TableModal = props => (
     <div className={props.styles.tableModalWrapper}>
@@ -14,7 +14,7 @@ const TableModal = props => (
                         {x.name}
                     </div>
                     <div>
-                        <Toggle
+                        <Switch
                             color="primary"
                             checked={props.activeColumns.some(y => x.id === y.id)}
                             disabled={(!props.activeColumns.some(y => x.id === y.id)

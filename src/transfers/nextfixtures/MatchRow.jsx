@@ -35,7 +35,7 @@ const MatchRow = props => (
             {isLive(props.match.time) && (
                 <div className={props.styles.matchLive}>
                     <div className={props.styles.greenIcon}>
-                        <FiberManualRecordIcon color="green" fontSize="small" />
+                        <FiberManualRecordIcon fontSize="small" />
                     </div>
                     <div className={props.styles.liveText}>
                         Live

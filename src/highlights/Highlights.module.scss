@@ -82,8 +82,10 @@
 
 @media only screen and (max-width: 600px) {
   .highlightsWrapper {
+    margin: 0px;
     padding: 0px;
     .highlightsMessage{
+      margin-top: $spacing-small;
       font-size: $spacing-medium;
     }
   }

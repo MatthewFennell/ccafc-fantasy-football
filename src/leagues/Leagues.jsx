@@ -38,11 +38,15 @@ const Leagues = props => {
     const [joinLeagueOpen, setJoinLeagueOpen] = useState(false);
     const [leagueNameToJoin, setLeagueNameToJoin] = useState('');
 
+    const setTheStartWeek = useCallback(e => {
+        setStartWeek(parseInt(e, 10) || 0);
+    }, [setStartWeek]);
+
     const onLeagueCreate = useCallback(() => {
         setCreateLeagueOpen(false);
         props.createLeagueRequest(leagueName, parseFloat(startWeek, 10));
         setLeagueName('');
-        setStartWeek('');
+        setStartWeek(0);
         setLeagueNameToJoin('');
         // eslint-disable-next-line
     }, [leagueName, startWeek, props.createLeagueRequest]);
@@ -98,7 +102,7 @@ const Leagues = props => {
                     <CreateLeagueForm
                         leagueName={leagueName}
                         setLeagueName={setLeagueName}
-                        setStartWeek={setStartWeek}
+                        setStartWeek={setTheStartWeek}
                         startWeek={startWeek}
                         onCreate={onLeagueCreate}
                     />

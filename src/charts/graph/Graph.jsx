@@ -6,7 +6,7 @@ import defaultStyles from './Graph.module.scss';
 import Spinner from '../../common/spinner/Spinner';
 import RadioButton from '../../common/radio/RadioButton';
 import * as helpers from '../helpers';
-import Toggle from '../../common/Toggle/Toggle';
+import Switch from '../../common/Switch/Switch';
 
 const graphTitle = {
     goalsFor: 'Goals Scored Per Week',
@@ -49,7 +49,7 @@ const Graph = props => {
                                             {team.team_name}
                                         </div>
                                         <div>
-                                            <Toggle
+                                            <Switch
                                                 color="primary"
                                                 checked={activeTeams.includes(team.id)}
                                                 onChange={() => updateActiveTeams(team.id)}

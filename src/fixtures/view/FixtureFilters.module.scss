@@ -3,9 +3,11 @@
 .extraFilters{
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-evenly;
 
     > div {
-        flex-grow: 1;
         @include vertical-center-div();
+        max-width: 40%;
+        padding: $spacing-small;
     }
 }

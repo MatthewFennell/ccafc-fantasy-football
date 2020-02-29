@@ -13,7 +13,7 @@ import SuccessModal from '../common/modal/SuccessModal';
 import EditFilter from './editfilter/EditFilter';
 import { columns, weeksToRequest, combinePlayers } from './helpers';
 import WeekStats from './weekstats/WeekStats';
-import Toggle from '../common/Toggle/Toggle';
+import Switch from '../common/Switch/Switch';
 
 const Stats = props => {
     useEffect(() => {
@@ -66,7 +66,7 @@ const Stats = props => {
                                 Combine weeks
                             </div>
                             <div>
-                                <Toggle
+                                <Switch
                                     checked={combineWeeks}
                                     color="primary"
                                     onChange={() => setCombineWeeks(!combineWeeks)}

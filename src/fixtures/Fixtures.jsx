@@ -69,7 +69,6 @@ const Fixtures = props => {
                 />
 
                 <div className={props.styles.fixturesWrapper}>
-
                     <FixtureFilter
                         collingwoodOnly={collingwoodOnly}
                         radioOptions={fixturesFilters(props.myTeam, props.fixtures)}
@@ -81,25 +80,25 @@ const Fixtures = props => {
                         toggleUpcomingOnly={toggleUpcomingOnly}
                         upcomingMatchesOnly={upcomingMatchesOnly}
                     />
-                    <div>
-                        <Grid
-                            columns={columns}
-                            gridHeader="Fixtures"
-                            loading={props.loadingFixtures}
-                            onRowClick={noop}
-                            rows={filterFixtures(
-                                props.fixtures,
-                                radioValue,
-                                collingwoodOnly,
-                                upcomingMatchesOnly,
-                                teamNameFilter
-                            )}
-                            showPagination={false}
-                            rowsPerPageOptions={[100000]}
-                            maxHeightGrid
-                            gridStyles={gridStyles}
-                        />
-                    </div>
+                </div>
+                <div className={props.styles.gridWrapper}>
+                    <Grid
+                        columns={columns}
+                        gridHeader="Fixtures"
+                        loading={props.loadingFixtures}
+                        onRowClick={noop}
+                        rows={filterFixtures(
+                            props.fixtures,
+                            radioValue,
+                            collingwoodOnly,
+                            upcomingMatchesOnly,
+                            teamNameFilter
+                        )}
+                        showPagination={false}
+                        rowsPerPageOptions={[100000]}
+                        maxHeightGrid
+                        gridStyles={gridStyles}
+                    />
                 </div>
             </div>
             <ErrorModal

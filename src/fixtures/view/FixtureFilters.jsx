@@ -2,25 +2,36 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import defaultStyles from './FixtureFilters.module.scss';
-import RadioButton from '../../common/radio/RadioButton';
-import Toggle from '../../common/Toggle/Toggle';
 import TextInput from '../../common/TextInput/TextInput';
+import Switch from '../../common/Switch/Switch';
+import Dropdown from '../../common/dropdown/Dropdown';
 
 const FixtureFilters = props => (
     <>
-        <RadioButton
-            radioLabel=""
-            onChange={props.setRadioValue}
-            options={props.radioOptions}
-            value={props.radioValue}
-        />
         <div className={props.styles.extraFilters}>
+            <div>
+                <Dropdown
+                    radioLabel=""
+                    onChange={props.setRadioValue}
+                    options={props.radioOptions}
+                    activeValue={props.radioValue}
+                    label="Filter Fixtures"
+                    key="Filter Fixtures"
+                />
+            </div>
+            <div>
+                <TextInput
+                    label="Team Name"
+                    onChange={props.searchByTeamName}
+                    value={props.teamNameFilter}
+                />
+            </div>
             <div className={props.styles.collingwoodOnly}>
                 <div>
                     Collingwood Only
                 </div>
                 <div>
-                    <Toggle
+                    <Switch
                         color="primary"
                         checked={props.collingwoodOnly}
                         onChange={props.toggleCollingwoodOnly}
@@ -32,20 +43,14 @@ const FixtureFilters = props => (
                     Upcoming Matches Only
                 </div>
                 <div>
-                    <Toggle
+                    <Switch
                         color="primary"
                         checked={props.upcomingMatchesOnly}
                         onChange={props.toggleUpcomingOnly}
                     />
                 </div>
             </div>
-            <div className={props.styles.searchByName}>
-                <TextInput
-                    label="Team Name"
-                    onChange={props.searchByTeamName}
-                    value={props.teamNameFilter}
-                />
-            </div>
+
         </div>
     </>
 );

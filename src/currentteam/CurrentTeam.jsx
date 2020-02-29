@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import defaultStyles from './CurrentTeam.module.scss';
 import * as selectors from './selectors';
 import { fetchActiveTeamRequest, makeCaptainRequest } from './actions';
@@ -9,6 +10,7 @@ import goalkeeperStyles from './ShirtStyles/Goalkeeper.module.scss';
 import activePlayerStyles from './ShirtStyles/ActivePlayer.module.scss';
 import Pitch from '../common/pitch/Pitch';
 import ConfirmModal from '../common/modal/ConfirmModal';
+import SuccessModal from '../common/modal/SuccessModal';
 
 const CurrentTeam = props => {
     useEffect(() => {
@@ -17,12 +19,22 @@ const CurrentTeam = props => {
     }, [props.fetchActiveTeamRequest, props.userId]);
 
     const [playerModalOpen, setPlayerModalOpen] = useState(false);
+    const [emptyPlayerOpen, setEmptyPlayerOpen] = useState(false);
     const [modalPlayer, setModalPlayer] = useState({});
 
     const onPlayerClick = useCallback(p => {
-        setModalPlayer(p);
-        setPlayerModalOpen(true);
-    }, []);
+        const { position, ...rest } = p;
+        if (!_.isEmpty(rest)) {
+            setModalPlayer(p);
+            setPlayerModalOpen(true);
+        } else {
+            setEmptyPlayerOpen(true);
+        }
+    }, [setPlayerModalOpen, setEmptyPlayerOpen]);
+
+    const closeEmptyPlayerModal = useCallback(() => {
+        setEmptyPlayerOpen(false);
+    }, [setEmptyPlayerOpen]);
 
     const closeModal = useCallback(() => {
         setPlayerModalOpen(false);
@@ -30,6 +42,7 @@ const CurrentTeam = props => {
     }, []);
 
     const submit = useCallback(() => {
+        console.log('modal player', modalPlayer);
         props.makeCaptainRequest(modalPlayer.id);
         setPlayerModalOpen(false);
         setModalPlayer({});
@@ -57,6 +70,12 @@ const CurrentTeam = props => {
                 cancel={closeModal}
                 submit={submit}
                 text="Make captain?"
+            />
+            <SuccessModal
+                closeModal={closeEmptyPlayerModal}
+                isOpen={emptyPlayerOpen}
+                cancel={closeEmptyPlayerModal}
+                headerMessage="Go to the transfers page to make your team"
             />
         </div>
     );
