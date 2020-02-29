@@ -98,7 +98,7 @@ const Table = props => {
                 <div className={props.styles.rightHandWrapper}>
                     <div className={props.styles.dropdownsWrapper}>
                         <Dropdown
-                            activeValue={props.positionFilter}
+                            value={props.positionFilter}
                             onChange={props.setPositionFilter}
                             options={positionOptions}
                             title="Position"
@@ -110,7 +110,7 @@ const Table = props => {
                                 text: x.team_name
                             }))}
                             onChange={setTeamFilter}
-                            activeValue={teamFilter}
+                            value={teamFilter}
                             title="Team"
                         />
                     </div>

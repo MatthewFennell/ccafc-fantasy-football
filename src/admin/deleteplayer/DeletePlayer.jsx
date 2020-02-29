@@ -54,14 +54,14 @@ const DeletePlayer = props => {
                 <div className={props.styles.deletePlayerForm}>
                     <div className={props.styles.deletePlayerDropdowns}>
                         <Dropdown
-                            activeValue={playerTeam}
+                            value={playerTeam}
                             onChange={setTeam}
                             options={props.allTeams}
                             title="Team"
                             key="Team"
                         />
                         <Dropdown
-                            activeValue={playerName}
+                            value={playerName}
                             onChange={setPlayerName}
                             options={playersForActiveTeam}
                             title="Player"

@@ -20,7 +20,7 @@ describe('Common - Dropdown', () => {
 
         const mockCallback = jest.fn(noop);
 
-        const wrapper = mount(<Dropdown options={options} activeValue="midfielder" onChange={mockCallback} />);
+        const wrapper = mount(<Dropdown options={options} value="midfielder" onChange={mockCallback} />);
         wrapper.find('.MuiInputBase-inputSelect').at(0).simulate('click');
         wrapper.find('ul').childAt(2).simulate('click');
         expect(mockCallback.mock.calls.length).toBe(1);

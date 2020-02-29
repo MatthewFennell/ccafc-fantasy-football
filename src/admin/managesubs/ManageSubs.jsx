@@ -112,7 +112,7 @@ const ManageSubs = props => {
                 <div className={props.styles.filtersWrapper}>
                     <Dropdown
                         options={helpers.generateTeams(props.allPlayers)}
-                        activeValue={teamFilter}
+                        value={teamFilter}
                         onChange={setTeamFilterWithReset}
                         title="Team"
                     />

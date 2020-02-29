@@ -55,7 +55,7 @@ const AllFeatureRequests = props => {
                             id: x.id,
                             value: x.id
                         }))}
-                        activeValue={filterBy}
+                        value={filterBy}
                     />
                     <Dropdown
                         title="Sort By"
@@ -67,7 +67,7 @@ const AllFeatureRequests = props => {
                                 id: x.id,
                                 value: x.id
                             }))}
-                        activeValue={sortBy}
+                        value={sortBy}
                     />
                 </div>
             </div>

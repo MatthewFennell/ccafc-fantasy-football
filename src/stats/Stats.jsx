@@ -56,7 +56,7 @@ const Stats = props => {
                 <div className={props.styles.statsHeader}>
                     <div className={props.styles.dropdownWrapper}>
                         <Dropdown
-                            activeValue={fp.getOr('', 'text')(props.allTeams.find(x => x.id === props.currentTeam))}
+                            value={fp.getOr('', 'text')(props.allTeams.find(x => x.id === props.currentTeam))}
                             onChange={loadNewTeam}
                             options={props.allTeams}
                             title="Team"

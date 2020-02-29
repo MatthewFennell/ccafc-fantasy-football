@@ -140,7 +140,7 @@ const SubmitResult = props => {
     for (let x = 0; x < goalsFor; x += 1) {
         scorers.push(<Dropdown
             key={x}
-            activeValue={getNthGoalscorer(x)}
+            value={getNthGoalscorer(x)}
             onChange={name => setNthGoalscorer(name, x)}
             options={playersForActiveTeam}
             title={`Goal ${x + 1}`}
@@ -151,7 +151,7 @@ const SubmitResult = props => {
     for (let x = 0; x < goalsFor; x += 1) {
         assists.push(<Dropdown
             key={x}
-            activeValue={getNthAssister(x)}
+            value={getNthAssister(x)}
             onChange={name => setNthAssister(name, x)}
             options={playersForActiveTeam}
             title={`Assist ${x + 1}`}
@@ -163,7 +163,7 @@ const SubmitResult = props => {
         cleanSheetsRender.push(
             <Dropdown
                 key={player.id}
-                activeValue={getNthCleanSheet(x)}
+                value={getNthCleanSheet(x)}
                 onChange={name => setNthCleanSheet(name, x)}
                 options={unSelectedCleanSheets.concat(defensivePlayersForActiveTeam
                     .filter(y => y.value === getNthCleanSheet(x)))}
@@ -175,7 +175,7 @@ const SubmitResult = props => {
     return (
         <>
             <div className={props.styles.submitResultWrapper}>
-                <Dropdown activeValue={teamName} onChange={setTeam} options={props.allTeams} title="Team" />
+                <Dropdown value={teamName} onChange={setTeam} options={props.allTeams} title="Team" />
                 <div className={props.styles.goalsForWrapper}>
                     <TextInput
                         label="Goals For"
@@ -210,19 +210,19 @@ const SubmitResult = props => {
                 <div className={props.styles.matchAwardsWrapper}>
                     <Dropdown
                         key="motm"
-                        activeValue={motm}
+                        value={motm}
                         onChange={setMotm}
                         options={playersForActiveTeam}
                         title="MOTM"
                     />
                     <Dropdown
                         key="dotd"
-                        activeValue={dotd}
+                        value={dotd}
                         onChange={setDotd}
                         options={playersForActiveTeam}
                         title="DOTD"
                     />
-                    <Dropdown activeValue={gameWeek} onChange={setGameWeek} options={generateWeekOptions(props.maxGameWeek)} title="Week" />
+                    <Dropdown value={gameWeek} onChange={setGameWeek} options={generateWeekOptions(props.maxGameWeek)} title="Week" />
                 </div>
                 <div className={props.styles.submitButtonWrapper}>
                     <StyledButton

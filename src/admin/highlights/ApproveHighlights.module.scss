@@ -11,23 +11,31 @@
   @include light-box-shadow();
 }
 
-.highlightInfoWrapper{
-  display: flex;
-  flex-wrap: wrap;
-  > div {
-    flex-grow: 1;
-  }
-}
-
-.highlightsHeader{
+.highlightsHeaderMessage{
   text-align: center;
   font-size: $font-size-gigantic;
   color: $color-blue;
   margin-bottom: $spacing-medium;
 }
 
+.approveHighlightsHeader, .rejectedHighlightsHeader {
+  display: flex;
+  flex-wrap: wrap;
+
+  .highlightInfoWrapper {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    flex-wrap: wrap;
+
+    > div {
+      max-width: 50%;
+      min-width: 50%;
+    }
+  }
+}
+
 .highlightInfo{
-  width: 50%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -87,7 +95,6 @@
 }
 
 .videoSearchFilter{
-  width: 20%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -101,4 +108,35 @@
   margin: $spacing-medium;
   background-color: $color-white;
   @include light-box-shadow();
+}
+
+
+@media only screen and (max-width: 600px) {
+  .approveHighlightsWrapper {
+    margin: 0px;
+  }
+
+  .allVideos {
+    margin: 0px;
+    padding: 0px;
+    margin-bottom: $spacing-medium;
+  }
+
+  .highlightInfoWrapper {
+    > div {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 100% !important;
+      min-width: 60% !important;
+    }
+  }
+
+  .gridWrapper { 
+    margin-top: $spacing-medium;
+  }
+
+  .allRejectedVideos {
+    margin: 0px;
+    padding: 0px;
+  }
 }

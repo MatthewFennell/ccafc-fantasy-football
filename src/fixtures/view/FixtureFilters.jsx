@@ -14,7 +14,7 @@ const FixtureFilters = props => (
                     radioLabel=""
                     onChange={props.setRadioValue}
                     options={props.radioOptions}
-                    activeValue={props.radioValue}
+                    value={props.radioValue}
                     label="Filter Fixtures"
                     key="Filter Fixtures"
                 />

@@ -13,7 +13,7 @@ const Button = props => (
         </div>
         <div>
             <Dropdown
-                activeValue={props.activeTeam}
+                value={props.activeTeam}
                 onChange={props.setActiveTeam}
                 options={props.teamOptions}
                 title="Set Team"

@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import defaultStyles from './TableModal.module.scss';
-import RadioButton from '../../common/radio/RadioButton';
 import Switch from '../../common/Switch/Switch';
 import Dropdown from '../../common/dropdown/Dropdown';
 
@@ -36,7 +35,7 @@ const TableModal = props => (
                 options={props.activeColumns.map(x => ({
                     ...x, text: x.name, value: x.id, id: x.id
                 }))}
-                activeValue={props.sortBy}
+                value={props.sortBy}
             />
             {props.sortingComponent}
         </div>

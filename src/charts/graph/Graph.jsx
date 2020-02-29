@@ -92,7 +92,7 @@ const Graph = props => {
                                 value: helpers.graphModes.totalGoalsAgainst
                             }
                         ]}
-                        activeValue={graphMode}
+                        value={graphMode}
                     />
                 </div>
             </div>

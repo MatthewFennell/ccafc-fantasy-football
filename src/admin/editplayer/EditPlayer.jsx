@@ -120,7 +120,7 @@ const EditPlayer = props => {
                 newValue: <SmallerDropdown
                     onChange={setCleanSheet}
                     options={booleanOptions}
-                    activeValue={cleanSheet}
+                    value={cleanSheet}
                 />
             },
             {
@@ -130,7 +130,7 @@ const EditPlayer = props => {
                 newValue: <SmallerDropdown
                     onChange={setYellowCard}
                     options={booleanOptions}
-                    activeValue={yellowCard}
+                    value={yellowCard}
                 />
             },
             {
@@ -140,7 +140,7 @@ const EditPlayer = props => {
                 newValue: <SmallerDropdown
                     onChange={setRedCard}
                     options={booleanOptions}
-                    activeValue={redCard}
+                    value={redCard}
                 />
             },
             {
@@ -150,7 +150,7 @@ const EditPlayer = props => {
                 newValue: <SmallerDropdown
                     onChange={setMotm}
                     options={booleanOptions}
-                    activeValue={motm}
+                    value={motm}
                 />
             },
             {
@@ -160,7 +160,7 @@ const EditPlayer = props => {
                 newValue: <SmallerDropdown
                     onChange={setDotd}
                     options={booleanOptions}
-                    activeValue={dotd}
+                    value={dotd}
                 />
             },
             {
@@ -280,7 +280,7 @@ const EditPlayer = props => {
             <div className={props.styles.findPlayerDropdowns}>
                 <div className={props.styles.teamDropdown}>
                     <Dropdown
-                        activeValue={playerTeam}
+                        value={playerTeam}
                         onChange={setTeam}
                         options={props.allTeams}
                         title="Team"
@@ -288,7 +288,7 @@ const EditPlayer = props => {
                 </div>
                 <div className={props.styles.playerDropdown}>
                     <Dropdown
-                        activeValue={playerToEdit}
+                        value={playerToEdit}
                         onChange={setPlayer}
                         options={playersForActiveTeam}
                         title="Player to edit"
@@ -296,7 +296,7 @@ const EditPlayer = props => {
                 </div>
                 <div>
                     <Dropdown
-                        activeValue={week}
+                        value={week}
                         onChange={setWeekToEdit}
                         options={generateWeekOptions(props.maxGameWeek)}
                         title="Week"

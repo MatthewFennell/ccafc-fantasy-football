@@ -2,7 +2,7 @@
 // eslint-disable-next-line import/prefer-default-export
 export const dateFilters = {
     pastDay: {
-        label: '> 24 hours',
+        label: 'Past 24 hours',
         id: 'pastDay',
         filterFunction: d => {
             const date = new Date(d.dateCreated._seconds * 1000);
@@ -12,7 +12,7 @@ export const dateFilters = {
         }
     },
     pastWeek: {
-        label: '> 1 week',
+        label: 'Past week',
         id: 'pastWeek',
         filterFunction: d => {
             const date = new Date(d.dateCreated._seconds * 1000);
@@ -22,7 +22,7 @@ export const dateFilters = {
         }
     },
     pastMonth: {
-        label: '> 1 month',
+        label: 'Past month',
         id: 'pastMonth',
         filterFunction: d => {
             const date = new Date(d.dateCreated._seconds * 1000);
@@ -32,7 +32,7 @@ export const dateFilters = {
         }
     },
     pastYear: {
-        label: '> 1 year',
+        label: 'Past year',
         id: 'pastYear',
         filterFunction: d => {
             const date = new Date(d.dateCreated._seconds * 1000);

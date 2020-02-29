@@ -160,7 +160,7 @@ const ManageUsers = props => {
                             />
                         </div>
                         <div className={props.styles.modalButtons}>
-                            <Dropdown activeValue={role} onChange={setRole} options={rolesForDropdown(props.allRoles)} title="Role" />
+                            <Dropdown value={role} onChange={setRole} options={rolesForDropdown(props.allRoles)} title="Role" />
                             <StyledButton text="Confirm" onClick={addUserRole} />
                             <StyledButton text="Cancel" color="secondary" onClick={closeModal} />
                         </div>

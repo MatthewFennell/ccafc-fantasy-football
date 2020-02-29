@@ -66,8 +66,8 @@ const CreatePlayer = props => {
                         icon={textInputConstants.textInputIcons.money}
                     />
                     <div className={props.styles.createPlayerDropdowns}>
-                        <Dropdown activeValue={playerPosition} onChange={setPlayerPosition} options={options} title="Position" />
-                        <Dropdown activeValue={playerTeam} onChange={setPlayerTeam} options={props.allTeams} title="Team" />
+                        <Dropdown value={playerPosition} onChange={setPlayerPosition} options={options} title="Position" />
+                        <Dropdown value={playerTeam} onChange={setPlayerTeam} options={props.allTeams} title="Team" />
                         <TextInput
                             label="Previous Score"
                             onChange={setPreviousScore}
