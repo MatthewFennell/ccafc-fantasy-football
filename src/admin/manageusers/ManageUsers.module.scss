@@ -13,6 +13,7 @@
   display: flex;
   align-items: center;
   color: $color-gray;
+  text-align: center;
 }
 
 .addRoleButton{
@@ -41,4 +42,19 @@
   display: flex;
   
   @include light-box-shadow();
+}
+
+@media only screen and (max-width: 600px) {
+  .extraRolesWrapper {
+    padding: 0px;
+  }
+
+  .manageUserGridHeaderWrapper {
+    margin-top: $spacing-medium;
+  }
+
+  .rolesToPermissionsWrapper {
+    padding: 0px;
+    margin-top: $spacing-medium;
+  }
 }

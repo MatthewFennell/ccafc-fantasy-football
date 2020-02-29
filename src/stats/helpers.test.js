@@ -84,6 +84,10 @@ describe('Stats max / min week operations', () => {
             {
                 value: 4,
                 label: '4'
+            },
+            {
+                value: 5,
+                label: '5'
             }
         ]);
     });

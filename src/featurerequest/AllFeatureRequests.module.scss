@@ -65,6 +65,11 @@
         font-size: $font-size-large !important;
     }
 
+    .featureRequestHeader {
+        margin: 0px;
+        margin-bottom: $spacing-medium;
+    }
+
     .searchFilter {
         width: 100% !important;
     }

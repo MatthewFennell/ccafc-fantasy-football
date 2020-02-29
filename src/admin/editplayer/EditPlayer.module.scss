@@ -28,3 +28,27 @@
     margin-bottom: $spacing-small;
   }
 }
+
+.divWrapper {
+  width: 25%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .findPlayerDropdowns {
+    padding: 0px;
+    margin: 0px;
+    margin-top: $spacing-medium;
+  }
+
+  .oldStatsWrapper {
+    margin: 0px;
+    margin-top: $spacing-medium;
+  }
+
+  .divWrapper {
+    width: 80%;
+  }
+}

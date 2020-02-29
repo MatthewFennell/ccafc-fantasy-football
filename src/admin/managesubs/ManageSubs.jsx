@@ -126,6 +126,7 @@ const ManageSubs = props => {
                         value={nameFilter}
                         label="Name"
                         icon={textInputConstants.textInputIcons.user}
+                        iconColor="secondary"
                     />
                 </div>
 

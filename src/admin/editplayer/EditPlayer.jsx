@@ -49,15 +49,26 @@ const columns = [
 ];
 
 const WithSmallDiv = Component => {
-    const divWrapper = props => (
-        <div style={{
-            width: '25%', marginLeft: 'auto', marginRight: 'auto', textAlign: 'center'
-        }}
+    const DivWrapper = props => (
+        <div
+            className={props.styles.divWrapper}
+            style={{
+                marginLeft: 'auto', marginRight: 'auto', textAlign: 'center'
+            }}
         >
             <Component {...props} />
         </div>
     );
-    return divWrapper;
+
+    DivWrapper.defaultProps = {
+        styles: {}
+    };
+
+    DivWrapper.propTypes = {
+        styles: PropTypes.objectOf(PropTypes.string)
+    };
+
+    return DivWrapper;
 };
 
 const SmallerInput = WithSmallDiv(TextInput);
@@ -105,13 +116,27 @@ const EditPlayer = props => {
                 id: 'goals',
                 stat: 'Goals',
                 oldValue: renderOldValue(playerStats.goals, fetching),
-                newValue: <SmallerInput label="Goals" onChange={setGoals} value={goals} type="number" centerText />
+                newValue: <SmallerInput
+                    label="Goals"
+                    onChange={setGoals}
+                    value={goals}
+                    type="number"
+                    centerText
+                    styles={props.styles}
+                />
             },
             {
                 id: 'assists',
                 stat: 'Assists',
                 oldValue: renderOldValue(playerStats.assists, fetching),
-                newValue: <SmallerInput label="Assists" onChange={setAssists} value={assists} type="number" centerText />
+                newValue: <SmallerInput
+                    label="Assists"
+                    onChange={setAssists}
+                    value={assists}
+                    type="number"
+                    centerText
+                    styles={props.styles}
+                />
             },
             {
                 id: 'cleanSheet',
@@ -121,6 +146,7 @@ const EditPlayer = props => {
                     onChange={setCleanSheet}
                     options={booleanOptions}
                     value={cleanSheet}
+                    styles={props.styles}
                 />
             },
             {
@@ -131,6 +157,7 @@ const EditPlayer = props => {
                     onChange={setYellowCard}
                     options={booleanOptions}
                     value={yellowCard}
+                    styles={props.styles}
                 />
             },
             {
@@ -141,6 +168,7 @@ const EditPlayer = props => {
                     onChange={setRedCard}
                     options={booleanOptions}
                     value={redCard}
+                    styles={props.styles}
                 />
             },
             {
@@ -151,6 +179,7 @@ const EditPlayer = props => {
                     onChange={setMotm}
                     options={booleanOptions}
                     value={motm}
+                    styles={props.styles}
                 />
             },
             {
@@ -161,25 +190,47 @@ const EditPlayer = props => {
                     onChange={setDotd}
                     options={booleanOptions}
                     value={dotd}
+                    styles={props.styles}
                 />
             },
             {
                 id: 'ownGoals',
                 stat: 'Own Goals',
                 oldValue: renderOldValue(playerStats.ownGoals, fetching),
-                newValue: <SmallerInput label="Own Goals" onChange={setOwnGoals} value={ownGoals} type="number" centerText />
+                newValue: <SmallerInput
+                    label="Own Goals"
+                    onChange={setOwnGoals}
+                    value={ownGoals}
+                    type="number"
+                    centerText
+                    styles={props.styles}
+                />
             },
             {
                 id: 'penaltySaves',
                 stat: 'Penalty Saves',
                 oldValue: renderOldValue(playerStats.penaltySaves, fetching),
-                newValue: <SmallerInput label="Penalty Saves" onChange={setPenaltySaves} value={penaltySaves} type="number" centerText />
+                newValue: <SmallerInput
+                    label="Penalty Saves"
+                    onChange={setPenaltySaves}
+                    value={penaltySaves}
+                    type="number"
+                    centerText
+                    styles={props.styles}
+                />
             },
             {
                 id: 'penaltyMisses',
                 stat: 'Penalty Misses',
                 oldValue: renderOldValue(playerStats.penaltyMisses, fetching),
-                newValue: <SmallerInput label="Penalty Misses" onChange={setPenaltyMisses} value={penaltyMisses} type="number" centerText />
+                newValue: <SmallerInput
+                    label="Penalty Misses"
+                    onChange={setPenaltyMisses}
+                    value={penaltyMisses}
+                    type="number"
+                    centerText
+                    styles={props.styles}
+                />
             }
         ];
         return rows;

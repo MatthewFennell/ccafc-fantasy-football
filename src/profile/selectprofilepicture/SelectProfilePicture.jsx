@@ -60,7 +60,7 @@ const SelectProfilePicture = props => {
                             The image to the right is what your avatar will look like.
                             You can often get the URL by
                             clicking
-                            <i>Copy Image Address</i>
+                            <i> Copy Image Address </i>
                             on Google
                         </div>
                     </div>
