@@ -6,3 +6,11 @@
     margin-right: auto;
   }
 }
+
+@media only screen and (max-width: 600px) {
+  .createLeagueWrapper, .joinLeagueWrapper{
+    .textInputsWrapper, .textInputWrapper {
+      width: 100%;
+    }
+  }
+}

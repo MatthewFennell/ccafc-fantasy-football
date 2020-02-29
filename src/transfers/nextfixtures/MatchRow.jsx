@@ -30,7 +30,7 @@ const renderTeamName = name => {
 
 
 const MatchRow = props => (
-    <div className={props.styles.matchWrapper}>
+    <div className={props.styles.matchWrapper} key={`${props.match.teamOne}-${props.match.teamTwo}`}>
         <div className={props.styles.leftHand}>
             {isLive(props.match.time) && (
                 <div className={props.styles.matchLive}>

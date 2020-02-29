@@ -19,9 +19,7 @@ const NextFixtures = props => {
         .find(y => y.teamOne === x || y.teamTwo === x));
 
     const removedDuplicates = _.uniqBy(nextMatchPerTeam, x => x.teamOne + x.teamTwo);
-
     const removedDuplicatedSorted = helpers.sortMatchesByDate(removedDuplicates, false);
-
     const daysOfYear = _.uniq(removedDuplicates.map(x => convertToDay(x.time)));
 
     return (
@@ -29,14 +27,13 @@ const NextFixtures = props => {
             <div className={props.styles.headerMessage}>
                 Upcoming Fixtures
             </div>
-
             {props.loadingFixtures
                 ? (
                     <div className={props.styles.loadingUpcomingMatches}>
                         <Spinner color="secondary" />
                     </div>
                 ) : daysOfYear.map(x => (
-                    <div className={props.styles.datesWrapper}>
+                    <div className={props.styles.datesWrapper} key={x}>
                         <div className={props.styles.dateHeader}>
                             {x}
                         </div>
@@ -46,6 +43,7 @@ const NextFixtures = props => {
                                     <MatchRow
                                         match={match}
                                         showCollegeCrest={props.showCollegeCrest}
+                                        key={`${match.teamOne}-${match.teamTwo}`}
                                     />
                                 ))}
                         </div>

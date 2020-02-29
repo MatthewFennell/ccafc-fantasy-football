@@ -21,7 +21,6 @@
 }
 
 .searchFilter{
-  // width: 50%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -91,5 +90,8 @@
 
   .karmaWrapper {
     margin-right: $spacing-small;
+  }
+  .searchFilter{
+    width: 80%;
   }
 }
