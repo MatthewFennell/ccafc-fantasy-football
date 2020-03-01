@@ -33,6 +33,8 @@ const Graph = props => {
     const series = fp.flow(fp.range(0, props.maxGameweek + 2)
         .map(x => fp.set(`${x}.curveType`, 'function')))({});
 
+    helpers.generateNewGraphData(props.fixtures);
+
     return (
         <div>
             <div className={props.styles.graphChoiceWrapper}>
@@ -110,7 +112,7 @@ const Graph = props => {
                     options={{
                         hAxis: {
                             title: 'Week',
-                            ticks: fp.range(1, props.maxGameweek + 1),
+                            ticks: fp.range(1, props.maxGameweek + 1000),
                             viewWindow: { min: 1 }
                         },
                         vAxis: {
@@ -135,6 +137,15 @@ const Graph = props => {
 Graph.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     fetchingAllTeams: PropTypes.bool,
+    fixtures: PropTypes.arrayOf(PropTypes.shape({
+        teamOne: PropTypes.string,
+        result: PropTypes.string,
+        teamTwo: PropTypes.string,
+        location: PropTypes.string,
+        time: PropTypes.string,
+        completed: PropTypes.bool,
+        league: PropTypes.string
+    })),
     maxGameweek: PropTypes.number,
     styles: PropTypes.objectOf(PropTypes.string)
 };
@@ -142,6 +153,7 @@ Graph.propTypes = {
 Graph.defaultProps = {
     allTeams: [],
     fetchingAllTeams: false,
+    fixtures: [],
     maxGameweek: 0,
     styles: defaultStyles
 };

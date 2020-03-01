@@ -31,6 +31,7 @@ const Charts = props => {
             <GraphSection
                 allTeams={props.allTeams}
                 isOpen={graphOpen}
+                fixtures={props.fixtures}
                 fetchingAllTeams={props.fetchingAllTeams}
                 maxGameweek={props.maxGameweek}
                 toggle={setGraphOpen}

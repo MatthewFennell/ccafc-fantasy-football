@@ -1,5 +1,6 @@
 import React from 'react';
 import fp from 'lodash/fp';
+import moment from 'moment';
 import { generateCollingwoodTeams } from '../fixtures/helpers';
 
 
@@ -288,3 +289,49 @@ export const marks = maxWeek => {
     }
     return result;
 };
+
+const convertToDay = d => moment(d, 'DD-MM-YYYY');
+
+const generateAllDays = fixtures => {
+    const fixturesWithDate = fixtures.map(x => convertToDay(x.time));
+    const minDate = fixturesWithDate.reduce((prev, cur) => (moment(prev)
+        .isBefore(moment(cur)) ? prev : cur), {});
+    const maxDate = fixturesWithDate.reduce((prev, cur) => (moment(prev)
+        .isAfter(moment(cur)) ? prev : cur), {});
+
+    const allDates = [];
+    let currentDate = minDate;
+
+    while (moment(currentDate).isBefore(moment(maxDate))) {
+        currentDate = moment(currentDate).add(1, 'days');
+        allDates.push(moment(currentDate).format('ddd, MMMM Do YYYY'));
+    }
+    return allDates;
+};
+
+export const generateNewGraphData = fixtures => {
+    const allDays = generateAllDays(fixtures);
+    console.log('all days', allDays);
+};
+
+// [All days between first fixture and last fixture]
+//  let testData = [
+//     [
+//         'x',
+//         'England',
+//         'Brazil',
+//         'Spain',
+//         'grg',
+//         'ff',
+//         'Italy',
+//         'cc'
+//     ],
+//     [1, 4, 0, 1, 0, 0, 4, 0],
+//     [2, 2, 2, 0, 0, 0, 3, 0],
+//     [3, 5, 4, 5, 0, 0, 1, 0],
+//     [4, 0, 0, 0, 0, 0, 0, 0],
+//     [5, 0, 0, 0, 0, 0, 0, 0],
+//     [6, 0, 0, 0, 0, 0, 0, 0]
+// ];
+
+// Data should be of format [// Day of season, value]
