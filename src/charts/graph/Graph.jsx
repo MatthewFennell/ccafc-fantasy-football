@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Chart } from 'react-google-charts';
 import fp from 'lodash/fp';
@@ -7,16 +7,7 @@ import Spinner from '../../common/spinner/Spinner';
 import * as helpers from '../helpers';
 import Switch from '../../common/Switch/Switch';
 import Dropdown from '../../common/dropdown/Dropdown';
-
-const dummyData = [
-    ['x', 'England', 'grg', 'Italy'],
-    ['10/12/2019', 4, 0, 4],
-    ['10/13/2019', 2, 3, 3],
-    ['10/14/2019', 5, 0, 1],
-    ['10/15/2019', 0, 0, 0],
-    ['10/16/2019', 0, 8, 0],
-    ['10/17/2019', 0, 0, 0]
-];
+import { generateCollingwoodTeams } from '../../fixtures/helpers';
 
 const graphTitle = {
     goalsFor: 'Goals Scored Per Week',
@@ -27,11 +18,21 @@ const graphTitle = {
 };
 
 const Graph = props => {
-    const [graphMode, setGraphMode] = useState(helpers.graphModes.goalsFor);
-    const [activeTeams, setActiveTeams] = useState([]);
+    const [graphMode, setGraphMode] = useState(helpers.graphModes.totalPoints);
+    const [activeTeams, setActiveTeams] = useState(['Staff A']);
 
-    const weekTicks = helpers.generateWeekTicks(props.fixtures);
-    const newGraphData = helpers.generateNewGraphData(props.fixtures);
+    const [graphData, setGraphData] = useState([]);
+    const [allCollingwoodTeams, setCollingwoodTeams] = useState([]);
+
+    useEffect(() => {
+        const newGraphData = helpers.generateNewGraphData(props.fixtures, graphMode, activeTeams);
+        setGraphData(newGraphData);
+    }, [props.fixtures, graphMode, activeTeams]);
+
+    useEffect(() => {
+        const teams = generateCollingwoodTeams(props.fixtures);
+        setCollingwoodTeams(teams);
+    }, [props.fixtures]);
 
     const updateActiveTeams = useCallback(teamId => {
         if (activeTeams.includes(teamId)) {
@@ -39,18 +40,7 @@ const Graph = props => {
         } else {
             setActiveTeams(activeTeams.concat([teamId]));
         }
-    }, [activeTeams]);
-
-    const graphData = helpers
-        .findGraphData(props.allTeams, activeTeams, graphMode, props.maxGameweek);
-    const series = fp.flow(fp.range(0, props.maxGameweek + 2)
-        .map(x => fp.set(`${x}.curveType`, 'function')))({});
-
-    helpers.generateNewGraphData(props.fixtures);
-
-    // console.log('graph data', graphData);
-
-    // console.log('fixtures', props.fixtures);
+    }, [props.fixtures, activeTeams, setActiveTeams]);
 
     return (
         <div>
@@ -62,10 +52,10 @@ const Graph = props => {
                     {props.fetchingAllTeams ? <Spinner color="secondary" />
                         : (
                             <div className={props.styles.toggleTeams}>
-                                {props.allTeams.map(team => (
+                                {allCollingwoodTeams.map(team => (
                                     <div key={team.id}>
                                         <div className={props.styles.columnName}>
-                                            {team.team_name}
+                                            {team.text}
                                         </div>
                                         <div>
                                             <Switch
@@ -85,16 +75,6 @@ const Graph = props => {
                         key="Graph Choice"
                         onChange={setGraphMode}
                         options={[
-                            {
-                                text: 'Goals Scored',
-                                id: helpers.graphModes.goalsFor,
-                                value: helpers.graphModes.goalsFor
-                            },
-                            {
-                                text: 'Goals Conceded',
-                                id: helpers.graphModes.goalsAgainst,
-                                value: helpers.graphModes.goalsAgainst
-                            },
                             {
                                 text: 'Total points',
                                 id: helpers.graphModes.totalPoints,
@@ -116,6 +96,7 @@ const Graph = props => {
                 </div>
             </div>
 
+
             {activeTeams.length > 0 ? (
                 <Chart
                     height="500px"
@@ -125,20 +106,18 @@ const Graph = props => {
                             <Spinner color="secondary" />
                         </div>
                     )}
-                    data={newGraphData}
+                    data={graphData}
                     options={{
                         hAxis: {
-                            title: 'Week',
-                            ticks: weekTicks,
-                            viewWindow: { min: 1 }
+                            title: 'Date'
                         },
                         vAxis: {
-                            title: graphTitle[graphMode],
+                            title: 'Popularity',
                             viewWindow: { min: 0 }
                         },
-                        series,
-                        legend: 'bottom',
-                        title: graphTitle[graphMode]
+                        series: {
+                            1: { curveType: 'function' }
+                        }
                     }}
                     rootProps={{ 'data-testid': '2' }}
                 />

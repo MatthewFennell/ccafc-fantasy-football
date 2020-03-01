@@ -5,8 +5,6 @@ import { generateCollingwoodTeams } from '../fixtures/helpers';
 
 
 export const graphModes = {
-    goalsFor: 'goalsFor',
-    goalsAgainst: 'goalsAgainst',
     totalPoints: 'totalPoints',
     totalGoalsFor: 'totalGoalsFor',
     totalGoalsAgainst: 'totalGoalsAgainst'
@@ -358,9 +356,8 @@ const makeTeamAccumulation = (fixtures, team, startDate, endDate) => {
         totalGoalsFor: 0,
         totalGoalsAgainst: 0,
         totalPoints: 0,
-        wins: 0,
-        draws: 0,
-        losses: 0
+        goalsScored: 0,
+        goalsConceded: 0
     };
 
     const dateToCompareAgainst = moment(startDate).clone();
@@ -381,10 +378,7 @@ const makeTeamAccumulation = (fixtures, team, startDate, endDate) => {
             currentAccumulationValues = fp.flow(
                 fp.set('totalGoalsFor', currentAccumulationValues.totalGoalsFor + matchResult.goalsFor),
                 fp.set('totalGoalsAgainst', currentAccumulationValues.totalGoalsAgainst + matchResult.goalsAgainst),
-                fp.set('totalPoints', currentAccumulationValues.totalPoints + matchResult.score),
-                fp.set('wins', currentAccumulationValues.wins + matchResult.wins),
-                fp.set('draws', currentAccumulationValues.draws + matchResult.draws),
-                fp.set('losses', currentAccumulationValues.losses + matchResult.losses),
+                fp.set('totalPoints', currentAccumulationValues.totalPoints + matchResult.score)
             )(currentAccumulationValues);
             result = {
                 ...result,
@@ -404,11 +398,11 @@ const makeTeamAccumulation = (fixtures, team, startDate, endDate) => {
 
 const combineData = (allTeams, allDays, teamAccumulations, graphMode) => {
     const output = [];
-    output.push(['x'].concat(allTeams));
+    output.push([{ type: 'date', label: 'Day' }].concat(allTeams));
 
     allDays.forEach(day => {
         const currentDate = moment(day).format('DD-MMM');
-        const row = [currentDate];
+        const row = [new Date(moment(day))];
 
         allTeams.forEach(team => {
             const data = fp.flow(
@@ -435,8 +429,8 @@ export const generateWeekTicks = fixtures => {
     return weekTicks;
 };
 
-export const generateNewGraphData = fixtures => {
-    const collingwoodTeams = generateCollingwoodTeams(fixtures).map(x => x.text);
+export const generateNewGraphData = (fixtures, graphMode, activeTeams) => {
+    // const collingwoodTeams = generateCollingwoodTeams(fixtures).map(x => x.text);
     const allDays = generateAllDays(fixtures);
 
     const firstDay = fp.head(allDays);
@@ -445,15 +439,14 @@ export const generateNewGraphData = fixtures => {
     const firstSat = findPreviousSaturday(firstDay);
     const lastSat = findNextSaturday(lastDay);
 
-    const firstTeam = fp.first(collingwoodTeams);
-    makeTeamAccumulation(fixtures, firstTeam.text, firstSat, lastSat);
-
-    const allAccumulations = collingwoodTeams.reduce((acc, cur) => ({
+    const allAccumulations = activeTeams.reduce((acc, cur) => ({
         ...acc,
         [cur]: makeTeamAccumulation(fixtures, cur, firstSat, lastSat)
     }), {});
 
-    const graphData = combineData(collingwoodTeams, allDays, allAccumulations, 'totalGoalsFor');
+    console.log('all accumulations', allAccumulations);
+
+    const graphData = combineData(activeTeams, allDays, allAccumulations, graphMode);
 
     return graphData;
 };
