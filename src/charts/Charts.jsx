@@ -12,7 +12,7 @@ import { dummyFixtures } from './testData';
 const Charts = props => {
     useEffect(() => {
         props.fetchAllTeamsRequest();
-        props.fetchFixturesRequest();
+        // props.fetchFixturesRequest();
         // eslint-disable-next-line
     }, [props.fetchAllTeamsRequest]);
 

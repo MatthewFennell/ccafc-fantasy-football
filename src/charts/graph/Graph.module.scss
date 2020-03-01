@@ -7,6 +7,24 @@
   color: $color-red;
 }
 
+.checkboxesWrapper {
+  display: flex;
+  flex-wrap: wrap; 
+  // justify-content: space-evenly;
+
+  .checkboxWrapper {
+    min-width: 20%;
+    max-width: 20%;
+    width: 20%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .teamName {
+    @include vertical-center-div();
+  }
+}
+
 .graphSpinner{
   @include vertical-center-div();
 }
@@ -28,13 +46,13 @@
   }
 }
 
+.chartsText{
+  font-weight: bold;
+  color: $color-blue;
+}
 
 .chartsHeader {
-  text-align: center;
-  .chartsText{
-    font-weight: bold;
-    color: $color-blue;
-  }
+  text-align: center;  
   .toggleTeams {
     margin-top: $spacing-small;
     display: flex;

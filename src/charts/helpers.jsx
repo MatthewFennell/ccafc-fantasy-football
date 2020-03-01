@@ -312,7 +312,7 @@ const enumerateDaysBetweenDates = (startDate, endDate, dayIncrements) => {
 };
 
 // Given a list a fixtures, returns an array of ordered days between the first and last match
-const generateAllDays = fixtures => {
+export const generateAllDays = fixtures => {
     const fixturesWithDate = fixtures.map(x => convertToDay(x.time));
     const minDate = fixturesWithDate.reduce((prev, cur) => (moment(prev)
         .isBefore(moment(cur)) ? prev : cur), {});
@@ -342,6 +342,7 @@ const findNextSaturday = date => {
 const generateTicks = (firstSat, lastSat) => enumerateDaysBetweenDates(firstSat, lastSat, 7);
 
 const makeTeamAccumulation = (fixtures, team, startDate, endDate) => {
+    console.log('making team accumulation');
     const fixturesForTeam = fixtures.filter(x => x.teamOne === team || x.teamTwo === team)
         .map(x => ({
             ...x,
@@ -396,13 +397,14 @@ const makeTeamAccumulation = (fixtures, team, startDate, endDate) => {
     return result;
 };
 
-const combineData = (allTeams, allDays, teamAccumulations, graphMode) => {
+export const combineData = (allTeams, allDays, teamAccumulations, graphMode) => {
+    console.log('combining data');
     const output = [];
     output.push([{ type: 'date', label: 'Day' }].concat(allTeams));
 
-    allDays.forEach(day => {
-        const currentDate = moment(day).format('DD-MMM');
-        const row = [new Date(moment(day))];
+    for (let x = 0; x < allDays.length; x += 7) {
+        const currentDate = moment(allDays[x]).format('DD-MMM');
+        const row = [new Date(moment(allDays[x]))];
 
         allTeams.forEach(team => {
             const data = fp.flow(
@@ -413,7 +415,22 @@ const combineData = (allTeams, allDays, teamAccumulations, graphMode) => {
             row.push(data);
         });
         output.push(row);
-    });
+    }
+
+    // allDays.forEach(day => {
+    //     const currentDate = moment(day).format('DD-MMM');
+    //     const row = [new Date(moment(day))];
+
+    //     allTeams.forEach(team => {
+    //         const data = fp.flow(
+    //             fp.get(team),
+    //             fp.get(currentDate),
+    //             fp.get(graphMode)
+    //         )(teamAccumulations);
+    //         row.push(data);
+    //     });
+    //     output.push(row);
+    // });
     return output;
 };
 
@@ -425,28 +442,26 @@ export const generateWeekTicks = fixtures => {
 
     const firstSat = findPreviousSaturday(firstDay);
     const lastSat = findNextSaturday(lastDay);
-    const weekTicks = generateTicks(firstSat, lastSat).map(x => moment(x).format('DD-MMM'));
+    const weekTicks = generateTicks(firstSat, lastSat);
     return weekTicks;
 };
 
-export const generateNewGraphData = (fixtures, graphMode, activeTeams) => {
-    // const collingwoodTeams = generateCollingwoodTeams(fixtures).map(x => x.text);
-    const allDays = generateAllDays(fixtures);
-
+export const makeGraphAccumulation = (prevAcc, fixtures, allDays, activeTeams) => {
     const firstDay = fp.head(allDays);
     const lastDay = fp.last(allDays);
 
     const firstSat = findPreviousSaturday(firstDay);
     const lastSat = findNextSaturday(lastDay);
 
-    const allAccumulations = activeTeams.reduce((acc, cur) => ({
+    const newTeams = activeTeams.filter(x => !fp.has(x)(prevAcc));
+
+    const newAccumulations = newTeams.reduce((acc, cur) => ({
         ...acc,
         [cur]: makeTeamAccumulation(fixtures, cur, firstSat, lastSat)
     }), {});
 
-    console.log('all accumulations', allAccumulations);
 
-    const graphData = combineData(activeTeams, allDays, allAccumulations, graphMode);
+    const allAccumulations = fp.merge(newAccumulations)(prevAcc);
 
-    return graphData;
+    return allAccumulations;
 };

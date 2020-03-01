@@ -1,13 +1,12 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Chart } from 'react-google-charts';
-import fp from 'lodash/fp';
 import defaultStyles from './Graph.module.scss';
 import Spinner from '../../common/spinner/Spinner';
 import * as helpers from '../helpers';
-import Switch from '../../common/Switch/Switch';
 import Dropdown from '../../common/dropdown/Dropdown';
-import { generateCollingwoodTeams } from '../../fixtures/helpers';
+import * as fixturesHelpers from '../../fixtures/helpers';
+import Checkbox from '../../common/Checkbox/Checkbox';
 
 const graphTitle = {
     goalsFor: 'Goals Scored Per Week',
@@ -19,19 +18,36 @@ const graphTitle = {
 
 const Graph = props => {
     const [graphMode, setGraphMode] = useState(helpers.graphModes.totalPoints);
-    const [activeTeams, setActiveTeams] = useState(['Staff A']);
+    const [activeTeams, setActiveTeams] = useState([]);
 
     const [graphData, setGraphData] = useState([]);
     const [allCollingwoodTeams, setCollingwoodTeams] = useState([]);
+    const [allDays, setAllDays] = useState([]);
+    const [accumulation, setAccumulation] = useState({});
+    const [weekIntervals, setWeekIntervals] = useState([]);
 
+    // Load the graph data - main one
     useEffect(() => {
-        const newGraphData = helpers.generateNewGraphData(props.fixtures, graphMode, activeTeams);
+        const newGraphData = helpers.combineData(activeTeams, allDays, accumulation, graphMode);
         setGraphData(newGraphData);
-    }, [props.fixtures, graphMode, activeTeams]);
+    }, [props.fixtures, graphMode, activeTeams, accumulation]);
+
+    // Find the unique collingwood teams
+    // Find all the days from start -> end of fixtures
+    useEffect(() => {
+        setCollingwoodTeams(fixturesHelpers.generateCollingwoodTeams(props.fixtures));
+        setAllDays(helpers.generateAllDays(props.fixtures));
+    }, [props.fixtures]);
 
     useEffect(() => {
-        const teams = generateCollingwoodTeams(props.fixtures);
-        setCollingwoodTeams(teams);
+        const newAccumulation = helpers.makeGraphAccumulation(accumulation,
+            props.fixtures, weekIntervals, activeTeams);
+        setAccumulation(newAccumulation);
+    }, [props.fixtures, allDays, activeTeams, weekIntervals]);
+
+    useEffect(() => {
+        const weeks = helpers.generateWeekTicks(props.fixtures);
+        setWeekIntervals(weeks);
     }, [props.fixtures]);
 
     const updateActiveTeams = useCallback(teamId => {
@@ -45,23 +61,22 @@ const Graph = props => {
     return (
         <div>
             <div className={props.styles.graphChoiceWrapper}>
-                <div className={props.styles.chartsHeader}>
-                    <div className={props.styles.chartsText}>
+                <div className={props.styles.chartsText}>
                         Teams
-                    </div>
+                </div>
+                <div className={props.styles.chartsHeader}>
+
                     {props.fetchingAllTeams ? <Spinner color="secondary" />
                         : (
-                            <div className={props.styles.toggleTeams}>
-                                {allCollingwoodTeams.map(team => (
-                                    <div key={team.id}>
-                                        <div className={props.styles.columnName}>
-                                            {team.text}
-                                        </div>
+                            <div className={props.styles.checkboxesWrapper}>
+                                {allCollingwoodTeams.map(x => (
+                                    <div className={props.styles.checkboxWrapper}>
+                                        <div className={props.styles.teamName}>{x.text[x.text.length - 1]}</div>
                                         <div>
-                                            <Switch
-                                                color="primary"
-                                                checked={activeTeams.includes(team.id)}
-                                                onChange={() => updateActiveTeams(team.id)}
+                                            <Checkbox
+                                                checked={activeTeams
+                                                    .includes(x.text)}
+                                                onClick={() => updateActiveTeams(x.text)}
                                             />
                                         </div>
                                     </div>
