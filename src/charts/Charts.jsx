@@ -41,8 +41,7 @@ const Charts = props => {
             <LeagueTableSection
                 allTeams={props.allTeams}
                 fixtures={props.fixtures}
-                loading={props.fetchingAllTeams}
-                maxGameweek={props.maxGameweek}
+                loadingFixtures={props.loadingFixtures}
                 isOpen={leagueTableOpen}
                 toggle={setOpen}
                 title="LeagueTable"
@@ -56,6 +55,7 @@ Charts.defaultProps = {
     allTeams: [],
     fetchingAllTeams: false,
     fixtures: [],
+    loadingFixtures: false,
     maxGameweek: 0
 };
 
@@ -73,6 +73,7 @@ Charts.propTypes = {
         completed: PropTypes.bool,
         league: PropTypes.string
     })),
+    loadingFixtures: PropTypes.bool,
     maxGameweek: PropTypes.number
 };
 
@@ -85,6 +86,7 @@ const mapStateToProps = state => ({
     allTeams: state.charts.allTeams,
     fetchingAllTeams: state.charts.fetchingAllTeams,
     fixtures: state.fixtures.fixtures,
+    loadingFixtures: state.fixtures.loadingFixtures,
     maxGameweek: state.overview.maxGameWeek
 });
 
