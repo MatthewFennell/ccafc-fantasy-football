@@ -32,16 +32,12 @@ const Charts = props => {
         .filter(x => !x.isCup),
     [props.fixtures]);
 
-    console.log('fixtures', props.fixtures);
-
     return (
         <>
             <GraphSection
-                allTeams={props.allTeams}
                 isOpen={graphOpen}
                 fixtures={dummyFixtures}
                 fetchingAllTeams={props.fetchingAllTeams}
-                maxGameweek={props.maxGameweek}
                 toggle={setGraphOpen}
                 title="Graphs"
                 styles={mobileCollapsableStyles}

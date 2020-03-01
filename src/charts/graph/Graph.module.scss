@@ -7,23 +7,6 @@
   color: $color-red;
 }
 
-.checkboxesWrapper {
-  display: flex;
-  flex-wrap: wrap; 
-  // justify-content: space-evenly;
-
-  .checkboxWrapper {
-    min-width: 20%;
-    max-width: 20%;
-    width: 20%;
-    display: flex;
-    justify-content: center;
-  }
-
-  .teamName {
-    @include vertical-center-div();
-  }
-}
 
 .graphSpinner{
   @include vertical-center-div();

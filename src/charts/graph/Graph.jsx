@@ -6,14 +6,13 @@ import Spinner from '../../common/spinner/Spinner';
 import * as helpers from '../helpers';
 import Dropdown from '../../common/dropdown/Dropdown';
 import * as fixturesHelpers from '../../fixtures/helpers';
-import Checkbox from '../../common/Checkbox/Checkbox';
+import Fade from '../../common/Fade/Fade';
+import CheckboxOptions from './CheckboxOptions';
 
 const graphTitle = {
     goalsFor: 'Goals Scored Per Week',
     goalsAgainst: 'Goals Conceded Per Week',
-    totalPoints: 'Total Points',
-    totalGoalsFor: 'Total Goals Scored',
-    totalGoalsAgainst: 'Total Goals Conceded'
+    totalPoints: 'Total Points'
 };
 
 const Graph = props => {
@@ -58,30 +57,27 @@ const Graph = props => {
         }
     }, [props.fixtures, activeTeams, setActiveTeams]);
 
+    const [editTeamsOpen, setEditTeamsOpen] = useState(false);
+
+    const toggleTeamsOpen = useCallback(() => {
+        setEditTeamsOpen(!editTeamsOpen);
+    }, [editTeamsOpen, setEditTeamsOpen]);
+
+
     return (
-        <div>
+        <>
             <div className={props.styles.graphChoiceWrapper}>
-                <div className={props.styles.chartsText}>
-                        Teams
-                </div>
                 <div className={props.styles.chartsHeader}>
 
                     {props.fetchingAllTeams ? <Spinner color="secondary" />
                         : (
-                            <div className={props.styles.checkboxesWrapper}>
-                                {allCollingwoodTeams.map(x => (
-                                    <div className={props.styles.checkboxWrapper}>
-                                        <div className={props.styles.teamName}>{x.text[x.text.length - 1]}</div>
-                                        <div>
-                                            <Checkbox
-                                                checked={activeTeams
-                                                    .includes(x.text)}
-                                                onClick={() => updateActiveTeams(x.text)}
-                                            />
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
+                            <Fade checked={editTeamsOpen} onChange={toggleTeamsOpen} label="Edit Teams">
+                                <CheckboxOptions
+                                    allCollingwoodTeams={allCollingwoodTeams}
+                                    activeTeams={activeTeams}
+                                    updateActiveTeams={updateActiveTeams}
+                                />
+                            </Fade>
                         ) }
                 </div>
                 <div className={props.styles.radioWrapper}>
@@ -127,7 +123,7 @@ const Graph = props => {
                             title: 'Date'
                         },
                         vAxis: {
-                            title: 'Popularity',
+                            title: graphTitle[graphMode],
                             viewWindow: { min: 0 }
                         },
                         series: {
@@ -141,12 +137,11 @@ const Graph = props => {
                   Please select some teams
                 </div>
             )}
-        </div>
+        </>
     );
 };
 
 Graph.propTypes = {
-    allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     fetchingAllTeams: PropTypes.bool,
     fixtures: PropTypes.arrayOf(PropTypes.shape({
         teamOne: PropTypes.string,
@@ -157,15 +152,12 @@ Graph.propTypes = {
         completed: PropTypes.bool,
         league: PropTypes.string
     })),
-    maxGameweek: PropTypes.number,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 
 Graph.defaultProps = {
-    allTeams: [],
     fetchingAllTeams: false,
     fixtures: [],
-    maxGameweek: 0,
     styles: defaultStyles
 };
 

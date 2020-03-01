@@ -42,7 +42,6 @@ const CurrentTeam = props => {
     }, []);
 
     const submit = useCallback(() => {
-        console.log('modal player', modalPlayer);
         props.makeCaptainRequest(modalPlayer.id);
         setPlayerModalOpen(false);
         setModalPlayer({});

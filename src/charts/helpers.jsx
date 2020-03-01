@@ -342,7 +342,6 @@ const findNextSaturday = date => {
 const generateTicks = (firstSat, lastSat) => enumerateDaysBetweenDates(firstSat, lastSat, 7);
 
 const makeTeamAccumulation = (fixtures, team, startDate, endDate) => {
-    console.log('making team accumulation');
     const fixturesForTeam = fixtures.filter(x => x.teamOne === team || x.teamTwo === team)
         .map(x => ({
             ...x,
@@ -398,7 +397,6 @@ const makeTeamAccumulation = (fixtures, team, startDate, endDate) => {
 };
 
 export const combineData = (allTeams, allDays, teamAccumulations, graphMode) => {
-    console.log('combining data');
     const output = [];
     output.push([{ type: 'date', label: 'Day' }].concat(allTeams));
 
