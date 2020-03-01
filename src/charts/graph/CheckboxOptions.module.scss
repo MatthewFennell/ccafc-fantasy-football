@@ -16,5 +16,6 @@
   
     .teamName {
       @include vertical-center-div();
+      width: $spacing-tiny;
     }
   }

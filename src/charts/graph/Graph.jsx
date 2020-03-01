@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Chart } from 'react-google-charts';
+import _ from 'lodash';
 import defaultStyles from './Graph.module.scss';
 import Spinner from '../../common/spinner/Spinner';
 import * as helpers from '../helpers';
@@ -8,6 +9,7 @@ import Dropdown from '../../common/dropdown/Dropdown';
 import * as fixturesHelpers from '../../fixtures/helpers';
 import Fade from '../../common/Fade/Fade';
 import CheckboxOptions from './CheckboxOptions';
+import SwitchStyles from './SwitchStyles.module.scss';
 
 const graphTitle = {
     goalsFor: 'Goals Scored Per Week',
@@ -29,7 +31,7 @@ const Graph = props => {
     useEffect(() => {
         const newGraphData = helpers.combineData(activeTeams, allDays, accumulation, graphMode);
         setGraphData(newGraphData);
-    }, [props.fixtures, graphMode, activeTeams, accumulation]);
+    }, [props.fixtures, graphMode, activeTeams, accumulation, allDays]);
 
     // Find the unique collingwood teams
     // Find all the days from start -> end of fixtures
@@ -41,8 +43,10 @@ const Graph = props => {
     useEffect(() => {
         const newAccumulation = helpers.makeGraphAccumulation(accumulation,
             props.fixtures, weekIntervals, activeTeams);
-        setAccumulation(newAccumulation);
-    }, [props.fixtures, allDays, activeTeams, weekIntervals]);
+        if (!_.isEqual(newAccumulation, accumulation)) {
+            setAccumulation(newAccumulation);
+        }
+    }, [props.fixtures, allDays, activeTeams, weekIntervals, accumulation]);
 
     useEffect(() => {
         const weeks = helpers.generateWeekTicks(props.fixtures);
@@ -55,7 +59,7 @@ const Graph = props => {
         } else {
             setActiveTeams(activeTeams.concat([teamId]));
         }
-    }, [props.fixtures, activeTeams, setActiveTeams]);
+    }, [activeTeams, setActiveTeams]);
 
     const [editTeamsOpen, setEditTeamsOpen] = useState(false);
 
@@ -63,15 +67,19 @@ const Graph = props => {
         setEditTeamsOpen(!editTeamsOpen);
     }, [editTeamsOpen, setEditTeamsOpen]);
 
-
     return (
         <>
             <div className={props.styles.graphChoiceWrapper}>
                 <div className={props.styles.chartsHeader}>
-
-                    {props.fetchingAllTeams ? <Spinner color="secondary" />
+                    {props.loadingFixtures ? <Spinner color="secondary" />
                         : (
-                            <Fade checked={editTeamsOpen} onChange={toggleTeamsOpen} label="Edit Teams">
+                            <Fade
+                                checked={editTeamsOpen}
+                                onChange={toggleTeamsOpen}
+                                label="Edit Collingwood Teams"
+                                switchStyles={SwitchStyles}
+                                switchColor="secondary"
+                            >
                                 <CheckboxOptions
                                     allCollingwoodTeams={allCollingwoodTeams}
                                     activeTeams={activeTeams}
@@ -142,7 +150,7 @@ const Graph = props => {
 };
 
 Graph.propTypes = {
-    fetchingAllTeams: PropTypes.bool,
+    loadingFixtures: PropTypes.bool,
     fixtures: PropTypes.arrayOf(PropTypes.shape({
         teamOne: PropTypes.string,
         result: PropTypes.string,
@@ -156,7 +164,7 @@ Graph.propTypes = {
 };
 
 Graph.defaultProps = {
-    fetchingAllTeams: false,
+    loadingFixtures: false,
     fixtures: [],
     styles: defaultStyles
 };

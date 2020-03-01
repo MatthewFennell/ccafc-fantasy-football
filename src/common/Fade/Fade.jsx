@@ -19,6 +19,7 @@ const Fade = props => {
     return (
         <>
             <FormControlLabel
+                className={props.switchStyles.label}
                 control={(
                     <Switch
                         checked={props.checked}
@@ -42,7 +43,8 @@ Fade.defaultProps = {
     children: null,
     label: 'Show',
     onChange: noop,
-    switchColor: 'primary'
+    switchColor: 'primary',
+    switchStyles: {}
 };
 
 Fade.propTypes = {
@@ -53,7 +55,8 @@ Fade.propTypes = {
     ]),
     label: PropTypes.string,
     onChange: PropTypes.func,
-    switchColor: PropTypes.string
+    switchColor: PropTypes.string,
+    switchStyles: PropTypes.objectOf(PropTypes.string)
 };
 
 export default Fade;

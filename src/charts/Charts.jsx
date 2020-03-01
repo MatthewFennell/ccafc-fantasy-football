@@ -36,8 +36,8 @@ const Charts = props => {
         <>
             <GraphSection
                 isOpen={graphOpen}
-                fixtures={dummyFixtures}
-                fetchingAllTeams={props.fetchingAllTeams}
+                fixtures={dummyFixtures.filter(x => x.completed && !x.isCup)}
+                loadingFixtures={props.loadingFixtures}
                 toggle={setGraphOpen}
                 title="Graphs"
                 styles={mobileCollapsableStyles}
