@@ -131,7 +131,9 @@ const generateResult = (fixture, isTeamOne) => {
             wins: 1,
             draws: 0,
             losses: 0,
-            score: 3
+            score: 3,
+            goalsFor: goals[0],
+            goalsAgainst: goals[1]
         });
     }
     if (goals[0] === goals[1]) {
@@ -140,7 +142,9 @@ const generateResult = (fixture, isTeamOne) => {
             wins: 0,
             draws: 1,
             losses: 0,
-            score: 1
+            score: 1,
+            goalsFor: goals[0],
+            goalsAgainst: goals[1]
         });
     }
     return ({
@@ -148,7 +152,9 @@ const generateResult = (fixture, isTeamOne) => {
         wins: 0,
         draws: 0,
         losses: 1,
-        score: 0
+        score: 0,
+        goalsFor: goals[0],
+        goalsAgainst: goals[1]
     });
 };
 
@@ -348,7 +354,7 @@ const makeTeamAccumulation = (fixtures, team, startDate, endDate) => {
     const sortedArray = fixturesForTeam.sort((a, b) => (moment(a.time)
         .isAfter(moment(b.time)) ? 1 : -1));
 
-    const currentAccumulationValues = {
+    let currentAccumulationValues = {
         totalGoalsFor: 0,
         totalGoalsAgainst: 0,
         totalPoints: 0,
@@ -359,36 +365,45 @@ const makeTeamAccumulation = (fixtures, team, startDate, endDate) => {
 
     const dateToCompareAgainst = moment(startDate).clone();
 
-    let result = {
+    let result = { };
 
-    };
-
-    sortedArray.forEach(x => {
-        const currentDate = moment(x.time);
-        console.log('current date of fixture', currentDate.format('DD-MMM'));
-
-
+    sortedArray.forEach(fixture => {
+        const currentDate = moment(fixture.time);
         while (moment(dateToCompareAgainst).isBefore(moment(currentDate))) {
-            console.log('date to compare', moment(dateToCompareAgainst.toDate()));
             result = {
                 ...result,
                 [moment(dateToCompareAgainst).format('DD-MMM')]: currentAccumulationValues
             };
             dateToCompareAgainst.add(1, 'days');
         }
-
         if (moment(currentDate).isSame(moment(dateToCompareAgainst), 'day')) {
-            console.log('same day!');
+            const matchResult = generateResult(fixture, fixture.teamOne.includes(team));
+            currentAccumulationValues = fp.flow(
+                fp.set('totalGoalsFor', currentAccumulationValues.totalGoalsFor + matchResult.goalsFor),
+                fp.set('totalGoalsAgainst', currentAccumulationValues.totalGoalsAgainst + matchResult.goalsAgainst),
+                fp.set('totalPoints', currentAccumulationValues.totalPoints + matchResult.score),
+                fp.set('wins', currentAccumulationValues.wins + matchResult.wins),
+                fp.set('draws', currentAccumulationValues.draws + matchResult.draws),
+                fp.set('losses', currentAccumulationValues.losses + matchResult.losses),
+            )(currentAccumulationValues);
+            result = {
+                ...result,
+                [moment(dateToCompareAgainst).format('DD-MMM')]: currentAccumulationValues
+            };
         }
-        console.log('');
-        console.log('');
-        console.log('');
     });
-    console.log('final result', result);
+    while (moment(dateToCompareAgainst).diff(endDate) <= 0) {
+        result = {
+            ...result,
+            [moment(dateToCompareAgainst).format('DD-MMM')]: currentAccumulationValues
+        };
+        dateToCompareAgainst.add(1, 'days');
+    }
+    return result;
 };
 
 export const generateNewGraphData = fixtures => {
-    const collingwoodTeams = generateCollingwoodTeams(fixtures);
+    const collingwoodTeams = generateCollingwoodTeams(fixtures).map(x => x.text);
     const allDays = generateAllDays(fixtures);
 
     const firstDay = fp.head(allDays);
@@ -402,6 +417,13 @@ export const generateNewGraphData = fixtures => {
 
     const firstTeam = fp.first(collingwoodTeams);
     makeTeamAccumulation(fixtures, firstTeam.text, firstSat, lastSat);
+
+    const allAccumulations = collingwoodTeams.reduce((acc, cur) => ({
+        ...acc,
+        [cur]: makeTeamAccumulation(fixtures, cur, firstSat, lastSat)
+    }), {});
+
+    console.log('all acc', allAccumulations);
 };
 
 // [All days between first fixture and last fixture]
