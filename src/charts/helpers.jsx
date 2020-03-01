@@ -402,6 +402,39 @@ const makeTeamAccumulation = (fixtures, team, startDate, endDate) => {
     return result;
 };
 
+const combineData = (allTeams, allDays, teamAccumulations, graphMode) => {
+    const output = [];
+    output.push(['x'].concat(allTeams));
+
+    allDays.forEach(day => {
+        const currentDate = moment(day).format('DD-MMM');
+        const row = [currentDate];
+
+        allTeams.forEach(team => {
+            const data = fp.flow(
+                fp.get(team),
+                fp.get(currentDate),
+                fp.get(graphMode)
+            )(teamAccumulations);
+            row.push(data);
+        });
+        output.push(row);
+    });
+    return output;
+};
+
+export const generateWeekTicks = fixtures => {
+    const allDays = generateAllDays(fixtures);
+
+    const firstDay = fp.head(allDays);
+    const lastDay = fp.last(allDays);
+
+    const firstSat = findPreviousSaturday(firstDay);
+    const lastSat = findNextSaturday(lastDay);
+    const weekTicks = generateTicks(firstSat, lastSat).map(x => moment(x).format('DD-MMM'));
+    return weekTicks;
+};
+
 export const generateNewGraphData = fixtures => {
     const collingwoodTeams = generateCollingwoodTeams(fixtures).map(x => x.text);
     const allDays = generateAllDays(fixtures);
@@ -412,9 +445,6 @@ export const generateNewGraphData = fixtures => {
     const firstSat = findPreviousSaturday(firstDay);
     const lastSat = findNextSaturday(lastDay);
 
-
-    const weekTicks = generateTicks(firstSat, lastSat).map(x => moment(x).format('ddd, MMMM Do YYYY'));
-
     const firstTeam = fp.first(collingwoodTeams);
     makeTeamAccumulation(fixtures, firstTeam.text, firstSat, lastSat);
 
@@ -423,27 +453,7 @@ export const generateNewGraphData = fixtures => {
         [cur]: makeTeamAccumulation(fixtures, cur, firstSat, lastSat)
     }), {});
 
-    console.log('all acc', allAccumulations);
+    const graphData = combineData(collingwoodTeams, allDays, allAccumulations, 'totalGoalsFor');
+
+    return graphData;
 };
-
-// [All days between first fixture and last fixture]
-//  let testData = [
-//     [
-//         'x',
-//         'England',
-//         'Brazil',
-//         'Spain',
-//         'grg',
-//         'ff',
-//         'Italy',
-//         'cc'
-//     ],
-//     [1, 4, 0, 1, 0, 0, 4, 0],
-//     [2, 2, 2, 0, 0, 0, 3, 0],
-//     [3, 5, 4, 5, 0, 0, 1, 0],
-//     [4, 0, 0, 0, 0, 0, 0, 0],
-//     [5, 0, 0, 0, 0, 0, 0, 0],
-//     [6, 0, 0, 0, 0, 0, 0, 0]
-// ];
-
-// Data should be of format [// Day of season, value]

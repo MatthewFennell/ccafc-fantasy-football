@@ -30,6 +30,9 @@ const Graph = props => {
     const [graphMode, setGraphMode] = useState(helpers.graphModes.goalsFor);
     const [activeTeams, setActiveTeams] = useState([]);
 
+    const weekTicks = helpers.generateWeekTicks(props.fixtures);
+    const newGraphData = helpers.generateNewGraphData(props.fixtures);
+
     const updateActiveTeams = useCallback(teamId => {
         if (activeTeams.includes(teamId)) {
             setActiveTeams(activeTeams.filter(x => x !== teamId));
@@ -122,11 +125,11 @@ const Graph = props => {
                             <Spinner color="secondary" />
                         </div>
                     )}
-                    data={dummyData}
+                    data={newGraphData}
                     options={{
                         hAxis: {
                             title: 'Week',
-                            ticks: fp.range(1, props.maxGameweek + 1),
+                            ticks: weekTicks,
                             viewWindow: { min: 1 }
                         },
                         vAxis: {
