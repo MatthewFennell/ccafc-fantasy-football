@@ -292,6 +292,22 @@ export const marks = maxWeek => {
 
 const convertToDay = d => moment(d, 'DD-MM-YYYY');
 
+// Given start and end date, returns array with days between
+// for every "dayIncrements" number of days
+const enumerateDaysBetweenDates = (startDate, endDate, dayIncrements) => {
+    const dates = [];
+
+    const currDate = moment(startDate).startOf('day');
+    const lastDate = moment(endDate).startOf('day');
+
+    while (currDate.add(dayIncrements, 'days').diff(lastDate) <= 0) {
+        dates.push(currDate.clone().toDate());
+    }
+
+    return dates;
+};
+
+// Given a list a fixtures, returns an array of ordered days between the first and last match
 const generateAllDays = fixtures => {
     const fixturesWithDate = fixtures.map(x => convertToDay(x.time));
     const minDate = fixturesWithDate.reduce((prev, cur) => (moment(prev)
@@ -299,19 +315,93 @@ const generateAllDays = fixtures => {
     const maxDate = fixturesWithDate.reduce((prev, cur) => (moment(prev)
         .isAfter(moment(cur)) ? prev : cur), {});
 
-    const allDates = [];
-    let currentDate = minDate;
+    const dateRange = enumerateDaysBetweenDates(minDate, maxDate, 1);
 
-    while (moment(currentDate).isBefore(moment(maxDate))) {
-        currentDate = moment(currentDate).add(1, 'days');
-        allDates.push(moment(currentDate).format('ddd, MMMM Do YYYY'));
-    }
-    return allDates;
+    return dateRange;
+};
+
+const findPreviousSaturday = date => {
+    const dayOfWeek = moment(date).weekday();
+    const numberOfDaysToSubtract = (dayOfWeek + 1) % 7;
+    const clone = moment(date).clone();
+    return moment(clone.subtract(numberOfDaysToSubtract, 'days').toDate());
+};
+
+const findNextSaturday = date => {
+    const dayOfWeek = moment(date).weekday();
+    // 13 = 6 + 7 (otherwise would just be (6-dayOfWeek), but sunday => -1)
+    const numberOfDaysToAdd = ((13 - dayOfWeek) % 7);
+    const clone = moment(date).clone();
+    return moment(clone.add(numberOfDaysToAdd, 'days').toDate());
+};
+
+const generateTicks = (firstSat, lastSat) => enumerateDaysBetweenDates(firstSat, lastSat, 7);
+
+const makeTeamAccumulation = (fixtures, team, startDate, endDate) => {
+    const fixturesForTeam = fixtures.filter(x => x.teamOne === team || x.teamTwo === team)
+        .map(x => ({
+            ...x,
+            time: convertToDay(x.time)
+        }));
+
+    // Oldest first
+    const sortedArray = fixturesForTeam.sort((a, b) => (moment(a.time)
+        .isAfter(moment(b.time)) ? 1 : -1));
+
+    const currentAccumulationValues = {
+        totalGoalsFor: 0,
+        totalGoalsAgainst: 0,
+        totalPoints: 0,
+        wins: 0,
+        draws: 0,
+        losses: 0
+    };
+
+    const dateToCompareAgainst = moment(startDate).clone();
+
+    let result = {
+
+    };
+
+    sortedArray.forEach(x => {
+        const currentDate = moment(x.time);
+        console.log('current date of fixture', currentDate.format('DD-MMM'));
+
+
+        while (moment(dateToCompareAgainst).isBefore(moment(currentDate))) {
+            console.log('date to compare', moment(dateToCompareAgainst.toDate()));
+            result = {
+                ...result,
+                [moment(dateToCompareAgainst).format('DD-MMM')]: currentAccumulationValues
+            };
+            dateToCompareAgainst.add(1, 'days');
+        }
+
+        if (moment(currentDate).isSame(moment(dateToCompareAgainst), 'day')) {
+            console.log('same day!');
+        }
+        console.log('');
+        console.log('');
+        console.log('');
+    });
+    console.log('final result', result);
 };
 
 export const generateNewGraphData = fixtures => {
+    const collingwoodTeams = generateCollingwoodTeams(fixtures);
     const allDays = generateAllDays(fixtures);
-    console.log('all days', allDays);
+
+    const firstDay = fp.head(allDays);
+    const lastDay = fp.last(allDays);
+
+    const firstSat = findPreviousSaturday(firstDay);
+    const lastSat = findNextSaturday(lastDay);
+
+
+    const weekTicks = generateTicks(firstSat, lastSat).map(x => moment(x).format('ddd, MMMM Do YYYY'));
+
+    const firstTeam = fp.first(collingwoodTeams);
+    makeTeamAccumulation(fixtures, firstTeam.text, firstSat, lastSat);
 };
 
 // [All days between first fixture and last fixture]

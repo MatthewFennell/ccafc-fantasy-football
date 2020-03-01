@@ -8,6 +8,16 @@ import * as helpers from '../helpers';
 import Switch from '../../common/Switch/Switch';
 import Dropdown from '../../common/dropdown/Dropdown';
 
+const dummyData = [
+    ['x', 'England', 'grg', 'Italy'],
+    ['10/12/2019', 4, 0, 4],
+    ['10/13/2019', 2, 3, 3],
+    ['10/14/2019', 5, 0, 1],
+    ['10/15/2019', 0, 0, 0],
+    ['10/16/2019', 0, 8, 0],
+    ['10/17/2019', 0, 0, 0]
+];
+
 const graphTitle = {
     goalsFor: 'Goals Scored Per Week',
     goalsAgainst: 'Goals Conceded Per Week',
@@ -34,6 +44,10 @@ const Graph = props => {
         .map(x => fp.set(`${x}.curveType`, 'function')))({});
 
     helpers.generateNewGraphData(props.fixtures);
+
+    // console.log('graph data', graphData);
+
+    // console.log('fixtures', props.fixtures);
 
     return (
         <div>
@@ -108,11 +122,11 @@ const Graph = props => {
                             <Spinner color="secondary" />
                         </div>
                     )}
-                    data={graphData}
+                    data={dummyData}
                     options={{
                         hAxis: {
                             title: 'Week',
-                            ticks: fp.range(1, props.maxGameweek + 1000),
+                            ticks: fp.range(1, props.maxGameweek + 1),
                             viewWindow: { min: 1 }
                         },
                         vAxis: {

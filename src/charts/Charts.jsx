@@ -7,11 +7,12 @@ import LeagueTable from './leaguetable/LeagueTable';
 import WithCollapsable from '../common/collapsableHOC/WithCollapsable';
 import mobileCollapsableStyles from './MobileGraphStyles.module.scss';
 import { fetchFixturesRequest } from '../fixtures/actions';
+import { dummyFixtures } from './testData';
 
 const Charts = props => {
     useEffect(() => {
         props.fetchAllTeamsRequest();
-        props.fetchFixturesRequest();
+        // props.fetchFixturesRequest();
         // eslint-disable-next-line
     }, [props.fetchAllTeamsRequest]);
 
@@ -25,13 +26,19 @@ const Charts = props => {
     const GraphSection = WithCollapsable(Graph);
     const LeagueTableSection = WithCollapsable(LeagueTable);
 
+    const filterFixtures = useCallback(() => props.fixtures
+        .filter(x => x.teamOne.includes('Collingwood') || x.teamTwo.includes('Collingwood'))
+        .filter(x => x.completed)
+        .filter(x => !x.isCup),
+    [props.fixtures]);
+
 
     return (
         <>
             <GraphSection
                 allTeams={props.allTeams}
                 isOpen={graphOpen}
-                fixtures={props.fixtures}
+                fixtures={dummyFixtures}
                 fetchingAllTeams={props.fetchingAllTeams}
                 maxGameweek={props.maxGameweek}
                 toggle={setGraphOpen}
@@ -40,7 +47,7 @@ const Charts = props => {
             />
             <LeagueTableSection
                 allTeams={props.allTeams}
-                fixtures={props.fixtures}
+                fixtures={filterFixtures()}
                 loadingFixtures={props.loadingFixtures}
                 isOpen={leagueTableOpen}
                 toggle={setOpen}
