@@ -1,43 +1,20 @@
-import React, { useState } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import defaultStyles from './LeagueTable.module.scss';
 import Grid from '../../common/grid/Grid';
 import * as helpers from '../helpers';
-import Slider from '../../common/slider/Slider';
 
 const LeagueTable = props => {
-    const [minWeek, setMinWeek] = useState(1);
-    const [maxWeek, setMaxWeek] = useState(props.maxGameweek);
-    const leagueTable = helpers.generateLeagueTable(props.allTeams, minWeek, maxWeek);
+    const leagueTable = useCallback(() => helpers.generateNewTable(props.fixtures),
+        [props.fixtures]);
     return (
         <div className={props.styles.leagueTableWrapper}>
-            <div className={props.styles.sliderWrapper}>
-                <Slider
-                    marks={helpers.marks(props.maxGameweek)}
-                    min={1}
-                    max={props.maxGameweek}
-                    step={1}
-                    text="From Week"
-                    onChange={setMinWeek}
-                    defaultValue={minWeek}
-                    showMarker={false}
-                />
-                <Slider
-                    marks={helpers.marks(props.maxGameweek)}
-                    min={1}
-                    max={props.maxGameweek}
-                    step={1}
-                    text="To Week"
-                    onChange={setMaxWeek}
-                    defaultValue={maxWeek}
-                    showMarker={false}
-                />
-            </div>
             <Grid
                 columns={helpers.columns}
                 gridHeader="League Table"
-                loading={props.fetchingAllTeams}
-                rows={leagueTable}
+                loading={props.loadingFixtures}
+                maxHeightGrid
+                rows={leagueTable()}
                 rowsPerPageOptions={[20]}
                 showPagination={false}
             />
@@ -46,16 +23,22 @@ const LeagueTable = props => {
 };
 
 LeagueTable.defaultProps = {
-    allTeams: [],
-    fetchingAllTeams: false,
-    maxGameweek: 0,
+    fixtures: [],
+    loadingFixtures: false,
     styles: defaultStyles
 };
 
 LeagueTable.propTypes = {
-    allTeams: PropTypes.arrayOf(PropTypes.shape({})),
-    fetchingAllTeams: PropTypes.bool,
-    maxGameweek: PropTypes.number,
+    fixtures: PropTypes.arrayOf(PropTypes.shape({
+        teamOne: PropTypes.string,
+        result: PropTypes.string,
+        teamTwo: PropTypes.string,
+        location: PropTypes.string,
+        time: PropTypes.string,
+        completed: PropTypes.bool,
+        league: PropTypes.string
+    })),
+    loadingFixtures: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 

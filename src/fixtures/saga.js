@@ -1,14 +1,20 @@
 import {
-    all, takeEvery, put, call, delay, takeLatest
+    all, takeEvery, put, call, delay, takeLatest, select
 } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as fixturesApi from './api';
 import { successDelay } from '../constants';
+import * as selectors from './selectors';
 
 export function* fetchFixtures(api) {
     try {
-        const fixtures = yield call(api.getFixtures);
-        yield put(actions.fetchFixturesSuccess(fixtures));
+        const currentFixtures = yield select(selectors.getFixtures);
+        if (currentFixtures && currentFixtures.length === 0) {
+            const fixtures = yield call(api.getFixtures);
+            yield put(actions.fetchFixturesSuccess(fixtures));
+        } else {
+            yield put(actions.alreadyFetchedFixtures());
+        }
     } catch (error) {
         yield put(actions.setFixturesError(error, 'Error Fetching Fixtures'));
     }

@@ -6,10 +6,13 @@ import Graph from './graph/Graph';
 import LeagueTable from './leaguetable/LeagueTable';
 import WithCollapsable from '../common/collapsableHOC/WithCollapsable';
 import mobileCollapsableStyles from './MobileGraphStyles.module.scss';
+import { fetchFixturesRequest } from '../fixtures/actions';
+// import { dummyFixtures } from './testData';
 
 const Charts = props => {
     useEffect(() => {
         props.fetchAllTeamsRequest();
+        props.fetchFixturesRequest();
         // eslint-disable-next-line
     }, [props.fetchAllTeamsRequest]);
 
@@ -23,21 +26,26 @@ const Charts = props => {
     const GraphSection = WithCollapsable(Graph);
     const LeagueTableSection = WithCollapsable(LeagueTable);
 
+    const filterFixtures = useCallback(() => props.fixtures
+        .filter(x => x.teamOne.includes('Collingwood') || x.teamTwo.includes('Collingwood'))
+        .filter(x => x.completed)
+        .filter(x => !x.isCup),
+    [props.fixtures]);
+
     return (
         <>
             <GraphSection
-                allTeams={props.allTeams}
                 isOpen={graphOpen}
-                fetchingAllTeams={props.fetchingAllTeams}
-                maxGameweek={props.maxGameweek}
+                fixtures={props.fixtures.filter(x => x.completed && !x.isCup)}
+                loadingFixtures={props.loadingFixtures}
                 toggle={setGraphOpen}
                 title="Graphs"
                 styles={mobileCollapsableStyles}
             />
             <LeagueTableSection
                 allTeams={props.allTeams}
-                loading={props.fetchingAllTeams}
-                maxGameweek={props.maxGameweek}
+                fixtures={filterFixtures()}
+                loadingFixtures={props.loadingFixtures}
                 isOpen={leagueTableOpen}
                 toggle={setOpen}
                 title="LeagueTable"
@@ -49,24 +57,40 @@ const Charts = props => {
 
 Charts.defaultProps = {
     allTeams: [],
-    fetchingAllTeams: false,
-    maxGameweek: 0
+    // fetchingAllTeams: false,
+    fixtures: [],
+    loadingFixtures: false
+    // maxGameweek: 0
 };
 
 Charts.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     fetchAllTeamsRequest: PropTypes.func.isRequired,
-    fetchingAllTeams: PropTypes.bool,
-    maxGameweek: PropTypes.number
+    // fetchingAllTeams: PropTypes.bool,
+    fetchFixturesRequest: PropTypes.func.isRequired,
+    fixtures: PropTypes.arrayOf(PropTypes.shape({
+        teamOne: PropTypes.string,
+        result: PropTypes.string,
+        teamTwo: PropTypes.string,
+        location: PropTypes.string,
+        time: PropTypes.string,
+        completed: PropTypes.bool,
+        league: PropTypes.string
+    })),
+    loadingFixtures: PropTypes.bool
+    // maxGameweek: PropTypes.number
 };
 
 const mapDispatchToProps = {
-    fetchAllTeamsRequest
+    fetchAllTeamsRequest,
+    fetchFixturesRequest
 };
 
 const mapStateToProps = state => ({
     allTeams: state.charts.allTeams,
     fetchingAllTeams: state.charts.fetchingAllTeams,
+    fixtures: state.fixtures.fixtures,
+    loadingFixtures: state.fixtures.loadingFixtures,
     maxGameweek: state.overview.maxGameWeek
 });
 

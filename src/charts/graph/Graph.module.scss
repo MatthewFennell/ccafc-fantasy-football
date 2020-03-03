@@ -7,6 +7,7 @@
   color: $color-red;
 }
 
+
 .graphSpinner{
   @include vertical-center-div();
 }
@@ -28,13 +29,13 @@
   }
 }
 
+.chartsText{
+  font-weight: bold;
+  color: $color-blue;
+}
 
 .chartsHeader {
-  text-align: center;
-  .chartsText{
-    font-weight: bold;
-    color: $color-blue;
-  }
+  text-align: center;  
   .toggleTeams {
     margin-top: $spacing-small;
     display: flex;

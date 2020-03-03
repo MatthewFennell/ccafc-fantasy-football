@@ -1,24 +1,58 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Chart } from 'react-google-charts';
-import fp from 'lodash/fp';
+import _ from 'lodash';
 import defaultStyles from './Graph.module.scss';
 import Spinner from '../../common/spinner/Spinner';
 import * as helpers from '../helpers';
-import Switch from '../../common/Switch/Switch';
 import Dropdown from '../../common/dropdown/Dropdown';
+import * as fixturesHelpers from '../../fixtures/helpers';
+import Fade from '../../common/Fade/Fade';
+import CheckboxOptions from './CheckboxOptions';
+import SwitchStyles from './SwitchStyles.module.scss';
+import Autocomplete from '../../common/Autocomplete/Autocomplete';
 
 const graphTitle = {
     goalsFor: 'Goals Scored Per Week',
     goalsAgainst: 'Goals Conceded Per Week',
-    totalPoints: 'Total Points',
-    totalGoalsFor: 'Total Goals Scored',
-    totalGoalsAgainst: 'Total Goals Conceded'
+    totalPoints: 'Total Points'
 };
 
 const Graph = props => {
-    const [graphMode, setGraphMode] = useState(helpers.graphModes.goalsFor);
+    const [graphMode, setGraphMode] = useState(helpers.graphModes.totalPoints);
     const [activeTeams, setActiveTeams] = useState([]);
+
+    const [graphData, setGraphData] = useState([]);
+    const [allCollingwoodTeams, setCollingwoodTeams] = useState([]);
+    const [allDays, setAllDays] = useState([]);
+    const [accumulation, setAccumulation] = useState({});
+    const [weekIntervals, setWeekIntervals] = useState([]);
+
+    // Load the graph data - main one
+    useEffect(() => {
+        const newGraphData = helpers.combineData(activeTeams, allDays, accumulation, graphMode);
+        setGraphData(newGraphData);
+    }, [props.fixtures, graphMode, activeTeams, accumulation, allDays]);
+
+    // Find the unique collingwood teams
+    // Find all the days from start -> end of fixtures
+    useEffect(() => {
+        setCollingwoodTeams(fixturesHelpers.generateCollingwoodTeams(props.fixtures));
+        setAllDays(helpers.generateAllDays(props.fixtures));
+    }, [props.fixtures]);
+
+    useEffect(() => {
+        const newAccumulation = helpers.makeGraphAccumulation(accumulation,
+            props.fixtures, weekIntervals, activeTeams);
+        if (!_.isEqual(newAccumulation, accumulation)) {
+            setAccumulation(newAccumulation);
+        }
+    }, [props.fixtures, allDays, activeTeams, weekIntervals, accumulation]);
+
+    useEffect(() => {
+        const weeks = helpers.generateWeekTicks(props.fixtures);
+        setWeekIntervals(weeks);
+    }, [props.fixtures]);
 
     const updateActiveTeams = useCallback(teamId => {
         if (activeTeams.includes(teamId)) {
@@ -26,38 +60,35 @@ const Graph = props => {
         } else {
             setActiveTeams(activeTeams.concat([teamId]));
         }
-    }, [activeTeams]);
+    }, [activeTeams, setActiveTeams]);
 
-    const graphData = helpers
-        .findGraphData(props.allTeams, activeTeams, graphMode, props.maxGameweek);
-    const series = fp.flow(fp.range(0, props.maxGameweek + 2)
-        .map(x => fp.set(`${x}.curveType`, 'function')))({});
+    const [editTeamsOpen, setEditTeamsOpen] = useState(false);
+
+    const toggleTeamsOpen = useCallback(() => {
+        setEditTeamsOpen(!editTeamsOpen);
+    }, [editTeamsOpen, setEditTeamsOpen]);
 
     return (
-        <div>
+        <>
+            <Autocomplete />
             <div className={props.styles.graphChoiceWrapper}>
+
                 <div className={props.styles.chartsHeader}>
-                    <div className={props.styles.chartsText}>
-                        Teams
-                    </div>
-                    {props.fetchingAllTeams ? <Spinner color="secondary" />
+                    {props.loadingFixtures ? <Spinner color="secondary" />
                         : (
-                            <div className={props.styles.toggleTeams}>
-                                {props.allTeams.map(team => (
-                                    <div key={team.id}>
-                                        <div className={props.styles.columnName}>
-                                            {team.team_name}
-                                        </div>
-                                        <div>
-                                            <Switch
-                                                color="primary"
-                                                checked={activeTeams.includes(team.id)}
-                                                onChange={() => updateActiveTeams(team.id)}
-                                            />
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
+                            <Fade
+                                checked={editTeamsOpen}
+                                onChange={toggleTeamsOpen}
+                                label="Edit Collingwood Teams"
+                                switchStyles={SwitchStyles}
+                                switchColor="secondary"
+                            >
+                                <CheckboxOptions
+                                    allCollingwoodTeams={allCollingwoodTeams}
+                                    activeTeams={activeTeams}
+                                    updateActiveTeams={updateActiveTeams}
+                                />
+                            </Fade>
                         ) }
                 </div>
                 <div className={props.styles.radioWrapper}>
@@ -66,16 +97,6 @@ const Graph = props => {
                         key="Graph Choice"
                         onChange={setGraphMode}
                         options={[
-                            {
-                                text: 'Goals Scored',
-                                id: helpers.graphModes.goalsFor,
-                                value: helpers.graphModes.goalsFor
-                            },
-                            {
-                                text: 'Goals Conceded',
-                                id: helpers.graphModes.goalsAgainst,
-                                value: helpers.graphModes.goalsAgainst
-                            },
                             {
                                 text: 'Total points',
                                 id: helpers.graphModes.totalPoints,
@@ -97,6 +118,7 @@ const Graph = props => {
                 </div>
             </div>
 
+
             {activeTeams.length > 0 ? (
                 <Chart
                     height="500px"
@@ -109,17 +131,15 @@ const Graph = props => {
                     data={graphData}
                     options={{
                         hAxis: {
-                            title: 'Week',
-                            ticks: fp.range(1, props.maxGameweek + 1),
-                            viewWindow: { min: 1 }
+                            title: 'Date'
                         },
                         vAxis: {
                             title: graphTitle[graphMode],
                             viewWindow: { min: 0 }
                         },
-                        series,
-                        legend: 'bottom',
-                        title: graphTitle[graphMode]
+                        series: {
+                            1: { curveType: 'function' }
+                        }
                     }}
                     rootProps={{ 'data-testid': '2' }}
                 />
@@ -128,21 +148,27 @@ const Graph = props => {
                   Please select some teams
                 </div>
             )}
-        </div>
+        </>
     );
 };
 
 Graph.propTypes = {
-    allTeams: PropTypes.arrayOf(PropTypes.shape({})),
-    fetchingAllTeams: PropTypes.bool,
-    maxGameweek: PropTypes.number,
+    loadingFixtures: PropTypes.bool,
+    fixtures: PropTypes.arrayOf(PropTypes.shape({
+        teamOne: PropTypes.string,
+        result: PropTypes.string,
+        teamTwo: PropTypes.string,
+        location: PropTypes.string,
+        time: PropTypes.string,
+        completed: PropTypes.bool,
+        league: PropTypes.string
+    })),
     styles: PropTypes.objectOf(PropTypes.string)
 };
 
 Graph.defaultProps = {
-    allTeams: [],
-    fetchingAllTeams: false,
-    maxGameweek: 0,
+    loadingFixtures: false,
+    fixtures: [],
     styles: defaultStyles
 };
 

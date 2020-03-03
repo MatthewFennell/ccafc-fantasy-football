@@ -3,6 +3,7 @@ const pre = 'FIXTURES/';
 export const FETCH_FIXTURES_REQUEST = `${pre}FETCH_FIXTURES_REQUEST`;
 export const FETCH_FIXTURES_SUCCESS = `${pre}FETCH_FIXTURES_SUCCESS`;
 export const FETCH_FIXTURES_ERROR = `${pre}FETCH_FIXTURES_ERROR`;
+export const ALREADY_FETCHED_FIXTURES = `${pre}ALREADY_FETCHED_FIXTURES`;
 
 export const SET_MY_TEAM_REQUEST = `${pre}SET_MY_TEAM_REQUEST`;
 export const SET_MY_TEAM_ERROR = `${pre}SET_MY_TEAM_ERROR`;
@@ -43,6 +44,10 @@ export const setMyTeam = team => ({
 
 export const fetchFixturesRequest = () => ({
     type: FETCH_FIXTURES_REQUEST
+});
+
+export const alreadyFetchedFixtures = () => ({
+    type: ALREADY_FETCHED_FIXTURES
 });
 
 export const fetchFixturesSuccess = fixtures => ({

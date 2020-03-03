@@ -19,6 +19,17 @@ describe('Fixtures reducer', () => {
         });
     });
 
+    it('already fetched fixtures', () => {
+        const action = actions.alreadyFetchedFixtures();
+        expect(reducer({
+            ...initialState,
+            loadingFixtures: true
+        }, action)).toEqual({
+            ...initialState,
+            loadingFixtures: false
+        });
+    });
+
     it('fetch fixtures request', () => {
         const action = actions.fetchFixturesRequest();
         expect(reducer(initialState, action)).toEqual({
