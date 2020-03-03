@@ -54,7 +54,7 @@ const Overview = props => {
 
     return (
         <div className={props.styles.overviewWrapper}>
-            <Autocomplete withPadding />
+            <Autocomplete withPadding loading />
             <div className={props.styles.pointsWrapper}>
                 <div className={props.styles.totalPointsWrapper}>
                     {props.fetchingUserStats ? <Spinner color="secondary" /> : (

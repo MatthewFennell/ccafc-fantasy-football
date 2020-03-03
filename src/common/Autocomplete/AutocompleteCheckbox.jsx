@@ -8,6 +8,7 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import defaultStyles from './Autocomplete.module.scss';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -24,6 +25,7 @@ const AutocompleteCheckbox = props => (
             options={top100Films}
             disableCloseOnSelect
             getOptionLabel={option => option.title}
+            loading={props.loading}
             renderOption={(option, { selected }) => (
                 <>
                     <Checkbox
@@ -37,18 +39,41 @@ const AutocompleteCheckbox = props => (
             )}
             style={{ width: 500 }}
             renderInput={params => (
-                <TextField {...params} variant="outlined" label="Checkboxes" placeholder="Favorites" />
+                <TextField
+                    {...params}
+                    variant="outlined"
+                    label="Checkboxes"
+                    placeholder="Favorites"
+                    InputProps={{
+                        ...params.InputProps,
+                        endAdornment: (
+                            <>
+                                {props.loading ? (
+                                    <CircularProgress
+                                        color={props.loadingColor}
+                                        size={20}
+                                    />
+                                ) : null}
+                                {params.InputProps.endAdornment}
+                            </>
+                        )
+                    }}
+                />
             )}
         />
     </div>
 );
 
 AutocompleteCheckbox.propTypes = {
+    loading: PropTypes.bool,
+    loadingColor: PropTypes.string,
     withPadding: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 
 AutocompleteCheckbox.defaultProps = {
+    loading: false,
+    loadingColor: 'primary',
     withPadding: false,
     styles: defaultStyles
 };
