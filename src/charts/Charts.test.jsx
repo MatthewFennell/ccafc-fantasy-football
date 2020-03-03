@@ -7,6 +7,7 @@ import { shallow, mount } from '../enzyme';
 import Charts, { ChartsUnconnected } from './Charts';
 import { initialState } from './reducer';
 import { initialState as overviewinitialState } from '../overview/reducer';
+import { initialState as fixturesInitialState } from '../fixtures/reducer';
 
 describe('Charts', () => {
     it('The Charts component renders without crashing', () => {
@@ -23,7 +24,8 @@ describe('Charts connected', () => {
         const mockStore = configureMockStore([]);
         const mockStoreInitialized = mockStore({
             charts: initialState,
-            overview: overviewinitialState
+            overview: overviewinitialState,
+            fixtures: fixturesInitialState
         });
 
         const wrapper = mount(

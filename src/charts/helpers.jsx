@@ -67,14 +67,14 @@ export const findGraphData = (allTeams, activeTeams, graphMode, maxGameweek) => 
                 if (result[graphMode] || result[graphMode] === 0) {
                     total += result[graphMode];
                 } else {
-                    total = fp.get(`${team.id}.week-${week}.${graphMode}`)(accumulation);
+                    total = fp.get(`${team.id}.week-${week}.${graphMode}`)(accumulation) || 0;
                 }
             });
             if (resultsForThatWeek.length === 0) {
                 if (graphMode === graphModes.goalsFor || graphMode === graphModes.goalsAgainst) {
                     total = 0;
                 } else {
-                    total = fp.get(`${team.id}.week-${week}.${graphMode}`)(accumulation);
+                    total = fp.get(`${team.id}.week-${week}.${graphMode}`)(accumulation) || 0;
                 }
             }
             weekData.push(total);
