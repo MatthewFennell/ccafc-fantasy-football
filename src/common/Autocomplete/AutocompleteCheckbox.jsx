@@ -6,12 +6,18 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import defaultStyles from './Autocomplete.module.scss';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-export default function CheckboxesTags() {
-    return (
+const AutocompleteCheckbox = props => (
+    <div className={classNames({
+        [props.styles.autocompletePadding]: props.withPadding
+    })}
+    >
         <Autocomplete
             multiple
             id="checkboxes-tags-demo"
@@ -34,8 +40,18 @@ export default function CheckboxesTags() {
                 <TextField {...params} variant="outlined" label="Checkboxes" placeholder="Favorites" />
             )}
         />
-    );
-}
+    </div>
+);
+
+AutocompleteCheckbox.propTypes = {
+    withPadding: PropTypes.bool,
+    styles: PropTypes.objectOf(PropTypes.string)
+};
+
+AutocompleteCheckbox.defaultProps = {
+    withPadding: false,
+    styles: defaultStyles
+};
 
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
 const top100Films = [
@@ -72,3 +88,5 @@ const top100Films = [
     { title: 'American History X', year: 1998 },
     { title: 'Interstellar', year: 2014 }
 ];
+
+export default AutocompleteCheckbox;

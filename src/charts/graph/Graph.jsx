@@ -10,7 +10,6 @@ import * as fixturesHelpers from '../../fixtures/helpers';
 import Fade from '../../common/Fade/Fade';
 import CheckboxOptions from './CheckboxOptions';
 import SwitchStyles from './SwitchStyles.module.scss';
-import Autocomplete from '../../common/Autocomplete/Autocomplete';
 
 const graphTitle = {
     goalsFor: 'Goals Scored Per Week',
@@ -70,7 +69,6 @@ const Graph = props => {
 
     return (
         <>
-            <Autocomplete />
             <div className={props.styles.graphChoiceWrapper}>
 
                 <div className={props.styles.chartsHeader}>
