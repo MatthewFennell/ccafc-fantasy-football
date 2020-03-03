@@ -7,12 +7,12 @@ import LeagueTable from './leaguetable/LeagueTable';
 import WithCollapsable from '../common/collapsableHOC/WithCollapsable';
 import mobileCollapsableStyles from './MobileGraphStyles.module.scss';
 import { fetchFixturesRequest } from '../fixtures/actions';
-import { dummyFixtures } from './testData';
+// import { dummyFixtures } from './testData';
 
 const Charts = props => {
     useEffect(() => {
         props.fetchAllTeamsRequest();
-        // props.fetchFixturesRequest();
+        props.fetchFixturesRequest();
         // eslint-disable-next-line
     }, [props.fetchAllTeamsRequest]);
 
@@ -36,7 +36,7 @@ const Charts = props => {
         <>
             <GraphSection
                 isOpen={graphOpen}
-                fixtures={dummyFixtures.filter(x => x.completed && !x.isCup)}
+                fixtures={props.fixtures.filter(x => x.completed && !x.isCup)}
                 loadingFixtures={props.loadingFixtures}
                 toggle={setGraphOpen}
                 title="Graphs"
@@ -57,16 +57,16 @@ const Charts = props => {
 
 Charts.defaultProps = {
     allTeams: [],
-    fetchingAllTeams: false,
+    // fetchingAllTeams: false,
     fixtures: [],
-    loadingFixtures: false,
-    maxGameweek: 0
+    loadingFixtures: false
+    // maxGameweek: 0
 };
 
 Charts.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     fetchAllTeamsRequest: PropTypes.func.isRequired,
-    fetchingAllTeams: PropTypes.bool,
+    // fetchingAllTeams: PropTypes.bool,
     fetchFixturesRequest: PropTypes.func.isRequired,
     fixtures: PropTypes.arrayOf(PropTypes.shape({
         teamOne: PropTypes.string,
@@ -77,8 +77,8 @@ Charts.propTypes = {
         completed: PropTypes.bool,
         league: PropTypes.string
     })),
-    loadingFixtures: PropTypes.bool,
-    maxGameweek: PropTypes.number
+    loadingFixtures: PropTypes.bool
+    // maxGameweek: PropTypes.number
 };
 
 const mapDispatchToProps = {
