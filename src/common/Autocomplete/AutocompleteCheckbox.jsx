@@ -15,57 +15,60 @@ import defaultStyles from './Autocomplete.module.scss';
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-const AutocompleteCheckbox = props => (
-    <div className={classNames({
-        [props.styles.autocompletePadding]: props.withPadding
-    })}
-    >
-        <Autocomplete
-            multiple
-            id="checkboxes-tags-demo"
-            options={props.options}
-            disableCloseOnSelect
-            getOptionLabel={option => option.title}
-            onChange={(e, v) => props.onChange(v)}
-            value={props.value}
-            loading={props.loading}
-            renderOption={(option, { selected }) => (
-                <>
-                    <Checkbox
-                        icon={icon}
-                        checkedIcon={checkedIcon}
-                        style={{ marginRight: 8 }}
-                        checked={selected}
-                    />
-                    {option.title}
-                </>
-            )}
-            renderInput={params => (
-                <TextField
-                    {...params}
-                    variant="outlined"
-                    label="Checkboxes"
-                    placeholder="Favorites"
+const AutocompleteCheckbox = props => {
+    console.log('options', props.options);
+    return (
+        <div className={classNames({
+            [props.styles.autocompletePadding]: props.withPadding
+        })}
+        >
+            <Autocomplete
+                multiple
+                id="checkboxes-tags-demo"
+                options={props.options}
+                disableCloseOnSelect
+                getOptionLabel={option => option.text}
+                onChange={(e, v) => props.onChange(v)}
+                value={props.value}
+                loading={props.loading}
+                renderOption={(option, { selected }) => (
+                    <>
+                        <Checkbox
+                            icon={icon}
+                            checkedIcon={checkedIcon}
+                            style={{ marginRight: 8 }}
+                            checked={props.value.some(x => x.text === option.text)}
+                        />
+                        {option.text}
+                    </>
+                )}
+                renderInput={params => (
+                    <TextField
+                        {...params}
+                        variant="outlined"
+                        label="Checkboxes"
+                        placeholder="Favorites"
 
-                    InputProps={{
-                        ...params.InputProps,
-                        endAdornment: (
-                            <>
-                                {props.loading ? (
-                                    <CircularProgress
-                                        color={props.loadingColor}
-                                        size={20}
-                                    />
-                                ) : null}
-                                {params.InputProps.endAdornment}
-                            </>
-                        )
-                    }}
-                />
-            )}
-        />
-    </div>
-);
+                        InputProps={{
+                            ...params.InputProps,
+                            endAdornment: (
+                                <>
+                                    {props.loading ? (
+                                        <CircularProgress
+                                            color={props.loadingColor}
+                                            size={20}
+                                        />
+                                    ) : null}
+                                    {params.InputProps.endAdornment}
+                                </>
+                            )
+                        }}
+                    />
+                )}
+            />
+        </div>
+    );
+};
 
 AutocompleteCheckbox.propTypes = {
     loading: PropTypes.bool,
@@ -73,12 +76,12 @@ AutocompleteCheckbox.propTypes = {
     onChange: PropTypes.func,
     options: PropTypes.arrayOf(PropTypes.shape({
         checked: PropTypes.bool,
-        title: PropTypes.string
+        text: PropTypes.string
     })),
     styles: PropTypes.objectOf(PropTypes.string),
     value: PropTypes.arrayOf(PropTypes.shape({
         checked: PropTypes.bool,
-        title: PropTypes.string
+        text: PropTypes.string
     })),
     withPadding: PropTypes.bool
 };

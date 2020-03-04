@@ -5,11 +5,13 @@ import _ from 'lodash';
 import defaultStyles from './Graph.module.scss';
 import Spinner from '../../common/spinner/Spinner';
 import * as helpers from '../helpers';
-import Dropdown from '../../common/dropdown/Dropdown';
 import * as fixturesHelpers from '../../fixtures/helpers';
 import Fade from '../../common/Fade/Fade';
 import CheckboxOptions from './CheckboxOptions';
 import SwitchStyles from './SwitchStyles.module.scss';
+import RadioButton from '../../common/radio/RadioButton';
+import Autocompletecheckbox from '../../common/Autocomplete/AutocompleteCheckbox';
+import { generateNonCollingwoodTeams } from '../helpers';
 
 const graphTitle = {
     goalsFor: 'Goals Scored Per Week',
@@ -67,10 +69,21 @@ const Graph = props => {
         setEditTeamsOpen(!editTeamsOpen);
     }, [editTeamsOpen, setEditTeamsOpen]);
 
+    const nonCollingwood = useCallback(() => generateNonCollingwoodTeams(
+        props.fixtures
+    ),
+    [props.fixtures]);
+
+    const [nonCollingwoodTeams, setNonCollingwoodTeams] = useState([]);
+
     return (
         <>
             <div className={props.styles.graphChoiceWrapper}>
-
+                <Autocompletecheckbox
+                    options={nonCollingwood()}
+                    onChange={setNonCollingwoodTeams}
+                    value={nonCollingwoodTeams}
+                />
                 <div className={props.styles.chartsHeader}>
                     {props.loadingFixtures ? <Spinner color="secondary" />
                         : (
@@ -90,7 +103,7 @@ const Graph = props => {
                         ) }
                 </div>
                 <div className={props.styles.radioWrapper}>
-                    <Dropdown
+                    <RadioButton
                         title="Graph Choice"
                         key="Graph Choice"
                         onChange={setGraphMode}

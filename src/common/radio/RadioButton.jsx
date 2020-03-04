@@ -27,11 +27,11 @@ const RadioButton = props => {
 
     return (
         <FormControl component="fieldset" className={classes.formControl}>
-            <FormLabel component="legend" className={classes.title}>{props.radioLabel}</FormLabel>
+            <FormLabel component="legend" className={classes.title}>{props.text}</FormLabel>
             <RadioGroup
                 row
-                aria-label={props.radioLabel}
-                name={props.radioLabel}
+                aria-label={props.text}
+                name={props.text}
                 value={props.value}
                 onChange={onChange}
                 className={props.styles.justifyCenter}
@@ -40,7 +40,7 @@ const RadioButton = props => {
                     <FormControlLabel
                         value={option.value}
                         control={<Radio color="primary" />}
-                        label={option.radioLabel}
+                        label={option.text}
                         labelPlacement="top"
                         key={option.value}
                     />
@@ -52,7 +52,7 @@ const RadioButton = props => {
 
 RadioButton.defaultProps = {
     onChange: noop,
-    radioLabel: '',
+    text: '',
     options: [],
     styles: defaultStyles,
     value: ''
@@ -60,9 +60,9 @@ RadioButton.defaultProps = {
 
 RadioButton.propTypes = {
     onChange: PropTypes.func,
-    radioLabel: PropTypes.string,
+    text: PropTypes.string,
     options: PropTypes.arrayOf(PropTypes.shape({
-        radioLabel: PropTypes.string
+        text: PropTypes.string
     })),
     styles: PropTypes.objectOf(PropTypes.string),
     value: PropTypes.string
