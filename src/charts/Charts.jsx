@@ -7,7 +7,6 @@ import LeagueTable from './leaguetable/LeagueTable';
 import WithCollapsable from '../common/collapsableHOC/WithCollapsable';
 import mobileCollapsableStyles from './MobileGraphStyles.module.scss';
 import { fetchFixturesRequest } from '../fixtures/actions';
-import { testData } from './test';
 
 const Charts = props => {
     useEffect(() => {
@@ -36,9 +35,8 @@ const Charts = props => {
         <>
             <GraphSection
                 isOpen={graphOpen}
-                fixtures={testData.filter(x => x.completed && !x.isCup)}
-                // fixtures={props.fixtures.filter(x => x.completed && !x.isCup)}
-                // loadingFixtures={props.loadingFixtures}
+                fixtures={props.fixtures.filter(x => x.completed && !x.isCup)}
+                loadingFixtures={props.loadingFixtures}
                 toggle={setGraphOpen}
                 title="Graphs"
                 styles={mobileCollapsableStyles}
@@ -46,7 +44,7 @@ const Charts = props => {
             <LeagueTableSection
                 allTeams={props.allTeams}
                 fixtures={filterFixtures()}
-                // loadingFixtures={props.loadingFixtures}
+                loadingFixtures={props.loadingFixtures}
                 isOpen={leagueTableOpen}
                 toggle={setOpen}
                 title="LeagueTable"

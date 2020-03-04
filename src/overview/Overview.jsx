@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -10,14 +10,6 @@ import {
 import * as selectors from './selectors';
 import Spinner from '../common/spinner/Spinner';
 import { generateOverviewRoute } from '../helperFunctions';
-import Autocomplete from '../common/Autocomplete/AutocompleteCheckbox';
-
-const top100Films = [
-    { title: 'The Shawshank Redemption', year: 1994, checked: true },
-    { title: 'The Godfather', year: 1972, checked: true },
-    { title: 'The Godfather: Part II', year: 1974, checked: true },
-    { title: 'The Dark Knight', year: 2008, checked: true }
-];
 
 const Overview = props => {
     useEffect(() => {
@@ -59,22 +51,8 @@ const Overview = props => {
         }
     }, [props.currentGameWeek, props.maxGameWeek, props.history, props.userId]);
 
-    const [options, setOptions] = useState([]);
-
-    const onChange = change => {
-        console.log('change', change);
-        setOptions(change);
-    };
-
     return (
         <div className={props.styles.overviewWrapper}>
-            <Autocomplete
-                withPadding
-                loading
-                options={top100Films}
-                onChange={onChange}
-                value={options}
-            />
             <div className={props.styles.pointsWrapper}>
                 <div className={props.styles.totalPointsWrapper}>
                     {props.fetchingUserStats ? <Spinner color="secondary" /> : (
