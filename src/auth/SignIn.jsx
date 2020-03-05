@@ -63,6 +63,7 @@ const SignIn = props => {
                             onChange={e => setPassword(e)}
                             value={password}
                             iconColor="secondary"
+                            type="password"
                         />
                     </div>
 

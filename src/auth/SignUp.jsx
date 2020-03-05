@@ -67,6 +67,7 @@ const SignUp = props => {
                             onChange={setPassword}
                             value={password}
                             iconColor="secondary"
+                            type="password"
                         />
                         <TextInput
                             label="Password"
@@ -74,6 +75,7 @@ const SignUp = props => {
                             onChange={setPasswordTwo}
                             value={passwordTwo}
                             iconColor="secondary"
+                            type="password"
                         />
                         <TextInput
                             label="Display Name"
