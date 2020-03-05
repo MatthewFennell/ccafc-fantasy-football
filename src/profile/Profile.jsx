@@ -43,6 +43,8 @@ const Profile = props => {
 
     const potentialPictures = firebase.auth().currentUser.providerData.map(x => x.photoURL);
 
+    console.log('photo url', props.profile.photoUrl);
+
     return (
         <div className={props.styles.profileWrapper}>
             <div className={props.styles.profileHeader}>

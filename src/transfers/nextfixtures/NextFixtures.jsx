@@ -16,7 +16,8 @@ const NextFixtures = props => {
     const sortedByDateFixtures = helpers.sortMatchesByDate(futureMatches, false);
 
     const nextMatchPerTeam = uniqueTeams.map(x => sortedByDateFixtures
-        .find(y => y.teamOne === x || y.teamTwo === x));
+        .find(y => y.teamOne === x || y.teamTwo === x))
+        .filter(x => x !== undefined); // Some teams have no matches left
 
     const removedDuplicates = _.uniqBy(nextMatchPerTeam, x => x.teamOne + x.teamTwo);
     const removedDuplicatedSorted = helpers.sortMatchesByDate(removedDuplicates, false);
