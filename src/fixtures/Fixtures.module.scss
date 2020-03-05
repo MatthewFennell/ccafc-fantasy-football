@@ -1,5 +1,10 @@
 @import "../common/Styles.scss";
 
+.editFiltersWrapper {
+  margin-top: $spacing-medium;
+  text-align: center;
+}
+
 .fixturesWrapper, .gridWrapper {
     padding: $spacing-medium;
     margin: $spacing-medium;
