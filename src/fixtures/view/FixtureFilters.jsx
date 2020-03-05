@@ -12,7 +12,7 @@ const FixtureFilters = props => (
         <div className={props.styles.extraFilters}>
             <div>
                 <Dropdown
-                    radioLabel=""
+                    text=""
                     onChange={props.setRadioValue}
                     options={props.radioOptions}
                     value={props.radioValue}
@@ -74,7 +74,7 @@ FixtureFilters.defaultProps = {
 FixtureFilters.propTypes = {
     collingwoodOnly: PropTypes.bool,
     radioOptions: PropTypes.arrayOf(PropTypes.shape({
-        radioLabel: PropTypes.string,
+        text: PropTypes.string,
         value: PropTypes.string
     })),
     radioValue: PropTypes.string,

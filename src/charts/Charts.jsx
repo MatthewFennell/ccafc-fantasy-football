@@ -7,7 +7,6 @@ import LeagueTable from './leaguetable/LeagueTable';
 import WithCollapsable from '../common/collapsableHOC/WithCollapsable';
 import mobileCollapsableStyles from './MobileGraphStyles.module.scss';
 import { fetchFixturesRequest } from '../fixtures/actions';
-// import { dummyFixtures } from './testData';
 
 const Charts = props => {
     useEffect(() => {

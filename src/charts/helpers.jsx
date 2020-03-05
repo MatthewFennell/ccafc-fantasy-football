@@ -1,8 +1,19 @@
 import React from 'react';
+import _ from 'lodash';
 import fp from 'lodash/fp';
 import moment from 'moment';
 import { generateCollingwoodTeams } from '../fixtures/helpers';
 
+export const generateUniqueTeams = fixtures => fixtures
+    .reduce((prev, curr) => _.uniqBy(
+        [...prev, curr.teamOne, curr.teamTwo]
+    ), [])
+    .sort()
+    .map(x => ({
+        id: x,
+        value: x,
+        text: x
+    }));
 
 export const graphModes = {
     totalPoints: 'totalPoints',

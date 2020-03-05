@@ -10,7 +10,6 @@ import {
 import * as selectors from './selectors';
 import Spinner from '../common/spinner/Spinner';
 import { generateOverviewRoute } from '../helperFunctions';
-import Autocomplete from '../common/Autocomplete/Autocomplete';
 
 const Overview = props => {
     useEffect(() => {
@@ -54,7 +53,6 @@ const Overview = props => {
 
     return (
         <div className={props.styles.overviewWrapper}>
-            <Autocomplete />
             <div className={props.styles.pointsWrapper}>
                 <div className={props.styles.totalPointsWrapper}>
                     {props.fetchingUserStats ? <Spinner color="secondary" /> : (

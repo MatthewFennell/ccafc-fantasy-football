@@ -4,15 +4,15 @@ import StyledButton from '../../common/StyledButton/StyledButton';
 
 export const RadioAscDesc = (value, onChange, label) => (
     <RadioButton
-        radioLabel={label}
+        text={label}
         onChange={onChange}
         options={[
             {
-                radioLabel: 'Asc',
+                text: 'Asc',
                 value: 'Asc'
             },
             {
-                radioLabel: 'Desc',
+                text: 'Desc',
                 value: 'Desc'
             }
         ]}
@@ -22,23 +22,23 @@ export const RadioAscDesc = (value, onChange, label) => (
 
 export const RadioPosition = (value, onChange, label) => (
     <RadioButton
-        radioLabel={label}
+        text={label}
         onChange={onChange}
         options={[
             {
-                radioLabel: 'GK',
+                text: 'GK',
                 value: 'GOALKEEPER'
             },
             {
-                radioLabel: 'Def',
+                text: 'Def',
                 value: 'DEFENDER'
             },
             {
-                radioLabel: 'Mid',
+                text: 'Mid',
                 value: 'MIDFIELDER'
             },
             {
-                radioLabel: 'Att',
+                text: 'Att',
                 value: 'ATTACKER'
             }
         ]}

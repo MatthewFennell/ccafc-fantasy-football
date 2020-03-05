@@ -28,15 +28,15 @@ export const columns = [
 
 export const radioOptions = [
     {
-        radioLabel: 'All',
+        text: 'All',
         value: 'All'
     },
     {
-        radioLabel: 'Have paid',
+        text: 'Have paid',
         value: 'paid'
     },
     {
-        radioLabel: 'Not paid',
+        text: 'Not paid',
         value: 'notPaid'
     }
 ];

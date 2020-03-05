@@ -5,12 +5,8 @@ import _ from 'lodash';
 import defaultStyles from './Graph.module.scss';
 import Spinner from '../../common/spinner/Spinner';
 import * as helpers from '../helpers';
-import Dropdown from '../../common/dropdown/Dropdown';
-import * as fixturesHelpers from '../../fixtures/helpers';
-import Fade from '../../common/Fade/Fade';
-import CheckboxOptions from './CheckboxOptions';
-import SwitchStyles from './SwitchStyles.module.scss';
-import Autocomplete from '../../common/Autocomplete/Autocomplete';
+import Autocompletecheckbox from '../../common/Autocomplete/AutocompleteCheckbox';
+import RadioButton from '../../common/radio/RadioButton';
 
 const graphTitle = {
     goalsFor: 'Goals Scored Per Week',
@@ -20,79 +16,60 @@ const graphTitle = {
 
 const Graph = props => {
     const [graphMode, setGraphMode] = useState(helpers.graphModes.totalPoints);
-    const [activeTeams, setActiveTeams] = useState([]);
-
     const [graphData, setGraphData] = useState([]);
-    const [allCollingwoodTeams, setCollingwoodTeams] = useState([]);
     const [allDays, setAllDays] = useState([]);
     const [accumulation, setAccumulation] = useState({});
     const [weekIntervals, setWeekIntervals] = useState([]);
+    const [activeTeams, setActiveTeams] = useState([]);
 
     // Load the graph data - main one
     useEffect(() => {
-        const newGraphData = helpers.combineData(activeTeams, allDays, accumulation, graphMode);
+        const nonCwoodTeams = activeTeams.map(x => x.text);
+        const newGraphData = helpers.combineData(nonCwoodTeams,
+            allDays, accumulation, graphMode);
         setGraphData(newGraphData);
-    }, [props.fixtures, graphMode, activeTeams, accumulation, allDays]);
+    }, [props.fixtures, graphMode, accumulation, allDays, activeTeams]);
 
-    // Find the unique collingwood teams
     // Find all the days from start -> end of fixtures
     useEffect(() => {
-        setCollingwoodTeams(fixturesHelpers.generateCollingwoodTeams(props.fixtures));
         setAllDays(helpers.generateAllDays(props.fixtures));
     }, [props.fixtures]);
 
     useEffect(() => {
+        const nonCwoodTeams = activeTeams.map(x => x.text);
         const newAccumulation = helpers.makeGraphAccumulation(accumulation,
-            props.fixtures, weekIntervals, activeTeams);
+            props.fixtures, weekIntervals, nonCwoodTeams);
+
         if (!_.isEqual(newAccumulation, accumulation)) {
             setAccumulation(newAccumulation);
         }
-    }, [props.fixtures, allDays, activeTeams, weekIntervals, accumulation]);
+    }, [props.fixtures, allDays, weekIntervals, accumulation, activeTeams]);
 
     useEffect(() => {
         const weeks = helpers.generateWeekTicks(props.fixtures);
         setWeekIntervals(weeks);
     }, [props.fixtures]);
 
-    const updateActiveTeams = useCallback(teamId => {
-        if (activeTeams.includes(teamId)) {
-            setActiveTeams(activeTeams.filter(x => x !== teamId));
-        } else {
-            setActiveTeams(activeTeams.concat([teamId]));
-        }
-    }, [activeTeams, setActiveTeams]);
+    const uniqueTeams = useCallback(() => helpers.generateUniqueTeams(
+        props.fixtures
+    ),
+    [props.fixtures]);
 
-    const [editTeamsOpen, setEditTeamsOpen] = useState(false);
-
-    const toggleTeamsOpen = useCallback(() => {
-        setEditTeamsOpen(!editTeamsOpen);
-    }, [editTeamsOpen, setEditTeamsOpen]);
 
     return (
         <>
-            <Autocomplete />
             <div className={props.styles.graphChoiceWrapper}>
-
-                <div className={props.styles.chartsHeader}>
-                    {props.loadingFixtures ? <Spinner color="secondary" />
-                        : (
-                            <Fade
-                                checked={editTeamsOpen}
-                                onChange={toggleTeamsOpen}
-                                label="Edit Collingwood Teams"
-                                switchStyles={SwitchStyles}
-                                switchColor="secondary"
-                            >
-                                <CheckboxOptions
-                                    allCollingwoodTeams={allCollingwoodTeams}
-                                    activeTeams={activeTeams}
-                                    updateActiveTeams={updateActiveTeams}
-                                />
-                            </Fade>
-                        ) }
-                </div>
+                <Autocompletecheckbox
+                    label="Select Teams"
+                    loading={props.loadingFixtures}
+                    options={uniqueTeams()}
+                    onChange={setActiveTeams}
+                    placeholder="Add more teams"
+                    value={activeTeams}
+                    withPadding
+                />
                 <div className={props.styles.radioWrapper}>
-                    <Dropdown
+                    <RadioButton
                         title="Graph Choice"
                         key="Graph Choice"
                         onChange={setGraphMode}
@@ -108,7 +85,7 @@ const Graph = props => {
                                 value: helpers.graphModes.totalGoalsFor
                             },
                             {
-                                text: 'Total Goals Against',
+                                text: 'Total Goals Conceded',
                                 id: helpers.graphModes.totalGoalsAgainst,
                                 value: helpers.graphModes.totalGoalsAgainst
                             }
@@ -153,7 +130,6 @@ const Graph = props => {
 };
 
 Graph.propTypes = {
-    loadingFixtures: PropTypes.bool,
     fixtures: PropTypes.arrayOf(PropTypes.shape({
         teamOne: PropTypes.string,
         result: PropTypes.string,
@@ -163,12 +139,13 @@ Graph.propTypes = {
         completed: PropTypes.bool,
         league: PropTypes.string
     })),
+    loadingFixtures: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 
 Graph.defaultProps = {
-    loadingFixtures: false,
     fixtures: [],
+    loadingFixtures: false,
     styles: defaultStyles
 };
 
