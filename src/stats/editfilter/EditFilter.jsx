@@ -34,7 +34,7 @@ const EditFilter = props => {
                 step={1}
                 text="From Week"
                 onChange={setMinWeek}
-                defaultValue={minWeek}
+                value={minWeek}
             />
             <Slider
                 marks={marks(props.maxGameWeek)}
@@ -43,7 +43,7 @@ const EditFilter = props => {
                 step={1}
                 text="To Week"
                 onChange={setMaxWeek}
-                defaultValue={maxWeek}
+                value={maxWeek}
             />
             <div className={props.styles.togglesWrapper}>
                 {props.allColumns.map(x => (

@@ -216,7 +216,7 @@ export const generateNewTable = fixtures => {
     }));
 
     return sortLeagueTable(result)
-        .reverse().map((x, pos) => ({ ...x, position: makeBold(pos + 1) }));
+        .reverse().map((x, pos) => ({ ...x, id: x.team, position: makeBold(pos + 1) }));
 };
 
 export const generateLeagueTable = (activeTeams, weekStart, weekEnd) => {

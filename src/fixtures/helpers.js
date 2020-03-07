@@ -93,7 +93,7 @@ export const filterFixtures = (fixtures, league, collingwoodOnly, upcomingOnly, 
         .filter(collingwoodOnlyFilter)
         .filter(upcomingOnlyFilter)
         .filter(teamNameFilter)
-        .map(fixture => ({ ...fixture }));
+        .map(fixture => ({ ...fixture, id: `${fixture.teamOne} vs ${fixture.teamTwo}-${fixture.time}` }));
 
     return helpers.sortMatchesByDate(filteredFixtures, false);
 };

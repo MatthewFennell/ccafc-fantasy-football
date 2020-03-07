@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import { connect } from 'react-redux';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import defaultStyles from './Fixtures.module.scss';
 import {
     fetchFixturesRequest, setMyTeamRequest, fetchMyTeamRequest,
@@ -15,8 +17,16 @@ import {
 } from './helpers';
 import ErrorModal from '../common/modal/ErrorModal';
 import SuccessModal from '../common/modal/SuccessModal';
+import Fade from '../common/Fade/Fade';
+
+const useStyles = makeStyles(theme => ({
+    paper: {
+        margin: theme.spacing(4)
+    }
+}));
 
 const Fixtures = props => {
+    const classes = useStyles();
     const [myTeam, setMyTeam] = useState('');
     const [radioValue, setRadioValue] = useState('All');
     const [collingwoodOnly, setCollingwoodOnly] = useState(false);
@@ -56,31 +66,45 @@ const Fixtures = props => {
         setUpcomingMatchesOnly(!upcomingMatchesOnly);
     }, [setUpcomingMatchesOnly, upcomingMatchesOnly]);
 
+    const [editingFilters, setEditingFilters] = useState(false);
+
+    const toggleFilters = useCallback(() => {
+        setEditingFilters(!editingFilters);
+    }, [setEditingFilters, editingFilters]);
+
     return (
         <>
             <div>
-                <SetTeam
-                    activeTeam={myTeam}
-                    loadingMyTeam={props.loadingMyTeam}
-                    myTeam={props.myTeam}
-                    setActiveTeam={setMyTeam}
-                    teamOptions={generateCollingwoodTeams(props.fixtures)}
-                    updateMyTeam={updateMyTeam}
-                />
-
-                <div className={props.styles.fixturesWrapper}>
-                    <FixtureFilter
-                        collingwoodOnly={collingwoodOnly}
-                        radioOptions={fixturesFilters(props.myTeam, props.fixtures)}
-                        radioValue={radioValue}
-                        searchByTeamName={searchByTeamName}
-                        setRadioValue={setRadioValue}
-                        teamNameFilter={teamNameFilter}
-                        toggleCollingwoodOnly={toggleCollingwoodOnly}
-                        toggleUpcomingOnly={toggleUpcomingOnly}
-                        upcomingMatchesOnly={upcomingMatchesOnly}
+                <Paper elevation={4} className={classes.paper}>
+                    <SetTeam
+                        activeTeam={myTeam}
+                        loadingMyTeam={props.loadingMyTeam}
+                        myTeam={props.myTeam}
+                        setActiveTeam={setMyTeam}
+                        teamOptions={generateCollingwoodTeams(props.fixtures)}
+                        updateMyTeam={updateMyTeam}
                     />
-                </div>
+                    <div className={props.styles.editFiltersWrapper}>
+                        <Fade
+                            checked={editingFilters}
+                            label="Edit filters"
+                            includeCheckbox
+                            onChange={toggleFilters}
+                        >
+                            <FixtureFilter
+                                collingwoodOnly={collingwoodOnly}
+                                radioOptions={fixturesFilters(props.myTeam, props.fixtures)}
+                                radioValue={radioValue}
+                                searchByTeamName={searchByTeamName}
+                                setRadioValue={setRadioValue}
+                                teamNameFilter={teamNameFilter}
+                                toggleCollingwoodOnly={toggleCollingwoodOnly}
+                                toggleUpcomingOnly={toggleUpcomingOnly}
+                                upcomingMatchesOnly={upcomingMatchesOnly}
+                            />
+                        </Fade>
+                    </div>
+                </Paper>
                 <div className={props.styles.gridWrapper}>
                     <Grid
                         columns={columns}

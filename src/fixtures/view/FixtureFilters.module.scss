@@ -1,13 +1,12 @@
 @import "../../common/Styles.scss";
 
-.extraFilters{
+.extraFilters {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
 
     > div {
         @include vertical-center-div();
-        max-width: 40%;
         padding: $spacing-small;
     }
 }

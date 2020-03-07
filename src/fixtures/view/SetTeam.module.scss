@@ -2,11 +2,6 @@
 
 .selectTeamWrapper{
     display: flex;
-    padding: $spacing-medium;
-    margin: $spacing-medium;
-    text-align: center;
-    @include light-box-shadow();
-    background-color: $color-white;
     flex-wrap: wrap;
     
     > * {
