@@ -66,10 +66,6 @@ describe('Stats max / min week operations', () => {
     it('Generates correct week tickers', () => {
         expect(helpers.marks(5)).toEqual([
             {
-                value: 0,
-                label: '0'
-            },
-            {
                 value: 1,
                 label: '1'
             },
