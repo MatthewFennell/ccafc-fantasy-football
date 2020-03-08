@@ -9,52 +9,60 @@ import { noop } from 'lodash';
 import classNames from 'classnames';
 import * as routes from '../routes';
 import defaultStyles from './SideList.module.scss';
+import { MyContext } from '../Context';
 
 const SideList = props => {
     const linksToRender = props.isSignedIn ? routes.signedInLinks : routes.signedOutLinks;
     return (
-        <div
-            role="presentation"
-            onClick={props.closeNavbar}
-            onKeyDown={props.closeNavbar}
-        >
-            <List>
-                {linksToRender.map(item => (
-                    <ListItem
-                        button
-                        key={item.title}
-                        onClick={() => props.redirect(item.path(props))}
-                        className={classNames({
-                            [props.styles.activeRoute]: props.currentPath.includes(item.urlIncludes)
-                        })}
-                    >
-                        <ListItemIcon>{item.icon}</ListItemIcon>
-                        <ListItemText primary={item.title} />
-                    </ListItem>
-                ))}
-            </List>
-            <>
-                <Divider />
-                <List>
-                    {routes.adminLinks.filter(route => props.userPermissions
-                        .includes(route.permissionRequired))
-                        .map(item => (
-                            <ListItem
-                                button
-                                key={item.title}
-                                onClick={() => props.redirect(item.path(props))}
-                                className={classNames({
-                                    [props.styles.activeRoute]: props.currentPath
-                                        .includes(item.urlIncludes)
-                                })}
-                            >
-                                <ListItemIcon>{item.icon}</ListItemIcon>
-                                <ListItemText primary={item.title} />
-                            </ListItem>
-                        ))}
-                </List>
-            </>
-        </div>
+        <MyContext.Consumer>
+            {context => (
+                <div
+                    role="presentation"
+                    onClick={props.closeNavbar}
+                    onKeyDown={props.closeNavbar}
+                >
+                    <List>
+                        {linksToRender.filter(x => !context.disabledPages.includes(x.title))
+                            .map(item => (
+                                <ListItem
+                                    button
+                                    key={item.title}
+                                    onClick={() => props.redirect(item.path(props))}
+                                    className={classNames({
+                                        [props.styles.activeRoute]: props.currentPath
+                                            .includes(item.urlIncludes)
+                                    })}
+                                >
+                                    <ListItemIcon>{item.icon}</ListItemIcon>
+                                    <ListItemText primary={item.title} />
+                                </ListItem>
+                            ))}
+                    </List>
+                    <>
+                        <Divider />
+                        <List>
+                            {routes.adminLinks.filter(route => props.userPermissions
+                                .includes(route.permissionRequired) || true)
+                                .map(item => (
+                                    <ListItem
+                                        button
+                                        key={item.title}
+                                        onClick={() => props.redirect(item.path(props))}
+                                        className={classNames({
+                                            [props.styles.activeRoute]: props.currentPath
+                                                .includes(item.urlIncludes)
+                                        })}
+                                    >
+                                        <ListItemIcon>{item.icon}</ListItemIcon>
+                                        <ListItemText primary={item.title} />
+                                    </ListItem>
+                                ))}
+                        </List>
+                    </>
+                </div>
+            )}
+
+        </MyContext.Consumer>
     );
 };
 

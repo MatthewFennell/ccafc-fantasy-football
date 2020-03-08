@@ -84,6 +84,17 @@ export function* resendVerificationEmall() {
     }
 }
 
+export function* editDisabledPage(api, action) {
+    try {
+        yield call(api.editDisabledPages, ({
+            page: action.page,
+            isDisabled: action.isDisabled
+        }));
+    } catch (error) {
+        yield put(actions.editDisabledPageError(error));
+    }
+}
+
 export default function* authSaga() {
     yield all([
         takeEvery(actions.SIGN_OUT, signOut),
@@ -91,6 +102,7 @@ export default function* authSaga() {
         takeEvery(actions.SIGN_UP, signUp, authApi),
         takeEvery(actions.SIGN_IN, signIn),
         takeEvery(actions.SEND_PASSWORD_RESET_EMAIL, sendResetPasswordEmail),
-        takeEvery(actions.RESEND_VERIFICATION_EMAIL_REQUEST, resendVerificationEmall)
+        takeEvery(actions.RESEND_VERIFICATION_EMAIL_REQUEST, resendVerificationEmall),
+        takeEvery(actions.EDIT_DISABLED_PAGE_REQUEST, editDisabledPage, authApi)
     ]);
 }

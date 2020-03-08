@@ -24,9 +24,10 @@ export const URL = {
     SUBMIT_RESULT: '/submit-result',
     TRIGGER_WEEK: '/trigger-week',
     EDIT_PLAYER: '/edit-player',
-    MANAGE_USERS: '/manage-users',
     APPROVE_HIGHLIGHTS: '/approve-highlights',
-    MANAGE_SUBS: '/manage-subs'
+    MANAGE_SUBS: '/manage-subs',
+    MANAGE_USERS: '/manage-users',
+    TOGGLE_PAGES: '/toggle-pages'
 };
 
 export const POSITIONS = {
@@ -76,6 +77,7 @@ export const minPerPosition = {
 
 // KEEP IN SYNC WITH SERVER
 // This is the list of all existing permissions
+// src/functions/constants
 export const PERMISSIONS = {
     CREATE_PLAYER: 'CREATE_PLAYER',
     DELETE_PLAYER: 'DELETE_PLAYER',
@@ -87,7 +89,8 @@ export const PERMISSIONS = {
     MANAGE_USERS: 'MANAGE_USERS',
     APPROVE_HIGHLIGHTS: 'APPROVE_HIGHLIGHTS',
     ROLL_OVER_YEAR: 'ROLL_OVER_YEAR',
-    MANAGE_SUBS: 'MANAGE_SUBS'
+    MANAGE_SUBS: 'MANAGE_SUBS',
+    TOGGLE_PAGES: 'TOGGLE_PAGES'
 };
 
 export const successDelay = 3500;

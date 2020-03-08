@@ -83,15 +83,6 @@ export const adminLinks = [
         permissionRequired: constants.PERMISSIONS.EDIT_PLAYER
     },
     {
-        title: 'Manage Users',
-        icon: <SupervisorAccountIcon color="primary" />,
-        component: adminComponents.ManageUsers,
-        addUserId: false,
-        path: () => constants.URL.MANAGE_USERS,
-        urlIncludes: constants.URL.MANAGE_USERS,
-        permissionRequired: constants.PERMISSIONS.MANAGE_USERS
-    },
-    {
         title: 'Approve Highlights',
         icon: <VideoLabelIcon color="primary" />,
         component: adminComponents.ApproveHighlights,
@@ -108,6 +99,24 @@ export const adminLinks = [
         path: () => constants.URL.MANAGE_SUBS,
         urlIncludes: constants.URL.MANAGE_SUBS,
         permissionRequired: constants.PERMISSIONS.MANAGE_SUBS
+    },
+    {
+        title: 'Toggle Pages',
+        icon: <SupervisorAccountIcon color="primary" />,
+        component: adminComponents.TogglePages,
+        addUserId: false,
+        path: () => constants.URL.TOGGLE_PAGES,
+        urlIncludes: constants.URL.TOGGLE_PAGES,
+        permissionRequired: constants.PERMISSIONS.TOGGLE_PAGES
+    },
+    {
+        title: 'Manage Users',
+        icon: <SupervisorAccountIcon color="primary" />,
+        component: adminComponents.ManageUsers,
+        addUserId: false,
+        path: () => constants.URL.MANAGE_USERS,
+        urlIncludes: constants.URL.MANAGE_USERS,
+        permissionRequired: constants.PERMISSIONS.MANAGE_USERS
     }
 ];
 
@@ -135,6 +144,7 @@ export const signedInLinks = [
         component: rootComponents.Overview,
         addUserId: false,
         path: props => `${constants.URL.OVERVIEW}/${fp.get('userId')(props)}/${fp.get('maxGameWeek')(props)}`,
+        renderPath: `${constants.URL.OVERVIEW}/:userId/:week`,
         urlIncludes: constants.URL.OVERVIEW
     },
     {
@@ -143,6 +153,7 @@ export const signedInLinks = [
         component: rootComponents.CurrentTeam,
         addUserId: true,
         path: props => `${constants.URL.CURRENT_TEAM}/${fp.get('userId')(props)}`,
+        renderPath: `${constants.URL.CURRENT_TEAM}/:userId`,
         urlIncludes: constants.URL.CURRENT_TEAM
     },
     {
@@ -151,6 +162,7 @@ export const signedInLinks = [
         component: rootComponents.Points,
         addUserId: false,
         path: props => `${constants.URL.POINTS}/${fp.get('userId')(props)}/${fp.get('maxGameWeek')(props)}`,
+        renderPath: `${constants.URL.POINTS}/:userId/:week`,
         urlIncludes: constants.URL.POINTS
     },
     {
@@ -159,6 +171,7 @@ export const signedInLinks = [
         component: rootComponents.Leagues,
         addUserId: false,
         path: () => constants.URL.LEAGUES,
+        renderPath: constants.URL.LEAGUES,
         urlIncludes: constants.URL.LEAGUES
     },
     {
@@ -167,6 +180,7 @@ export const signedInLinks = [
         component: rootComponents.Transfers,
         addUserId: false,
         path: () => constants.URL.TRANSFERS,
+        renderPath: constants.URL.TRANSFERS,
         urlIncludes: constants.URL.TRANSFERS
     },
     {
@@ -175,6 +189,7 @@ export const signedInLinks = [
         component: rootComponents.Stats,
         addUserId: false,
         path: props => `${constants.URL.STATS}/none/${fp.get('maxGameWeek')(props)}/${fp.get('maxGameWeek')(props)}`,
+        renderPath: `${constants.URL.STATS}/:teamId/:minWeek/:maxWeek`,
         urlIncludes: constants.URL.STATS
     },
     {
@@ -183,6 +198,7 @@ export const signedInLinks = [
         component: rootComponents.Charts,
         addUserId: false,
         path: () => constants.URL.CHARTS,
+        renderPath: constants.URL.CHARTS,
         urlIncludes: constants.URL.CHARTS
     },
     {
@@ -191,6 +207,7 @@ export const signedInLinks = [
         component: rootComponents.Highlights,
         addUserId: false,
         path: () => constants.URL.HIGHLIGHTS,
+        renderPath: constants.URL.HIGHLIGHTS,
         urlIncludes: constants.URL.HIGHLIGHTS
     },
     {
@@ -199,6 +216,7 @@ export const signedInLinks = [
         component: rootComponents.Fixtures,
         addUserId: false,
         path: () => constants.URL.FIXTURES,
+        renderPath: constants.URL.FIXTURES,
         urlIncludes: constants.URL.FIXTURES
     },
     {
@@ -207,6 +225,7 @@ export const signedInLinks = [
         component: rootComponents.FeatureRequest,
         addUserId: false,
         path: () => constants.URL.FEATURE_REQUEST,
+        renderPath: constants.URL.FEATURE_REQUEST,
         urlIncludes: constants.URL.FEATURE_REQUEST
     }
 ];
