@@ -34,6 +34,20 @@ export const ADD_PERMISSIONS = `${pre}ADD_PERMISSIONS`;
 export const SET_LOADED_PERMISSIONS = `${pre}SET_LOADED_PERMISSIONS`;
 export const SET_PERMISSIONS_MAPPINGS_AND_ROLES = `${pre}SET_PERMISSIONS_MAPPINGS_AND_ROLES`;
 
+export const EDIT_DISABLED_PAGE_REQUEST = `${pre}EDIT_DISABLED_PAGE_REQUEST`;
+export const EDIT_DISABLED_PAGE_ERROR = `${pre}EDIT_DISABLED_PAGE_ERROR`;
+
+export const editDisabledPageRequest = (page, isDisabled) => ({
+    type: EDIT_DISABLED_PAGE_REQUEST,
+    page,
+    isDisabled
+});
+
+export const editDisabledPageError = error => ({
+    type: EDIT_DISABLED_PAGE_ERROR,
+    error
+});
+
 export const setPermissionsMappingsAndRoles = authInfo => ({
     type: SET_PERMISSIONS_MAPPINGS_AND_ROLES,
     authInfo

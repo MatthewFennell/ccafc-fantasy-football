@@ -22,7 +22,9 @@ export const initialState = {
     resendVerificationEmailErrorCode: '',
 
     permissionMappings: {},
-    allRoles: []
+    allRoles: [],
+
+    disabledPages: ['only one']
 };
 
 const authReducer = (state = initialState, action) => {

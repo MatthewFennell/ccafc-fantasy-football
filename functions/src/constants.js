@@ -41,6 +41,7 @@ module.exports.results = {
 module.exports.region = 'europe-west2';
 
 // A list of all existing permissions - keep in sync with UI
+// src/constants.js
 const PERMISSIONS = {
     CREATE_PLAYER: 'CREATE_PLAYER',
     DELETE_PLAYER: 'DELETE_PLAYER',
@@ -52,7 +53,8 @@ const PERMISSIONS = {
     MANAGE_USERS: 'MANAGE_USERS',
     APPROVE_HIGHLIGHTS: 'APPROVE_HIGHLIGHTS',
     ROLL_OVER_YEAR: 'ROLL_OVER_YEAR',
-    MANAGE_SUBS: 'MANAGE_SUBS'
+    MANAGE_SUBS: 'MANAGE_SUBS',
+    TOGGLE_PAGES: 'TOGGLE_PAGES'
 };
 
 module.exports.PERMISSIONS = PERMISSIONS;
@@ -70,6 +72,7 @@ module.exports.ROLE_PERMISSIONS = {
     ADMIN: [
         PERMISSIONS.MANAGE_USERS, // Admin only
         PERMISSIONS.ROLL_OVER_YEAR, // Admin only
+        PERMISSIONS.TOGGLE_PAGES, // Admin only
         PERMISSIONS.CREATE_PLAYER,
         PERMISSIONS.DELETE_PLAYER,
         PERMISSIONS.CREATE_TEAM,

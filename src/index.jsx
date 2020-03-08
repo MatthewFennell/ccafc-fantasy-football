@@ -12,10 +12,9 @@ import { routerMiddleware } from 'connected-react-router';
 import { firebaseApp } from './config/fbConfig';
 import createRootReducer from './rootReducer';
 import rootSaga from './rootSaga';
-// import '@fortawesome/fontawesome-free/css/all.min.css';
-// import 'bootstrap-css-only/css/bootstrap.min.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import MyProvider from './Context';
 
 const history = createBrowserHistory();
 
@@ -49,7 +48,9 @@ sagaMiddleware.run(rootSaga, getFirebase);
 ReactDOM.render(
     <Provider store={store}>
         <ReactReduxFirebaseProvider {...rrfProps}>
-            <App history={history} />
+            <MyProvider>
+                <App history={history} />
+            </MyProvider>
         </ReactReduxFirebaseProvider>
     </Provider>,
     document.getElementById('root')
