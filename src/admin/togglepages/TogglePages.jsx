@@ -18,16 +18,17 @@ const TogglePages = props => (
         </div>
 
         <div className={props.styles.routesWrapper}>
-            {routes.signedInLinks.map(x => (
-                <div className={props.styles.optionWrapper} key={x.title}>
+            {routes.signedInLinks.map(route => (
+                <div className={props.styles.optionWrapper} key={route.title}>
                     <div>
-                        {x.title}
+                        {route.title}
                     </div>
                     <Switch
                         color="primary"
-                        checked={!props.disabledPages.includes(x.title)}
-                        onChange={() => props.editDisabledPageRequest(x.title,
-                            !props.disabledPages.includes(x.title))}
+                        checked={!props.disabledPages.includes(route.title)}
+                        onChange={() => props.editDisabledPageRequest(route.title,
+                            !props.disabledPages.includes(route.title))}
+                        disabled={!route.canToggle}
                     />
                 </div>
             ))}

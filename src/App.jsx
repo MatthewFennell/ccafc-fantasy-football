@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import React from 'react';
 import { ConnectedRouter } from 'connected-react-router';
 import PropTypes from 'prop-types';
@@ -55,5 +54,3 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(App);
-
-// Base the charts league table off the actual fixtures

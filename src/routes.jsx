@@ -145,7 +145,8 @@ export const signedInLinks = [
         addUserId: false,
         path: props => `${constants.URL.OVERVIEW}/${fp.get('userId')(props)}/${fp.get('maxGameWeek')(props)}`,
         renderPath: `${constants.URL.OVERVIEW}/:userId/:week`,
-        urlIncludes: constants.URL.OVERVIEW
+        urlIncludes: constants.URL.OVERVIEW,
+        canToggle: false
     },
     {
         title: 'Current Team',
@@ -154,7 +155,8 @@ export const signedInLinks = [
         addUserId: true,
         path: props => `${constants.URL.CURRENT_TEAM}/${fp.get('userId')(props)}`,
         renderPath: `${constants.URL.CURRENT_TEAM}/:userId`,
-        urlIncludes: constants.URL.CURRENT_TEAM
+        urlIncludes: constants.URL.CURRENT_TEAM,
+        canToggle: true
     },
     {
         title: 'Points',
@@ -163,7 +165,8 @@ export const signedInLinks = [
         addUserId: false,
         path: props => `${constants.URL.POINTS}/${fp.get('userId')(props)}/${fp.get('maxGameWeek')(props)}`,
         renderPath: `${constants.URL.POINTS}/:userId/:week`,
-        urlIncludes: constants.URL.POINTS
+        urlIncludes: constants.URL.POINTS,
+        canToggle: true
     },
     {
         title: 'Leagues',
@@ -172,7 +175,8 @@ export const signedInLinks = [
         addUserId: false,
         path: () => constants.URL.LEAGUES,
         renderPath: constants.URL.LEAGUES,
-        urlIncludes: constants.URL.LEAGUES
+        urlIncludes: constants.URL.LEAGUES,
+        canToggle: true
     },
     {
         title: 'Transfers',
@@ -181,7 +185,8 @@ export const signedInLinks = [
         addUserId: false,
         path: () => constants.URL.TRANSFERS,
         renderPath: constants.URL.TRANSFERS,
-        urlIncludes: constants.URL.TRANSFERS
+        urlIncludes: constants.URL.TRANSFERS,
+        canToggle: true
     },
     {
         title: 'Stats',
@@ -190,7 +195,8 @@ export const signedInLinks = [
         addUserId: false,
         path: props => `${constants.URL.STATS}/none/${fp.get('maxGameWeek')(props)}/${fp.get('maxGameWeek')(props)}`,
         renderPath: `${constants.URL.STATS}/:teamId/:minWeek/:maxWeek`,
-        urlIncludes: constants.URL.STATS
+        urlIncludes: constants.URL.STATS,
+        canToggle: true
     },
     {
         title: 'Charts',
@@ -199,7 +205,8 @@ export const signedInLinks = [
         addUserId: false,
         path: () => constants.URL.CHARTS,
         renderPath: constants.URL.CHARTS,
-        urlIncludes: constants.URL.CHARTS
+        urlIncludes: constants.URL.CHARTS,
+        canToggle: true
     },
     {
         title: 'Highlights',
@@ -208,7 +215,8 @@ export const signedInLinks = [
         addUserId: false,
         path: () => constants.URL.HIGHLIGHTS,
         renderPath: constants.URL.HIGHLIGHTS,
-        urlIncludes: constants.URL.HIGHLIGHTS
+        urlIncludes: constants.URL.HIGHLIGHTS,
+        canToggle: true
     },
     {
         title: 'Fixtures',
@@ -217,7 +225,8 @@ export const signedInLinks = [
         addUserId: false,
         path: () => constants.URL.FIXTURES,
         renderPath: constants.URL.FIXTURES,
-        urlIncludes: constants.URL.FIXTURES
+        urlIncludes: constants.URL.FIXTURES,
+        canToggle: true
     },
     {
         title: 'Feature Request',
@@ -226,6 +235,7 @@ export const signedInLinks = [
         addUserId: false,
         path: () => constants.URL.FEATURE_REQUEST,
         renderPath: constants.URL.FEATURE_REQUEST,
-        urlIncludes: constants.URL.FEATURE_REQUEST
+        urlIncludes: constants.URL.FEATURE_REQUEST,
+        canToggle: true
     }
 ];
