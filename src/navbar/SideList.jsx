@@ -42,7 +42,7 @@ const SideList = props => {
                         <Divider />
                         <List>
                             {routes.adminLinks.filter(route => props.userPermissions
-                                .includes(route.permissionRequired) || true)
+                                .includes(route.permissionRequired))
                                 .map(item => (
                                     <ListItem
                                         button

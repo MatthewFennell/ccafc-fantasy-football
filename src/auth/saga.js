@@ -1,5 +1,5 @@
 import {
-    all, call, takeEvery, put
+    all, call, takeEvery, put, delay, fork
 } from 'redux-saga/effects';
 import firebase from 'firebase';
 import { push } from 'connected-react-router';
@@ -23,8 +23,15 @@ export function* signOut() {
     }
 }
 
+export function* setAppLoading() {
+    yield put(actions.setLoadingApp(true));
+    yield delay(5000);
+    yield put(actions.setLoadingApp(false));
+}
+
 export function* loggingIn(api, action) {
     try {
+        yield fork(setAppLoading);
         yield put(fetchMaxGameWeekRequest());
         if (action.auth && !action.auth.emailVerified) {
             yield put(push(consts.URL.VERIFY_EMAIL));

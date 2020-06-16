@@ -54,7 +54,8 @@ exports.addUserRole = functions
 // Removing role `ALL` removes all of their roles
 exports.removeUserRole = functions
     .region(constants.region)
-    .https.onCall((data, context) => common.hasPermission(context.auth.uid).then(() => {
+    .https.onCall((data, context) => common.hasPermission(context.auth.uid,
+        constants.PERMISSIONS.MANAGE_USERS).then(() => {
         if (!Object.values(constants.ROLES).includes(data.role)) {
             throw new functions.https.HttpsError('not-found', 'That is not a known role');
         }
@@ -156,5 +157,7 @@ exports.clearDatabase = functions
             db.collection('weekly-teams').get().then(weeklyTeams => weeklyTeams.forEach(team => team.ref.delete()));
             db.collection('highlights').get().then(highlights => highlights.forEach(highlight => highlight.ref.delete()));
             db.collection('highlights-rejected').get().then(highlights => highlights.forEach(highlight => highlight.ref.delete()));
-            db.collection('highlights-requested').get().then(highlights => highlights.forEach(highlight => highlight.ref.delete()));
+            db.collection('highlight-requests').get().then(highlights => highlights.forEach(highlight => highlight.ref.delete()));
+            db.collection('feature-requests').get().then(features => features.forEach(feature => feature.ref.delete()));
+            db.collection('users-teams').get().then(users => users.forEach(userTeam => userTeam.ref.delete()));
         }));

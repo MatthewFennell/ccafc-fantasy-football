@@ -60,7 +60,6 @@ const Graph = props => {
         <>
             <div className={props.styles.graphChoiceWrapper}>
                 <Autocompletecheckbox
-                    label="Select Teams"
                     loading={props.loadingFixtures}
                     options={uniqueTeams()}
                     onChange={setActiveTeams}
