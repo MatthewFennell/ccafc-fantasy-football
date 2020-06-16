@@ -27,6 +27,7 @@ const AutocompleteCheckbox = props => (
             disableCloseOnSelect
             getOptionLabel={option => option.text}
             onChange={(e, v) => props.onChange(v)}
+            style={{ width: '100%' }}
             value={props.value}
             loading={props.loading}
             renderOption={option => (
@@ -42,6 +43,7 @@ const AutocompleteCheckbox = props => (
             )}
             renderInput={params => (
                 <TextField
+                    className={props.styles.setWidth}
                     {...params}
                     variant="outlined"
                     label={props.label}

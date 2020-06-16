@@ -12,7 +12,6 @@
 
 .tableWrapper{
     margin: $spacing-small;
-    padding: $spacing-medium;
     background-color: $color-white;
     @include light-box-shadow();
     .filterWrapper{
@@ -37,5 +36,5 @@
 }
 
 .gridWrapper{
-    padding: $spacing-medium;
+    padding-top: $spacing-small ;
 }
