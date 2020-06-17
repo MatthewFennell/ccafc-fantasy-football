@@ -26,7 +26,7 @@ export const uniqueCollegeTeamsFromFixtures = (fixtures, team) => fixtures
     .reduce((acc, cur) => _.union(acc, [cur.teamOne, cur.teamTwo]
         .filter(x => x.includes(team))), []);
 
-const convertToDate = d => moment(d, 'DD-MM-YYYY hh:mm');
+export const convertToDate = d => moment(d, 'DD-MM-YYYY hh:mm');
 const isFutureTense = date => moment(date, 'DD-MM-YYYY hh:mm')
     .isAfter(moment().subtract(constants.matchLengthMinutes, 'minutes'));
 

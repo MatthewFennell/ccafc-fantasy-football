@@ -14,7 +14,7 @@ import classNames from 'classnames';
 import defaultStyles from './Grid.module.scss';
 import Linear from '../spinner/LinearSpinner';
 
-const defaultGridStyles = {
+const defaultGridStyles = maxHeight => ({
     root: {
         width: '100%'
     },
@@ -23,12 +23,12 @@ const defaultGridStyles = {
         overflow: 'auto'
     },
     maxHeightSet: {
-        maxHeight: 400
+        maxHeight
     }
-};
+});
 
 const Grid = props => {
-    const classes = makeStyles(props.gridStyles)();
+    const classes = makeStyles(props.gridStyles(props.maxHeight))();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(props.rowsPerPageOptions[0] || 5);
 
@@ -53,7 +53,7 @@ const Grid = props => {
         <Paper className={classes.root}>
             <div className={classNames({
                 [classes.tableWrapper]: true,
-                [classes.maxHeightSet]: props.maxHeightGrid,
+                [classes.maxHeightSet]: props.maxHeight > 0,
                 [props.styles.tableWrap]: true
             })}
             >
@@ -151,7 +151,7 @@ Grid.defaultProps = {
     gridStyles: defaultGridStyles,
     loading: false,
     loadingColor: 'primary',
-    maxHeightGrid: false,
+    maxHeight: 0,
     numberOfUsersInLeague: 0,
     setPage: noop,
     setRowsPerPage: noop,
@@ -184,10 +184,10 @@ Grid.propTypes = {
         PropTypes.string,
         PropTypes.element
     ]),
-    gridStyles: PropTypes.objectOf(PropTypes.shape({})),
+    gridStyles: PropTypes.func,
     loading: PropTypes.bool,
     loadingColor: PropTypes.string,
-    maxHeightGrid: PropTypes.bool,
+    maxHeight: PropTypes.number,
     setPage: PropTypes.func,
     setRowsPerPage: PropTypes.func,
     onRowClick: PropTypes.func,

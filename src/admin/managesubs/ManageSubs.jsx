@@ -137,7 +137,7 @@ const ManageSubs = props => {
                         rows={generateRows(props.allPlayers)}
                         rowsPerPageOptions={[500]}
                         showPagination={false}
-                        maxHeightGrid
+                        maxHeight={400}
                     />
                 </div>
                 <div className={props.styles.confirmChangesWrapper}>
