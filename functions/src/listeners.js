@@ -48,13 +48,7 @@ exports.updateWeeklyPlayers = functions.region(constants.region).firestore
             .where('week', '==', change.after.data().week).get()
             .then(
                 result => {
-                    if (result.size > 1) {
-                        throw new functions.https.HttpsError('invalid-argument', `Weekly player with id ${change.after.data().player_id} exists twice`);
-                    }
-                    if (result.size === 0) {
-                        return null;
-                    }
-                    return result.docs[0].ref.update({
+                    result.docs.forEach(x => x.ref.update({
                         points: operations.increment(points),
                         goals: change.after.data().goals,
                         assists: change.after.data().assists,
@@ -66,7 +60,7 @@ exports.updateWeeklyPlayers = functions.region(constants.region).firestore
                         dickOfTheDay: change.after.data().dickOfTheDay,
                         penaltySaves: change.after.data().penaltySaves,
                         penaltyMisses: change.after.data().penaltyMisses
-                    });
+                    }));
                 }
             );
     });
