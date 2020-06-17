@@ -3,7 +3,7 @@
 .player {  
   background-size: 100% 100%;
   width: $spacing-massive;
-  height: $spacing-huge;
+  height: $spacing-enormous;
   margin-left: auto;
   margin-right: auto;
 }
@@ -42,4 +42,10 @@
 
 .BRAZIL_OUTFIELD {
   background-image: url("./kits/Brazil.png");
+}
+
+@media only screen and (max-width: 600px) {
+  .player {
+      height: $spacing-huge
+  }
 }

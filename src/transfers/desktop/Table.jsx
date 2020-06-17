@@ -129,13 +129,13 @@ const Table = props => {
                 <Grid
                     columns={props.desktopColumns.filter(x => x.active)}
                     loading={props.fetchingAllPlayers}
-                    maxHeightGrid
                     onRowClick={props.onTransfersRequest}
                     rows={filterPlayers(props.allPlayers, searchByName).map(x => ({
                         ...x,
                         position: x.position.charAt(0) + x.position.slice(1).toLowerCase()
                     }))}
                     rowsPerPageOptions={[50]}
+                    maxHeight={450}
                 />
             </div>
         </div>

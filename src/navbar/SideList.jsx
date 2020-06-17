@@ -27,7 +27,8 @@ const SideList = props => {
                                 <ListItem
                                     button
                                     key={item.title}
-                                    onClick={() => props.redirect(item.path(props))}
+                                    // onClick={() => props.redirect(item.path(props))}
+                                    onClick={() => console.log('clicked')}
                                     className={classNames({
                                         [props.styles.activeRoute]: props.currentPath
                                             .includes(item.urlIncludes)

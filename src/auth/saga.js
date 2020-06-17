@@ -25,7 +25,7 @@ export function* signOut() {
 
 export function* setAppLoading() {
     yield put(actions.setLoadingApp(true));
-    yield delay(5000);
+    yield delay(3000);
     yield put(actions.setLoadingApp(false));
 }
 

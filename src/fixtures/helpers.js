@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import * as helpers from '../helperFunctions';
 
-export const gridStyles = {
+export const gridStyles = () => ({
     root: {
         width: '100%'
     },
@@ -11,7 +11,7 @@ export const gridStyles = {
     maxHeightSet: {
         maxHeight: 400
     }
-};
+});
 
 export const columns = [
     {
