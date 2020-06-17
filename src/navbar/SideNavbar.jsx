@@ -11,10 +11,12 @@ const SideNavbar = props => (
         onOpen={props.closeNavbar}
     >
         <SideList
+            currentTeam={props.currentTeam}
             currentPath={props.currentPath}
             redirect={props.redirect}
             isSignedIn={props.isSignedIn}
             maxGameWeek={props.maxGameWeek}
+            originalTeam={props.originalTeam}
             userId={props.userId}
             userPermissions={props.userPermissions}
         />
@@ -22,11 +24,13 @@ const SideNavbar = props => (
 );
 
 SideNavbar.defaultProps = {
+    currentTeam: [],
     closeNavbar: noop,
     currentPath: '',
     isOpen: false,
     isSignedIn: false,
     maxGameWeek: null,
+    originalTeam: [],
     redirect: noop,
     userId: '',
     userPermissions: []
@@ -34,10 +38,12 @@ SideNavbar.defaultProps = {
 
 SideNavbar.propTypes = {
     closeNavbar: PropTypes.func,
+    currentTeam: PropTypes.arrayOf(PropTypes.shape({})),
     currentPath: PropTypes.string,
     isOpen: PropTypes.bool,
     isSignedIn: PropTypes.bool,
     maxGameWeek: PropTypes.number,
+    originalTeam: PropTypes.arrayOf(PropTypes.shape({})),
     redirect: PropTypes.func,
     userId: PropTypes.string,
     userPermissions: PropTypes.arrayOf(PropTypes.string)

@@ -465,32 +465,9 @@ describe('Filtering fixtures', () => {
             ]);
     });
 
-    it('Filtering by a upcoming only removes completed matches', () => {
+    it('Filtering by a upcoming only removes completed matches in the past', () => {
         expect(helpers.filterFixtures(fixturesWithUncompletedMatches, 'All', false, true, ''))
-            .toEqual([
-                {
-                    teamOne: 'Collingwood A',
-                    result: '1 - 2',
-                    teamTwo: 'St. Aidan\'s A',
-                    location: 'Rubber Crumb 1 (Old)',
-                    time: '12/10/2019 10:45',
-                    completed: false,
-                    league: 'Premiership',
-                    isCup: false,
-                    id: 'Collingwood A vs St. Aidan\'s A-12/10/2019 10:45'
-                },
-                {
-                    teamOne: 'Collingwood B',
-                    result: '1 - 2',
-                    teamTwo: 'St. Aidan\'s A',
-                    location: 'Rubber Crumb 1 (Old)',
-                    time: '12/10/2019 10:45',
-                    completed: false,
-                    league: 'Premiership',
-                    isCup: false,
-                    id: 'Collingwood B vs St. Aidan\'s A-12/10/2019 10:45'
-                }
-            ]);
+            .toEqual([]);
     });
 
     it('Filtering by a search string includes both teamOne and teamTwo matches', () => {

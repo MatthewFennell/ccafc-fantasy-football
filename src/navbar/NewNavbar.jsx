@@ -29,15 +29,17 @@ const NewNavbar = props => {
                 toggleNavbar={toggleSidebar}
             />
             <SideNavbar
+                closeNavbar={closeSidebar}
                 currentPath={props.history.location.pathname}
+                currentTeam={props.currentTeam}
                 isOpen={sidebarOpen}
                 isSignedIn={props.auth.uid && props.auth.emailVerified}
+                maxGameWeek={props.maxGameWeek}
+                originalTeam={props.originalTeam}
                 openNavbar={openSidebar}
-                closeNavbar={closeSidebar}
                 redirect={redirect}
                 toggleNavbar={toggleSidebar}
                 userId={props.auth.uid}
-                maxGameWeek={props.maxGameWeek}
                 userPermissions={props.userPermissions}
             />
         </>
@@ -50,6 +52,7 @@ NewNavbar.propTypes = {
         emailVerified: PropTypes.bool,
         photoURL: PropTypes.string
     }),
+    currentTeam: PropTypes.arrayOf(PropTypes.shape({})),
     history: PropTypes.shape({
         push: PropTypes.func.isRequired,
         location: PropTypes.shape({
@@ -57,19 +60,24 @@ NewNavbar.propTypes = {
         })
     }).isRequired,
     maxGameWeek: PropTypes.number,
+    originalTeam: PropTypes.arrayOf(PropTypes.shape({})),
     signOut: PropTypes.func.isRequired,
     userPermissions: PropTypes.arrayOf(PropTypes.string)
 };
 
 NewNavbar.defaultProps = {
     auth: {},
+    currentTeam: [],
     maxGameWeek: null,
+    originalTeam: [],
     userPermissions: []
 };
 
 const mapStateToProps = state => ({
     auth: state.firebase.auth,
+    currentTeam: state.transfers.currentTeam,
     maxGameWeek: state.overview.maxGameWeek,
+    originalTeam: state.transfers.originalTeam,
     profile: state.firebase.profile,
     pathname: state.router.location.pathname,
     userPermissions: state.auth.userPermissions

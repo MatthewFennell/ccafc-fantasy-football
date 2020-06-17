@@ -57,6 +57,7 @@ export function* signUp(api, action) {
     try {
         yield firebase.auth().createUserWithEmailAndPassword(action.email, action.password);
         yield call(api.updateDisplayName, ({ displayName: action.displayName }));
+        yield delay(2000);
         yield firebase.auth().currentUser.sendEmailVerification(actionCodeSettings);
     } catch (error) {
         yield put(actions.signUpError(error));

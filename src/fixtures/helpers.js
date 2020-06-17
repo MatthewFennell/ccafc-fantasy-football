@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 import * as helpers from '../helperFunctions';
 
 export const gridStyles = () => ({
@@ -76,6 +77,8 @@ export const generateCollingwoodTeams = fixtures => fixtures
         text: x
     }));
 
+const isDateInFuture = date => helpers.convertToDate(date).isAfter(moment());
+
 export const filterFixtures = (fixtures, league, collingwoodOnly, upcomingOnly, teamName) => {
     // My team could be selected - causes the league to be the name of their team
     const leagueFilter = league === 'All' || league === '' ? () => true
@@ -84,7 +87,8 @@ export const filterFixtures = (fixtures, league, collingwoodOnly, upcomingOnly, 
     const collingwoodOnlyFilter = collingwoodOnly
         ? x => x.teamOne.includes('Collingwood') || x.teamTwo.includes('Collingwood') : () => true;
 
-    const upcomingOnlyFilter = upcomingOnly ? x => !x.completed : () => true;
+    const upcomingOnlyFilter = upcomingOnly ? x => !x.completed && isDateInFuture(x.time)
+        : () => true;
 
     const teamNameFilter = x => x.teamOne.includes(teamName) || x.teamTwo.includes(teamName);
 
