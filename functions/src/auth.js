@@ -161,3 +161,30 @@ exports.clearDatabase = functions
             db.collection('feature-requests').get().then(features => features.forEach(feature => feature.ref.delete()));
             db.collection('users-teams').get().then(users => users.forEach(userTeam => userTeam.ref.delete()));
         }));
+
+exports.editDisabledPages = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        if (!data.page) {
+            throw new functions.https.HttpsError('invalid-argument', 'Invalid page');
+        }
+        return db.collection('application-info').get().then(
+            result => {
+                if (result.size !== 1) {
+                    throw new functions.https.HttpsError('invalid-argument', 'Server Error. Something has gone terribly wrong');
+                }
+                const { disabledPages } = result.docs[0].data();
+                if (data.isDisabled) {
+                    console.log('in here', data);
+                    console.log('data object', result.docs[0].data());
+                    return result.docs[0].ref.update({
+                        disabledPages: operations.arrayUnion(data.page)
+                    });
+                }
+                return result.docs[0].ref.update({
+                    disabledPages: disabledPages.filter(page => page !== data.page)
+                });
+            }
+        );
+    });
