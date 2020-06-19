@@ -32,7 +32,6 @@ const SideList = props => {
         }
     }, [props]);
 
-
     const closeModal = useCallback(() => {
         setIsUnsavedChangesOpen(false);
         setItemToRouteTo(null);
@@ -144,6 +143,5 @@ SideList.propTypes = {
     styles: PropTypes.objectOf(PropTypes.string),
     userPermissions: PropTypes.arrayOf(PropTypes.string)
 };
-
 
 export default SideList;

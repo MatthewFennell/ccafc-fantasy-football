@@ -78,7 +78,6 @@ exports.userStats = functions
         );
     });
 
-
 exports.maxGameWeek = functions
     .region(constants.region)
     .https.onCall((data, context) => {
@@ -92,4 +91,22 @@ exports.maxGameWeek = functions
                 return doc.data().total_weeks;
             }
         );
+    });
+
+exports.getUser = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db.collection('users').doc(data.userId).get().then(doc => {
+            if (doc.exists) {
+                const { displayName, teamName, photoUrl } = doc.data();
+
+                return ({
+                    displayName,
+                    teamName,
+                    photoUrl
+                });
+            }
+            throw new functions.https.HttpsError('invalid-argument', 'Server Error. User does not exist');
+        });
     });
