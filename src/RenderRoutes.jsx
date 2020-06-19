@@ -14,6 +14,7 @@ import VerifyEmail from './auth/VerifyEmail';
 import PasswordReset from './auth/PasswordReset';
 import { MyContext } from './Context';
 
+import UsersInLeague from './leagues/UsersInLeague';
 
 import * as routes from './routes';
 
@@ -23,6 +24,7 @@ const RenderRoutes = props => (
             <>
                 <Switch>
                     <AuthenticatedRoute exact path={constants.URL.PROFILE} component={Profile} />
+                    <AuthenticatedRoute path={`${constants.URL.LEAGUES}/:leagueId`} component={UsersInLeague} />
 
                     {/* Filter out disabled pages */}
                     {routes.signedInLinks.filter(x => !context.disabledPages.includes(x.title))
@@ -75,7 +77,6 @@ const RenderRoutes = props => (
                 </Switch>
             </>
         )}
-
 
     </MyContext.Consumer>
 );

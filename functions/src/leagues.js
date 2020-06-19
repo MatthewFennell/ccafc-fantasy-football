@@ -242,7 +242,6 @@ exports.calculatePositions = functions
             });
     });
 
-
 // Increase number of users in league
 exports.onUserJoinLeague = functions.region(constants.region).firestore
     .document('leagues-points/{id}')

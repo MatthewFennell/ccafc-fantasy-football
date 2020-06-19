@@ -36,7 +36,7 @@ const columns = gameWeek => [
     }
 ];
 
-const INITIAL_ROWS_PER_PAGE = 2;
+const INITIAL_ROWS_PER_PAGE = 10;
 const INITIAL_NUMBER_OF_PAGES_TO_LOAD = 3;
 
 const UsersInLeague = props => {

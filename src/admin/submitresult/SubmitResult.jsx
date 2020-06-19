@@ -222,7 +222,12 @@ const SubmitResult = props => {
                         options={playersForActiveTeam}
                         title="DOTD"
                     />
-                    <Dropdown value={gameWeek} onChange={setGameWeek} options={generateWeekOptions(props.maxGameWeek)} title="Week" />
+                    <Dropdown 
+                        value={gameWeek} 
+                        onChange={setGameWeek} 
+                        options={generateWeekOptions(props.maxGameWeek)} 
+                        title="Week" 
+                    />
                 </div>
                 <div className={props.styles.submitButtonWrapper}>
                     <StyledButton

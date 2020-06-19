@@ -4,8 +4,21 @@ export const FETCH_USER_POINTS_FOR_WEEK_REQUEST = `${pre}FETCH_USER_POINTS_FOR_W
 export const FETCH_USER_POINTS_FOR_WEEK_SUCCESS = `${pre}FETCH_USER_POINTS_FOR_WEEK_SUCCESS`;
 export const FETCH_USER_POINTS_FOR_WEEK_ERROR = `${pre}FETCH_USER_POINTS_FOR_WEEK_ERROR`;
 export const ALREADY_FETCHED_POINTS_FOR_WEEK = `${pre}ALREADY_FETCHED_POINTS_FOR_WEEK`;
-
+export const SET_USER_DETAILS = `${pre}SET_USER_DETAILS`;
+export const SET_USER_DETAILS_FETCHING = `${pre}SET_USER_DETAILS_FETCHING`;
 export const FETCH_USER_POINTS_FOR_WEEK_REQUEST_BACKGROUND = `${pre}FETCH_USER_POINTS_FOR_WEEK_REQUEST_BACKGROUND`;
+
+export const setUserDetails = (userId, details) => ({
+    type: SET_USER_DETAILS,
+    userId,
+    details
+});
+
+export const setUserDetailsFetching = (userId, isFetching) => ({
+    type: SET_USER_DETAILS_FETCHING,
+    userId,
+    isFetching
+});
 
 export const fetchUserPointsForWeekRequest = (userId, week) => ({
     type: FETCH_USER_POINTS_FOR_WEEK_REQUEST,

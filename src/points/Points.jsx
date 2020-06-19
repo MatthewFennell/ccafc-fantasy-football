@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Media from 'react-media';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import fp from 'lodash/fp';
@@ -13,6 +14,7 @@ import goalkeeperStyles from './ShirtStyles/Goalkeeper.module.scss';
 import SuccessModal from '../common/modal/SuccessModal';
 import PointsTable from './PointsTable/PointsTable';
 import { generatePointsRoute } from '../helperFunctions';
+import UserInfo from './UserInfo';
 
 const Points = props => {
     const [playerModalOpen, setPlayerModalOpen] = useState(false);
@@ -47,36 +49,78 @@ const Points = props => {
         setPlayerModalOpen(true);
     }, [setPlayerModalOpen, setPlayerObj]);
 
-    const captainId = fp.get('player_id')(props.currentPoints.find(x => x.isCaptain));
+    const captainId = fp.get('player_id')(props.currentTeam.find(x => x.isCaptain));
+
+    const pitch = (
+        <Pitch
+            additionalInfo={player => player.points}
+            activeTeam={props.currentTeam}
+            activePlayerStyles={activePlayerStyles}
+            captain={captainId}
+            goalkeeperStyles={goalkeeperStyles}
+            loading={props.loading}
+            onPlayerClick={playerClick}
+            renderEmptyPlayers
+            showCaptain
+        />
+    );
 
     return (
         <div className={props.styles.pageWrapper}>
             <div className={props.styles.gameWeekWrapper}>
                 <div className={props.styles.gameWeekText}>
                     <div className={props.styles.arrowBackWrapper}>
-                        <ArrowBackIcon color={props.currentGameWeek > 1 ? 'secondary' : 'disabled'} onClick={loadPreviousWeek} />
+                        <ArrowBackIcon
+                            color={props.currentGameWeek > 1 ? 'secondary' : 'disabled'}
+                            onClick={loadPreviousWeek}
+                            fontSize="large"
+                        />
                     </div>
                     <div className={props.styles.gameWeekTextWrapper}>
                         {`Gameweek ${props.currentGameWeek}`}
                     </div>
                     <div className={props.styles.arrowForwardWrapper}>
-                        <ArrowForwardIcon color={props.currentGameWeek === props.maxGameWeek ? 'disabled' : 'secondary'} onClick={loadNextWeek} />
+                        <ArrowForwardIcon
+                            color={props.currentGameWeek === props.maxGameWeek ? 'disabled' : 'secondary'}
+                            onClick={loadNextWeek}
+                            fontSize="large"
+                        />
                     </div>
                 </div>
             </div>
-            <div className={props.styles.pointsWrapper}>
-                <Pitch
-                    additionalInfo={player => player.points}
-                    activeTeam={props.currentPoints}
-                    activePlayerStyles={activePlayerStyles}
-                    captain={captainId}
-                    goalkeeperStyles={goalkeeperStyles}
-                    loading={props.loading}
-                    onPlayerClick={playerClick}
-                    renderEmptyPlayers
-                    showCaptain
-                />
-            </div>
+
+            <Media queries={{
+                mobile: '(max-width: 599px)',
+                desktop: '(min-width: 600px)'
+            }}
+            >
+
+                {matches => (
+                    <>
+                        {matches.mobile && (
+                            <div className={props.styles.pointsWrapper}>
+                                {pitch}
+                            </div>
+                        )}
+                        {matches.desktop && (
+                            <div className={props.styles.desktopWrapper}>
+                                <div className={props.styles.desktopPitch}>
+                                    {pitch}
+                                </div>
+                                <div className={props.styles.summary}>
+                                    <UserInfo
+                                        displayName={props.displayName}
+                                        fetchingDetails={props.fetchingDetails || props.loading}
+                                        photoUrl={props.photoUrl}
+                                        team={props.currentTeam}
+                                        teamName={props.teamName}
+                                    />
+                                </div>
+                            </div>
+                        )}
+                    </>
+                )}
+            </Media>
             <SuccessModal
                 backdrop
                 closeModal={() => setPlayerModalOpen(false)}
@@ -92,7 +136,7 @@ const Points = props => {
                         </div>
                     ) : (
                         <div className={props.styles.noStats}>
-                        Stats will appear here for real players
+                            Stats will appear here for real players
                         </div>
                     ) }
             </SuccessModal>
@@ -102,16 +146,20 @@ const Points = props => {
 
 Points.defaultProps = {
     currentGameWeek: null,
-    currentPoints: [],
+    currentTeam: [],
+    displayName: '',
+    fetchingDetails: false,
     loading: false,
     maxGameWeek: null,
+    photoUrl: '',
     styles: defaultStyles,
+    teamName: '',
     userId: null
 };
 
 Points.propTypes = {
     currentGameWeek: PropTypes.number,
-    currentPoints: PropTypes.arrayOf(PropTypes.shape({
+    currentTeam: PropTypes.arrayOf(PropTypes.shape({
         assists: PropTypes.number,
         cleanSheet: PropTypes.bool,
         goals: PropTypes.number,
@@ -122,6 +170,8 @@ Points.propTypes = {
         team: PropTypes.string,
         yellowCard: PropTypes.bool
     })),
+    displayName: PropTypes.string,
+    fetchingDetails: PropTypes.bool,
     fetchUserPointsForWeekRequest: PropTypes.func.isRequired,
     fetchUserPointsForWeekRequestBackground: PropTypes.func.isRequired,
     history: PropTypes.shape({
@@ -129,7 +179,9 @@ Points.propTypes = {
     }).isRequired,
     loading: PropTypes.bool,
     maxGameWeek: PropTypes.number,
+    photoUrl: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
+    teamName: PropTypes.string,
     userId: PropTypes.string
 };
 
@@ -140,9 +192,13 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state, props) => ({
     currentGameWeek: selectors.getCurrentGameWeek(props),
-    currentPoints: selectors.getCurrentInfo(state, props, 'team'),
+    currentTeam: selectors.getCurrentInfo(state, props, 'team'),
+    displayName: selectors.getUserDetailsProperty(state, props, 'displayName'),
+    fetchingDetails: Boolean(selectors.getUserDetailsProperty(state, props, 'fetching')),
     loading: selectors.getCurrentInfo(state, props, 'fetching'),
     maxGameWeek: state.overview.maxGameWeek,
+    photoUrl: selectors.getUserDetailsProperty(state, props, 'photoUrl'),
+    teamName: selectors.getUserDetailsProperty(state, props, 'teamName'),
     userId: selectors.getUserId(props)
 });
 
