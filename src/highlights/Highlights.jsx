@@ -60,7 +60,7 @@ const Highlights = props => {
                 <div className={props.styles.highlightsHeader}>
                     <div className={props.styles.infoWrapper}>
                         <div className={props.styles.highlightsMessage}>
-                  Highlights
+                            Highlights
                         </div>
                         <div className={props.styles.openSubmitVideo}>
                             <StyledButton onClick={openSubmitVideo} text="Submit a Video" color="primary" />

@@ -19,7 +19,8 @@
   padding: $spacing-medium;
   margin: $spacing-medium;
   background-color: $color-white;
-  // @include light-box-shadow();
+  margin-bottom: 0px;
+  padding-bottom: 0px;
 
   .inputWrapper {
     text-align: center;
@@ -33,6 +34,7 @@
   margin-top: $spacing-small;
   font-size: $font-size-medium;
   word-break: break-word;
+  padding-bottom: $spacing-small;
 }
 
 .gridWrapper {
