@@ -84,6 +84,7 @@ const AllFeatureRequests = props => {
                                 deleteComment={props.deleteComment(x.id)}
                                 deleteReply={props.deleteReply(x.id)}
                                 details={x}
+                                isAddingCommentToFeature={props.isAddingCommentToFeature}
                                 showAuthor
                                 id={x.id}
                                 loggedInUserId={props.loggedInUserId}
@@ -102,6 +103,7 @@ AllFeatureRequests.defaultProps = {
     deleteComment: noop,
     deleteReply: noop,
     featureRequests: [],
+    isAddingCommentToFeature: false,
     setSubmitFeatureRequestOpen: noop,
     styles: defaultStyles,
     loggedInUserId: ''
@@ -117,6 +119,7 @@ AllFeatureRequests.propTypes = {
         id: PropTypes.string,
         userId: PropTypes.string
     })),
+    isAddingCommentToFeature: PropTypes.bool,
     setSubmitFeatureRequestOpen: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string),
     loggedInUserId: PropTypes.string

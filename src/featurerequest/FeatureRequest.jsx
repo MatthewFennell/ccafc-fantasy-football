@@ -66,6 +66,7 @@ const FeatureRequest = props => {
                 deleteComment={deleteComment}
                 deleteReply={deleteReply}
                 featureRequests={_.map(props.featureRequests, (value, id) => ({ id, ...value }))}
+                isAddingCommentToFeature={props.isAddingCommentToFeature}
                 setSubmitFeatureRequestOpen={setSubmitFeatureRequestOpen}
                 loggedInUserId={props.auth.uid}
             />
@@ -99,6 +100,7 @@ FeatureRequest.defaultProps = {
         uid: null
     },
     featureRequests: {},
+    isAddingCommentToFeature: false,
     submitFeatureRequest: noop,
     successMessage: ''
 };
@@ -121,6 +123,7 @@ FeatureRequest.propTypes = {
         description: PropTypes.string,
         userId: PropTypes.string
     })),
+    isAddingCommentToFeature: PropTypes.bool,
     submitFeatureRequest: PropTypes.func,
     successMessage: PropTypes.string
 };
@@ -130,6 +133,7 @@ const mapStateToProps = state => ({
     errorMessage: state.features.errorMessage,
     errorCode: state.features.errorCode,
     errorHeader: state.features.errorHeader,
+    isAddingCommentToFeature: state.features.isAddingCommentToFeature,
     featureRequests: state.firestore.data.featureRequests,
     successMessage: state.features.successMessage
 });

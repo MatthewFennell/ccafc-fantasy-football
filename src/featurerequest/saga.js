@@ -28,6 +28,8 @@ export function* addCommentToFeature(api, action) {
             });
     } catch (error) {
         yield put(actions.featureRequestError(error, 'Comment Error'));
+    } finally {
+        yield put(actions.setAddingCommentToFeature(false));
     }
 }
 

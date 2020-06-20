@@ -6,13 +6,21 @@ export const initialState = {
     errorMessage: '',
     errorCode: '',
 
-    successMessage: ''
+    successMessage: '',
+
+    isAddingCommentToFeature: false
 };
 
 const featureReducer = (state = initialState, action) => {
     switch (action.type) {
     case actions.SET_SUCCESS_MESSAGE: {
         return fp.set('successMessage', action.message)(state);
+    }
+    case actions.ADD_COMMENT_TO_FEATURE_REQUEST: {
+        return fp.set('isAddingCommentToFeature')(true)(state);
+    }
+    case actions.SET_ADDING_COMMENT_TO_FEATURE: {
+        return fp.set('isAddingCommentToFeature')(action.isAdding)(state);
     }
     case actions.CLOSE_SUCCESS_MESSAGE: {
         return fp.set('successMessage', '')(state);

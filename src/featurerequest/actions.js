@@ -1,6 +1,5 @@
 const pre = 'features/';
 
-
 export const ADD_COMMENT_TO_FEATURE_REQUEST = `${pre}ADD_COMMENT_TO_FEATURE_REQUEST`;
 export const ADD_REPLY_TO_COMMENT_REQUEST = `${pre}ADD_REPLY_TO_COMMENT_REQUEST`;
 
@@ -13,6 +12,13 @@ export const CLOSE_SUCCESS_MESSAGE = `${pre}CLOSE_SUCCESS_MESSAGE`;
 export const SUBMIT_FEATURE_REQUEST = `${pre}SUBMIT_FEATURE_REQUEST`;
 export const FEATURE_REQUEST_ERROR = `${pre}FEATURE_REQUEST_ERROR`;
 export const CLOSE_FEATURE_REQUEST_ERROR = `${pre}CLOSE_FEATURE_REQUEST_ERROR`;
+
+export const SET_ADDING_COMMENT_TO_FEATURE = `${pre}SET_ADDING_COMMENT_TO_FEATURE`;
+
+export const setAddingCommentToFeature = isAdding => ({
+    type: SET_ADDING_COMMENT_TO_FEATURE,
+    isAdding
+});
 
 export const closeFeatureRequestError = () => ({
     type: CLOSE_FEATURE_REQUEST_ERROR
