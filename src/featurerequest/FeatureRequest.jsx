@@ -13,7 +13,6 @@ import ErrorModal from '../common/modal/ErrorModal';
 import SubmitFeature from './SubmitFeature';
 import SuccessModal from '../common/modal/SuccessModal';
 
-
 const FeatureRequest = props => {
     const [description, setDescription] = useState('');
     const [submitFeatureRequestOpen, setSubmitFeatureRequestOpen] = useState(false);
@@ -42,16 +41,6 @@ const FeatureRequest = props => {
         // eslint-disable-next-line
     }, [description, props.submitFeatureRequest, setDescription, setSubmitFeatureRequestOpen]);
 
-    const [featuresOpen, setFeaturesOpen] = useState([]);
-
-    const toggleFeature = useCallback((isOpen, id) => {
-        if (isOpen) {
-            setFeaturesOpen(_.union(featuresOpen, [id]));
-        } else {
-            setFeaturesOpen(featuresOpen.filter(x => x !== id));
-        }
-    }, [setFeaturesOpen, featuresOpen]);
-
     const deleteComment = useCallback(featureId => commentId => {
         props.deleteCommentRequest(featureId, commentId);
         // eslint-disable-next-line
@@ -76,10 +65,8 @@ const FeatureRequest = props => {
                 addNewReply={addNewReply}
                 deleteComment={deleteComment}
                 deleteReply={deleteReply}
-                featuresOpen={featuresOpen}
                 featureRequests={_.map(props.featureRequests, (value, id) => ({ id, ...value }))}
                 setSubmitFeatureRequestOpen={setSubmitFeatureRequestOpen}
-                toggleFeature={toggleFeature}
                 loggedInUserId={props.auth.uid}
             />
             <ErrorModal
@@ -164,7 +151,7 @@ export default compose(
             collection: 'feature-requests',
             storeAs: 'featureRequests'
         }
-    ]),
+    ])
 )(FeatureRequest);
 
 export { FeatureRequest as FeatureRequestUnconnected };

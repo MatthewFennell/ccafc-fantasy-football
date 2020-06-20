@@ -1,0 +1,18 @@
+@import "../Styles.scss";
+
+.collapsableWrapper {
+    position: relative;
+    @include light-box-shadow();
+    margin-top: $spacing-average;
+}
+
+.sideMargins {
+    margin-left: $spacing-small;
+    margin-right: $spacing-small;
+}
+
+.icon {
+    position: absolute;
+    right: $spacing-tiny;
+    cursor: pointer;
+}

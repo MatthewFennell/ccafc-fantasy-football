@@ -5,12 +5,15 @@
     background-color: $color-white;
 
     .author {
+        margin-top: $spacing-small;
         font-weight: bold;
         margin-left: $spacing-small;
         color: $color-green;
+        text-align: center;
     }
 
     .description{
+        text-align: center;
         margin-left: $spacing-small;
         margin-bottom: $spacing-small;
         font-weight: bold;
@@ -18,7 +21,7 @@
     }
 
     .comments {
-        margin-top: $spacing-medium;
+        margin-top: $spacing-tiny;
         font-size: $font-size-large;
     }
 
@@ -26,7 +29,6 @@
         height: 300px;
         overflow-y: scroll;
         padding: $spacing-small;
-        background-color: wheat;
     }
 }
 
