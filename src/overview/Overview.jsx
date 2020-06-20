@@ -83,7 +83,7 @@ const Overview = props => {
                         <div className={props.styles.gameweekStats}>
                             <div className={props.styles.averagePointsWrapper}>
                                 <div className={props.styles.averagePointsValue}>
-                                    {props.averagePoints}
+                                    {Math.round(props.averagePoints)}
                                 </div>
                                 <div>Average Points</div>
                             </div>

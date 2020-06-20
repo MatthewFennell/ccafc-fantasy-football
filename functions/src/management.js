@@ -109,7 +109,6 @@ exports.rollOverToNextYear = functions
         });
     }));
 
-
 // Deletes all users who have an empty active team
 exports.deleteAllOldUsers = functions
     .region(constants.region)

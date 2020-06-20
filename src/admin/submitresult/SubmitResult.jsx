@@ -19,6 +19,7 @@ import SuccessModal from '../../common/modal/SuccessModal';
 import ExtraStats from './ExtraStats';
 import TextInput from '../../common/TextInput/TextInput';
 import * as textInputConstants from '../../common/TextInput/constants';
+import { fetchMaxGameWeekRequest } from '../../overview/actions';
 
 const generateWeekOptions = maxGameWeek => {
     const options = [];
@@ -48,6 +49,12 @@ const SubmitResult = props => {
     const [goalScorers, setGoalscorers] = useState({});
     const [assisters, setAssisters] = useState({});
     const [cleanSheets, setCleanSheets] = useState({});
+
+    useEffect(() => {
+        props.fetchMaxGameWeekRequest();
+
+        // eslint-disable-next-line
+    }, [props.fetchMaxGameWeekRequest])
 
     const setTeam = useCallback(name => {
         setTeamName(name);
@@ -135,7 +142,6 @@ const SubmitResult = props => {
     }, [teamName, goalsFor, goalsAgainst, gameWeek, goalScorers,
         assisters, cleanSheets, props.submitResultRequest, motm, dotd, nameToId]);
 
-
     const scorers = [];
     for (let x = 0; x < goalsFor; x += 1) {
         scorers.push(<Dropdown
@@ -222,11 +228,11 @@ const SubmitResult = props => {
                         options={playersForActiveTeam}
                         title="DOTD"
                     />
-                    <Dropdown 
-                        value={gameWeek} 
-                        onChange={setGameWeek} 
-                        options={generateWeekOptions(props.maxGameWeek)} 
-                        title="Week" 
+                    <Dropdown
+                        value={gameWeek}
+                        onChange={setGameWeek}
+                        options={generateWeekOptions(props.maxGameWeek)}
+                        title="Week"
                     />
                 </div>
                 <div className={props.styles.submitButtonWrapper}>
@@ -294,6 +300,7 @@ SubmitResult.propTypes = {
     errorHeader: PropTypes.string,
     fetchTeamsRequest: PropTypes.func.isRequired,
     fetchPlayersForTeamRequest: PropTypes.func.isRequired,
+    fetchMaxGameWeekRequest: PropTypes.func.isRequired,
     maxGameWeek: PropTypes.number,
     styles: PropTypes.objectOf(PropTypes.string),
     submitResultRequest: PropTypes.func.isRequired,
@@ -310,7 +317,8 @@ const mapDispatchToProps = {
     fetchTeamsRequest,
     fetchPlayersForTeamRequest,
     submitResultRequest,
-    submitExtraStatsRequest
+    submitExtraStatsRequest,
+    fetchMaxGameWeekRequest
 };
 
 const mapStateToprops = state => ({

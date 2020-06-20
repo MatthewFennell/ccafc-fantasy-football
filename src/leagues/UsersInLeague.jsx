@@ -91,6 +91,8 @@ const UsersInLeague = props => {
         setPage(page);
     }, [setPageNumber]);
 
+    console.log('rows', generateRows(props.usersInLeague));
+
     return (
         <div className={props.styles.leaguesWrapper}>
             <div className={props.styles.myLeaguesWrapper}>
