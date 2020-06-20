@@ -18,9 +18,11 @@ const AddReply = props => {
     }, [isAddingCommentToFeature]);
 
     const onSubmitReply = useCallback(() => {
-        setIsAddingComment(true);
-        submitReply();
-    }, [setIsAddingComment, submitReply]);
+        if (!isAddingCommentToFeature && !isAddingComment) {
+            setIsAddingComment(true);
+            submitReply();
+        }
+    }, [setIsAddingComment, submitReply, isAddingCommentToFeature, isAddingComment]);
 
     return (
         <div className={props.styles.replyingWrapper}>

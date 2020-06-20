@@ -13,11 +13,21 @@ const FeatureRequest = props => {
         <div className={props.styles.featureRequestWrapper}>
             {props.showAuthor && (
                 <div className={props.styles.author}>
-                    {`Author: ${displayName}`}
+                    <div className={props.styles.key}>
+                        Author:
+                    </div>
+                    <div className={props.styles.value}>
+                        {displayName}
+                    </div>
                 </div>
             )}
-            <div className={props.styles.description}>
-                {`Feature description: ${description}`}
+            <div className={props.styles.featureDescription}>
+                <div className={props.styles.key}>
+                    Description:
+                </div>
+                <div className={props.styles.value}>
+                    {description}
+                </div>
             </div>
             <div className={props.styles.commentsWrapper}>
                 <Comments

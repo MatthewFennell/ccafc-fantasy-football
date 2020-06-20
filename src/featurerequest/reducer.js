@@ -19,6 +19,9 @@ const featureReducer = (state = initialState, action) => {
     case actions.ADD_COMMENT_TO_FEATURE_REQUEST: {
         return fp.set('isAddingCommentToFeature')(true)(state);
     }
+    case actions.ADD_REPLY_TO_COMMENT_REQUEST: {
+        return fp.set('isAddingCommentToFeature')(true)(state);
+    }
     case actions.SET_ADDING_COMMENT_TO_FEATURE: {
         return fp.set('isAddingCommentToFeature')(action.isAdding)(state);
     }

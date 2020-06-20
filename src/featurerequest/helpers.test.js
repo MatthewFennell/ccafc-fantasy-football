@@ -106,7 +106,6 @@ describe('Filtering videod', () => {
         MockDate.reset();
     });
 
-
     it('Should filter to include only the past 24 hours', () => {
         MockDate.set('9/10/2005'); // 10th Sep
         expect(helpers.sortVideos('pastDay', 'newestFirst', featuresToFilterByDate, '')).toEqual([

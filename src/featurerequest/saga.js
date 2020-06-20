@@ -15,6 +15,8 @@ export function* addReplyToComment(api, action) {
         });
     } catch (error) {
         yield put(actions.featureRequestError(error, 'Reply Error'));
+    } finally {
+        yield put(actions.setAddingCommentToFeature(false));
     }
 }
 

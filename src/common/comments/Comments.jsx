@@ -29,6 +29,7 @@ const RenderComments = props => {
                         deleteComment={deleteComment}
                         deleteReply={deleteReply}
                         details={comment}
+                        isAddingCommentToFeature={props.isAddingCommentToFeature}
                         isTopLevel={isTopLevel}
                         submitReply={submitReply}
                         loggedInUserId={loggedInUserId}
@@ -52,6 +53,7 @@ const RenderComments = props => {
                 deleteComment={deleteComment}
                 deleteReply={deleteReply}
                 details={comment}
+                isAddingCommentToFeature={props.isAddingCommentToFeature}
                 isTopLevel={isTopLevel}
                 submitReply={submitReply}
                 loggedInUserId={loggedInUserId}
