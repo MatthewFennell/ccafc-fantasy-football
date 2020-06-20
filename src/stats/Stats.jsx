@@ -82,7 +82,7 @@ const Stats = props => {
                         onClick={() => setEditFilterModalOpen(true)}
                     >
                         <div className={props.styles.editFilter}>
-                        Edit Filters
+                            Edit Filters
                         </div>
                         <EditIcon color="primary" />
                     </div>
@@ -104,7 +104,6 @@ const Stats = props => {
                     />
                 ))}
 
-
             </div>
             <SuccessModal
                 backdrop
@@ -124,7 +123,6 @@ const Stats = props => {
         </>
     );
 };
-
 
 Stats.defaultProps = {
     allTeams: [],

@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import defaultStyles from './AllFeatureRequests.module.scss';
 import FeatureRequest from '../common/featurerequest/FeatureRequest';
-import WithCollapsable from '../common/collapsableHOC/WithCollapsable';
 import * as helpers from './helpers';
 import StyledButton from '../common/StyledButton/StyledButton';
 import TextInput from '../common/TextInput/TextInput';
 import * as textInputConstants from '../common/TextInput/constants';
 import Dropdown from '../common/dropdown/Dropdown';
-import mobileStyles from './MobileWrapperStyles.module.scss';
+import FadingCollapsable from '../common/fadingCollapsable/FadingCollapsable';
+import LoadingDiv from '../common/loadingDiv/LoadingDiv';
 
 const AllFeatureRequests = props => {
     const [filterBy, setFilterBy] = useState('allTime');
@@ -20,20 +20,58 @@ const AllFeatureRequests = props => {
         .sortVideos(filterBy, sortBy, props.featureRequests, searchFilter),
     [filterBy, sortBy, searchFilter, props.featureRequests]);
 
-    const Feature = WithCollapsable(FeatureRequest);
-
     return (
         <div className={props.styles.allFeatureRequests}>
             <div className={props.styles.featureRequestHeader}>
-                <div className={props.styles.infoWrapper}>
-                    <div className={props.styles.featureRequestMessage}>
-                    Feature Requests
+                <div>
+                    <div className={props.styles.infoWrapper}>
+                        <div className={props.styles.featureRequestMessage}>
+                            Feature Requests
+                        </div>
+                        <div className={props.styles.openSubmitVideo}>
+                            <LoadingDiv
+                                isLoading={props.isSubmittingFeature}
+                                isFitContent
+                                isBorderRadius
+                                isRed
+                            >
+                                <StyledButton
+                                    onClick={() => props.setSubmitFeatureRequestOpen(true)}
+                                    text="Submit a Feature"
+                                    color="primary"
+                                    disabled={props.isSubmittingFeature}
+                                />
+                            </LoadingDiv>
+                        </div>
                     </div>
-                    <div className={props.styles.openSubmitVideo}>
-                        <StyledButton
-                            onClick={() => props.setSubmitFeatureRequestOpen(true)}
-                            text="Submit a Feature"
-                            color="primary"
+                    <div className={props.styles.reportBugsMessage}>
+                        Please also use this to reports bugs
+                    </div>
+                </div>
+                <div>
+                    <div className={props.styles.sortByWrapper}>
+                        <Dropdown
+                            title="Filter By Date"
+                            key="Filter By Date"
+                            onChange={setFilterBy}
+                            options={Object.values(helpers.dateFilters).map(x => ({
+                                text: x.label,
+                                id: x.id,
+                                value: x.id
+                            }))}
+                            value={filterBy}
+                        />
+                        <Dropdown
+                            title="Sort By"
+                            key="Sort By"
+                            onChange={setSortBy}
+                            options={Object.values(helpers.sortByFilters)
+                                .map(x => ({
+                                    text: x.label,
+                                    id: x.id,
+                                    value: x.id
+                                }))}
+                            value={sortBy}
                         />
                     </div>
                     <div className={props.styles.searchFilter}>
@@ -46,49 +84,26 @@ const AllFeatureRequests = props => {
                         />
                     </div>
                 </div>
-                <div className={props.styles.sortByWrapper}>
-                    <Dropdown
-                        title="Filter By Date"
-                        key="Filter By Date"
-                        onChange={setFilterBy}
-                        options={Object.values(helpers.dateFilters).map(x => ({
-                            text: x.label,
-                            id: x.id,
-                            value: x.id
-                        }))}
-                        value={filterBy}
-                    />
-                    <Dropdown
-                        title="Sort By"
-                        key="Sort By"
-                        onChange={setSortBy}
-                        options={Object.values(helpers.sortByFilters)
-                            .map(x => ({
-                                text: x.label,
-                                id: x.id,
-                                value: x.id
-                            }))}
-                        value={sortBy}
-                    />
-                </div>
             </div>
             <div className={props.styles.featuresWrapper}>
                 {generateFilteredFeatures().map(x => (
                     <div className={props.styles.featureWrapper} key={x.id}>
-                        <Feature
-                            addNewComment={props.addNewComment(x.id)}
-                            addNewReply={props.addNewReply(x.id)}
-                            deleteComment={props.deleteComment(x.id)}
-                            deleteReply={props.deleteReply(x.id)}
-                            details={x}
-                            showAuthor
-                            id={x.id}
-                            isOpen={props.featuresOpen.includes(x.id)}
-                            title={`Feature Request by ${x.displayName}`}
-                            toggle={props.toggleFeature}
-                            loggedInUserId={props.loggedInUserId}
-                            styles={mobileStyles}
-                        />
+                        <FadingCollapsable
+                            isSideMargins
+                            title={<div className={props.styles.featureTitle}>{`Feature Request by ${x.displayName}`}</div>}
+                        >
+                            <FeatureRequest
+                                addNewComment={props.addNewComment(x.id)}
+                                addNewReply={props.addNewReply(x.id)}
+                                deleteComment={props.deleteComment(x.id)}
+                                deleteReply={props.deleteReply(x.id)}
+                                details={x}
+                                isAddingCommentToFeature={props.isAddingCommentToFeature}
+                                showAuthor
+                                id={x.id}
+                                loggedInUserId={props.loggedInUserId}
+                            />
+                        </FadingCollapsable>
                     </div>
                 ))}
             </div>
@@ -102,10 +117,10 @@ AllFeatureRequests.defaultProps = {
     deleteComment: noop,
     deleteReply: noop,
     featureRequests: [],
-    featuresOpen: [],
+    isAddingCommentToFeature: false,
+    isSubmittingFeature: false,
     setSubmitFeatureRequestOpen: noop,
     styles: defaultStyles,
-    toggleFeature: noop,
     loggedInUserId: ''
 };
 
@@ -119,10 +134,10 @@ AllFeatureRequests.propTypes = {
         id: PropTypes.string,
         userId: PropTypes.string
     })),
-    featuresOpen: PropTypes.arrayOf(PropTypes.string),
+    isAddingCommentToFeature: PropTypes.bool,
+    isSubmittingFeature: PropTypes.bool,
     setSubmitFeatureRequestOpen: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string),
-    toggleFeature: PropTypes.func,
     loggedInUserId: PropTypes.string
 };
 

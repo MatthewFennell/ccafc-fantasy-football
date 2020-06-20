@@ -8,16 +8,13 @@
 }
 
 .videoWrapper{
-  margin: $spacing-small;
-  background-color: $color-white;
-  @include light-box-shadow();
-  max-width: 33%;
-  min-width: 30%;
+  max-width: 45%;
+  min-width: 40%;
 }
 
 .notExpandedVideoWrapper{
-  max-width: 33%;
-  min-width: 30%;
+  max-width: 45%;
+  min-width: 40%;
 }
 
 
@@ -57,14 +54,12 @@
   font-weight: bold;
   margin-left: auto;
   margin-right: auto;
-  cursor: pointer;
   outline-width: 0px;
   text-align: center;
   padding: 0px $spacing-medium $spacing-average $spacing-medium;
 }
 
 .expandIcon{
-  cursor: pointer;
   outline: none;
   // background-color: $color-dark-gray;
   text-align: right;
@@ -78,7 +73,4 @@
   margin-right: $spacing-small;
   padding-top: $spacing-small;
 
-  :first-child{
-    cursor: pointer;
-  }
 }

@@ -19,6 +19,7 @@ import * as helpers from './helpers';
 import TextInput from '../common/TextInput/TextInput';
 import * as textInputConstants from '../common/TextInput/constants';
 import Dropdown from '../common/dropdown/Dropdown';
+import LoadingDiv from '../common/loadingDiv/LoadingDiv';
 
 const Highlights = props => {
     useEffect(() => {
@@ -60,10 +61,22 @@ const Highlights = props => {
                 <div className={props.styles.highlightsHeader}>
                     <div className={props.styles.infoWrapper}>
                         <div className={props.styles.highlightsMessage}>
-                  Highlights
+                            Highlights
                         </div>
                         <div className={props.styles.openSubmitVideo}>
-                            <StyledButton onClick={openSubmitVideo} text="Submit a Video" color="primary" />
+                            <LoadingDiv
+                                isLoading={props.isSubmittingHighlight}
+                                isFitContent
+                                isBorderRadius
+                                isRed
+                            >
+                                <StyledButton
+                                    onClick={openSubmitVideo}
+                                    text="Submit a Video"
+                                    color="primary"
+                                    disabled={props.isSubmittingHighlight}
+                                />
+                            </LoadingDiv>
                         </div>
                     </div>
                     <div className={props.styles.sortByWrapper}>
@@ -163,6 +176,7 @@ Highlights.defaultProps = {
     loadingVideos: false,
     loadingVideosToBeApproved: false,
     loadingRejectedVideos: false,
+    isSubmittingHighlight: false,
     successMessage: '',
     styles: defaultStyles,
     videos: [],
@@ -192,6 +206,7 @@ Highlights.propTypes = {
     loadingVideos: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),
     setHighlightError: PropTypes.func.isRequired,
+    isSubmittingHighlight: PropTypes.bool,
     submitHighlightRequest: PropTypes.func.isRequired,
     successMessage: PropTypes.string,
     videos: PropTypes.arrayOf(PropTypes.shape({})),
@@ -228,6 +243,7 @@ const mapStateToProps = state => ({
     loadingVideos: state.highlights.loadingVideos,
     loadingVideosToBeApproved: state.highlights.loadingVideosToBeApproved,
     loadingRejectedVideos: state.highlights.loadingRejectedVideos,
+    isSubmittingHighlight: state.highlights.isSubmittingHighlight,
     successMessage: state.highlights.successMessage,
     videos: state.highlights.videos,
     videosToBeApproved: state.highlights.videosToBeApproved,

@@ -21,6 +21,7 @@
 .approveHighlightsHeader, .rejectedHighlightsHeader {
   display: flex;
   flex-wrap: wrap;
+  padding: $spacing-medium;
 
   .highlightInfoWrapper {
     display: flex;
@@ -75,7 +76,6 @@
 }
 
 .allVideos {
-  padding: $spacing-medium;
   margin: $spacing-medium;
   background-color: $color-white;
   @include light-box-shadow();
@@ -99,12 +99,7 @@
   margin-right: auto;
 }
 
-.gridWrapper{
-  @include light-box-shadow();
-}
-
 .allRejectedVideos{
-  padding: $spacing-medium;
   margin: $spacing-medium;
   background-color: $color-white;
   @include light-box-shadow();

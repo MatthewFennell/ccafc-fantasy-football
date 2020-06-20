@@ -211,7 +211,6 @@ const mapStateToProps = state => ({
     leagues: state.leagues.leagues
 });
 
-
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Leagues));
 
 export { Leagues as LeaguesUnconnected };

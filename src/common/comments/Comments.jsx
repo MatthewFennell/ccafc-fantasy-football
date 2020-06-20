@@ -29,6 +29,7 @@ const RenderComments = props => {
                         deleteComment={deleteComment}
                         deleteReply={deleteReply}
                         details={comment}
+                        isAddingCommentToFeature={props.isAddingCommentToFeature}
                         isTopLevel={isTopLevel}
                         submitReply={submitReply}
                         loggedInUserId={loggedInUserId}
@@ -52,6 +53,7 @@ const RenderComments = props => {
                 deleteComment={deleteComment}
                 deleteReply={deleteReply}
                 details={comment}
+                isAddingCommentToFeature={props.isAddingCommentToFeature}
                 isTopLevel={isTopLevel}
                 submitReply={submitReply}
                 loggedInUserId={loggedInUserId}
@@ -64,21 +66,21 @@ const RenderComments = props => {
         .map(x => renderComment(x, true, submitReply, loggedInUserId, props.deleteComment,
             props.deleteReply, null));
 
-
     return (
         <div className={props.styles.comments}>
-                Comments
+            Comments
             <hr className={props.styles.commentsDivider} />
             <div className={props.styles.addTopLevelComment}>
                 <div className={props.styles.addNewCommentWrapper}>
                     <div className={props.styles.initialComment}>
                         <AddReply
-                            label="Add a new comment"
-                            text={newComment}
-                            setText={setNewComment}
                             cancelReply={cancelReply}
-                            submitReply={addNewComment}
+                            isAddingCommentToFeature={props.isAddingCommentToFeature}
+                            label="Add a new comment"
                             message="Add comment"
+                            setText={setNewComment}
+                            submitReply={addNewComment}
+                            text={newComment}
                         />
                     </div>
                 </div>
@@ -94,6 +96,7 @@ RenderComments.defaultProps = {
     comments: [],
     deleteComment: noop,
     deleteReply: noop,
+    isAddingCommentToFeature: false,
     styles: defaultStyles,
     loggedInUserId: ''
 };
@@ -104,6 +107,7 @@ RenderComments.propTypes = {
     comments: PropTypes.arrayOf(PropTypes.shape({})),
     deleteComment: PropTypes.func,
     deleteReply: PropTypes.func,
+    isAddingCommentToFeature: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),
     loggedInUserId: PropTypes.string
 };

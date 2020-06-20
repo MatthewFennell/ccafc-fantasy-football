@@ -1,16 +1,37 @@
 @import "../Styles.scss";
 
 .featureRequestWrapper {
-    // padding: $spacing-medium;
     background-color: $color-white;
 
     .author {
-        font-weight: bold;
-        margin-left: $spacing-small;
-        color: $color-green;
+        margin-top: $spacing-small;
+    }
+
+    .author, .featureDescription {
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        font-size: $font-size-large;
+        margin-left: auto;
+        margin-right: auto;
+
+        .key {
+            font-weight: bold;
+            color: $color-dark-gray;
+            margin-right: $spacing-tiny;
+            font-size: $font-size-medium;
+            @include vertical-center-div();
+        }
+
+        .value {
+            font-weight: bold;
+            color: $color-green;
+            @include vertical-center-div();
+        }
     }
 
     .description{
+        text-align: center;
         margin-left: $spacing-small;
         margin-bottom: $spacing-small;
         font-weight: bold;
@@ -18,15 +39,15 @@
     }
 
     .comments {
-        margin-top: $spacing-medium;
+        margin-top: $spacing-tiny;
         font-size: $font-size-large;
     }
 
     .commentsWrapper{
         height: 300px;
         overflow-y: scroll;
-        padding: $spacing-small;
-        background-color: wheat;
+        padding: $spacing-average;
+        overflow-x: hidden;
     }
 }
 

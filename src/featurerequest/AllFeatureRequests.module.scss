@@ -32,6 +32,7 @@
     }
 
     .searchFilter {
+        margin-top: $spacing-small;
         width: 50%;
         margin-left: auto;
         margin-right: auto;
@@ -54,6 +55,17 @@
     text-align: center;
     display: flex;
     justify-content: space-evenly;
+}
+
+.featureTitle {
+    text-align: center;
+    font-weight: bold;
+    padding: $spacing-tiny;
+}
+
+.reportBugsMessage {
+    margin-top: $spacing-small;
+    color: $color-gray;
 }
 
 @media only screen and (max-width: 600px) {

@@ -1,3 +1,4 @@
+import fp from 'lodash/fp';
 /* eslint-disable no-underscore-dangle */
 
 export const dateFilters = {
@@ -78,13 +79,14 @@ export const filterBySearch = (videos, searchFilter) => videos
     || x.title.toLowerCase().includes(searchFilter.toLowerCase()));
 
 const sortBy = (sort, videos, searchFilter) => {
-    const { sortFunction } = Object.values(sortByFilters).find(x => x.id === sort);
-    return filterBySearch(sortFunction(videos), searchFilter);
+    const sortFunction = fp.get('sortFunction')(Object.values(sortByFilters).find(x => x.id === sort));
+    return filterBySearch(sortFunction ? sortFunction(videos) : videos, searchFilter);
 };
 
 const filterByDate = (filter, sort, videos, searchFilter) => {
-    const { filterFunction } = Object.values(dateFilters).find(x => x.id === filter);
-    return sortBy(sort, videos.filter(x => filterFunction(x)), searchFilter);
+    const filterFunction = fp.get('filterFunction')(Object.values(dateFilters).find(x => x.id === filter));
+    return sortBy(sort, filterFunction ? videos.filter(x => filterFunction(x))
+        : videos, searchFilter);
 };
 
 export const sortVideos = (filter, sort, videos,
