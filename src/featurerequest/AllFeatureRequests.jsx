@@ -9,6 +9,7 @@ import TextInput from '../common/TextInput/TextInput';
 import * as textInputConstants from '../common/TextInput/constants';
 import Dropdown from '../common/dropdown/Dropdown';
 import FadingCollapsable from '../common/fadingCollapsable/FadingCollapsable';
+import LoadingDiv from '../common/loadingDiv/LoadingDiv';
 
 const AllFeatureRequests = props => {
     const [filterBy, setFilterBy] = useState('allTime');
@@ -28,11 +29,19 @@ const AllFeatureRequests = props => {
                             Feature Requests
                         </div>
                         <div className={props.styles.openSubmitVideo}>
-                            <StyledButton
-                                onClick={() => props.setSubmitFeatureRequestOpen(true)}
-                                text="Submit a Feature"
-                                color="primary"
-                            />
+                            <LoadingDiv
+                                isLoading={props.isSubmittingFeature}
+                                isFitContent
+                                isBorderRadius
+                                isRed
+                            >
+                                <StyledButton
+                                    onClick={() => props.setSubmitFeatureRequestOpen(true)}
+                                    text="Submit a Feature"
+                                    color="primary"
+                                    disabled={props.isSubmittingFeature}
+                                />
+                            </LoadingDiv>
                         </div>
                     </div>
                     <div className={props.styles.reportBugsMessage}>
@@ -109,6 +118,7 @@ AllFeatureRequests.defaultProps = {
     deleteReply: noop,
     featureRequests: [],
     isAddingCommentToFeature: false,
+    isSubmittingFeature: false,
     setSubmitFeatureRequestOpen: noop,
     styles: defaultStyles,
     loggedInUserId: ''
@@ -125,6 +135,7 @@ AllFeatureRequests.propTypes = {
         userId: PropTypes.string
     })),
     isAddingCommentToFeature: PropTypes.bool,
+    isSubmittingFeature: PropTypes.bool,
     setSubmitFeatureRequestOpen: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string),
     loggedInUserId: PropTypes.string

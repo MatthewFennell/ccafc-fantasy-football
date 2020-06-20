@@ -3,15 +3,23 @@
 .statsWrapper{
   .statsHeader{
     margin: $spacing-medium;
-    padding: $spacing-small;
+    padding: $spacing-medium;
     @include light-box-shadow();
     display: flex;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
 
     .dropdownWrapper{
       justify-content: center;
       width: 100%;
       text-align: center;
       display: flex;
+    }
+
+    .toggleWrapper {
+      padding-left: $spacing-average;
+      padding-right: $spacing-average;
     }
 
     .editFiltersWrapper{

@@ -72,6 +72,7 @@ const FeatureRequest = props => {
                 featureRequests={_.map(props.featureRequests, (value, id) => ({ id, ...value }))
                     .filter(x => !x.isBug)}
                 isAddingCommentToFeature={props.isAddingCommentToFeature}
+                isSubmittingFeature={props.isSubmittingFeature}
                 setSubmitFeatureRequestOpen={setSubmitFeatureRequestOpen}
                 loggedInUserId={props.auth.uid}
             />
@@ -106,6 +107,7 @@ FeatureRequest.defaultProps = {
     },
     featureRequests: {},
     isAddingCommentToFeature: false,
+    isSubmittingFeature: false,
     submitFeatureRequest: noop,
     successMessage: ''
 };
@@ -129,6 +131,7 @@ FeatureRequest.propTypes = {
         userId: PropTypes.string
     })),
     isAddingCommentToFeature: PropTypes.bool,
+    isSubmittingFeature: PropTypes.bool,
     submitFeatureRequest: PropTypes.func,
     successMessage: PropTypes.string
 };
@@ -140,6 +143,7 @@ const mapStateToProps = state => ({
     errorHeader: state.features.errorHeader,
     isAddingCommentToFeature: state.features.isAddingCommentToFeature,
     featureRequests: state.firestore.data.featureRequests,
+    isSubmittingFeature: state.features.isSubmittingFeature,
     successMessage: state.features.successMessage
 });
 

@@ -8,13 +8,20 @@ export const initialState = {
 
     successMessage: '',
 
-    isAddingCommentToFeature: false
+    isAddingCommentToFeature: false,
+    isSubmittingFeature: false
 };
 
 const featureReducer = (state = initialState, action) => {
     switch (action.type) {
     case actions.SET_SUCCESS_MESSAGE: {
-        return fp.set('successMessage', action.message)(state);
+        return fp.flow(
+            fp.set('successMessage', action.message),
+            fp.set('isSubmittingFeature', false)
+        )(state);
+    }
+    case actions.SUBMIT_FEATURE_REQUEST: {
+        return fp.set('isSubmittingFeature', true)(state);
     }
     case actions.ADD_COMMENT_TO_FEATURE_REQUEST: {
         return fp.set('isAddingCommentToFeature')(true)(state);

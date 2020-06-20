@@ -3,6 +3,10 @@
 .featureRequestWrapper {
     background-color: $color-white;
 
+    .author {
+        margin-top: $spacing-small;
+    }
+
     .author, .featureDescription {
         display: flex;
         text-align: center;
