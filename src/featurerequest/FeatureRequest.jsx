@@ -16,6 +16,7 @@ import SuccessModal from '../common/modal/SuccessModal';
 const FeatureRequest = props => {
     const [description, setDescription] = useState('');
     const [submitFeatureRequestOpen, setSubmitFeatureRequestOpen] = useState(false);
+    const [isBug, setIsBug] = useState(false);
 
     const updateDescription = useCallback(e => {
         const text = e.target.value;
@@ -35,11 +36,12 @@ const FeatureRequest = props => {
     }, [props.addReplyToCommentRequest]);
 
     const submitRequest = useCallback(() => {
-        props.submitFeatureRequest(description);
+        props.submitFeatureRequest(description, isBug);
         setDescription('');
+        setIsBug(false);
         setSubmitFeatureRequestOpen(false);
         // eslint-disable-next-line
-    }, [description, props.submitFeatureRequest, setDescription, setSubmitFeatureRequestOpen]);
+    }, [description, props.submitFeatureRequest, setDescription, setSubmitFeatureRequestOpen, isBug, setIsBug]);
 
     const deleteComment = useCallback(featureId => commentId => {
         props.deleteCommentRequest(featureId, commentId);
@@ -56,6 +58,8 @@ const FeatureRequest = props => {
             <SubmitFeature
                 closeSubmitFeature={() => setSubmitFeatureRequestOpen(false)}
                 description={description}
+                isBug={isBug}
+                setIsBug={setIsBug}
                 submitFeatureOpen={submitFeatureRequestOpen}
                 submitRequest={submitRequest}
                 updateDescription={updateDescription}
@@ -65,7 +69,8 @@ const FeatureRequest = props => {
                 addNewReply={addNewReply}
                 deleteComment={deleteComment}
                 deleteReply={deleteReply}
-                featureRequests={_.map(props.featureRequests, (value, id) => ({ id, ...value }))}
+                featureRequests={_.map(props.featureRequests, (value, id) => ({ id, ...value }))
+                    .filter(x => !x.isBug)}
                 isAddingCommentToFeature={props.isAddingCommentToFeature}
                 setSubmitFeatureRequestOpen={setSubmitFeatureRequestOpen}
                 loggedInUserId={props.auth.uid}

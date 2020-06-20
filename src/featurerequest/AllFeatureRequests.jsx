@@ -22,16 +22,21 @@ const AllFeatureRequests = props => {
     return (
         <div className={props.styles.allFeatureRequests}>
             <div className={props.styles.featureRequestHeader}>
-                <div className={props.styles.infoWrapper}>
-                    <div className={props.styles.featureRequestMessage}>
-                        Feature Requests
+                <div>
+                    <div className={props.styles.infoWrapper}>
+                        <div className={props.styles.featureRequestMessage}>
+                            Feature Requests
+                        </div>
+                        <div className={props.styles.openSubmitVideo}>
+                            <StyledButton
+                                onClick={() => props.setSubmitFeatureRequestOpen(true)}
+                                text="Submit a Feature"
+                                color="primary"
+                            />
+                        </div>
                     </div>
-                    <div className={props.styles.openSubmitVideo}>
-                        <StyledButton
-                            onClick={() => props.setSubmitFeatureRequestOpen(true)}
-                            text="Submit a Feature"
-                            color="primary"
-                        />
+                    <div className={props.styles.reportBugsMessage}>
+                        Please also use this to reports bugs
                     </div>
                 </div>
                 <div>

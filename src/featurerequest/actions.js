@@ -39,9 +39,10 @@ export const closeSuccessMessage = () => ({
     type: CLOSE_SUCCESS_MESSAGE
 });
 
-export const submitFeatureRequest = description => ({
+export const submitFeatureRequest = (description, isBug) => ({
     type: SUBMIT_FEATURE_REQUEST,
-    description
+    description,
+    isBug
 });
 
 export const addCommentToFeatureRequest = (comment, featureId) => ({

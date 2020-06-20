@@ -37,7 +37,10 @@ export function* addCommentToFeature(api, action) {
 
 export function* submitFeature(api, action) {
     try {
-        yield call(api.submitFeature, { description: action.description });
+        yield call(api.submitFeature, {
+            description: action.description,
+            isBug: action.isBug
+        });
         yield put(actions.setSuccessMessage('Feature submitted successfully'));
         yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
