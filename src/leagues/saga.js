@@ -9,7 +9,7 @@ import * as leaguesApi from './api';
 import * as selectors from './selectors';
 import * as constants from '../constants';
 
-const PAGE_BUFFER = 3;
+const PAGE_BUFFER = 2;
 
 export function* fetchLeagues(api) {
     try {

@@ -17,6 +17,8 @@ export function* fetchTeams(api) {
         }
     } catch (error) {
         yield put(actions.setAdminError(error, 'Fetch Teams Error'));
+    } finally {
+        yield put(actions.setFetchingTeams(false));
     }
 }
 
@@ -61,6 +63,8 @@ export function* getPlayersForTeam(api, action) {
         }
     } catch (error) {
         yield put(actions.setAdminError(error, 'Get Players for team error'));
+    } finally {
+        yield put(actions.setFetchingPlayersForTeam(false));
     }
 }
 
@@ -318,6 +322,9 @@ export function* submitExtraResults(api, action) {
             ownGoal: action.ownGoal
         }));
         yield put(actions.submitExtraStatsSuccess());
+        yield put(actions.setSuccessMessage('Extra stats successfully submitted'));
+        yield delay(successDelay);
+        yield put(actions.closeSuccessMessage());
     } catch (error) {
         yield put(actions.setAdminError(error, 'Submit Extra Results Error'));
     }

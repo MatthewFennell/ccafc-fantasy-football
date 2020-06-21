@@ -32,7 +32,9 @@ export const initialState = {
     successMessage: '',
     errorHeader: '',
     errorMessage: '',
-    errorCode: ''
+    errorCode: '',
+
+    isFetchingPlayersForTeam: false
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -42,6 +44,12 @@ const adminReducer = (state = initialState, action) => {
             ...state,
             allTeams: action.teams
         };
+    }
+    case actions.FETCH_TEAMS_REQUEST: {
+        return fp.set('isFetchingTeams', true)(state);
+    }
+    case actions.SET_FETCHING_TEAMS: {
+        return fp.set('isFetchingTeams', action.isFetching)(state);
     }
     case actions.CREATE_PLAYER_REQUEST: {
         return fp.set('creatingPlayer', true)(state);
@@ -60,6 +68,12 @@ const adminReducer = (state = initialState, action) => {
             ...state,
             teamsWithPlayers: fp.set(action.teamName, action.players)(state.teamsWithPlayers)
         };
+    }
+    case actions.FETCH_PLAYERS_FOR_TEAM_REQUEST: {
+        return fp.set('isFetchingPlayersForTeam', true)(state);
+    }
+    case actions.SET_FETCHING_PLAYERS_FOR_TEAM: {
+        return fp.set('isFetchingPlayersForTeam', action.isFetching)(state);
     }
     case actions.DELETE_PLAYER_REQUEST: {
         return fp.set('deletingPlayer', true)(state);
