@@ -1,8 +1,8 @@
 @import "../common/Styles.scss";
 
 .statsWrapper{
+  margin-top: $spacing-average;
   .statsHeader{
-    margin: $spacing-medium;
     padding: $spacing-medium;
     @include light-box-shadow();
     display: flex;

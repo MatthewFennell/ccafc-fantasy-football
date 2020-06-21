@@ -7,6 +7,7 @@ import defaultStyles from './ExtraStats.module.scss';
 import Dropdown from '../../common/dropdown/Dropdown';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
+import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
 
 const generateWeekOptions = maxGameWeek => {
     const options = [];
@@ -61,51 +62,57 @@ const ExtraStats = props => {
             <div className={props.styles.extraStatsTitle}>
                 Extra Stats
             </div>
-            <div className={props.styles.dropdownWrapper}>
-                <Dropdown value={teamName} onChange={setTeam} options={props.allTeams} title="Team" />
-                <Dropdown value={gameWeek} onChange={setGameWeek} options={generateWeekOptions(props.maxGameWeek)} title="Week" />
-                <Dropdown
-                    key="Player"
-                    value={yellowCard}
-                    onChange={setYellowCard}
-                    options={playersForActiveTeam}
-                    title="Yellow Card"
-                />
-                <Dropdown
-                    key="RedCard"
-                    value={redCard}
-                    onChange={setRedCard}
-                    options={playersForActiveTeam}
-                    title="Red Card"
-                />
-                <Dropdown
-                    key="PenaltySaved"
-                    value={penaltySaved}
-                    onChange={setPenaltySaved}
-                    options={playersForActiveTeam}
-                    title="Penalty Saved"
-                />
-                <Dropdown
-                    key="PenaltyMissed"
-                    value={penaltyMissed}
-                    onChange={setPenaltyMissed}
-                    options={playersForActiveTeam}
-                    title="Penalty Missed"
-                />
-                <Dropdown
-                    key="OwnGoals"
-                    value={ownGoals}
-                    onChange={setOwnGoals}
-                    options={playersForActiveTeam}
-                    title="Own Goals"
-                />
-            </div>
+            <LoadingDiv
+                isLoading={props.isFetchingPlayersForTeam && teamName}
+                isBorderRadius
+                isMargin
+            >
+                <div className={props.styles.dropdownWrapper}>
+                    <Dropdown value={teamName} onChange={setTeam} options={props.allTeams} title="Team" />
+                    <Dropdown value={gameWeek} onChange={setGameWeek} options={generateWeekOptions(props.maxGameWeek)} title="Week" />
+                    <Dropdown
+                        key="Player"
+                        value={yellowCard}
+                        onChange={setYellowCard}
+                        options={playersForActiveTeam}
+                        title="Yellow Card"
+                    />
+                    <Dropdown
+                        key="RedCard"
+                        value={redCard}
+                        onChange={setRedCard}
+                        options={playersForActiveTeam}
+                        title="Red Card"
+                    />
+                    <Dropdown
+                        key="PenaltySaved"
+                        value={penaltySaved}
+                        onChange={setPenaltySaved}
+                        options={playersForActiveTeam}
+                        title="Pen Save"
+                    />
+                    <Dropdown
+                        key="PenaltyMissed"
+                        value={penaltyMissed}
+                        onChange={setPenaltyMissed}
+                        options={playersForActiveTeam}
+                        title="Pen Miss"
+                    />
+                    <Dropdown
+                        key="OwnGoals"
+                        value={ownGoals}
+                        onChange={setOwnGoals}
+                        options={playersForActiveTeam}
+                        title="Own Goals"
+                    />
+                </div>
+            </LoadingDiv>
             <div className={props.styles.submitExtraStatsButton}>
                 <StyledButton
                     color="primary"
                     onClick={submitExtraStats}
                     text="Add Extra Stats"
-                    disabled={!teamName || !gameWeek}
+                    disabled={!teamName || !gameWeek || props.submittingExtraResult}
                 />
             </div>
             <div className={classNames({
@@ -122,6 +129,7 @@ const ExtraStats = props => {
 ExtraStats.defaultProps = {
     allTeams: [],
     fetchPlayersForTeamRequest: noop,
+    isFetchingPlayersForTeam: false,
     maxGameWeek: 0,
     styles: defaultStyles,
     submitExtraStatsRequest: noop,
@@ -132,6 +140,7 @@ ExtraStats.defaultProps = {
 ExtraStats.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     fetchPlayersForTeamRequest: PropTypes.func,
+    isFetchingPlayersForTeam: PropTypes.bool,
     maxGameWeek: PropTypes.number,
     styles: PropTypes.objectOf(PropTypes.string),
     submitExtraStatsRequest: PropTypes.func,

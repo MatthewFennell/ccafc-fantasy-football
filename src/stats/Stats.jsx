@@ -14,6 +14,7 @@ import EditFilter from './editfilter/EditFilter';
 import { columns, weeksToRequest, combinePlayers } from './helpers';
 import WeekStats from './weekstats/WeekStats';
 import Switch from '../common/Switch/Switch';
+import LoadingDiv from '../common/loadingDiv/LoadingDiv';
 
 const Stats = props => {
     useEffect(() => {
@@ -53,40 +54,42 @@ const Stats = props => {
     return (
         <>
             <div className={props.styles.statsWrapper}>
-                <div className={props.styles.statsHeader}>
-                    <div className={props.styles.dropdownWrapper}>
-                        <Dropdown
-                            value={fp.getOr('', 'text')(props.allTeams.find(x => x.id === props.currentTeam))}
-                            onChange={loadNewTeam}
-                            options={props.allTeams}
-                            title="Team"
-                        />
-                        <div className={props.styles.toggleWrapper}>
-                            <div className={props.styles.combineWeeksText}>
-                                Combine weeks
-                            </div>
-                            <div>
-                                <Switch
-                                    checked={combineWeeks}
-                                    color="primary"
-                                    onChange={() => setCombineWeeks(!combineWeeks)}
-                                />
-                            </div>
+                <LoadingDiv isLoading={props.isFetchingTeams} isFitContent isBorderRadius>
+                    <div className={props.styles.statsHeader}>
+                        <div className={props.styles.dropdownWrapper}>
+                            <Dropdown
+                                value={fp.getOr('', 'text')(props.allTeams.find(x => x.id === props.currentTeam))}
+                                onChange={loadNewTeam}
+                                options={props.allTeams}
+                                title="Team"
+                            />
+                            <div className={props.styles.toggleWrapper}>
+                                <div className={props.styles.combineWeeksText}>
+                                    Combine weeks
+                                </div>
+                                <div>
+                                    <Switch
+                                        checked={combineWeeks}
+                                        color="primary"
+                                        onChange={() => setCombineWeeks(!combineWeeks)}
+                                    />
+                                </div>
 
+                            </div>
+                        </div>
+                        <div
+                            className={props.styles.editFiltersWrapper}
+                            role="button"
+                            tabIndex={0}
+                            onClick={() => setEditFilterModalOpen(true)}
+                        >
+                            <div className={props.styles.editFilter}>
+                                Edit Filters
+                            </div>
+                            <EditIcon color="primary" />
                         </div>
                     </div>
-                    <div
-                        className={props.styles.editFiltersWrapper}
-                        role="button"
-                        tabIndex={0}
-                        onClick={() => setEditFilterModalOpen(true)}
-                    >
-                        <div className={props.styles.editFilter}>
-                            Edit Filters
-                        </div>
-                        <EditIcon color="primary" />
-                    </div>
-                </div>
+                </LoadingDiv>
                 {combineWeeks ? (
                     <WeekStats
                         activeColumns={activeColumns}
@@ -103,7 +106,6 @@ const Stats = props => {
                         title={`Week ${week}`}
                     />
                 ))}
-
             </div>
             <SuccessModal
                 backdrop
@@ -128,6 +130,7 @@ Stats.defaultProps = {
     allTeams: [],
     currentTeam: '',
     fetching: [],
+    isFetchingTeams: false,
     maxGameWeek: 0,
     maxWeek: 0,
     minWeek: 0,
@@ -145,6 +148,7 @@ Stats.propTypes = {
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired,
+    isFetchingTeams: PropTypes.bool,
     maxGameWeek: PropTypes.number,
     maxWeek: PropTypes.number,
     minWeek: PropTypes.number,
@@ -160,6 +164,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state, props) => ({
     allTeams: state.admin.allTeams,
+    isFetchingTeams: state.admin.isFetchingTeams,
     minWeek: selectors.getCurrentMinWeek(props),
     maxWeek: selectors.getCurrentMaxWeek(props),
     fetching: selectors.getProperty(state, props, 'fetching'),

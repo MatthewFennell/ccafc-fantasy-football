@@ -8,7 +8,6 @@ import Spinner from '../../common/spinner/Spinner';
 import ErrorModal from '../../common/modal/ErrorModal';
 import TextInput from '../../common/TextInput/TextInput';
 
-
 const Update = props => {
     const [displayName, setDisplayName] = useState('');
 
@@ -30,6 +29,7 @@ const Update = props => {
                 color="primary"
                 onClick={update}
                 text={`Update ${props.property}`}
+                disabled={props.loading}
             />
             <div className={classNames({
                 [props.styles.hidden]: !props.loading

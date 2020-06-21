@@ -67,6 +67,8 @@ export function* updateProfilePicture(api, action) {
         yield put(actions.updateProfilePictureSuccess(action.photoUrl, userId));
     } catch (error) {
         yield put(actions.updateProfilePictureError(error));
+    } finally {
+        yield put(actions.setPhotoUrlBeingUpdated(''));
     }
 }
 

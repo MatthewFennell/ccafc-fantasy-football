@@ -15,7 +15,7 @@ const LinkAccounts = props => (
                 role="button"
                 tabIndex={0}
             >
-            Link your Facebook account
+                {props.isSignedInWithFacebook ? 'You have linked your Facebook account ' : 'Link your Facebook account'}
             </div>
             <div className={props.styles.facebookLinkImage}>
                 <img alt="Facebook" className={props.styles.facebookImage} src={FacebookImage} onClick={props.linkProfileToFacebook} />
@@ -28,7 +28,7 @@ const LinkAccounts = props => (
                 role="button"
                 tabIndex={0}
             >
-            Link your Google account
+                {props.isSignedInWithGoogle ? 'You have linked your Google account ' : 'Link your Google account'}
             </div>
             <div className={props.styles.googleLinkImage}>
                 <img alt="Google" className={props.styles.googleImage} src={GoogleImage} onClick={props.linkProfileToGoogle} />
@@ -37,16 +37,20 @@ const LinkAccounts = props => (
     </div>
 );
 
-LinkAccounts.defaultProps = {
+LinkAccounts.propTypes = {
+    isSignedInWithFacebook: PropTypes.bool,
+    isSignedInWithGoogle: PropTypes.bool,
     linkProfileToFacebook: PropTypes.func,
     linkProfileToGoogle: PropTypes.func,
-    styles: defaultStyles
+    styles: PropTypes.objectOf(PropTypes.string)
 };
 
-LinkAccounts.propTypes = {
+LinkAccounts.defaultProps = {
+    isSignedInWithFacebook: false,
+    isSignedInWithGoogle: false,
     linkProfileToFacebook: noop,
     linkProfileToGoogle: noop,
-    styles: PropTypes.objectOf(PropTypes.string)
+    styles: defaultStyles
 };
 
 export default LinkAccounts;

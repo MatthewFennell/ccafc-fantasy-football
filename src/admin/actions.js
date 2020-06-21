@@ -2,6 +2,7 @@ const pre = 'ADMIN/';
 
 export const FETCH_TEAMS_REQUEST = `${pre}FETCH_TEAMS_REQUEST`;
 export const FETCH_TEAMS_SUCCESS = `${pre}FETCH_TEAMS_SUCCESS`;
+export const SET_FETCHING_TEAMS = `${pre}SET_FETCHING_TEAMS`;
 
 export const CREATE_PLAYER_REQUEST = `${pre}CREATE_PLAYER_REQUEST`;
 export const CREATE_PLAYER_SUCCESS = `${pre}CREATE_PLAYER_SUCCESS`;
@@ -14,6 +15,7 @@ export const SUBMIT_RESULT_SUCCESS = `${pre}SUBMIT_RESULT_SUCCESS`;
 
 export const FETCH_PLAYERS_FOR_TEAM_REQUEST = `${pre}FETCH_PLAYERS_FOR_TEAM_REQUEST`;
 export const FETCH_PLAYERS_FOR_TEAM_SUCCESS = `${pre}FETCH_PLAYERS_FOR_TEAM_SUCCESS`;
+export const SET_FETCHING_PLAYERS_FOR_TEAM = `${pre}SET_FETCHING_PLAYERS_FOR_TEAM`;
 
 export const DELETE_PLAYER_REQUEST = `${pre}DELETE_PLAYER_REQUEST`;
 export const DELETE_PLAYER_SUCCESS = `${pre}DELETE_PLAYER_SUCCESS`;
@@ -281,6 +283,11 @@ export const fetchTeamsSuccess = teams => ({
     teams
 });
 
+export const setFetchingTeams = isFetching => ({
+    type: SET_FETCHING_TEAMS,
+    isFetching
+});
+
 // -------------------------------------------------------------------- \\
 
 export const createPlayerRequest = (name, position, price, team, previousScore) => ({
@@ -333,6 +340,11 @@ export const fetchPlayersForTeamSuccess = (teamName, players) => ({
     type: FETCH_PLAYERS_FOR_TEAM_SUCCESS,
     teamName,
     players
+});
+
+export const setFetchingPlayersForTeam = isFetching => ({
+    type: SET_FETCHING_PLAYERS_FOR_TEAM,
+    isFetching
 });
 
 // -------------------------------------------------------------------- \\

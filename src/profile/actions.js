@@ -26,6 +26,7 @@ export const CLOSE_DELETE_ACCOUNT_ERROR = `${pre}CLOSE_DELETE_ACCOUNT_ERROR`;
 export const UPDATE_PROFILE_PICTURE_REQUEST = `${pre}UPDATE_PROFILE_PICTURE_REQUEST`;
 export const UPDATE_PROFILE_PICTURE_SUCCESS = `${pre}UPDATE_PROFILE_PICTURE_SUCCESS`;
 export const UPDATE_PROFILE_PICTURE_ERROR = `${pre}UPDATE_PROFILE_PICTURE_ERROR`;
+export const SET_PHOTO_URL_BEING_UPDATED = `${pre}SET_PHOTO_URL_BEING_UPDATED`;
 
 export const updateProfilePictureRequest = photoUrl => ({
     type: UPDATE_PROFILE_PICTURE_REQUEST,
@@ -41,6 +42,11 @@ export const updateProfilePictureSuccess = (photoUrl, userId) => ({
 export const updateProfilePictureError = error => ({
     type: UPDATE_PROFILE_PICTURE_ERROR,
     error
+});
+
+export const setPhotoUrlBeingUpdated = photoUrl => ({
+    type: SET_PHOTO_URL_BEING_UPDATED,
+    photoUrl
 });
 
 export const deleteAccountSuccess = () => ({
@@ -78,7 +84,6 @@ export const updateTeamNameRequest = teamName => ({
     type: UPDATE_TEAM_NAME_REQUEST,
     teamName
 });
-
 
 export const closeDisplayNameError = () => ({
     type: CLOSE_DISPLAY_NAME_ERROR

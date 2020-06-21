@@ -29,7 +29,7 @@ const Fixtures = props => {
     const classes = useStyles();
     const [myTeam, setMyTeam] = useState('');
     const [radioValue, setRadioValue] = useState('All');
-    const [collingwoodOnly, setCollingwoodOnly] = useState(false);
+    const [collingwoodOnly, setCollingwoodOnly] = useState(true);
     const [upcomingMatchesOnly, setUpcomingMatchesOnly] = useState(false);
     const [teamNameFilter, setTeamNameFilter] = useState('');
 
@@ -46,7 +46,6 @@ const Fixtures = props => {
             setRadioValue('All');
         }
     }, [props.myTeam]);
-
 
     const updateMyTeam = useCallback(() => {
         props.setMyTeamRequest(myTeam);

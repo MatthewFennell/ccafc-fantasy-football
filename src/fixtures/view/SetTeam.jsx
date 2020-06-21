@@ -8,7 +8,7 @@ import Spinner from '../../common/spinner/Spinner';
 
 const Button = props => (
     <div className={props.styles.selectTeamWrapper}>
-        <div>
+        <div className={props.styles.myTeam}>
             {props.loadingMyTeam ? <Spinner color="secondary" /> : props.myTeam}
         </div>
         <div>
@@ -26,7 +26,9 @@ const Button = props => (
                 onClick={props.updateMyTeam}
                 color="primary"
                 text="Update my team"
-                disabled={Boolean(!props.activeTeam) || props.activeTeam === props.myTeam}
+                disabled={Boolean(!props.activeTeam)
+                    || props.activeTeam === props.myTeam
+                    || props.loadingMyTeam}
             />
         </div>
     </div>
