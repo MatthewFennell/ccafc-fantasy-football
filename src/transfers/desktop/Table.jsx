@@ -60,7 +60,6 @@ const Table = props => {
         byName = byName.filter(x => x.price >= minPrice);
         byName = byName.filter(x => x.price <= maxPrice);
 
-
         if (props.sortBy === 'Name') {
             return sortListAscDescDesktop(byName, !props.isAscendingSort, 'name');
         }
