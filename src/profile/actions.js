@@ -19,8 +19,8 @@ export const UPDATE_TEAM_NAME_ERROR = `${pre}UPDATE_TEAM_NAME_ERROR`;
 export const CLOSE_TEAM_NAME_ERROR = `${pre}CLOSE_TEAM_NAME_ERROR`;
 
 export const DELETE_ACCOUNT_REQUEST = `${pre}DELETE_ACCOUNT_REQUEST`;
-export const DELETE_ACCOUNT_SUCCESS = `${pre}DELETE_ACCOUNT_SUCCESS`;
 export const DELETE_ACCOUNT_ERROR = `${pre}DELETE_ACCOUNT_ERROR`;
+export const SET_DELETING_ACCOUNT = `${pre}SET_DELETING_ACCOUNT`;
 export const CLOSE_DELETE_ACCOUNT_ERROR = `${pre}CLOSE_DELETE_ACCOUNT_ERROR`;
 
 export const UPDATE_PROFILE_PICTURE_REQUEST = `${pre}UPDATE_PROFILE_PICTURE_REQUEST`;
@@ -49,8 +49,9 @@ export const setPhotoUrlBeingUpdated = photoUrl => ({
     photoUrl
 });
 
-export const deleteAccountSuccess = () => ({
-    type: DELETE_ACCOUNT_SUCCESS
+export const setDeletingAccount = isDeleting => ({
+    type: SET_DELETING_ACCOUNT,
+    isDeleting
 });
 
 export const closeDeleteAccountError = () => ({

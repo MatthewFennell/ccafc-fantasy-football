@@ -10,7 +10,6 @@ import {
 import * as selectors from './selectors';
 import Spinner from '../common/spinner/Spinner';
 import { generateOverviewRoute } from '../helperFunctions';
-import FadingCollapsable from '../common/fadingCollapsable/FadingCollapsable';
 
 const Overview = props => {
     useEffect(() => {
@@ -52,12 +51,6 @@ const Overview = props => {
         }
     }, [props.currentGameWeek, props.maxGameWeek, props.history, props.userId]);
 
-    const temp = (
-        <div>
-            Heya temp
-        </div>
-    );
-
     return (
         <div className={props.styles.overviewWrapper}>
             <div className={props.styles.pointsWrapper}>
@@ -72,10 +65,6 @@ const Overview = props => {
                     )}
                 </div>
             </div>
-
-            <FadingCollapsable uncoveredComponent={temp}>
-                <div>Testing </div>
-            </FadingCollapsable>
 
             <div className={props.styles.gameweekPointsWrapper}>
                 {props.fetchingUserInfo ? <Spinner color="secondary" /> : (

@@ -64,7 +64,6 @@ describe('Profile saga', () => {
         sendPasswordResetEmail
     }));
 
-
     firebase.auth.FacebookAuthProvider = jest.fn(() => {});
     firebase.auth.GoogleAuthProvider = jest.fn(() => {});
 
@@ -151,7 +150,7 @@ describe('Profile saga', () => {
     it('delete account', () => {
         const action = actions.deleteAccountRequest('test@test.com');
         return expectSaga(sagas.deleteAccount, api, action)
-            .put(actions.deleteAccountSuccess())
+            .put(actions.setDeletingAccount(false))
             .put(signOut())
             .run();
     });

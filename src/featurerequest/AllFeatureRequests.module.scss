@@ -80,7 +80,8 @@
 
     .featureRequestHeader {
         margin: 0px;
-        margin-bottom: $spacing-medium;
+        margin-bottom: 0px;
+        padding-top: $spacing-small;
     }
 
     .searchFilter {

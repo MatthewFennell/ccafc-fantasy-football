@@ -112,8 +112,8 @@ const profileReducer = (state = initialState, action) => {
     case actions.DELETE_ACCOUNT_REQUEST: {
         return fp.set('deletingAccount', true)(state);
     }
-    case actions.DELETE_ACCOUNT_SUCCESS: {
-        return fp.set('deletingAccount', false)(state);
+    case actions.SET_DELETING_ACCOUNT: {
+        return fp.set('deletingAccount', action.isDeleting)(state);
     }
     default:
         return state;

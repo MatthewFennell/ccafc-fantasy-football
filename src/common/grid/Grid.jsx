@@ -66,9 +66,11 @@ const Grid = props => {
                                 </div>
                             )}
 
-                    <div className={props.styles.gridHeaderText}>
-                        {props.gridHeader ? props.gridHeader : ''}
-                    </div>
+                    {props.gridHeader && (
+                        <div className={props.styles.gridHeaderText}>
+                            {props.gridHeader}
+                        </div>
+                    )}
                 </div>
                 {props.loading && <Linear color={props.loadingColor} />}
                 <Table stickyHeader aria-label="sticky table">

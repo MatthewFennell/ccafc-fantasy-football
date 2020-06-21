@@ -50,11 +50,16 @@
   }
 
   .manageUserGridHeaderWrapper {
-    margin-top: $spacing-medium;
+    margin-top: 0px;
   }
 
   .rolesToPermissionsWrapper {
     padding: 0px;
     margin-top: $spacing-medium;
+  }
+
+  .clearDatabaseWrapper {
+    display: block;
+    text-align: center;
   }
 }

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 export const filterPlayers = (allPlayers, team, havePaid, name) => {
-    const teamFilter = team === 'All' ? () => true : x => x.team === team;
+    const teamFilter = (team === 'All' || !team) ? () => true : x => x.team === team;
     let havePaidFilter = () => true;
     if (havePaid === 'paid') {
         havePaidFilter = x => x.hasPaidSubs;

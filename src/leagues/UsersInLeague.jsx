@@ -117,6 +117,7 @@ const UsersInLeague = props => {
                     color="primary"
                     onClick={() => setLeaveLeagueOpen(true)}
                     text="Leave league"
+                    disabled={props.leavingLeague}
                 />
             </div>
             <ConfirmModal

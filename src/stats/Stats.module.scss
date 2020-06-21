@@ -1,15 +1,21 @@
 @import "../common/Styles.scss";
 
+.oddWrapper {
+  margin-left: $spacing-small;
+  margin-right: $spacing-average;
+}
+
 .statsWrapper{
   margin-top: $spacing-average;
   .statsHeader{
+    color: $color-black;
     padding: $spacing-medium;
-    @include light-box-shadow();
     display: flex;
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
-
+    background-color: $color-white;
+    
     .dropdownWrapper{
       justify-content: center;
       width: 100%;

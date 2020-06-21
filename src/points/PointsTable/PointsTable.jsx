@@ -22,99 +22,103 @@ const columns = [
     }
 ];
 
-const generateRows = player => {
-    const rows = [
-        {
-            stat: 'Goals',
-            value: player.goals,
-            points: POINTS.GOAL[player.position] * player.goals,
-            showField: true
-        },
-        {
-            stat: 'Assists',
-            value: player.assists,
-            points: POINTS.ASSIST * player.assists,
-            showField: true
-        },
-        {
-            stat: 'Clean Sheet',
-            value: '',
-            points: player.cleanSheet && POINTS.CLEAN_SHEET[player.position],
-            showField: player.cleanSheet && player.position !== 'ATTACKER'
-        },
-        {
-            stat: 'Yellow Card',
-            value: '',
-            points: POINTS.YELLOW_CARD,
-            showField: player.yellowCard
-        },
-        {
-            stat: 'Red Card',
-            value: '',
-            points: POINTS.RED_CARD,
-            showField: player.redCard
-        },
-        {
-            stat: 'MOTM',
-            value: '',
-            points: POINTS.MOTM,
-            showField: player.manOfTheMatch
-        },
-        {
-            stat: 'DOTD',
-            value: '',
-            points: POINTS.DOTD,
-            showField: player.dickOfTheDay
-        },
-        {
-            stat: 'Pen Saved',
-            value: player.penaltySaves,
-            points: POINTS.PENALTY_SAVE,
-            showField: player.penaltySaves > 0
-        },
-        {
-            stat: 'Pen Missed',
-            value: player.penaltyMisses,
-            points: POINTS.PENALTY_MISS,
-            showField: player.penaltyMisses > 0
-        },
-        {
-            stat: 'Own Goals',
-            value: player.ownGoals,
-            points: POINTS.OWN_GOAL * player.ownGoals,
-            showField: player.ownGoals > 0
-        },
-        {
-            stat: 'Captain',
-            value: '',
-            points: player.points / 2,
-            showField: player.isCaptain
-        },
-        {
-            stat: 'Total',
-            value: '',
-            points: player.points,
-            showField: true
-        }
-    ];
-    return rows;
-};
+const PointsTable = props => {
+    const stat = statValue => <div className={props.styles.stat}>{statValue}</div>;
 
-const PointsTable = props => (
-    <div>
-        <div className={props.styles.playerInfoWrapper}>
-            <div className={props.styles.playerName}>
-                {`Player: ${props.player.name}`}
+    const generateRows = player => {
+        const rows = [
+            {
+                stat: stat('Goals'),
+                value: player.goals,
+                points: POINTS.GOAL[player.position] * player.goals,
+                showField: true
+            },
+            {
+                stat: stat('Assists'),
+                value: player.assists,
+                points: POINTS.ASSIST * player.assists,
+                showField: true
+            },
+            {
+                stat: stat('Clean Sheet'),
+                value: '',
+                points: player.cleanSheet && POINTS.CLEAN_SHEET[player.position],
+                showField: player.cleanSheet && player.position !== 'ATTACKER'
+            },
+            {
+                stat: stat('Yellow Card'),
+                value: '',
+                points: POINTS.YELLOW_CARD,
+                showField: player.yellowCard
+            },
+            {
+                stat: stat('Red Card'),
+                value: '',
+                points: POINTS.RED_CARD,
+                showField: player.redCard
+            },
+            {
+                stat: stat('MOTM'),
+                value: '',
+                points: POINTS.MOTM,
+                showField: player.manOfTheMatch
+            },
+            {
+                stat: stat('DOTD'),
+                value: '',
+                points: POINTS.DOTD,
+                showField: player.dickOfTheDay
+            },
+            {
+                stat: stat('Pen Saved'),
+                value: player.penaltySaves,
+                points: POINTS.PENALTY_SAVE,
+                showField: player.penaltySaves > 0
+            },
+            {
+                stat: stat('Pen Missed'),
+                value: player.penaltyMisses,
+                points: POINTS.PENALTY_MISS,
+                showField: player.penaltyMisses > 0
+            },
+            {
+                stat: stat('Own Goals'),
+                value: player.ownGoals,
+                points: POINTS.OWN_GOAL * player.ownGoals,
+                showField: player.ownGoals > 0
+            },
+            {
+                stat: stat('Captain'),
+                value: '',
+                points: player.points / 2,
+                showField: player.isCaptain
+            },
+            {
+                stat: stat('Total'),
+                value: '',
+                points: player.points,
+                showField: true
+            }
+        ];
+        return rows;
+    };
+
+    return (
+        <div>
+            <div className={props.styles.playerInfoWrapper}>
+                <div className={props.styles.playerName}>
+                    {`Player: ${props.player.name}`}
+                </div>
             </div>
+            <Grid
+                columns={columns}
+                rows={generateRows(props.player).filter(row => row.showField)}
+                rowsPerPageOptions={[20]}
+                showPagination={false}
+            />
         </div>
-        <Grid
-            columns={columns}
-            rows={generateRows(props.player).filter(row => row.showField)}
-            rowsPerPageOptions={[20]}
-            showPagination={false}
-        />
-    </div>
-);
+    );
+};
 
 PointsTable.defaultProps = {
     player: {},

@@ -3,6 +3,9 @@
 .selectTeamWrapper{
     display: flex;
     flex-wrap: wrap;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
     
     > * {
         flex-grow: 1;
