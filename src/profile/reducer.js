@@ -16,7 +16,9 @@ export const initialState = {
 
     deletingAccount: false,
     deleteAccountError: '',
-    deleteAccountErrorCode: ''
+    deleteAccountErrorCode: '',
+
+    photoUrlBeingUpdated: ''
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -44,6 +46,12 @@ const profileReducer = (state = initialState, action) => {
             linkAccountError: '',
             linkAccountErrorCode: ''
         };
+    }
+    case actions.UPDATE_PROFILE_PICTURE_REQUEST: {
+        return fp.set('photoUrlBeingUpdated', action.photoUrl)(state);
+    }
+    case actions.SET_PHOTO_URL_BEING_UPDATED: {
+        return fp.set('photoUrlBeingUpdated', action.photoUrl)(state);
     }
     case actions.UPDATE_DISPLAY_NAME_REQUEST: {
         return fp.set('updatingDisplayName', true)(state);

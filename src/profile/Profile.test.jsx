@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { noop } from 'lodash';
 import { Provider } from 'react-redux';
@@ -55,7 +54,6 @@ jest.spyOn(firebase, 'auth').mockImplementation(() => ({
 
 firebase.auth.FacebookAuthProvider = jest.fn(() => {});
 firebase.auth.GoogleAuthProvider = jest.fn(() => {});
-
 
 const mockHistory = {
     location: {

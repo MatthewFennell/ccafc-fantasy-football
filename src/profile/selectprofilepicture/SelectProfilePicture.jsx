@@ -7,6 +7,7 @@ import defaultStyles from './SelectProfilePicture.module.scss';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import TextInput from '../../common/TextInput/TextInput';
 import * as textInputConstants from '../../common/TextInput/constants';
+import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
 
 const SelectProfilePicture = props => {
     const [ownPhotoUrl, setOwnPhotoUrl] = useState(props.currentPhotoUrl);
@@ -34,13 +35,17 @@ const SelectProfilePicture = props => {
                         >
                             Active Avatar
                         </div>
-
-                        <img
-                            className={props.styles.profilePicture}
-                            onClick={() => updateImage(photoUrl)}
-                            src={photoUrl}
-                            alt="new"
-                        />
+                        <LoadingDiv
+                            isLoading={photoUrl === props.photoUrlBeingUpdated}
+                            isBorderRadius
+                        >
+                            <img
+                                className={props.styles.profilePicture}
+                                onClick={() => updateImage(photoUrl)}
+                                src={photoUrl}
+                                alt="new"
+                            />
+                        </LoadingDiv>
                     </div>
                 ))}
             </div>
@@ -73,7 +78,12 @@ const SelectProfilePicture = props => {
                             alt="new"
                         />
                         <div>
-                            <StyledButton color="primary" onClick={() => updateImage(ownPhotoUrl)} text="Change my icon" />
+                            <StyledButton
+                                color="primary"
+                                onClick={() => updateImage(ownPhotoUrl)}
+                                text="Change my icon"
+                                disabled={props.photoUrlBeingUpdated}
+                            />
                         </div>
                     </div>
                 </div>
@@ -84,6 +94,7 @@ const SelectProfilePicture = props => {
 
 SelectProfilePicture.defaultProps = {
     currentPhotoUrl: '',
+    photoUrlBeingUpdated: '',
     potentialPictures: [],
     styles: defaultStyles,
     updateProfilePicture: noop
@@ -91,6 +102,7 @@ SelectProfilePicture.defaultProps = {
 
 SelectProfilePicture.propTypes = {
     currentPhotoUrl: PropTypes.string,
+    photoUrlBeingUpdated: PropTypes.string,
     potentialPictures: PropTypes.arrayOf(PropTypes.string),
     styles: PropTypes.objectOf(PropTypes.string),
     updateProfilePicture: PropTypes.func

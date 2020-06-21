@@ -12,6 +12,12 @@
     }
 }
 
+.myTeam {
+    font-size: $font-size-large;
+    color: $color-green;
+    font-weight: bold;
+}
+
 @media only screen and (max-width: 600px) {
     .selectTeamWrapper {
         margin-top: 0px;
