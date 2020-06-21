@@ -5,6 +5,10 @@
   cursor: pointer;  
 }
 
+.playerWrapper:focus {
+  outline: none;
+}
+
 .playerInfoWrapper{
   color: $color-white;
   font-size: $font-size-medium;

@@ -3,6 +3,7 @@
 .statsWrapper{
   margin-top: $spacing-average;
   .statsHeader{
+    color: $color-black;
     padding: $spacing-medium;
     @include light-box-shadow();
     display: flex;

@@ -15,7 +15,7 @@ import SuccessModal from '../common/modal/SuccessModal';
 import Update from './update/Update';
 import StyledButton from '../common/StyledButton/StyledButton';
 import ErrorModal from '../common/modal/ErrorModal';
-import Spinner from '../common/spinner/Spinner';
+import LoadingDiv from '../common/loadingDiv/LoadingDiv';
 import SelectProfilePicture from './selectprofilepicture/SelectProfilePicture';
 import TextInput from '../common/TextInput/TextInput';
 import * as textInputConstants from '../common/TextInput/constants';
@@ -35,7 +35,7 @@ const Profile = props => {
         setDeleteModalOpen(false);
         setEmail('');
         // eslint-disable-next-line
-    }, [props.deleteAccountRequest]);
+    }, [props.deleteAccountRequest, email]);
 
     const updateProfilePicture = useCallback(photoUrl => {
         props.updateProfilePictureRequest(photoUrl);
@@ -86,7 +86,9 @@ const Profile = props => {
             </div>
 
             <div className={props.styles.deleteButtonWrapper}>
-                <StyledButton color="secondary" text="Delete Account" onClick={() => setDeleteModalOpen(true)} />
+                <LoadingDiv isLoading={props.deletingAccount} isBorderRadius isFitContent>
+                    <StyledButton color="secondary" text="Delete Account" onClick={() => setDeleteModalOpen(true)} disabled={props.deletingAccount} />
+                </LoadingDiv>
             </div>
             <SuccessModal
                 backdrop
@@ -141,7 +143,6 @@ const Profile = props => {
                 errorCode={props.deleteAccountErrorCode}
                 errorMessage={props.deleteAccountError}
             />
-            { props.deletingAccount && <Spinner color="secondary" /> }
         </div>
     );
 };
