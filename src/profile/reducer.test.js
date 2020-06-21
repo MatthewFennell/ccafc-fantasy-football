@@ -1,7 +1,6 @@
 import reducer, { initialState } from './reducer';
 import * as actions from './actions';
 
-
 describe('Profile reducer', () => {
     it('should return the initial state', () => {
         expect(reducer(undefined, {})).toEqual(initialState);
@@ -170,7 +169,7 @@ describe('Profile reducer', () => {
     });
 
     it('delete account success', () => {
-        const action = actions.deleteAccountSuccess();
+        const action = actions.setDeletingAccount(false);
         expect(reducer({
             ...initialState,
             deletingAccount: true
