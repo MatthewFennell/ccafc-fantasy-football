@@ -51,7 +51,7 @@ const Mobile = props => {
                                 color="primary"
                                 onClick={props.undoTransferChanges}
                                 text="Reset"
-                                disabled={!teamsDiffer}
+                                disabled={!teamsDiffer || props.fetchingOriginalTeam}
                             />
                         </div>
                         <div>
@@ -59,14 +59,14 @@ const Mobile = props => {
                                 color="primary"
                                 onClick={props.updateTeamRequest}
                                 text="Confirm"
-                                disabled={!teamsDiffer}
+                                disabled={!teamsDiffer || props.fetchingOriginalTeam}
                             />
                             <div className={classNames({
                                 [props.styles.saveChanges]: true,
                                 [props.styles.hidden]: !teamsDiffer
                             })}
                             >
-                            Save changes
+                                Save changes
                             </div>
                         </div>
                     </div>

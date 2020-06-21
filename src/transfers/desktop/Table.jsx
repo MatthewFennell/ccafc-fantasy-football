@@ -47,7 +47,8 @@ const Table = props => {
 
     const filterPlayers = players => {
         const notInMyTeam = players.filter(x => !props.activeTeam.some(y => y.id === x.id));
-        let byName = notInMyTeam.filter(x => x.name.includes(searchByName));
+        let byName = notInMyTeam.filter(x => x.name.toLowerCase()
+            .includes(searchByName.toLowerCase()));
 
         if (props.positionFilter) {
             byName = byName.filter(x => x.position === props.positionFilter);
@@ -59,7 +60,6 @@ const Table = props => {
 
         byName = byName.filter(x => x.price >= minPrice);
         byName = byName.filter(x => x.price <= maxPrice);
-
 
         if (props.sortBy === 'Name') {
             return sortListAscDescDesktop(byName, !props.isAscendingSort, 'name');

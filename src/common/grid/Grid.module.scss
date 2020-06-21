@@ -9,6 +9,7 @@
   .backButton{
     margin-left: $spacing-small;
     cursor: pointer;
+    @include vertical-center-div();
   }
 
   .gridHeaderText{

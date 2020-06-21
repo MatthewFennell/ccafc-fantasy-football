@@ -54,42 +54,49 @@ const Stats = props => {
     return (
         <>
             <div className={props.styles.statsWrapper}>
-                <LoadingDiv isLoading={props.isFetchingTeams} isFitContent isBorderRadius>
-                    <div className={props.styles.statsHeader}>
-                        <div className={props.styles.dropdownWrapper}>
-                            <Dropdown
-                                value={fp.getOr('', 'text')(props.allTeams.find(x => x.id === props.currentTeam))}
-                                onChange={loadNewTeam}
-                                options={props.allTeams}
-                                title="Team"
-                            />
-                            <div className={props.styles.toggleWrapper}>
-                                <div className={props.styles.combineWeeksText}>
-                                    Combine weeks
-                                </div>
-                                <div>
-                                    <Switch
-                                        checked={combineWeeks}
-                                        color="primary"
-                                        onChange={() => setCombineWeeks(!combineWeeks)}
-                                    />
-                                </div>
+                <div className={props.styles.oddWrapper}>
+                    <LoadingDiv
+                        isLoading={props.isFetchingTeams}
+                        isFitContent
+                        isBorderRadius
+                        isBoxShadow
+                    >
+                        <div className={props.styles.statsHeader}>
+                            <div className={props.styles.dropdownWrapper}>
+                                <Dropdown
+                                    value={fp.getOr('', 'text')(props.allTeams.find(x => x.id === props.currentTeam))}
+                                    onChange={loadNewTeam}
+                                    options={props.allTeams}
+                                    title="Team"
+                                />
+                                <div className={props.styles.toggleWrapper}>
+                                    <div className={props.styles.combineWeeksText}>
+                                        Combine weeks
+                                    </div>
+                                    <div>
+                                        <Switch
+                                            checked={combineWeeks}
+                                            color="primary"
+                                            onChange={() => setCombineWeeks(!combineWeeks)}
+                                        />
+                                    </div>
 
+                                </div>
+                            </div>
+                            <div
+                                className={props.styles.editFiltersWrapper}
+                                role="button"
+                                tabIndex={0}
+                                onClick={() => setEditFilterModalOpen(true)}
+                            >
+                                <div className={props.styles.editFilter}>
+                                    Edit Filters
+                                </div>
+                                <EditIcon color="primary" />
                             </div>
                         </div>
-                        <div
-                            className={props.styles.editFiltersWrapper}
-                            role="button"
-                            tabIndex={0}
-                            onClick={() => setEditFilterModalOpen(true)}
-                        >
-                            <div className={props.styles.editFilter}>
-                                Edit Filters
-                            </div>
-                            <EditIcon color="primary" />
-                        </div>
-                    </div>
-                </LoadingDiv>
+                    </LoadingDiv>
+                </div>
                 {combineWeeks ? (
                     <WeekStats
                         activeColumns={activeColumns}

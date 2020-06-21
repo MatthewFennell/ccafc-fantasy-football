@@ -46,7 +46,7 @@ const Desktop = props => {
                                 [props.styles.hidden]: !teamsDiffer
                             })}
                             >
-                            Save changes
+                                Save changes
                             </div>
                         </div>
                     </div>

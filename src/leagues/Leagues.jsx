@@ -84,11 +84,13 @@ const Leagues = props => {
                     color="primary"
                     onClick={() => setCreateLeagueOpen(true)}
                     text="Create league"
+                    disabled={props.creatingLeague || props.joiningLeague}
                 />
                 <StyledButton
                     color="primary"
                     onClick={() => setJoinLeagueOpen(true)}
                     text="Join league"
+                    disabled={props.creatingLeague || props.joiningLeague}
                 />
             </div>
             <SuccessModal
