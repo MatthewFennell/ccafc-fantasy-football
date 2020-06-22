@@ -194,6 +194,9 @@ const adminReducer = (state = initialState, action) => {
             loadingRejectedHighlights: false
         };
     }
+    case actions.DELETE_HIGHLIGHT_REQUEST: {
+        return fp.set('loadingRejectedHighlights', true)(state);
+    }
     case actions.DELETE_HIGHLIGHT_SUCCESS: {
         return {
             ...state,
