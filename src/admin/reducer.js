@@ -34,7 +34,9 @@ export const initialState = {
     errorMessage: '',
     errorCode: '',
 
-    isFetchingPlayersForTeam: false
+    isFetchingPlayersForTeam: false,
+    highlightBeingApproved: '',
+    highlightBeingRejected: ''
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -74,6 +76,15 @@ const adminReducer = (state = initialState, action) => {
     }
     case actions.SET_FETCHING_PLAYERS_FOR_TEAM: {
         return fp.set('isFetchingPlayersForTeam', action.isFetching)(state);
+    }
+    case actions.APPROVE_HIGHLIGHT_REQUEST: {
+        return fp.set('highlightBeingApproved', action.highlightId)(state);
+    }
+    case actions.REJECT_HIGHLIGHT_REQUEST: {
+        return fp.set('highlightBeingRejected', action.highlightId)(state);
+    }
+    case actions.REAPPROVE_REJECTED_HIGHLIGHT_REQUEST: {
+        return fp.set('loadingRejectedHighlights', true)(state);
     }
     case actions.DELETE_PLAYER_REQUEST: {
         return fp.set('deletingPlayer', true)(state);
@@ -152,7 +163,8 @@ const adminReducer = (state = initialState, action) => {
         return {
             ...state,
             highlightsForApproval: state.highlightsForApproval
-                .filter(x => x.id !== action.highlight.id)
+                .filter(x => x.id !== action.highlight.id),
+            highlightBeingApproved: ''
         };
     }
     case actions.REJECT_HIGHLIGHT_SUCCESS: {
@@ -160,13 +172,11 @@ const adminReducer = (state = initialState, action) => {
             ...state,
             highlightsForApproval: state.highlightsForApproval
                 .filter(x => x.id !== action.highlight.id),
-            rejectedHighlights: state.rejectedHighlights.concat([action.highlight])
+            rejectedHighlights: state.rejectedHighlights.concat([action.highlight]),
+            highlightBeingRejected: ''
         };
     }
     case actions.FETCH_ALL_REJECTED_HIGHLIGHTS_REQUEST: {
-        return fp.set('loadingRejectedHighlights', true)(state);
-    }
-    case actions.REAPPROVE_REJECTED_HIGHLIGHT_REQUEST: {
         return fp.set('loadingRejectedHighlights', true)(state);
     }
     case actions.FETCH_ALL_REJECTED_HIGHLIGHTS_SUCCESS: {
@@ -193,9 +203,6 @@ const adminReducer = (state = initialState, action) => {
     }
     case actions.ALREADY_FETCHED_REJECTED_HIGHLIGHTS: {
         return fp.set('loadingRejectedHighlights', false)(state);
-    }
-    case actions.DELETE_HIGHLIGHT_REQUEST: {
-        return fp.set('loadingRejectedHighlights', true)(state);
     }
     case actions.SUBMIT_EXTRA_STATS_REQUEST: {
         return fp.set('submittingExtraResults', true)(state);

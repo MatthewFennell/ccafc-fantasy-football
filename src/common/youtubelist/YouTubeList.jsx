@@ -29,7 +29,6 @@ const YouTubeList = props => (
                             className={props.styles.videoWrapper}
                             key={x.id}
                         >
-
                             <FadingCollapsable title={(
                                 <YouTubeItemClosed
                                     authId={props.authId}
@@ -59,6 +58,9 @@ const YouTubeList = props => (
                                     downvoteHighlightRequest={props
                                         .downvoteHighlightRequest}
                                     email={x.email}
+                                    isAddingCommentToVideo={props.isAddingCommentToVideo}
+                                    isBeingApproved={props.highlightBeingApproved === x.id}
+                                    isBeingRejected={props.highlightBeingRejected === x.id}
                                     openConfirm={props.openConfirm}
                                     openReject={props.openReject}
                                     opts={props.opts}
@@ -87,6 +89,9 @@ YouTubeList.defaultProps = {
     deleteComment: noop,
     deleteReply: noop,
     downvoteHighlightRequest: noop,
+    highlightBeingApproved: '',
+    highlightBeingRejected: '',
+    isAddingCommentToVideo: false,
     loading: false,
     openConfirm: noop,
     openReject: noop,
@@ -106,6 +111,9 @@ YouTubeList.propTypes = {
     deleteComment: PropTypes.func,
     deleteReply: PropTypes.func,
     downvoteHighlightRequest: PropTypes.func,
+    highlightBeingApproved: PropTypes.string,
+    highlightBeingRejected: PropTypes.string,
+    isAddingCommentToVideo: PropTypes.bool,
     loading: PropTypes.bool,
     openConfirm: PropTypes.func,
     openReject: PropTypes.func,

@@ -9,7 +9,17 @@ import Spinner from '../../common/spinner/Spinner';
 const Button = props => (
     <div className={props.styles.selectTeamWrapper}>
         <div className={props.styles.myTeam}>
-            {props.loadingMyTeam ? <Spinner color="secondary" /> : props.myTeam}
+            {props.loadingMyTeam ? <Spinner color="secondary" />
+                : (
+                    <div className={props.styles.detailWrapper}>
+                        <div className={props.styles.key}>
+                            My team
+                        </div>
+                        <div className={props.styles.value}>
+                            {props.myTeam}
+                        </div>
+                    </div>
+                )}
         </div>
         <div>
             <Dropdown

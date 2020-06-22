@@ -7,22 +7,22 @@ import * as textInputConstants from '../TextInput/constants';
 import LoadingDiv from '../loadingDiv/LoadingDiv';
 
 const AddReply = props => {
-    const { submitReply, isAddingCommentToFeature } = props;
+    const { submitReply, isAddingCommentToItem } = props;
 
     const [isAddingComment, setIsAddingComment] = useState(false);
 
     useEffect(() => {
-        if (!isAddingCommentToFeature) {
+        if (!isAddingCommentToItem) {
             setIsAddingComment(false);
         }
-    }, [isAddingCommentToFeature]);
+    }, [isAddingCommentToItem]);
 
     const onSubmitReply = useCallback(() => {
-        if (!isAddingCommentToFeature && !isAddingComment) {
+        if (!isAddingCommentToItem && !isAddingComment) {
             setIsAddingComment(true);
             submitReply();
         }
-    }, [setIsAddingComment, submitReply, isAddingCommentToFeature, isAddingComment]);
+    }, [setIsAddingComment, submitReply, isAddingCommentToItem, isAddingComment]);
 
     return (
         <div className={props.styles.replyingWrapper}>
@@ -44,7 +44,7 @@ const AddReply = props => {
                 </div>
 
                 <LoadingDiv
-                    isLoading={isAddingCommentToFeature && isAddingComment}
+                    isLoading={isAddingCommentToItem && isAddingComment}
                     isNoPadding
                 >
                     <div
@@ -63,7 +63,7 @@ const AddReply = props => {
 
 AddReply.defaultProps = {
     cancelReply: noop,
-    isAddingCommentToFeature: false,
+    isAddingCommentToItem: false,
     label: '',
     message: '',
     text: '',
@@ -74,7 +74,7 @@ AddReply.defaultProps = {
 
 AddReply.propTypes = {
     cancelReply: PropTypes.func,
-    isAddingCommentToFeature: PropTypes.bool,
+    isAddingCommentToItem: PropTypes.bool,
     label: PropTypes.string,
     message: PropTypes.string,
     text: PropTypes.string,

@@ -33,7 +33,8 @@ exports.userInfoForWeek = functions
                         average_points: 0,
                         highest_points: {
                             points: 0,
-                            id: null
+                            id: null,
+                            userId: null
                         }
                     };
                 }
@@ -50,7 +51,8 @@ exports.userInfoForWeek = functions
                     average_points: averagePoints,
                     highest_points: {
                         points: maxPoints.data().points,
-                        id: maxPoints.id
+                        id: maxPoints.id,
+                        userId: maxPoints.data().user_id
                     }
                 };
             }));

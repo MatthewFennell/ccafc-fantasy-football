@@ -119,7 +119,7 @@ const Fixtures = props => {
                         )}
                         showPagination={false}
                         rowsPerPageOptions={[100000]}
-                        maxHeight={400}
+                        maxHeight={600}
                         gridStyles={gridStyles}
                     />
                 </div>

@@ -20,7 +20,9 @@ export const initialState = {
     errorCode: '',
 
     successMessage: '',
-    isSubmittingHighlight: false
+    isSubmittingHighlight: false,
+
+    isAddingCommentToHighlight: false
 };
 
 const highlightsReducer = (state = initialState, action) => {
@@ -112,16 +114,24 @@ const highlightsReducer = (state = initialState, action) => {
     case adminActions.DELETE_HIGHLIGHT_REQUEST: {
         return fp.set('loadingVideos', true)(state);
     }
+    case actions.ADD_COMMENT_TO_VIDEO_REQUEST: {
+        return fp.set('isAddingCommentToHighlight', true)(state);
+    }
+    case actions.ADD_REPLY_TO_VIDEO_REQUEST: {
+        return fp.set('isAddingCommentToHighlight', true)(state);
+    }
     case actions.ADD_COMMENT_TO_VIDEO_SUCCESS: {
         return {
             ...state,
-            videos: state.videos.map(x => (x.id === action.video.id ? action.video : x))
+            videos: state.videos.map(x => (x.id === action.video.id ? action.video : x)),
+            isAddingCommentToHighlight: false
         };
     }
     case actions.ADD_REPLY_TO_VIDEO_SUCCESS: {
         return {
             ...state,
-            videos: state.videos.map(x => (x.id === action.video.id ? action.video : x))
+            videos: state.videos.map(x => (x.id === action.video.id ? action.video : x)),
+            isAddingCommentToHighlight: false
         };
     }
     case actions.DELETE_COMMENT_SUCCESS: {

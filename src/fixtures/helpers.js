@@ -10,7 +10,7 @@ export const gridStyles = () => ({
         overflow: 'auto'
     },
     maxHeightSet: {
-        maxHeight: 400
+        maxHeight: 600
     }
 });
 

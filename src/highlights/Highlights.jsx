@@ -68,7 +68,6 @@ const Highlights = props => {
                                 isLoading={props.isSubmittingHighlight}
                                 isFitContent
                                 isBorderRadius
-                                isRed
                             >
                                 <StyledButton
                                     onClick={openSubmitVideo}
@@ -130,6 +129,7 @@ const Highlights = props => {
                 deleteReply={deleteReply}
                 downvoteHighlightRequest={props.downvoteHighlightRequest}
                 loading={props.loadingVideos}
+                isAddingCommentToVideo={props.isAddingCommentToHighlight}
                 videos={helpers.sortVideos(filterBy, sortBy, props.videos, searchFilter)}
                 votingPage
                 upvoteHighlightRequest={props.upvoteHighlightRequest}
@@ -176,6 +176,7 @@ Highlights.defaultProps = {
     loadingVideos: false,
     loadingVideosToBeApproved: false,
     loadingRejectedVideos: false,
+    isAddingCommentToHighlight: false,
     isSubmittingHighlight: false,
     successMessage: '',
     styles: defaultStyles,
@@ -200,6 +201,7 @@ Highlights.propTypes = {
     downvoteHighlightRequest: PropTypes.func.isRequired,
     loadingVideosToBeApproved: PropTypes.bool,
     loadingRejectedVideos: PropTypes.bool,
+    isAddingCommentToHighlight: PropTypes.bool,
     fetchHighlightsRequest: PropTypes.func.isRequired,
     fetchRejectedHighlightsRequest: PropTypes.func.isRequired,
     fetchUserHighlightsToBeApproved: PropTypes.func.isRequired,
@@ -240,6 +242,7 @@ const mapStateToProps = state => ({
     errorHeader: state.highlights.errorHeader,
     highlightError: state.highlights.submitLinkError,
     highlightErrorCode: state.highlights.submitLinkErrorCode,
+    isAddingCommentToHighlight: state.highlights.isAddingCommentToHighlight,
     loadingVideos: state.highlights.loadingVideos,
     loadingVideosToBeApproved: state.highlights.loadingVideosToBeApproved,
     loadingRejectedVideos: state.highlights.loadingRejectedVideos,

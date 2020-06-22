@@ -60,6 +60,9 @@
       > div{
         flex-grow: 1;
       }
+      .highestPointsWrapper {
+        cursor: pointer;
+      }
       .averagePointsValue, .yourPointsValue, .highestPointsValue {
         font-size: $font-size-gigantic;
         color: $color-blue;
