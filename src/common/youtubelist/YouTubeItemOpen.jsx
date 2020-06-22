@@ -6,6 +6,7 @@ import CustomYouTube from '../youtube/YouTube';
 import StyledButton from '../StyledButton/StyledButton';
 import Voting from './Voting';
 import Comments from '../comments/Comments';
+import LoadingDiv from '../loadingDiv/LoadingDiv';
 
 const YouTubeItemOpen = props => {
     const onReady = e => e.target.pauseVideo();
@@ -28,19 +29,34 @@ const YouTubeItemOpen = props => {
                 </div>
                 {props.approversPage && (
                     <div className={props.styles.buttonWrapper}>
-                        <div>
-                            <StyledButton
-                                text="Approve"
-                                onClick={() => props.openConfirm(props.videoId)}
-                            />
+                        <div className={props.styles.youtubeButton}>
+                            <LoadingDiv
+                                isLoading={props.isBeingApproved}
+                                isFitContent
+                                isMargin
+                                isBorderRadius
+                            >
+                                <StyledButton
+                                    text="Approve"
+                                    onClick={() => props.openConfirm(props.videoId)}
+                                    disabled={props.isBeingApproved || props.isBeingRejected}
+                                />
+                            </LoadingDiv>
                         </div>
-                        <div>
-                            <StyledButton
-                                text="Reject"
-                                onClick={() => props.openReject(props.videoId)}
-                                color="secondary"
-                            />
-
+                        <div className={props.styles.youtubeButton}>
+                            <LoadingDiv
+                                isLoading={props.isBeingRejected}
+                                isFitContent
+                                isMargin
+                                isBorderRadius
+                            >
+                                <StyledButton
+                                    text="Reject"
+                                    onClick={() => props.openReject(props.videoId)}
+                                    color="secondary"
+                                    disabled={props.isBeingApproved || props.isBeingRejected}
+                                />
+                            </LoadingDiv>
                         </div>
                     </div>
                 ) }
@@ -67,10 +83,11 @@ const YouTubeItemOpen = props => {
                 <Comments
                     addNewComment={props.addNewComment}
                     addNewReply={props.addNewReply}
+                    comments={props.comments}
                     deleteComment={props.deleteComment}
                     deleteReply={props.deleteReply}
                     loggedInUserId={props.authId}
-                    comments={props.comments}
+                    isAddingCommentToItem={props.isAddingCommentToVideo}
                 />
             </div>
         </div>
@@ -89,6 +106,9 @@ YouTubeItemOpen.defaultProps = {
     displayName: '',
     downvoteHighlightRequest: noop,
     email: '',
+    isAddingCommentToVideo: false,
+    isBeingApproved: false,
+    isBeingRejected: false,
     openConfirm: noop,
     openReject: noop,
     opts: {},
@@ -114,6 +134,9 @@ YouTubeItemOpen.propTypes = {
     displayName: PropTypes.string,
     downvoteHighlightRequest: PropTypes.func,
     email: PropTypes.string,
+    isAddingCommentToVideo: PropTypes.bool,
+    isBeingApproved: PropTypes.bool,
+    isBeingRejected: PropTypes.bool,
     openConfirm: PropTypes.func,
     openReject: PropTypes.func,
     opts: PropTypes.shape({}),

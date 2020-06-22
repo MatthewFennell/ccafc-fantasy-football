@@ -40,7 +40,8 @@ const featureReducer = (state = initialState, action) => {
             ...state,
             errorMessage: action.error.message,
             errorCode: action.error.code,
-            errorHeader: action.header
+            errorHeader: action.header,
+            isAddingCommentToFeature: false
         };
     }
     case actions.CLOSE_FEATURE_REQUEST_ERROR: {

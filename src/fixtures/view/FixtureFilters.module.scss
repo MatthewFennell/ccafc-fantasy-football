@@ -4,6 +4,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
+    font-weight: bold;
 
     > div {
         @include vertical-center-div();

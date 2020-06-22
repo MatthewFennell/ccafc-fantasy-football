@@ -3,6 +3,7 @@
 .expandedWrapper{
     display: flex;
     flex-wrap: wrap;
+    margin-top: $spacing-tiny;
     > div {
       flex-grow: 1;
     }
@@ -10,6 +11,9 @@
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
+    }
+    .youtubeButton {
+      @include vertical-center-div();
     }
   }
 

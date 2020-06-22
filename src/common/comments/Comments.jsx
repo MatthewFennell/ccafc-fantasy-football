@@ -29,7 +29,7 @@ const RenderComments = props => {
                         deleteComment={deleteComment}
                         deleteReply={deleteReply}
                         details={comment}
-                        isAddingCommentToFeature={props.isAddingCommentToFeature}
+                        isAddingCommentToItem={props.isAddingCommentToItem}
                         isTopLevel={isTopLevel}
                         submitReply={submitReply}
                         loggedInUserId={loggedInUserId}
@@ -53,7 +53,7 @@ const RenderComments = props => {
                 deleteComment={deleteComment}
                 deleteReply={deleteReply}
                 details={comment}
-                isAddingCommentToFeature={props.isAddingCommentToFeature}
+                isAddingCommentToItem={props.isAddingCommentToItem}
                 isTopLevel={isTopLevel}
                 submitReply={submitReply}
                 loggedInUserId={loggedInUserId}
@@ -75,7 +75,7 @@ const RenderComments = props => {
                     <div className={props.styles.initialComment}>
                         <AddReply
                             cancelReply={cancelReply}
-                            isAddingCommentToFeature={props.isAddingCommentToFeature}
+                            isAddingCommentToItem={props.isAddingCommentToItem}
                             label="Add a new comment"
                             message="Add comment"
                             setText={setNewComment}
@@ -96,7 +96,7 @@ RenderComments.defaultProps = {
     comments: [],
     deleteComment: noop,
     deleteReply: noop,
-    isAddingCommentToFeature: false,
+    isAddingCommentToItem: false,
     styles: defaultStyles,
     loggedInUserId: ''
 };
@@ -107,7 +107,7 @@ RenderComments.propTypes = {
     comments: PropTypes.arrayOf(PropTypes.shape({})),
     deleteComment: PropTypes.func,
     deleteReply: PropTypes.func,
-    isAddingCommentToFeature: PropTypes.bool,
+    isAddingCommentToItem: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),
     loggedInUserId: PropTypes.string
 };

@@ -36,7 +36,7 @@ const FeatureRequest = props => {
                     comments={comments}
                     deleteComment={props.deleteComment}
                     deleteReply={props.deleteReply}
-                    isAddingCommentToFeature={props.isAddingCommentToFeature}
+                    isAddingCommentToItem={props.isAddingCommentToFeature}
                     loggedInUserId={props.loggedInUserId}
                 />
             </div>

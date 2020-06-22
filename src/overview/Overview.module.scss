@@ -60,6 +60,16 @@
       > div{
         flex-grow: 1;
       }
+      .highestPointsWrapper {
+        border-radius: $spacing-medium;
+        cursor: pointer;
+      }
+      .highestPointsWrapper:hover {
+        background-color: $color-very-very-light-blue;
+      }
+      .highestPointsWrapper:focus{
+        outline: none;
+      }
       .averagePointsValue, .yourPointsValue, .highestPointsValue {
         font-size: $font-size-gigantic;
         color: $color-blue;

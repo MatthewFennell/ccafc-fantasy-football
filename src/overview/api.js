@@ -7,7 +7,6 @@ export const getUserInfoForWeek = request => functionToCall('users-userInfoForWe
         highestPoints: data.data.highest_points
     }));
 
-
 export const getUserStats = request => functionToCall('users-userStats')(request)
     .then(data => ({
         remainingBudget: data.data.remaining_budget,

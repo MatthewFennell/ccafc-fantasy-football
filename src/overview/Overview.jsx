@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -10,6 +11,7 @@ import {
 import * as selectors from './selectors';
 import Spinner from '../common/spinner/Spinner';
 import { generateOverviewRoute } from '../helperFunctions';
+import * as constants from '../constants';
 
 const Overview = props => {
     useEffect(() => {
@@ -50,6 +52,10 @@ const Overview = props => {
             props.history.push(generateOverviewRoute(props.userId, props.maxGameWeek));
         }
     }, [props.currentGameWeek, props.maxGameWeek, props.history, props.userId]);
+
+    const onHighestPointClick = useCallback(() => {
+        props.history.push(`${constants.URL.POINTS}/${props.highestPoints.userId}/${props.currentGameWeek}`);
+    }, [props.highestPoints.userId, props.currentGameWeek, props.history]);
 
     return (
         <div className={props.styles.overviewWrapper}>
@@ -93,7 +99,12 @@ const Overview = props => {
                                 </div>
                                 <div>Your Points</div>
                             </div>
-                            <div className={props.styles.highestPointsWrapper}>
+                            <div
+                                className={props.styles.highestPointsWrapper}
+                                onClick={onHighestPointClick}
+                                tabIndex={0}
+                                role="button"
+                            >
                                 <div className={props.styles.highestPointsValue}>
                                     {props.highestPoints.points}
                                 </div>
@@ -132,7 +143,8 @@ Overview.defaultProps = {
     fetchingUserStats: false,
     highestPoints: {
         points: null,
-        id: null
+        id: null,
+        userId: ''
     },
     maxGameWeek: null,
     remainingBudget: null,
@@ -153,7 +165,8 @@ Overview.propTypes = {
     fetchUserStatsRequest: PropTypes.func.isRequired,
     highestPoints: PropTypes.shape({
         id: PropTypes.string,
-        points: PropTypes.number
+        points: PropTypes.number,
+        userId: PropTypes.string
     }),
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
@@ -187,6 +200,6 @@ const mapStateToProps = (state, props) => ({
     weekPoints: selectors.getUserInfo(state, props, 'weekPoints')
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Overview);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Overview));
 
 export { Overview as OverviewUnconnected };
