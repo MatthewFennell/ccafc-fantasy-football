@@ -37,3 +37,14 @@ export const sortMatchesByDate = (fixtures, isDesc) => (isDesc
     ? fixtures.sort((a, b) => (convertToDate(a.time) > convertToDate(b.time) ? -1 : 1))
     : fixtures.sort((a, b) => (convertToDate(a.time) > convertToDate(b.time) ? 1 : -1))
 );
+
+export const getNextMatchPerTeam = (fixtures, team) => {
+    const uniqueTeams = uniqueCollegeTeamsFromFixtures(fixtures, team);
+    const futureMatches = filterFixturesByTime(fixtures, true);
+    const sortedByDateFixtures = sortMatchesByDate(futureMatches, false);
+    const nextMatchPerTeam = uniqueTeams.map(x => sortedByDateFixtures
+        .find(y => y.teamOne === x || y.teamTwo === x))
+        .filter(x => x !== undefined); // Some teams have no matches left
+    const removedDuplicates = _.uniqBy(nextMatchPerTeam, x => x.teamOne + x.teamTwo);
+    return removedDuplicates;
+};

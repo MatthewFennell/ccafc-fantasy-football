@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { noop } from 'lodash';
 import { Provider } from 'react-redux';
@@ -8,7 +7,6 @@ import { shallow, mount } from '../enzyme';
 import Transfers, { TransfersUnconnected } from './Transfers';
 import { initialState } from './reducer';
 import { initialState as fixturesinitialState } from '../fixtures/reducer';
-
 
 const mockHistory = {
     location: {

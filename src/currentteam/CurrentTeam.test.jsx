@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { noop } from 'lodash';
 import { Provider } from 'react-redux';
@@ -21,6 +20,10 @@ const mockMatch = {
     }
 };
 
+const mockFixtures = {
+    fixtures: []
+};
+
 describe('CurrentTeam', () => {
     it('The CurrentTeam component renders without crashing', () => {
         const wrapper = shallow(<CurrentTeamUnconnected
@@ -33,12 +36,17 @@ describe('CurrentTeam', () => {
     });
 });
 
-
 describe('CurrentTeam connected', () => {
     it('Connected current team', () => {
+        window.matchMedia = () => ({
+            addListener: () => {},
+            removeListener: () => {}
+        });
+
         const mockStore = configureMockStore([]);
         const mockStoreInitialized = mockStore({
             currentTeam: initialState,
+            fixtures: mockFixtures,
             history: mockHistory,
             match: mockMatch
         });

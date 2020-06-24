@@ -60,11 +60,11 @@
       > div{
         flex-grow: 1;
       }
-      .highestPointsWrapper {
+      .highestPointsWrapper, .yourPointsWrapper {
         border-radius: $spacing-medium;
         cursor: pointer;
       }
-      .highestPointsWrapper:hover {
+      .highestPointsWrapper:hover, .yourPointsWrapper:hover {
         background-color: $color-very-very-light-blue;
       }
       .highestPointsWrapper:focus{

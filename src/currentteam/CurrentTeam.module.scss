@@ -1,12 +1,33 @@
 @import "../common/Styles.scss";
 
+.desktopWrapper {
+  display: flex;
+  height: 100%;
+  margin-top: $spacing-medium;
+}
+
+.desktopPitch {
+  @include light-box-shadow();
+  margin-left: $spacing-medium;
+  margin-right: $spacing-medium;
+  height: 100%;
+  width: 70%;
+}
+
+.summary {
+  @include light-box-shadow();
+  padding: $spacing-medium;
+  width: 20%;
+  height: fit-content;
+}
+
 .pitchWrapper{
   right: 0px;
   position: absolute;
   height: 90%;
   width: 100%;
   overflow-x: hidden;
-  overflow-y: hidden;
+  // overflow-y: hidden;
 }
 
 .currentTeamWrapper{
@@ -17,7 +38,6 @@
   width: 70%;
 
   .pitchBackground{
-    height: 100%;
     padding: $spacing-average;
     justify-content: center;
     

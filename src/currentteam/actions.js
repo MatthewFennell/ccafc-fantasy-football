@@ -8,6 +8,19 @@ export const ALREADY_FETCHED_ACTIVE_TEAM = `${pre}ALREADY_FETCHED_ACTIVE_TEAM`;
 
 export const MAKE_CAPTAIN_REQUEST = `${pre}MAKE_CAPTAIN_REQUEST`;
 export const MAKE_CAPTAIN_ERROR = `${pre}MAKE_CAPTAIN_ERROR`;
+export const SET_UPDATING_CAPTAIN = `${pre}SET_UPDATING_CAPTAIN`;
+
+export const SET_PLAYER_MODAL_OPEN = `${pre}SET_PLAYER_MODAL_OPEN`;
+
+export const setPlayerModalOpen = isModalOpen => ({
+    type: SET_PLAYER_MODAL_OPEN,
+    isModalOpen
+});
+
+export const setUpdatingCaptain = isUpdating => ({
+    type: SET_UPDATING_CAPTAIN,
+    isUpdating
+});
 
 export const makeCaptainError = error => ({
     type: MAKE_CAPTAIN_ERROR,

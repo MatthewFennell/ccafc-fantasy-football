@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { noop } from 'lodash';
 import { Provider } from 'react-redux';
@@ -13,6 +12,13 @@ const mockHistory = {
         pathname: 'pathname'
     },
     push: noop
+};
+
+const mockfirebaseStore = {
+    auth: {
+        email: 'email',
+        uid: 'uid'
+    }
 };
 
 describe('Overview', () => {
@@ -31,6 +37,7 @@ describe('Overview connected', () => {
     it('Connected overview', () => {
         const mockStore = configureMockStore([]);
         const mockStoreInitialized = mockStore({
+            firebase: mockfirebaseStore,
             overview: initialState,
             history: mockHistory
         });

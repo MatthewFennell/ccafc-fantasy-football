@@ -11,17 +11,9 @@ const convertToDay = d => moment(d, 'DD-MM-YYYY')
     .format('ddd, MMMM Do YYYY');
 
 const NextFixtures = props => {
-    const uniqueTeams = helpers.uniqueCollegeTeamsFromFixtures(props.fixtures, 'Collingwood');
-    const futureMatches = helpers.filterFixturesByTime(props.fixtures, true);
-    const sortedByDateFixtures = helpers.sortMatchesByDate(futureMatches, false);
-
-    const nextMatchPerTeam = uniqueTeams.map(x => sortedByDateFixtures
-        .find(y => y.teamOne === x || y.teamTwo === x))
-        .filter(x => x !== undefined); // Some teams have no matches left
-
-    const removedDuplicates = _.uniqBy(nextMatchPerTeam, x => x.teamOne + x.teamTwo);
-    const removedDuplicatedSorted = helpers.sortMatchesByDate(removedDuplicates, false);
-    const daysOfYear = _.uniq(removedDuplicates.map(x => convertToDay(x.time)));
+    const nextMatchPerTeam = helpers.getNextMatchPerTeam(props.fixtures, 'Collingwood');
+    const removedDuplicatedSorted = helpers.sortMatchesByDate(nextMatchPerTeam, false);
+    const daysOfYear = _.uniq(nextMatchPerTeam.map(x => convertToDay(x.time)));
 
     return (
         <div className={props.styles.nextFixturesWrapper}>

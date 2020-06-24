@@ -33,6 +33,10 @@
     font-size: $font-size-small;
     color: yellow;
   }
+  .notCaptain {
+    font-size: $font-size-small;
+    visibility: hidden;
+  }
 }
 
 @media only screen and (max-width: 600px) {
