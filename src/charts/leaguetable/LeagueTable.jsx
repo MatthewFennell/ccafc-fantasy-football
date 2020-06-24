@@ -13,7 +13,7 @@ const LeagueTable = props => {
                 columns={helpers.columns}
                 gridHeader="League Table"
                 loading={props.loadingFixtures}
-                maxHeight={400}
+                maxHeight={600}
                 rows={leagueTable()}
                 rowsPerPageOptions={[20]}
                 showPagination={false}
