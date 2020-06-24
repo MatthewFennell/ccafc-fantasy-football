@@ -2,7 +2,6 @@
 
 .desktopWrapper {
   display: flex;
-  height: 100%;
   margin-top: $spacing-medium;
 }
 
@@ -10,14 +9,13 @@
   @include light-box-shadow();
   margin-left: $spacing-medium;
   margin-right: $spacing-medium;
-  height: 100%;
   width: 70%;
 }
 
 .summary {
   @include light-box-shadow();
   padding: $spacing-medium;
-  width: 20%;
+  width: 25%;
   height: fit-content;
 }
 
