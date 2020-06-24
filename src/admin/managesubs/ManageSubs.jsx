@@ -133,11 +133,11 @@ const ManageSubs = props => {
                 <div className={props.styles.playersGridWrapper}>
                     <Grid
                         columns={constants.columns}
-                        loading={props.updatingSubs}
+                        loading={props.updatingSubs || props.fetchingAllPlayers}
                         rows={generateRows(props.allPlayers)}
                         rowsPerPageOptions={[500]}
                         showPagination={false}
-                        maxHeight={400}
+                        maxHeight={600}
                     />
                 </div>
                 <div className={props.styles.confirmChangesWrapper}>
@@ -161,6 +161,7 @@ const ManageSubs = props => {
 
 ManageSubs.defaultProps = {
     allPlayers: [],
+    fetchingAllPlayers: false,
     styles: defaultStyles,
     updatingSubs: false
 };
@@ -168,6 +169,7 @@ ManageSubs.defaultProps = {
 ManageSubs.propTypes = {
     allPlayers: PropTypes.arrayOf(PropTypes.shape({})),
     fetchAllPlayersRequest: PropTypes.func.isRequired,
+    fetchingAllPlayers: PropTypes.bool,
     setHasPaidSubsRequest: PropTypes.func.isRequired,
     styles: PropTypes.objectOf(PropTypes.string),
     updatingSubs: PropTypes.bool
@@ -180,6 +182,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
     allPlayers: state.transfers.allPlayers,
+    fetchingAllPlayers: state.transfers.fetchingAllPlayers,
     updatingSubs: state.admin.updatingSubs
 });
 

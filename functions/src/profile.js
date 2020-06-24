@@ -6,7 +6,6 @@ const constants = require('./constants');
 
 const db = admin.firestore();
 
-
 exports.linkFacebookAccount = functions
     .region(constants.region)
     .https.onCall((data, context) => {
@@ -23,7 +22,6 @@ exports.linkFacebookAccount = functions
             }
         );
     });
-
 
 const updateComments = (database, newUrl, userId) => {
     let documentsToUpdate = [];

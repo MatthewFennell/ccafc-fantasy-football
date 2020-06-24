@@ -37,21 +37,23 @@ const Charts = props => {
                     title="Graphs"
                 />
             </FadingCollapsable>
-            <FadingCollapsable
-                isBigSideMargins
-                title={(
-                    <div className={props.styles.titleMessage}>
-                        League table (Click to expand)
-                    </div>
-                )}
-            >
-                <LeagueTable
-                    allTeams={props.allTeams}
-                    fixtures={filterFixtures()}
-                    loadingFixtures={props.loadingFixtures}
-                    title="LeagueTable"
-                />
-            </FadingCollapsable>
+            <div className={props.styles.leagueWrapper}>
+                <FadingCollapsable
+                    isBigSideMargins
+                    title={(
+                        <div className={props.styles.titleMessage}>
+                            League table (Click to expand)
+                        </div>
+                    )}
+                >
+                    <LeagueTable
+                        allTeams={props.allTeams}
+                        fixtures={filterFixtures()}
+                        loadingFixtures={props.loadingFixtures}
+                        title="LeagueTable"
+                    />
+                </FadingCollapsable>
+            </div>
         </>
     );
 };

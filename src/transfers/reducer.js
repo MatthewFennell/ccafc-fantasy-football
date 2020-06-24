@@ -91,7 +91,7 @@ const transfersReducer = (state = initialState, action) => {
 
         return fp.flow(
             fp.set('currentTeam', newTeam),
-            fp.set('remainingBudget', state.remainingBudget - action.player.price),
+            fp.set('remainingBudget', state.remainingBudget - action.player.price)
         )(state);
     }
     case actions.ADD_PLAYER_TO_CURRENT_TEAM_ERROR: {
@@ -111,7 +111,7 @@ const transfersReducer = (state = initialState, action) => {
     case actions.UNDO_TRANSFER_CHANGES: {
         return fp.flow(
             fp.set('currentTeam', state.originalTeam),
-            fp.set('remainingBudget', state.originalBudget),
+            fp.set('remainingBudget', state.originalBudget)
         )(state);
     }
     case actions.REMOVE_PLAYER_FROM_CURRENT_TEAM: {
