@@ -66,6 +66,3 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(App);
-
-// Total in leagues grid is 0
-// Can pick a team without a keeper in transfers

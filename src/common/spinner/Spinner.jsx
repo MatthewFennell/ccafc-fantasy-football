@@ -13,16 +13,18 @@ const Spinner = props => {
     const classes = useStyles();
 
     return (
-        <CircularProgress className={classes.progress} color={props.color} />
+        <CircularProgress className={classes.progress} color={props.color} size={props.size} />
     );
 };
 
 Spinner.defaultProps = {
-    color: 'primary'
+    color: 'primary',
+    size: 40
 };
 
 Spinner.propTypes = {
-    color: PropTypes.string
+    color: PropTypes.string,
+    size: PropTypes.number
 };
 
 export default Spinner;

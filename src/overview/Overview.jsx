@@ -57,6 +57,10 @@ const Overview = props => {
         props.history.push(`${constants.URL.POINTS}/${props.highestPoints.userId}/${props.currentGameWeek}`);
     }, [props.highestPoints.userId, props.currentGameWeek, props.history]);
 
+    const onyMyPointsClick = useCallback(() => {
+        props.history.push(`${constants.URL.POINTS}/${props.auth.uid}/${props.currentGameWeek}`);
+    }, [props.auth.uid, props.currentGameWeek, props.history]);
+
     return (
         <div className={props.styles.overviewWrapper}>
             <div className={props.styles.pointsWrapper}>
@@ -93,7 +97,12 @@ const Overview = props => {
                                 </div>
                                 <div>Average Points</div>
                             </div>
-                            <div className={props.styles.yourPointsWrapper}>
+                            <div
+                                className={props.styles.yourPointsWrapper}
+                                onClick={onyMyPointsClick}
+                                tabIndex={0}
+                                role="button"
+                            >
                                 <div className={props.styles.yourPointsValue}>
                                     {props.weekPoints}
                                 </div>
@@ -137,6 +146,9 @@ const Overview = props => {
 };
 
 Overview.defaultProps = {
+    auth: {
+        uid: ''
+    },
     averagePoints: null,
     currentGameWeek: null,
     fetchingUserInfo: false,
@@ -156,6 +168,9 @@ Overview.defaultProps = {
 };
 
 Overview.propTypes = {
+    auth: PropTypes.shape({
+        uid: PropTypes.string
+    }),
     averagePoints: PropTypes.number,
     currentGameWeek: PropTypes.number,
     fetchingUserInfo: PropTypes.bool,
@@ -187,6 +202,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, props) => ({
+    auth: state.firebase.auth,
     averagePoints: selectors.getUserInfo(state, props, 'averagePoints'),
     currentGameWeek: selectors.getCurrentGameWeek(props),
     fetchingUserInfo: selectors.getUserInfo(state, props, 'fetching'),

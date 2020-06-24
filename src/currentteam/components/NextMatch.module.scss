@@ -1,0 +1,62 @@
+@import "../../common/Styles.scss";
+
+.nextMatchesWrapper {
+    margin-top: $spacing-medium;
+}
+
+.nextFixturesWrapper {
+    font-weight: bold;
+    text-align: center;
+    font-size: $font-size-large;
+    color: $color-green;
+}
+
+.matchesPerPlayer {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.rowWrapper {
+    padding-top: $spacing-tiny;
+    padding-bottom: $spacing-tiny;
+    display: flex;
+}
+
+.name {
+    width: 50%;
+    @include vertical-center-div();
+    color: $color-dark-gray;
+    font-weight: bold;
+    text-align: left;
+    justify-content: flex-start;
+}
+
+.spinnerWrapper {
+    text-align: center;
+    width: 100%;
+    @include vertical-center-div();
+    div {
+        margin: 0px;
+    }
+}
+
+.team {    
+    width: 50%;
+    font-weight: bold;
+    color: $color-blue;
+    @include vertical-center-div();
+    text-align: left;
+    justify-content: flex-start;
+}
+
+.playerName {
+    color: $color-dark-gray;
+    font-weight: bold;
+    padding: $spacing-tiny;
+}
+
+.teamName {
+    font-weight: bold;
+    color: $color-blue;
+    padding: $spacing-tiny;
+}
