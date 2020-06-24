@@ -26,9 +26,6 @@ const UserInfo = props => {
             )
             : (
                 <>
-                    <div className={props.styles.userInfoHeader}>
-                        Summary
-                    </div>
                     {entry('User', props.displayName)}
                     {entry('Team name', props.teamName)}
                     {entry('Week points', getTotalOfStat(props.team, 'points'))}

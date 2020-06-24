@@ -80,8 +80,7 @@ const Desktop = props => {
             </div>
             <NextFixtures
                 allTeams={props.allTeams}
-                // fixtures={props.fixtures.filter(x => !x.completed)}
-                fixtures={props.fixtures}
+                fixtures={props.fixtures.filter(x => !x.completed)}
                 loadingFixtures={props.loadingFixtures}
                 showCollegeCrest
             />

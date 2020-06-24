@@ -135,7 +135,7 @@ const Table = props => {
                         position: x.position.charAt(0) + x.position.slice(1).toLowerCase()
                     }))}
                     rowsPerPageOptions={[50]}
-                    maxHeight={450}
+                    maxHeight={550}
                 />
             </div>
         </div>

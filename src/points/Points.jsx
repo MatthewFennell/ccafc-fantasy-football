@@ -65,42 +65,44 @@ const Points = props => {
         />
     );
 
-    return (
-        <div className={props.styles.pageWrapper}>
-            <div className={props.styles.gameWeekWrapper}>
-                <div className={props.styles.gameWeekText}>
-                    <div className={props.styles.arrowBackWrapper}>
-                        <ArrowBackIcon
-                            color={props.currentGameWeek > 1 ? 'secondary' : 'disabled'}
-                            onClick={loadPreviousWeek}
-                            fontSize="large"
-                        />
-                    </div>
-                    <div className={props.styles.gameWeekTextWrapper}>
-                        {`Gameweek ${props.currentGameWeek}`}
-                    </div>
-                    <div className={props.styles.arrowForwardWrapper}>
-                        <ArrowForwardIcon
-                            color={props.currentGameWeek === props.maxGameWeek ? 'disabled' : 'secondary'}
-                            onClick={loadNextWeek}
-                            fontSize="large"
-                        />
-                    </div>
-                </div>
+    const arrowSection = (
+        <div className={props.styles.gameWeekText}>
+            <div className={props.styles.arrowBackWrapper}>
+                <ArrowBackIcon
+                    color={props.currentGameWeek > 1 ? 'secondary' : 'disabled'}
+                    onClick={loadPreviousWeek}
+                    fontSize="large"
+                />
             </div>
+            <div className={props.styles.gameWeekTextWrapper}>
+                {`Week ${props.currentGameWeek}`}
+            </div>
+            <div className={props.styles.arrowForwardWrapper}>
+                <ArrowForwardIcon
+                    color={props.currentGameWeek === props.maxGameWeek ? 'disabled' : 'secondary'}
+                    onClick={loadNextWeek}
+                    fontSize="large"
+                />
+            </div>
+        </div>
+    );
 
+    return (
+        <div className={props.styles.pitchWrapper}>
             <Media queries={{
                 mobile: '(max-width: 599px)',
                 desktop: '(min-width: 600px)'
             }}
             >
-
                 {matches => (
                     <>
                         {matches.mobile && (
-                            <div className={props.styles.pointsWrapper}>
-                                {pitch}
-                            </div>
+                            <>
+                                {arrowSection}
+                                <div className={props.styles.currentTeamWrapper}>
+                                    {pitch}
+                                </div>
+                            </>
                         )}
                         {matches.desktop && (
                             <div className={props.styles.desktopWrapper}>
@@ -108,6 +110,7 @@ const Points = props => {
                                     {pitch}
                                 </div>
                                 <div className={props.styles.summary}>
+                                    {arrowSection}
                                     <UserInfo
                                         displayName={props.displayName}
                                         fetchingDetails={props.fetchingDetails || props.loading}
