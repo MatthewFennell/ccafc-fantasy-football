@@ -34,6 +34,13 @@ describe('Overview', () => {
 });
 
 describe('Overview connected', () => {
+    window.matchMedia = window.matchMedia || function () {
+        return {
+            matches: false,
+            addListener() {},
+            removeListener() {}
+        };
+    };
     it('Connected overview', () => {
         const mockStore = configureMockStore([]);
         const mockStoreInitialized = mockStore({
