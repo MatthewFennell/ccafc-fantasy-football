@@ -103,4 +103,32 @@
       color: $color-blue;
     }
   }
+
+  .desktopRulesWrapper {
+    margin-bottom: $spacing-huge;
+    padding: $spacing-average;
+    justify-content: center;
+    @include light-box-shadow();
+    background-color: $color-white;
+
+    .desktopRulesHeader {     
+      color: $color-green;
+      font-weight: bold;
+      text-align: center;
+      font-size: $font-size-large;
+    }
+  }
+
+  .rulesTitle {
+    color: $color-green;
+    font-weight: bold;
+    text-align: center;
+    padding: $spacing-average;
+    font-size: $font-size-large;
+  }
+
+  .rulesWrapper {
+    margin-bottom: $spacing-medium;
+  }
+  
 }

@@ -1,7 +1,6 @@
 import reducer, { initialState } from './reducer';
 import * as actions from './actions';
 
-
 describe('Overview reducer', () => {
     it('should return the initial state', () => {
         expect(reducer(undefined, {})).toEqual(initialState);

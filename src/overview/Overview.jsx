@@ -2,6 +2,7 @@ import React, { useEffect, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Media from 'react-media';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import defaultStyles from './Overview.module.scss';
@@ -12,6 +13,8 @@ import * as selectors from './selectors';
 import Spinner from '../common/spinner/Spinner';
 import { generateOverviewRoute } from '../helperFunctions';
 import * as constants from '../constants';
+import RulesAndSettings from './RulesAndSettings';
+import FadingCollapsable from '../common/fadingCollapsable/FadingCollapsable';
 
 const Overview = props => {
     useEffect(() => {
@@ -141,6 +144,42 @@ const Overview = props => {
                     </>
                 )}
             </div>
+
+            <Media queries={{
+                mobile: '(max-width: 599px)',
+                desktop: '(min-width: 600px)'
+            }}
+            >
+                {matches => (
+                    <div className={props.styles.rulesWrapper}>
+                        <FadingCollapsable
+                            title={(
+                                <div className={props.styles.rulesTitle}>
+                                    Rules and Settings
+                                </div>
+                            )}
+                        >
+                            {matches.mobile && (
+                                <div className={props.styles.desktopRulesWrapper}>
+                                    <div className={props.styles.desktopRulesHeader}>
+                                        Rules and Settings
+                                    </div>
+                                    <RulesAndSettings isTwoColumns />
+                                </div>
+                            )}
+                            {matches.desktop && (
+                                <div className={props.styles.desktopRulesWrapper}>
+                                    <div className={props.styles.desktopRulesHeader}>
+                                        Rules and Settings
+                                    </div>
+                                    <RulesAndSettings />
+                                </div>
+
+                            )}
+                        </FadingCollapsable>
+                    </div>
+                )}
+            </Media>
         </div>
     );
 };

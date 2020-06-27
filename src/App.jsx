@@ -31,7 +31,7 @@ const App = props => (
                                 <div className={props.styles.loadingMessage}>
                                     Loading CCAFC Fantasy Football
                                     <div className={props.styles.fennellTag}>
-                                        Created by Fennell
+                                        Created by Matthew Fennell
                                     </div>
                                 </div>
                                 <Spinner color="secondary" />

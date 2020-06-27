@@ -2,6 +2,7 @@
 
 - [Tech](#tech)
 - [Hosting and Deployment](#hosting-and-deployment)
+- [Backups](#backups)
 - [Authentication](#authentication)
 - [User Pages](#user-pages)
   - [Overview](#overview)
@@ -14,6 +15,7 @@
   - [Highlights](#highlights)
   - [Fixtures](#fixtures)
   - [Feature Request](#feature-request)
+  - [Account Profile](#account-profile)
 - [Admin Pages](#admin-pages)
   - [Create and Delete](#create-and-delete)
   - [Submit Result](#submit-result)
@@ -41,6 +43,13 @@
 
   - Merging to master will deploy to prod
   - Merging to develop will deploy to dev
+
+## Backups
+
+- Backups of the whole database are performed daily
+- Once a backup has been alive for 7 days, it is moved to coldline storage
+- Once alive for 30 days, it is deleted
+- Can restore from any existing backup
 
 ## Authentication
 
@@ -146,6 +155,14 @@ Users can be authenticated via
 - They can also submit bugs (these don't appear in the list)
 
 ![Feature Requests](images/FeatureRequests.JPG)
+
+- ### Account Profile
+
+- Users can set their display name, team name and photo
+- Users can also link their Google and Facebook accounts
+- They can also delete their accounts
+
+![Account Profile](images/AccountProfile.JPG)
 
 ## Admin Pages
 
