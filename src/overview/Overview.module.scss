@@ -105,7 +105,6 @@
   }
 
   .desktopRulesWrapper {
-    margin-bottom: $spacing-huge;
     padding: $spacing-average;
     justify-content: center;
     @include light-box-shadow();
@@ -128,7 +127,8 @@
   }
 
   .rulesWrapper {
-    margin-bottom: $spacing-medium;
+    margin-bottom: $spacing-gigantic;
+    padding-bottom: $spacing-medium;
   }
   
 }
