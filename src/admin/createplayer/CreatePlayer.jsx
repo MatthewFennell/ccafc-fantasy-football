@@ -59,7 +59,7 @@ const CreatePlayer = props => {
                         disabled={!playerName
                             || !playerPosition
                             || !playerTeam
-                            || (!playerPrice && playerPrice !== 0)}
+                            || (!playerPrice && playerPrice !== 0) || props.creatingPlayer}
                     />
                 </div>
                 <div className={props.styles.createPlayerForm}>

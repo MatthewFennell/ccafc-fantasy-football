@@ -51,7 +51,8 @@ const Desktop = props => {
                         </div>
                     </div>
                     <Pitch
-                        additionalInfo={player => `£${player.price} mil`}
+                        // additionalInfo={player => `£${player.price} mil`}
+                        additionalInfo={player => player.team}
                         activeTeam={props.currentTeam}
                         loading={props.fetchingOriginalTeam}
                         maxInPos={{
@@ -80,7 +81,6 @@ const Desktop = props => {
             </div>
             <NextFixtures
                 allTeams={props.allTeams}
-                // fixtures={props.fixtures.filter(x => !x.completed)}
                 fixtures={props.fixtures}
                 loadingFixtures={props.loadingFixtures}
                 showCollegeCrest

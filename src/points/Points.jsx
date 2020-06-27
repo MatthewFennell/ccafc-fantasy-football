@@ -50,6 +50,7 @@ const Points = props => {
     }, [setPlayerModalOpen, setPlayerObj]);
 
     const captainId = fp.get('player_id')(props.currentTeam.find(x => x.isCaptain));
+    console.log('captain id', captainId);
 
     const pitch = (
         <Pitch
@@ -65,13 +66,13 @@ const Points = props => {
         />
     );
 
-    const arrowSection = (
+    const arrowSection = isMobile => (
         <div className={props.styles.gameWeekText}>
             <div className={props.styles.arrowBackWrapper}>
                 <ArrowBackIcon
                     color={props.currentGameWeek > 1 ? 'secondary' : 'disabled'}
                     onClick={loadPreviousWeek}
-                    fontSize="large"
+                    fontSize={isMobile ? 'medium' : 'large'}
                 />
             </div>
             <div className={props.styles.gameWeekTextWrapper}>
@@ -81,7 +82,7 @@ const Points = props => {
                 <ArrowForwardIcon
                     color={props.currentGameWeek === props.maxGameWeek ? 'disabled' : 'secondary'}
                     onClick={loadNextWeek}
-                    fontSize="large"
+                    fontSize={isMobile ? 'medium' : 'large'}
                 />
             </div>
         </div>
@@ -98,7 +99,7 @@ const Points = props => {
                     <>
                         {matches.mobile && (
                             <>
-                                {arrowSection}
+                                {arrowSection(true)}
                                 <div className={props.styles.currentTeamWrapper}>
                                     {pitch}
                                 </div>
@@ -110,7 +111,7 @@ const Points = props => {
                                     {pitch}
                                 </div>
                                 <div className={props.styles.summary}>
-                                    {arrowSection}
+                                    {arrowSection(false)}
                                     <UserInfo
                                         displayName={props.displayName}
                                         fetchingDetails={props.fetchingDetails || props.loading}

@@ -11,9 +11,12 @@
   @include light-box-shadow();
   background-color: $color-white;
 
-  .triggerWeekHeader{
+  .triggerWeekHeader, .recalculateLeaguePositions{
     font-size: $font-size-gigantic;
     color: $color-dark-gray;    
+  }
+  .recalculateLeaguePositions {
+    margin-top: $spacing-small;
   }
   .triggerWeekForm{
     margin-left: auto;

@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 import defaultStyles from './TriggerWeek.module.scss';
-import { triggerWeekRequest, closeSuccessMessage, closeAdminError } from '../actions';
+import {
+    triggerWeekRequest, closeSuccessMessage, closeAdminError, recalculateLeaguePositionsRequest
+} from '../actions';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import ErrorModal from '../../common/modal/ErrorModal';
 import SuccessModal from '../../common/modal/SuccessModal';
@@ -46,6 +48,14 @@ const TriggerWeek = props => {
                         key="Week"
                     />
                 </div>
+                <div className={props.styles.recalculateLeaguePositions}>
+                    <StyledButton
+                        color="primary"
+                        onClick={() => props.recalculateLeaguePositionsRequest()}
+                        text="Recalculate League Positions"
+                        disabled={props.isRecalculatingLeaguePositions}
+                    />
+                </div>
                 <ErrorModal
                     closeModal={props.closeAdminError}
                     headerMessage={props.errorHeader}
@@ -55,6 +65,7 @@ const TriggerWeek = props => {
                 />
                 <div className={classNames({
                     [props.styles.hidden]: !props.triggeringWeek
+                    && !props.isRecalculatingLeaguePositions
                 })}
                 >
                     <Spinner color="secondary" />
@@ -76,6 +87,7 @@ TriggerWeek.defaultProps = {
     errorMessage: '',
     errorCode: '',
     errorHeader: '',
+    isRecalculatingLeaguePositions: false,
     maxGameWeek: null,
     successMessage: '',
     styles: defaultStyles,
@@ -88,16 +100,19 @@ TriggerWeek.propTypes = {
     errorMessage: PropTypes.string,
     errorCode: PropTypes.string,
     errorHeader: PropTypes.string,
+    isRecalculatingLeaguePositions: PropTypes.bool,
     maxGameWeek: PropTypes.number,
     successMessage: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
     triggeringWeek: PropTypes.bool,
+    recalculateLeaguePositionsRequest: PropTypes.func.isRequired,
     triggerWeekRequest: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = {
     closeAdminError,
     closeSuccessMessage,
+    recalculateLeaguePositionsRequest,
     triggerWeekRequest
 };
 
@@ -105,6 +120,7 @@ const mapStateToProps = state => ({
     errorMessage: state.admin.errorMessage,
     errorCode: state.admin.errorCode,
     errorHeader: state.admin.errorHeader,
+    isRecalculatingLeaguePositions: state.admin.isRecalculatingLeaguePositions,
     triggeringWeek: state.admin.triggeringWeek,
     triggerWeekError: state.admin.triggerWeekError,
     triggerWeekErrorCode: state.admin.triggerWeekErrorCode,

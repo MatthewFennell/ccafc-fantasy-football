@@ -35,6 +35,7 @@ export const initialState = {
     errorCode: '',
 
     isFetchingPlayersForTeam: false,
+    isRecalculatingLeaguePositions: false,
     highlightBeingApproved: '',
     highlightBeingRejected: ''
 };
@@ -46,6 +47,12 @@ const adminReducer = (state = initialState, action) => {
             ...state,
             allTeams: action.teams
         };
+    }
+    case actions.RECALCULATE_LEAGUE_POSITIONS_REQUEST: {
+        return fp.set('isRecalculatingLeaguePositions', true)(state);
+    }
+    case actions.SET_RECALCULATING_LEAGUE_POSITIONS: {
+        return fp.set('isRecalculatingLeaguePositions', action.isRecalculatingLeaguePositions)(state);
     }
     case actions.FETCH_TEAMS_REQUEST: {
         return fp.set('isFetchingTeams', true)(state);

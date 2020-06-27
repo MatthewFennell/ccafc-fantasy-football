@@ -46,8 +46,7 @@ const Table = props => {
     } = props.stateObj;
 
     const filterPlayers = players => {
-        const notInMyTeam = players.filter(x => !props.activeTeam.some(y => y.id === x.id));
-        let byName = notInMyTeam.filter(x => x.name.toLowerCase()
+        let byName = players.filter(x => x.name.toLowerCase()
             .includes(searchByName.toLowerCase()));
 
         if (props.positionFilter) {
@@ -143,7 +142,6 @@ const Table = props => {
 };
 
 Table.defaultProps = {
-    activeTeam: [],
     allPlayers: [],
     allTeams: [],
     desktopColumns: [],
@@ -167,7 +165,6 @@ Table.defaultProps = {
 };
 
 Table.propTypes = {
-    activeTeam: PropTypes.arrayOf(PropTypes.shape({})),
     allPlayers: PropTypes.arrayOf(PropTypes.shape({})),
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     desktopColumns: PropTypes.arrayOf(PropTypes.shape({})),
