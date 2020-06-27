@@ -3,7 +3,7 @@ const firestore = require('@google-cloud/firestore');
 const constants = require('./constants');
 
 const client = new firestore.v1.FirestoreAdminClient();
-const bucket = 'gs://learning-backups';
+const bucket = 'gs://daily-backup-ccafc-fantasy-football';
 
 exports.scheduledFirestoreExport = functions.region(constants.region).pubsub
     .schedule('every 24 hours')
@@ -38,3 +38,9 @@ exports.scheduledFirestoreExport = functions.region(constants.region).pubsub
 
 // Run this from https://console.cloud.google.com/home/dashboard?project=ccafc-fantasy-football-dev&cloudshell=true
 // To import the test data back - gcloud firestore import gs://facebook-users-test-data/2020-06-27T11:09:03_16292/
+
+// Current rule - backup every day
+// After 7 days, backup is moved to nearline
+// After 30 days, backup is deleted
+
+// So will have 30 backups alive at once max

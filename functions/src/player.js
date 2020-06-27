@@ -160,7 +160,6 @@ exports.editPlayerStats = functions
                 );
         }));
 
-
 exports.playerStats = functions
     .region(constants.region)
     .https.onCall((data, context) => {
