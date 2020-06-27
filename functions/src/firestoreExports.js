@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 const functions = require('firebase-functions');
 const firestore = require('@google-cloud/firestore');
 const constants = require('./constants');

@@ -46,7 +46,8 @@ module.exports = {
     {
       "files": ["functions/index.js"],
       "rules": {
-        "no-unused-vars": "off"
+        "no-unused-vars": "off",
+        "max-len": "off"
       }
     }
   ],
