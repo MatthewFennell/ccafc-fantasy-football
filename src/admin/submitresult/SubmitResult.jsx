@@ -182,6 +182,17 @@ const SubmitResult = props => {
     return (
         <>
             <div className={props.styles.submitResultWrapper}>
+                <div className={props.styles.submitButtonWrapper}>
+                    <StyledButton
+                        color="primary"
+                        onClick={submitResult}
+                        text="Submit Result"
+                        disabled={!gameWeek
+                            || !teamName
+                            || !(goalsFor && goalsFor !== 0)
+                            || !(goalsAgainst && goalsAgainst !== 0)}
+                    />
+                </div>
                 <LoadingDiv
                     isLoading={props.isFetchingTeams}
                     isFitContent
@@ -250,17 +261,6 @@ const SubmitResult = props => {
                         </div>
                     </div>
                 </LoadingDiv>
-                <div className={props.styles.submitButtonWrapper}>
-                    <StyledButton
-                        color="primary"
-                        onClick={submitResult}
-                        text="Submit Result"
-                        disabled={!gameWeek
-                            || !teamName
-                            || !(goalsFor && goalsFor !== 0)
-                            || !(goalsAgainst && goalsAgainst !== 0)}
-                    />
-                </div>
                 <ErrorModal
                     closeModal={props.closeAdminError}
                     headerMessage={props.errorHeader}

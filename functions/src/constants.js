@@ -38,6 +38,8 @@ module.exports.results = {
     LOSS: 'LOSS'
 };
 
+module.exports.maxBatchSize = 500;
+
 module.exports.region = 'europe-west2';
 
 // A list of all existing permissions - keep in sync with UI

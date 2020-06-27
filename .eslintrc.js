@@ -34,5 +34,20 @@ module.exports = {
     "react/jsx-indent": ["error", 4],
     "react/jsx-indent-props": ["error", 4],
     "react-hooks/exhaustive-deps": "off"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["functions/src/*"], // Or *.test.js
+      "rules": {
+        "no-console": "off",
+        "max-len": "off",
+      }
+    },
+    {
+      "files": ["functions/index.js"],
+      "rules": {
+        "no-unused-vars": "off"
+      }
+    }
+  ],
 };

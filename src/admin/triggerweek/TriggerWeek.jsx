@@ -31,14 +31,6 @@ const TriggerWeek = props => {
     return (
         <>
             <div className={props.styles.triggerWeekWrapper}>
-                <div className={props.styles.triggerWeekHeader}>
-                    <StyledButton
-                        color="primary"
-                        onClick={triggerWeek}
-                        text="Trigger Week"
-                        disabled={!(week && week !== 0)}
-                    />
-                </div>
                 <div className={props.styles.triggerWeekForm}>
                     <Dropdown
                         value={week}
@@ -48,6 +40,14 @@ const TriggerWeek = props => {
                         key="Week"
                     />
                 </div>
+                <div className={props.styles.triggerWeekHeader}>
+                    <StyledButton
+                        color="primary"
+                        onClick={triggerWeek}
+                        text="Trigger Week"
+                        disabled={!(week && week !== 0)}
+                    />
+                </div>
                 <div className={props.styles.recalculateLeaguePositions}>
                     <StyledButton
                         color="primary"
@@ -55,6 +55,9 @@ const TriggerWeek = props => {
                         text="Recalculate League Positions"
                         disabled={props.isRecalculatingLeaguePositions}
                     />
+                    <div className={props.styles.recalculateInfo}>
+                        Please do this only after submitting results for all teams - expensive operation
+                    </div>
                 </div>
                 <ErrorModal
                     closeModal={props.closeAdminError}

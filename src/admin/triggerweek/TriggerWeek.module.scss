@@ -13,10 +13,16 @@
 
   .triggerWeekHeader, .recalculateLeaguePositions{
     font-size: $font-size-gigantic;
-    color: $color-dark-gray;    
+    color: $color-gray;    
   }
   .recalculateLeaguePositions {
     margin-top: $spacing-small;
+  }
+  .recalculateInfo {
+    color: $color-gray;
+    font-weight: bold;
+    text-align: center;
+    font-size: $font-size-small;
   }
   .triggerWeekForm{
     margin-left: auto;
