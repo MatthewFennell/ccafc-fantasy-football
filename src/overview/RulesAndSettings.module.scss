@@ -1,0 +1,30 @@
+@import "../common/Styles.scss";
+
+.rules {
+    border-bottom: 1px solid $color-separator;
+}
+
+.rulesAndSettingWrapper {
+    color: $color-blue;
+}
+
+.pointsEntryWrapper {
+    display: flex;
+    text-align: center;
+    color: $color-green;
+    font-weight: bold;
+    justify-content: center;
+}
+
+.pointsValue {
+    color: $color-blue;
+    margin-left: 4px;
+}
+
+
+.prices {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    margin-top: $spacing-small;
+}

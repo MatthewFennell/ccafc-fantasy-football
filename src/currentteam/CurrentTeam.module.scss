@@ -45,6 +45,17 @@
 }
 
 @media only screen and (max-width: 600px) {
+
+  .pitchWrapper {
+    right: 0;
+    position: absolute;
+    height: 90%;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+
+
   .currentTeamWrapper{
     width: 130%;
     position: absolute;
