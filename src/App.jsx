@@ -28,7 +28,12 @@ const App = props => (
                             </Container>
                         ) : (
                             <div className={props.styles.loadingWrapper}>
-                                <div className={props.styles.loadingMessage}>Loading App</div>
+                                <div className={props.styles.loadingMessage}>
+                                    Loading CCAFC Fantasy Football
+                                    <div className={props.styles.fennellTag}>
+                                        Created by Fennell
+                                    </div>
+                                </div>
                                 <Spinner color="secondary" />
                             </div>
                         )}

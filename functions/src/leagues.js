@@ -123,11 +123,25 @@ exports.joinLeague = functions
                             sortedResult.forEach((pos, index) => {
                                 positions.push({ id: pos.id, position: index + 1 });
                             });
-                            const leagueUpdatePromises = [];
-                            positions.map(pos => leagueUpdatePromises.push(db.collection('leagues-points')
-                                .doc(pos.id).update({
+
+                            const numberOfBatches = Math.ceil(positions.length / constants.maxBatchSize);
+
+                            const batches = [];
+                            for (let x = 0; x < numberOfBatches; x += 1) {
+                                batches.push(db.batch());
+                            }
+
+                            positions.forEach((pos, index) => {
+                                const batchToTarget = Math.floor(index / constants.maxBatchSize);
+                                const docRef = db.collection('leagues-points').doc(pos.id);
+                                batches[batchToTarget].update(docRef, {
                                     position: pos.position
-                                })));
+                                });
+                            });
+
+                            batches.forEach((batch, index) => batch.commit().then(() => {
+                                console.log('Commited batch at index: ', index, ' for creating updating leagues positions when joining league');
+                            }));
                         }));
             }
         );
