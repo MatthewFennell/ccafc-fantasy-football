@@ -30,7 +30,7 @@ const Pitch = props => {
         .filter(player => player.position === position).map(player => (
             <Player
                 additionalInfo={props.additionalInfo(player)}
-                isCaptain={props.captain === player.id}
+                isCaptain={props.captain === player.player_id || props.captain === player.id}
                 name={player.name}
                 onClick={() => props.onPlayerClick(player)}
                 showCaptain={props.showCaptain}

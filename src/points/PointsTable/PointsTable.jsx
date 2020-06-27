@@ -115,6 +115,7 @@ const PointsTable = props => {
                 rows={generateRows(props.player).filter(row => row.showField)}
                 rowsPerPageOptions={[20]}
                 showPagination={false}
+                maxHeight={500}
             />
         </div>
     );

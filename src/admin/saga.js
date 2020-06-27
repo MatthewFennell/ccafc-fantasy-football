@@ -341,6 +341,16 @@ export function* setHasPaidSubs(api, action) {
     }
 }
 
+export function* recalculateLeaguePositions(api) {
+    try {
+        yield call(api.recalculateLeaguePositions);
+    } catch (error) {
+        yield put(actions.setAdminError(error, 'Recalculate League Positions Error'));
+    } finally {
+        yield put(actions.setRecalculatingLeaguePositions(false));
+    }
+}
+
 export default function* adminSaga() {
     yield all([
         takeEvery(actions.FETCH_TEAMS_REQUEST, fetchTeams, adminApi),
@@ -368,6 +378,8 @@ export default function* adminSaga() {
         takeLatest(actions.REAPPROVE_REJECTED_HIGHLIGHT_REQUEST, reapproveRejectedHighlight,
             adminApi),
         takeEvery(actions.SUBMIT_EXTRA_STATS_REQUEST, submitExtraResults, adminApi),
-        takeEvery(actions.SET_HAS_PAID_SUBS_REQUEST, setHasPaidSubs, adminApi)
+        takeEvery(actions.SET_HAS_PAID_SUBS_REQUEST, setHasPaidSubs, adminApi),
+        takeEvery(actions.RECALCULATE_LEAGUE_POSITIONS_REQUEST, recalculateLeaguePositions,
+            adminApi)
     ]);
 }

@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 import defaultStyles from './TriggerWeek.module.scss';
-import { triggerWeekRequest, closeSuccessMessage, closeAdminError } from '../actions';
+import {
+    triggerWeekRequest, closeSuccessMessage, closeAdminError, recalculateLeaguePositionsRequest
+} from '../actions';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import ErrorModal from '../../common/modal/ErrorModal';
 import SuccessModal from '../../common/modal/SuccessModal';
@@ -29,14 +31,6 @@ const TriggerWeek = props => {
     return (
         <>
             <div className={props.styles.triggerWeekWrapper}>
-                <div className={props.styles.triggerWeekHeader}>
-                    <StyledButton
-                        color="primary"
-                        onClick={triggerWeek}
-                        text="Trigger Week"
-                        disabled={!(week && week !== 0)}
-                    />
-                </div>
                 <div className={props.styles.triggerWeekForm}>
                     <Dropdown
                         value={week}
@@ -45,6 +39,25 @@ const TriggerWeek = props => {
                         title="Week"
                         key="Week"
                     />
+                </div>
+                <div className={props.styles.triggerWeekHeader}>
+                    <StyledButton
+                        color="primary"
+                        onClick={triggerWeek}
+                        text="Trigger Week"
+                        disabled={!(week && week !== 0)}
+                    />
+                </div>
+                <div className={props.styles.recalculateLeaguePositions}>
+                    <StyledButton
+                        color="primary"
+                        onClick={() => props.recalculateLeaguePositionsRequest()}
+                        text="Recalculate League Positions"
+                        disabled={props.isRecalculatingLeaguePositions}
+                    />
+                    <div className={props.styles.recalculateInfo}>
+                        Please do this only after submitting results for all teams - expensive operation
+                    </div>
                 </div>
                 <ErrorModal
                     closeModal={props.closeAdminError}
@@ -55,6 +68,7 @@ const TriggerWeek = props => {
                 />
                 <div className={classNames({
                     [props.styles.hidden]: !props.triggeringWeek
+                    && !props.isRecalculatingLeaguePositions
                 })}
                 >
                     <Spinner color="secondary" />
@@ -76,6 +90,7 @@ TriggerWeek.defaultProps = {
     errorMessage: '',
     errorCode: '',
     errorHeader: '',
+    isRecalculatingLeaguePositions: false,
     maxGameWeek: null,
     successMessage: '',
     styles: defaultStyles,
@@ -88,16 +103,19 @@ TriggerWeek.propTypes = {
     errorMessage: PropTypes.string,
     errorCode: PropTypes.string,
     errorHeader: PropTypes.string,
+    isRecalculatingLeaguePositions: PropTypes.bool,
     maxGameWeek: PropTypes.number,
     successMessage: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
     triggeringWeek: PropTypes.bool,
+    recalculateLeaguePositionsRequest: PropTypes.func.isRequired,
     triggerWeekRequest: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = {
     closeAdminError,
     closeSuccessMessage,
+    recalculateLeaguePositionsRequest,
     triggerWeekRequest
 };
 
@@ -105,6 +123,7 @@ const mapStateToProps = state => ({
     errorMessage: state.admin.errorMessage,
     errorCode: state.admin.errorCode,
     errorHeader: state.admin.errorHeader,
+    isRecalculatingLeaguePositions: state.admin.isRecalculatingLeaguePositions,
     triggeringWeek: state.admin.triggeringWeek,
     triggerWeekError: state.admin.triggerWeekError,
     triggerWeekErrorCode: state.admin.triggerWeekErrorCode,

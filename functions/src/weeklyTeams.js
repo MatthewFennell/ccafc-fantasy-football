@@ -21,8 +21,7 @@ exports.triggerWeeklyTeams = functions
                     total_weeks: admin.firestore.FieldValue.increment(1)
                 })));
 
-                const batchSize = 500;
-                const numberOfBatches = Math.ceil(querySnapshot.docs.length / batchSize);
+                const numberOfBatches = Math.ceil(querySnapshot.docs.length / constants.maxBatchSize);
 
                 const batches = [];
                 for (let x = 0; x < numberOfBatches; x += 1) {
@@ -30,7 +29,7 @@ exports.triggerWeeklyTeams = functions
                 }
 
                 querySnapshot.docs.forEach((doc, index) => {
-                    const batchToTarget = Math.floor(index / batchSize);
+                    const batchToTarget = Math.floor(index / constants.maxBatchSize);
                     const weeklyTeamRef = db.collection('weekly-teams').doc();
                     batches[batchToTarget].set(weeklyTeamRef, {
                         user_id: doc.data().user_id,
@@ -42,6 +41,6 @@ exports.triggerWeeklyTeams = functions
                 });
 
                 batches.forEach((batch, index) => batch.commit().then(() => {
-                    console.log('Commited batch at index: ', index);
+                    console.log('Commited batch at index: ', index, ' for creating weekly teams');
                 }));
             }))));

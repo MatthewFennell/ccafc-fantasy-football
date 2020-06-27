@@ -5,7 +5,7 @@ module.exports.positions = {
     GOALKEEPER: 'GOALKEEPER'
 };
 
-module.exports.maxPlayersPerTeam = 11;
+module.exports.maxPlayersPerTeam = 3;
 
 module.exports.transferPointPenalty = 4;
 
@@ -37,6 +37,8 @@ module.exports.results = {
     DRAW: 'DRAW',
     LOSS: 'LOSS'
 };
+
+module.exports.maxBatchSize = 500;
 
 module.exports.region = 'europe-west2';
 

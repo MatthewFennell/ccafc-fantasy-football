@@ -82,7 +82,7 @@ const SelectProfilePicture = props => {
                                 color="primary"
                                 onClick={() => updateImage(ownPhotoUrl)}
                                 text="Change my icon"
-                                disabled={props.photoUrlBeingUpdated}
+                                disabled={Boolean(props.photoUrlBeingUpdated)}
                             />
                         </div>
                     </div>

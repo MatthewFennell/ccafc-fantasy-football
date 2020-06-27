@@ -46,8 +46,7 @@ const Table = props => {
     } = props.stateObj;
 
     const filterPlayers = players => {
-        const notInMyTeam = players.filter(x => !props.activeTeam.some(y => y.id === x.id));
-        const byName = notInMyTeam.filter(x => x.name.includes(searchByName));
+        const byName = players.filter(x => x.name.includes(searchByName));
         if (props.sortBy === 'name') {
             return sortListAscDesc(byName, nameFilter, 'name');
         }
@@ -162,7 +161,7 @@ const Table = props => {
                     {props.playerToRemove.name && (
                         <div className={props.styles.playerRemoved}>
                             <div className={props.styles.playerRemovedText}>
-                        Player Removed
+                                Player Removed
                             </div>
                             <div className={props.styles.playerInfo}>
                                 <div>
@@ -218,7 +217,6 @@ const Table = props => {
 };
 
 Table.defaultProps = {
-    activeTeam: [],
     allPlayers: [],
     allTeams: [],
     closePlayerTable: noop,
@@ -260,7 +258,6 @@ Table.defaultProps = {
 };
 
 Table.propTypes = {
-    activeTeam: PropTypes.arrayOf(PropTypes.shape({})),
     allPlayers: PropTypes.arrayOf(PropTypes.shape({})),
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     closePlayerTable: PropTypes.func,

@@ -28,6 +28,7 @@
 .desktopWrapper {
   display: flex;
   margin-top: $spacing-medium;
+  min-height: 100vh;
 }
 
 .desktopPitch {
@@ -46,10 +47,10 @@
 
 .pitchWrapper{
   right: 0px;
-  position: absolute;
-  height: 90%;
   width: 100%;
   overflow-x: hidden;
+  margin-bottom: $spacing-medium;
+  min-height: 100vh;
 }
 
 .currentTeamWrapper{

@@ -81,6 +81,18 @@ export const CLOSE_ADMIN_ERROR = `${pre}CLOSE_ADMIN_ERROR`;
 export const SET_HAS_PAID_SUBS_REQUEST = `${pre}SET_HAS_PAID_SUBS_REQUEST`;
 export const SET_HAS_PAID_SUBS_SUCCESS = `${pre}SET_HAS_PAID_SUBS_SUCCESS`;
 
+export const RECALCULATE_LEAGUE_POSITIONS_REQUEST = `${pre}RECALCULATE_LEAGUE_POSITIONS_REQUEST`;
+export const SET_RECALCULATING_LEAGUE_POSITIONS = `${pre}SET_RECALCULATING_LEAGUE_POSITIONS`;
+
+export const setRecalculatingLeaguePositions = isRecalculating => ({
+    type: SET_RECALCULATING_LEAGUE_POSITIONS,
+    isRecalculating
+});
+
+export const recalculateLeaguePositionsRequest = () => ({
+    type: RECALCULATE_LEAGUE_POSITIONS_REQUEST
+});
+
 export const setHasPaidSubsSuccess = changes => ({
     type: SET_HAS_PAID_SUBS_SUCCESS,
     changes

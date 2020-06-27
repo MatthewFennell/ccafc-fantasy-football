@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 const lodash = require('lodash');
@@ -205,13 +204,13 @@ exports.submitResult = functions
                             playerDocs.docs[0].ref.update({
                                 goals: operations.increment(goals),
                                 assists: operations.increment(assists),
-                                cleanSheet,
-                                redCard,
-                                yellowCard,
-                                manOfTheMatch,
+                                cleanSheet: playerDocs.docs[0].data().cleanSheet || cleanSheet,
+                                redCard: playerDocs.docs[0].data().redCard || redCard,
+                                yellowCard: playerDocs.docs[0].data().yellowCard || yellowCard,
+                                manOfTheMatch: playerDocs.docs[0].data().manOfTheMatch || manOfTheMatch,
                                 position,
                                 points: operations.increment(points),
-                                dickOfTheDay,
+                                dickOfTheDay: playerDocs.docs[0].data().dickOfTheDay || dickOfTheDay,
                                 ownGoals: operations.increment(ownGoals)
                             });
                         }

@@ -29,7 +29,12 @@ exports.scheduledFirestoreExport = functions.region(constants.region).pubsub
             });
     });
 
-
 // database import / export - https://firebase.google.com/docs/firestore/manage-data/export-import
 // regular exports - https://firebase.google.com/docs/firestore/solutions/schedule-export
 // https://console.cloud.google.com/cloudscheduler?authuser=1&project=ccafc-fantasy-football
+
+// This command exported the current firestore data into a GCP bucket named <facebook-users-test-data>
+// gcloud firestore export gs://facebook-users-test-data
+
+// Run this from https://console.cloud.google.com/home/dashboard?project=ccafc-fantasy-football-dev&cloudshell=true
+// To import the test data back - gcloud firestore import gs://facebook-users-test-data/2020-06-27T11:09:03_16292/

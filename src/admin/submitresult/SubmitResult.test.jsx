@@ -14,6 +14,7 @@ describe('Submit Result', () => {
             closeAdminError={noop}
             teamsWithPlayers={{}}
             submittingExtraResult={false}
+            fetchMaxGameWeekRequest={noop}
             submitExtraStatsRequest={noop}
             submittingResult={false}
             submitResultRequest={noop}
@@ -34,7 +35,7 @@ describe('Submit Result connected', () => {
 
         const wrapper = mount(
             <Provider store={mockStoreInitialized}>
-                <SubmitResult />
+                <SubmitResult fetchMaxGameWeekRequest={noop} />
             </Provider>
         );
 
