@@ -70,6 +70,8 @@ Users can be authenticated via
   - Can toggle between weeks
   - Remaining Budget / Transfers (Potentially to be removed)
   - Clicking your points or max takes you to that team for that week
+  - Brief description of the rules
+  - Shows the points awarded per stat
   
   ![Overview Page](images/Overview.JPG)
 
