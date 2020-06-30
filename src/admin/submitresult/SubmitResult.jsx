@@ -326,6 +326,7 @@ SubmitResult.propTypes = {
     styles: PropTypes.objectOf(PropTypes.string),
     submitResultRequest: PropTypes.func.isRequired,
     submittingResult: PropTypes.bool.isRequired,
+    submitCustumResults: PropTypes.func.isRequired,
     submitExtraStatsRequest: PropTypes.func.isRequired,
     submittingExtraResult: PropTypes.bool.isRequired,
     successMessage: PropTypes.string,

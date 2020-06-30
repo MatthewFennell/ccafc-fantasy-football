@@ -13,10 +13,36 @@
     padding-bottom: 0px;
     background-color: $color-white;
     margin: $spacing-medium;
-    @include light-box-shadow();
+    @include light-box-shadow();    
   }
 
+  .cupWinner {
+    padding: $spacing-medium;
+    background-color: $color-white;
+    margin: $spacing-medium;
+    @include light-box-shadow();
+    text-align: center;
+    font-size: $font-size-large;
+    color: $color-blue;
+  }
+
+  .cupWinnerWrapper {
+    font-size: $font-size-large;
+    text-align: center;
+    color: $color-green;
+    font-weight: bold;
+    justify-content: center;
+    width: 50%;
+}
+
+.cupWinnerValue {
+    color: $color-blue;
+    margin-left: 4px;
+}
+
   .infoWrapper {
+    display: flex;
+    justify-content: space-evenly;
     font-weight: bold;
     color: $color-blue;
     padding: $spacing-medium;

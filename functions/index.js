@@ -41,7 +41,7 @@ const operations = admin.firestore.FieldValue;
 
 // // https://firebase.google.com/docs/reference/js/firebase.functions.html#functionserrorcod
 
-const cupStartingWeek = 2;
+const cupStartingWeek = 3;
 
 const isPowerOfTwo = x => (x & (x - 1)) === 0;
 
@@ -87,8 +87,11 @@ exports.manageCup = functions.region(constants.region).firestore
     .onWrite(change => {
         const previousWeek = change.before.data().total_weeks;
         const newWeek = change.after.data().total_weeks;
-        console.log('previous week', previousWeek);
-        console.log('next week', newWeek);
+
+        if (change.after.data().hasFinished) {
+            console.log('finished');
+            return Promise.resolve();
+        }
 
         if (newWeek === cupStartingWeek) {
             console.log('initialising cup');
@@ -116,7 +119,9 @@ exports.manageCup = functions.region(constants.region).firestore
                                 pairings,
                                 byes
                             },
-                            displayNameMappings
+                            displayNameMappings,
+                            hasFinished: false,
+                            winner: null
                         });
                     });
                 });
@@ -149,8 +154,24 @@ exports.manageCup = functions.region(constants.region).firestore
                             if (cur.playerTwoScore > cur.playerOneScore) {
                                 return [...acc, cur.playerTwoId];
                             }
+                            // If they are the final 2 and they draw - cant have no winner
+                            if (updatedPairings.length === 1) {
+                                return [cur.playerOneId, cur.playerTwoId];
+                            }
                             return acc;
                         }, []).concat(byes);
+
+                        if (remainingPlayers.length === 1) {
+                            console.log('only 1 remaining player');
+                            return db.collection('the-cup').doc(constants.cupDatabaseId).update({
+                                [previousWeek]: {
+                                    ...doc.data()[previousWeek],
+                                    pairings: updatedPairings
+                                },
+                                hasFinished: true,
+                                winner: remainingPlayers[0]
+                            });
+                        }
 
                         const newResult = generatePairingsAndByes(remainingPlayers);
 

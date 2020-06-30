@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import defaultStyles from './WeekInfo.module.scss';
 
-const getName = (displayNameMappings, name) => displayNameMappings[name];
+export const getName = (displayNameMappings, name) => displayNameMappings[name];
 
 const WeekInfo = props => {
     const generateByesColumns = (byes, numColumns) => {

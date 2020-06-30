@@ -97,7 +97,12 @@ const Leagues = props => {
                     />
                 </div>
             </div>
-            <TheCup cup={props.cup} />
+            {props.isFetchingCup ? (
+                <div className={props.styles.spinnerWrapper}>
+                    <Spinner color="secondary" />
+                </div>
+            ) : <TheCup cup={props.cup} />}
+
             <SuccessModal
                 backdrop
                 closeModal={() => setCreateLeagueOpen(false)}
@@ -165,6 +170,7 @@ Leagues.defaultProps = {
     createLeagueErrorCode: '',
     creatingLeague: false,
     cup: {},
+    isFetchingCup: false,
     fetchingLeagues: false,
     joinLeagueError: '',
     joinLeagueErrorCode: '',
@@ -186,6 +192,7 @@ Leagues.propTypes = {
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired,
+    isFetchingCup: PropTypes.bool,
     joinLeagueError: PropTypes.string,
     joinLeagueErrorCode: PropTypes.string,
     joinLeagueRequest: PropTypes.func.isRequired,
@@ -217,6 +224,7 @@ const mapStateToProps = state => ({
     cup: state.leagues.cup,
     creatingLeague: state.leagues.creatingLeague,
     fetchingLeagues: selectors.getFetchingLeagues(state),
+    isFetchingCup: state.leagues.isFetchingCup,
     joinLeagueError: state.leagues.joinLeagueError,
     joinLeagueErrorCode: state.leagues.joinLeagueErrorCode,
     joiningLeague: state.leagues.joiningLeague,
