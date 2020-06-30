@@ -20,6 +20,7 @@ exports.activeTeam = require('./src/activeTeam');
 exports.auth = require('./src/auth');
 exports.clubSubs = require('./src/clubSubs');
 exports.comments = require('./src/comments');
+exports.cup = require('./src/cup');
 exports.features = require('./src/features');
 exports.firestoreExports = require('./src/firestoreExports');
 exports.fixtures = require('./src/fixtures');

@@ -37,7 +37,6 @@ exports.createInitialLeague = functions
         return Promise.resolve();
     }));
 
-
 exports.joinInitialLeague = functions
     .region(constants.region)
     .auth.user()

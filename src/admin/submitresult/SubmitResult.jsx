@@ -8,7 +8,7 @@ import defaultStyles from './SubmitResult.module.scss';
 import {
     fetchTeamsRequest, fetchPlayersForTeamRequest, submitResultRequest,
     submitExtraStatsRequest, closeSuccessMessage,
-    closeAdminError
+    closeAdminError, submitCustumResults
 } from '../actions';
 import Dropdown from '../../common/dropdown/Dropdown';
 import { isDefensive } from '../../helperFunctions';
@@ -182,6 +182,7 @@ const SubmitResult = props => {
     return (
         <>
             <div className={props.styles.submitResultWrapper}>
+                <StyledButton text="Custom submit" onClick={() => props.submitCustumResults(gameWeek)} disabled={!gameWeek} />
                 <div className={props.styles.submitButtonWrapper}>
                     <StyledButton
                         color="primary"
@@ -325,6 +326,7 @@ SubmitResult.propTypes = {
     styles: PropTypes.objectOf(PropTypes.string),
     submitResultRequest: PropTypes.func.isRequired,
     submittingResult: PropTypes.bool.isRequired,
+    submitCustumResults: PropTypes.func.isRequired,
     submitExtraStatsRequest: PropTypes.func.isRequired,
     submittingExtraResult: PropTypes.bool.isRequired,
     successMessage: PropTypes.string,
@@ -338,7 +340,8 @@ const mapDispatchToProps = {
     fetchPlayersForTeamRequest,
     submitResultRequest,
     submitExtraStatsRequest,
-    fetchMaxGameWeekRequest
+    fetchMaxGameWeekRequest,
+    submitCustumResults
 };
 
 const mapStateToprops = state => ({

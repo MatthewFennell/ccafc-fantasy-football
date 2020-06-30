@@ -21,11 +21,28 @@ export const initialState = {
     fetchingLeagues: false,
     fetchingUsersInLeague: false,
 
-    fetchedAllUsersInLeague: {}
+    fetchedAllUsersInLeague: {},
+
+    cup: {},
+    isFetchingCup: false,
+    hasFetchedCup: false
 };
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
+    case actions.FETCH_CUP_REQUEST: {
+        return fp.set('isFetchingCup', true)(state);
+    }
+    case actions.SET_IS_FETCHING_CUP: {
+        return fp.set('isFetchingCup', action.isFetching)(state);
+    }
+    case actions.FETCH_CUP_SUCCESS: {
+        return {
+            ...state,
+            cup: action.cup,
+            hasFetchedCup: true
+        };
+    }
     case actions.FETCH_LEAGUES_SUCCESS: {
         return {
             ...state,
@@ -97,7 +114,7 @@ const authReducer = (state = initialState, action) => {
             fp.set(`usersInLeague.${action.leagueId}.users`, action.usersInLeague),
             fp.set(`usersInLeague.${action.leagueId}.fetching`, false),
             fp.set(`usersInLeague.${action.leagueId}.numberOfUsers`, action.numberOfUsers),
-            fp.set(`usersInLeague.${action.leagueId}.leagueName`, action.leagueName),
+            fp.set(`usersInLeague.${action.leagueId}.leagueName`, action.leagueName)
         )(state);
     }
     case actions.CREATE_LEAGUE_ERROR: {

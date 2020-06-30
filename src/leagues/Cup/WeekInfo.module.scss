@@ -1,0 +1,71 @@
+@import "../../common/Styles.scss";
+
+.weekInfoWrapper {
+    padding-bottom: $spacing-medium;
+    background-color: $color-white;
+    text-align: center;
+    margin: $spacing-medium;
+    @include light-box-shadow();
+}
+
+.byesHeader, .matchupsHeader {
+    text-align: center;
+    color: $color-green;
+    font-weight: bold;
+    justify-content: center;
+    padding: $spacing-average;
+}
+
+.matchupsHeader {
+    font-size: $font-size-large;
+    color: $color-blue;
+    padding-bottom: 0px;
+}
+
+.byesWrapper {
+    display: flex;
+    justify-content: space-evenly;
+    font-weight: bold;
+}
+
+.pairingsRow {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.matchupsWrapper {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    margin-left: $spacing-average;
+    margin-right: $spacing-average;
+}
+
+.pairingItem {
+    display: flex;
+    justify-content: center;
+}
+
+.winningPlayer {
+    font-weight: bold;
+}
+
+.pointsValue {
+    margin-left: $spacing-tiny;
+}
+
+.pairingWrapper {
+    margin: $spacing-small;
+    padding: $spacing-small;
+    border-radius: $spacing-average;
+    background-color: $color-light-blue;
+    border: 2px solid black;
+}
+
+.pairingRow {
+    display: flex;
+    justify-content: space-evenly;
+    > div {
+        width: 50%;
+    }
+}

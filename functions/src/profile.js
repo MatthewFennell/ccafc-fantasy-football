@@ -101,6 +101,32 @@ exports.updateDisplayName = functions
         );
     });
 
+// Update cup display name mapping
+exports.updateCupDisplayNameMapping = functions.region(constants.region).firestore
+    .document('users/{id}')
+    .onWrite(change => {
+        const displayNameBefore = change.before.data().displayName;
+        const displayNameAfter = change.after.data().displayName;
+
+        if (displayNameBefore === displayNameAfter) {
+            return Promise.resolve();
+        }
+
+        return db.collection('the-cup').doc(constants.cupDatabaseId).get().then(cup => {
+            const userId = change.after.id;
+            const { displayNameMappings } = cup.data();
+            if (displayNameMappings[userId]) {
+                return cup.ref.update({
+                    displayNameMappings: {
+                        ...displayNameMappings,
+                        [userId]: displayNameAfter
+                    }
+                });
+            }
+            return Promise.resolve();
+        });
+    });
+
 exports.updateTeamName = functions
     .region(constants.region)
     .https.onCall((data, context) => {
