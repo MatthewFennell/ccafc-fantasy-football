@@ -98,12 +98,25 @@ export function* leaveLeague(api, action) {
     }
 }
 
+export function* fetchCup(api) {
+    try {
+        const cup = yield call(api.fetchCup);
+        console.log('cup', cup);
+        yield put(actions.fetchCupSuccess(cup || {}));
+    } catch (error) {
+        yield put(actions.leaveLeagueError(error)); //  Need to refactor errors
+    } finally {
+        yield put(actions.setIsFetchingCup(false));
+    }
+}
+
 export default function* leaguesSaga() {
     yield all([
         takeEvery(actions.FETCH_LEAGUES_REQUEST, fetchLeagues, leaguesApi),
         takeEvery(actions.FETCH_USERS_IN_LEAGUE_REQUEST, fetchUsersInLeague, leaguesApi),
         takeEvery(actions.CREATE_LEAGUE_REQUEST, createLeague, leaguesApi),
         takeEvery(actions.JOIN_LEAGUE_REQUEST, joinLeague, leaguesApi),
-        takeEvery(actions.LEAVE_LEAGUE_REQUEST, leaveLeague, leaguesApi)
+        takeEvery(actions.LEAVE_LEAGUE_REQUEST, leaveLeague, leaguesApi),
+        takeEvery(actions.FETCH_CUP_REQUEST, fetchCup, leaguesApi)
     ]);
 }

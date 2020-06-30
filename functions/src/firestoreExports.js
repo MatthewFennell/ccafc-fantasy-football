@@ -8,7 +8,8 @@ const bucket = 'gs://daily-backup-ccafc-fantasy-football';
 exports.scheduledFirestoreExport = functions.region(constants.region).pubsub
     .schedule('every 24 hours')
     .onRun(() => {
-        const databaseName = client.databasePath(process.env.GCP_PROJECT, '(default)');
+        const projectId = process.env.GCP_PROJECT || process.env.GCLOUD_PROJECT;
+        const databaseName = client.databasePath(projectId, '(default)');
 
         return client.exportDocuments({
             name: databaseName,

@@ -112,3 +112,5 @@ module.exports.leaguesForFixtures = [
     'https://www.dur.ac.uk/teamdurham/participation/collegesport/knockout/?knockout=111', // Floodlit
     'https://www.dur.ac.uk/teamdurham/participation/collegesport/knockout/?knockout=113' // Cup
 ];
+
+module.exports.cupDatabaseId = 'ccafc-cup-id';

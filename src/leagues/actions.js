@@ -28,6 +28,24 @@ export const LEAVE_LEAGUE_SUCCESS = `${pre}LEAVE_LEAGUE_SUCCESS`;
 export const LEAVE_LEAGUE_ERROR = `${pre}LEAVE_LEAGUE_ERROR`;
 export const CLOSE_LEAVE_LEAGUE_ERROR = `${pre}CLOSE_LEAVE_LEAGUE_ERROR`;
 
+export const FETCH_CUP_REQUEST = `${pre}FETCH_CUP_REQUEST`;
+export const FETCH_CUP_SUCCESS = `${pre}FETCH_CUP_SUCCESS`;
+export const SET_IS_FETCHING_CUP = `${pre}SET_IS_FETCHING_CUP`;
+
+export const fetchCupRequest = () => ({
+    type: FETCH_CUP_REQUEST
+});
+
+export const fetchCupSuccess = cup => ({
+    type: FETCH_CUP_SUCCESS,
+    cup
+});
+
+export const setIsFetchingCup = isFetching => ({
+    type: SET_IS_FETCHING_CUP,
+    isFetching
+});
+
 export const fetchingUsersInLeague = leagueId => ({
     type: FETCHING_USERS_IN_LEAGUE,
     leagueId
@@ -67,7 +85,6 @@ export const alreadyFetchedUsersInLeague = leagueId => ({
     type: ALREADY_FETCHED_USERS_IN_LEAGUE,
     leagueId
 });
-
 
 export const fetchUsersInLeagueRequest = (
     leagueId, maxGameWeek, requestedSize, pageNumber, rowsPerPage

@@ -84,9 +84,16 @@ export const SET_HAS_PAID_SUBS_SUCCESS = `${pre}SET_HAS_PAID_SUBS_SUCCESS`;
 export const RECALCULATE_LEAGUE_POSITIONS_REQUEST = `${pre}RECALCULATE_LEAGUE_POSITIONS_REQUEST`;
 export const SET_RECALCULATING_LEAGUE_POSITIONS = `${pre}SET_RECALCULATING_LEAGUE_POSITIONS`;
 
+export const SUBMIT_CUSTOM_RESULTS = `${pre}SUBMIT_CUSTOM_RESULTS`;
+
 export const setRecalculatingLeaguePositions = isRecalculating => ({
     type: SET_RECALCULATING_LEAGUE_POSITIONS,
     isRecalculating
+});
+
+export const submitCustumResults = week => ({
+    type: SUBMIT_CUSTOM_RESULTS,
+    week
 });
 
 export const recalculateLeaguePositionsRequest = () => ({

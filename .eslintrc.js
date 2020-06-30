@@ -41,13 +41,16 @@ module.exports = {
       "rules": {
         "no-console": "off",
         "max-len": "off",
+        "no-bitwise": "off"
       }
     },
     {
       "files": ["functions/index.js"],
       "rules": {
         "no-unused-vars": "off",
-        "max-len": "off"
+        "max-len": "off",
+        "no-bitwise": "off",
+        "no-console": "off",
       }
     }
   ],

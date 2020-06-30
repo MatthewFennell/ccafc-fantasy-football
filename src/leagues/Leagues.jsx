@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import defaultStyles from './styles/Leagues.module.scss';
 import {
     fetchLeaguesRequest, createLeagueRequest, closeCreateLeagueError,
-    joinLeagueRequest, closeJoinLeagueError
+    joinLeagueRequest, closeJoinLeagueError, fetchCupRequest
 } from './actions';
 import * as selectors from './selectors';
 import Grid from '../common/grid/Grid';
@@ -16,6 +16,7 @@ import JoinLeagueForm from './JoinLeagueForm';
 import ErrorModal from '../common/modal/ErrorModal';
 import Spinner from '../common/spinner/Spinner';
 import SuccessModal from '../common/modal/SuccessModal';
+import TheCup from './Cup/TheCup';
 
 const columns = [
     {
@@ -61,8 +62,9 @@ const Leagues = props => {
 
     useEffect(() => {
         props.fetchLeaguesRequest();
+        props.fetchCupRequest();
         // eslint-disable-next-line
-    }, [props.fetchLeaguesRequest]);
+    }, [props.fetchLeaguesRequest, props.fetchCupRequest]);
 
     const onRowClick = useCallback(row => {
         props.history.push(`${constants.URL.LEAGUES}/${row.leagueId}`);
@@ -70,29 +72,32 @@ const Leagues = props => {
 
     return (
         <>
-            <div className={props.styles.myLeaguesTable}>
-                <Grid
-                    columns={columns}
-                    gridHeader="Leagues"
-                    loading={props.fetchingLeagues}
-                    onRowClick={onRowClick}
-                    rows={props.leagues}
-                />
+            <div className={props.styles.leaguesWrapper}>
+                <div className={props.styles.myLeaguesTable}>
+                    <Grid
+                        columns={columns}
+                        gridHeader="Leagues"
+                        loading={props.fetchingLeagues}
+                        onRowClick={onRowClick}
+                        rows={props.leagues}
+                    />
+                </div>
+                <div className={props.styles.leagueButtonsWrapper}>
+                    <StyledButton
+                        color="primary"
+                        onClick={() => setCreateLeagueOpen(true)}
+                        text="Create league"
+                        disabled={props.creatingLeague || props.joiningLeague}
+                    />
+                    <StyledButton
+                        color="primary"
+                        onClick={() => setJoinLeagueOpen(true)}
+                        text="Join league"
+                        disabled={props.creatingLeague || props.joiningLeague}
+                    />
+                </div>
             </div>
-            <div className={props.styles.leagueButtonsWrapper}>
-                <StyledButton
-                    color="primary"
-                    onClick={() => setCreateLeagueOpen(true)}
-                    text="Create league"
-                    disabled={props.creatingLeague || props.joiningLeague}
-                />
-                <StyledButton
-                    color="primary"
-                    onClick={() => setJoinLeagueOpen(true)}
-                    text="Join league"
-                    disabled={props.creatingLeague || props.joiningLeague}
-                />
-            </div>
+            <TheCup cup={props.cup} />
             <SuccessModal
                 backdrop
                 closeModal={() => setCreateLeagueOpen(false)}
@@ -159,6 +164,7 @@ Leagues.defaultProps = {
     createLeagueError: '',
     createLeagueErrorCode: '',
     creatingLeague: false,
+    cup: {},
     fetchingLeagues: false,
     joinLeagueError: '',
     joinLeagueErrorCode: '',
@@ -174,7 +180,9 @@ Leagues.propTypes = {
     createLeagueErrorCode: PropTypes.string,
     createLeagueRequest: PropTypes.func.isRequired,
     creatingLeague: PropTypes.bool,
+    cup: PropTypes.shape({}),
     fetchingLeagues: PropTypes.bool,
+    fetchCupRequest: PropTypes.func.isRequired,
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired,
@@ -199,12 +207,14 @@ const mapDispatchToProps = {
     closeJoinLeagueError,
     createLeagueRequest,
     joinLeagueRequest,
-    fetchLeaguesRequest
+    fetchLeaguesRequest,
+    fetchCupRequest
 };
 
 const mapStateToProps = state => ({
     createLeagueError: state.leagues.createLeagueError,
     createLeagueErrorCode: state.leagues.createLeagueErrorCode,
+    cup: state.leagues.cup,
     creatingLeague: state.leagues.creatingLeague,
     fetchingLeagues: selectors.getFetchingLeagues(state),
     joinLeagueError: state.leagues.joinLeagueError,
