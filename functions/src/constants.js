@@ -114,3 +114,5 @@ module.exports.leaguesForFixtures = [
 ];
 
 module.exports.cupDatabaseId = 'ccafc-cup-id';
+
+module.exports.cupStartingWeek = 3;

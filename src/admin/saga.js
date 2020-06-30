@@ -78,13 +78,6 @@ export function* submitResult(api, action) {
                 week: action.week,
                 players: action.players
             });
-        console.log('info', {
-            team: action.teamId,
-            goalsFor: action.goalsFor,
-            goalsAgainst: action.goalsAgainst,
-            week: action.week,
-            players: action.players
-        });
         yield put(actions.submitResultSuccess());
         yield put(actions.setSuccessMessage('Result successfully submitted'));
         yield delay(successDelay);
