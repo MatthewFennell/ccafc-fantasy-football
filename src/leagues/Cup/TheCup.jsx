@@ -10,14 +10,14 @@ const TheCup = props => {
     } = props.cup;
 
     return (
-        <>
+        <div className={props.styles.cupWrapper}>
             <div className={props.styles.cupDescription}>
                 <div className={props.styles.cupHeader}>
                     The Cup
                 </div>
                 <div className={props.styles.infoWrapper}>
                     <div>
-                        <ul>
+                        <ul className={props.styles.cupInfo}>
                             <li>The Cup will start in week 3</li>
                             <li>
                                 Players will randomly be assigned
@@ -38,15 +38,16 @@ const TheCup = props => {
                     )}
                 </div>
             </div>
-            {Object.keys(rest).reverse().map(key => (
+            {Object.keys(rest).reverse().map((key, index) => (
                 <WeekInfo
                     byes={fp.get('byes')(props.cup[key])}
                     displayNameMappings={displayNameMappings}
                     week={key}
                     pairings={fp.get('pairings')(props.cup[key])}
+                    isFinalWeek={index === 0}
                 />
             ))}
-        </>
+        </div>
     );
 };
 

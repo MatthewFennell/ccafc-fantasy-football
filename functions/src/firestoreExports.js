@@ -32,6 +32,7 @@ exports.scheduledFirestoreExport = functions.region(constants.region).pubsub
 
 // database import / export - https://firebase.google.com/docs/firestore/manage-data/export-import
 // regular exports - https://firebase.google.com/docs/firestore/solutions/schedule-export
+// Remember to add the roles to the service acccount
 // https://console.cloud.google.com/cloudscheduler?authuser=1&project=ccafc-fantasy-football
 
 // This command exported the current firestore data into a GCP bucket named <facebook-users-test-data>

@@ -92,7 +92,7 @@ const UsersInLeague = props => {
     }, [setPageNumber]);
 
     return (
-        <div className={props.styles.leaguesWrapper}>
+        <div className={props.styles.usersInLeagueWrapper}>
             <div className={props.styles.myLeaguesWrapper}>
                 <div className={props.styles.myLeaguesTable}>
                     <Grid
