@@ -4,7 +4,6 @@
     padding-bottom: $spacing-medium;
     background-color: $color-white;
     text-align: center;
-    margin: $spacing-medium;
     @include light-box-shadow();
 }
 
@@ -13,13 +12,12 @@
     color: $color-green;
     font-weight: bold;
     justify-content: center;
-    padding: $spacing-average;
+    padding: $spacing-small;
 }
 
 .matchupsHeader {
     font-size: $font-size-large;
     color: $color-blue;
-    padding-bottom: 0px;
 }
 
 .byesWrapper {
@@ -69,3 +67,21 @@
         width: 50%;
     }
 }
+
+@media only screen and (max-width: 600px) {
+    .byesHeader {
+      padding-bottom: 0px;
+    }
+
+    .matchupsHeader {
+      padding-top: $spacing-tiny;
+    }
+
+    .byesWrapper {
+      font-size: $font-size-tiny;
+      
+      > div {
+          padding: $spacing-small;
+      }
+    }
+  }
