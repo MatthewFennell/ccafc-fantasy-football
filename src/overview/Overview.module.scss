@@ -129,6 +129,15 @@
   .rulesWrapper {
     margin-bottom: $spacing-gigantic;
     padding-bottom: $spacing-medium;
+  } 
+}
+
+@media only screen and (max-width: 600px) { 
+  .gameweekPointsWrapper, .userInfoWrapper, .rulesWrapper, .pointsWrapper {
+    margin-top: $spacing-average !important;
   }
-  
+
+  .userInfoWrapper {
+    margin-bottom: $spacing-average !important;
+  }
 }

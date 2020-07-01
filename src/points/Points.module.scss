@@ -8,10 +8,12 @@
   .arrowBackWrapper{
     margin-right: $spacing-medium;
     cursor: pointer;
+    @include vertical-center-div();
   }
   .arrowForwardWrapper{
     margin-left: $spacing-medium;
     cursor: pointer;
+    @include vertical-center-div();
   }
 }
 

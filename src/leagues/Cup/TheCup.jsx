@@ -42,9 +42,10 @@ const TheCup = props => {
                 <WeekInfo
                     byes={fp.get('byes')(props.cup[key])}
                     displayNameMappings={displayNameMappings}
-                    week={key}
+                    week={Number(key)}
                     pairings={fp.get('pairings')(props.cup[key])}
                     isFinalWeek={index === 0 && hasFinished === false}
+                    key={key}
                 />
             ))}
         </div>

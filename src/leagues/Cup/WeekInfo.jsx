@@ -46,9 +46,9 @@ const WeekInfo = props => {
 
                         <div className={props.styles.byesWrapper}>
                             {Object.keys(byesColumns).map(items => (
-                                <div>
+                                <div key={items}>
                                     {byesColumns[items].map(bye => (
-                                        <div className={props.styles.bye}>
+                                        <div className={props.styles.bye} key={bye}>
                                             {bye}
                                         </div>
                                     ))}
@@ -63,7 +63,7 @@ const WeekInfo = props => {
                 </div>
                 <div className={props.styles.matchupsWrapper}>
                     {props.pairings.map(pairing => (
-                        <div className={props.styles.pairingWrapper}>
+                        <div className={props.styles.pairingWrapper} key={pairing.playerOneId}>
                             <div className={classNames({
                                 [props.styles.pairingItem]: true,
                                 [props.styles.winningPlayer]: pairing.playerOneScore
@@ -111,7 +111,7 @@ WeekInfo.propTypes = {
     byes: PropTypes.arrayOf(PropTypes.string),
     displayNameMappings: PropTypes.shape({}),
     isFinalWeek: PropTypes.bool,
-    pairings: PropTypes.arrayOf(PropTypes.string),
+    pairings: PropTypes.arrayOf(PropTypes.shape({})),
     styles: PropTypes.objectOf(PropTypes.string),
     week: PropTypes.number
 };
