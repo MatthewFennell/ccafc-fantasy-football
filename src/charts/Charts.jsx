@@ -25,6 +25,7 @@ const Charts = props => {
         <>
             <FadingCollapsable
                 isBigSideMargins
+                isNoPhoneMargin
                 title={(
                     <div className={props.styles.titleMessage}>
                         Graphs (Click to expand)
@@ -40,6 +41,7 @@ const Charts = props => {
             <div className={props.styles.leagueWrapper}>
                 <FadingCollapsable
                     isBigSideMargins
+                    isNoPhoneMargin
                     title={(
                         <div className={props.styles.titleMessage}>
                             League table (Click to expand)

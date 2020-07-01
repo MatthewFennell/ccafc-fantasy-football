@@ -20,6 +20,7 @@ import TextInput from '../common/TextInput/TextInput';
 import * as textInputConstants from '../common/TextInput/constants';
 import Dropdown from '../common/dropdown/Dropdown';
 import LoadingDiv from '../common/loadingDiv/LoadingDiv';
+import Spinner from '../common/spinner/Spinner';
 
 const Highlights = props => {
     useEffect(() => {
@@ -121,6 +122,11 @@ const Highlights = props => {
                     </div>
                 </div>
             </div>
+            {props.loadingVideos && (
+                <div className={props.styles.loadingVideos}>
+                    <Spinner color="secondary" />
+                </div>
+            )}
             <YouTubeList
                 addNewComment={addNewComment}
                 addNewReply={addNewReply}
@@ -128,7 +134,6 @@ const Highlights = props => {
                 deleteComment={deleteComment}
                 deleteReply={deleteReply}
                 downvoteHighlightRequest={props.downvoteHighlightRequest}
-                loading={props.loadingVideos}
                 isAddingCommentToVideo={props.isAddingCommentToHighlight}
                 videos={helpers.sortVideos(filterBy, sortBy, props.videos, searchFilter)}
                 votingPage

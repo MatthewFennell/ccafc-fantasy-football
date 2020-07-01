@@ -13,7 +13,8 @@ const FadingCollapsable = props => {
         <div className={classNames({
             [props.styles.collapsableWrapper]: true,
             [props.styles.sideMargins]: props.isSideMargins,
-            [props.styles.bigSideMargins]: props.isBigSideMargins
+            [props.styles.bigSideMargins]: props.isBigSideMargins,
+            [props.styles.noPhoneMargin]: props.isNoPhoneMargin
         })}
         >
             <div className={props.styles.icon}>
@@ -37,6 +38,7 @@ const FadingCollapsable = props => {
 FadingCollapsable.defaultProps = {
     children: null,
     isBigSideMargins: false,
+    isNoPhoneMargin: false,
     isSideMargins: false,
     styles: defaultStyles,
     title: null
@@ -48,6 +50,7 @@ FadingCollapsable.propTypes = {
         PropTypes.node
     ]),
     isBigSideMargins: PropTypes.bool,
+    isNoPhoneMargin: PropTypes.bool,
     isSideMargins: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),
     title: PropTypes.oneOfType([

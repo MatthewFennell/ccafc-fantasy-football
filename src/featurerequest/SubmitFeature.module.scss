@@ -8,6 +8,7 @@
     @include light-box-shadow();
 
     .switchWrapper {
+        margin-top: $spacing-average;
         display: flex;
         justify-content: center;
 
@@ -34,3 +35,10 @@
         padding: $spacing-small;
     }
 }
+
+.backIcon{
+    display: flex;
+    align-items: center;
+    position: absolute;
+    cursor: pointer;
+  }

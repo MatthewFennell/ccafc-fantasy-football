@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import defaultStyles from './SubmitFeature.module.scss';
 import StyledButton from '../common/StyledButton/StyledButton';
 import Switch from '../common/Switch/Switch';
@@ -24,7 +25,12 @@ const SubmitFeature = props => {
             onOpen={noop}
         >
             <div className={props.styles.featureRequestWrapper}>
-
+                <div className={props.styles.backIcon}>
+                    <ArrowBackIcon
+                        onClick={props.closeSubmitFeature}
+                        fontSize="large"
+                    />
+                </div>
                 <div className={props.styles.switchWrapper}>
                     <div className={props.styles.bugMessage}>
                         Is Bug

@@ -44,7 +44,7 @@ const TheCup = props => {
                     displayNameMappings={displayNameMappings}
                     week={key}
                     pairings={fp.get('pairings')(props.cup[key])}
-                    isFinalWeek={index === 0}
+                    isFinalWeek={index === 0 && hasFinished === false}
                 />
             ))}
         </div>

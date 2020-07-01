@@ -17,3 +17,9 @@
   display: flex;
   justify-content: center;
 }
+
+@media only screen and (max-width: 600px) {
+  .unsavedChangesMessage {
+    width: 100%;
+  }
+}

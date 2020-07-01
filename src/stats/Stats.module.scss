@@ -1,12 +1,7 @@
 @import "../common/Styles.scss";
 
-.oddWrapper {
-  margin-left: $spacing-small;
-  margin-right: $spacing-average;
-}
-
 .statsWrapper{
-  margin-top: $spacing-average;
+  margin: $spacing-average;
   .statsHeader{
     color: $color-black;
     padding: $spacing-medium;
@@ -58,4 +53,8 @@
   .statsHeader {
       margin: 0px !important;
   }  
+
+  .editFiltersWrapper {
+    margin-top: 0px;
+  }
 }

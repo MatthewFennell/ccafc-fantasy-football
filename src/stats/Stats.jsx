@@ -54,7 +54,7 @@ const Stats = props => {
     return (
         <>
             <div className={props.styles.statsWrapper}>
-                <div className={props.styles.oddWrapper}>
+                <div>
                     <LoadingDiv
                         isLoading={props.isFetchingTeams}
                         isFitContent

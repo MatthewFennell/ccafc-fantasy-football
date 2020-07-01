@@ -10,3 +10,9 @@
     margin-right: auto;
   }
 }
+
+@media only screen and (max-width: 600px) {
+  .leagueTableWrapper {
+      margin-top: 0px;
+  }
+}
