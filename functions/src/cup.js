@@ -56,7 +56,7 @@ exports.manageCup = functions.region(constants.region).firestore
 
         if (newWeek === constants.cupStartingWeek) {
             // Change >= 0
-            return db.collection('weekly-teams').where('week', '==', previousWeek).where('points', '>=', 0).get()
+            return db.collection('weekly-teams').where('week', '==', previousWeek).where('points', '>', 0).get()
                 .then(weeklyDocs => {
                     const userIds = weeklyDocs.docs.map(doc => doc.data().user_id);
 

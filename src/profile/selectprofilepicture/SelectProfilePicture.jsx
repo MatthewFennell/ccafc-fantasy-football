@@ -49,7 +49,6 @@ const SelectProfilePicture = props => {
                     </div>
                 ))}
             </div>
-            <hr />
             <div className={props.styles.selectOwnPictureWrapper}>
                 <div className={props.styles.uploadOwnIconMessage}>
                     Upload your own avatar

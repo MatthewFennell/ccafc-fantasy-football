@@ -52,9 +52,28 @@
 @media only screen and (max-width: 600px) {
   .statsHeader {
       margin: 0px !important;
+      flex-wrap: wrap; 
+      padding-top: 0px !important;
+      justify-content: center;
   }  
+
+  .toggleWrapper {
+    padding-top: $spacing-tiny;
+    padding-bottom: $spacing-tiny;
+    display: flex;
+    justify-content: center;
+  }
+
+  .combineWeeksText {
+    @include vertical-center-div();
+  }
+
+  .dropdownWrapper {
+    display: block !important;
+  }
 
   .editFiltersWrapper {
     margin-top: 0px;
+    padding-top: $spacing-tiny;
   }
 }

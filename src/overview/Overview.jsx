@@ -137,7 +137,7 @@ const Overview = props => {
                         </div>
                         <div className={props.styles.remainingBudgetWrapper}>
                             <div className={props.styles.remainingBudgetValue}>
-                                {`£${props.remainingBudget} mil`}
+                                {`£${props.remainingBudget}m`}
                             </div>
                             <div>Remaining Budget</div>
                         </div>

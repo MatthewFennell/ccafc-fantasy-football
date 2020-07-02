@@ -50,9 +50,11 @@
     right: 0;
     position: absolute;
     height: 90%;
+    min-height: 90vh;
     width: 100%;
     overflow-x: hidden;
     overflow-y: hidden;
+    margin-bottom: 0px;
   }
 
 

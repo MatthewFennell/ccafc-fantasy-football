@@ -63,7 +63,7 @@ const Graph = props => {
                     options={uniqueTeams()}
                     onChange={setActiveTeams}
                     placeholder="Add more teams"
-                    value={activeTeams}
+                    value={_.uniqBy(activeTeams, 'id')}
                     withPadding
                 />
                 <div className={props.styles.radioWrapper}>

@@ -65,7 +65,12 @@
 
 @media only screen and (max-width: 600px) {
 
+  .gameWeekText {
+    padding: $spacing-small;
+  }
+
   .pitchWrapper {
+    margin-bottom: 0px;
     right: 0;
     position: absolute;
     height: 90%;

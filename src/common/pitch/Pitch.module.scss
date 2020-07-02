@@ -11,20 +11,24 @@
   }
 
   .goalKeepers{
-    margin-top: $spacing-large;
+    margin-top: 5%;
   }
 
   .defenders, .midfielders, .attackers{
     width: 75%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: $spacing-average;
+    margin-top: 5%;
     display: flex;
     justify-content: center;
     > div {
       flex-grow: 1;
       flex-basis: 0;
     }
+  }
+
+  .defenders, .midfielders, .attackers {
+    margin-top: 1%;
   }
 
   .loadingSpinner{
@@ -41,6 +45,15 @@
 
   @media only screen and (max-width: 600px) {
     .defenders, .midfielders, .attackers{
-      margin-top: $spacing-medium;
+      margin-top: 8%
+    }
+  }
+
+  @media only screen and (max-height: 600px) {
+    .midfielders, .attackers{
+      margin-top: 5%
+    }
+    .defenders {
+      margin-top: 2%;
     }
   }

@@ -25,6 +25,7 @@ const TheCup = props => {
                             </li>
                             <li>Must get the more points than your opponent to go through</li>
                             <li>Ties result in both players being eliminated</li>
+                            <li>Must score more than 0 points in Week 2 to take part</li>
                         </ul>
                     </div>
                     {hasFinished && (
