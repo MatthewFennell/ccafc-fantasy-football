@@ -33,7 +33,8 @@ module.exports = {
     "indent": ["error", 4],
     "react/jsx-indent": ["error", 4],
     "react/jsx-indent-props": ["error", 4],
-    "react-hooks/exhaustive-deps": "off"
+    "react-hooks/exhaustive-deps": "off",
+    "linebreak-style": ["off"]
   },
   "overrides": [
     {
