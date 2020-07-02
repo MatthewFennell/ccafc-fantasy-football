@@ -8,6 +8,7 @@ import * as routes from '../../routes';
 import defaultStyles from './TogglePages.module.scss';
 import Switch from '../../common/Switch/Switch';
 import { editDisabledPageRequest } from '../../auth/actions';
+import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
 
 const getDisabledPages = appInfo => _.head(_.map(appInfo, value => (value.disabledPages)));
 
@@ -19,18 +20,25 @@ const TogglePages = props => (
 
         <div className={props.styles.routesWrapper}>
             {routes.signedInLinks.map(route => (
-                <div className={props.styles.optionWrapper} key={route.title}>
-                    <div>
-                        {route.title}
+                <LoadingDiv
+                    isLoading={route.title === props.isEditingPage}
+                    isBorderRadius
+                    isRed
+                    key={route.title}
+                >
+                    <div className={props.styles.optionWrapper} key={route.title}>
+                        <div>
+                            {route.title}
+                        </div>
+                        <Switch
+                            color="primary"
+                            checked={!props.disabledPages.includes(route.title)}
+                            onChange={() => props.editDisabledPageRequest(route.title,
+                                !props.disabledPages.includes(route.title))}
+                            disabled={!route.canToggle}
+                        />
                     </div>
-                    <Switch
-                        color="primary"
-                        checked={!props.disabledPages.includes(route.title)}
-                        onChange={() => props.editDisabledPageRequest(route.title,
-                            !props.disabledPages.includes(route.title))}
-                        disabled={!route.canToggle}
-                    />
-                </div>
+                </LoadingDiv>
             ))}
         </div>
     </div>
@@ -39,12 +47,14 @@ const TogglePages = props => (
 TogglePages.defaultProps = {
     disabledPages: [],
     editDisabledPageRequest: noop,
+    isEditingPage: '',
     styles: defaultStyles
 };
 
 TogglePages.propTypes = {
     disabledPages: PropTypes.arrayOf(PropTypes.string),
     editDisabledPageRequest: PropTypes.func,
+    isEditingPage: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 
@@ -53,7 +63,8 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-    disabledPages: getDisabledPages(state.firestore.data.appInfo)
+    disabledPages: getDisabledPages(state.firestore.data.appInfo),
+    isEditingPage: state.auth.isEditingPage
 });
 
 export default compose(
@@ -63,7 +74,7 @@ export default compose(
             collection: 'application-info',
             storeAs: 'appInfo'
         }
-    ]),
+    ])
 )(TogglePages);
 
 export { TogglePages as TogglePagesUnconnected };

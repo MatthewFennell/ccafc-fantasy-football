@@ -25,7 +25,9 @@ export const initialState = {
     allRoles: [],
 
     disabledPages: ['only one'],
-    loadingApp: false
+    loadingApp: false,
+
+    isEditingPage: ''
 };
 
 const authReducer = (state = initialState, action) => {
@@ -35,6 +37,12 @@ const authReducer = (state = initialState, action) => {
             ...state,
             loadingApp: action.isLoadingApp
         };
+    }
+    case actions.EDIT_DISABLED_PAGE_REQUEST: {
+        return fp.set('isEditingPage', action.page)(state);
+    }
+    case actions.SET_IS_EDITING_PAGE: {
+        return fp.set('isEditingPage', action.isEditing)(state);
     }
     case actions.SIGN_UP_ERROR: {
         return {

@@ -100,6 +100,8 @@ export function* editDisabledPage(api, action) {
         }));
     } catch (error) {
         yield put(actions.editDisabledPageError(error));
+    } finally {
+        yield put(actions.setIsEditingPage(''));
     }
 }
 
