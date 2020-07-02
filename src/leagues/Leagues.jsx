@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import defaultStyles from './styles/Leagues.module.scss';
 import {
     fetchLeaguesRequest, createLeagueRequest, closeCreateLeagueError,
-    joinLeagueRequest, closeJoinLeagueError, fetchCupRequest
+    joinLeagueRequest, closeJoinLeagueError
 } from './actions';
 import * as selectors from './selectors';
 import Grid from '../common/grid/Grid';
@@ -16,7 +16,6 @@ import JoinLeagueForm from './JoinLeagueForm';
 import ErrorModal from '../common/modal/ErrorModal';
 import Spinner from '../common/spinner/Spinner';
 import SuccessModal from '../common/modal/SuccessModal';
-import TheCup from './Cup/TheCup';
 
 const columns = [
     {
@@ -62,9 +61,8 @@ const Leagues = props => {
 
     useEffect(() => {
         props.fetchLeaguesRequest();
-        props.fetchCupRequest();
         // eslint-disable-next-line
-    }, [props.fetchLeaguesRequest, props.fetchCupRequest]);
+    }, [props.fetchLeaguesRequest]);
 
     const onRowClick = useCallback(row => {
         props.history.push(`${constants.URL.LEAGUES}/${row.leagueId}`);
@@ -97,11 +95,6 @@ const Leagues = props => {
                     />
                 </div>
             </div>
-            {props.isFetchingCup ? (
-                <div className={props.styles.spinnerWrapper}>
-                    <Spinner color="secondary" />
-                </div>
-            ) : <TheCup cup={props.cup} />}
 
             <SuccessModal
                 backdrop
@@ -169,8 +162,6 @@ Leagues.defaultProps = {
     createLeagueError: '',
     createLeagueErrorCode: '',
     creatingLeague: false,
-    cup: {},
-    isFetchingCup: false,
     fetchingLeagues: false,
     joinLeagueError: '',
     joinLeagueErrorCode: '',
@@ -186,13 +177,10 @@ Leagues.propTypes = {
     createLeagueErrorCode: PropTypes.string,
     createLeagueRequest: PropTypes.func.isRequired,
     creatingLeague: PropTypes.bool,
-    cup: PropTypes.shape({}),
     fetchingLeagues: PropTypes.bool,
-    fetchCupRequest: PropTypes.func.isRequired,
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired,
-    isFetchingCup: PropTypes.bool,
     joinLeagueError: PropTypes.string,
     joinLeagueErrorCode: PropTypes.string,
     joinLeagueRequest: PropTypes.func.isRequired,
@@ -214,17 +202,14 @@ const mapDispatchToProps = {
     closeJoinLeagueError,
     createLeagueRequest,
     joinLeagueRequest,
-    fetchLeaguesRequest,
-    fetchCupRequest
+    fetchLeaguesRequest
 };
 
 const mapStateToProps = state => ({
     createLeagueError: state.leagues.createLeagueError,
     createLeagueErrorCode: state.leagues.createLeagueErrorCode,
-    cup: state.leagues.cup,
     creatingLeague: state.leagues.creatingLeague,
     fetchingLeagues: selectors.getFetchingLeagues(state),
-    isFetchingCup: state.leagues.isFetchingCup,
     joinLeagueError: state.leagues.joinLeagueError,
     joinLeagueErrorCode: state.leagues.joinLeagueErrorCode,
     joiningLeague: state.leagues.joiningLeague,

@@ -12,21 +12,23 @@ import chartsSaga from './charts/saga';
 import highlightSaga from './highlights/saga';
 import fixturesSaga from './fixtures/saga';
 import featuresRequestSaga from './featurerequest/saga';
+import cupSaga from './cup/saga';
 
 export default function* rootSaga() {
     yield all([
         adminSaga(),
         authSaga(),
+        chartsSaga(),
         currentTeamSaga(),
+        cupSaga(),
+        featuresRequestSaga(),
+        fixturesSaga(),
+        highlightSaga(),
         leagueSaga(),
         overviewSaga(),
         pointsSaga(),
         profileSaga(),
         transfersSaga(),
-        statsSaga(),
-        chartsSaga(),
-        highlightSaga(),
-        fixturesSaga(),
-        featuresRequestSaga()
+        statsSaga()
     ]);
 }

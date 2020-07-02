@@ -1,4 +1,4 @@
-@import "../../common/Styles.scss";
+@import "../common/Styles.scss";
 
 .cupWrapper {
     margin-bottom: 150px;
@@ -83,4 +83,8 @@
         padding: $spacing-tiny;
       }
     }
+  }
+
+  .loadingSpinner {
+      text-align: center;
   }
