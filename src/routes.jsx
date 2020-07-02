@@ -19,6 +19,7 @@ import DehazeIcon from '@material-ui/icons/Dehaze';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import LocalCafeIcon from '@material-ui/icons/LocalCafe';
 
 import fp from 'lodash/fp';
 import * as adminComponents from './adminComponents';
@@ -176,6 +177,16 @@ export const signedInLinks = [
         path: () => constants.URL.LEAGUES,
         renderPath: constants.URL.LEAGUES,
         urlIncludes: constants.URL.LEAGUES,
+        canToggle: true
+    },
+    {
+        title: 'The Cup',
+        icon: <LocalCafeIcon color="primary" />,
+        component: rootComponents.Cup,
+        addUserId: false,
+        path: () => constants.URL.CUP,
+        renderPath: constants.URL.CUP,
+        urlIncludes: constants.URL.CUP,
         canToggle: true
     },
     {

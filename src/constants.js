@@ -4,6 +4,7 @@ export const URL = {
     LEAGUES: '/leagues',
     OVERVIEW: '/overview',
     PROFILE: '/profile',
+    CUP: '/cup',
     RESET_PASSWORD: '/reset-password',
     SIGN_IN: '/sign-in',
     SIGN_UP: '/sign-up',

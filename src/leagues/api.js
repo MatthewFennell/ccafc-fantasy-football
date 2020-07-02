@@ -31,5 +31,3 @@ export const createLeague = request => functionToCall('league-createLeague')(req
 export const joinLeague = request => functionToCall('league-joinLeague')(request);
 
 export const leaveLeague = request => functionToCall('league-leaveLeague')(request);
-
-export const fetchCup = request => functionToCall('cup-fetchCup')(request).then(response => response.data);

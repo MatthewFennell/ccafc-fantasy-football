@@ -1,13 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import fp from 'lodash/fp';
+import PropTypes from 'prop-types';
+import { fetchCupRequest } from './actions';
 import defaultStyles from './TheCup.module.scss';
 import WeekInfo, { getName } from './WeekInfo';
+import Spinner from '../common/spinner/Spinner';
 
 const TheCup = props => {
     const {
         displayNameMappings, hasFinished, winner, ...rest
     } = props.cup;
+
+    useEffect(() => {
+        props.fetchCupRequest();
+        // eslint-disable-next-line
+    }, [props.fetchCupRequest]);
 
     return (
         <div className={props.styles.cupWrapper}>
@@ -39,6 +47,11 @@ const TheCup = props => {
                     )}
                 </div>
             </div>
+            {props.isFetchingCup && (
+                <div className={props.styles.loadingSpinner}>
+                    <Spinner color="secondary" />
+                </div>
+            )}
             {Object.keys(rest).reverse().map((key, index) => (
                 <WeekInfo
                     byes={fp.get('byes')(props.cup[key])}
@@ -54,11 +67,8 @@ const TheCup = props => {
 };
 
 TheCup.defaultProps = {
-    cup: {
-        displayNameMappings: {},
-        hasFinished: false,
-        winner: ''
-    },
+    cup: {},
+    isFetchingCup: false,
     styles: defaultStyles
 };
 
@@ -68,7 +78,20 @@ TheCup.propTypes = {
         hasFinished: PropTypes.bool,
         winner: PropTypes.string
     }),
+    fetchCupRequest: PropTypes.func.isRequired,
+    isFetchingCup: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 
-export default TheCup;
+const mapStateToProps = state => ({
+    cup: state.cup.cup,
+    isFetchingCup: state.cup.isFetchingCup
+});
+
+const mapDispatchToProps = {
+    fetchCupRequest
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TheCup);
+
+export { TheCup as TheCupUnconnected };

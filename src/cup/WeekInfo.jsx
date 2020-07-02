@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import defaultStyles from './WeekInfo.module.scss';
-import FadingCollapsable from '../../common/fadingCollapsable/FadingCollapsable';
+import FadingCollapsable from '../common/fadingCollapsable/FadingCollapsable';
 
 export const getName = (displayNameMappings, name) => displayNameMappings[name];
 
