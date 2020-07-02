@@ -36,7 +36,6 @@ export const alreadyFetchedUserStats = userId => ({
     userId
 });
 
-
 export const fetchUserInfoForWeekRequest = (userId, week) => ({
     type: FETCH_USER_INFO_FOR_WEEK_REQUEST,
     userId,

@@ -3,7 +3,6 @@ import * as actions from './actions';
 import * as adminActions from '../admin/actions';
 import * as profileActions from '../profile/actions';
 
-
 describe('Leagues reducer', () => {
     it('should return the initial state', () => {
         expect(reducer(undefined, {})).toEqual(initialState);

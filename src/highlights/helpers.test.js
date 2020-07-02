@@ -95,7 +95,6 @@ const videosByPopularity = [
     }
 ];
 
-
 // Mock Date will be September 10 2005
 const videosToFilterByDate = [
     {
