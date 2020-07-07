@@ -90,6 +90,8 @@ export function* addCommentToVideo(api, action) {
         yield put(actions.addCommentToVideoSuccess(newHighlight));
     } catch (error) {
         yield put(actions.setHighlightError(error, 'Add Comment Error'));
+    } finally {
+        yield put(actions.setAddingCommentToVideo(false));
     }
 }
 
@@ -104,6 +106,8 @@ export function* addReplyToVideo(api, action) {
         yield put(actions.addReplyToVideoSuccess(newHighlight));
     } catch (error) {
         yield put(actions.setHighlightError(error, 'Add Reply Error'));
+    } finally {
+        yield put(actions.setAddingCommentToVideo(false));
     }
 }
 

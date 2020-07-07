@@ -120,6 +120,9 @@ const highlightsReducer = (state = initialState, action) => {
     case actions.ADD_REPLY_TO_VIDEO_REQUEST: {
         return fp.set('isAddingCommentToHighlight', true)(state);
     }
+    case actions.SET_ADDING_COMMENT_TO_VIDEO: {
+        return fp.set('isAddingCommentToHighlight', action.isAdding)(state);
+    }
     case actions.ADD_COMMENT_TO_VIDEO_SUCCESS: {
         return {
             ...state,

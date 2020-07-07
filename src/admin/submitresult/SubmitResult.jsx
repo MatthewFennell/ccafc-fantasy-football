@@ -209,6 +209,7 @@ const SubmitResult = props => {
                         type="number"
                         value={goalsFor}
                         icon={textInputConstants.textInputIcons.football}
+                        iconColor="primary"
                     />
                     <TextInput
                         label="Goals Against"
@@ -216,6 +217,7 @@ const SubmitResult = props => {
                         type="number"
                         value={goalsAgainst}
                         icon={textInputConstants.textInputIcons.football}
+                        iconColor="primary"
                     />
                 </div>
                 <LoadingDiv

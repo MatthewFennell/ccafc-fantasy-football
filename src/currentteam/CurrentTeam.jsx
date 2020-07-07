@@ -24,7 +24,7 @@ const CurrentTeam = props => {
 
     const [emptyPlayerOpen, setEmptyPlayerOpen] = useState(false);
     const [modalPlayer, setModalPlayer] = useState({});
-    const [captainToUpdate, setCaptainToUpdate] = useState(false);
+    const [captainToUpdate, setCaptainToUpdate] = useState('');
 
     const makePlayerCaptain = useCallback(() => {
         props.makeCaptainRequest(captainToUpdate);

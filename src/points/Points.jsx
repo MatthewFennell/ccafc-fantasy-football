@@ -50,7 +50,6 @@ const Points = props => {
     }, [setPlayerModalOpen, setPlayerObj]);
 
     const captainId = fp.get('player_id')(props.currentTeam.find(x => x.isCaptain));
-    console.log('captain id', captainId);
 
     const pitch = (
         <Pitch
@@ -72,7 +71,7 @@ const Points = props => {
                 <ArrowBackIcon
                     color={props.currentGameWeek > 1 ? 'secondary' : 'disabled'}
                     onClick={loadPreviousWeek}
-                    fontSize={isMobile ? 'medium' : 'large'}
+                    fontSize={isMobile ? 'default' : 'large'}
                 />
             </div>
             <div className={props.styles.gameWeekTextWrapper}>
@@ -82,7 +81,7 @@ const Points = props => {
                 <ArrowForwardIcon
                     color={props.currentGameWeek === props.maxGameWeek ? 'disabled' : 'secondary'}
                     onClick={loadNextWeek}
-                    fontSize={isMobile ? 'medium' : 'large'}
+                    fontSize={isMobile ? 'default' : 'large'}
                 />
             </div>
         </div>

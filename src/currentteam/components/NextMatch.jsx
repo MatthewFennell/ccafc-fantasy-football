@@ -29,12 +29,11 @@ const NextMatch = props => {
     }, [props.fetchFixturesRequest]);
 
     const nextMatchPerTeam = helpers.getNextMatchPerTeam(props.fixtures, 'Collingwood');
-
     return (
         <div className={props.styles.nextMatchesWrapper}>
             <div className={props.styles.nextFixturesWrapper}>Next Fixtures</div>
             {props.players.map(player => (
-                <div className={props.styles.rowWrapper}>
+                <div className={props.styles.rowWrapper} key={player.id}>
                     <div className={props.styles.name}>
                         {player.name}
                     </div>

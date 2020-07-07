@@ -78,9 +78,9 @@ const TheCup = props => {
 
 TheCup.defaultProps = {
     cup: {},
-    errorMessage: PropTypes.string,
-    errorCode: PropTypes.string,
-    errorHeader: PropTypes.string,
+    errorMessage: '',
+    errorCode: '',
+    errorHeader: '',
     isFetchingCup: false,
     styles: defaultStyles
 };
@@ -92,9 +92,9 @@ TheCup.propTypes = {
         hasFinished: PropTypes.bool,
         winner: PropTypes.string
     }),
-    errorMessage: '',
-    errorCode: '',
-    errorHeader: '',
+    errorMessage: PropTypes.string,
+    errorCode: PropTypes.string,
+    errorHeader: PropTypes.string,
     fetchCupRequest: PropTypes.func.isRequired,
     isFetchingCup: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string)
