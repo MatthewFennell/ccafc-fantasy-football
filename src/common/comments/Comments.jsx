@@ -24,7 +24,7 @@ const RenderComments = props => {
         isTopLevel, submitReply, loggedInUserId, deleteComment, deleteReply, parentId) => {
         if (hasChildren(comment)) {
             return (
-                <>
+                <React.Fragment key={`${comment.id}-${isTopLevel}${comment.date}`}>
                     <Comment
                         deleteComment={deleteComment}
                         deleteReply={deleteReply}
@@ -46,7 +46,7 @@ const RenderComments = props => {
                             comment.id
                         ))}
                     </div>
-                </>
+                </React.Fragment>
             );
         }
         return (

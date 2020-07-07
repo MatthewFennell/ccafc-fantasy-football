@@ -29,6 +29,8 @@ export const ADD_REPLY_TO_VIDEO_SUCCESS = `${pre}ADD_REPLY_TO_VIDEO_SUCCESS`;
 export const DELETE_COMMENT_REQUEST = `${pre}DELETE_COMMENT_REQUEST`;
 export const DELETE_COMMENT_SUCCESS = `${pre}DELETE_COMMENT_SUCCESS`;
 
+export const SET_ADDING_COMMENT_TO_VIDEO = `${pre}SET_ADDING_COMMENT_TO_VIDEO`;
+
 export const DELETE_REPLY_REQUEST = `${pre}DELETE_REPLY_REQUEST`;
 export const DELETE_REPLY_SUCCESS = `${pre}DELETE_REPLY_SUCCESS`;
 
@@ -37,6 +39,11 @@ export const CLOSE_HIGHLIGHT_ERROR = `${pre}CLOSE_HIGHLIGHT_ERROR`;
 
 export const SET_SUCCESS_MESSAGE = `${pre}SET_SUCCESS_MESSAGE`;
 export const CLOSE_SUCCESS_MESSAGE = `${pre}CLOSE_SUCCESS_MESSAGE`;
+
+export const setAddingCommentToVideo = isAdding => ({
+    type: SET_ADDING_COMMENT_TO_VIDEO,
+    isAdding
+});
 
 export const setSuccessMessage = message => ({
     type: SET_SUCCESS_MESSAGE,
