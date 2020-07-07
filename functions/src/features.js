@@ -34,3 +34,11 @@ exports.submitFeature = functions
                     }
                 ));
     });
+
+exports.deleteFeatureRequest = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+
+        return db.collection('feature-requests').doc(data.featureId).delete();
+    });

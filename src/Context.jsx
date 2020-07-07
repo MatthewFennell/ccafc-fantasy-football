@@ -41,7 +41,7 @@ export default compose(
             collection: 'application-info',
             storeAs: 'appInfo'
         }
-    ]),
+    ])
 )(MyProvider);
 
 export { MyProvider as MyProviderUnconnected };

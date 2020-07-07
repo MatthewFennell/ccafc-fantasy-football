@@ -33,6 +33,7 @@ const RenderComments = props => {
                         isTopLevel={isTopLevel}
                         submitReply={submitReply}
                         loggedInUserId={loggedInUserId}
+                        key={comment.id}
                     />
                     <div className={props.styles.shiftRight}>
                         {comment.comments.map(x => renderComment(
@@ -58,6 +59,7 @@ const RenderComments = props => {
                 submitReply={submitReply}
                 loggedInUserId={loggedInUserId}
                 parentId={parentId}
+                key={comment.id}
             />
         );
     };

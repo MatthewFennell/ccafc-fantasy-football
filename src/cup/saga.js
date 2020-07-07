@@ -10,7 +10,7 @@ export function* fetchCup(api) {
         const cup = yield call(api.fetchCup);
         yield put(actions.fetchCupSuccess(cup || {}));
     } catch (error) {
-        // yield put(actions.leaveLeagueError(error)); //  Need to refactor errors
+        yield put(actions.setCupError(error, 'Error fetching cup info'));
     } finally {
         yield put(actions.setIsFetchingCup(false));
     }

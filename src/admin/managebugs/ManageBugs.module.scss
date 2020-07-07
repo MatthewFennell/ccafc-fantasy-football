@@ -1,0 +1,19 @@
+@import "../../common/Styles.scss";
+
+.bugsHeader {
+    text-align: center;
+    font-size: $font-size-large;
+    margin-top: $spacing-medium;
+    color: $color-blue;
+    font-weight: bold;
+}
+
+.listOfBugs {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+
+    > div {
+        width: 30%;
+    }
+}

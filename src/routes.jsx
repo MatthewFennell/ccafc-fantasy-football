@@ -111,6 +111,15 @@ export const adminLinks = [
         permissionRequired: constants.PERMISSIONS.TOGGLE_PAGES
     },
     {
+        title: 'Manage Bugs',
+        icon: <SupervisorAccountIcon color="primary" />,
+        component: adminComponents.ManageBugs,
+        addUserId: false,
+        path: () => constants.URL.MANAGE_BUGS,
+        urlIncludes: constants.URL.MANAGE_BUGS,
+        permissionRequired: constants.PERMISSIONS.MANAGE_USERS /// MUST REPLACE THIS TO:DO
+    },
+    {
         title: 'Manage Users',
         icon: <SupervisorAccountIcon color="primary" />,
         component: adminComponents.ManageUsers,

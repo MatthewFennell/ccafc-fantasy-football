@@ -351,6 +351,18 @@ export function* recalculateLeaguePositions(api) {
     }
 }
 
+export function* deleteBug(api, action) {
+    try {
+        yield call(api.deleteBug, {
+            featureId: action.featureId
+        });
+    } catch (error) {
+        yield put(actions.setAdminError(error, 'Delete Bug Error'));
+    } finally {
+        yield put(actions.deleteFeatureSuccess());
+    }
+}
+
 const getRandomInt = max => Math.floor(Math.random() * Math.floor(max));
 
 const noxus = week => ({
@@ -988,6 +1000,7 @@ export default function* adminSaga() {
         takeEvery(actions.SUBMIT_EXTRA_STATS_REQUEST, submitExtraResults, adminApi),
         takeEvery(actions.SET_HAS_PAID_SUBS_REQUEST, setHasPaidSubs, adminApi),
         takeEvery(actions.SUBMIT_CUSTOM_RESULTS, customSubmit, adminApi),
+        takeEvery(actions.DELETE_FEATURE_REQUEST, deleteBug, adminApi),
         takeEvery(actions.RECALCULATE_LEAGUE_POSITIONS_REQUEST, recalculateLeaguePositions,
             adminApi)
     ]);

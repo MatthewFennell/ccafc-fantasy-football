@@ -9,8 +9,6 @@ import * as leaguesApi from './api';
 import * as selectors from './selectors';
 import * as constants from '../constants';
 
-const PAGE_BUFFER = 2;
-
 export function* fetchLeagues(api) {
     try {
         const alreadyFetched = yield select(selectors.getLeagues);
@@ -41,7 +39,7 @@ export function* fetchUsersInLeague(api, action) {
             yield put(actions.fetchUsersInLeagueSuccess(action.leagueId,
                 initialBatchOfUsers.users, initialBatchOfUsers.numberOfUsers, initialBatchOfUsers.leagueName));
         } else
-        if ((action.pageNumber + PAGE_BUFFER) * action.rowsPerPage > usersForThatLeague.length && !fetchedAllUsersInLeague) {
+        if ((action.pageNumber + constants.LEAGUE_PAGE_BUFFER) * action.rowsPerPage > usersForThatLeague.length && !fetchedAllUsersInLeague) {
             yield put(actions.alreadyFetchedUsersInLeague(action.leagueId));
             const finalId = fp.last(usersForThatLeague).id;
             const nextBatch = yield call(api.getUsersInLeague,

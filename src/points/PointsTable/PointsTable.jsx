@@ -106,8 +106,19 @@ const PointsTable = props => {
     return (
         <div>
             <div className={props.styles.playerInfoWrapper}>
-                <div className={props.styles.playerName}>
-                    {`Player: ${props.player.name}`}
+                <div className={props.styles.pointsStatEntry}>
+                    <div>{'Player: '}</div>
+
+                    <div className={props.styles.statValue}>
+                        <div>{props.player.name}</div>
+                    </div>
+                </div>
+                <div className={props.styles.pointsStatEntry}>
+                    <div>{'Team: '}</div>
+
+                    <div className={props.styles.statValue}>
+                        <div>{props.player.team}</div>
+                    </div>
                 </div>
             </div>
             <Grid
