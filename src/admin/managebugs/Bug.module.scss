@@ -1,0 +1,49 @@
+@import "../../common/Styles.scss";
+
+.bugWrapper {
+    padding: $spacing-medium;
+}
+
+.bugTitle {
+    padding: $spacing-medium;
+    text-align: center;
+    color: $color-green;
+}
+
+.deleteBug{
+    text-align: right;
+    cursor: pointer;
+    outline: none;
+}
+
+.deleteBug:hover{
+    :first-child {
+        color: $color-red;
+    }
+}
+
+.descriptionKey {
+    padding-top: $spacing-average;
+    color: $color-green;
+    font-weight: bold;
+    text-align: center;
+}
+
+.descriptionValue {
+    margin-left: $spacing-small;
+    margin-right: $spacing-small;
+    text-align: center;
+}
+
+.bugInfo {
+    display: flex;
+    text-align: center;
+    color: $color-green;
+    font-weight: bold;
+    justify-content: center;
+  }
+  
+  .bugValue {
+    color: $color-black;
+    margin-left: 4px;
+  }

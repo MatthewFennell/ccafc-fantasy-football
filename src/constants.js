@@ -27,6 +27,7 @@ export const URL = {
     EDIT_PLAYER: '/edit-player',
     APPROVE_HIGHLIGHTS: '/approve-highlights',
     MANAGE_SUBS: '/manage-subs',
+    MANAGE_BUGS: '/manage-bugs',
     MANAGE_USERS: '/manage-users',
     TOGGLE_PAGES: '/toggle-pages'
 };
@@ -78,7 +79,7 @@ export const minPerPosition = {
 
 // KEEP IN SYNC WITH SERVER
 // This is the list of all existing permissions
-// src/functions/constants
+// functions/constants
 export const PERMISSIONS = {
     CREATE_PLAYER: 'CREATE_PLAYER',
     DELETE_PLAYER: 'DELETE_PLAYER',
@@ -91,12 +92,15 @@ export const PERMISSIONS = {
     APPROVE_HIGHLIGHTS: 'APPROVE_HIGHLIGHTS',
     ROLL_OVER_YEAR: 'ROLL_OVER_YEAR',
     MANAGE_SUBS: 'MANAGE_SUBS',
+    MANAGE_BUGS: 'MANAGE_BUGS',
     TOGGLE_PAGES: 'TOGGLE_PAGES'
 };
 
 export const successDelay = 3500;
 export const matchLengthMinutes = 100;
 
-// Things to fix
+export const LEAGUE_INITIAL_ROWS_PER_PAGE = 20;
 
-// Cancel button focus goes blue?
+// Ideally, these two should be the same
+export const LEAGUE_INITIAL_NUMBER_OF_PAGES_TO_LOAD = 3;
+export const LEAGUE_PAGE_BUFFER = 3;

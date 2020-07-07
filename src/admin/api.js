@@ -49,3 +49,4 @@ export const reapproveRejectedHighlight = request => functionToCall('highlights-
 export const setHasPaidSubs = request => functionToCall('clubSubs-setHasPaidSubs')(request);
 
 export const recalculateLeaguePositions = request => functionToCall('league-calculatePositions')(request);
+export const deleteBug = request => functionToCall('features-deleteFeatureRequest')(request);

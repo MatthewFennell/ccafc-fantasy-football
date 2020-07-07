@@ -37,7 +37,10 @@ export const initialState = {
     isFetchingPlayersForTeam: false,
     isRecalculatingLeaguePositions: false,
     highlightBeingApproved: '',
-    highlightBeingRejected: ''
+    highlightBeingRejected: '',
+
+    isDeletingBug: false,
+    bugIdToDelete: ''
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -46,6 +49,19 @@ const adminReducer = (state = initialState, action) => {
         return {
             ...state,
             allTeams: action.teams
+        };
+    }
+    case actions.SET_BUG_ID_TO_DELETE: {
+        return fp.set('bugIdToDelete', action.bugId)(state);
+    }
+    case actions.DELETE_FEATURE_REQUEST: {
+        return fp.set('isDeletingBug', true)(state);
+    }
+    case actions.DELETE_FEATURE_SUCCESS: {
+        return {
+            ...state,
+            isDeletingBug: false,
+            bugIdToDelete: ''
         };
     }
     case actions.RECALCULATE_LEAGUE_POSITIONS_REQUEST: {

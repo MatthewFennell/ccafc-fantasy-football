@@ -38,7 +38,7 @@ const CommentInfo = props => (
                     className={props.styles.reply}
                     onClick={props.setReplyOpen}
                 >
-                Reply
+                    Reply
                 </div>
             ) }
     </>

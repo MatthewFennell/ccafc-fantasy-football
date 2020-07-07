@@ -23,6 +23,10 @@ export const initialState = {
 
     fetchedAllUsersInLeague: {},
 
+    errorHeader: '',
+    errorMessage: '',
+    errorCode: '',
+
     cup: {},
     isFetchingCup: false,
     hasFetchedCup: false
@@ -41,6 +45,22 @@ const cupReducer = (state = initialState, action) => {
             ...state,
             cup: action.cup,
             hasFetchedCup: true
+        };
+    }
+    case actions.SET_CUP_ERROR: {
+        return {
+            ...state,
+            errorMessage: action.error.message,
+            errorCode: action.error.code,
+            errorHeader: action.header
+        };
+    }
+    case actions.CLOSE_CUP_ERROR: {
+        return {
+            ...state,
+            errorMessage: '',
+            errorCode: '',
+            errorHeader: ''
         };
     }
     default:
