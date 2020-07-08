@@ -138,7 +138,6 @@ exports.createActiveTeam = functions.region(constants.region).firestore
     .document('users/{id}')
     .onWrite((change, context) => {
         if (!change.before.exists) {
-            console.log('creating active team');
             db.collection('active-teams').add({
                 user_id: context.params.id,
                 player_ids: [],

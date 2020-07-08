@@ -37,8 +37,10 @@ exports.submitFeature = functions
 
 exports.deleteFeatureRequest = functions
     .region(constants.region)
-    .https.onCall((data, context) => {
-        common.isAuthenticated(context);
+    .https.onCall((data, context) => common.hasPermission(context.auth.uid,
+        constants.PERMISSIONS.MANAGE_BUGS)
+        .then(() => {
+            common.isAuthenticated(context);
 
-        return db.collection('feature-requests').doc(data.featureId).delete();
-    });
+            return db.collection('feature-requests').doc(data.featureId).delete();
+        }));
