@@ -1,10 +1,36 @@
 @import "../../common/Styles.scss";
 
 .playerInfoWrapper{
+  width: 70%;
   display: flex;
   text-align: center;
   margin: $spacing-small;
+  margin-left: auto;
+  margin-right: auto;
   >div{
     flex-grow: 1;
+  }
+}
+
+.stat {
+  font-weight: bold;
+}
+
+.pointsStatEntry {
+  display: flex;
+  text-align: center;
+  color: $color-green;
+  font-weight: bold;
+  justify-content: center;
+}
+
+.statValue {
+  color: $color-black;
+  margin-left: 4px;
+}
+
+@media only screen and (max-width: 600px) {
+  .playerInfoWrapper {
+    display: block;
   }
 }

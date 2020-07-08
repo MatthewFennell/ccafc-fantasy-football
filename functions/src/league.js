@@ -8,14 +8,37 @@ const db = admin.firestore();
 
 const operations = admin.firestore.FieldValue;
 
+const getDisplayName = id => db.collection('users').doc(id).get().then(user => ({
+    displayName: user.data().displayName,
+    teamName: user.data().teamName
+}));
+
+const joinLeaguePointsWithCorrectPoints = (uid, week, leagueName, leagueId) => db.collection('weekly-teams')
+    .where('user_id', '==', uid).where('week', '>=', week).get()
+    .then(weeklyDocs => weeklyDocs.docs
+        .reduce((acc, curVal) => acc + curVal.data().points, 0))
+    .then(result => db.collection('leagues-points').where('name', '==', leagueName).where('user_id', '==', uid)
+        .get()
+        .then(leagues => {
+            if (!leagues.empty) {
+                throw new functions.https.HttpsError('already-exists', 'You are already in that league');
+            }
+            return getDisplayName(uid).then(userInfo => db.collection('leagues-points').add({
+                league_id: leagueId,
+                user_id: uid,
+                start_week: week,
+                name: leagueName,
+                user_points: result,
+                username: userInfo.displayName,
+                teamName: userInfo.teamName,
+                position: 1
+            }));
+        }));
+
 exports.createLeague = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        const getDisplayName = id => db.collection('users').doc(id).get().then(user => ({
-            displayName: user.data().displayName,
-            teamName: user.data().teamName
-        }));
 
         if (!data.leagueName) {
             throw new functions.https.HttpsError('invalid-argument', 'Cannot create a league with an empty name');
@@ -29,24 +52,14 @@ exports.createLeague = functions
 
         return leagueWithThatName(data.leagueName).get().then(docs => {
             if (docs.empty) {
-                return getDisplayName(context.auth.uid).then(userInfo => db.collection('leagues')
+                return db.collection('leagues')
                     .add({
                         owner: context.auth.uid,
                         start_week: data.startWeek || 0,
                         name: data.leagueName,
                         number_of_users: 0
-                    }).then(docRef => {
-                        db.collection('leagues-points').add({
-                            league_id: docRef.id,
-                            user_id: context.auth.uid,
-                            start_week: data.startWeek || 0,
-                            name: data.leagueName,
-                            user_points: 0,
-                            username: userInfo.displayName,
-                            position: 1,
-                            teamName: userInfo.teamName
-                        });
-                    }));
+                    }).then(docRef => joinLeaguePointsWithCorrectPoints(context.auth.uid,
+                        data.startWeek || 0, data.leagueName, docRef.id));
             }
             throw new functions.https.HttpsError('already-exists', 'League with that name already exists');
         });
@@ -89,11 +102,6 @@ exports.joinLeague = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        const getDisplayName = id => db.collection('users').doc(id).get().then(user => ({
-            displayName: user.data().displayName,
-            teamName: user.data().teamName
-        }));
-
         return db.collection('leagues').where('name', '==', data.leagueName).get().then(
             docs => {
                 if (docs.empty) {
@@ -104,25 +112,8 @@ exports.joinLeague = functions
                 }
                 const doc = docs.docs[0];
 
-                return db.collection('weekly-teams').where('user_id', '==', context.auth.uid).where('week', '>=', doc.data().start_week).get()
-                    .then(weeklyDocs => weeklyDocs.docs
-                        .reduce((acc, curVal) => acc + curVal.data().points, 0))
-                    .then(result => db.collection('leagues-points').where('name', '==', data.leagueName).where('user_id', '==', context.auth.uid)
-                        .get()
-                        .then(leagues => {
-                            if (!leagues.empty) {
-                                throw new functions.https.HttpsError('already-exists', 'You are already in that league');
-                            }
-                            return getDisplayName(context.auth.uid).then(userInfo => db.collection('leagues-points').add({
-                                league_id: doc.id,
-                                user_id: context.auth.uid,
-                                start_week: doc.data().start_week,
-                                name: data.leagueName,
-                                user_points: result,
-                                username: userInfo.displayName,
-                                teamName: userInfo.teamName
-                            }));
-                        }))
+                return joinLeaguePointsWithCorrectPoints(context.auth.uid,
+                    doc.data().start_week, data.leagueName, doc.id)
                     .then(() => db.collection('leagues-points').where('league_id', '==', doc.id).get()
                         .then(query => query.docs
                             .map(leagueDoc => ({ data: leagueDoc.data(), id: leagueDoc.id })))
@@ -132,11 +123,25 @@ exports.joinLeague = functions
                             sortedResult.forEach((pos, index) => {
                                 positions.push({ id: pos.id, position: index + 1 });
                             });
-                            const leagueUpdatePromises = [];
-                            positions.map(pos => leagueUpdatePromises.push(db.collection('leagues-points')
-                                .doc(pos.id).update({
+
+                            const numberOfBatches = Math.ceil(positions.length / constants.maxBatchSize);
+
+                            const batches = [];
+                            for (let x = 0; x < numberOfBatches; x += 1) {
+                                batches.push(db.batch());
+                            }
+
+                            positions.forEach((pos, index) => {
+                                const batchToTarget = Math.floor(index / constants.maxBatchSize);
+                                const docRef = db.collection('leagues-points').doc(pos.id);
+                                batches[batchToTarget].update(docRef, {
                                     position: pos.position
-                                })));
+                                });
+                            });
+
+                            batches.forEach((batch, index) => batch.commit().then(() => {
+                                console.log('Commited batch at index: ', index, ' for creating updating leagues positions when joining league');
+                            }));
                         }));
             }
         );
@@ -201,9 +206,8 @@ exports.orderedUsers = functions
 // Unsure of how to permission this yet TO:DO
 exports.calculatePositions = functions
     .region(constants.region)
-    .https.onCall((data, context) => {
-        common.isAuthenticated(context);
-        return db
+    .https.onCall((data, context) => common.hasPermission(context.auth.uid, constants.PERMISSIONS.SORT_LEAGUES)
+        .then(() => db
             .collection('leagues-points')
             .get()
             .then(querySnapshot => querySnapshot.docs
@@ -232,16 +236,25 @@ exports.calculatePositions = functions
                     });
                 });
 
-                const leagueUpdatePromises = [];
-                positions.map(pos => leagueUpdatePromises.push(db.collection('leagues-points')
-                    .doc(pos.id).update({
+                const numberOfBatches = Math.ceil(positions.length / constants.maxBatchSize);
+
+                const batches = [];
+                for (let x = 0; x < numberOfBatches; x += 1) {
+                    batches.push(db.batch());
+                }
+
+                positions.forEach((pos, index) => {
+                    const batchToTarget = Math.floor(index / constants.maxBatchSize);
+                    const docRef = db.collection('leagues-points').doc(pos.id);
+                    batches[batchToTarget].update(docRef, {
                         position: pos.position
-                    })));
+                    });
+                });
 
-                return Promise.all(leagueUpdatePromises).then(() => 'Successfully updated');
-            });
-    });
-
+                batches.forEach((batch, index) => batch.commit().then(() => {
+                    console.log('Commited batch at index: ', index, ' for creating updating leagues positions');
+                }));
+            })));
 
 // Increase number of users in league
 exports.onUserJoinLeague = functions.region(constants.region).firestore

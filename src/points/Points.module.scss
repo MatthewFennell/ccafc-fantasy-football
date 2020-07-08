@@ -1,32 +1,6 @@
 @import "../common/Styles.scss";
 
-.pageWrapper{
-  right: 0px;
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  overflow-x: hidden;
-  overflow-y: hidden;
-}
-
-.pointsWrapper{
-  height: 100%;
-  margin-left: auto;;
-  margin-right: auto;;
-  width: 70%;  
-}
-
-@media only screen and (max-width: 600px) {
-  .pointsWrapper{
-    width: 130%;
-    position: absolute;
-    left: -15%;
-    overflow-x: hidden;
-  }
-}
-
 .gameWeekText{
-  margin: $spacing-average;
   font-size: $font-size-large;
   color: $color-gray;
   display: flex;
@@ -34,14 +8,81 @@
   .arrowBackWrapper{
     margin-right: $spacing-medium;
     cursor: pointer;
+    @include vertical-center-div();
   }
   .arrowForwardWrapper{
     margin-left: $spacing-medium;
     cursor: pointer;
+    @include vertical-center-div();
   }
 }
 
 .noStats{
   text-align: center;
   font-weight: bold;
+}
+
+.gameWeekTextWrapper {
+  @include vertical-center-div();
+  text-align: center;
+}
+
+.desktopWrapper {
+  display: flex;
+  margin-top: $spacing-medium;
+  min-height: 100vh;
+}
+
+.desktopPitch {
+  @include light-box-shadow();
+  margin-left: $spacing-medium;
+  margin-right: $spacing-medium;
+  width: 70%;
+}
+
+.summary {
+  @include light-box-shadow();
+  padding: $spacing-medium;
+  width: 25%;
+  height: fit-content;
+}
+
+.pitchWrapper{
+  right: 0px;
+  width: 100%;
+  overflow-x: hidden;
+  margin-bottom: $spacing-medium;
+  min-height: 100vh;
+}
+
+.currentTeamWrapper{
+  height: 90vh;
+  background-color: $color-white;  
+  margin-left: auto;;
+  margin-right: auto;;
+  width: 70%;
+}
+
+@media only screen and (max-width: 600px) {
+
+  .gameWeekText {
+    padding: $spacing-small;
+  }
+
+  .pitchWrapper {
+    margin-bottom: 0px;
+    right: 0;
+    position: absolute;
+    height: 90%;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+
+  .currentTeamWrapper{
+    width: 130%;
+    position: absolute;
+    left: -15%;
+    overflow-x: hidden;
+  }
 }

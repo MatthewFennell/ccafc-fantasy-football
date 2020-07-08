@@ -69,6 +69,7 @@ const Comment = props => {
                     {replyOpen && props.isTopLevel && (
                         <AddReply
                             cancelReply={cancelReply}
+                            isAddingCommentToItem={props.isAddingCommentToItem}
                             message="Add reply"
                             text={replyText}
                             setText={setReplyText}
@@ -86,6 +87,7 @@ Comment.defaultProps = {
     deleteComment: noop,
     deleteReply: noop,
     details: {},
+    isAddingCommentToItem: false,
     isTopLevel: false,
     parentId: null,
     styles: defaultStyles,
@@ -104,6 +106,7 @@ Comment.propTypes = {
         userId: PropTypes.string,
         photoUrl: PropTypes.string
     }),
+    isAddingCommentToItem: PropTypes.bool,
     isTopLevel: PropTypes.bool,
     parentId: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),

@@ -2,12 +2,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
-import _ from 'lodash';
+import _, { noop } from 'lodash';
 import defaultStyles from './ManageSubs.module.scss';
 import { fetchAllPlayersRequest } from '../../transfers/actions';
 import Grid from '../../common/grid/Grid';
 import StyledButton from '../../common/StyledButton/StyledButton';
-import { setHasPaidSubsRequest } from '../actions';
+import ErrorModal from '../../common/modal/ErrorModal';
+import { closeAdminError, setHasPaidSubsRequest } from '../actions';
 import Checkbox from '../../common/Checkbox/Checkbox';
 import Dropdown from '../../common/dropdown/Dropdown';
 import RadioButton from '../../common/radio/RadioButton';
@@ -133,11 +134,11 @@ const ManageSubs = props => {
                 <div className={props.styles.playersGridWrapper}>
                     <Grid
                         columns={constants.columns}
-                        loading={props.updatingSubs}
+                        loading={props.updatingSubs || props.fetchingAllPlayers}
                         rows={generateRows(props.allPlayers)}
                         rowsPerPageOptions={[500]}
                         showPagination={false}
-                        maxHeightGrid
+                        maxHeight={600}
                     />
                 </div>
                 <div className={props.styles.confirmChangesWrapper}>
@@ -155,31 +156,53 @@ const ManageSubs = props => {
                     />
                 </div>
             </div>
+            <ErrorModal
+                closeModal={props.closeAdminError}
+                headerMessage={props.errorHeader}
+                isOpen={props.errorMessage.length > 0}
+                errorCode={props.errorCode}
+                errorMessage={props.errorMessage}
+            />
         </>
     );
 };
 
 ManageSubs.defaultProps = {
     allPlayers: [],
+    closeAdminError: noop,
+    errorMessage: '',
+    errorCode: '',
+    errorHeader: '',
+    fetchingAllPlayers: false,
     styles: defaultStyles,
     updatingSubs: false
 };
 
 ManageSubs.propTypes = {
     allPlayers: PropTypes.arrayOf(PropTypes.shape({})),
+    closeAdminError: PropTypes.func,
+    errorMessage: PropTypes.string,
+    errorCode: PropTypes.string,
+    errorHeader: PropTypes.string,
     fetchAllPlayersRequest: PropTypes.func.isRequired,
+    fetchingAllPlayers: PropTypes.bool,
     setHasPaidSubsRequest: PropTypes.func.isRequired,
     styles: PropTypes.objectOf(PropTypes.string),
     updatingSubs: PropTypes.bool
 };
 
 const mapDispatchToProps = {
+    closeAdminError,
     fetchAllPlayersRequest,
     setHasPaidSubsRequest
 };
 
 const mapStateToProps = state => ({
     allPlayers: state.transfers.allPlayers,
+    errorMessage: state.admin.errorMessage,
+    errorCode: state.admin.errorCode,
+    errorHeader: state.admin.errorHeader,
+    fetchingAllPlayers: state.transfers.fetchingAllPlayers,
     updatingSubs: state.admin.updatingSubs
 });
 

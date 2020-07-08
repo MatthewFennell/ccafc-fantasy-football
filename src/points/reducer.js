@@ -11,11 +11,23 @@ const pointsReducer = (state = initialState, action) => {
         return fp.flow(
             fp.set(`userTeams.${action.userId}.week-${action.week}.fetched`, true),
             fp.set(`userTeams.${action.userId}.week-${action.week}.fetching`, false),
-            fp.set(`userTeams.${action.userId}.week-${action.week}.team`, action.team),
+            fp.set(`userTeams.${action.userId}.week-${action.week}.team`, action.team)
         )(state);
     }
     case actions.FETCH_USER_POINTS_FOR_WEEK_ERROR: {
         return fp.set(`userTeams.${action.userId}.week-${action.week}.fetching`, false)(state);
+    }
+    case actions.SET_USER_DETAILS_FETCHING: {
+        return fp.set(`userTeams.${action.userId}.details`, ({
+            fetching: true
+        }))(state);
+    }
+    case actions.SET_USER_DETAILS: {
+        return fp.set(`userTeams.${action.userId}.details`, ({
+            ...action.details,
+            fetched: true,
+            fetching: false
+        }))(state);
     }
     case actions.FETCH_USER_POINTS_FOR_WEEK_REQUEST: {
         return fp.set(`userTeams.${action.userId}.week-${action.week}.fetching`, true)(state);

@@ -52,7 +52,6 @@ const StyledButton = props => {
     );
 };
 
-
 StyledButton.defaultProps = {
     disabled: false,
     color: 'primary',

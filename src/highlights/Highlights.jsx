@@ -19,6 +19,8 @@ import * as helpers from './helpers';
 import TextInput from '../common/TextInput/TextInput';
 import * as textInputConstants from '../common/TextInput/constants';
 import Dropdown from '../common/dropdown/Dropdown';
+import LoadingDiv from '../common/loadingDiv/LoadingDiv';
+import Spinner from '../common/spinner/Spinner';
 
 const Highlights = props => {
     useEffect(() => {
@@ -60,10 +62,21 @@ const Highlights = props => {
                 <div className={props.styles.highlightsHeader}>
                     <div className={props.styles.infoWrapper}>
                         <div className={props.styles.highlightsMessage}>
-                  Highlights
+                            Highlights
                         </div>
                         <div className={props.styles.openSubmitVideo}>
-                            <StyledButton onClick={openSubmitVideo} text="Submit a Video" color="primary" />
+                            <LoadingDiv
+                                isLoading={props.isSubmittingHighlight}
+                                isFitContent
+                                isBorderRadius
+                            >
+                                <StyledButton
+                                    onClick={openSubmitVideo}
+                                    text="Submit a Video"
+                                    color="primary"
+                                    disabled={props.isSubmittingHighlight}
+                                />
+                            </LoadingDiv>
                         </div>
                     </div>
                     <div className={props.styles.sortByWrapper}>
@@ -109,6 +122,11 @@ const Highlights = props => {
                     </div>
                 </div>
             </div>
+            {props.loadingVideos && (
+                <div className={props.styles.loadingVideos}>
+                    <Spinner color="secondary" />
+                </div>
+            )}
             <YouTubeList
                 addNewComment={addNewComment}
                 addNewReply={addNewReply}
@@ -116,7 +134,7 @@ const Highlights = props => {
                 deleteComment={deleteComment}
                 deleteReply={deleteReply}
                 downvoteHighlightRequest={props.downvoteHighlightRequest}
-                loading={props.loadingVideos}
+                isAddingCommentToVideo={props.isAddingCommentToHighlight}
                 videos={helpers.sortVideos(filterBy, sortBy, props.videos, searchFilter)}
                 votingPage
                 upvoteHighlightRequest={props.upvoteHighlightRequest}
@@ -163,6 +181,8 @@ Highlights.defaultProps = {
     loadingVideos: false,
     loadingVideosToBeApproved: false,
     loadingRejectedVideos: false,
+    isAddingCommentToHighlight: false,
+    isSubmittingHighlight: false,
     successMessage: '',
     styles: defaultStyles,
     videos: [],
@@ -186,12 +206,14 @@ Highlights.propTypes = {
     downvoteHighlightRequest: PropTypes.func.isRequired,
     loadingVideosToBeApproved: PropTypes.bool,
     loadingRejectedVideos: PropTypes.bool,
+    isAddingCommentToHighlight: PropTypes.bool,
     fetchHighlightsRequest: PropTypes.func.isRequired,
     fetchRejectedHighlightsRequest: PropTypes.func.isRequired,
     fetchUserHighlightsToBeApproved: PropTypes.func.isRequired,
     loadingVideos: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),
     setHighlightError: PropTypes.func.isRequired,
+    isSubmittingHighlight: PropTypes.bool,
     submitHighlightRequest: PropTypes.func.isRequired,
     successMessage: PropTypes.string,
     videos: PropTypes.arrayOf(PropTypes.shape({})),
@@ -225,9 +247,11 @@ const mapStateToProps = state => ({
     errorHeader: state.highlights.errorHeader,
     highlightError: state.highlights.submitLinkError,
     highlightErrorCode: state.highlights.submitLinkErrorCode,
+    isAddingCommentToHighlight: state.highlights.isAddingCommentToHighlight,
     loadingVideos: state.highlights.loadingVideos,
     loadingVideosToBeApproved: state.highlights.loadingVideosToBeApproved,
     loadingRejectedVideos: state.highlights.loadingRejectedVideos,
+    isSubmittingHighlight: state.highlights.isSubmittingHighlight,
     successMessage: state.highlights.successMessage,
     videos: state.highlights.videos,
     videosToBeApproved: state.highlights.videosToBeApproved,

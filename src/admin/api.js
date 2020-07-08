@@ -47,3 +47,6 @@ export const rejectedHighlights = request => functionToCall('highlights-getRejec
 export const reapproveRejectedHighlight = request => functionToCall('highlights-reapproveRejectedHighlight')(request).then(response => response.data);
 
 export const setHasPaidSubs = request => functionToCall('clubSubs-setHasPaidSubs')(request);
+
+export const recalculateLeaguePositions = request => functionToCall('league-calculatePositions')(request);
+export const deleteBug = request => functionToCall('features-deleteFeatureRequest')(request);

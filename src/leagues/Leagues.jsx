@@ -70,27 +70,32 @@ const Leagues = props => {
 
     return (
         <>
-            <div className={props.styles.myLeaguesTable}>
-                <Grid
-                    columns={columns}
-                    gridHeader="Leagues"
-                    loading={props.fetchingLeagues}
-                    onRowClick={onRowClick}
-                    rows={props.leagues}
-                />
+            <div className={props.styles.leaguesWrapper}>
+                <div className={props.styles.myLeaguesTable}>
+                    <Grid
+                        columns={columns}
+                        gridHeader="Leagues"
+                        loading={props.fetchingLeagues}
+                        onRowClick={onRowClick}
+                        rows={props.leagues}
+                    />
+                </div>
+                <div className={props.styles.leagueButtonsWrapper}>
+                    <StyledButton
+                        color="primary"
+                        onClick={() => setCreateLeagueOpen(true)}
+                        text="Create league"
+                        disabled={props.creatingLeague || props.joiningLeague}
+                    />
+                    <StyledButton
+                        color="primary"
+                        onClick={() => setJoinLeagueOpen(true)}
+                        text="Join league"
+                        disabled={props.creatingLeague || props.joiningLeague}
+                    />
+                </div>
             </div>
-            <div className={props.styles.leagueButtonsWrapper}>
-                <StyledButton
-                    color="primary"
-                    onClick={() => setCreateLeagueOpen(true)}
-                    text="Create league"
-                />
-                <StyledButton
-                    color="primary"
-                    onClick={() => setJoinLeagueOpen(true)}
-                    text="Join league"
-                />
-            </div>
+
             <SuccessModal
                 backdrop
                 closeModal={() => setCreateLeagueOpen(false)}
@@ -210,7 +215,6 @@ const mapStateToProps = state => ({
     joiningLeague: state.leagues.joiningLeague,
     leagues: state.leagues.leagues
 });
-
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Leagues));
 

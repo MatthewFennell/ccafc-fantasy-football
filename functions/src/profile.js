@@ -6,7 +6,6 @@ const constants = require('./constants');
 
 const db = admin.firestore();
 
-
 exports.linkFacebookAccount = functions
     .region(constants.region)
     .https.onCall((data, context) => {
@@ -23,7 +22,6 @@ exports.linkFacebookAccount = functions
             }
         );
     });
-
 
 const updateComments = (database, newUrl, userId) => {
     let documentsToUpdate = [];
@@ -88,10 +86,10 @@ exports.updateProfilePicture = functions
 exports.updateDisplayName = functions
     .region(constants.region)
     .https.onCall((data, context) => {
+        common.isAuthenticated(context);
         if (!data.displayName) {
             throw new functions.https.HttpsError('invalid-argument', 'Must provide a valid display name');
         }
-        common.isAuthenticated(context);
         return db.collection('users').doc(context.auth.uid).update({
             displayName: data.displayName
         }).then(
@@ -101,6 +99,32 @@ exports.updateDisplayName = functions
                 }))
             )
         );
+    });
+
+// Update cup display name mapping
+exports.updateCupDisplayNameMapping = functions.region(constants.region).firestore
+    .document('users/{id}')
+    .onWrite(change => {
+        const displayNameBefore = change.before.data().displayName;
+        const displayNameAfter = change.after.data().displayName;
+
+        if (displayNameBefore === displayNameAfter) {
+            return Promise.resolve();
+        }
+
+        return db.collection('the-cup').doc(constants.cupDatabaseId).get().then(cup => {
+            const userId = change.after.id;
+            const { displayNameMappings } = cup.data();
+            if (displayNameMappings[userId]) {
+                return cup.ref.update({
+                    displayNameMappings: {
+                        ...displayNameMappings,
+                        [userId]: displayNameAfter
+                    }
+                });
+            }
+            return Promise.resolve();
+        });
     });
 
 exports.updateTeamName = functions

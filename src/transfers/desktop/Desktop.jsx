@@ -9,11 +9,7 @@ import * as constants from '../../constants';
 import Modals from '../common/Modals';
 import Table from './Table';
 import NextFixtures from '../nextfixtures/NextFixtures';
-
-const teamsAreDifferent = (original, current) => {
-    const playersInCurrentNotInOriginal = current.filter(c => !original.some(x => x.id === c.id));
-    return playersInCurrentNotInOriginal.length > 0 && current.length === 11;
-};
+import { teamsAreDifferent } from '../helpers';
 
 const Desktop = props => {
     const teamsDiffer = teamsAreDifferent(props.originalTeam, props.currentTeam);
@@ -35,7 +31,7 @@ const Desktop = props => {
                                 color="primary"
                                 onClick={props.undoTransferChanges}
                                 text="Reset"
-                                disabled={!teamsDiffer}
+                                disabled={!teamsDiffer || props.fetchingOriginalTeam}
                             />
                         </div>
                         <div>
@@ -43,19 +39,20 @@ const Desktop = props => {
                                 color="primary"
                                 onClick={props.updateTeamRequest}
                                 text="Confirm"
-                                disabled={!teamsDiffer}
+                                disabled={!teamsDiffer || props.fetchingOriginalTeam}
                             />
                             <div className={classNames({
                                 [props.styles.saveChanges]: true,
                                 [props.styles.hidden]: !teamsDiffer
                             })}
                             >
-                            Save changes
+                                Save changes
                             </div>
                         </div>
                     </div>
                     <Pitch
-                        additionalInfo={player => `£${player.price} mil`}
+                        // additionalInfo={player => `£${player.price} mil`}
+                        additionalInfo={player => player.team}
                         activeTeam={props.currentTeam}
                         loading={props.fetchingOriginalTeam}
                         maxInPos={{
@@ -84,7 +81,7 @@ const Desktop = props => {
             </div>
             <NextFixtures
                 allTeams={props.allTeams}
-                fixtures={props.fixtures.filter(x => !x.completed)}
+                fixtures={props.fixtures}
                 loadingFixtures={props.loadingFixtures}
                 showCollegeCrest
             />

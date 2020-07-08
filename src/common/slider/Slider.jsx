@@ -39,6 +39,7 @@ const CustomSlider = props => {
                 min={props.min}
                 max={props.max}
                 valueLabelDisplay={props.showMarker ? 'on' : 'off'}
+                value={props.value}
             />
         </div>
     );
@@ -52,7 +53,8 @@ CustomSlider.defaultProps = {
     onChange: noop,
     showMarker: true,
     step: 1,
-    text: ''
+    text: '',
+    value: 0
 };
 
 CustomSlider.propTypes = {
@@ -75,7 +77,8 @@ CustomSlider.propTypes = {
     onChange: PropTypes.func,
     showMarker: PropTypes.bool,
     step: PropTypes.number,
-    text: PropTypes.string
+    text: PropTypes.string,
+    value: PropTypes.number
 };
 
 export default CustomSlider;

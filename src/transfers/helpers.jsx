@@ -138,3 +138,8 @@ export const desktopColumns = (sortBy, activeSort, styles) => [
         align: 'center'
     }
 ];
+
+export const teamsAreDifferent = (original, current) => {
+    const playersInCurrentNotInOriginal = current.filter(c => !original.some(x => x.id === c.id));
+    return playersInCurrentNotInOriginal.length > 0 && current.length === 11;
+};

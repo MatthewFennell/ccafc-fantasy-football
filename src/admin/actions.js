@@ -2,6 +2,7 @@ const pre = 'ADMIN/';
 
 export const FETCH_TEAMS_REQUEST = `${pre}FETCH_TEAMS_REQUEST`;
 export const FETCH_TEAMS_SUCCESS = `${pre}FETCH_TEAMS_SUCCESS`;
+export const SET_FETCHING_TEAMS = `${pre}SET_FETCHING_TEAMS`;
 
 export const CREATE_PLAYER_REQUEST = `${pre}CREATE_PLAYER_REQUEST`;
 export const CREATE_PLAYER_SUCCESS = `${pre}CREATE_PLAYER_SUCCESS`;
@@ -14,6 +15,7 @@ export const SUBMIT_RESULT_SUCCESS = `${pre}SUBMIT_RESULT_SUCCESS`;
 
 export const FETCH_PLAYERS_FOR_TEAM_REQUEST = `${pre}FETCH_PLAYERS_FOR_TEAM_REQUEST`;
 export const FETCH_PLAYERS_FOR_TEAM_SUCCESS = `${pre}FETCH_PLAYERS_FOR_TEAM_SUCCESS`;
+export const SET_FETCHING_PLAYERS_FOR_TEAM = `${pre}SET_FETCHING_PLAYERS_FOR_TEAM`;
 
 export const DELETE_PLAYER_REQUEST = `${pre}DELETE_PLAYER_REQUEST`;
 export const DELETE_PLAYER_SUCCESS = `${pre}DELETE_PLAYER_SUCCESS`;
@@ -78,6 +80,43 @@ export const CLOSE_ADMIN_ERROR = `${pre}CLOSE_ADMIN_ERROR`;
 
 export const SET_HAS_PAID_SUBS_REQUEST = `${pre}SET_HAS_PAID_SUBS_REQUEST`;
 export const SET_HAS_PAID_SUBS_SUCCESS = `${pre}SET_HAS_PAID_SUBS_SUCCESS`;
+
+export const RECALCULATE_LEAGUE_POSITIONS_REQUEST = `${pre}RECALCULATE_LEAGUE_POSITIONS_REQUEST`;
+export const SET_RECALCULATING_LEAGUE_POSITIONS = `${pre}SET_RECALCULATING_LEAGUE_POSITIONS`;
+
+export const DELETE_FEATURE_REQUEST = `${pre}DELETE_FEATURE_REQUEST`;
+export const DELETE_FEATURE_SUCCESS = `${pre}DELETE_FEATURE_SUCCESS`;
+export const SET_BUG_ID_TO_DELETE = `${pre}SET_BUG_ID_TO_DELETE`;
+
+export const SUBMIT_CUSTOM_RESULTS = `${pre}SUBMIT_CUSTOM_RESULTS`;
+
+export const deleteFeatureSuccess = () => ({
+    type: DELETE_FEATURE_SUCCESS
+});
+
+export const setBugIdToDelete = bugId => ({
+    type: SET_BUG_ID_TO_DELETE,
+    bugId
+});
+
+export const deleteFeatureRequest = featureId => ({
+    type: DELETE_FEATURE_REQUEST,
+    featureId
+});
+
+export const setRecalculatingLeaguePositions = isRecalculating => ({
+    type: SET_RECALCULATING_LEAGUE_POSITIONS,
+    isRecalculating
+});
+
+export const submitCustumResults = week => ({
+    type: SUBMIT_CUSTOM_RESULTS,
+    week
+});
+
+export const recalculateLeaguePositionsRequest = () => ({
+    type: RECALCULATE_LEAGUE_POSITIONS_REQUEST
+});
 
 export const setHasPaidSubsSuccess = changes => ({
     type: SET_HAS_PAID_SUBS_SUCCESS,
@@ -281,6 +320,11 @@ export const fetchTeamsSuccess = teams => ({
     teams
 });
 
+export const setFetchingTeams = isFetching => ({
+    type: SET_FETCHING_TEAMS,
+    isFetching
+});
+
 // -------------------------------------------------------------------- \\
 
 export const createPlayerRequest = (name, position, price, team, previousScore) => ({
@@ -333,6 +377,11 @@ export const fetchPlayersForTeamSuccess = (teamName, players) => ({
     type: FETCH_PLAYERS_FOR_TEAM_SUCCESS,
     teamName,
     players
+});
+
+export const setFetchingPlayersForTeam = isFetching => ({
+    type: SET_FETCHING_PLAYERS_FOR_TEAM,
+    isFetching
 });
 
 // -------------------------------------------------------------------- \\

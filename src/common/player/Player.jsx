@@ -38,7 +38,12 @@ const Player = props => (
                 </div>
                 {props.isCaptain && props.showCaptain && (
                     <div className={props.styles.captain}>
-                            C
+                        Captain
+                    </div>
+                )}
+                {!props.isCaptain && props.showCaptain && (
+                    <div className={props.styles.notCaptain}>
+                        Captain
                     </div>
                 )}
             </div>

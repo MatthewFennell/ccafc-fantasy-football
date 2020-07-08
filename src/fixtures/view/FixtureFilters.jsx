@@ -18,6 +18,7 @@ const FixtureFilters = props => (
                     value={props.radioValue}
                     label="Filter Fixtures"
                     key="Filter Fixtures"
+                    title="Filter by team"
                 />
             </div>
             <div>

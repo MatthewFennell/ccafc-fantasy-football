@@ -14,6 +14,7 @@ import ErrorModal from '../../common/modal/ErrorModal';
 import SuccessModal from '../../common/modal/SuccessModal';
 import TextInput from '../../common/TextInput/TextInput';
 import * as textInputConstants from '../../common/TextInput/constants';
+import Switch from '../../common/Switch/Switch';
 
 const options = [
     { value: 'GOALKEEPER', text: 'Goalkeeper', id: 'GOALKEEPER' },
@@ -41,6 +42,12 @@ const CreatePlayer = props => {
     }, [playerName, playerPrice, playerPosition, playerTeam,
         props.createPlayerRequest, previousScore]);
 
+    const [suppressPopup, setSuppressPopup] = useState(false);
+
+    const toggleSuppressPopup = useCallback(() => {
+        setSuppressPopup(!suppressPopup);
+    }, [suppressPopup, setSuppressPopup]);
+
     return (
         <>
             <div className={props.styles.createPlayerWrapper}>
@@ -52,7 +59,7 @@ const CreatePlayer = props => {
                         disabled={!playerName
                             || !playerPosition
                             || !playerTeam
-                            || (!playerPrice && playerPrice !== 0)}
+                            || (!playerPrice && playerPrice !== 0) || props.creatingPlayer}
                     />
                 </div>
                 <div className={props.styles.createPlayerForm}>
@@ -96,11 +103,20 @@ const CreatePlayer = props => {
                 >
                     <Spinner color="secondary" />
                 </div>
+                <div className={props.styles.suppressPopupWrapper}>
+                    <div className={props.styles.suppressMessage}>
+                        Suppress popup
+                    </div>
+                    <Switch
+                        onChange={toggleSuppressPopup}
+                        checked={suppressPopup}
+                    />
+                </div>
             </div>
             <SuccessModal
                 backdrop
                 closeModal={props.closeSuccessMessage}
-                isOpen={props.successMessage.length > 0}
+                isOpen={props.successMessage.length > 0 && !suppressPopup}
                 isSuccess
                 headerMessage={props.successMessage}
                 toggleModal={noop}
@@ -142,8 +158,6 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
     allTeams: state.admin.allTeams,
     creatingPlayer: state.admin.creatingPlayer,
-    createPlayerError: state.admin.createPlayerError,
-    createPlayerErrorCode: state.admin.createPlayerErrorCode,
     errorMessage: state.admin.errorMessage,
     errorCode: state.admin.errorCode,
     errorHeader: state.admin.errorHeader,

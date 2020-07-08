@@ -5,7 +5,7 @@ module.exports.positions = {
     GOALKEEPER: 'GOALKEEPER'
 };
 
-module.exports.maxPlayersPerTeam = 11;
+module.exports.maxPlayersPerTeam = 3;
 
 module.exports.transferPointPenalty = 4;
 
@@ -38,9 +38,12 @@ module.exports.results = {
     LOSS: 'LOSS'
 };
 
+module.exports.maxBatchSize = 500;
+
 module.exports.region = 'europe-west2';
 
 // A list of all existing permissions - keep in sync with UI
+// src/constants.js
 const PERMISSIONS = {
     CREATE_PLAYER: 'CREATE_PLAYER',
     DELETE_PLAYER: 'DELETE_PLAYER',
@@ -52,7 +55,10 @@ const PERMISSIONS = {
     MANAGE_USERS: 'MANAGE_USERS',
     APPROVE_HIGHLIGHTS: 'APPROVE_HIGHLIGHTS',
     ROLL_OVER_YEAR: 'ROLL_OVER_YEAR',
-    MANAGE_SUBS: 'MANAGE_SUBS'
+    MANAGE_SUBS: 'MANAGE_SUBS',
+    MANAGE_BUGS: 'MANAGE_BUGS',
+    TOGGLE_PAGES: 'TOGGLE_PAGES',
+    SORT_LEAGUES: 'SORT_LEAGUES'
 };
 
 module.exports.PERMISSIONS = PERMISSIONS;
@@ -70,6 +76,9 @@ module.exports.ROLE_PERMISSIONS = {
     ADMIN: [
         PERMISSIONS.MANAGE_USERS, // Admin only
         PERMISSIONS.ROLL_OVER_YEAR, // Admin only
+        PERMISSIONS.TOGGLE_PAGES, // Admin only
+        PERMISSIONS.MANAGE_BUGS, // Admin only
+        PERMISSIONS.SORT_LEAGUES,
         PERMISSIONS.CREATE_PLAYER,
         PERMISSIONS.DELETE_PLAYER,
         PERMISSIONS.CREATE_TEAM,
@@ -82,6 +91,7 @@ module.exports.ROLE_PERMISSIONS = {
     MAINTAINER: [
         PERMISSIONS.CREATE_PLAYER,
         PERMISSIONS.DELETE_PLAYER,
+        PERMISSIONS.SORT_LEAGUES,
         PERMISSIONS.CREATE_TEAM,
         PERMISSIONS.DELETE_TEAM,
         PERMISSIONS.SUBMIT_RESULT,
@@ -107,3 +117,7 @@ module.exports.leaguesForFixtures = [
     'https://www.dur.ac.uk/teamdurham/participation/collegesport/knockout/?knockout=111', // Floodlit
     'https://www.dur.ac.uk/teamdurham/participation/collegesport/knockout/?knockout=113' // Cup
 ];
+
+module.exports.cupDatabaseId = 'ccafc-cup-id';
+
+module.exports.cupStartingWeek = 3;

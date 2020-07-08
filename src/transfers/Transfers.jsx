@@ -47,7 +47,7 @@ const Transfers = props => {
     const [goalFilter, setGoalFilter] = useState('Asc');
     const [assistsFilter, setAssistsFilter] = useState('Asc');
     const [minPrice, setMinPrice] = useState(0);
-    const [maxPrice, setMaxPrice] = useState(10);
+    const [maxPrice, setMaxPrice] = useState(20);
     const [priceFilter, setPriceFilter] = useState('Asc');
     const [previousScoreFilter, setPreviousScoreFilter] = useState('Desc');
     const [myColumns, setMyColumns] = useState(getColumns(() => setColumnModalOpen(true)));
@@ -105,13 +105,17 @@ const Transfers = props => {
             props.removePlayerFromCurrentTeam(playerToRemove);
         }
         setSortBy('position');
-        setPositionFilter(playerToRemove.position || positionFilter);
+        if (!_.isEmpty(playerToRemove)) {
+            setPositionFilter(playerToRemove.position || positionFilter);
+        } else if (!_.isEmpty(playerToRestore)) {
+            setPositionFilter(playerToRestore.position || positionFilter);
+        }
         setPlayerTableOpen(true);
         setRemoveModalOpen(false);
         setRestoreModalOpen(false);
         setPlayerToRemove({});
         // eslint-disable-next-line
-    }, [setPlayerTableOpen, playerToRemove, positionFilter]);
+    }, [setPlayerTableOpen, playerToRemove, positionFilter, playerToRestore]);
 
     const selectReplacementDesktop = useCallback(() => {
         const { position, ...rest } = playerToRemove;
@@ -119,13 +123,17 @@ const Transfers = props => {
             props.removePlayerFromCurrentTeam(playerToRemove);
         }
         setSortBy('position');
-        setPositionFilter(playerToRemove.position || positionFilter);
+        if (!_.isEmpty(playerToRemove)) {
+            setPositionFilter(playerToRemove.position || positionFilter);
+        } else if (!_.isEmpty(playerToRestore)) {
+            setPositionFilter(playerToRestore.position || positionFilter);
+        }
         setPlayerTableOpen(true);
         setRemoveModalOpen(false);
         setRestoreModalOpen(false);
         setPlayerToRemove({});
         // eslint-disable-next-line
-    }, [setPlayerTableOpen, playerToRemove, positionFilter, props.removePlayerFromCurrentTeam]);
+    }, [setPlayerTableOpen, playerToRemove, positionFilter, props.removePlayerFromCurrentTeam, playerToRestore]);
 
     const restorePlayer = useCallback(() => {
         props.restorePlayerRequest(playerToRestore.id);

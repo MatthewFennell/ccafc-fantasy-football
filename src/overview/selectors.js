@@ -20,7 +20,6 @@ export const alreadyFetchedUserStats = (state, userId) => fp.flow(
     fp.get('fetched')
 )(state.overview.userStats);
 
-
 export const getUserStat = (state, props, property) => fp.flow(
     fp.get(getUserId(props)),
     fp.get(property)

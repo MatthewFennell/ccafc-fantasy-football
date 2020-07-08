@@ -15,10 +15,11 @@ import SuccessModal from '../common/modal/SuccessModal';
 import Update from './update/Update';
 import StyledButton from '../common/StyledButton/StyledButton';
 import ErrorModal from '../common/modal/ErrorModal';
-import Spinner from '../common/spinner/Spinner';
+import LoadingDiv from '../common/loadingDiv/LoadingDiv';
 import SelectProfilePicture from './selectprofilepicture/SelectProfilePicture';
 import TextInput from '../common/TextInput/TextInput';
 import * as textInputConstants from '../common/TextInput/constants';
+import * as selectors from './selectors';
 
 const Profile = props => {
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -34,7 +35,7 @@ const Profile = props => {
         setDeleteModalOpen(false);
         setEmail('');
         // eslint-disable-next-line
-    }, [props.deleteAccountRequest]);
+    }, [props.deleteAccountRequest, email]);
 
     const updateProfilePicture = useCallback(photoUrl => {
         props.updateProfilePictureRequest(photoUrl);
@@ -54,6 +55,8 @@ const Profile = props => {
             </div>
             <div className={props.styles.bodyWrapper}>
                 <LinkAccounts
+                    isSignedInWithFacebook={props.isSignedInWithFacebook}
+                    isSignedInWithGoogle={props.isSignedInWithGoogle}
                     linkProfileToFacebook={props.linkProfileToFacebook}
                     linkProfileToGoogle={props.linkProfileToGoogle}
                 />
@@ -76,13 +79,16 @@ const Profile = props => {
                 />
                 <SelectProfilePicture
                     currentPhotoUrl={props.profile.photoUrl}
+                    photoUrlBeingUpdated={props.photoUrlBeingUpdated}
                     potentialPictures={_.union(potentialPictures, [props.profile.photoUrl])}
                     updateProfilePicture={updateProfilePicture}
                 />
             </div>
 
             <div className={props.styles.deleteButtonWrapper}>
-                <StyledButton color="secondary" text="Delete Account" onClick={() => setDeleteModalOpen(true)} />
+                <LoadingDiv isLoading={props.deletingAccount} isBorderRadius isFitContent>
+                    <StyledButton color="secondary" text="Delete Account" onClick={() => setDeleteModalOpen(true)} disabled={props.deletingAccount} />
+                </LoadingDiv>
             </div>
             <SuccessModal
                 backdrop
@@ -137,7 +143,6 @@ const Profile = props => {
                 errorCode={props.deleteAccountErrorCode}
                 errorMessage={props.deleteAccountError}
             />
-            { props.deletingAccount && <Spinner color="secondary" /> }
         </div>
     );
 };
@@ -147,8 +152,11 @@ Profile.defaultProps = {
     deleteAccountError: '',
     deleteAccountErrorCode: '',
     deletingAccount: false,
+    isSignedInWithFacebook: false,
+    isSignedInWithGoogle: false,
     linkAccountErrorCode: '',
     linkAccountErrorMessage: '',
+    photoUrlBeingUpdated: '',
     profile: {
         displayName: '',
         email: '',
@@ -173,10 +181,13 @@ Profile.propTypes = {
     deleteAccountErrorCode: PropTypes.string,
     deleteAccountRequest: PropTypes.func.isRequired,
     deletingAccount: PropTypes.bool,
+    isSignedInWithFacebook: PropTypes.bool,
+    isSignedInWithGoogle: PropTypes.bool,
     linkAccountErrorCode: PropTypes.string,
     linkAccountErrorMessage: PropTypes.string,
     linkProfileToFacebook: PropTypes.func.isRequired,
     linkProfileToGoogle: PropTypes.func.isRequired,
+    photoUrlBeingUpdated: PropTypes.string,
     profile: PropTypes.shape({
         displayName: PropTypes.string,
         email: PropTypes.string,
@@ -216,9 +227,15 @@ const mapStateToProps = state => ({
     deleteAccountErrorCode: state.profile.deleteAccountErrorCode,
     deletingAccount: state.profile.deletingAccount,
 
+    isSignedInWithFacebook: selectors.isSignedIn(state, 'facebook.com'),
+    isSignedInWithGoogle: selectors.isSignedIn(state, 'google.com'),
+
     profile: state.firebase.profile,
     linkAccountErrorCode: state.profile.linkAccountErrorCode,
     linkAccountErrorMessage: state.profile.linkAccountError,
+
+    photoUrlBeingUpdated: state.profile.photoUrlBeingUpdated,
+
     updatingDisplayName: state.profile.updatingDisplayName,
     updateDisplayNameError: state.profile.updateDisplayNameError,
     updateDisplayNameErrorCode: state.profile.updateDisplayNameErrorCode,

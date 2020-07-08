@@ -9,9 +9,11 @@
   .backButton{
     margin-left: $spacing-small;
     cursor: pointer;
+    @include vertical-center-div();
   }
 
   .gridHeaderText{
+    padding: $spacing-small;
     margin-left: $spacing-medium;
     width: 100%;
     color: $color-blue;
@@ -29,5 +31,11 @@
 .tableWrap{
   > div { 
     margin: 0px !important;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .gridHeaderText{
+    margin-left: 0px !important;
   }
 }

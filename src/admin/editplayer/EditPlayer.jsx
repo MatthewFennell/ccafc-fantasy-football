@@ -16,6 +16,7 @@ import Spinner from '../../common/spinner/Spinner';
 import SuccessModal from '../../common/modal/SuccessModal';
 import ErrorModal from '../../common/modal/ErrorModal';
 import TextInput from '../../common/TextInput/TextInput';
+import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
 
 const generateWeekOptions = maxGameWeek => {
     const options = [];
@@ -78,12 +79,12 @@ const booleanOptions = [
     {
         id: 'false',
         value: 'false',
-        text: 'false'
+        text: 'False'
     },
     {
         id: 'true',
         value: 'true',
-        text: 'true'
+        text: 'True'
     }
 ];
 
@@ -108,7 +109,16 @@ const EditPlayer = props => {
                 return <Spinner color="secondary" />;
             }
 
-            return oldVal !== undefined ? oldVal.toString() : '';
+            if (typeof oldVal === 'boolean') {
+                const string = oldVal.toString();
+                return (
+                    <div className={props.styles.oldValueCell}>
+                        {string.charAt(0).toUpperCase() + string.slice(1)}
+                    </div>
+                );
+            }
+
+            return oldVal !== undefined ? <div className={props.styles.oldValueCell}>{oldVal.toString()}</div> : '';
         };
 
         const rows = [
@@ -326,8 +336,6 @@ const EditPlayer = props => {
     const rowsToUse = generateRows(props.playerStats,
         props.fetchingPlayerStats || props.editingStats);
 
-    console.log('player to edit', playerToEdit);
-
     return (
         <>
             <div className={props.styles.findPlayerDropdowns}>
@@ -340,12 +348,19 @@ const EditPlayer = props => {
                     />
                 </div>
                 <div className={props.styles.playerDropdown}>
-                    <Dropdown
-                        value={playerToEdit}
-                        onChange={setPlayer}
-                        options={playersForActiveTeam}
-                        title="Player to edit"
-                    />
+                    <LoadingDiv
+                        isLoading={props.isFetchingPlayersForTeam}
+                        isFitContent
+                        isNoPadding
+                        isBorderRadius
+                    >
+                        <Dropdown
+                            value={playerToEdit}
+                            onChange={setPlayer}
+                            options={playersForActiveTeam}
+                            title="Player to edit"
+                        />
+                    </LoadingDiv>
                 </div>
                 <div>
                     <Dropdown
@@ -397,6 +412,7 @@ EditPlayer.defaultProps = {
     errorCode: '',
     errorHeader: '',
     fetchingPlayerStats: false,
+    isFetchingPlayersForTeam: false,
     maxGameWeek: null,
     playerStats: {},
     successMessage: '',
@@ -420,6 +436,7 @@ EditPlayer.propTypes = {
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired,
+    isFetchingPlayersForTeam: PropTypes.bool,
     maxGameWeek: PropTypes.number,
     playerStats: PropTypes.shape({
         fetching: PropTypes.bool,
@@ -454,6 +471,7 @@ const mapStateToProps = state => ({
     errorMessage: state.admin.errorMessage,
     errorCode: state.admin.errorCode,
     errorHeader: state.admin.errorHeader,
+    isFetchingPlayersForTeam: state.admin.isFetchingPlayersForTeam,
     fetchingPlayerStats: state.admin.fetchingPlayerStats,
     maxGameWeek: state.overview.maxGameWeek,
     playerStats: state.admin.playerStats,

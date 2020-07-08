@@ -4,6 +4,7 @@
   margin: $spacing-medium;
   padding: $spacing-small;
   @include light-box-shadow();
+  border-radius: $spacing-small;
 
   .weekStatsHeader{
     text-align: center;
@@ -35,4 +36,11 @@
   padding: $spacing-small;
   @include light-box-shadow();
   @include vertical-center-div();
+}
+
+@media only screen and (max-width: 600px) { 
+    .weekStatsWrapper {
+      margin-left: 0px;
+      margin-right: 0px;
+    }
 }

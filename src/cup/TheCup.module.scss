@@ -1,0 +1,90 @@
+@import "../common/Styles.scss";
+
+.cupWrapper {
+    margin-bottom: 150px;
+  }
+
+  .cupDescription {
+    padding: $spacing-medium;
+    padding-bottom: 0px;
+    background-color: $color-white;
+    margin: $spacing-medium;
+    @include light-box-shadow();    
+  }
+
+  .cupWinner {
+    padding: $spacing-medium;
+    background-color: $color-white;
+    margin: $spacing-medium;
+    @include light-box-shadow();
+    text-align: center;
+    font-size: $font-size-large;
+    color: $color-blue;
+  }
+
+  .cupWinnerWrapper {    
+    font-size: $font-size-large;
+    text-align: center;
+    color: $color-green;
+    font-weight: bold;
+    justify-content: center;
+    width: 50%;
+}
+
+.cupWinnerValue {
+    color: $color-blue;
+    margin-left: 4px;
+}
+
+  .infoWrapper {
+    display: flex;
+    justify-content: space-evenly;
+    font-weight: bold;
+    color: $color-blue;
+    padding: $spacing-medium;
+    padding-bottom: $spacing-small;
+    padding-top: 0px;
+  }
+
+  .cupHeader {
+    text-align: center;
+    font-weight: bold;
+    font-size: $font-size-large;
+  }
+
+  .trophy {
+    margin-right: $spacing-small;
+    color: $color-trophy;
+  }
+  
+  @media only screen and (max-width: 600px) {
+    .cupWrapper {
+      margin-bottom: 150px;
+    }
+
+    .cupDescription {
+      padding: $spacing-tiny;
+    }
+
+    .infoWrapper {
+      display: block;
+      padding: $spacing-small;
+    }
+
+    .cupWinnerWrapper {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .cupInfo {
+      padding-left: $spacing-average;
+
+      > li {
+        padding: $spacing-tiny;
+      }
+    }
+  }
+
+  .loadingSpinner {
+      text-align: center;
+  }

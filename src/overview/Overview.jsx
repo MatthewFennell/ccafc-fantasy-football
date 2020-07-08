@@ -1,6 +1,8 @@
 import React, { useEffect, useCallback } from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Media from 'react-media';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import defaultStyles from './Overview.module.scss';
@@ -10,6 +12,9 @@ import {
 import * as selectors from './selectors';
 import Spinner from '../common/spinner/Spinner';
 import { generateOverviewRoute } from '../helperFunctions';
+import * as constants from '../constants';
+import RulesAndSettings from './RulesAndSettings';
+import FadingCollapsable from '../common/fadingCollapsable/FadingCollapsable';
 
 const Overview = props => {
     useEffect(() => {
@@ -51,6 +56,14 @@ const Overview = props => {
         }
     }, [props.currentGameWeek, props.maxGameWeek, props.history, props.userId]);
 
+    const onHighestPointClick = useCallback(() => {
+        props.history.push(`${constants.URL.POINTS}/${props.highestPoints.userId}/${props.currentGameWeek}`);
+    }, [props.highestPoints.userId, props.currentGameWeek, props.history]);
+
+    const onyMyPointsClick = useCallback(() => {
+        props.history.push(`${constants.URL.POINTS}/${props.auth.uid}/${props.currentGameWeek}`);
+    }, [props.auth.uid, props.currentGameWeek, props.history]);
+
     return (
         <div className={props.styles.overviewWrapper}>
             <div className={props.styles.pointsWrapper}>
@@ -83,17 +96,27 @@ const Overview = props => {
                         <div className={props.styles.gameweekStats}>
                             <div className={props.styles.averagePointsWrapper}>
                                 <div className={props.styles.averagePointsValue}>
-                                    {props.averagePoints}
+                                    {Math.round(props.averagePoints)}
                                 </div>
                                 <div>Average Points</div>
                             </div>
-                            <div className={props.styles.yourPointsWrapper}>
+                            <div
+                                className={props.styles.yourPointsWrapper}
+                                onClick={onyMyPointsClick}
+                                tabIndex={0}
+                                role="button"
+                            >
                                 <div className={props.styles.yourPointsValue}>
                                     {props.weekPoints}
                                 </div>
                                 <div>Your Points</div>
                             </div>
-                            <div className={props.styles.highestPointsWrapper}>
+                            <div
+                                className={props.styles.highestPointsWrapper}
+                                onClick={onHighestPointClick}
+                                tabIndex={0}
+                                role="button"
+                            >
                                 <div className={props.styles.highestPointsValue}>
                                     {props.highestPoints.points}
                                 </div>
@@ -114,25 +137,65 @@ const Overview = props => {
                         </div>
                         <div className={props.styles.remainingBudgetWrapper}>
                             <div className={props.styles.remainingBudgetValue}>
-                                {`£${props.remainingBudget} mil`}
+                                {`£${props.remainingBudget}m`}
                             </div>
                             <div>Remaining Budget</div>
                         </div>
                     </>
                 )}
             </div>
+
+            <Media queries={{
+                mobile: '(max-width: 599px)',
+                desktop: '(min-width: 600px)'
+            }}
+            >
+                {matches => (
+                    <div className={props.styles.rulesWrapper}>
+                        <FadingCollapsable
+                            title={(
+                                <div className={props.styles.rulesTitle}>
+                                    Rules and Settings
+                                </div>
+                            )}
+                        >
+                            {matches.mobile && (
+                                <div className={props.styles.desktopRulesWrapper}>
+                                    <div className={props.styles.desktopRulesHeader}>
+                                        Rules and Settings
+                                    </div>
+                                    <RulesAndSettings isTwoColumns />
+                                </div>
+                            )}
+                            {matches.desktop && (
+                                <div className={props.styles.desktopRulesWrapper}>
+                                    <div className={props.styles.desktopRulesHeader}>
+                                        Rules and Settings
+                                    </div>
+                                    <RulesAndSettings />
+                                </div>
+
+                            )}
+                        </FadingCollapsable>
+                    </div>
+                )}
+            </Media>
         </div>
     );
 };
 
 Overview.defaultProps = {
+    auth: {
+        uid: ''
+    },
     averagePoints: null,
     currentGameWeek: null,
     fetchingUserInfo: false,
     fetchingUserStats: false,
     highestPoints: {
         points: null,
-        id: null
+        id: null,
+        userId: ''
     },
     maxGameWeek: null,
     remainingBudget: null,
@@ -144,6 +207,9 @@ Overview.defaultProps = {
 };
 
 Overview.propTypes = {
+    auth: PropTypes.shape({
+        uid: PropTypes.string
+    }),
     averagePoints: PropTypes.number,
     currentGameWeek: PropTypes.number,
     fetchingUserInfo: PropTypes.bool,
@@ -153,7 +219,8 @@ Overview.propTypes = {
     fetchUserStatsRequest: PropTypes.func.isRequired,
     highestPoints: PropTypes.shape({
         id: PropTypes.string,
-        points: PropTypes.number
+        points: PropTypes.number,
+        userId: PropTypes.string
     }),
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
@@ -174,6 +241,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, props) => ({
+    auth: state.firebase.auth,
     averagePoints: selectors.getUserInfo(state, props, 'averagePoints'),
     currentGameWeek: selectors.getCurrentGameWeek(props),
     fetchingUserInfo: selectors.getUserInfo(state, props, 'fetching'),
@@ -187,6 +255,6 @@ const mapStateToProps = (state, props) => ({
     weekPoints: selectors.getUserInfo(state, props, 'weekPoints')
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Overview);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Overview));
 
 export { Overview as OverviewUnconnected };

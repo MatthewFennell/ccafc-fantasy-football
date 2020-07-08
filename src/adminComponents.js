@@ -11,3 +11,6 @@ export { default as EditPlayer } from './admin/editplayer/EditPlayer';
 export { default as ManageUsers } from './admin/manageusers/ManageUsers';
 export { default as ApproveHighlights } from './admin/highlights/ApproveHighlights';
 export { default as ManageSubs } from './admin/managesubs/ManageSubs';
+export { default as ManageBugs } from './admin/managebugs/ManageBugs';
+// eslint-disable-next-line import/no-cycle
+export { default as TogglePages } from './admin/togglepages/TogglePages';

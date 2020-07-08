@@ -21,7 +21,7 @@ const overviewReducer = (state = initialState, action) => {
             fp.set(`userStats.${action.userId}.remainingTransfers`, action.stats.remainingTransfers),
             fp.set(`userStats.${action.userId}.totalPoints`, action.stats.totalPoints),
             fp.set(`userStats.${action.userId}.fetching`, false),
-            fp.set(`userStats.${action.userId}.fetched`, true),
+            fp.set(`userStats.${action.userId}.fetched`, true)
         )(state);
     }
     case actions.FETCH_MAX_GAMEWEEK_SUCCESS: {

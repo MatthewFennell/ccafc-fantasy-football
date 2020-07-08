@@ -46,8 +46,8 @@ const Table = props => {
     } = props.stateObj;
 
     const filterPlayers = players => {
-        const notInMyTeam = players.filter(x => !props.activeTeam.some(y => y.id === x.id));
-        let byName = notInMyTeam.filter(x => x.name.includes(searchByName));
+        let byName = players.filter(x => x.name.toLowerCase()
+            .includes(searchByName.toLowerCase()));
 
         if (props.positionFilter) {
             byName = byName.filter(x => x.position === props.positionFilter);
@@ -59,7 +59,6 @@ const Table = props => {
 
         byName = byName.filter(x => x.price >= minPrice);
         byName = byName.filter(x => x.price <= maxPrice);
-
 
         if (props.sortBy === 'Name') {
             return sortListAscDescDesktop(byName, !props.isAscendingSort, 'name');
@@ -129,13 +128,13 @@ const Table = props => {
                 <Grid
                     columns={props.desktopColumns.filter(x => x.active)}
                     loading={props.fetchingAllPlayers}
-                    maxHeightGrid
                     onRowClick={props.onTransfersRequest}
                     rows={filterPlayers(props.allPlayers, searchByName).map(x => ({
                         ...x,
                         position: x.position.charAt(0) + x.position.slice(1).toLowerCase()
                     }))}
                     rowsPerPageOptions={[50]}
+                    maxHeight={550}
                 />
             </div>
         </div>
@@ -143,7 +142,6 @@ const Table = props => {
 };
 
 Table.defaultProps = {
-    activeTeam: [],
     allPlayers: [],
     allTeams: [],
     desktopColumns: [],
@@ -167,7 +165,6 @@ Table.defaultProps = {
 };
 
 Table.propTypes = {
-    activeTeam: PropTypes.arrayOf(PropTypes.shape({})),
     allPlayers: PropTypes.arrayOf(PropTypes.shape({})),
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     desktopColumns: PropTypes.arrayOf(PropTypes.shape({})),

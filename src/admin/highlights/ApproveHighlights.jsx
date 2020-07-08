@@ -171,14 +171,17 @@ const ApproveHighlights = props => {
         <>
             <div className={props.styles.approveHighlightsWrapper}>
                 <div className={props.styles.highlightInfo}>
-                Here you can approve / reject highlights. Please give a reason when rejecting.
-                You can also delete active highlights and reapprove rejected ones.
-                Rejected highlights are automatically deleted once they are at least a month old.
+                    Here you can approve / reject highlights. Please give a reason when rejecting.
+                    You can also delete active highlights and reapprove rejected ones.
+                    Rejected highlights are
+                    automatically deleted once they are at least a month old.
                 </div>
             </div>
             <div className={props.styles.highlightsWrapper}>
                 <YouTubeList
                     approversPage
+                    highlightBeingApproved={props.highlightBeingApproved}
+                    highlightBeingRejected={props.highlightBeingRejected}
                     openConfirm={id => openFancyModal(id, modalOptions.APPROVE)}
                     openReject={id => openFancyModal(id, modalOptions.REJECT)}
                     rejectHighlightRequest={props.rejectHighlightRequest}
@@ -201,7 +204,7 @@ const ApproveHighlights = props => {
             <div className={props.styles.allVideos}>
                 <div className={props.styles.approveHighlightsHeader}>
                     <div className={props.styles.highlightsHeaderMessage}>
-                    All Approved Highlights
+                        All Approved Highlights
                     </div>
                     <div className={props.styles.highlightInfoWrapper}>
                         <div className={props.styles.dateFilters}>
@@ -239,7 +242,7 @@ const ApproveHighlights = props => {
             <div className={props.styles.allRejectedVideos}>
                 <div className={props.styles.rejectedHighlightsHeader}>
                     <div className={props.styles.highlightsHeaderMessage}>
-                    All Rejected Highlights
+                        All Rejected Highlights
                     </div>
                     <div className={props.styles.highlightInfoWrapper}>
 
@@ -322,6 +325,8 @@ ApproveHighlights.defaultProps = {
     errorMessage: '',
     errorCode: '',
     errorHeader: '',
+    highlightBeingApproved: '',
+    highlightBeingRejected: '',
     highlightsForApproval: [],
     loadingRejectedHighlights: false,
     loadingHighlightsForApproval: false,
@@ -348,6 +353,8 @@ ApproveHighlights.propTypes = {
         videoId: PropTypes.string,
         id: PropTypes.string
     })),
+    highlightBeingApproved: PropTypes.string,
+    highlightBeingRejected: PropTypes.string,
     loadingVideos: PropTypes.bool,
     loadingRejectedHighlights: PropTypes.bool,
     loadingHighlightsForApproval: PropTypes.bool,
@@ -376,6 +383,8 @@ const mapStateToProps = state => ({
     errorCode: state.admin.errorCode,
     errorHeader: state.admin.errorHeader,
     highlightsForApproval: state.admin.highlightsForApproval,
+    highlightBeingApproved: state.admin.highlightBeingApproved,
+    highlightBeingRejected: state.admin.highlightBeingRejected,
     loadingVideos: state.highlights.loadingVideos,
     loadingRejectedHighlights: state.admin.loadingRejectedHighlights,
     loadingHighlightsForApproval: state.admin.loadingHighlightsForApproval,

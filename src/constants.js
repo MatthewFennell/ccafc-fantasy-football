@@ -4,6 +4,7 @@ export const URL = {
     LEAGUES: '/leagues',
     OVERVIEW: '/overview',
     PROFILE: '/profile',
+    CUP: '/cup',
     RESET_PASSWORD: '/reset-password',
     SIGN_IN: '/sign-in',
     SIGN_UP: '/sign-up',
@@ -24,9 +25,11 @@ export const URL = {
     SUBMIT_RESULT: '/submit-result',
     TRIGGER_WEEK: '/trigger-week',
     EDIT_PLAYER: '/edit-player',
-    MANAGE_USERS: '/manage-users',
     APPROVE_HIGHLIGHTS: '/approve-highlights',
-    MANAGE_SUBS: '/manage-subs'
+    MANAGE_SUBS: '/manage-subs',
+    MANAGE_BUGS: '/manage-bugs',
+    MANAGE_USERS: '/manage-users',
+    TOGGLE_PAGES: '/toggle-pages'
 };
 
 export const POSITIONS = {
@@ -76,6 +79,7 @@ export const minPerPosition = {
 
 // KEEP IN SYNC WITH SERVER
 // This is the list of all existing permissions
+// functions/constants
 export const PERMISSIONS = {
     CREATE_PLAYER: 'CREATE_PLAYER',
     DELETE_PLAYER: 'DELETE_PLAYER',
@@ -87,12 +91,17 @@ export const PERMISSIONS = {
     MANAGE_USERS: 'MANAGE_USERS',
     APPROVE_HIGHLIGHTS: 'APPROVE_HIGHLIGHTS',
     ROLL_OVER_YEAR: 'ROLL_OVER_YEAR',
-    MANAGE_SUBS: 'MANAGE_SUBS'
+    MANAGE_SUBS: 'MANAGE_SUBS',
+    MANAGE_BUGS: 'MANAGE_BUGS',
+    TOGGLE_PAGES: 'TOGGLE_PAGES',
+    SORT_LEAGUES: 'SORT_LEAGUES'
 };
 
 export const successDelay = 3500;
 export const matchLengthMinutes = 100;
 
-// Things to fix
+export const LEAGUE_INITIAL_ROWS_PER_PAGE = 20;
 
-// Cancel button focus goes blue?
+// Ideally, these two should be the same
+export const LEAGUE_INITIAL_NUMBER_OF_PAGES_TO_LOAD = 3;
+export const LEAGUE_PAGE_BUFFER = 3;

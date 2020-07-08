@@ -10,7 +10,6 @@ export const getLeaguesIAmIn = () => functionToCall('league-getLeaguesIAmIn')()
         position: league.data.position
     })));
 
-
 export const getUsersInLeague = request => functionToCall('league-orderedUsers')(request)
     .then(response => ({
         users: response.data.users.map(league => ({
@@ -26,7 +25,6 @@ export const getUsersInLeague = request => functionToCall('league-orderedUsers')
         numberOfUsers: response.data.numberOfUsers || null,
         leagueName: response.data.leagueName || null
     }));
-
 
 export const createLeague = request => functionToCall('league-createLeague')(request);
 

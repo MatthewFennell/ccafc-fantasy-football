@@ -1,5 +1,5 @@
 import {
-    all, call, takeEvery, put
+    all, call, takeEvery, put, delay, fork
 } from 'redux-saga/effects';
 import firebase from 'firebase';
 import { push } from 'connected-react-router';
@@ -23,8 +23,15 @@ export function* signOut() {
     }
 }
 
+export function* setAppLoading() {
+    yield put(actions.setLoadingApp(true));
+    yield delay(3000);
+    yield put(actions.setLoadingApp(false));
+}
+
 export function* loggingIn(api, action) {
     try {
+        yield fork(setAppLoading);
         yield put(fetchMaxGameWeekRequest());
         if (action.auth && !action.auth.emailVerified) {
             yield put(push(consts.URL.VERIFY_EMAIL));
@@ -50,6 +57,7 @@ export function* signUp(api, action) {
     try {
         yield firebase.auth().createUserWithEmailAndPassword(action.email, action.password);
         yield call(api.updateDisplayName, ({ displayName: action.displayName }));
+        yield delay(2000);
         yield firebase.auth().currentUser.sendEmailVerification(actionCodeSettings);
     } catch (error) {
         yield put(actions.signUpError(error));
@@ -84,6 +92,19 @@ export function* resendVerificationEmall() {
     }
 }
 
+export function* editDisabledPage(api, action) {
+    try {
+        yield call(api.editDisabledPages, ({
+            page: action.page,
+            isDisabled: action.isDisabled
+        }));
+    } catch (error) {
+        yield put(actions.editDisabledPageError(error));
+    } finally {
+        yield put(actions.setIsEditingPage(''));
+    }
+}
+
 export default function* authSaga() {
     yield all([
         takeEvery(actions.SIGN_OUT, signOut),
@@ -91,6 +112,7 @@ export default function* authSaga() {
         takeEvery(actions.SIGN_UP, signUp, authApi),
         takeEvery(actions.SIGN_IN, signIn),
         takeEvery(actions.SEND_PASSWORD_RESET_EMAIL, sendResetPasswordEmail),
-        takeEvery(actions.RESEND_VERIFICATION_EMAIL_REQUEST, resendVerificationEmall)
+        takeEvery(actions.RESEND_VERIFICATION_EMAIL_REQUEST, resendVerificationEmall),
+        takeEvery(actions.EDIT_DISABLED_PAGE_REQUEST, editDisabledPage, authApi)
     ]);
 }

@@ -1,0 +1,51 @@
+@import "../common/Styles.scss";
+
+.loadingSpinner {
+    margin-top: $spacing-medium;;
+    @include vertical-center-div();
+}
+
+.userInfoHeader {
+    text-align: center;
+    font-size: $font-size-large;
+    color: $color-blue;
+    font-weight: bold;
+    margin-bottom: $spacing-small;
+}
+
+.detailWrapper {
+    text-align: center;
+    justify-content: center;
+    font-size: $font-size-large;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.key {
+    font-weight: bold;
+    color: $color-dark-green;
+    margin-right: $spacing-tiny;
+    font-size: $font-size-medium;
+    @include vertical-center-div();
+}
+
+.value {
+    font-weight: bold;
+    margin-bottom: $spacing-small;
+    border-bottom: 2px solid $color-separator;
+}
+
+.spacing {
+    margin-bottom: $spacing-average;
+}
+
+.photoWrapper {
+    justify-content: center;
+    text-align: center;
+}
+
+.photo {
+    height: 80%;
+    width: 80%;
+}

@@ -50,11 +50,12 @@ export function* deleteAccount(api, action) {
             yield put(actions.deleteAccountError({ code: 'not-found', message: 'That is not your email' }));
         } else {
             yield call(api.deleteUser, { email: action.email });
-            yield put(actions.deleteAccountSuccess());
             yield put(signOut());
         }
     } catch (error) {
         yield put(actions.deleteAccountError(error));
+    } finally {
+        yield put(actions.setDeletingAccount(false));
     }
 }
 
@@ -67,6 +68,8 @@ export function* updateProfilePicture(api, action) {
         yield put(actions.updateProfilePictureSuccess(action.photoUrl, userId));
     } catch (error) {
         yield put(actions.updateProfilePictureError(error));
+    } finally {
+        yield put(actions.setPhotoUrlBeingUpdated(''));
     }
 }
 

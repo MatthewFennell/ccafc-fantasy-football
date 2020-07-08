@@ -10,11 +10,7 @@ import Table from './Table';
 import * as constants from '../../constants';
 import Modals from '../common/Modals';
 import NextFixtures from '../nextfixtures/NextFixtures';
-
-const teamsAreDifferent = (original, current) => {
-    const playersInCurrentNotInOriginal = current.filter(c => !original.some(x => x.id === c.id));
-    return playersInCurrentNotInOriginal.length > 0 && current.length === 11;
-};
+import { teamsAreDifferent } from '../helpers';
 
 const Mobile = props => {
     const teamsDiffer = teamsAreDifferent(props.originalTeam, props.currentTeam);
@@ -47,7 +43,7 @@ const Mobile = props => {
                     <div className={props.styles.transfersHeader}>
                         <div className={props.styles.remainingBudget}>
                             <div className={props.styles.remainingBudgetValue}>
-                                {`£${props.remainingBudget} mil`}
+                                {`£${props.remainingBudget}m`}
                             </div>
                         </div>
                         <div>
@@ -55,7 +51,7 @@ const Mobile = props => {
                                 color="primary"
                                 onClick={props.undoTransferChanges}
                                 text="Reset"
-                                disabled={!teamsDiffer}
+                                disabled={!teamsDiffer || props.fetchingOriginalTeam}
                             />
                         </div>
                         <div>
@@ -63,19 +59,20 @@ const Mobile = props => {
                                 color="primary"
                                 onClick={props.updateTeamRequest}
                                 text="Confirm"
-                                disabled={!teamsDiffer}
+                                disabled={!teamsDiffer || props.fetchingOriginalTeam}
                             />
                             <div className={classNames({
                                 [props.styles.saveChanges]: true,
                                 [props.styles.hidden]: !teamsDiffer
                             })}
                             >
-                            Save changes
+                                Save changes
                             </div>
                         </div>
                     </div>
                     <Pitch
-                        additionalInfo={player => `£${player.price} mil`}
+                        // additionalInfo={player => `£${player.price} mil`}
+                        additionalInfo={player => player.team}
                         activeTeam={props.currentTeam}
                         loading={props.fetchingOriginalTeam}
                         maxInPos={{

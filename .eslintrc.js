@@ -10,6 +10,7 @@ module.exports = {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },
+  parser: "babel-eslint",
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -32,6 +33,26 @@ module.exports = {
     "indent": ["error", 4],
     "react/jsx-indent": ["error", 4],
     "react/jsx-indent-props": ["error", 4],
-    "react-hooks/exhaustive-deps": "off"
-  }
+    "react-hooks/exhaustive-deps": "off",
+    "linebreak-style": ["off"]
+  },
+  "overrides": [
+    {
+      "files": ["functions/src/*"], // Or *.test.js
+      "rules": {
+        "no-console": "off",
+        "max-len": "off",
+        "no-bitwise": "off"
+      }
+    },
+    {
+      "files": ["functions/index.js"],
+      "rules": {
+        "no-unused-vars": "off",
+        "max-len": "off",
+        "no-bitwise": "off",
+        "no-console": "off",
+      }
+    }
+  ],
 };

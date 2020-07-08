@@ -41,6 +41,9 @@ describe('Navbar connected', () => {
             auth: authinitialState,
             firebase: mockfirebaseStore,
             overview: overviewinitialState,
+            transfers: {
+                currentTeam: []
+            },
             router: mockHistory
         });
 

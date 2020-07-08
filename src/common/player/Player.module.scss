@@ -5,14 +5,19 @@
   cursor: pointer;  
 }
 
+.playerWrapper:focus {
+  outline: none;
+}
+
 .playerInfoWrapper{
   color: $color-white;
-  font-size: 10px;
+  font-size: $font-size-medium;
   margin: 2px;
   display: inline-block;
 
   .nameText{
-    background-color: $color-dark-green;
+    // background-color: $color-dark-green;
+    background-color: indigo;
     padding-left: $spacing-small;
     padding-right: $spacing-small;
   }
@@ -24,8 +29,18 @@
   }
 
   .captain{
-    // background-color: $color-dark-green;
+    background-color: $color-dark-green;
     font-size: $font-size-small;
     color: yellow;
+  }
+  .notCaptain {
+    font-size: $font-size-small;
+    visibility: hidden;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .playerInfoWrapper{
+    font-size: 10px;
   }
 }

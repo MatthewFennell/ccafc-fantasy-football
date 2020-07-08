@@ -13,10 +13,10 @@ import ErrorModal from '../common/modal/ErrorModal';
 import SubmitFeature from './SubmitFeature';
 import SuccessModal from '../common/modal/SuccessModal';
 
-
 const FeatureRequest = props => {
     const [description, setDescription] = useState('');
     const [submitFeatureRequestOpen, setSubmitFeatureRequestOpen] = useState(false);
+    const [isBug, setIsBug] = useState(false);
 
     const updateDescription = useCallback(e => {
         const text = e.target.value;
@@ -36,21 +36,12 @@ const FeatureRequest = props => {
     }, [props.addReplyToCommentRequest]);
 
     const submitRequest = useCallback(() => {
-        props.submitFeatureRequest(description);
+        props.submitFeatureRequest(description, isBug);
         setDescription('');
+        setIsBug(false);
         setSubmitFeatureRequestOpen(false);
         // eslint-disable-next-line
-    }, [description, props.submitFeatureRequest, setDescription, setSubmitFeatureRequestOpen]);
-
-    const [featuresOpen, setFeaturesOpen] = useState([]);
-
-    const toggleFeature = useCallback((isOpen, id) => {
-        if (isOpen) {
-            setFeaturesOpen(_.union(featuresOpen, [id]));
-        } else {
-            setFeaturesOpen(featuresOpen.filter(x => x !== id));
-        }
-    }, [setFeaturesOpen, featuresOpen]);
+    }, [description, props.submitFeatureRequest, setDescription, setSubmitFeatureRequestOpen, isBug, setIsBug]);
 
     const deleteComment = useCallback(featureId => commentId => {
         props.deleteCommentRequest(featureId, commentId);
@@ -67,6 +58,8 @@ const FeatureRequest = props => {
             <SubmitFeature
                 closeSubmitFeature={() => setSubmitFeatureRequestOpen(false)}
                 description={description}
+                isBug={isBug}
+                setIsBug={setIsBug}
                 submitFeatureOpen={submitFeatureRequestOpen}
                 submitRequest={submitRequest}
                 updateDescription={updateDescription}
@@ -76,10 +69,11 @@ const FeatureRequest = props => {
                 addNewReply={addNewReply}
                 deleteComment={deleteComment}
                 deleteReply={deleteReply}
-                featuresOpen={featuresOpen}
-                featureRequests={_.map(props.featureRequests, (value, id) => ({ id, ...value }))}
+                featureRequests={_.map(props.featureRequests, (value, id) => ({ id, ...value }))
+                    .filter(x => !x.isBug)}
+                isAddingCommentToFeature={props.isAddingCommentToFeature}
+                isSubmittingFeature={props.isSubmittingFeature}
                 setSubmitFeatureRequestOpen={setSubmitFeatureRequestOpen}
-                toggleFeature={toggleFeature}
                 loggedInUserId={props.auth.uid}
             />
             <ErrorModal
@@ -112,6 +106,8 @@ FeatureRequest.defaultProps = {
         uid: null
     },
     featureRequests: {},
+    isAddingCommentToFeature: false,
+    isSubmittingFeature: false,
     submitFeatureRequest: noop,
     successMessage: ''
 };
@@ -134,6 +130,8 @@ FeatureRequest.propTypes = {
         description: PropTypes.string,
         userId: PropTypes.string
     })),
+    isAddingCommentToFeature: PropTypes.bool,
+    isSubmittingFeature: PropTypes.bool,
     submitFeatureRequest: PropTypes.func,
     successMessage: PropTypes.string
 };
@@ -143,7 +141,9 @@ const mapStateToProps = state => ({
     errorMessage: state.features.errorMessage,
     errorCode: state.features.errorCode,
     errorHeader: state.features.errorHeader,
+    isAddingCommentToFeature: state.features.isAddingCommentToFeature,
     featureRequests: state.firestore.data.featureRequests,
+    isSubmittingFeature: state.features.isSubmittingFeature,
     successMessage: state.features.successMessage
 });
 
@@ -164,7 +164,7 @@ export default compose(
             collection: 'feature-requests',
             storeAs: 'featureRequests'
         }
-    ]),
+    ])
 )(FeatureRequest);
 
 export { FeatureRequest as FeatureRequestUnconnected };

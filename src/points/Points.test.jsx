@@ -1,4 +1,4 @@
-
+/* eslint-disable func-names */
 import React from 'react';
 import { noop } from 'lodash';
 import { Provider } from 'react-redux';
@@ -17,6 +17,14 @@ const mockHistory = {
 };
 
 describe('Points', () => {
+    window.matchMedia = window.matchMedia || function () {
+        return {
+            matches: false,
+            addListener() {},
+            removeListener() {}
+        };
+    };
+
     it('The Points component renders without crashing', () => {
         const wrapper = shallow(<PointsUnconnected
             fetchUserPointsForWeekRequest={noop}
@@ -35,6 +43,14 @@ describe('Points connected', () => {
             points: initialState,
             history: mockHistory
         });
+
+        window.matchMedia = window.matchMedia || function () {
+            return {
+                matches: false,
+                addListener() {},
+                removeListener() {}
+            };
+        };
 
         const wrapper = mount(
             <Provider store={mockStoreInitialized}>

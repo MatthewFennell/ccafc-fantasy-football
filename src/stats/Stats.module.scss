@@ -1,17 +1,26 @@
 @import "../common/Styles.scss";
 
 .statsWrapper{
+  margin: $spacing-average;
   .statsHeader{
-    margin: $spacing-medium;
-    padding: $spacing-small;
-    @include light-box-shadow();
+    color: $color-black;
+    padding: $spacing-average;
     display: flex;
-
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: $color-white;
+    
     .dropdownWrapper{
       justify-content: center;
       width: 100%;
       text-align: center;
       display: flex;
+    }
+
+    .toggleWrapper {
+      padding-left: $spacing-average;
+      padding-right: $spacing-average;
     }
 
     .editFiltersWrapper{
@@ -43,5 +52,28 @@
 @media only screen and (max-width: 600px) {
   .statsHeader {
       margin: 0px !important;
+      flex-wrap: wrap; 
+      padding-top: 0px !important;
+      justify-content: center;
   }  
+
+  .toggleWrapper {
+    padding-top: $spacing-tiny;
+    padding-bottom: $spacing-tiny;
+    display: flex;
+    justify-content: center;
+  }
+
+  .combineWeeksText {
+    @include vertical-center-div();
+  }
+
+  .dropdownWrapper {
+    display: block !important;
+  }
+
+  .editFiltersWrapper {
+    margin-top: 0px;
+    padding-top: $spacing-tiny;
+  }
 }

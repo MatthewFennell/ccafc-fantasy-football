@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 const common = require('./common');
@@ -108,7 +107,6 @@ exports.rollOverToNextYear = functions
             });
         });
     }));
-
 
 // Deletes all users who have an empty active team
 exports.deleteAllOldUsers = functions

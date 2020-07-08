@@ -1,0 +1,31 @@
+@import "../Styles.scss";
+
+.collapsableWrapper {
+    position: relative;
+    @include light-box-shadow();
+    margin-top: $spacing-average;
+}
+
+.sideMargins {
+    margin-left: $spacing-small;
+    margin-right: $spacing-small;
+}
+
+.bigSideMargins {
+    margin-left: $spacing-medium;
+    margin-right: $spacing-medium;
+}
+
+.icon {
+    position: absolute;
+    right: $spacing-tiny;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+    .noPhoneMargin {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+}

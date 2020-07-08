@@ -18,6 +18,9 @@ export function* fetchActiveTeam(forced, api, action) {
         }
     } catch (error) {
         yield put(actions.fetchActiveTeamError(error));
+    } finally {
+        yield put(actions.setUpdatingCaptain(false));
+        yield put(actions.setPlayerModalOpen(false));
     }
 }
 

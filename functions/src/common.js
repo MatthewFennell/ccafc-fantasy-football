@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const fp = require('lodash/fp');
@@ -76,7 +75,7 @@ module.exports.calculateDifference = (before, after) => {
             shouldUpdate('redCard', false, after.redCard),
             shouldUpdate('yellowCard', false, after.yellowCard),
             shouldUpdate('manOfTheMatch', false, after.manOfTheMatch),
-            shouldUpdate('dickOfTheDay', false, after.dickOfTheDay),
+            shouldUpdate('dickOfTheDay', false, after.dickOfTheDay)
         )({});
     }
 
@@ -90,7 +89,7 @@ module.exports.calculateDifference = (before, after) => {
         shouldUpdate('redCard', before.redCard, after.redCard),
         shouldUpdate('yellowCard', before.yellowCard, after.yellowCard),
         shouldUpdate('manOfTheMatch', before.manOfTheMatch, after.manOfTheMatch),
-        shouldUpdate('dickOfTheDay', before.dickOfTheDay, after.dickOfTheDay),
+        shouldUpdate('dickOfTheDay', before.dickOfTheDay, after.dickOfTheDay)
     )({});
 };
 
@@ -155,7 +154,7 @@ module.exports.calculatePointDifference = (diff, position) => {
         x => x + redCardPoints(diff.redCard),
         x => x + manOfTheMatchPoints(diff.manOfTheMatch),
         x => x + yellowCardPoints(diff.yellowCard),
-        x => x + dickOfTheDayPoints(diff.dickOfTheDay),
+        x => x + dickOfTheDayPoints(diff.dickOfTheDay)
     )(0);
 };
 

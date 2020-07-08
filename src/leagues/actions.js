@@ -68,7 +68,6 @@ export const alreadyFetchedUsersInLeague = leagueId => ({
     leagueId
 });
 
-
 export const fetchUsersInLeagueRequest = (
     leagueId, maxGameWeek, requestedSize, pageNumber, rowsPerPage
 ) => ({

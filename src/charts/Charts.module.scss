@@ -1,6 +1,12 @@
 @import "../common/Styles.scss";
 
-.graphWrapper, .leagueTableWrapper {
-    margin: $spacing-medium;
-    @include light-box-shadow();
+.titleMessage {
+    text-align: center;
+    font-weight: bold;
+    color: $color-blue;
+    padding: $spacing-average;
+}
+
+.leagueWrapper {
+    margin-bottom: $spacing-medium;
 }

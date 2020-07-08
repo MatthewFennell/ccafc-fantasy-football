@@ -3,3 +3,23 @@
 .activeRoute{
   background-color: $color-gray !important
 }
+
+.unsavedChangesMessage {
+  font-weight: bold;
+  text-align: center;
+  color: $color-green;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.confirmButtonsWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .unsavedChangesMessage {
+    width: 100%;
+  }
+}

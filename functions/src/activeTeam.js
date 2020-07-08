@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-/* eslint-disable max-len */
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 const common = require('./common');
@@ -120,7 +119,6 @@ exports.makeCaptain = functions
             }
         );
     });
-
 
 exports.removeCaptainWhenTeamUpdated = functions.region(constants.region).firestore
     .document('active-teams/{id}')

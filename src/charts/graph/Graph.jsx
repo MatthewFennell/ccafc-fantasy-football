@@ -55,17 +55,15 @@ const Graph = props => {
     ),
     [props.fixtures]);
 
-
     return (
         <>
             <div className={props.styles.graphChoiceWrapper}>
                 <Autocompletecheckbox
-                    label="Select Teams"
                     loading={props.loadingFixtures}
                     options={uniqueTeams()}
                     onChange={setActiveTeams}
                     placeholder="Add more teams"
-                    value={activeTeams}
+                    value={_.uniqBy(activeTeams, 'id')}
                     withPadding
                 />
                 <div className={props.styles.radioWrapper}>
@@ -95,7 +93,6 @@ const Graph = props => {
                 </div>
             </div>
 
-
             {activeTeams.length > 0 ? (
                 <Chart
                     height="500px"
@@ -122,7 +119,7 @@ const Graph = props => {
                 />
             ) : (
                 <div className={props.styles.selectTeamsMessage}>
-                  Please select some teams
+                    Please select some teams
                 </div>
             )}
         </>

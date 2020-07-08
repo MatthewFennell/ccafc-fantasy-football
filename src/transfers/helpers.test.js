@@ -348,7 +348,6 @@ describe('Checking condition for whether you can add a player to current team', 
     });
 });
 
-
 describe('Rendering desktop columns', () => {
     it('Generates desktop columns', () => {
         expect(JSON.stringify(helpers.desktopColumns(() => {}, () => {}, 'styles')))

@@ -10,3 +10,17 @@
     max-width: 100%;
   }
 }
+
+.loadingWrapper {
+  margin-top: $spacing-gigantic;
+  text-align: center;
+}
+
+.loadingMessage {
+  color: $color-green;
+  font-weight: bold;
+}
+
+.fennellTag {
+  font-size: $font-size-small;
+}

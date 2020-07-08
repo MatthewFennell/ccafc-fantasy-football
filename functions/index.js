@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 const fp = require('lodash/fp');
@@ -17,25 +16,26 @@ admin.initializeApp(functions.config().firebase);
 
 const db = admin.firestore();
 
-exports.auth = require('./src/auth');
-exports.league = require('./src/leagues');
-exports.team = require('./src/teams');
-exports.player = require('./src/players');
 exports.activeTeam = require('./src/activeTeam');
-exports.weeklyTeam = require('./src/weeklyTeams');
-exports.points = require('./src/points');
-exports.users = require('./src/users');
-exports.listeners = require('./src/listeners');
-exports.onSignUp = require('./src/onSignUp');
-exports.onDelete = require('./src/onDelete');
-exports.firestore = require('./src/firestoreExports');
-exports.management = require('./src/management');
-exports.highlights = require('./src/highlights');
-exports.fixtures = require('./src/fixtures');
-exports.features = require('./src/features');
-exports.comments = require('./src/comments');
-exports.profile = require('./src/profile');
+exports.auth = require('./src/auth');
 exports.clubSubs = require('./src/clubSubs');
+exports.comments = require('./src/comments');
+exports.cup = require('./src/cup');
+exports.features = require('./src/features');
+exports.firestoreExports = require('./src/firestoreExports');
+exports.fixtures = require('./src/fixtures');
+exports.highlights = require('./src/highlights');
+exports.league = require('./src/league');
+exports.listeners = require('./src/listeners');
+exports.management = require('./src/management');
+exports.onDelete = require('./src/onDelete');
+exports.onSignUp = require('./src/onSignUp');
+exports.player = require('./src/player');
+exports.points = require('./src/points');
+exports.profile = require('./src/profile');
+exports.team = require('./src/teams');
+exports.users = require('./src/users');
+exports.weeklyTeam = require('./src/weeklyTeam');
 
 const operations = admin.firestore.FieldValue;
 // currently at v8.13.0 for node

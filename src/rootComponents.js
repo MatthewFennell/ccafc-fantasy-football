@@ -10,3 +10,4 @@ export { default as Charts } from './charts/Charts';
 export { default as Highlights } from './highlights/Highlights';
 export { default as Fixtures } from './fixtures/Fixtures';
 export { default as FeatureRequest } from './featurerequest/FeatureRequest';
+export { default as Cup } from './cup/TheCup';

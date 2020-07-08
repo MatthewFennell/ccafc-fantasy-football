@@ -19,7 +19,10 @@ export const initialState = {
     errorMessage: '',
     errorCode: '',
 
-    successMessage: ''
+    successMessage: '',
+    isSubmittingHighlight: false,
+
+    isAddingCommentToHighlight: false
 };
 
 const highlightsReducer = (state = initialState, action) => {
@@ -34,6 +37,9 @@ const highlightsReducer = (state = initialState, action) => {
     }
     case actions.FETCH_HIGHLIGHTS_REQUEST: {
         return fp.set('loadingVideos', true)(state);
+    }
+    case actions.SUBMIT_HIGHLIGHT_REQUEST: {
+        return fp.set('isSubmittingHighlight', true)(state);
     }
     case actions.UPVOTE_HIGHLIGHT_SUCCESS: {
         return {
@@ -108,16 +114,27 @@ const highlightsReducer = (state = initialState, action) => {
     case adminActions.DELETE_HIGHLIGHT_REQUEST: {
         return fp.set('loadingVideos', true)(state);
     }
+    case actions.ADD_COMMENT_TO_VIDEO_REQUEST: {
+        return fp.set('isAddingCommentToHighlight', true)(state);
+    }
+    case actions.ADD_REPLY_TO_VIDEO_REQUEST: {
+        return fp.set('isAddingCommentToHighlight', true)(state);
+    }
+    case actions.SET_ADDING_COMMENT_TO_VIDEO: {
+        return fp.set('isAddingCommentToHighlight', action.isAdding)(state);
+    }
     case actions.ADD_COMMENT_TO_VIDEO_SUCCESS: {
         return {
             ...state,
-            videos: state.videos.map(x => (x.id === action.video.id ? action.video : x))
+            videos: state.videos.map(x => (x.id === action.video.id ? action.video : x)),
+            isAddingCommentToHighlight: false
         };
     }
     case actions.ADD_REPLY_TO_VIDEO_SUCCESS: {
         return {
             ...state,
-            videos: state.videos.map(x => (x.id === action.video.id ? action.video : x))
+            videos: state.videos.map(x => (x.id === action.video.id ? action.video : x)),
+            isAddingCommentToHighlight: false
         };
     }
     case actions.DELETE_COMMENT_SUCCESS: {
@@ -180,7 +197,10 @@ const highlightsReducer = (state = initialState, action) => {
         };
     }
     case actions.SET_SUCCESS_MESSAGE: {
-        return fp.set('successMessage', action.message)(state);
+        return fp.flow(
+            fp.set('successMessage', action.message),
+            fp.set('isSubmittingHighlight', false)
+        )(state);
     }
     case actions.CLOSE_SUCCESS_MESSAGE: {
         return fp.set('successMessage', '')(state);

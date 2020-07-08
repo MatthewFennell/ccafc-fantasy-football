@@ -1,12 +1,28 @@
 import {
-    all, takeEvery, put, select, call
+    all, takeEvery, put, select, call, fork
 } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as selectors from './selectors';
 import * as pointsApi from './api';
 
+export function* getUsername(userId, api) {
+    try {
+        const alreadyFetched = yield select(selectors.alreadyFetchedUserDetails, userId);
+        if (!alreadyFetched) {
+            yield put(actions.setUserDetailsFetching(userId, true));
+            const userDetails = yield call(api.getUserInfo, ({
+                userId
+            }));
+            yield put(actions.setUserDetails(userId, userDetails));
+        }
+    } catch (error) {
+        yield put(actions.fetchUserPointsForWeekError(userId, error));
+    }
+}
+
 export function* getUserPointsForWeek(api, action) {
     try {
+        yield fork(getUsername, action.userId, api);
         const alreadyFetched = yield select(selectors.alreadyFetchedUserPoints,
             action.userId, action.week);
         if (!alreadyFetched) {

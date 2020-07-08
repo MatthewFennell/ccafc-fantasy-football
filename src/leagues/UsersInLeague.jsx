@@ -36,9 +36,6 @@ const columns = gameWeek => [
     }
 ];
 
-const INITIAL_ROWS_PER_PAGE = 2;
-const INITIAL_NUMBER_OF_PAGES_TO_LOAD = 3;
-
 const UsersInLeague = props => {
     const generateRows = rows => rows.map(row => ({
         ...row,
@@ -51,14 +48,16 @@ const UsersInLeague = props => {
     </div>
     }));
 
-    const [rowsPerPage, setRowsPerPage] = useState(INITIAL_ROWS_PER_PAGE);
+    const [rowsPerPage, setRowsPerPage] = useState(constants.LEAGUE_INITIAL_ROWS_PER_PAGE);
     const [pageNumber, setPageNumber] = useState(0);
 
     useEffect(() => {
         if (props.maxGameWeek || props.maxGameWeek === 0) {
             props.fetchUsersInLeagueRequest(props.leagueId,
                 props.maxGameWeek,
-                INITIAL_ROWS_PER_PAGE * INITIAL_NUMBER_OF_PAGES_TO_LOAD,
+                pageNumber === 0 ? constants.LEAGUE_INITIAL_ROWS_PER_PAGE
+                * constants.LEAGUE_INITIAL_NUMBER_OF_PAGES_TO_LOAD
+                    : constants.LEAGUE_INITIAL_ROWS_PER_PAGE,
                 pageNumber + 1,
                 rowsPerPage);
         }
@@ -92,7 +91,7 @@ const UsersInLeague = props => {
     }, [setPageNumber]);
 
     return (
-        <div className={props.styles.leaguesWrapper}>
+        <div className={props.styles.usersInLeagueWrapper}>
             <div className={props.styles.myLeaguesWrapper}>
                 <div className={props.styles.myLeaguesTable}>
                     <Grid
@@ -108,7 +107,7 @@ const UsersInLeague = props => {
                         onRowClick={loadUserPage}
                         renderBackButton
                         rows={generateRows(props.usersInLeague)}
-                        rowsPerPageOptions={[INITIAL_ROWS_PER_PAGE]}
+                        rowsPerPageOptions={[constants.LEAGUE_INITIAL_ROWS_PER_PAGE]}
                     />
                 </div>
             </div>
@@ -117,6 +116,7 @@ const UsersInLeague = props => {
                     color="primary"
                     onClick={() => setLeaveLeagueOpen(true)}
                     text="Leave league"
+                    disabled={props.leavingLeague}
                 />
             </div>
             <ConfirmModal

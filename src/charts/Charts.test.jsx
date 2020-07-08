@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { noop } from 'lodash';
 import { Provider } from 'react-redux';
@@ -13,11 +12,11 @@ describe('Charts', () => {
     it('The Charts component renders without crashing', () => {
         const wrapper = shallow(<ChartsUnconnected
             fetchAllTeamsRequest={noop}
+            fetchFixturesRequest={noop}
         />);
         expect(() => wrapper).not.toThrow();
     });
 });
-
 
 describe('Charts connected', () => {
     it('Connected charts', () => {
@@ -30,7 +29,7 @@ describe('Charts connected', () => {
 
         const wrapper = mount(
             <Provider store={mockStoreInitialized}>
-                <Charts />
+                <Charts fetchFixturesRequest={noop} />
             </Provider>
         );
 

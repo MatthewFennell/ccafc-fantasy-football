@@ -392,7 +392,8 @@ describe('Filtering fixtures', () => {
                     time: '12/10/2019 10:45',
                     completed: false,
                     league: 'Premiership',
-                    isCup: false
+                    isCup: false,
+                    id: 'Collingwood A vs St. Aidan\'s A-12/10/2019 10:45'
                 },
                 {
                     teamOne: 'Collingwood B',
@@ -402,7 +403,8 @@ describe('Filtering fixtures', () => {
                     time: '12/10/2019 10:45',
                     completed: false,
                     league: 'Premiership',
-                    isCup: false
+                    isCup: false,
+                    id: 'Collingwood B vs St. Aidan\'s A-12/10/2019 10:45'
                 },
                 {
                     teamOne: 'Collingwood B',
@@ -412,7 +414,8 @@ describe('Filtering fixtures', () => {
                     time: '12/10/2019 10:45',
                     completed: true,
                     league: 'League Two',
-                    isCup: false
+                    isCup: false,
+                    id: 'Collingwood B vs St. Aidan\'s A-12/10/2019 10:45'
                 }
             ]);
     });
@@ -428,7 +431,8 @@ describe('Filtering fixtures', () => {
                     time: '12/10/2019 10:45',
                     completed: true,
                     league: 'League Two',
-                    isCup: false
+                    isCup: false,
+                    id: 'Collingwood B vs St. Aidan\'s A-12/10/2019 10:45'
                 }
             ]);
     });
@@ -444,7 +448,8 @@ describe('Filtering fixtures', () => {
                     time: '12/10/2019 10:45',
                     completed: false,
                     league: 'Premiership',
-                    isCup: false
+                    isCup: false,
+                    id: 'Collingwood A vs St. Aidan\'s A-12/10/2019 10:45'
                 },
                 {
                     teamOne: 'Mildert',
@@ -454,35 +459,15 @@ describe('Filtering fixtures', () => {
                     time: '12/10/2019 10:45',
                     completed: true,
                     league: 'League Two',
-                    isCup: false
+                    isCup: false,
+                    id: 'Mildert vs Collingwood A-12/10/2019 10:45'
                 }
             ]);
     });
 
-    it('Filtering by a upcoming only removes completed matches', () => {
+    it('Filtering by a upcoming only removes completed matches in the past', () => {
         expect(helpers.filterFixtures(fixturesWithUncompletedMatches, 'All', false, true, ''))
-            .toEqual([
-                {
-                    teamOne: 'Collingwood A',
-                    result: '1 - 2',
-                    teamTwo: 'St. Aidan\'s A',
-                    location: 'Rubber Crumb 1 (Old)',
-                    time: '12/10/2019 10:45',
-                    completed: false,
-                    league: 'Premiership',
-                    isCup: false
-                },
-                {
-                    teamOne: 'Collingwood B',
-                    result: '1 - 2',
-                    teamTwo: 'St. Aidan\'s A',
-                    location: 'Rubber Crumb 1 (Old)',
-                    time: '12/10/2019 10:45',
-                    completed: false,
-                    league: 'Premiership',
-                    isCup: false
-                }
-            ]);
+            .toEqual([]);
     });
 
     it('Filtering by a search string includes both teamOne and teamTwo matches', () => {
@@ -496,7 +481,8 @@ describe('Filtering fixtures', () => {
                     time: '12/10/2019 10:45',
                     completed: false,
                     league: 'Premiership',
-                    isCup: false
+                    isCup: false,
+                    id: 'pre abcdef after vs St. Aidan\'s A-12/10/2019 10:45'
                 },
                 {
                     teamOne: 'Collingwood B',
@@ -506,7 +492,8 @@ describe('Filtering fixtures', () => {
                     time: '12/10/2019 10:45',
                     completed: true,
                     league: 'League Two',
-                    isCup: false
+                    isCup: false,
+                    id: 'Collingwood B vs abcdef and stuff-12/10/2019 10:45'
                 }
             ]);
     });

@@ -30,7 +30,6 @@ exports.createTeam = functions
         });
     }));
 
-
 exports.getAllTeams = functions
     .region(constants.region)
     .https.onCall((data, context) => {
@@ -41,7 +40,6 @@ exports.getAllTeams = functions
             .then(querySnapshot => querySnapshot.docs
                 .map(doc => ({ id: doc.id, ...doc.data() })));
     });
-
 
 exports.getPlayersInTeam = functions
     .region(constants.region)

@@ -2,12 +2,11 @@
 
 .selectTeamWrapper{
     display: flex;
-    padding: $spacing-medium;
-    margin: $spacing-medium;
-    text-align: center;
-    @include light-box-shadow();
-    background-color: $color-white;
     flex-wrap: wrap;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: $spacing-average;
     
     > * {
         flex-grow: 1;
@@ -17,10 +16,40 @@
     }
 }
 
+.myTeam {
+    font-size: $font-size-large;
+    color: $color-green;
+    font-weight: bold;
+}
+
+.detailWrapper {
+    text-align: center;
+    justify-content: center;
+    font-size: $font-size-large;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.key {
+    font-weight: bold;
+    color: $color-dark-green;
+    margin-right: $spacing-tiny;
+    font-size: $font-size-medium;
+    @include vertical-center-div();
+}
+
+.value {
+    font-weight: bold;
+    margin-bottom: $spacing-small;
+    border-bottom: 2px solid $color-separator;
+}
+
 @media only screen and (max-width: 600px) {
     .selectTeamWrapper {
         margin-top: 0px;
         margin-left: 0px;
         margin-right: 0px;
+        width: 100%;
+        display: block;
     }
 }

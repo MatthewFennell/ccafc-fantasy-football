@@ -19,6 +19,7 @@ import DehazeIcon from '@material-ui/icons/Dehaze';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import LocalCafeIcon from '@material-ui/icons/LocalCafe';
 
 import fp from 'lodash/fp';
 import * as adminComponents from './adminComponents';
@@ -83,15 +84,6 @@ export const adminLinks = [
         permissionRequired: constants.PERMISSIONS.EDIT_PLAYER
     },
     {
-        title: 'Manage Users',
-        icon: <SupervisorAccountIcon color="primary" />,
-        component: adminComponents.ManageUsers,
-        addUserId: false,
-        path: () => constants.URL.MANAGE_USERS,
-        urlIncludes: constants.URL.MANAGE_USERS,
-        permissionRequired: constants.PERMISSIONS.MANAGE_USERS
-    },
-    {
         title: 'Approve Highlights',
         icon: <VideoLabelIcon color="primary" />,
         component: adminComponents.ApproveHighlights,
@@ -108,6 +100,33 @@ export const adminLinks = [
         path: () => constants.URL.MANAGE_SUBS,
         urlIncludes: constants.URL.MANAGE_SUBS,
         permissionRequired: constants.PERMISSIONS.MANAGE_SUBS
+    },
+    {
+        title: 'Toggle Pages',
+        icon: <SupervisorAccountIcon color="primary" />,
+        component: adminComponents.TogglePages,
+        addUserId: false,
+        path: () => constants.URL.TOGGLE_PAGES,
+        urlIncludes: constants.URL.TOGGLE_PAGES,
+        permissionRequired: constants.PERMISSIONS.TOGGLE_PAGES
+    },
+    {
+        title: 'Manage Bugs',
+        icon: <SupervisorAccountIcon color="primary" />,
+        component: adminComponents.ManageBugs,
+        addUserId: false,
+        path: () => constants.URL.MANAGE_BUGS,
+        urlIncludes: constants.URL.MANAGE_BUGS,
+        permissionRequired: constants.PERMISSIONS.MANAGE_USERS /// MUST REPLACE THIS TO:DO
+    },
+    {
+        title: 'Manage Users',
+        icon: <SupervisorAccountIcon color="primary" />,
+        component: adminComponents.ManageUsers,
+        addUserId: false,
+        path: () => constants.URL.MANAGE_USERS,
+        urlIncludes: constants.URL.MANAGE_USERS,
+        permissionRequired: constants.PERMISSIONS.MANAGE_USERS
     }
 ];
 
@@ -135,7 +154,9 @@ export const signedInLinks = [
         component: rootComponents.Overview,
         addUserId: false,
         path: props => `${constants.URL.OVERVIEW}/${fp.get('userId')(props)}/${fp.get('maxGameWeek')(props)}`,
-        urlIncludes: constants.URL.OVERVIEW
+        renderPath: `${constants.URL.OVERVIEW}/:userId/:week`,
+        urlIncludes: constants.URL.OVERVIEW,
+        canToggle: false
     },
     {
         title: 'Current Team',
@@ -143,7 +164,9 @@ export const signedInLinks = [
         component: rootComponents.CurrentTeam,
         addUserId: true,
         path: props => `${constants.URL.CURRENT_TEAM}/${fp.get('userId')(props)}`,
-        urlIncludes: constants.URL.CURRENT_TEAM
+        renderPath: `${constants.URL.CURRENT_TEAM}/:userId`,
+        urlIncludes: constants.URL.CURRENT_TEAM,
+        canToggle: true
     },
     {
         title: 'Points',
@@ -151,7 +174,9 @@ export const signedInLinks = [
         component: rootComponents.Points,
         addUserId: false,
         path: props => `${constants.URL.POINTS}/${fp.get('userId')(props)}/${fp.get('maxGameWeek')(props)}`,
-        urlIncludes: constants.URL.POINTS
+        renderPath: `${constants.URL.POINTS}/:userId/:week`,
+        urlIncludes: constants.URL.POINTS,
+        canToggle: true
     },
     {
         title: 'Leagues',
@@ -159,7 +184,19 @@ export const signedInLinks = [
         component: rootComponents.Leagues,
         addUserId: false,
         path: () => constants.URL.LEAGUES,
-        urlIncludes: constants.URL.LEAGUES
+        renderPath: constants.URL.LEAGUES,
+        urlIncludes: constants.URL.LEAGUES,
+        canToggle: true
+    },
+    {
+        title: 'The Cup',
+        icon: <LocalCafeIcon color="primary" />,
+        component: rootComponents.Cup,
+        addUserId: false,
+        path: () => constants.URL.CUP,
+        renderPath: constants.URL.CUP,
+        urlIncludes: constants.URL.CUP,
+        canToggle: true
     },
     {
         title: 'Transfers',
@@ -167,7 +204,9 @@ export const signedInLinks = [
         component: rootComponents.Transfers,
         addUserId: false,
         path: () => constants.URL.TRANSFERS,
-        urlIncludes: constants.URL.TRANSFERS
+        renderPath: constants.URL.TRANSFERS,
+        urlIncludes: constants.URL.TRANSFERS,
+        canToggle: true
     },
     {
         title: 'Stats',
@@ -175,7 +214,9 @@ export const signedInLinks = [
         component: rootComponents.Stats,
         addUserId: false,
         path: props => `${constants.URL.STATS}/none/${fp.get('maxGameWeek')(props)}/${fp.get('maxGameWeek')(props)}`,
-        urlIncludes: constants.URL.STATS
+        renderPath: `${constants.URL.STATS}/:teamId/:minWeek/:maxWeek`,
+        urlIncludes: constants.URL.STATS,
+        canToggle: true
     },
     {
         title: 'Charts',
@@ -183,7 +224,9 @@ export const signedInLinks = [
         component: rootComponents.Charts,
         addUserId: false,
         path: () => constants.URL.CHARTS,
-        urlIncludes: constants.URL.CHARTS
+        renderPath: constants.URL.CHARTS,
+        urlIncludes: constants.URL.CHARTS,
+        canToggle: true
     },
     {
         title: 'Highlights',
@@ -191,7 +234,9 @@ export const signedInLinks = [
         component: rootComponents.Highlights,
         addUserId: false,
         path: () => constants.URL.HIGHLIGHTS,
-        urlIncludes: constants.URL.HIGHLIGHTS
+        renderPath: constants.URL.HIGHLIGHTS,
+        urlIncludes: constants.URL.HIGHLIGHTS,
+        canToggle: true
     },
     {
         title: 'Fixtures',
@@ -199,7 +244,9 @@ export const signedInLinks = [
         component: rootComponents.Fixtures,
         addUserId: false,
         path: () => constants.URL.FIXTURES,
-        urlIncludes: constants.URL.FIXTURES
+        renderPath: constants.URL.FIXTURES,
+        urlIncludes: constants.URL.FIXTURES,
+        canToggle: true
     },
     {
         title: 'Feature Request',
@@ -207,6 +254,8 @@ export const signedInLinks = [
         component: rootComponents.FeatureRequest,
         addUserId: false,
         path: () => constants.URL.FEATURE_REQUEST,
-        urlIncludes: constants.URL.FEATURE_REQUEST
+        renderPath: constants.URL.FEATURE_REQUEST,
+        urlIncludes: constants.URL.FEATURE_REQUEST,
+        canToggle: true
     }
 ];

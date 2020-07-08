@@ -22,11 +22,28 @@ export const initialState = {
     resendVerificationEmailErrorCode: '',
 
     permissionMappings: {},
-    allRoles: []
+    allRoles: [],
+
+    disabledPages: ['only one'],
+    loadingApp: false,
+
+    isEditingPage: ''
 };
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
+    case actions.SET_LOADING_APP: {
+        return {
+            ...state,
+            loadingApp: action.isLoadingApp
+        };
+    }
+    case actions.EDIT_DISABLED_PAGE_REQUEST: {
+        return fp.set('isEditingPage', action.page)(state);
+    }
+    case actions.SET_IS_EDITING_PAGE: {
+        return fp.set('isEditingPage', action.isEditing)(state);
+    }
     case actions.SIGN_UP_ERROR: {
         return {
             ...state,
@@ -88,7 +105,9 @@ const authReducer = (state = initialState, action) => {
             signUpError: '',
             signUpErrorCode: '',
             signInError: '',
-            signInErrorCode: ''
+            signInErrorCode: '',
+            passwordResetErrorCode: '',
+            passwordResetError: ''
         };
     }
     default:

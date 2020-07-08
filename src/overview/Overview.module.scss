@@ -60,6 +60,16 @@
       > div{
         flex-grow: 1;
       }
+      .highestPointsWrapper, .yourPointsWrapper {
+        border-radius: $spacing-medium;
+        cursor: pointer;
+      }
+      .highestPointsWrapper:hover, .yourPointsWrapper:hover {
+        background-color: $color-very-very-light-blue;
+      }
+      .highestPointsWrapper:focus{
+        outline: none;
+      }
       .averagePointsValue, .yourPointsValue, .highestPointsValue {
         font-size: $font-size-gigantic;
         color: $color-blue;
@@ -92,5 +102,47 @@
       font-size: $font-size-massive;
       color: $color-blue;
     }
+  }
+
+  .desktopRulesWrapper {
+    padding: $spacing-average;
+    justify-content: center;
+    @include light-box-shadow();
+    background-color: $color-white;
+
+    .desktopRulesHeader {     
+      color: $color-green;
+      font-weight: bold;
+      text-align: center;
+      font-size: $font-size-large;
+    }
+  }
+
+  .rulesTitle {
+    color: $color-green;
+    font-weight: bold;
+    text-align: center;
+    padding: $spacing-average;
+    font-size: $font-size-large;
+  }
+
+  .rulesWrapper {
+    margin-bottom: $spacing-gigantic;
+    padding-bottom: $spacing-medium;
+  } 
+}
+
+@media only screen and (max-width: 600px) { 
+  .gameweekPointsWrapper, .userInfoWrapper, .rulesWrapper, .pointsWrapper {
+    margin-top: $spacing-average !important;
+  }
+
+  .userInfoWrapper {
+    margin-bottom: $spacing-average !important;
+  }
+
+  .overviewWrapper {
+    margin-left: 5%;
+    margin-right: 5%;
   }
 }

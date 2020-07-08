@@ -24,14 +24,16 @@ const RenderComments = props => {
         isTopLevel, submitReply, loggedInUserId, deleteComment, deleteReply, parentId) => {
         if (hasChildren(comment)) {
             return (
-                <>
+                <React.Fragment key={`${comment.id}-${isTopLevel}${comment.date}`}>
                     <Comment
                         deleteComment={deleteComment}
                         deleteReply={deleteReply}
                         details={comment}
+                        isAddingCommentToItem={props.isAddingCommentToItem}
                         isTopLevel={isTopLevel}
                         submitReply={submitReply}
                         loggedInUserId={loggedInUserId}
+                        key={comment.id}
                     />
                     <div className={props.styles.shiftRight}>
                         {comment.comments.map(x => renderComment(
@@ -44,7 +46,7 @@ const RenderComments = props => {
                             comment.id
                         ))}
                     </div>
-                </>
+                </React.Fragment>
             );
         }
         return (
@@ -52,10 +54,12 @@ const RenderComments = props => {
                 deleteComment={deleteComment}
                 deleteReply={deleteReply}
                 details={comment}
+                isAddingCommentToItem={props.isAddingCommentToItem}
                 isTopLevel={isTopLevel}
                 submitReply={submitReply}
                 loggedInUserId={loggedInUserId}
                 parentId={parentId}
+                key={comment.id}
             />
         );
     };
@@ -64,21 +68,21 @@ const RenderComments = props => {
         .map(x => renderComment(x, true, submitReply, loggedInUserId, props.deleteComment,
             props.deleteReply, null));
 
-
     return (
         <div className={props.styles.comments}>
-                Comments
+            Comments
             <hr className={props.styles.commentsDivider} />
             <div className={props.styles.addTopLevelComment}>
                 <div className={props.styles.addNewCommentWrapper}>
                     <div className={props.styles.initialComment}>
                         <AddReply
-                            label="Add a new comment"
-                            text={newComment}
-                            setText={setNewComment}
                             cancelReply={cancelReply}
-                            submitReply={addNewComment}
+                            isAddingCommentToItem={props.isAddingCommentToItem}
+                            label="Add a new comment"
                             message="Add comment"
+                            setText={setNewComment}
+                            submitReply={addNewComment}
+                            text={newComment}
                         />
                     </div>
                 </div>
@@ -94,6 +98,7 @@ RenderComments.defaultProps = {
     comments: [],
     deleteComment: noop,
     deleteReply: noop,
+    isAddingCommentToItem: false,
     styles: defaultStyles,
     loggedInUserId: ''
 };
@@ -104,6 +109,7 @@ RenderComments.propTypes = {
     comments: PropTypes.arrayOf(PropTypes.shape({})),
     deleteComment: PropTypes.func,
     deleteReply: PropTypes.func,
+    isAddingCommentToItem: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),
     loggedInUserId: PropTypes.string
 };

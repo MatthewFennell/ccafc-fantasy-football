@@ -13,7 +13,7 @@ exports.submitFeature = functions
         common.isAuthenticated(context);
 
         const getDisplayName = id => db.collection('users').doc(id).get()
-            .then(user => user.data().displayName,);
+            .then(user => user.data().displayName);
 
         return getDisplayName(context.auth.uid)
             .then(displayName => db.collection('feature-requests')
@@ -24,6 +24,7 @@ exports.submitFeature = functions
                         }
 
                         return db.collection('feature-requests').add({
+                            isBug: data.isBug,
                             userId: context.auth.uid,
                             description: data.description,
                             dateCreated: operations.serverTimestamp(),
@@ -33,3 +34,13 @@ exports.submitFeature = functions
                     }
                 ));
     });
+
+exports.deleteFeatureRequest = functions
+    .region(constants.region)
+    .https.onCall((data, context) => common.hasPermission(context.auth.uid,
+        constants.PERMISSIONS.MANAGE_BUGS)
+        .then(() => {
+            common.isAuthenticated(context);
+
+            return db.collection('feature-requests').doc(data.featureId).delete();
+        }));
