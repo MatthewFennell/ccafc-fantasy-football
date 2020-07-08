@@ -76,7 +76,6 @@ exports.findFixtures = functions
             .then(result => result.reduce((prev, cur) => prev.concat(transformHtml(cur.data)), []));
     });
 
-
 exports.setMyTeam = functions
     .region(constants.region)
     .https.onCall((data, context) => {

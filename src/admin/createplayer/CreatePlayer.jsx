@@ -158,8 +158,6 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
     allTeams: state.admin.allTeams,
     creatingPlayer: state.admin.creatingPlayer,
-    createPlayerError: state.admin.createPlayerError,
-    createPlayerErrorCode: state.admin.createPlayerErrorCode,
     errorMessage: state.admin.errorMessage,
     errorCode: state.admin.errorCode,
     errorHeader: state.admin.errorHeader,

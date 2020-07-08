@@ -12,12 +12,13 @@ const operations = admin.firestore.FieldValue;
 
 exports.usersWithExtraRoles = functions
     .region(constants.region)
-    .https.onCall((data, context) => {
-        common.isAuthenticated(context);
-        return db.collection('users-with-roles').get().then(
-            result => result.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-        );
-    });
+    .https.onCall((data, context) => common.hasPermission(context.auth.uid, constants.PERMISSIONS.MANAGE_USERS)
+        .then(() => {
+            common.isAuthenticated(context);
+            return db.collection('users-with-roles').get().then(
+                result => result.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+            );
+        }));
 
 exports.addUserRole = functions
     .region(constants.region)
@@ -164,8 +165,8 @@ exports.clearDatabase = functions
 
 exports.editDisabledPages = functions
     .region(constants.region)
-    .https.onCall((data, context) => {
-        common.isAuthenticated(context);
+    .https.onCall((data, context) => common.hasPermission(context.auth.uid,
+        constants.PERMISSIONS.MANAGE_USERS).then(() => {
         if (!data.page) {
             throw new functions.https.HttpsError('invalid-argument', 'Invalid page');
         }
@@ -187,4 +188,4 @@ exports.editDisabledPages = functions
                 });
             }
         );
-    });
+    }));

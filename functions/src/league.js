@@ -206,9 +206,8 @@ exports.orderedUsers = functions
 // Unsure of how to permission this yet TO:DO
 exports.calculatePositions = functions
     .region(constants.region)
-    .https.onCall((data, context) => {
-        common.isAuthenticated(context);
-        return db
+    .https.onCall((data, context) => common.hasPermission(context.auth.uid, constants.PERMISSIONS.SORT_LEAGUES)
+        .then(() => db
             .collection('leagues-points')
             .get()
             .then(querySnapshot => querySnapshot.docs
@@ -255,8 +254,7 @@ exports.calculatePositions = functions
                 batches.forEach((batch, index) => batch.commit().then(() => {
                     console.log('Commited batch at index: ', index, ' for creating updating leagues positions');
                 }));
-            });
-    });
+            })));
 
 // Increase number of users in league
 exports.onUserJoinLeague = functions.region(constants.region).firestore

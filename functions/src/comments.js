@@ -47,7 +47,6 @@ exports.addComment = functions
             })));
     });
 
-
 exports.addReply = functions
     .region(constants.region)
     .https.onCall((data, context) => {
@@ -87,7 +86,6 @@ exports.addReply = functions
                 ...item.data(), id: item.id
             })));
     });
-
 
 exports.deleteComment = functions
     .region(constants.region)

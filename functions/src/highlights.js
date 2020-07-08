@@ -116,7 +116,6 @@ exports.deleteHighlight = functions
                 .then(email => db.collection('highlights-rejected').add({ ...doc.data(), rejectedBy: email, reason: data.reason })
                     .then(() => doc.ref.delete()).then(() => ({ ...doc.data(), id: doc.id }))))));
 
-
 exports.getRejectedHighlights = functions
     .region(constants.region)
     .https.onCall((data, context) => common.hasPermission(context.auth.uid,
@@ -138,7 +137,6 @@ exports.reapproveRejectedHighlight = functions
                 dateCreated: doc.data().dateCreated
             }).then(() => doc.ref.delete()
                 .then(() => ({ ...doc.data(), id: doc.id }))))));
-
 
 // Currently just set to delete ones 24 hours old
 exports.cleanupRejectedHighlights = functions.region(constants.region).pubsub
