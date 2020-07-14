@@ -3,23 +3,30 @@ const functions = require('firebase-functions');
 const common = require('./common');
 const constants = require('./constants');
 
+const operations = admin.firestore.FieldValue;
 const db = admin.firestore();
 
 exports.triggerWeeklyTeams = functions
     .region(constants.region)
     .https.onCall((data, context) => common.hasPermission(context.auth.uid,
-        constants.PERMISSIONS.TRIGGER_WEEK).then(() => db.collection('application-info').get()
-        .then(appInfo => appInfo.docs.map(doc => {
-            if (doc.data().total_weeks + 1 !== data.week) {
-                throw new functions.https.HttpsError('invalid-argument', `Invalid week. The next week should be ${doc.data().total_weeks + 1}`);
+        constants.PERMISSIONS.TRIGGER_WEEK).then(() => db.collection('application-info').doc(constants.applicationInfoId).get()
+        .then(appInfo => {
+            if (appInfo.data().total_weeks + 1 !== data.week) {
+                throw new functions.https.HttpsError('invalid-argument', `Invalid week. The next week should be ${appInfo.data().total_weeks + 1}`);
             }
             return Promise.resolve();
-        }))
+        })
         .then(() => db.collection('active-teams').get()
             .then(querySnapshot => {
-                db.collection('application-info').get().then(docs => docs.docs.map(doc => doc.ref.update({
-                    total_weeks: admin.firestore.FieldValue.increment(1)
-                })));
+                db.collection('application-info').doc(constants.applicationInfoId).get().then(doc => {
+                    if (doc.exists) {
+                        doc.ref.update({
+                            total_weeks: operations.increment(1)
+                        });
+                    } else {
+                        throw new functions.https.HttpsError('invalid-argument', 'Server Error. Something has gone terribly wrong');
+                    }
+                });
 
                 const numberOfBatches = Math.ceil(querySnapshot.docs.length / constants.maxBatchSize);
 

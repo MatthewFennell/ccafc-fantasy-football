@@ -46,6 +46,7 @@ export const REMOVE_USER_ROLE_REQUEST = `${pre}REMOVE_USER_ROLE_REQUEST`;
 export const CLEAR_DATABASE_REQUEST = `${pre}CLEAR_DATABASE_REQUEST`;
 
 export const ROLL_OVER_TO_NEXT_YEAR_REQUEST = `${pre}ROLL_OVER_TO_NEXT_YEAR_REQUEST`;
+export const SET_ROLLING_OVER_TO_NEXT_YEAR = `${pre}SET_ROLLING_OVER_TO_NEXT_YEAR`;
 
 export const DELETE_ALL_OLD_USERS_REQUEST = `${pre}DELETE_ALL_OLD_USERS_REQUEST`;
 
@@ -237,6 +238,11 @@ export const deleteAllOldUsersRequest = () => ({
 
 export const rollOverToNextYearRequest = () => ({
     type: ROLL_OVER_TO_NEXT_YEAR_REQUEST
+});
+
+export const setRollingOverToNextYear = isRollingOver => ({
+    type: SET_ROLLING_OVER_TO_NEXT_YEAR,
+    isRollingOver
 });
 
 export const clearDatabaseRequest = () => ({

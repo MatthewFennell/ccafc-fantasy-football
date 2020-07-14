@@ -30,6 +30,8 @@ exports.scheduledFirestoreExport = functions.region(constants.region).pubsub
             });
     });
 
+// Buckets saved here -- https://console.cloud.google.com/storage/browser?project=ccafc-fantasy-football-dev
+
 // database import / export - https://firebase.google.com/docs/firestore/manage-data/export-import
 // regular exports - https://firebase.google.com/docs/firestore/solutions/schedule-export
 // Remember to add the roles to the service acccount
@@ -39,7 +41,9 @@ exports.scheduledFirestoreExport = functions.region(constants.region).pubsub
 // gcloud firestore export gs://facebook-users-test-data
 
 // Run this from https://console.cloud.google.com/home/dashboard?project=ccafc-fantasy-football-dev&cloudshell=true
-// To import the test data back - gcloud firestore import gs://facebook-users-test-data/2020-06-27T11:09:03_16292/
+// To import the test data back -
+// gcloud config set project ccafc-fantasy-football-dev
+// gcloud firestore import gs://facebook-users-test-data/2020-06-27T11:09:03_16292/
 
 // Current rule - backup every day
 // After 7 days, backup is moved to nearline

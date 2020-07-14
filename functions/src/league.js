@@ -91,7 +91,7 @@ exports.leaveLeague = functions
                     throw new functions.https.HttpsError('invalid-argument', 'Server Error (somehow in the same league twice)');
                 }
                 const docToDelete = docs.docs[0];
-                if (docToDelete.data().name === 'Collingwood') {
+                if (docToDelete.data().name === constants.collingwoodLeagueName) {
                     throw new functions.https.HttpsError('invalid-argument', 'You cannot leave that league');
                 }
                 return docToDelete.ref.delete();

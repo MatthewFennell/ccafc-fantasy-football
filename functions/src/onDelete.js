@@ -56,10 +56,10 @@ exports.deleteWeeklyTeams = functions.region(constants.region).firestore
 
 exports.reduceNumberOfUsers = functions.region(constants.region).firestore
     .document('users/{id}')
-    .onDelete(() => db.collection('application-info').get().then(
+    .onDelete(() => db.collection('application-info').doc(constants.applicationInfoId).get().then(
         result => {
-            if (result.size === 1) {
-                result.docs[0].ref.update({
+            if (result.exists) {
+                result.ref.update({
                     number_of_users: operations.increment(-1)
                 });
             }
