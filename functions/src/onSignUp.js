@@ -21,7 +21,8 @@ exports.createInitialLeague = functions
                     return db.collection('leagues').doc(constants.collingwoodLeagueId).set({
                         owner: user.uid,
                         start_week: 0,
-                        name: constants.collingwoodLeagueName
+                        name: constants.collingwoodLeagueName,
+                        number_of_users: 0
                     }).then(() => db.collection('leagues-points').add({
                         league_id: constants.collingwoodLeagueId,
                         user_id: user.uid,
@@ -36,31 +37,6 @@ exports.createInitialLeague = functions
                 return Promise.resolve();
             }
         );
-
-        // if (query.size === 0 || (query.size === 1 && query.docs[0].data().number_of_users <= 1)) {
-        //     return db.collection('leagues').doc(constants.collingwoodLeagueId).get().then(
-        //         result => {
-        //             if (!result.exists) {
-        //                 return db.collection('leagues').doc(constants.collingwoodLeagueId).set({
-        //                     owner: user.uid,
-        //                     start_week: 0,
-        //                     name: constants.collingwoodLeagueName
-        //                 }).then(docRef => db.collection('leagues-points').add({
-        //                     league_id: docRef.id,
-        //                     user_id: user.uid,
-        //                     start_week: 0,
-        //                     name: constants.collingwoodLeagueName,
-        //                     user_points: 0,
-        //                     username: user.displayName,
-        //                     position: 1,
-        //                     teamName: 'Default Team Name'
-        //                 }));
-        //             }
-        //             return Promise.resolve();
-        //         }
-        //     );
-        // }
-        // return Promise.resolve();
     }));
 
 exports.joinInitialLeague = functions

@@ -43,7 +43,7 @@ exports.scheduledFirestoreExport = functions.region(constants.region).pubsub
 // Run this from https://console.cloud.google.com/home/dashboard?project=ccafc-fantasy-football-dev&cloudshell=true
 // To import the test data back -
 // gcloud config set project ccafc-fantasy-football-dev
-// gcloud firestore import gs://facebook-users-test-data/2020-06-27T11:09:03_16292/
+// gcloud firestore import gs://facebook-users-test-data/2020-07-15T18:00:00_24068/
 
 // Current rule - backup every day
 // After 7 days, backup is moved to nearline

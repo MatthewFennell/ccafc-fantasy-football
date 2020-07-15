@@ -33,8 +33,7 @@ exports.userInfoForWeek = functions
                         average_points: 0,
                         highest_points: {
                             points: 0,
-                            id: null,
-                            userId: null
+                            userId: context.auth.uid
                         }
                     };
                 }

@@ -147,6 +147,7 @@ exports.joinLeague = functions
         );
     });
 
+const maximumRequestSize = 100;
 exports.orderedUsers = functions
     .region(constants.region)
     .https.onCall((data, context) => {
@@ -180,7 +181,7 @@ exports.orderedUsers = functions
                 .collection('leagues-points')
                 .where('league_id', '==', data.leagueId)
                 .orderBy('position', 'asc')
-                .limit(Math.min(20, data.requestedSize))).then(result => db.collection('leagues').doc(data.leagueId).get().then(
+                .limit(Math.min(maximumRequestSize, data.requestedSize))).then(result => db.collection('leagues').doc(data.leagueId).get().then(
                 league => ({
                     users: result,
                     numberOfUsers: league.data().number_of_users,
