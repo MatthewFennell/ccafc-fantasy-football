@@ -4,6 +4,7 @@ import {
 import * as actions from './actions';
 import * as chartsApi from './api';
 import * as selectors from './selectors';
+import { setErrorMessage } from '../errorHandling/actions';
 
 export function* fetchAllTeams(api) {
     try {
@@ -15,7 +16,8 @@ export function* fetchAllTeams(api) {
             yield put(actions.alreadyFetchedTeams());
         }
     } catch (error) {
-        yield put(actions.fetchAllTeamsError(error));
+        yield put(actions.stopFetchingAllTeams());
+        yield put(setErrorMessage('Fetch All Teams Error', error));
     }
 }
 

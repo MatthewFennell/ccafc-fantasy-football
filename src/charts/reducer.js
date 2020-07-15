@@ -18,7 +18,7 @@ const chartsReducer = (state = initialState, action) => {
             fetchingAllTeams: false
         };
     }
-    case actions.FETCH_ALL_TEAMS_ERROR: {
+    case actions.STOP_FETCHING_ALL_TEAMS: {
         return fp.set('fetchingAllTeams', false)(state);
     }
     case actions.ALREADY_FETCHED_TEANS: {
