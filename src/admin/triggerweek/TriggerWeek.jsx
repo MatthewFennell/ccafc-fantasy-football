@@ -56,7 +56,8 @@ const TriggerWeek = props => {
                         disabled={props.isRecalculatingLeaguePositions}
                     />
                     <div className={props.styles.recalculateInfo}>
-                        Please do this only after submitting results for all teams - expensive operation
+                        Please do this only after submitting results
+                        for all teams - expensive operation
                     </div>
                 </div>
                 <ErrorModal

@@ -29,7 +29,7 @@ const transfersReducer = (state = initialState, action) => {
     case overviewActions.FETCH_USER_STATS_REQUEST: {
         return fp.set('fetchingUserStats', true)(state);
     }
-    case overviewActions.FETCH_USER_STATS_ERROR: {
+    case overviewActions.CANCEL_FETCHING_USER_STATS: {
         return fp.set('fetchingUserStats', false)(state);
     }
     case overviewActions.FETCH_USER_STATS_SUCCESS: {
