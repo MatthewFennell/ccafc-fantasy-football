@@ -5,6 +5,7 @@ import * as actions from './actions';
 import * as fixturesApi from './api';
 import { successDelay } from '../constants';
 import * as selectors from './selectors';
+import { setErrorMessage } from '../errorHandling/actions';
 
 export function* fetchFixtures(api) {
     try {
@@ -16,7 +17,8 @@ export function* fetchFixtures(api) {
             yield put(actions.alreadyFetchedFixtures());
         }
     } catch (error) {
-        yield put(actions.setFixturesError(error, 'Error Fetching Fixtures'));
+        yield put(setErrorMessage('Error Fetching Fixtures', error));
+        yield put(actions.cancelFetchingFixturesAndTeam());
     }
 }
 
@@ -28,7 +30,8 @@ export function* setMyTeam(api, action) {
         yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
     } catch (error) {
-        yield put(actions.setFixturesError(error, 'Error Setting Team'));
+        yield put(setErrorMessage('Error Setting Team', error));
+        yield put(actions.cancelLoadingMyTeam());
     }
 }
 
@@ -37,7 +40,8 @@ export function* fetchMyTeam(api) {
         const myTeam = yield call(api.fetchMyTeam);
         yield put(actions.setMyTeam(myTeam));
     } catch (error) {
-        yield put(actions.setFixturesError(error, 'Error Fetching Team'));
+        yield put(setErrorMessage('Error Fetching Team', error));
+        yield put(actions.cancelFetchingFixturesAndTeam());
     }
 }
 

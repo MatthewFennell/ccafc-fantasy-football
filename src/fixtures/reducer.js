@@ -7,10 +7,6 @@ export const initialState = {
     loadingMyTeam: false,
     myTeam: '',
 
-    errorHeader: '',
-    errorMessage: '',
-    errorCode: '',
-
     successMessage: ''
 };
 
@@ -29,9 +25,6 @@ const fixturesReducer = (state = initialState, action) => {
     case actions.ALREADY_FETCHED_FIXTURES: {
         return fp.set('loadingFixtures', false)(state);
     }
-    case actions.FETCH_FIXTURES_ERROR: {
-        return fp.set('loadingFixtures', false)(state);
-    }
     case actions.SET_MY_TEAM: {
         return {
             ...state,
@@ -42,28 +35,17 @@ const fixturesReducer = (state = initialState, action) => {
     case actions.FETCH_MY_TEAM_REQUEST: {
         return fp.set('loadingMyTeam', true)(state);
     }
-    case actions.SET_MY_TEAM_ERROR: {
+    case actions.CANCEL_LOADING_MY_TEAM: {
         return fp.set('loadingMyTeam', false)(state);
     }
     case actions.SET_MY_TEAM_REQUEST: {
         return fp.set('loadingMyTeam', true)(state);
     }
-    case actions.SET_FIXTURES_ERROR: {
+    case actions.CANCEL_FETCHING_FIXTURES_AND_TEAM: {
         return {
             ...state,
-            errorMessage: action.error.message,
-            errorCode: action.error.code,
-            errorHeader: action.header,
             loadingFixtures: false,
             loadingMyTeam: false
-        };
-    }
-    case actions.CLOSE_FIXTURES_ERROR: {
-        return {
-            ...state,
-            errorMessage: '',
-            errorCode: '',
-            errorHeader: ''
         };
     }
     case actions.SET_SUCCESS_MESSAGE: {
