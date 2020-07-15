@@ -8,13 +8,12 @@ import defaultStyles from './SubmitResult.module.scss';
 import {
     fetchTeamsRequest, fetchPlayersForTeamRequest, submitResultRequest,
     submitExtraStatsRequest, closeSuccessMessage,
-    closeAdminError, submitCustumResults
+    submitCustumResults
 } from '../actions';
 import Dropdown from '../../common/dropdown/Dropdown';
 import { isDefensive } from '../../helperFunctions';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
-import ErrorModal from '../../common/modal/ErrorModal';
 import SuccessModal from '../../common/modal/SuccessModal';
 import ExtraStats from './ExtraStats';
 import TextInput from '../../common/TextInput/TextInput';
@@ -264,13 +263,6 @@ const SubmitResult = props => {
                         </div>
                     </div>
                 </LoadingDiv>
-                <ErrorModal
-                    closeModal={props.closeAdminError}
-                    headerMessage={props.errorHeader}
-                    isOpen={props.errorMessage.length > 0}
-                    errorCode={props.errorCode}
-                    errorMessage={props.errorMessage}
-                />
                 <div className={classNames({
                     [props.styles.hidden]: !props.submittingResult
                 })}
@@ -302,9 +294,6 @@ const SubmitResult = props => {
 
 SubmitResult.defaultProps = {
     allTeams: [],
-    errorMessage: '',
-    errorCode: '',
-    errorHeader: '',
     isFetchingTeams: false,
     isFetchingPlayersForTeam: false,
     maxGameWeek: null,
@@ -314,11 +303,7 @@ SubmitResult.defaultProps = {
 
 SubmitResult.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
-    closeAdminError: PropTypes.func.isRequired,
     closeSuccessMessage: PropTypes.func.isRequired,
-    errorMessage: PropTypes.string,
-    errorCode: PropTypes.string,
-    errorHeader: PropTypes.string,
     fetchTeamsRequest: PropTypes.func.isRequired,
     fetchPlayersForTeamRequest: PropTypes.func.isRequired,
     fetchMaxGameWeekRequest: PropTypes.func.isRequired,
@@ -336,7 +321,6 @@ SubmitResult.propTypes = {
 };
 
 const mapDispatchToProps = {
-    closeAdminError,
     closeSuccessMessage,
     fetchTeamsRequest,
     fetchPlayersForTeamRequest,
@@ -348,9 +332,6 @@ const mapDispatchToProps = {
 
 const mapStateToprops = state => ({
     allTeams: state.admin.allTeams,
-    errorMessage: state.admin.errorMessage,
-    errorCode: state.admin.errorCode,
-    errorHeader: state.admin.errorHeader,
     isFetchingTeams: state.admin.isFetchingTeams,
     isFetchingPlayersForTeam: state.admin.isFetchingPlayersForTeam,
     maxGameWeek: state.overview.maxGameWeek,

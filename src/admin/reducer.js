@@ -1,5 +1,6 @@
 import fp from 'lodash/fp';
 import * as actions from './actions';
+import * as errorHandlingActions from '../errorHandling/actions';
 
 export const initialState = {
     allTeams: [],
@@ -255,20 +256,9 @@ const adminReducer = (state = initialState, action) => {
     case actions.CLOSE_SUCCESS_MESSAGE: {
         return fp.set('successMessage', '')(state);
     }
-    case actions.SET_ADMIN_ERROR: {
+    case errorHandlingActions.CLOSE_ERROR_MESSAGE: {
         return {
             ...state,
-            errorMessage: action.error.message,
-            errorCode: action.error.code,
-            errorHeader: action.header
-        };
-    }
-    case actions.CLOSE_ADMIN_ERROR: {
-        return {
-            ...state,
-            errorMessage: '',
-            errorCode: '',
-            errorHeader: '',
             creatingPlayer: false,
             creatingTeam: false,
             deletingPlayer: false,

@@ -8,10 +8,9 @@ import defaultStyles from './DeletePlayer.module.scss';
 import Dropdown from '../../common/dropdown/Dropdown';
 import {
     fetchTeamsRequest, fetchPlayersForTeamRequest, deletePlayerRequest,
-    closeSuccessMessage, closeAdminError
+    closeSuccessMessage
 } from '../actions';
 import StyledButton from '../../common/StyledButton/StyledButton';
-import ErrorModal from '../../common/modal/ErrorModal';
 import SuccessModal from '../../common/modal/SuccessModal';
 import Spinner from '../../common/spinner/Spinner';
 
@@ -71,13 +70,6 @@ const DeletePlayer = props => {
                     </div>
 
                 </div>
-                <ErrorModal
-                    closeModal={props.closeAdminError}
-                    headerMessage={props.errorHeader}
-                    isOpen={props.errorMessage.length > 0}
-                    errorCode={props.errorCode}
-                    errorMessage={props.errorMessage}
-                />
 
                 <div className={classNames({
                     [props.styles.hidden]: !props.deletingPlayer
@@ -100,22 +92,15 @@ const DeletePlayer = props => {
 
 DeletePlayer.defaultProps = {
     allTeams: [],
-    errorMessage: '',
-    errorCode: '',
-    errorHeader: '',
     successMessage: '',
     styles: defaultStyles
 };
 
 DeletePlayer.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
-    closeAdminError: PropTypes.func.isRequired,
     closeSuccessMessage: PropTypes.func.isRequired,
     deletePlayerRequest: PropTypes.func.isRequired,
     deletingPlayer: PropTypes.bool.isRequired,
-    errorMessage: PropTypes.string,
-    errorCode: PropTypes.string,
-    errorHeader: PropTypes.string,
     fetchTeamsRequest: PropTypes.func.isRequired,
     fetchPlayersForTeamRequest: PropTypes.func.isRequired,
     styles: PropTypes.objectOf(PropTypes.string),
@@ -124,7 +109,6 @@ DeletePlayer.propTypes = {
 };
 
 const mapDispatchToProps = {
-    closeAdminError,
     closeSuccessMessage,
     deletePlayerRequest,
     fetchTeamsRequest,
@@ -134,9 +118,6 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
     allTeams: state.admin.allTeams,
     deletingPlayer: state.admin.deletingPlayer,
-    errorMessage: state.admin.errorMessage,
-    errorCode: state.admin.errorCode,
-    errorHeader: state.admin.errorHeader,
     successMessage: state.admin.successMessage,
     teamsWithPlayers: state.admin.teamsWithPlayers
 });

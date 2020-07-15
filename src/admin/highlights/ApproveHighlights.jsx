@@ -8,12 +8,11 @@ import defaultStyles from './ApproveHighlights.module.scss';
 import {
     fetchHighlightsForApprovalRequest, approveHighlightRequest, rejectHighlightRequest,
     deleteHighlightRequest, fetchAllRejectedHighlightsRequest, reapproveRejectedHighlightRequest,
-    closeSuccessMessage, closeAdminError
+    closeSuccessMessage
 } from '../actions';
 import YouTubeList from '../../common/youtubelist/YouTubeList';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import SuccessModal from '../../common/modal/SuccessModal';
-import ErrorModal from '../../common/modal/ErrorModal';
 import Spinner from '../../common/spinner/Spinner';
 import { fetchHighlightsRequest } from '../../highlights/actions';
 import Grid from '../../common/grid/Grid';
@@ -302,13 +301,6 @@ const ApproveHighlights = props => {
                     </div>
                 </div>
             </SuccessModal>
-            <ErrorModal
-                closeModal={props.closeAdminError}
-                headerMessage={props.errorHeader}
-                isOpen={props.errorMessage.length > 0}
-                errorCode={props.errorCode}
-                errorMessage={props.errorMessage}
-            />
             <SuccessModal
                 backdrop
                 closeModal={props.closeSuccessMessage}
@@ -322,9 +314,6 @@ const ApproveHighlights = props => {
 };
 
 ApproveHighlights.defaultProps = {
-    errorMessage: '',
-    errorCode: '',
-    errorHeader: '',
     highlightBeingApproved: '',
     highlightBeingRejected: '',
     highlightsForApproval: [],
@@ -339,12 +328,8 @@ ApproveHighlights.defaultProps = {
 
 ApproveHighlights.propTypes = {
     approveHighlightRequest: PropTypes.func.isRequired,
-    closeAdminError: PropTypes.func.isRequired,
     closeSuccessMessage: PropTypes.func.isRequired,
     deleteHighlightRequest: PropTypes.func.isRequired,
-    errorMessage: PropTypes.string,
-    errorCode: PropTypes.string,
-    errorHeader: PropTypes.string,
     fetchAllRejectedHighlightsRequest: PropTypes.func.isRequired,
     fetchHighlightsRequest: PropTypes.func.isRequired,
     fetchHighlightsForApprovalRequest: PropTypes.func.isRequired,
@@ -368,7 +353,6 @@ ApproveHighlights.propTypes = {
 
 const mapDispatchToProps = {
     approveHighlightRequest,
-    closeAdminError,
     closeSuccessMessage,
     deleteHighlightRequest,
     fetchAllRejectedHighlightsRequest,
@@ -379,9 +363,6 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-    errorMessage: state.admin.errorMessage,
-    errorCode: state.admin.errorCode,
-    errorHeader: state.admin.errorHeader,
     highlightsForApproval: state.admin.highlightsForApproval,
     highlightBeingApproved: state.admin.highlightBeingApproved,
     highlightBeingRejected: state.admin.highlightBeingRejected,
