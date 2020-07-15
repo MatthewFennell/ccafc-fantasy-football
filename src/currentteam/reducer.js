@@ -26,7 +26,7 @@ const activeTeamReducer = (state = initialState, action) => {
     case actions.SET_UPDATING_CAPTAIN: {
         return fp.set('isUpdatingCaptain', action.isUpdating)(state);
     }
-    case actions.FETCH_ACTIVE_TEAM_ERROR: {
+    case actions.CANCEL_FETCHING_ACTIVE_TEAM: {
         return fp.set(`activeTeam.${action.userId}.fetching`, false)(state);
     }
     case actions.FETCH_ACTIVE_TEAM_REQUEST: {
