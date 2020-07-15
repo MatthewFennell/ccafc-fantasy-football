@@ -40,7 +40,8 @@ export const initialState = {
     highlightBeingRejected: '',
 
     isDeletingBug: false,
-    bugIdToDelete: ''
+    bugIdToDelete: '',
+    isRollingOverToNextYear: false
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -50,6 +51,12 @@ const adminReducer = (state = initialState, action) => {
             ...state,
             allTeams: action.teams
         };
+    }
+    case actions.ROLL_OVER_TO_NEXT_YEAR_REQUEST: {
+        return fp.set('isRollingOverToNextYear', true)(state);
+    }
+    case actions.SET_ROLLING_OVER_TO_NEXT_YEAR: {
+        return fp.set('isRollingOverToNextYear', action.isRolling)(state);
     }
     case actions.SET_BUG_ID_TO_DELETE: {
         return fp.set('bugIdToDelete', action.bugId)(state);

@@ -58,6 +58,7 @@ const ManageUsers = props => {
     const [removeRoleModalOpen, setRemoveRoleModalOpen] = useState(false);
     const [email, setEmail] = useState('');
     const [role, setRole] = useState('');
+    const [isRollingOverToNextYear, setIsRollingOverToNextYear] = useState(false);
 
     const closeModal = useCallback(() => {
         setEmail('');
@@ -71,7 +72,6 @@ const ManageUsers = props => {
         closeModal();
         // eslint-disable-next-line
     }, [props.addUserRoleRequest, email, role, closeModal]);
-
 
     const removeRole = useCallback(() => {
         props.removeUserRoleRequest(email, role);
@@ -117,6 +117,13 @@ const ManageUsers = props => {
 
     const generateToggleRows = rows => rows.map(row => generateRow(row));
 
+    const rollOver = useCallback(() => {
+        props.rollOverToNextYearRequest();
+        setIsRollingOverToNextYear(false);
+
+        // eslint-disable-next-line
+    }, [setIsRollingOverToNextYear, props.rollOverToNextYearRequest])
+
     return (
         <>
             <div className={props.styles.manageUsersWrapper}>
@@ -126,7 +133,7 @@ const ManageUsers = props => {
                         gridHeader={(
                             <div className={props.styles.manageUserGridHeaderWrapper}>
                                 <div className={props.styles.gridHeaderText}>
-                            Users with extra roles
+                                    Users with extra roles
                                 </div>
                                 <div className={props.styles.addRoleButton}>
                                     <StyledButton
@@ -197,7 +204,7 @@ const ManageUsers = props => {
                         text="Clear DB"
                     />
                     <StyledButton
-                        onClick={props.rollOverToNextYearRequest}
+                        onClick={() => setIsRollingOverToNextYear(true)}
                         color="secondary"
                         text="Roll Over to Next Year"
                     />
@@ -223,6 +230,15 @@ const ManageUsers = props => {
                 headerMessage={props.successMessage}
                 toggleModal={noop}
             />
+            <ConfirmModal
+                cancel={() => setIsRollingOverToNextYear(false)}
+                closeModal={() => setIsRollingOverToNextYear(false)}
+                isButtonsDisabled={props.isRollingOverToNextYear}
+                isLoading={props.isRollingOverToNextYear}
+                isOpen={isRollingOverToNextYear || props.isRollingOverToNextYear}
+                submit={rollOver}
+                text="Roll over to next year?"
+            />
         </>
     );
 };
@@ -233,6 +249,7 @@ ManageUsers.defaultProps = {
     errorCode: '',
     errorHeader: '',
     fetchingUsersWithExtraRoles: false,
+    isRollingOverToNextYear: false,
     successMessage: '',
     styles: defaultStyles,
     usersWithExtraRoles: [],
@@ -251,6 +268,7 @@ ManageUsers.propTypes = {
     errorHeader: PropTypes.string,
     fetchingUsersWithExtraRoles: PropTypes.bool,
     fetchUsersWithExtraRolesRequest: PropTypes.func.isRequired,
+    isRollingOverToNextYear: PropTypes.bool,
     removeUserRoleRequest: PropTypes.func.isRequired,
     rollOverToNextYearRequest: PropTypes.func.isRequired,
     successMessage: PropTypes.string,
@@ -280,6 +298,7 @@ const mapStateToProps = state => ({
     errorCode: state.admin.errorCode,
     errorHeader: state.admin.errorHeader,
     fetchingUsersWithExtraRoles: state.admin.fetchingUsersWithExtraRoles,
+    isRollingOverToNextYear: state.admin.isRollingOverToNextYear,
     successMessage: state.admin.successMessage,
     usersWithExtraRoles: state.admin.usersWithExtraRoles,
     permissionMappings: state.auth.permissionMappings

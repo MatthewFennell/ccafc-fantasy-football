@@ -217,6 +217,8 @@ export function* rollOverToNextYear(api) {
         yield call(api.rollOverToNextYear);
     } catch (error) {
         yield put(actions.setAdminError(error, 'Rolling Over To Next Year Error'));
+    } finally {
+        yield put(actions.setRollingOverToNextYear(true));
     }
 }
 

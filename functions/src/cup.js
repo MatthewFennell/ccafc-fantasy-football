@@ -47,6 +47,9 @@ const generatePairingsAndByes = playerIds => {
 exports.manageCup = functions.region(constants.region).firestore
     .document('application-info/{id}')
     .onWrite(change => {
+        if (!change.after.exists) {
+            return Promise.resolve();
+        }
         const previousWeek = change.before.data().total_weeks;
         const newWeek = change.after.data().total_weeks;
 

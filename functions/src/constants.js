@@ -119,5 +119,8 @@ module.exports.leaguesForFixtures = [
 ];
 
 module.exports.cupDatabaseId = 'ccafc-cup-id';
+module.exports.collingwoodLeagueId = 'collingwood-league-id';
+module.exports.collingwoodLeagueName = 'Collingwood';
+module.exports.applicationInfoId = 'application-info-id';
 
 module.exports.cupStartingWeek = 3;

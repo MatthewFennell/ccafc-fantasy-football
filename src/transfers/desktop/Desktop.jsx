@@ -23,7 +23,7 @@ const Desktop = props => {
                                 <div className={props.styles.remainingBudgetText}>
                                     Remaining Budget
                                 </div>
-                                <div>{`£${props.remainingBudget} mil`}</div>
+                                <div>{`£${((props.remainingBudget || 0).toFixed(1))} mil`}</div>
                             </div>
                         </div>
                         <div>
