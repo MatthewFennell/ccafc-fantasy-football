@@ -2,10 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import defaultStyles from './VerifyEmail.module.scss';
-import { resendEmailVerificationRequest, closeEmailVerificationError } from './actions';
+import { resendEmailVerificationRequest } from './actions';
 import StyledButton from '../common/StyledButton/StyledButton';
 import Spinner from '../common/spinner/Spinner';
-import ErrorModal from '../common/modal/ErrorModal';
 
 const VerifyEmail = props => (
     <>
@@ -23,29 +22,17 @@ const VerifyEmail = props => (
                 </div>
             </div>
         </div>
-        <ErrorModal
-            closeModal={props.closeEmailVerificationError}
-            headerMessage="Error Resending Email Verification"
-            isOpen={props.emailError.length > 0}
-            errorCode={props.emailErrorCode}
-            errorMessage={props.emailError}
-        />
     </>
 );
 
 VerifyEmail.defaultProps = {
     email: '',
-    emailError: '',
-    emailErrorCode: '',
     sendingEmail: false,
     styles: defaultStyles
 };
 
 VerifyEmail.propTypes = {
-    closeEmailVerificationError: PropTypes.func.isRequired,
     email: PropTypes.string,
-    emailError: PropTypes.string,
-    emailErrorCode: PropTypes.string,
     resendEmailVerificationRequest: PropTypes.func.isRequired,
     sendingEmail: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string)
@@ -53,13 +40,10 @@ VerifyEmail.propTypes = {
 
 const mapStateToProps = state => ({
     email: state.firebase.auth.email,
-    emailError: state.auth.resendVerificationEmailError,
-    emailErrorCode: state.auth.resendVerificationEmailErrorCode,
     sendingEmail: state.auth.sendingEmailVerification
 });
 
 const mapDispatchToProps = {
-    closeEmailVerificationError,
     resendEmailVerificationRequest
 };
 

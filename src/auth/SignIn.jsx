@@ -7,10 +7,9 @@ import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import defaultStyles from './SignIn.module.scss';
-import { signIn, closeAuthError } from './actions';
+import { signIn } from './actions';
 import StyledButton from '../common/StyledButton/StyledButton';
 import * as constants from '../constants';
-import ErrorModal from '../common/modal/ErrorModal';
 import TextInput from '../common/TextInput/TextInput';
 import * as textInputConstants from '../common/TextInput/constants';
 
@@ -82,7 +81,7 @@ const SignIn = props => {
                             tabIndex={0}
                             onClick={redirectToPasswordReset}
                         >
-                        Forgot your password?
+                            Forgot your password?
                         </div>
                     </div>
                 </form>
@@ -91,42 +90,24 @@ const SignIn = props => {
                     firebaseAuth={firebase.auth()}
                 />
             </div>
-            <ErrorModal
-                closeModal={props.closeAuthError}
-                headerMessage="Sign In Error"
-                isOpen={props.signInErrorMessage.length > 0}
-                errorCode={props.signInErrorCode}
-                errorMessage={props.signInErrorMessage}
-            />
         </div>
     );
 };
 
 SignIn.defaultProps = {
-    signInErrorCode: '',
-    signInErrorMessage: '',
     styles: defaultStyles
 };
 
 SignIn.propTypes = {
-    closeAuthError: PropTypes.func.isRequired,
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired,
     signIn: PropTypes.func.isRequired,
-    signInErrorCode: PropTypes.string,
-    signInErrorMessage: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 
 const mapDispatchToProps = {
-    closeAuthError,
     signIn
 };
 
-const mapStateToProps = state => ({
-    signInErrorMessage: state.auth.signInError,
-    signInErrorCode: state.auth.signInErrorCode
-});
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignIn));
+export default withRouter(connect(null, mapDispatchToProps)(SignIn));
