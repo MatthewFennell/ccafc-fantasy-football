@@ -2,10 +2,6 @@ import fp from 'lodash/fp';
 import * as actions from './actions';
 
 export const initialState = {
-    errorHeader: '',
-    errorMessage: '',
-    errorCode: '',
-
     successMessage: '',
 
     isAddingCommentToFeature: false,
@@ -35,22 +31,8 @@ const featureReducer = (state = initialState, action) => {
     case actions.CLOSE_SUCCESS_MESSAGE: {
         return fp.set('successMessage', '')(state);
     }
-    case actions.FEATURE_REQUEST_ERROR: {
-        return {
-            ...state,
-            errorMessage: action.error.message,
-            errorCode: action.error.code,
-            errorHeader: action.header,
-            isAddingCommentToFeature: false
-        };
-    }
-    case actions.CLOSE_FEATURE_REQUEST_ERROR: {
-        return {
-            ...state,
-            errorMessage: '',
-            errorCode: '',
-            errorHeader: ''
-        };
+    case actions.CANCEL_ADDING_FEATURE_REQUEST: {
+        return fp.set('isAddingCommentToFeature', false)(state);
     }
     default:
         return state;

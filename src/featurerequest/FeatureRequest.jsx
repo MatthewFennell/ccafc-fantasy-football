@@ -6,10 +6,9 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import {
     addReplyToCommentRequest, submitFeatureRequest, addCommentToFeatureRequest,
-    deleteCommentRequest, deleteReplyRequest, closeFeatureRequestError, closeSuccessMessage
+    deleteCommentRequest, deleteReplyRequest, closeSuccessMessage
 } from './actions';
 import AllFeatureRequests from './AllFeatureRequests';
-import ErrorModal from '../common/modal/ErrorModal';
 import SubmitFeature from './SubmitFeature';
 import SuccessModal from '../common/modal/SuccessModal';
 
@@ -76,13 +75,6 @@ const FeatureRequest = props => {
                 setSubmitFeatureRequestOpen={setSubmitFeatureRequestOpen}
                 loggedInUserId={props.auth.uid}
             />
-            <ErrorModal
-                closeModal={props.closeFeatureRequestError}
-                headerMessage={props.errorHeader}
-                isOpen={props.errorMessage.length > 0}
-                errorCode={props.errorCode}
-                errorMessage={props.errorMessage}
-            />
             <SuccessModal
                 backdrop
                 closeModal={props.closeSuccessMessage}
@@ -97,9 +89,6 @@ const FeatureRequest = props => {
 
 FeatureRequest.defaultProps = {
     closeSuccessMessage: noop,
-    errorMessage: '',
-    errorCode: '',
-    errorHeader: '',
     addCommentToFeatureRequest: noop,
     addReplyToCommentRequest: noop,
     auth: {
@@ -114,15 +103,11 @@ FeatureRequest.defaultProps = {
 
 FeatureRequest.propTypes = {
     closeSuccessMessage: PropTypes.func,
-    errorMessage: PropTypes.string,
-    errorCode: PropTypes.string,
-    errorHeader: PropTypes.string,
     addCommentToFeatureRequest: PropTypes.func,
     addReplyToCommentRequest: PropTypes.func,
     auth: PropTypes.shape({
         uid: PropTypes.string
     }),
-    closeFeatureRequestError: PropTypes.func.isRequired,
     deleteCommentRequest: PropTypes.func.isRequired,
     deleteReplyRequest: PropTypes.func.isRequired,
     featureRequests: PropTypes.objectOf(PropTypes.shape({
@@ -138,9 +123,6 @@ FeatureRequest.propTypes = {
 
 const mapStateToProps = state => ({
     auth: state.firebase.auth,
-    errorMessage: state.features.errorMessage,
-    errorCode: state.features.errorCode,
-    errorHeader: state.features.errorHeader,
     isAddingCommentToFeature: state.features.isAddingCommentToFeature,
     featureRequests: state.firestore.data.featureRequests,
     isSubmittingFeature: state.features.isSubmittingFeature,
@@ -150,7 +132,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     addCommentToFeatureRequest,
     addReplyToCommentRequest,
-    closeFeatureRequestError,
     closeSuccessMessage,
     deleteCommentRequest,
     deleteReplyRequest,

@@ -10,24 +10,17 @@ export const SET_SUCCESS_MESSAGE = `${pre}SET_SUCCESS_MESSAGE`;
 export const CLOSE_SUCCESS_MESSAGE = `${pre}CLOSE_SUCCESS_MESSAGE`;
 
 export const SUBMIT_FEATURE_REQUEST = `${pre}SUBMIT_FEATURE_REQUEST`;
-export const FEATURE_REQUEST_ERROR = `${pre}FEATURE_REQUEST_ERROR`;
-export const CLOSE_FEATURE_REQUEST_ERROR = `${pre}CLOSE_FEATURE_REQUEST_ERROR`;
+export const CANCEL_ADDING_FEATURE_REQUEST = `${pre}CANCEL_ADDING_FEATURE_REQUEST`;
 
 export const SET_ADDING_COMMENT_TO_FEATURE = `${pre}SET_ADDING_COMMENT_TO_FEATURE`;
+
+export const cancelAddingFeatureRequest = () => ({
+    type: CANCEL_ADDING_FEATURE_REQUEST
+});
 
 export const setAddingCommentToFeature = isAdding => ({
     type: SET_ADDING_COMMENT_TO_FEATURE,
     isAdding
-});
-
-export const closeFeatureRequestError = () => ({
-    type: CLOSE_FEATURE_REQUEST_ERROR
-});
-
-export const featureRequestError = (error, header) => ({
-    type: FEATURE_REQUEST_ERROR,
-    error,
-    header
 });
 
 export const setSuccessMessage = message => ({
