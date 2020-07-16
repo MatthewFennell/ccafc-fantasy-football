@@ -18,8 +18,6 @@ export const initialState = {
     fetchingAllPlayers: false,
 
     allTeams: [],
-    transfersError: '',
-    transfersErrorCode: '',
 
     successMessage: ''
 };
@@ -69,11 +67,8 @@ const transfersReducer = (state = initialState, action) => {
     case actions.FETCH_ALL_PLAYERS_REQUEST: {
         return fp.set('fetchingAllPlayers', true)(state);
     }
-    case actions.FETCH_ALL_PLAYERS_ERROR: {
-        return {
-            ...state,
-            fetchingAllPlayers: false
-        };
+    case actions.CANCEL_FETCHING_ALL_PLAYERS: {
+        return fp.set('fetchingAllPlayers', false)(state);
     }
     // ----------------------------------------------------- \\
     case actions.FETCH_ALL_TEAMS_SUCCESS: {
@@ -93,20 +88,6 @@ const transfersReducer = (state = initialState, action) => {
             fp.set('currentTeam', newTeam),
             fp.set('remainingBudget', state.remainingBudget - action.player.price)
         )(state);
-    }
-    case actions.ADD_PLAYER_TO_CURRENT_TEAM_ERROR: {
-        return {
-            ...state,
-            transfersError: action.error.message,
-            transfersErrorCode: action.error.code
-        };
-    }
-    case actions.CLOSE_TRANSFERS_ERROR: {
-        return {
-            ...state,
-            transfersError: '',
-            transfersErrorCode: ''
-        };
     }
     case actions.UNDO_TRANSFER_CHANGES: {
         return fp.flow(
@@ -133,13 +114,8 @@ const transfersReducer = (state = initialState, action) => {
     case actions.ALREADY_FETCHED_ALL_PLAYERS: {
         return fp.set('fetchingAllPlayers', false)(state);
     }
-    case actions.UPDATE_TEAM_ERROR: {
-        return {
-            ...state,
-            transfersError: action.error.message,
-            transfersErrorCode: action.error.code,
-            fetchingOriginalTeam: false
-        };
+    case actions.CANCEL_UPDATING_TEAM: {
+        return fp.set('fetchingOriginalTeam', false)(state);
     }
     case actions.RESTORE_PLAYER_REQUEST: {
         const playerToRestore = state.allPlayers.find(x => x.id === action.playerId);

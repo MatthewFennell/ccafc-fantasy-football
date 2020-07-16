@@ -88,15 +88,12 @@ const Desktop = props => {
             <Modals
                 closeRemoveModal={props.closeRemoveModal}
                 closeRestoreModal={props.closeRestoreModal}
-                closeTransfersError={props.closeTransfersError}
                 playerToRemove={props.playerToRemove}
                 removeModalOpen={props.removeModalOpen}
                 removePlayer={props.removePlayer}
                 restoreModalOpen={props.restoreModalOpen}
                 restorePlayer={props.restorePlayer}
                 selectReplacement={props.selectReplacement}
-                transfersError={props.transfersError}
-                transfersErrorCode={props.transfersErrorCode}
             />
         </>
     );
@@ -107,7 +104,6 @@ Desktop.defaultProps = {
     allTeams: [],
     closeRemoveModal: noop,
     closeRestoreModal: noop,
-    closeTransfersError: noop,
     currentTeam: [],
     desktopColumns: [],
     originalTeam: [],
@@ -130,8 +126,6 @@ Desktop.defaultProps = {
     sortBy: '',
     stateObj: {},
     styles: defaultStyles,
-    transfersError: '',
-    transfersErrorCode: '',
     undoTransferChanges: noop,
     updateTeamRequest: noop
 };
@@ -141,7 +135,6 @@ Desktop.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
     closeRemoveModal: PropTypes.func,
     closeRestoreModal: PropTypes.func,
-    closeTransfersError: PropTypes.func,
     currentTeam: PropTypes.arrayOf(PropTypes.shape({})),
     desktopColumns: PropTypes.arrayOf(PropTypes.shape({})),
     originalTeam: PropTypes.arrayOf(PropTypes.shape({})),
@@ -180,8 +173,6 @@ Desktop.propTypes = {
     sortBy: PropTypes.string,
     stateObj: PropTypes.shape({}),
     styles: PropTypes.objectOf(PropTypes.string),
-    transfersError: PropTypes.string,
-    transfersErrorCode: PropTypes.string,
     undoTransferChanges: PropTypes.func,
     updateTeamRequest: PropTypes.func
 };
