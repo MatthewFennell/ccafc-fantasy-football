@@ -4,6 +4,7 @@ import { throwError } from 'redux-saga-test-plan/providers';
 import * as sagas from './saga';
 import * as actions from './actions';
 import * as selectors from './selectors';
+import { setErrorMessage } from '../errorHandling/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -23,18 +24,6 @@ describe('Overview saga', () => {
         }
         return next();
     };
-
-    it('already fetched user stats', () => {
-        const action = actions.fetchUserStatsRequest('userId');
-        return expectSaga(sagas.getUserStats, api, action)
-            .provide([
-                {
-                    select: alreadyFetchedUserStatsOrInfo(true)
-                }
-            ])
-            .put(actions.alreadyFetchedUserStats('userId'))
-            .run();
-    });
 
     it('getting user stats', () => {
         const action = actions.fetchUserStatsRequest('userId', 3);
@@ -56,7 +45,7 @@ describe('Overview saga', () => {
                 [matchers.call.fn(api.getUserStats), throwError(error)],
                 { select: alreadyFetchedUserStatsOrInfo(false) }
             ])
-            .put(actions.fetchUserStatsError('userId', error))
+            .put(setErrorMessage('Error Fetching User Stats', error))
             .run();
     });
 
@@ -74,19 +63,7 @@ describe('Overview saga', () => {
             .provide([
                 [matchers.call.fn(api.getMaxGameWeek), throwError(error)]
             ])
-            .put(actions.fetchMaxGameWeekError(error))
-            .run();
-    });
-
-    it('already fetched user info', () => {
-        const action = actions.fetchUserInfoForWeekRequest('userId', 3);
-        return expectSaga(sagas.getUserInfoForWeek, api, action)
-            .provide([
-                {
-                    select: alreadyFetchedUserStatsOrInfo(true)
-                }
-            ])
-            .put(actions.alreadyFetchedUserInfoForWeek('userId', 3))
+            .put(setErrorMessage('Error Fetching Gameweek', error))
             .run();
     });
 
@@ -110,7 +87,8 @@ describe('Overview saga', () => {
                 [matchers.call.fn(api.getUserInfoForWeek), throwError(error)],
                 { select: alreadyFetchedUserStatsOrInfo(false) }
             ])
-            .put(actions.fetchUserInfoForWeekError('userId', 3, error))
+            .put(setErrorMessage('Error Fetching User Info for Week', error))
+            .put(actions.cancelFetchingUserInfoForWeek('userId', 3))
             .run();
     });
 });

@@ -18,25 +18,6 @@ describe('Overview reducer', () => {
         });
     });
 
-    it('already fetched a users stats', () => {
-        const action = actions.alreadyFetchedUserStats('myUserId');
-        expect(reducer({
-            ...initialState,
-            userStats: {
-                myUserId: {
-                    fetching: true
-                }
-            }
-        }, action)).toEqual({
-            ...initialState,
-            userStats: {
-                myUserId: {
-                    fetching: false
-                }
-            }
-        });
-    });
-
     it('fetch user stats success', () => {
         const userStats = {
             remainingBudget: 100,
@@ -48,7 +29,6 @@ describe('Overview reducer', () => {
             ...initialState,
             userStats: {
                 myUserId: {
-                    fetching: false,
                     fetched: true,
                     remainingBudget: 100,
                     remainingTransfers: 5,
@@ -92,77 +72,11 @@ describe('Overview reducer', () => {
             userInfo: {
                 myUserId: {
                     'week-5': {
-                        fetching: false,
                         fetched: true,
                         weekPoints: 159,
                         averagePoints: 53,
                         highestPoints: 900
                     }
-                }
-            }
-        });
-    });
-
-    it('already fetched a users info', () => {
-        const action = actions.alreadyFetchedUserInfoForWeek('myUserId', 5);
-        expect(reducer({
-            ...initialState,
-            userInfo: {
-                myUserId: {
-                    'week-5': {
-                        fetching: true
-                    }
-                }
-            }
-        }, action)).toEqual({
-            ...initialState,
-            userInfo: {
-                myUserId: {
-                    'week-5': {
-                        fetching: false
-                    }
-                }
-            }
-        });
-    });
-
-    it('fetch user info for week error', () => {
-        const action = actions.fetchUserInfoForWeekError('myUserId', 5, null);
-        expect(reducer({
-            ...initialState,
-            userInfo: {
-                myUserId: {
-                    'week-5': {
-                        fetching: true
-                    }
-                }
-            }
-        }, action)).toEqual({
-            ...initialState,
-            userInfo: {
-                myUserId: {
-                    'week-5': {
-                        fetching: false
-                    }
-                }
-            }
-        });
-    });
-
-    it('fetch user stats error', () => {
-        const action = actions.fetchUserStatsError('myUserId', null);
-        expect(reducer({
-            ...initialState,
-            userStats: {
-                myUserId: {
-                    fetching: true
-                }
-            }
-        }, action)).toEqual({
-            ...initialState,
-            userStats: {
-                myUserId: {
-                    fetching: false
                 }
             }
         });

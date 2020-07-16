@@ -31,7 +31,7 @@ export function* getHighlights(api) {
             yield put(actions.alreadyFetchedVideos());
         }
     } catch (error) {
-        yield put(setErrorMessage('Fetching Highlight Error', error));
+        yield put(setErrorMessage('Error Fetching Highlights', error));
     }
 }
 

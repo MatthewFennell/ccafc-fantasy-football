@@ -22,18 +22,6 @@ describe('Current team reducer', () => {
         });
     });
 
-    it('fetch active team error', () => {
-        const action = actions.fetchActiveTeamError('userId', null);
-        expect(reducer(initialState, action)).toEqual({
-            ...initialState,
-            activeTeam: {
-                userId: {
-                    fetching: false
-                }
-            }
-        });
-    });
-
     it('fetch active team request', () => {
         const action = actions.fetchActiveTeamRequest('userId');
         expect(reducer(initialState, action)).toEqual({

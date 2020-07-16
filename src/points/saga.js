@@ -37,7 +37,6 @@ export function* getUserPointsForWeek(api, action) {
         }
     } catch (error) {
         yield put(setErrorMessage('Error Fetching Points For Week', error));
-        yield put(actions.fetchUserPointsForWeekError(action.userId, action.week, error));
     } finally {
         yield put(actions.cancelFetchingUserPointsForWeek(action.userId, action.week));
     }

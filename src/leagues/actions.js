@@ -43,7 +43,7 @@ export const fetchedAllUsersInLeague = leagueId => ({
 });
 
 export const cancelFetchingUsersInLeague = leagueId => ({
-    type: CANCEL_FETCHING_LEAGUES,
+    type: CANCEL_FETCHING_USERS_IN_LEAGUE,
     leagueId
 });
 

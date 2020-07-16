@@ -14,13 +14,11 @@ export function* getUserStats(api, action) {
                 userId: action.userId
             });
             yield put(actions.fetchUserStatsSuccess(action.userId, stats));
-        } else {
-            yield put(actions.alreadyFetchedUserStats(action.userId));
         }
     } catch (error) {
         yield put(setErrorMessage('Error Fetching User Stats', error));
     } finally {
-        yield put(actions.cancelFetchingUserStats());
+        yield put(actions.cancelFetchingUserStats(action.userId));
     }
 }
 
@@ -43,11 +41,10 @@ export function* getUserInfoForWeek(api, action) {
                 week: action.week
             }));
             yield put(actions.fetchUserInfoForWeekSuccess(action.userId, action.week, userInfo));
-        } else {
-            yield put(actions.alreadyFetchedUserInfoForWeek(action.userId, action.week));
         }
     } catch (error) {
         yield put(setErrorMessage('Error Fetching User Info for Week', error));
+    } finally {
         yield put(actions.cancelFetchingUserInfoForWeek(action.userId, action.week));
     }
 }

@@ -27,17 +27,6 @@ describe('Charts reducer', () => {
         });
     });
 
-    it('fetch all teams error', () => {
-        const action = actions.fetchAllTeamsError(null);
-        expect(reducer({
-            ...initialState,
-            fetchingAllTeams: true
-        }, action)).toEqual({
-            ...initialState,
-            fetchingAllTeams: false
-        });
-    });
-
     it('already fetched all teams', () => {
         const action = actions.alreadyFetchedTeams();
         expect(reducer({

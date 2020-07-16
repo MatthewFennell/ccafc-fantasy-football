@@ -4,6 +4,7 @@ import { throwError } from 'redux-saga-test-plan/providers';
 import * as sagas from './saga';
 import * as actions from './actions';
 import * as selectors from './selectors';
+import { setErrorMessage } from '../errorHandling/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -51,7 +52,7 @@ describe('Current team saga', () => {
                 [matchers.call.fn(api.getAllTeams), throwError(error)],
                 { select: alreadyFetchedInfo(false) }
             ])
-            .put(actions.fetchAllTeamsError(error))
+            .put(setErrorMessage('Fetch All Teams Error', error))
             .run();
     });
 });

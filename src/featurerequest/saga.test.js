@@ -5,6 +5,7 @@ import { noop } from 'lodash';
 import * as sagas from './saga';
 import * as actions from './actions';
 import { successDelay } from '../constants';
+import { setErrorMessage } from '../errorHandling/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -33,7 +34,7 @@ describe('Feature requests saga', () => {
             .provide([
                 [matchers.call.fn(api.addReply), throwError(error)]
             ])
-            .put(actions.featureRequestError(error, 'Reply Error'))
+            .put(setErrorMessage('Error Replying To Feature Request', error))
             .run();
     });
 
@@ -50,7 +51,7 @@ describe('Feature requests saga', () => {
             .provide([
                 [matchers.call.fn(api.addComment), throwError(error)]
             ])
-            .put(actions.featureRequestError(error, 'Comment Error'))
+            .put(setErrorMessage('Error Adding Comment To Feature Request', error))
             .run();
     });
 
@@ -71,7 +72,7 @@ describe('Feature requests saga', () => {
             .provide([
                 [matchers.call.fn(api.submitFeature), throwError(error)]
             ])
-            .put(actions.featureRequestError(error, 'Submit Feature Error'))
+            .put(setErrorMessage('Error Submitting Feature Request', error))
             .run();
     });
 
@@ -88,7 +89,7 @@ describe('Feature requests saga', () => {
             .provide([
                 [matchers.call.fn(api.deleteComment), throwError(error)]
             ])
-            .put(actions.featureRequestError(error, 'Delete Comment Error'))
+            .put(setErrorMessage('Error Deleting Comment', error))
             .run();
     });
 
@@ -105,7 +106,7 @@ describe('Feature requests saga', () => {
             .provide([
                 [matchers.call.fn(api.deleteReply), throwError(error)]
             ])
-            .put(actions.featureRequestError(error, 'Delete Reply Error'))
+            .put(setErrorMessage('Error Deleting Reply', error))
             .run();
     });
 });

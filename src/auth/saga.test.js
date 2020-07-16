@@ -9,6 +9,7 @@ import * as sagas from './saga';
 import * as consts from '../constants';
 import * as actions from './actions';
 import { fetchMaxGameWeekRequest } from '../overview/actions';
+import { setErrorMessage } from '../errorHandling/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -140,7 +141,7 @@ describe('Auth saga', () => {
             .provide([
                 [matchers.call.fn(api.getRolePermissions), throwError(error)]
             ])
-            .put(actions.signInError(error))
+            .put(setErrorMessage('Sign In Error', error))
             .run();
     });
 
@@ -157,7 +158,7 @@ describe('Auth saga', () => {
             .provide([
                 [matchers.call.fn(api.updateDisplayName), throwError(error)]
             ])
-            .put(actions.signUpError(error))
+            .put(setErrorMessage('Sign Up Error', error))
             .run();
     });
 

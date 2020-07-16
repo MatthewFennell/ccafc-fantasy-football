@@ -15,12 +15,12 @@ describe('Leagues reducer', () => {
         }, action)).toEqual({
             ...initialState,
             leagues,
-            fetchingLeagues: false
+            fetchingLeagues: true
         });
     });
 
-    it('fetch leagues error', () => {
-        const action = actions.fetchLeaguesError(null);
+    it('cancel fetching leagues', () => {
+        const action = actions.cancelFetchingLeagues();
         expect(reducer({
             ...initialState,
             fetchingLeagues: true
@@ -87,35 +87,6 @@ describe('Leagues reducer', () => {
         });
     });
 
-    it('join league error', () => {
-        const action = actions.joinLeagueError({
-            message: 'Error message',
-            code: 'Error code'
-        });
-        expect(reducer({
-            ...initialState,
-            joiningLeague: true
-        }, action)).toEqual({
-            ...initialState,
-            joiningLeague: false,
-            joinLeagueError: 'Error message',
-            joinLeagueErrorCode: 'Error code'
-        });
-    });
-
-    it('close join league error', () => {
-        const action = actions.closeJoinLeagueError();
-        expect(reducer({
-            ...initialState,
-            joinLeagueError: 'abc',
-            joinLeagueErrorCode: 'def'
-        }, action)).toEqual({
-            ...initialState,
-            joinLeagueError: '',
-            joinLeagueErrorCode: ''
-        });
-    });
-
     it('leave league success', () => {
         const leagues = ['a', 'b', 'c'];
         const action = actions.leaveLeagueSuccess(leagues);
@@ -128,23 +99,6 @@ describe('Leagues reducer', () => {
             leavingLeague: false
         });
     });
-
-    it('leave league error', () => {
-        const action = actions.leaveLeagueError({
-            message: 'Error message',
-            code: 'Error code'
-        });
-        expect(reducer({
-            ...initialState,
-            leavingLeague: true
-        }, action)).toEqual({
-            ...initialState,
-            leavingLeague: false,
-            leaveLeagueError: 'Error message',
-            leaveLeagueErrorCode: 'Error code'
-        });
-    });
-
     it('fetch users in league success', () => {
         const usersInLeague = ['a', 'b', 'c'];
         const action = actions.fetchUsersInLeagueSuccess('leagueId', usersInLeague, 3, 'leagueName');
@@ -160,7 +114,7 @@ describe('Leagues reducer', () => {
             usersInLeague: {
                 leagueId: {
                     users: usersInLeague,
-                    fetching: false,
+                    fetching: true,
                     numberOfUsers: 3,
                     leagueName: 'leagueName'
                 }
@@ -168,45 +122,22 @@ describe('Leagues reducer', () => {
         });
     });
 
-    it('create league error', () => {
-        const action = actions.createLeagueError({
-            message: 'Error message',
-            code: 'Error code'
-        });
+    it('cancel fetching users in league', () => {
+        const action = actions.cancelFetchingUsersInLeague('leagueId');
         expect(reducer({
             ...initialState,
-            creatingLeague: true
+            usersInLeague: {
+                leagueId: {
+                    fetching: true
+                }
+            }
         }, action)).toEqual({
             ...initialState,
-            creatingLeague: false,
-            createLeagueError: 'Error message',
-            createLeagueErrorCode: 'Error code'
-        });
-    });
-
-    it('close create league error', () => {
-        const action = actions.closeCreateLeagueError();
-        expect(reducer({
-            ...initialState,
-            createLeagueError: 'abc',
-            createLeagueErrorCode: 'def'
-        }, action)).toEqual({
-            ...initialState,
-            createLeagueError: '',
-            createLeagueErrorCode: ''
-        });
-    });
-
-    it('close leave league error', () => {
-        const action = actions.closeLeaveLeagueError();
-        expect(reducer({
-            ...initialState,
-            leaveLeagueError: 'abc',
-            leaveLeagueErrorCode: 'def'
-        }, action)).toEqual({
-            ...initialState,
-            leaveLeagueError: '',
-            leaveLeagueErrorCode: ''
+            usersInLeague: {
+                leagueId: {
+                    fetching: false
+                }
+            }
         });
     });
 
@@ -225,25 +156,6 @@ describe('Leagues reducer', () => {
             usersInLeague: {
                 leagueId: {
                     fetching: true
-                }
-            }
-        });
-    });
-
-    it('fetching users in league error', () => {
-        const action = actions.fetchUsersInLeagueError('leagueId', null);
-        expect(reducer({
-            ...initialState,
-            usersInLeague: {
-                leagueId: {
-                    fetching: true
-                }
-            }
-        }, action)).toEqual({
-            ...initialState,
-            usersInLeague: {
-                leagueId: {
-                    fetching: false
                 }
             }
         });

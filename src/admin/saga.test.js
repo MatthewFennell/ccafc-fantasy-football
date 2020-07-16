@@ -8,6 +8,7 @@ import * as selectors from './selectors';
 import { successDelay } from '../constants';
 import { fetchMaxGameWeekRequest } from '../overview/actions';
 import { signOut } from '../auth/actions';
+import { setErrorMessage } from '../errorHandling/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -92,7 +93,7 @@ describe('Admin saga', () => {
                 [matchers.call.fn(api.getAllTeams), throwError(error)],
                 { select: alreadyFetchedInfo(false) }
             ])
-            .put(actions.setAdminError(error, 'Fetch Teams Error'))
+            .put(setErrorMessage('Fetch Teams Error', error))
             .run();
     });
 
@@ -114,7 +115,7 @@ describe('Admin saga', () => {
             .provide([
                 [matchers.call.fn(api.createPlayer), throwError(error)]
             ])
-            .put(actions.setAdminError(error, 'Create Player Error'))
+            .put(setErrorMessage('Create Player Error', error))
             .run();
     });
 
@@ -137,7 +138,7 @@ describe('Admin saga', () => {
             .provide([
                 [matchers.call.fn(api.createTeam), throwError(error)]
             ])
-            .put(actions.setAdminError(error, 'Create Team Error'))
+            .put(setErrorMessage('Create Team Error', error))
             .run();
     });
 
@@ -173,7 +174,7 @@ describe('Admin saga', () => {
                 [matchers.call.fn(api.getPlayersInTeam), throwError(error)],
                 { select: alreadyFetchedInfo(false) }
             ])
-            .put(actions.setAdminError(error, 'Get Players for team error'))
+            .put(setErrorMessage('Get Players For Team Error', error))
             .run();
     });
 
@@ -195,7 +196,7 @@ describe('Admin saga', () => {
             .provide([
                 [matchers.call.fn(api.submitResult), throwError(error)]
             ])
-            .put(actions.setAdminError(error, 'Submit Result Error'))
+            .put(setErrorMessage('Submit Result Error', error))
             .run();
     });
 
@@ -217,7 +218,7 @@ describe('Admin saga', () => {
             .provide([
                 [matchers.call.fn(api.deletePlayer), throwError(error)]
             ])
-            .put(actions.setAdminError(error, 'Delete Player Error'))
+            .put(setErrorMessage('Delete Player Error', error))
             .run();
     });
 
@@ -240,7 +241,7 @@ describe('Admin saga', () => {
             .provide([
                 [matchers.call.fn(api.deleteTeam), throwError(error)]
             ])
-            .put(actions.setAdminError(error, 'Delete Team Error'))
+            .put(setErrorMessage('Delete Team Error', error))
             .run();
     });
 
@@ -263,7 +264,7 @@ describe('Admin saga', () => {
             .provide([
                 [matchers.call.fn(api.triggerWeeklyTeams), throwError(error)]
             ])
-            .put(actions.setAdminError(error, 'Trigger Week Error'))
+            .put(setErrorMessage('Trigger Week Error', error))
             .run();
     });
 
@@ -281,7 +282,7 @@ describe('Admin saga', () => {
             .provide([
                 [matchers.call.fn(api.getPlayerStats), throwError(error)]
             ])
-            .put(actions.setAdminError(error, 'Get Player Stats Error'))
+            .put(setErrorMessage('Get Player Stats Error', error))
             .run();
     });
 
@@ -304,7 +305,7 @@ describe('Admin saga', () => {
             .provide([
                 [matchers.call.fn(api.editStats), throwError(error)]
             ])
-            .put(actions.setAdminError(error, 'Edit Player Stats Error'))
+            .put(setErrorMessage('Edit Player Stats Error', error))
             .run();
     });
 
@@ -316,7 +317,7 @@ describe('Admin saga', () => {
                 [matchers.call.fn(api.getUsersWithExtraRoles), throwError(error)],
                 { select: alreadyFetchedInfo(false) }
             ])
-            .put(actions.setAdminError(error, 'Fetch User Roles Error'))
+            .put(setErrorMessage('Fetch User Roles Error', error))
             .run();
     });
 
@@ -355,7 +356,7 @@ describe('Admin saga', () => {
             .provide([
                 [matchers.call.fn(api.addUserRole), throwError(error)]
             ])
-            .put(actions.setAdminError(error, 'Add User Role Error'))
+            .put(setErrorMessage('Add User Role Error', error))
             .run();
     });
 
@@ -378,7 +379,7 @@ describe('Admin saga', () => {
             .provide([
                 [matchers.call.fn(api.removeUserRole), throwError(error)]
             ])
-            .put(actions.setAdminError(error, 'Remove User Role Error'))
+            .put(setErrorMessage('Remove User Role Error', error))
             .run();
     });
 
@@ -396,7 +397,7 @@ describe('Admin saga', () => {
             .provide([
                 [matchers.call.fn(api.clearDatabase), throwError(error)]
             ])
-            .put(actions.setAdminError(error, 'Clear Database Error'))
+            .put(setErrorMessage('Clear Database Error', error))
             .run();
     });
 
@@ -413,7 +414,7 @@ describe('Admin saga', () => {
             .provide([
                 [matchers.call.fn(api.rollOverToNextYear), throwError(error)]
             ])
-            .put(actions.setAdminError(error, 'Rolling Over To Next Year Error'))
+            .put(setErrorMessage('Rolling Over To Next Year Error', error))
             .run();
     });
 
@@ -430,7 +431,7 @@ describe('Admin saga', () => {
             .provide([
                 [matchers.call.fn(api.deleteAllOldUsers), throwError(error)]
             ])
-            .put(actions.setAdminError(error, 'Delete All Users Error'))
+            .put(setErrorMessage('Delete All Users Error', error))
             .run();
     });
 
@@ -458,7 +459,7 @@ describe('Admin saga', () => {
                 [matchers.call.fn(api.getHighlightsForApproval), throwError(error)],
                 { select: alreadyFetchedInfo(false) }
             ])
-            .put(actions.setAdminError(error, 'Fetch Highlights For Approval Error'))
+            .put(setErrorMessage('Fetch Highlights For Approval Error', error))
             .run();
     });
 
@@ -480,7 +481,7 @@ describe('Admin saga', () => {
             .provide([
                 [matchers.call.fn(api.approveHighlight), throwError(error)]
             ])
-            .put(actions.setAdminError(error, 'Approve Highlight Error'))
+            .put(setErrorMessage('Approve Highlight Error', error))
             .run();
     });
 
@@ -502,7 +503,7 @@ describe('Admin saga', () => {
             .provide([
                 [matchers.call.fn(api.rejectHighlight), throwError(error)]
             ])
-            .put(actions.setAdminError(error, 'Reject Highlight Error'))
+            .put(setErrorMessage('Reject Highlight Error', error))
             .run();
     });
 
@@ -524,7 +525,7 @@ describe('Admin saga', () => {
             .provide([
                 [matchers.call.fn(api.deleteHighlight), throwError(error)]
             ])
-            .put(actions.setAdminError(error, 'Delete Highlight Error'))
+            .put(setErrorMessage('Delete Highlight Error', error))
             .run();
     });
 
@@ -552,7 +553,7 @@ describe('Admin saga', () => {
                 [matchers.call.fn(api.rejectedHighlights), throwError(error)],
                 { select: alreadyFetchedInfo(false) }
             ])
-            .put(actions.setAdminError(error, 'Fetch Rejected Highlights Error'))
+            .put(setErrorMessage('Fetch Rejected Highlights Error', error))
             .run();
     });
 
@@ -574,7 +575,7 @@ describe('Admin saga', () => {
             .provide([
                 [matchers.call.fn(api.reapproveRejectedHighlight), throwError(error)]
             ])
-            .put(actions.setAdminError(error, 'Reapprove Rejected Highlight Error'))
+            .put(setErrorMessage('Reapprove Rejected Highlight Error', error))
             .run();
     });
 
@@ -592,7 +593,7 @@ describe('Admin saga', () => {
             .provide([
                 [matchers.call.fn(api.submitExtraResults), throwError(error)]
             ])
-            .put(actions.setAdminError(error, 'Submit Extra Results Error'))
+            .put(setErrorMessage('Submit Extra Results Error', error))
             .run();
     });
 
@@ -610,7 +611,7 @@ describe('Admin saga', () => {
             .provide([
                 [matchers.call.fn(api.setHasPaidSubs), throwError(error)]
             ])
-            .put(actions.setAdminError(error, 'Set Subs Paid Error'))
+            .put(setErrorMessage('Set Subs Paid Error', error))
             .run();
     });
 });

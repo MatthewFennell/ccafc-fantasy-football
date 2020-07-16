@@ -24,32 +24,4 @@ describe('Fixtures reducer', () => {
             successMessage: ''
         });
     });
-
-    it('feature request error', () => {
-        const action = actions.featureRequestError({
-            message: 'Error message',
-            code: 'Error code'
-        }, 'Error header');
-        expect(reducer(initialState, action)).toEqual({
-            ...initialState,
-            errorMessage: 'Error message',
-            errorCode: 'Error code',
-            errorHeader: 'Error header'
-        });
-    });
-
-    it('close feature request error', () => {
-        const action = actions.closeFeatureRequestError();
-        expect(reducer({
-            ...initialState,
-            errorCode: 'abc',
-            errorHeader: 'abc',
-            errorMessage: 'abc'
-        }, action)).toEqual({
-            ...initialState,
-            errorMessage: '',
-            errorCode: '',
-            errorHeader: ''
-        });
-    });
 });

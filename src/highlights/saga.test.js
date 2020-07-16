@@ -6,6 +6,7 @@ import * as sagas from './saga';
 import * as actions from './actions';
 import * as selectors from './selectors';
 import { successDelay } from '../constants';
+import { setErrorMessage } from '../errorHandling/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -56,7 +57,7 @@ describe('Highlights saga', () => {
             .provide([
                 [matchers.call.fn(api.submitVideo), throwError(error)]
             ])
-            .put(actions.setHighlightError(error, 'Submit Highlight Error'))
+            .put(setErrorMessage('Submit Highlight Error', error))
             .run();
     });
 
@@ -84,7 +85,7 @@ describe('Highlights saga', () => {
                 [matchers.call.fn(api.getHighlights), throwError(error)],
                 { select: alreadyFetchedInfo(false) }
             ])
-            .put(actions.setHighlightError(error, 'Fetching Highlights Error'))
+            .put(setErrorMessage('Error Fetching Highlights', error))
             .run();
     });
 
@@ -102,7 +103,7 @@ describe('Highlights saga', () => {
             .provide([
                 [matchers.call.fn(api.upvoteHighlight), throwError(error)]
             ])
-            .put(actions.setHighlightError(error, 'Upvoting Highlight Error'))
+            .put(setErrorMessage('Error Upvoting Highlight', error))
             .run();
     });
 
@@ -120,7 +121,7 @@ describe('Highlights saga', () => {
             .provide([
                 [matchers.call.fn(api.downvoteHighlight), throwError(error)]
             ])
-            .put(actions.setHighlightError(error, 'Downvoting Highlight Error'))
+            .put(setErrorMessage('Error Downvoting Highlight', error))
             .run();
     });
 
@@ -148,7 +149,7 @@ describe('Highlights saga', () => {
                 [matchers.call.fn(api.getHighlightsToBeApproved), throwError(error)],
                 { select: alreadyFetchedInfo(false) }
             ])
-            .put(actions.setHighlightError(error, 'Fetch Approval Highlights Error'))
+            .put(setErrorMessage('Error Fetching Highlights For Approval', error))
             .run();
     });
 
@@ -176,7 +177,7 @@ describe('Highlights saga', () => {
                 [matchers.call.fn(api.getRejectedHighlights), throwError(error)],
                 { select: alreadyFetchedInfo(false) }
             ])
-            .put(actions.setHighlightError(error, 'Fetch Rejected Highlights Error'))
+            .put(setErrorMessage('Error Fetching Rejected Highlights', error))
             .run();
     });
 
@@ -194,7 +195,7 @@ describe('Highlights saga', () => {
             .provide([
                 [matchers.call.fn(api.addComment), throwError(error)]
             ])
-            .put(actions.setHighlightError(error, 'Add Comment Error'))
+            .put(setErrorMessage('Error Adding Comment', error))
             .run();
     });
 
@@ -212,7 +213,7 @@ describe('Highlights saga', () => {
             .provide([
                 [matchers.call.fn(api.addReply), throwError(error)]
             ])
-            .put(actions.setHighlightError(error, 'Add Reply Error'))
+            .put(setErrorMessage('Error Replying To Comment', error))
             .run();
     });
 
@@ -230,7 +231,7 @@ describe('Highlights saga', () => {
             .provide([
                 [matchers.call.fn(api.deleteComment), throwError(error)]
             ])
-            .put(actions.setHighlightError(error, 'Delete Comment Error'))
+            .put(setErrorMessage('Error Deleting Comment', error))
             .run();
     });
 
@@ -248,7 +249,7 @@ describe('Highlights saga', () => {
             .provide([
                 [matchers.call.fn(api.deleteReply), throwError(error)]
             ])
-            .put(actions.setHighlightError(error, 'Delete Reply Error'))
+            .put(setErrorMessage('Error Deleting Reply', error))
             .run();
     });
 });

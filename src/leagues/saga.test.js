@@ -5,6 +5,7 @@ import { noop } from 'lodash';
 import * as sagas from './saga';
 import * as actions from './actions';
 import * as selectors from './selectors';
+import { setErrorMessage } from '../errorHandling/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -92,7 +93,7 @@ describe('League saga', () => {
                 [matchers.call.fn(api.getLeaguesIAmIn), throwError(error)],
                 { select: alreadyFetchedInfo(false) }
             ])
-            .put(actions.fetchLeaguesError(error))
+            .put(setErrorMessage('Error Fetching Leagues', error))
             .run();
     });
 
@@ -156,7 +157,8 @@ describe('League saga', () => {
                 [matchers.call.fn(api.getUsersInLeague), throwError(error)],
                 { select: alreadyHaveUsers }
             ])
-            .put(actions.fetchUsersInLeagueError('leagueId', error))
+            .put(setErrorMessage('Error Fetching Users In League', error))
+            .put(actions.cancelFetchingUsersInLeague('leagueId'))
             .run();
     });
 
@@ -174,7 +176,7 @@ describe('League saga', () => {
             .provide([
                 [matchers.call.fn(api.createLeague), throwError(error)]
             ])
-            .put(actions.createLeagueError(error))
+            .put(setErrorMessage('Error Creating League', error))
             .run();
     });
 
@@ -192,7 +194,7 @@ describe('League saga', () => {
             .provide([
                 [matchers.call.fn(api.joinLeague), throwError(error)]
             ])
-            .put(actions.joinLeagueError(error))
+            .put(setErrorMessage('Error Joining League', error))
             .run();
     });
 
@@ -210,7 +212,7 @@ describe('League saga', () => {
             .provide([
                 [matchers.call.fn(api.leaveLeague), throwError(error)]
             ])
-            .put(actions.leaveLeagueError(error))
+            .put(setErrorMessage('Error Leaving League', error))
             .run();
     });
 });

@@ -538,19 +538,6 @@ describe('Highlights reducer', () => {
         });
     });
 
-    it('set highlight error', () => {
-        const action = actions.setHighlightError({
-            message: 'Error message',
-            code: 'Error code'
-        }, 'Error header');
-        expect(reducer(initialState, action)).toEqual({
-            ...initialState,
-            errorMessage: 'Error message',
-            errorCode: 'Error code',
-            errorHeader: 'Error header'
-        });
-    });
-
     it('close highlight error', () => {
         const action = actions.closeHighlightError();
         expect(reducer({

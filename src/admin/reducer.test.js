@@ -477,56 +477,6 @@ describe('Admin reducer', () => {
         });
     });
 
-    it('set admin error', () => {
-        const action = actions.setAdminError({
-            message: 'Error message',
-            code: 'Error code'
-        }, 'Error header');
-        expect(reducer(initialState, action)).toEqual({
-            ...initialState,
-            errorMessage: 'Error message',
-            errorCode: 'Error code',
-            errorHeader: 'Error header'
-        });
-    });
-
-    it('close admin error', () => {
-        const action = actions.closeAdminError();
-        expect(reducer({
-            ...initialState,
-            errorMessage: 'abc',
-            errorCode: 'def',
-            errorHeader: 'ghi',
-            creatingPlayer: true,
-            creatingTeam: true,
-            deletingPlayer: true,
-            deletingTeam: true,
-            submittingResult: true,
-            triggeringWeek: true,
-            fetchingPlayerStats: true,
-            fetchingUsersWithExtraRoles: true,
-            loadingHighlightsForApproval: true,
-            loadingRejectedHighlights: true,
-            editingStats: true
-        }, action)).toEqual({
-            ...initialState,
-            errorMessage: '',
-            errorCode: '',
-            errorHeader: '',
-            creatingPlayer: false,
-            creatingTeam: false,
-            deletingPlayer: false,
-            deletingTeam: false,
-            submittingResult: false,
-            triggeringWeek: false,
-            fetchingPlayerStats: false,
-            fetchingUsersWithExtraRoles: false,
-            loadingHighlightsForApproval: false,
-            loadingRejectedHighlights: false,
-            editingStats: false
-        });
-    });
-
     it('set has paid subs request', () => {
         const action = actions.setHasPaidSubsRequest(null);
         expect(reducer(initialState, action)).toEqual({

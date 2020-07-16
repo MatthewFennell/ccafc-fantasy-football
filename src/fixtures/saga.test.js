@@ -6,6 +6,7 @@ import * as sagas from './saga';
 import * as actions from './actions';
 import { successDelay } from '../constants';
 import * as selectors from './selectors';
+import { setErrorMessage } from '../errorHandling/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -44,7 +45,7 @@ describe('Fixtures saga', () => {
                 [matchers.call.fn(api.getFixtures), throwError(error)],
                 { select: alreadyFetchedInfo(false) }
             ])
-            .put(actions.setFixturesError(error, 'Error Fetching Fixtures'))
+            .put(setErrorMessage('Error Fetching Fixtures', error))
             .run();
     });
 
@@ -66,7 +67,7 @@ describe('Fixtures saga', () => {
             .provide([
                 [matchers.call.fn(api.setMyTeam), throwError(error)]
             ])
-            .put(actions.setFixturesError(error, 'Error Setting Team'))
+            .put(setErrorMessage('Error Setting Team', error))
             .run();
     });
 
@@ -84,7 +85,7 @@ describe('Fixtures saga', () => {
             .provide([
                 [matchers.call.fn(api.fetchMyTeam), throwError(error)]
             ])
-            .put(actions.setFixturesError(error, 'Error Fetching Team'))
+            .put(setErrorMessage('Error Fetching Team', error))
             .run();
     });
 });

@@ -6,6 +6,7 @@ import * as firebase from 'firebase';
 import * as sagas from './saga';
 import * as actions from './actions';
 import * as selectors from './selectors';
+import { setErrorMessage } from '../errorHandling/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -69,7 +70,7 @@ describe('Current team saga', () => {
                 [matchers.call.fn(api.fetchActiveTeam), throwError(error)],
                 { select: alreadyFetchedInfo(false) }
             ])
-            .put(actions.fetchActiveTeamError(error))
+            .put(setErrorMessage('Fetch Active Team Error', error))
             .run();
     });
 
@@ -105,7 +106,7 @@ describe('Current team saga', () => {
             .provide([
                 [matchers.call.fn(api.makeCaptain), throwError(error)]
             ])
-            .put(actions.makeCaptainError(error))
+            .put(setErrorMessage('Make Captain Error', error))
             .run();
     });
 });

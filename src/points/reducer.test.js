@@ -23,31 +23,8 @@ describe('Points reducer', () => {
                 myUserId: {
                     'week-2': {
                         fetched: true,
-                        fetching: false,
+                        fetching: true,
                         team: 'team'
-                    }
-                }
-            }
-        });
-    });
-
-    it('fetch user points for week error', () => {
-        const action = actions.fetchUserPointsForWeekError('myUserId', 2, null);
-        expect(reducer({
-            ...initialState,
-            userTeams: {
-                myUserId: {
-                    'week-2': {
-                        fetching: true
-                    }
-                }
-            }
-        }, action)).toEqual({
-            ...initialState,
-            userTeams: {
-                myUserId: {
-                    'week-2': {
-                        fetching: false
                     }
                 }
             }
@@ -62,29 +39,6 @@ describe('Points reducer', () => {
                 myUserId: {
                     'week-2': {
                         fetching: true
-                    }
-                }
-            }
-        });
-    });
-
-    it('already fetched user points for week request', () => {
-        const action = actions.alreadyFetchedPointsForWeek('myUserId', 2);
-        expect(reducer({
-            ...initialState,
-            userTeams: {
-                myUserId: {
-                    'week-2': {
-                        fetching: true
-                    }
-                }
-            }
-        }, action)).toEqual({
-            ...initialState,
-            userTeams: {
-                myUserId: {
-                    'week-2': {
-                        fetching: false
                     }
                 }
             }

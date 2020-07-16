@@ -4,6 +4,7 @@ import { throwError } from 'redux-saga-test-plan/providers';
 import * as sagas from './saga';
 import * as actions from './actions';
 import * as selectors from './selectors';
+import { setErrorMessage } from '../errorHandling/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -18,18 +19,6 @@ describe('Points saga', () => {
         }
         return next();
     };
-
-    it('already fetched user points', () => {
-        const action = actions.fetchUserPointsForWeekRequest('userId', 3);
-        return expectSaga(sagas.getUserPointsForWeek, api, action)
-            .provide([
-                {
-                    select: alreadyFetchedData(true)
-                }
-            ])
-            .put(actions.alreadyFetchedPointsForWeek('userId', 3))
-            .run();
-    });
 
     it('getting user points', () => {
         const action = actions.fetchUserPointsForWeekRequest('userId', 3);
@@ -51,7 +40,7 @@ describe('Points saga', () => {
                 [matchers.call.fn(api.fetchPointsForUserInWeek), throwError(error)],
                 { select: alreadyFetchedData(false) }
             ])
-            .put(actions.fetchUserPointsForWeekError('userId', 3, error))
+            .put(setErrorMessage('Error Fetching Points For Week', error))
             .run();
     });
 });

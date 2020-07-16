@@ -13,30 +13,17 @@ export const FETCH_USER_INFO_FOR_WEEK_REQUEST = `${pre}FETCH_USER_INFO_FOR_WEEK_
 export const FETCH_USER_INFO_FOR_WEEK_SUCCESS = `${pre}FETCH_USER_INFO_FOR_WEEK_SUCCESS`;
 export const CANCEL_FETCHING_USER_INFO_FOR_WEEK = `${pre}CANCEL_FETCHING_USER_INFO_FOR_WEEK`;
 
-export const ALREADY_FETCHED_USER_INFO_FOR_WEEK = `${pre}ALREADY_FETCHED_USER_INFO_FOR_WEEK`;
-export const ALREADY_FETCHED_USER_STATS = `${pre}ALREADY_FETCHED_USER_STATS`;
-
 export const FETCH_USER_INFO_FOR_WEEK_REQUEST_BACKGROUND = `${pre}FETCH_USER_INFO_FOR_WEEK_REQUEST_BACKGROUND`;
 
-export const cancelFetchingUserStats = () => ({
-    type: CANCEL_FETCHING_USER_STATS
+export const cancelFetchingUserStats = userId => ({
+    type: CANCEL_FETCHING_USER_STATS,
+    userId
 });
 
 export const fetchUserInfoForWeekRequestBackground = (userId, week) => ({
     type: FETCH_USER_INFO_FOR_WEEK_REQUEST_BACKGROUND,
     userId,
     week
-});
-
-export const alreadyFetchedUserInfoForWeek = (userId, week) => ({
-    type: ALREADY_FETCHED_USER_INFO_FOR_WEEK,
-    userId,
-    week
-});
-
-export const alreadyFetchedUserStats = userId => ({
-    type: ALREADY_FETCHED_USER_STATS,
-    userId
 });
 
 export const fetchUserInfoForWeekRequest = (userId, week) => ({
