@@ -32,19 +32,20 @@ export function* createPlayer(api, action) {
             team: action.team,
             previousScore: action.previousScore
         });
-        yield put(actions.createPlayerSuccess());
         yield put(actions.setSuccessMessage('Player successfully created'));
         yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
     } catch (error) {
         yield put(setErrorMessage('Create Player Error', error));
+    } finally {
+        yield put(actions.cancelCreatingPlayer());
     }
 }
 
 export function* createTeam(api, action) {
     try {
         yield call(api.createTeam, ({ teamName: action.teamName }));
-        yield put(actions.createTeamSuccess());
+        yield put(actions.cancelCreatingTeam());
         const allTeams = yield call(api.getAllTeams);
         yield put(actions.fetchTeamsSuccess(allTeams));
         yield put(actions.setSuccessMessage('Team successfully created'));
@@ -52,6 +53,8 @@ export function* createTeam(api, action) {
         yield put(actions.closeSuccessMessage());
     } catch (error) {
         yield put(setErrorMessage('Create Team Error', error));
+    } finally {
+        yield put(actions.cancelCreatingTeam());
     }
 }
 
@@ -79,24 +82,26 @@ export function* submitResult(api, action) {
                 week: action.week,
                 players: action.players
             });
-        yield put(actions.submitResultSuccess());
         yield put(actions.setSuccessMessage('Result successfully submitted'));
         yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
     } catch (error) {
         yield put(setErrorMessage('Submit Result Error', error));
+    } finally {
+        yield put(actions.cancelSubmittingResult());
     }
 }
 
 export function* deletePlayer(api, action) {
     try {
         yield call(api.deletePlayer, { playerId: action.playerId });
-        yield put(actions.deletePlayerSuccess());
         yield put(actions.setSuccessMessage('Player successfully deleted'));
         yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
     } catch (error) {
         yield put(setErrorMessage('Delete Player Error', error));
+    } finally {
+        yield put(actions.cancelDeletingPlayer());
     }
 }
 
@@ -114,19 +119,22 @@ export function* deleteTeam(api, action) {
         yield put(actions.closeSuccessMessage());
     } catch (error) {
         yield put(setErrorMessage('Delete Team Error', error));
+    } finally {
+        yield put(actions.deleteTeamSuccess());
     }
 }
 
 export function* triggerWeek(api, action) {
     try {
         yield call(api.triggerWeeklyTeams, { week: action.week });
-        yield put(actions.triggerWeekSuccess());
         yield put(fetchMaxGameWeekRequest());
         yield put(actions.setSuccessMessage(`Week ${action.week} successfully triggered`));
         yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
     } catch (error) {
         yield put(setErrorMessage('Trigger Week Error', error));
+    } finally {
+        yield put(actions.cancelTriggeringWeek());
     }
 }
 
@@ -137,6 +145,8 @@ export function* getPlayerStats(api, action) {
         yield put(actions.fetchPlayerStatsSuccess(playerStats));
     } catch (error) {
         yield put(setErrorMessage('Get Player Stats Error', error));
+    } finally {
+        yield put(actions.cancelFetchingPlayerStats());
     }
 }
 

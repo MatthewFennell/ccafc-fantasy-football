@@ -57,7 +57,7 @@ const adminReducer = (state = initialState, action) => {
         return fp.set('isRollingOverToNextYear', true)(state);
     }
     case actions.SET_ROLLING_OVER_TO_NEXT_YEAR: {
-        return fp.set('isRollingOverToNextYear', action.isRolling)(state);
+        return fp.set('isRollingOverToNextYear', action.isRollingOver)(state);
     }
     case actions.SET_BUG_ID_TO_DELETE: {
         return fp.set('bugIdToDelete', action.bugId)(state);
@@ -76,7 +76,7 @@ const adminReducer = (state = initialState, action) => {
         return fp.set('isRecalculatingLeaguePositions', true)(state);
     }
     case actions.SET_RECALCULATING_LEAGUE_POSITIONS: {
-        return fp.set('isRecalculatingLeaguePositions', action.isRecalculatingLeaguePositions)(state);
+        return fp.set('isRecalculatingLeaguePositions', action.isRecalculating)(state);
     }
     case actions.FETCH_TEAMS_REQUEST: {
         return fp.set('isFetchingTeams', true)(state);
@@ -87,13 +87,13 @@ const adminReducer = (state = initialState, action) => {
     case actions.CREATE_PLAYER_REQUEST: {
         return fp.set('creatingPlayer', true)(state);
     }
-    case actions.CREATE_PLAYER_SUCCESS: {
+    case actions.CANCEL_CREATING_PLAYER: {
         return fp.set('creatingPlayer', false)(state);
     }
     case actions.CREATE_TEAM_REQUEST: {
         return fp.set('creatingTeam', true)(state);
     }
-    case actions.CREATE_TEAM_SUCCESS: {
+    case actions.CANCEL_CREATING_TEAM: {
         return fp.set('creatingTeam', false)(state);
     }
     case actions.FETCH_PLAYERS_FOR_TEAM_SUCCESS: {
@@ -120,7 +120,7 @@ const adminReducer = (state = initialState, action) => {
     case actions.DELETE_PLAYER_REQUEST: {
         return fp.set('deletingPlayer', true)(state);
     }
-    case actions.DELETE_PLAYER_SUCCESS: {
+    case actions.CANCEL_DELETING_PLAYER: {
         return fp.set('deletingPlayer', false)(state);
     }
     case actions.DELETE_TEAM_REQUEST: {
@@ -132,10 +132,10 @@ const adminReducer = (state = initialState, action) => {
     case actions.SUBMIT_RESULT_REQUEST: {
         return fp.set('submittingResult', true)(state);
     }
-    case actions.SUBMIT_RESULT_SUCCESS: {
+    case actions.CANCEL_SUBMITTING_RESULT: {
         return fp.set('submittingResult', false)(state);
     }
-    case actions.TRIGGER_WEEK_SUCCESS: {
+    case actions.CANCEL_TRIGGERING_WEEK: {
         return fp.set('triggeringWeek', false)(state);
     }
     case actions.TRIGGER_WEEK_REQUEST: {
@@ -154,6 +154,12 @@ const adminReducer = (state = initialState, action) => {
             fp.set('playerStats.ownGoals', action.playerStats.ownGoals),
             fp.set('playerStats.penaltyMisses', action.playerStats.penaltyMisses),
             fp.set('playerStats.penaltySaves', action.playerStats.penaltySaves),
+            fp.set('fetchingPlayerStats', false)
+        )(state);
+    }
+    case actions.CANCEL_FETCHING_PLAYER_STATS: {
+        return fp.flow(
+            fp.set('playerStats.fetching', false),
             fp.set('fetchingPlayerStats', false)
         )(state);
     }

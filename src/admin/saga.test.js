@@ -101,7 +101,7 @@ describe('Admin saga', () => {
         const action = actions.createPlayerRequest(null);
         return expectSaga(sagas.createPlayer, api, action)
             .provide({ call: provideDelay })
-            .put(actions.createPlayerSuccess())
+            .put(actions.cancelCreatingPlayer())
             .put(actions.setSuccessMessage('Player successfully created'))
             .delay(successDelay)
             .put(actions.closeSuccessMessage())
@@ -123,7 +123,7 @@ describe('Admin saga', () => {
         const action = actions.createTeamRequest(null);
         return expectSaga(sagas.createTeam, api, action)
             .provide({ call: provideDelay })
-            .put(actions.createTeamSuccess())
+            .put(actions.cancelCreatingTeam())
             .put(actions.fetchTeamsSuccess('all teams'))
             .put(actions.setSuccessMessage('Team successfully created'))
             .delay(successDelay)
@@ -182,7 +182,7 @@ describe('Admin saga', () => {
         const action = actions.submitResultRequest(null);
         return expectSaga(sagas.submitResult, api, action)
             .provide({ call: provideDelay })
-            .put(actions.submitResultSuccess())
+            .put(actions.cancelSubmittingResult())
             .put(actions.setSuccessMessage('Result successfully submitted'))
             .delay(successDelay)
             .put(actions.closeSuccessMessage())
@@ -204,7 +204,7 @@ describe('Admin saga', () => {
         const action = actions.deletePlayerRequest(null);
         return expectSaga(sagas.deletePlayer, api, action)
             .provide({ call: provideDelay })
-            .put(actions.deletePlayerSuccess())
+            .put(actions.cancelDeletingPlayer())
             .put(actions.setSuccessMessage('Player successfully deleted'))
             .delay(successDelay)
             .put(actions.closeSuccessMessage())
@@ -249,7 +249,7 @@ describe('Admin saga', () => {
         const action = actions.triggerWeekRequest(8);
         return expectSaga(sagas.triggerWeek, api, action)
             .provide({ call: provideDelay })
-            .put(actions.triggerWeekSuccess())
+            .put(actions.cancelTriggeringWeek())
             .put(fetchMaxGameWeekRequest())
             .put(actions.setSuccessMessage('Week 8 successfully triggered'))
             .delay(successDelay)

@@ -5,29 +5,30 @@ export const FETCH_TEAMS_SUCCESS = `${pre}FETCH_TEAMS_SUCCESS`;
 export const SET_FETCHING_TEAMS = `${pre}SET_FETCHING_TEAMS`;
 
 export const CREATE_PLAYER_REQUEST = `${pre}CREATE_PLAYER_REQUEST`;
-export const CREATE_PLAYER_SUCCESS = `${pre}CREATE_PLAYER_SUCCESS`;
+export const CANCEL_CREATING_PLAYER = `${pre}CANCEL_CREATING_PLAYER`;
 
 export const CREATE_TEAM_REQUEST = `${pre}CREATE_TEAM_REQUEST`;
-export const CREATE_TEAM_SUCCESS = `${pre}CREATE_TEAM_SUCCESS`;
+export const CANCEL_CREATING_TEAM = `${pre}CANCEL_CREATING_TEAM`;
 
 export const SUBMIT_RESULT_REQUEST = `${pre}SUBMIT_RESULT_REQUEST`;
-export const SUBMIT_RESULT_SUCCESS = `${pre}SUBMIT_RESULT_SUCCESS`;
+export const CANCEL_SUBMITTING_RESULT = `${pre}CANCEL_SUBMITTING_RESULT`;
 
 export const FETCH_PLAYERS_FOR_TEAM_REQUEST = `${pre}FETCH_PLAYERS_FOR_TEAM_REQUEST`;
 export const FETCH_PLAYERS_FOR_TEAM_SUCCESS = `${pre}FETCH_PLAYERS_FOR_TEAM_SUCCESS`;
 export const SET_FETCHING_PLAYERS_FOR_TEAM = `${pre}SET_FETCHING_PLAYERS_FOR_TEAM`;
 
 export const DELETE_PLAYER_REQUEST = `${pre}DELETE_PLAYER_REQUEST`;
-export const DELETE_PLAYER_SUCCESS = `${pre}DELETE_PLAYER_SUCCESS`;
+export const CANCEL_DELETING_PLAYER = `${pre}CANCEL_DELETING_PLAYER`;
 
 export const DELETE_TEAM_REQUEST = `${pre}DELETE_TEAM_REQUEST`;
 export const DELETE_TEAM_SUCCESS = `${pre}DELETE_TEAM_SUCCESS`;
 
 export const TRIGGER_WEEK_REQUEST = `${pre}TRIGGER_WEEK_REQUEST`;
-export const TRIGGER_WEEK_SUCCESS = `${pre}TRIGGER_WEEK_SUCCESS`;
+export const CANCEL_TRIGGERING_WEEK = `${pre}CANCEL_TRIGGERING_WEEK`;
 
 export const FETCH_PLAYER_STATS_REQUEST = `${pre}FETCH_PLAYER_STATS_REQUEST`;
 export const FETCH_PLAYER_STATS_SUCCESS = `${pre}FETCH_PLAYER_STATS_SUCCESS`;
+export const CANCEL_FETCHING_PLAYER_STATS = `${pre}CANCEL_FETCHING_PLAYER_STATS`;
 
 export const EDIT_PLAYER_STATS_REQUEST = `${pre}EDIT_PLAYER_STATS_REQUEST`;
 export const EDIT_PLAYER_STATS_SUCCESS = `${pre}EDIT_PLAYER_STATS_SUCCESS`;
@@ -291,6 +292,10 @@ export const fetchPlayerStatsSuccess = playerStats => ({
     playerStats
 });
 
+export const cancelFetchingPlayerStats = () => ({
+    type: CANCEL_FETCHING_PLAYER_STATS
+});
+
 // -------------------------------------------------------------------- \\
 
 export const triggerWeekRequest = week => ({
@@ -298,8 +303,8 @@ export const triggerWeekRequest = week => ({
     week
 });
 
-export const triggerWeekSuccess = () => ({
-    type: TRIGGER_WEEK_SUCCESS
+export const cancelTriggeringWeek = () => ({
+    type: CANCEL_TRIGGERING_WEEK
 });
 
 // -------------------------------------------------------------------- \\
@@ -329,8 +334,8 @@ export const createPlayerRequest = (name, position, price, team, previousScore) 
     previousScore
 });
 
-export const createPlayerSuccess = () => ({
-    type: CREATE_PLAYER_SUCCESS
+export const cancelCreatingPlayer = () => ({
+    type: CANCEL_CREATING_PLAYER
 });
 
 // -------------------------------------------------------------------- \\
@@ -340,8 +345,8 @@ export const createTeamRequest = teamName => ({
     teamName
 });
 
-export const createTeamSuccess = () => ({
-    type: CREATE_TEAM_SUCCESS
+export const cancelCreatingTeam = () => ({
+    type: CANCEL_CREATING_TEAM
 });
 
 // -------------------------------------------------------------------- \\
@@ -355,8 +360,8 @@ export const submitResultRequest = (teamId, goalsFor, goalsAgainst, week, player
     players
 });
 
-export const submitResultSuccess = () => ({
-    type: SUBMIT_RESULT_SUCCESS
+export const cancelSubmittingResult = () => ({
+    type: CANCEL_SUBMITTING_RESULT
 });
 
 // -------------------------------------------------------------------- \\
@@ -384,8 +389,8 @@ export const deletePlayerRequest = playerId => ({
     playerId
 });
 
-export const deletePlayerSuccess = () => ({
-    type: DELETE_PLAYER_SUCCESS
+export const cancelDeletingPlayer = () => ({
+    type: CANCEL_DELETING_PLAYER
 });
 
 // -------------------------------------------------------------------- \\

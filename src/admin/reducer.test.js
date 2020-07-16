@@ -24,7 +24,7 @@ describe('Admin reducer', () => {
     });
 
     it('create player success', () => {
-        const action = actions.createPlayerSuccess();
+        const action = actions.cancelCreatingPlayer();
         expect(reducer({
             ...initialState,
             creatingPlayer: true
@@ -43,7 +43,7 @@ describe('Admin reducer', () => {
     });
 
     it('create team success', () => {
-        const action = actions.createTeamSuccess();
+        const action = actions.cancelCreatingTeam();
         expect(reducer({
             ...initialState,
             creatingTeam: true
@@ -92,7 +92,7 @@ describe('Admin reducer', () => {
     });
 
     it('delete player success', () => {
-        const action = actions.deletePlayerSuccess();
+        const action = actions.cancelDeletingPlayer();
         expect(reducer({
             ...initialState,
             deletingPlayer: true
@@ -111,7 +111,7 @@ describe('Admin reducer', () => {
     });
 
     it('submit result success', () => {
-        const action = actions.submitResultSuccess();
+        const action = actions.cancelSubmittingResult();
         expect(reducer({
             ...initialState,
             submittingResult: true
@@ -122,7 +122,7 @@ describe('Admin reducer', () => {
     });
 
     it('trigger week success', () => {
-        const action = actions.triggerWeekSuccess();
+        const action = actions.cancelTriggeringWeek();
         expect(reducer({
             ...initialState,
             triggeringWeek: true
@@ -482,6 +482,115 @@ describe('Admin reducer', () => {
         expect(reducer(initialState, action)).toEqual({
             ...initialState,
             updatingSubs: true
+        });
+    });
+
+    it('roll over to next year request', () => {
+        const action = actions.rollOverToNextYearRequest();
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isRollingOverToNextYear: true
+        });
+    });
+
+    it('set rolling over to next year', () => {
+        const action = actions.setRollingOverToNextYear(true);
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isRollingOverToNextYear: true
+        });
+    });
+
+    it('set bug to delete', () => {
+        const action = actions.setBugIdToDelete('bugId');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            bugIdToDelete: 'bugId'
+        });
+    });
+
+    it('recalculate league positions request', () => {
+        const action = actions.recalculateLeaguePositionsRequest();
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isRecalculatingLeaguePositions: true
+        });
+    });
+
+    it('fetch teams request', () => {
+        const action = actions.fetchTeamsRequest();
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isFetchingTeams: true
+        });
+    });
+
+    it('set fetching teams', () => {
+        const action = actions.setFetchingTeams(true);
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isFetchingTeams: true
+        });
+    });
+
+    it('fetch players for team request', () => {
+        const action = actions.fetchPlayersForTeamRequest();
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isFetchingPlayersForTeam: true
+        });
+    });
+
+    it('set fetching players for team', () => {
+        const action = actions.setFetchingPlayersForTeam(true);
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isFetchingPlayersForTeam: true
+        });
+    });
+
+    it('approve highlight request', () => {
+        const action = actions.approveHighlightRequest('highlightId');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            highlightBeingApproved: 'highlightId'
+        });
+    });
+
+    it('reject highlight request', () => {
+        const action = actions.rejectHighlightRequest('highlightId', 'reason');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            highlightBeingRejected: 'highlightId'
+        });
+    });
+
+    it('set recalculating league positions', () => {
+        const action = actions.setRecalculatingLeaguePositions(true);
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isRecalculatingLeaguePositions: true
+        });
+    });
+
+    it('delete feature request', () => {
+        const action = actions.deleteFeatureRequest();
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isDeletingBug: true
+        });
+    });
+
+    it('delete feature success', () => {
+        const action = actions.deleteFeatureSuccess();
+        expect(reducer({
+            ...initialState,
+            isDeletingBug: true,
+            bugIdToDelete: 'gsaasfsa'
+        }, action)).toEqual({
+            ...initialState,
+            isDeletingBug: false,
+            bugIdToDelete: ''
         });
     });
 
