@@ -2,14 +2,13 @@ import React, { useEffect, useCallback, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchUsersInLeagueRequest, leaveLeagueRequest, closeLeaveLeagueError } from './actions';
+import { fetchUsersInLeagueRequest, leaveLeagueRequest } from './actions';
 import * as selectors from './selectors';
 import Grid from '../common/grid/Grid';
 import defaultStyles from './styles/Leagues.module.scss';
 import * as constants from '../constants';
 import StyledButton from '../common/StyledButton/StyledButton';
 import Spinner from '../common/spinner/Spinner';
-import ErrorModal from '../common/modal/ErrorModal';
 import { generatePointsRoute } from '../helperFunctions';
 import ConfirmModal from '../common/modal/ConfirmModal';
 
@@ -125,13 +124,6 @@ const UsersInLeague = props => {
                 isOpen={leaveLeagueOpen}
                 submit={leaveLeague}
             />
-            <ErrorModal
-                closeModal={props.closeLeaveLeagueError}
-                headerMessage="Error leaving league"
-                isOpen={props.leaveLeagueError.length > 0}
-                errorCode={props.leaveLeagueErrorCode}
-                errorMessage={props.leaveLeagueError}
-            />
             {props.leavingLeague
                 && (
                     <div className={props.styles.spinnerWrapper}>
@@ -143,7 +135,6 @@ const UsersInLeague = props => {
 };
 
 const mapDispatchToProps = {
-    closeLeaveLeagueError,
     fetchUsersInLeagueRequest,
     leaveLeagueRequest
 };
@@ -166,8 +157,6 @@ UsersInLeague.defaultProps = {
     fetchingUsersInLeague: false,
     leagueId: '',
     leagueName: '',
-    leaveLeagueError: '',
-    leaveLeagueErrorCode: '',
     leavingLeague: false,
     maxGameWeek: null,
     numberOfUsersInLeague: 0,
@@ -180,7 +169,6 @@ UsersInLeague.propTypes = {
         uid: PropTypes.string,
         emailVerified: PropTypes.bool
     }),
-    closeLeaveLeagueError: PropTypes.func.isRequired,
     fetchingUsersInLeague: PropTypes.bool,
     fetchUsersInLeagueRequest: PropTypes.func.isRequired,
     history: PropTypes.shape({
@@ -189,8 +177,6 @@ UsersInLeague.propTypes = {
     leagueId: PropTypes.string,
     leagueName: PropTypes.string,
     leaveLeagueRequest: PropTypes.func.isRequired,
-    leaveLeagueError: PropTypes.string,
-    leaveLeagueErrorCode: PropTypes.string,
     leavingLeague: PropTypes.bool,
     maxGameWeek: PropTypes.number,
     numberOfUsersInLeague: PropTypes.number,

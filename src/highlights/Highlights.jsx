@@ -6,12 +6,12 @@ import { noop } from 'lodash';
 import defaultStyles from './Highlights.module.scss';
 import StyledButton from '../common/StyledButton/StyledButton';
 import {
-    closeHighlightError, submitHighlightRequest, fetchHighlightsRequest,
+    submitHighlightRequest, fetchHighlightsRequest,
     upvoteHighlightRequest, downvoteHighlightRequest, fetchUserHighlightsToBeApprovedRequest,
     fetchRejectedHighlightsRequest, addCommentToVideoRequest, addReplyToVideoRequest,
-    deleteCommentRequest, deleteReplyRequest, closeSuccessMessage, setHighlightError
+    deleteCommentRequest, deleteReplyRequest, closeSuccessMessage
 } from './actions';
-import ErrorModal from '../common/modal/ErrorModal';
+import { setErrorMessage } from '../errorHandling/actions';
 import SuccessModal from '../common/modal/SuccessModal';
 import YouTubeList from '../common/youtubelist/YouTubeList';
 import SubmitVideo from './SubmitVideo';
@@ -147,17 +147,10 @@ const Highlights = props => {
                 loadingRejectedVideos={props.loadingRejectedVideos}
                 submitVideoOpen={submitVideoOpen}
                 submitHighlightRequest={props.submitHighlightRequest}
-                submitHighlightError={props.setHighlightError}
+                setErrorMessage={props.setErrorMessage}
                 videosToBeApproved={props.videosToBeApproved}
                 videosRejected={props.videosRejected}
                 myVideos={props.videos.filter(x => x.userId === props.auth.uid)}
-            />
-            <ErrorModal
-                closeModal={props.closeHighlightError}
-                headerMessage={props.errorHeader}
-                isOpen={props.errorMessage.length > 0}
-                errorCode={props.errorCode}
-                errorMessage={props.errorMessage}
             />
             <SuccessModal
                 backdrop
@@ -175,9 +168,6 @@ Highlights.defaultProps = {
     auth: {
         uid: ''
     },
-    errorMessage: '',
-    errorCode: '',
-    errorHeader: '',
     loadingVideos: false,
     loadingVideosToBeApproved: false,
     loadingRejectedVideos: false,
@@ -196,11 +186,7 @@ Highlights.propTypes = {
     auth: PropTypes.shape({
         uid: PropTypes.string
     }),
-    closeHighlightError: PropTypes.func.isRequired,
     closeSuccessMessage: PropTypes.func.isRequired,
-    errorMessage: PropTypes.string,
-    errorCode: PropTypes.string,
-    errorHeader: PropTypes.string,
     deleteCommentRequest: PropTypes.func.isRequired,
     deleteReplyRequest: PropTypes.func.isRequired,
     downvoteHighlightRequest: PropTypes.func.isRequired,
@@ -212,7 +198,7 @@ Highlights.propTypes = {
     fetchUserHighlightsToBeApproved: PropTypes.func.isRequired,
     loadingVideos: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),
-    setHighlightError: PropTypes.func.isRequired,
+    setErrorMessage: PropTypes.func.isRequired,
     isSubmittingHighlight: PropTypes.bool,
     submitHighlightRequest: PropTypes.func.isRequired,
     successMessage: PropTypes.string,
@@ -225,7 +211,6 @@ Highlights.propTypes = {
 const mapDispatchToProps = {
     addCommentToVideoRequest,
     addReplyToVideoRequest,
-    closeHighlightError,
     closeSuccessMessage,
     deleteCommentRequest,
     deleteReplyRequest,
@@ -233,7 +218,7 @@ const mapDispatchToProps = {
     fetchRejectedHighlightsRequest,
     fetchHighlightsRequest,
     fetchUserHighlightsToBeApproved: fetchUserHighlightsToBeApprovedRequest,
-    setHighlightError,
+    setErrorMessage,
     submitHighlightRequest,
     upvoteHighlightRequest
 };
@@ -242,9 +227,6 @@ const mapStateToProps = state => ({
     auth: state.firebase.auth,
     commentError: state.highlights.commentError,
     commentErrorCode: state.highlights.commentErrorCode,
-    errorMessage: state.highlights.errorMessage,
-    errorCode: state.highlights.errorCode,
-    errorHeader: state.highlights.errorHeader,
     highlightError: state.highlights.submitLinkError,
     highlightErrorCode: state.highlights.submitLinkErrorCode,
     isAddingCommentToHighlight: state.highlights.isAddingCommentToHighlight,

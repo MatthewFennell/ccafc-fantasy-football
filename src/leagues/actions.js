@@ -2,31 +2,28 @@ const pre = 'LEAGUES/';
 
 export const FETCH_LEAGUES_REQUEST = `${pre}FETCH_LEAGUES_REQUEST`;
 export const FETCH_LEAGUES_SUCCESS = `${pre}FETCH_LEAGUES_SUCCESS`;
-export const FETCH_LEAGUES_ERROR = `${pre}FETCH_LEAGUES_ERROR`;
+export const CANCEL_FETCHING_LEAGUES = `${pre}CANCEL_FETCHING_LEAGUES`;
 export const ALREADY_FETCHED_LEAGUES = `${pre}ALREADY_FETCHED_LEAGUES`;
 
 export const FETCH_USERS_IN_LEAGUE_REQUEST = `${pre}FETCH_USERS_IN_LEAGUE_REQUEST`;
 export const FETCH_USERS_IN_LEAGUE_SUCCESS = `${pre}FETCH_USERS_IN_LEAGUE_SUCCESS`;
-export const FETCH_USERS_IN_LEAGUE_ERROR = `${pre}FETCH_USERS_IN_LEAGUE_ERROR`;
 export const ALREADY_FETCHED_USERS_IN_LEAGUE = `${pre}ALREADY_FETCHED_USERS_IN_LEAGUE`;
 export const FETCH_MORE_USER_IN_LEAGUE_SUCCESS = `${pre}FETCH_MORE_USER_IN_LEAGUE_SUCCESS`;
 export const FETCHED_ALL_USERS_IN_LEAGUE = `${pre}FETCHED_ALL_USERS_IN_LEAGUE`;
 export const FETCHING_USERS_IN_LEAGUE = `${pre}FETCHING_USERS_IN_LEAGUE`;
+export const CANCEL_FETCHING_USERS_IN_LEAGUE = `${pre}CANCEL_FETCHING_USERS_IN_LEAGUE`;
 
 export const CREATE_LEAGUE_REQUEST = `${pre}CREATE_LEAGUE_REQUEST`;
 export const CREATE_LEAGUE_SUCCESS = `${pre}CREATE_LEAGUE_SUCCESS`;
-export const CREATE_LEAGUE_ERROR = `${pre}CREATE_LEAGUE_ERROR`;
-export const CLOSE_CREATE_LEAGUE_ERROR = `${pre}CLOSE_CREATE_LEAGUE_ERROR`;
+export const CANCEL_CREATING_LEAGUE = `${pre}CANCEL_CREATING_LEAGUE`;
 
 export const JOIN_LEAGUE_REQUEST = `${pre}JOIN_LEAGUE_REQUEST`;
 export const JOIN_LEAGUE_SUCCESS = `${pre}JOIN_LEAGUE_SUCCESS`;
-export const JOIN_LEAGUE_ERROR = `${pre}JOIN_LEAGUE_ERROR`;
-export const CLOSE_JOIN_LEAGUE_ERROR = `${pre}CLOSE_JOIN_LEAGUE_ERROR`;
+export const CANCEL_JOINING_LEAGUE = `${pre}CANCEL_JOINING_LEAGUE`;
 
 export const LEAVE_LEAGUE_REQUEST = `${pre}LEAVE_LEAGUE_REQUEST`;
 export const LEAVE_LEAGUE_SUCCESS = `${pre}LEAVE_LEAGUE_SUCCESS`;
-export const LEAVE_LEAGUE_ERROR = `${pre}LEAVE_LEAGUE_ERROR`;
-export const CLOSE_LEAVE_LEAGUE_ERROR = `${pre}CLOSE_LEAVE_LEAGUE_ERROR`;
+export const CANCEL_LEAVING_LEAGUE = `${pre}CANCEL_LEAVING_LEAGUE`;
 
 export const fetchingUsersInLeague = leagueId => ({
     type: FETCHING_USERS_IN_LEAGUE,
@@ -45,6 +42,11 @@ export const fetchedAllUsersInLeague = leagueId => ({
     leagueId
 });
 
+export const cancelFetchingUsersInLeague = leagueId => ({
+    type: CANCEL_FETCHING_LEAGUES,
+    leagueId
+});
+
 export const alreadyFetchedLeagues = () => ({
     type: ALREADY_FETCHED_LEAGUES
 });
@@ -58,9 +60,8 @@ export const fetchLeaguesSuccess = leagues => ({
     leagues
 });
 
-export const fetchLeaguesError = error => ({
-    type: FETCH_LEAGUES_ERROR,
-    error
+export const cancelFetchingLeagues = () => ({
+    type: CANCEL_FETCHING_LEAGUES
 });
 
 export const alreadyFetchedUsersInLeague = leagueId => ({
@@ -87,12 +88,6 @@ export const fetchUsersInLeagueSuccess = (leagueId, usersInLeague, numberOfUsers
     leagueName
 });
 
-export const fetchUsersInLeagueError = (leagueId, error) => ({
-    type: FETCH_USERS_IN_LEAGUE_ERROR,
-    leagueId,
-    error
-});
-
 export const createLeagueRequest = (leagueName, startWeek) => ({
     type: CREATE_LEAGUE_REQUEST,
     leagueName,
@@ -104,13 +99,8 @@ export const createLeagueSuccess = leagues => ({
     leagues
 });
 
-export const createLeagueError = error => ({
-    type: CREATE_LEAGUE_ERROR,
-    error
-});
-
-export const closeCreateLeagueError = () => ({
-    type: CLOSE_CREATE_LEAGUE_ERROR
+export const cancelCreatingLeague = () => ({
+    type: CANCEL_CREATING_LEAGUE
 });
 
 export const joinLeagueRequest = leagueName => ({
@@ -123,13 +113,8 @@ export const joinLeagueSuccess = leagues => ({
     leagues
 });
 
-export const joinLeagueError = error => ({
-    type: JOIN_LEAGUE_ERROR,
-    error
-});
-
-export const closeJoinLeagueError = () => ({
-    type: CLOSE_JOIN_LEAGUE_ERROR
+export const cancelJoiningLeague = () => ({
+    type: CANCEL_JOINING_LEAGUE
 });
 
 export const leaveLeagueRequest = leagueId => ({
@@ -142,11 +127,6 @@ export const leaveLeagueSuccess = leagues => ({
     leagues
 });
 
-export const leaveLeagueError = error => ({
-    type: LEAVE_LEAGUE_ERROR,
-    error
-});
-
-export const closeLeaveLeagueError = () => ({
-    type: CLOSE_LEAVE_LEAGUE_ERROR
+export const cancelLeavingLeague = () => ({
+    type: CANCEL_LEAVING_LEAGUE
 });

@@ -2,38 +2,22 @@ import fp from 'lodash/fp';
 import * as actions from './actions';
 
 export const initialState = {
-    createLeagueError: '',
-    createLeagueErrorCode: '',
     creatingLeague: false,
-
-    joinLeagueError: '',
-    joinLeagueErrorCode: '',
-    joiningLeague: false,
-
-    leagues: [],
-
-    leaveLeagueError: '',
-    leaveLeagueErrorCode: '',
     leavingLeague: false,
-
+    joiningLeague: false,
+    leagues: [],
     usersInLeague: {},
-
     fetchingLeagues: false,
     fetchingUsersInLeague: false,
-
     fetchedAllUsersInLeague: {}
 };
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
     case actions.FETCH_LEAGUES_SUCCESS: {
-        return {
-            ...state,
-            leagues: action.leagues,
-            fetchingLeagues: false
-        };
+        return fp.set('leagues', action.leagues)(state);
     }
-    case actions.FETCH_LEAGUES_ERROR: {
+    case actions.CANCEL_FETCHING_LEAGUES: {
         return fp.set('fetchingLeagues', false)(state);
     }
     case actions.ALREADY_FETCHED_LEAGUES: {
@@ -62,20 +46,8 @@ const authReducer = (state = initialState, action) => {
             joiningLeague: false
         };
     }
-    case actions.JOIN_LEAGUE_ERROR: {
-        return {
-            ...state,
-            joinLeagueError: action.error.message,
-            joinLeagueErrorCode: action.error.code,
-            joiningLeague: false
-        };
-    }
-    case actions.CLOSE_JOIN_LEAGUE_ERROR: {
-        return {
-            ...state,
-            joinLeagueError: '',
-            joinLeagueErrorCode: ''
-        };
+    case actions.CANCEL_JOINING_LEAGUE: {
+        return fp.set('joiningLeague', true)(state);
     }
     case actions.LEAVE_LEAGUE_SUCCESS: {
         return {
@@ -84,52 +56,27 @@ const authReducer = (state = initialState, action) => {
             leavingLeague: false
         };
     }
-    case actions.LEAVE_LEAGUE_ERROR: {
-        return {
-            ...state,
-            leavingLeague: false,
-            leaveLeagueError: action.error.message,
-            leaveLeagueErrorCode: action.error.code
-        };
+    case actions.CANCEL_LEAVING_LEAGUE: {
+        return fp.set('leavingLeague', false)(state);
     }
     case actions.FETCH_USERS_IN_LEAGUE_SUCCESS: {
         return fp.flow(
             fp.set(`usersInLeague.${action.leagueId}.users`, action.usersInLeague),
-            fp.set(`usersInLeague.${action.leagueId}.fetching`, false),
             fp.set(`usersInLeague.${action.leagueId}.numberOfUsers`, action.numberOfUsers),
             fp.set(`usersInLeague.${action.leagueId}.leagueName`, action.leagueName)
         )(state);
     }
-    case actions.CREATE_LEAGUE_ERROR: {
-        return {
-            ...state,
-            createLeagueError: action.error.message,
-            createLeagueErrorCode: action.error.code,
-            creatingLeague: false
-        };
+    case actions.CANCEL_FETCHING_USERS_IN_LEAGUE: {
+        return fp.set(`usersInLeague.${action.leagueId}.fetching`, false)(state);
     }
-    case actions.CLOSE_CREATE_LEAGUE_ERROR: {
-        return {
-            ...state,
-            createLeagueError: '',
-            createLeagueErrorCode: ''
-        };
-    }
-    case actions.CLOSE_LEAVE_LEAGUE_ERROR: {
-        return {
-            ...state,
-            leaveLeagueError: '',
-            leaveLeagueErrorCode: ''
-        };
+    case actions.CANCEL_CREATING_LEAGUE: {
+        return fp.set('creatingLeague', false)(state);
     }
     case actions.FETCH_LEAGUES_REQUEST: {
         return fp.set('fetchingLeagues', true)(state);
     }
     case actions.FETCHING_USERS_IN_LEAGUE: {
         return fp.set(`usersInLeague.${action.leagueId}.fetching`, true)(state);
-    }
-    case actions.FETCH_USERS_IN_LEAGUE_ERROR: {
-        return fp.set(`usersInLeague.${action.leagueId}.fetching`, false)(state);
     }
     case actions.ALREADY_FETCHED_USERS_IN_LEAGUE: {
         return fp.set(`usersInLeague.${action.leagueId}.fetching`, false)(state);

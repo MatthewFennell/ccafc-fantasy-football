@@ -34,7 +34,6 @@ export const SET_ADDING_COMMENT_TO_VIDEO = `${pre}SET_ADDING_COMMENT_TO_VIDEO`;
 export const DELETE_REPLY_REQUEST = `${pre}DELETE_REPLY_REQUEST`;
 export const DELETE_REPLY_SUCCESS = `${pre}DELETE_REPLY_SUCCESS`;
 
-export const SET_HIGHLIGHT_ERROR = `${pre}SET_HIGHLIGHT_ERROR`;
 export const CLOSE_HIGHLIGHT_ERROR = `${pre}CLOSE_HIGHLIGHT_ERROR`;
 
 export const SET_SUCCESS_MESSAGE = `${pre}SET_SUCCESS_MESSAGE`;
@@ -52,12 +51,6 @@ export const setSuccessMessage = message => ({
 
 export const closeSuccessMessage = () => ({
     type: CLOSE_SUCCESS_MESSAGE
-});
-
-export const setHighlightError = (error, header) => ({
-    type: SET_HIGHLIGHT_ERROR,
-    error,
-    header
 });
 
 export const closeHighlightError = () => ({

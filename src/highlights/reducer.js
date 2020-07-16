@@ -15,10 +15,6 @@ export const initialState = {
     loadedRejectedVideos: false,
     loadedVideosToBeApproved: false,
 
-    errorHeader: '',
-    errorMessage: '',
-    errorCode: '',
-
     successMessage: '',
     isSubmittingHighlight: false,
 
@@ -178,14 +174,6 @@ const highlightsReducer = (state = initialState, action) => {
                     }) : z))
                 })))
             }))
-        };
-    }
-    case actions.SET_HIGHLIGHT_ERROR: {
-        return {
-            ...state,
-            errorMessage: action.error.message,
-            errorCode: action.error.code,
-            errorHeader: action.header
         };
     }
     case actions.CLOSE_HIGHLIGHT_ERROR: {
