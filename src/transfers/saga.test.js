@@ -8,6 +8,7 @@ import * as actions from './actions';
 import * as selectors from './selectors';
 import * as currentTeamActions from '../currentteam/actions';
 import { successDelay } from '../constants';
+import { setErrorMessage } from '../errorHandling/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -65,7 +66,7 @@ describe('Transfers saga', () => {
                 [matchers.call.fn(api.getAllPlayers), throwError(error)],
                 { select: alreadyFetchedInfo(false) }
             ])
-            .put(actions.fetchAllPlayersError(error))
+            .put(setErrorMessage('Error Fetching Players', error))
             .run();
     });
 
@@ -77,13 +78,13 @@ describe('Transfers saga', () => {
             .run();
     });
 
-    it('already fetched all teams', () => {
-        const action = actions.fetchAllTeamsRequest();
-        return expectSaga(sagas.fetchAllTeams, api, action)
-            .provide([{ select: alreadyFetchedInfo(true) }])
-            .put(actions.alreadyFetchedAllPlayers())
-            .run();
-    });
+    // it('already fetched all teams', () => {
+    //     const action = actions.fetchAllTeamsRequest();
+    //     return expectSaga(sagas.fetchAllTeams, api, action)
+    //         .provide([{ select: alreadyFetchedInfo(true) }])
+    //         .put(actions.alreadyFetchedAllPlayers())
+    //         .run();
+    // });
 
     it('fetch all teams error', () => {
         const error = new Error('error');
@@ -93,7 +94,7 @@ describe('Transfers saga', () => {
                 [matchers.call.fn(api.getAllTeams), throwError(error)],
                 { select: alreadyFetchedInfo(false) }
             ])
-            .put(actions.fetchAllTeamsError(error))
+            .put(setErrorMessage('Error Fetching Teams', error))
             .run();
     });
 
@@ -123,7 +124,7 @@ describe('Transfers saga', () => {
         const action = actions.addPlayerToCurrentTeamRequest(player);
         return expectSaga(sagas.addPlayerToCurrentTeam, action)
             .provide([{ select: alreadyFetchedInfo(true) }])
-            .put(actions.addPlayerToCurrentTeamError({
+            .put(setErrorMessage('Error Adding Player To Team', {
                 code: 'already-found',
                 message: 'You already have that player selected'
             }))
@@ -162,7 +163,7 @@ describe('Transfers saga', () => {
                 [matchers.call.fn(api.updateTeam), throwError(error)],
                 { select: alreadyFetchedInfo(false) }
             ])
-            .put(actions.updateTeamError(error))
+            .put(setErrorMessage('Error Updating Team', error))
             .run();
     });
 
@@ -202,7 +203,7 @@ describe('Transfers saga', () => {
         const action = actions.replacePlayerRequest(playerToRemove, playerToAdd);
         return expectSaga(sagas.replacePlayer, action)
             .provide([{ select: alreadyFetchedInfo(true) }])
-            .put(actions.replacePlayerError({
+            .put(setErrorMessage('Error Replacing Player', {
                 code: 'not-found',
                 message: 'You are trying to remove a player not in your team'
             }))

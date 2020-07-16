@@ -3,6 +3,7 @@ import * as matchers from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
 import * as sagas from './saga';
 import * as actions from './actions';
+import { setErrorMessage } from '../errorHandling/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -33,7 +34,7 @@ describe('Stats saga', () => {
             .provide([
                 [matchers.call.fn(api.getTeamStatsByWeek), throwError(error)]
             ])
-            .put(actions.fetchTeamStatsByWeekError(error))
+            .put(setErrorMessage('Error Fetching Team Stats For Week', error))
             .run();
     });
 });

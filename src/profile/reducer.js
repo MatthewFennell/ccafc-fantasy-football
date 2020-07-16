@@ -3,8 +3,6 @@ import * as actions from './actions';
 
 export const initialState = {
     attemptedEmailToLink: '',
-    linkAccountErrorCode: '',
-    linkAccountError: '',
 
     updatingDisplayName: false,
     updateDisplayNameError: '',
@@ -23,22 +21,6 @@ export const initialState = {
 
 const profileReducer = (state = initialState, action) => {
     switch (action.type) {
-    case actions.LINK_PROFILE_TO_FACEBOOK_ERROR: {
-        return {
-            ...state,
-            attemptedEmailToLink: action.error.email,
-            linkAccountErrorCode: action.error.code,
-            linkAccountError: action.error.message
-        };
-    }
-    case actions.LINK_PROFILE_TO_GOOGLE_ERROR: {
-        return {
-            ...state,
-            attemptedEmailToLink: action.error.email,
-            linkAccountErrorCode: action.error.code,
-            linkAccountError: action.error.message
-        };
-    }
     case actions.CLOSE_ACCOUNT_LINK_ERROR: {
         return {
             ...state,
@@ -56,16 +38,8 @@ const profileReducer = (state = initialState, action) => {
     case actions.UPDATE_DISPLAY_NAME_REQUEST: {
         return fp.set('updatingDisplayName', true)(state);
     }
-    case actions.UPDATE_DISPLAY_NAME_SUCCESS: {
+    case actions.CANCEL_UPDATING_DISPLAY_NAME: {
         return fp.set('updatingDisplayName', false)(state);
-    }
-    case actions.UPDATE_DISPLAY_NAME_ERROR: {
-        return {
-            ...state,
-            updatingDisplayName: false,
-            updateDisplayNameError: action.error.message,
-            updateDisplayNameErrorCode: action.error.code
-        };
     }
     case actions.CLOSE_DISPLAY_NAME_ERROR: {
         return {
@@ -93,13 +67,6 @@ const profileReducer = (state = initialState, action) => {
             ...state,
             updateTeamNameError: '',
             updateTeamNameErrorCode: ''
-        };
-    }
-    case actions.DELETE_ACCOUNT_ERROR: {
-        return {
-            ...state,
-            deleteAccountError: action.error.message,
-            deleteAccountErrorCode: action.error.code
         };
     }
     case actions.CLOSE_DELETE_ACCOUNT_ERROR: {

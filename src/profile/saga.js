@@ -5,13 +5,14 @@ import firebase from 'firebase';
 import * as actions from './actions';
 import * as profileApi from './api';
 import { signOut } from '../auth/actions';
+import { setErrorMessage } from '../errorHandling/actions';
 
 export function* linkProfileToGoogle() {
     try {
         const provider = new firebase.auth.GoogleAuthProvider();
         yield firebase.auth().currentUser.linkWithPopup(provider);
     } catch (error) {
-        yield put(actions.linkProfileToGoogleError(error));
+        yield put(setErrorMessage, `Error Linking Email To Google - ${error.email}`, error);
     }
 }
 
@@ -21,7 +22,7 @@ export function* linkProfileToFacebook(api) {
         yield firebase.auth().currentUser.linkWithPopup(provider);
         yield call(api.linkFacebookAccount);
     } catch (error) {
-        yield put(actions.linkProfileToFacebookError(error));
+        yield put(setErrorMessage, `Error Linking Email To Facebook - ${error.email}`, error);
     }
 }
 
@@ -30,7 +31,9 @@ export function* updateDisplayName(api, action) {
         yield call(api.updateDisplayName, { displayName: action.displayName });
         yield put(actions.updateDisplayNameSuccess());
     } catch (error) {
-        yield put(actions.updateDisplayNameError(error));
+        yield put(setErrorMessage('Error Updating Display Name', error));
+    } finally {
+        yield put(actions.cancelUpdatingDisplayName());
     }
 }
 
@@ -47,13 +50,13 @@ export function* deleteAccount(api, action) {
     try {
         const currentEmail = firebase.auth().currentUser.email;
         if (currentEmail !== action.email) {
-            yield put(actions.deleteAccountError({ code: 'not-found', message: 'That is not your email' }));
+            yield put(setErrorMessage('Error Deleting Account', { code: 'not-found', message: 'That is not your email' }));
         } else {
             yield call(api.deleteUser, { email: action.email });
             yield put(signOut());
         }
     } catch (error) {
-        yield put(actions.deleteAccountError(error));
+        yield put(setErrorMessage('Error Deleting Account', error));
     } finally {
         yield put(actions.setDeletingAccount(false));
     }
@@ -67,7 +70,7 @@ export function* updateProfilePicture(api, action) {
         const userId = firebase.auth().currentUser.uid;
         yield put(actions.updateProfilePictureSuccess(action.photoUrl, userId));
     } catch (error) {
-        yield put(actions.updateProfilePictureError(error));
+        yield put(setErrorMessage('Error Updating Profile Picture', error));
     } finally {
         yield put(actions.setPhotoUrlBeingUpdated(''));
     }
