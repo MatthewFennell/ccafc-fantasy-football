@@ -87,9 +87,9 @@ export function* sendResetPasswordEmail(action) {
 export function* resendVerificationEmall() {
     try {
         yield firebase.auth().currentUser.sendEmailVerification(actionCodeSettings);
-        yield put(actions.resendEmailVerificationSuccess());
     } catch (error) {
         yield put(setErrorMessage('Resend Email Verification Error', error));
+    } finally {
         yield put(actions.cancelSendingEmailVerification());
     }
 }
@@ -103,7 +103,7 @@ export function* editDisabledPage(api, action) {
     } catch (error) {
         yield put(setErrorMessage('Edit Disabled Pages Error', error));
     } finally {
-        yield put(actions.setIsEditingPage(''));
+        yield put(actions.cancelEditingPage(''));
     }
 }
 

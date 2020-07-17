@@ -35,7 +35,7 @@ describe('Current team saga', () => {
                 }
             ])
             .put(actions.alreadyFetchedActiveTeam('userId'))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('fetch active team', () => {
@@ -47,7 +47,7 @@ describe('Current team saga', () => {
                 }
             ])
             .put(actions.fetchActiveTeamSuccess('userId', 'players', 'captain'))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('fetch active team forced', () => {
@@ -59,7 +59,7 @@ describe('Current team saga', () => {
                 }
             ])
             .put(actions.fetchActiveTeamSuccess('userId', 'players', 'captain'))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('fetch active team error', () => {
@@ -71,7 +71,7 @@ describe('Current team saga', () => {
                 { select: alreadyFetchedInfo(false) }
             ])
             .put(setErrorMessage('Fetch Active Team Error', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('make captain', () => {
@@ -96,7 +96,7 @@ describe('Current team saga', () => {
         const action = actions.makeCaptainRequest('playerId');
         return expectSaga(sagas.makeCaptain, api, action)
             .put(actions.reloadActiveTeamRequest('uniqueId'))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('make captain error', () => {
@@ -107,6 +107,6 @@ describe('Current team saga', () => {
                 [matchers.call.fn(api.makeCaptain), throwError(error)]
             ])
             .put(setErrorMessage('Make Captain Error', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 });

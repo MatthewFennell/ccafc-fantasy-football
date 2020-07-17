@@ -71,13 +71,13 @@ describe('Profile saga', () => {
     it('link profile to google', () => {
         const action = actions.linkProfileToGoogle();
         return expectSaga(sagas.linkProfileToGoogle, api, action)
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('link profile to facebook', () => {
         const action = actions.linkProfileToFacebook();
         return expectSaga(sagas.linkProfileToFacebook, api, action)
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     // it('link profile to facebook error', () => {
@@ -88,14 +88,14 @@ describe('Profile saga', () => {
     //             [matchers.call.fn(api.linkFacebookAccount), throwError(error)]
     //         ])
     //         .put(setErrorMessage(error))
-    //         .run();
+    //         .run({ silenceTimeout: true });;
     // });
 
     it('update display name', () => {
         const action = actions.updateDisplayNameRequest('displayName');
         return expectSaga(sagas.updateDisplayName, api, action)
             .put(actions.updateDisplayNameSuccess())
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('update display name error', () => {
@@ -106,14 +106,14 @@ describe('Profile saga', () => {
                 [matchers.call.fn(api.updateDisplayName), throwError(error)]
             ])
             .put(setErrorMessage('Error Updating Display Name', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('update team name', () => {
         const action = actions.updateTeamNameRequest('teamName');
         return expectSaga(sagas.updateTeamName, api, action)
             .put(actions.updateTeamNameSuccess())
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('update team name error', () => {
@@ -124,7 +124,7 @@ describe('Profile saga', () => {
                 [matchers.call.fn(api.updateTeamName), throwError(error)]
             ])
             .put(actions.updateTeamNameError(error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('delete account error', () => {
@@ -134,7 +134,7 @@ describe('Profile saga', () => {
                 code: 'not-found',
                 message: 'That is not your email'
             }))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('delete account throw error', () => {
@@ -145,7 +145,7 @@ describe('Profile saga', () => {
                 [matchers.call.fn(api.deleteUser), throwError(error)]
             ])
             .put(setErrorMessage('Error Deleting Account', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('delete account', () => {
@@ -153,14 +153,14 @@ describe('Profile saga', () => {
         return expectSaga(sagas.deleteAccount, api, action)
             .put(actions.setDeletingAccount(false))
             .put(signOut())
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('update profile picture', () => {
         const action = actions.updateProfilePictureRequest('photoUrl');
         return expectSaga(sagas.updateProfilePicture, api, action)
             .put(actions.updateProfilePictureSuccess('photoUrl', 'uid'))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('update profile picture error', () => {
@@ -171,6 +171,6 @@ describe('Profile saga', () => {
                 [matchers.call.fn(api.updateProfilePicture), throwError(error)]
             ])
             .put(setErrorMessage('Error Updating Profile Picture', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 });

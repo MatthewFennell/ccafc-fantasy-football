@@ -24,7 +24,7 @@ describe('Stats saga', () => {
                 minWeek: 3,
                 maxWeek: 7
             }))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('fetch stats error', () => {
@@ -35,6 +35,6 @@ describe('Stats saga', () => {
                 [matchers.call.fn(api.getTeamStatsByWeek), throwError(error)]
             ])
             .put(setErrorMessage('Error Fetching Team Stats For Week', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 });

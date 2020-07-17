@@ -141,7 +141,7 @@ const transfersReducer = (state = initialState, action) => {
     case actions.CLOSE_SUCCESS_MESSAGE: {
         return fp.set('successMessage', '')(state);
     }
-    case adminActions.SET_HAS_PAID_SUBS_SUCCESS: {
+    case adminActions.CANCEL_UPDATING_SUBS: {
         return {
             ...state,
             allPlayers: state.allPlayers

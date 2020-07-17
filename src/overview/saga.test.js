@@ -34,7 +34,7 @@ describe('Overview saga', () => {
                 }
             ])
             .put(actions.fetchUserStatsSuccess('userId', 'stats'))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('getting user stats error', () => {
@@ -46,14 +46,14 @@ describe('Overview saga', () => {
                 { select: alreadyFetchedUserStatsOrInfo(false) }
             ])
             .put(setErrorMessage('Error Fetching User Stats', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('get max gameweek', () => {
         const action = actions.fetchMaxGameWeekRequest();
         return expectSaga(sagas.getMaxGameWeek, api, action)
             .put(actions.fetchMaxGameWeekSuccess(5))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('get max gameweek error', () => {
@@ -64,7 +64,7 @@ describe('Overview saga', () => {
                 [matchers.call.fn(api.getMaxGameWeek), throwError(error)]
             ])
             .put(setErrorMessage('Error Fetching Gameweek', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('getting user info', () => {
@@ -76,7 +76,7 @@ describe('Overview saga', () => {
                 }
             ])
             .put(actions.fetchUserInfoForWeekSuccess('userId', 3, 'userInfo'))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('getting user info error', () => {
@@ -89,6 +89,6 @@ describe('Overview saga', () => {
             ])
             .put(setErrorMessage('Error Fetching User Info for Week', error))
             .put(actions.cancelFetchingUserInfoForWeek('userId', 3))
-            .run();
+            .run({ silenceTimeout: true });
     });
 });

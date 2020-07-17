@@ -34,7 +34,7 @@ describe('Fixtures saga', () => {
                 { select: alreadyFetchedInfo(false) }
             ])
             .put(actions.fetchFixturesSuccess('fixtures'))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('fetch fixtures error', () => {
@@ -46,7 +46,7 @@ describe('Fixtures saga', () => {
                 { select: alreadyFetchedInfo(false) }
             ])
             .put(setErrorMessage('Error Fetching Fixtures', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('set my team', () => {
@@ -57,7 +57,7 @@ describe('Fixtures saga', () => {
             .put(actions.setSuccessMessage('Team successfully set'))
             .delay(successDelay)
             .put(actions.closeSuccessMessage())
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('set my team error', () => {
@@ -68,14 +68,14 @@ describe('Fixtures saga', () => {
                 [matchers.call.fn(api.setMyTeam), throwError(error)]
             ])
             .put(setErrorMessage('Error Setting Team', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('fetch my team', () => {
         const action = actions.fetchMyTeamRequest();
         return expectSaga(sagas.fetchMyTeam, api, action)
             .put(actions.setMyTeam('myTeam'))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('fetch my team error', () => {
@@ -86,6 +86,6 @@ describe('Fixtures saga', () => {
                 [matchers.call.fn(api.fetchMyTeam), throwError(error)]
             ])
             .put(setErrorMessage('Error Fetching Team', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 });

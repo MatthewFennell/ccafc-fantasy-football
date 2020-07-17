@@ -24,7 +24,7 @@ describe('Feature requests saga', () => {
     it('add reply to comment', () => {
         const action = actions.addReplyToCommentRequest('reply', 'featureId', 'commentId');
         return expectSaga(sagas.addReplyToComment, api, action)
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('add reply to comment error', () => {
@@ -35,13 +35,13 @@ describe('Feature requests saga', () => {
                 [matchers.call.fn(api.addReply), throwError(error)]
             ])
             .put(setErrorMessage('Error Replying To Feature Request', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('add comment to feature', () => {
         const action = actions.addCommentToFeatureRequest('comment', 'featureId');
         return expectSaga(sagas.addCommentToFeature, api, action)
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('add comment to feature error', () => {
@@ -52,7 +52,7 @@ describe('Feature requests saga', () => {
                 [matchers.call.fn(api.addComment), throwError(error)]
             ])
             .put(setErrorMessage('Error Adding Comment To Feature Request', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('submit feature', () => {
@@ -62,7 +62,7 @@ describe('Feature requests saga', () => {
             .put(actions.setSuccessMessage('Feature submitted successfully'))
             .delay(successDelay)
             .put(actions.closeSuccessMessage())
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('submit feature error', () => {
@@ -73,13 +73,13 @@ describe('Feature requests saga', () => {
                 [matchers.call.fn(api.submitFeature), throwError(error)]
             ])
             .put(setErrorMessage('Error Submitting Feature Request', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('delete comment', () => {
         const action = actions.deleteCommentRequest('featureId', 'commentId');
         return expectSaga(sagas.deleteComment, api, action)
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('delete comment error', () => {
@@ -90,13 +90,13 @@ describe('Feature requests saga', () => {
                 [matchers.call.fn(api.deleteComment), throwError(error)]
             ])
             .put(setErrorMessage('Error Deleting Comment', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('delete reply ', () => {
         const action = actions.deleteReplyRequest('featureId', 'commentId', 'replyId');
         return expectSaga(sagas.deleteReply, api, action)
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('delete reply error', () => {
@@ -107,6 +107,6 @@ describe('Feature requests saga', () => {
                 [matchers.call.fn(api.deleteReply), throwError(error)]
             ])
             .put(setErrorMessage('Error Deleting Reply', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 });

@@ -47,7 +47,7 @@ describe('Transfers saga', () => {
         return expectSaga(sagas.fetchAllPlayers, api, action)
             .provide([{ select: alreadyFetchedInfo(false) }])
             .put(actions.fetchAllPlayersSuccess('all players'))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('already fetched all players', () => {
@@ -55,7 +55,7 @@ describe('Transfers saga', () => {
         return expectSaga(sagas.fetchAllPlayers, api, action)
             .provide([{ select: alreadyFetchedInfo(true) }])
             .not.put(actions.fetchAllPlayersSuccess('all players'))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('fetch all players error', () => {
@@ -67,7 +67,7 @@ describe('Transfers saga', () => {
                 { select: alreadyFetchedInfo(false) }
             ])
             .put(setErrorMessage('Error Fetching Players', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('fetch all teams', () => {
@@ -75,7 +75,7 @@ describe('Transfers saga', () => {
         return expectSaga(sagas.fetchAllTeams, api, action)
             .provide([{ select: alreadyFetchedInfo(false) }])
             .put(actions.fetchAllTeamsSuccess('all teams'))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     // it('already fetched all teams', () => {
@@ -83,7 +83,7 @@ describe('Transfers saga', () => {
     //     return expectSaga(sagas.fetchAllTeams, api, action)
     //         .provide([{ select: alreadyFetchedInfo(true) }])
     //         .put(actions.alreadyFetchedAllPlayers())
-    //         .run();
+    //         .run({ silenceTimeout: true });;
     // });
 
     it('fetch all teams error', () => {
@@ -95,7 +95,7 @@ describe('Transfers saga', () => {
                 { select: alreadyFetchedInfo(false) }
             ])
             .put(setErrorMessage('Error Fetching Teams', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('can add player to current team', () => {
@@ -111,7 +111,7 @@ describe('Transfers saga', () => {
                 ...player,
                 position: 'DEFENDER'
             })))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('cant add player to current team', () => {
@@ -128,7 +128,7 @@ describe('Transfers saga', () => {
                 code: 'already-found',
                 message: 'You already have that player selected'
             }))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('update team', () => {
@@ -152,7 +152,7 @@ describe('Transfers saga', () => {
             .put(actions.setSuccessMessage('Team successfully updated'))
             .delay(successDelay)
             .put(actions.closeSuccessMessage())
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('update team error', () => {
@@ -164,7 +164,7 @@ describe('Transfers saga', () => {
                 { select: alreadyFetchedInfo(false) }
             ])
             .put(setErrorMessage('Error Updating Team', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('replace player', () => {
@@ -184,7 +184,7 @@ describe('Transfers saga', () => {
         return expectSaga(sagas.replacePlayer, action)
             .provide([{ select: alreadyFetchedInfo(true) }])
             .put(actions.replacePlayerSuccess(playerToRemove, playerToAdd))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('cant replace player that does not exist', () => {
@@ -207,6 +207,6 @@ describe('Transfers saga', () => {
                 code: 'not-found',
                 message: 'You are trying to remove a player not in your team'
             }))
-            .run();
+            .run({ silenceTimeout: true });
     });
 });

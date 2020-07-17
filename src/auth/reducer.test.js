@@ -14,8 +14,35 @@ describe('Auth reducer', () => {
         });
     });
 
-    it('resend verification email success', () => {
-        const action = actions.resendEmailVerificationSuccess();
+    it('set loading app', () => {
+        const action = actions.setLoadingApp(true);
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            loadingApp: true
+        });
+    });
+
+    it('edit disabled page request', () => {
+        const action = actions.editDisabledPageRequest('page');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isEditingPage: 'page'
+        });
+    });
+
+    it('cancel is editing page', () => {
+        const action = actions.cancelEditingPage();
+        expect(reducer({
+            ...initialState,
+            isEditingPage: 'page'
+        }, action)).toEqual({
+            ...initialState,
+            isEditingPage: ''
+        });
+    });
+
+    it('cancel sending email verification', () => {
+        const action = actions.cancelSendingEmailVerification();
         expect(reducer({
             ...initialState,
             sendingEmailVerification: true

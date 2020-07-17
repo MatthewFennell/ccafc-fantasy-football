@@ -734,7 +734,7 @@ describe('Transfers reducer', () => {
             }
         ];
 
-        const action = adminActions.setHasPaidSubsSuccess(changes);
+        const action = adminActions.cancelUpdatingSubs(changes);
 
         expect(reducer({
             ...initialState,

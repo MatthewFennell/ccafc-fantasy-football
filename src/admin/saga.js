@@ -157,12 +157,13 @@ export function* editPlayerStats(api, action) {
         const playerStats = yield call(api.getPlayerStats,
             { playerId: action.playerId, week: action.week });
         yield put(actions.fetchPlayerStatsSuccess(playerStats));
-        yield put(actions.editPlayerStatsSuccess());
         yield put(actions.setSuccessMessage('Played successfully edited'));
         yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
     } catch (error) {
         yield put(setErrorMessage('Edit Player Stats Error', error));
+    } finally {
+        yield put(actions.cancelEditingPlayerStats());
     }
 }
 
@@ -172,11 +173,11 @@ export function* usersWithExtraRoles(api) {
         if (alreadyFetched && alreadyFetched.length === 0) {
             const extraRoles = yield call(api.getUsersWithExtraRoles);
             yield put(actions.fetchUsersWithExtraRolesSuccess(extraRoles));
-        } else {
-            yield put(actions.alreadyFetchedUsersWithExtraRoles());
         }
     } catch (error) {
         yield put(setErrorMessage('Fetch User Roles Error', error));
+    } finally {
+        yield put(actions.cancelFetchingUsersWithExtraRoles());
     }
 }
 
@@ -194,6 +195,8 @@ export function* addUserRole(api, action) {
         yield put(actions.closeSuccessMessage());
     } catch (error) {
         yield put(setErrorMessage('Add User Role Error', error));
+    } finally {
+        yield put(actions.cancelFetchingUsersWithExtraRoles());
     }
 }
 
@@ -211,6 +214,8 @@ export function* removeUserRole(api, action) {
         yield put(actions.closeSuccessMessage());
     } catch (error) {
         yield put(setErrorMessage('Remove User Role Error', error));
+    } finally {
+        yield put(actions.cancelFetchingUsersWithExtraRoles());
     }
 }
 
@@ -229,7 +234,7 @@ export function* rollOverToNextYear(api) {
     } catch (error) {
         yield put(setErrorMessage('Rolling Over To Next Year Error', error));
     } finally {
-        yield put(actions.setRollingOverToNextYear(true));
+        yield put(actions.setRollingOverToNextYear(false));
     }
 }
 
@@ -247,11 +252,11 @@ export function* fetchHighlightsForApproval(api) {
         if (!fetchedHighlights) {
             const highlights = yield call(api.getHighlightsForApproval);
             yield put(actions.fetchHighlightsForApprovalSuccess(highlights));
-        } else {
-            yield put(actions.alreadyFetchedHighlightsForApproval());
         }
     } catch (error) {
         yield put(setErrorMessage('Fetch Highlights For Approval Error', error));
+    } finally {
+        yield put(actions.cancelingFetchingHighlightsForApproval());
     }
 }
 
@@ -264,6 +269,8 @@ export function* approveHighlight(api, action) {
         yield put(actions.closeSuccessMessage());
     } catch (error) {
         yield put(setErrorMessage('Approve Highlight Error', error));
+    } finally {
+        yield put(actions.cancelApprovingHighlight());
     }
 }
 
@@ -279,6 +286,8 @@ export function* rejectHighlight(api, action) {
         yield put(actions.closeSuccessMessage());
     } catch (error) {
         yield put(setErrorMessage('Reject Highlight Error', error));
+    } finally {
+        yield put(actions.cancelRejectingHighlight());
     }
 }
 
@@ -294,6 +303,8 @@ export function* deleteHighlight(api, action) {
         yield put(actions.closeSuccessMessage());
     } catch (error) {
         yield put(setErrorMessage('Delete Highlight Error', error));
+    } finally {
+        yield put(actions.cancelDeletingHighlight());
     }
 }
 
@@ -303,11 +314,11 @@ export function* fetchRejectedHighlights(api) {
         if (!fetchedHighlights) {
             const highlights = yield call(api.rejectedHighlights);
             yield put(actions.fetchAllRejectedHighlightsSuccess(highlights));
-        } else {
-            yield put(actions.alreadyFetchedRejectedHighlights());
         }
     } catch (error) {
         yield put(setErrorMessage('Fetch Rejected Highlights Error', error));
+    } finally {
+        yield put(actions.cancelFetchingRejectedHighlights());
     }
 }
 
@@ -321,6 +332,8 @@ export function* reapproveRejectedHighlight(api, action) {
         yield put(actions.closeSuccessMessage());
     } catch (error) {
         yield put(setErrorMessage('Reapprove Rejected Highlight Error', error));
+    } finally {
+        yield put(actions.cancelLoadingRejectedHighlights());
     }
 }
 
@@ -334,23 +347,13 @@ export function* submitExtraResults(api, action) {
             penaltyMissed: action.penaltyMissed,
             ownGoal: action.ownGoal
         }));
-        yield put(actions.submitExtraStatsSuccess());
         yield put(actions.setSuccessMessage('Extra stats successfully submitted'));
         yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
     } catch (error) {
         yield put(setErrorMessage('Submit Extra Results Error', error));
-    }
-}
-
-export function* setHasPaidSubs(api, action) {
-    try {
-        yield call(api.setHasPaidSubs, ({
-            changes: action.changes
-        }));
-        yield put(actions.setHasPaidSubsSuccess(action.changes));
-    } catch (error) {
-        yield put(setErrorMessage('Set Subs Paid Error', error));
+    } finally {
+        yield put(actions.cancelSubmittingExtraStats());
     }
 }
 
@@ -372,7 +375,19 @@ export function* deleteBug(api, action) {
     } catch (error) {
         yield put(setErrorMessage('Delete Bug Error', error));
     } finally {
-        yield put(actions.deleteFeatureSuccess());
+        yield put(actions.cancelDeletingBug());
+    }
+}
+
+export function* setHasPaidSubs(api, action) {
+    try {
+        yield call(api.setHasPaidSubs, ({
+            changes: action.changes
+        }));
+    } catch (error) {
+        yield put(setErrorMessage('Set Subs Paid Error', error));
+    } finally {
+        yield put(actions.cancelUpdatingSubs(action.changes));
     }
 }
 

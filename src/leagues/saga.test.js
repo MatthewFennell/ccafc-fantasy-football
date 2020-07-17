@@ -70,7 +70,7 @@ describe('League saga', () => {
                 }
             ])
             .put(actions.alreadyFetchedLeagues())
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('getting user stats', () => {
@@ -82,7 +82,7 @@ describe('League saga', () => {
                 }
             ])
             .put(actions.fetchLeaguesSuccess(['leagues']))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('getting user stats error', () => {
@@ -94,7 +94,7 @@ describe('League saga', () => {
                 { select: alreadyFetchedInfo(false) }
             ])
             .put(setErrorMessage('Error Fetching Leagues', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('fetching users in league', () => {
@@ -107,7 +107,7 @@ describe('League saga', () => {
             ])
             .put(actions.fetchingUsersInLeague('leagueId'))
             .put(actions.fetchUsersInLeagueSuccess('leagueId', ['a', 'b', 'c'], 3, 'leagueName'))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('fetching users in league for possible next page', () => {
@@ -120,7 +120,7 @@ describe('League saga', () => {
             ])
             .put(actions.alreadyFetchedUsersInLeague('leagueId'))
             .put(actions.fetchMoreUsersInLeagueSuccess('leagueId', ['a', 'b', 'c'], 'lastId'))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('fetching users in league for possible next page not reaches buffer', () => {
@@ -133,7 +133,7 @@ describe('League saga', () => {
             ])
             .not.put(actions.alreadyFetchedUsersInLeague('leagueId'))
             .not.put(actions.fetchMoreUsersInLeagueSuccess('leagueId', ['a', 'b', 'c'], 'lastId'))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('have fetched all users', () => {
@@ -146,7 +146,7 @@ describe('League saga', () => {
             ])
             .put(actions.alreadyFetchedUsersInLeague('leagueId'))
             .put(actions.fetchedAllUsersInLeague('leagueId'))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('fetching users error', () => {
@@ -159,14 +159,14 @@ describe('League saga', () => {
             ])
             .put(setErrorMessage('Error Fetching Users In League', error))
             .put(actions.cancelFetchingUsersInLeague('leagueId'))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('create league', () => {
         const action = actions.createLeagueRequest('leagueName', 5);
         return expectSaga(sagas.createLeague, api, action)
             .put(actions.createLeagueSuccess(['leagues']))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('create league error', () => {
@@ -177,14 +177,14 @@ describe('League saga', () => {
                 [matchers.call.fn(api.createLeague), throwError(error)]
             ])
             .put(setErrorMessage('Error Creating League', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('join league', () => {
         const action = actions.joinLeagueRequest('leagueName');
         return expectSaga(sagas.joinLeague, api, action)
             .put(actions.joinLeagueSuccess(['leagues']))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('join league error', () => {
@@ -195,14 +195,14 @@ describe('League saga', () => {
                 [matchers.call.fn(api.joinLeague), throwError(error)]
             ])
             .put(setErrorMessage('Error Joining League', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('leave league', () => {
         const action = actions.leaveLeagueRequest('leagueName');
         return expectSaga(sagas.leaveLeague, api, action)
             .put(actions.leaveLeagueSuccess(['leagues']))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('leave league error', () => {
@@ -213,6 +213,6 @@ describe('League saga', () => {
                 [matchers.call.fn(api.leaveLeague), throwError(error)]
             ])
             .put(setErrorMessage('Error Leaving League', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 });

@@ -17,7 +17,6 @@ export const UPDATE_DISPLAY_NAME = `${pre}UPDATE_DISPLAY_NAME`;
 export const SEND_PASSWORD_RESET_EMAIL = `${pre}SEND_PASSWORD_RESET_EMAIL`;
 
 export const RESEND_VERIFICATION_EMAIL_REQUEST = `${pre}RESEND_VERIFICATION_EMAIL_REQUEST`;
-export const RESEND_VERIFICATION_EMAIL_SUCCESS = `${pre}RESEND_VERIFICATION_EMAIL_SUCCESS`;
 export const CANCEL_SENDING_EMAIL_VERIFICATION = `${pre}CANCEL_SENDING_EMAIL_VERIFICATION`;
 
 export const ADD_PERMISSIONS = `${pre}ADD_PERMISSIONS`;
@@ -25,7 +24,7 @@ export const SET_LOADED_PERMISSIONS = `${pre}SET_LOADED_PERMISSIONS`;
 export const SET_PERMISSIONS_MAPPINGS_AND_ROLES = `${pre}SET_PERMISSIONS_MAPPINGS_AND_ROLES`;
 
 export const EDIT_DISABLED_PAGE_REQUEST = `${pre}EDIT_DISABLED_PAGE_REQUEST`;
-export const SET_IS_EDITING_PAGE = `${pre}SET_IS_EDITING_PAGE`;
+export const CANCEL_IS_EDITING_PAGE = `${pre}CANCEL_IS_EDITING_PAGE`;
 
 export const SET_LOADING_APP = `${pre}SET_LOADING_APP`;
 
@@ -34,9 +33,8 @@ export const setLoadingApp = isLoadingApp => ({
     isLoadingApp
 });
 
-export const setIsEditingPage = isEditing => ({
-    type: SET_IS_EDITING_PAGE,
-    isEditing
+export const cancelEditingPage = () => ({
+    type: CANCEL_IS_EDITING_PAGE
 });
 
 export const editDisabledPageRequest = (page, isDisabled) => ({
@@ -62,10 +60,6 @@ export const addPermissions = permissions => ({
 
 export const resendEmailVerificationRequest = () => ({
     type: RESEND_VERIFICATION_EMAIL_REQUEST
-});
-
-export const resendEmailVerificationSuccess = () => ({
-    type: RESEND_VERIFICATION_EMAIL_SUCCESS
 });
 
 export const cancelSendingEmailVerification = () => ({

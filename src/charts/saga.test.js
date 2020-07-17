@@ -29,7 +29,7 @@ describe('Current team saga', () => {
                 }
             ])
             .put(actions.alreadyFetchedTeams())
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('fetches all team', () => {
@@ -41,7 +41,7 @@ describe('Current team saga', () => {
                 }
             ])
             .put(actions.fetchAllTeamsSuccess(['a', 'b']))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('fetches all team error', () => {
@@ -53,6 +53,6 @@ describe('Current team saga', () => {
                 { select: alreadyFetchedInfo(false) }
             ])
             .put(setErrorMessage('Fetch All Teams Error', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 });

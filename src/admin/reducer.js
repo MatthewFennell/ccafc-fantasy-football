@@ -65,7 +65,7 @@ const adminReducer = (state = initialState, action) => {
     case actions.DELETE_FEATURE_REQUEST: {
         return fp.set('isDeletingBug', true)(state);
     }
-    case actions.DELETE_FEATURE_SUCCESS: {
+    case actions.CANCEL_DELETING_BUG: {
         return {
             ...state,
             isDeletingBug: false,
@@ -143,7 +143,6 @@ const adminReducer = (state = initialState, action) => {
     }
     case actions.FETCH_PLAYER_STATS_SUCCESS: {
         return fp.flow(
-            fp.set('playerStats.fetching', false),
             fp.set('playerStats.assists', action.playerStats.assists),
             fp.set('playerStats.cleanSheet', action.playerStats.cleanSheet),
             fp.set('playerStats.goals', action.playerStats.goals),
@@ -153,8 +152,7 @@ const adminReducer = (state = initialState, action) => {
             fp.set('playerStats.dickOfTheDay', action.playerStats.dickOfTheDay),
             fp.set('playerStats.ownGoals', action.playerStats.ownGoals),
             fp.set('playerStats.penaltyMisses', action.playerStats.penaltyMisses),
-            fp.set('playerStats.penaltySaves', action.playerStats.penaltySaves),
-            fp.set('fetchingPlayerStats', false)
+            fp.set('playerStats.penaltySaves', action.playerStats.penaltySaves)
         )(state);
     }
     case actions.CANCEL_FETCHING_PLAYER_STATS: {
@@ -167,11 +165,7 @@ const adminReducer = (state = initialState, action) => {
         return fp.set('fetchingPlayerStats', true)(state);
     }
     case actions.FETCH_USERS_WITH_EXTRA_ROLES_SUCCESS: {
-        return {
-            ...state,
-            usersWithExtraRoles: action.usersWithExtraRoles,
-            fetchingUsersWithExtraRoles: false
-        };
+        return fp.set('usersWithExtraRoles', action.usersWithExtraRoles)(state);
     }
     case actions.FETCH_USERS_WITH_EXTRA_ROLES_REQUEST: {
         return fp.set('fetchingUsersWithExtraRoles', true)(state);
@@ -179,7 +173,7 @@ const adminReducer = (state = initialState, action) => {
     case actions.LOAD_USERS_WITH_EXTRA_ROLES: {
         return fp.set('fetchingUsersWithExtraRoles', true)(state);
     }
-    case actions.ALREADY_FETCHED_USERS_WITH_EXTRA_ROLES: {
+    case actions.CANCEL_FETCHING_USERS_WITH_EXTRA_ROLES: {
         return fp.set('fetchingUsersWithExtraRoles', false)(state);
     }
     case actions.FETCH_HIGHLIGHTS_FOR_APPROVAL_SUCCESS: {
@@ -190,7 +184,7 @@ const adminReducer = (state = initialState, action) => {
             loadedHighlightsForApproval: true
         };
     }
-    case actions.ALREADY_FETCHED_HIGHLIGHTS_FOR_APPROVAL: {
+    case actions.CANCEL_FETCHING_HIGHLIGHTS_FOR_APPROVAL: {
         return fp.set('loadingHighlightsForApproval', false)(state);
     }
     case actions.FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST: {
@@ -200,18 +194,22 @@ const adminReducer = (state = initialState, action) => {
         return {
             ...state,
             highlightsForApproval: state.highlightsForApproval
-                .filter(x => x.id !== action.highlight.id),
-            highlightBeingApproved: ''
+                .filter(x => x.id !== action.highlight.id)
         };
+    }
+    case actions.CANCEL_APPROVING_HIGHLIGHT: {
+        return fp.set('highlightBeingApproved', '')(state);
     }
     case actions.REJECT_HIGHLIGHT_SUCCESS: {
         return {
             ...state,
             highlightsForApproval: state.highlightsForApproval
                 .filter(x => x.id !== action.highlight.id),
-            rejectedHighlights: state.rejectedHighlights.concat([action.highlight]),
-            highlightBeingRejected: ''
+            rejectedHighlights: state.rejectedHighlights.concat([action.highlight])
         };
+    }
+    case actions.CANCEL_REJECTING_HIGHLIGHT: {
+        return fp.set('highlightBeingRejected', '')(state);
     }
     case actions.FETCH_ALL_REJECTED_HIGHLIGHTS_REQUEST: {
         return fp.set('loadingRejectedHighlights', true)(state);
@@ -220,40 +218,34 @@ const adminReducer = (state = initialState, action) => {
         return {
             ...state,
             loadedRejectedHighlights: true,
-            rejectedHighlights: action.highlights,
-            loadingRejectedHighlights: false
+            rejectedHighlights: action.highlights
         };
     }
     case actions.REAPPROVE_REJECTED_HIGHLIGHT_SUCCESS: {
-        return {
-            ...state,
-            rejectedHighlights: state.rejectedHighlights.filter(x => x.id !== action.highlight.id),
-            loadingRejectedHighlights: false
-        };
+        return fp.set('rejectedHighlights', state.rejectedHighlights.filter(x => x.id !== action.highlight.id))(state);
     }
     case actions.DELETE_HIGHLIGHT_REQUEST: {
         return fp.set('loadingRejectedHighlights', true)(state);
     }
     case actions.DELETE_HIGHLIGHT_SUCCESS: {
-        return {
-            ...state,
-            rejectedHighlights: state.rejectedHighlights.concat([action.highlight]),
-            loadingRejectedHighlights: false
-        };
+        return fp.set('rejectedHighlights', state.rejectedHighlights.concat([action.highlight]))(state);
     }
-    case actions.ALREADY_FETCHED_REJECTED_HIGHLIGHTS: {
+    case actions.CANCEL_DELETING_HIGHLIGHT: {
+        return fp.set('loadingRejectedHighlights', false)(state);
+    }
+    case actions.CANCEL_FETCHING_REJECTED_HIGHLIGHTS: {
         return fp.set('loadingRejectedHighlights', false)(state);
     }
     case actions.SUBMIT_EXTRA_STATS_REQUEST: {
         return fp.set('submittingExtraResults', true)(state);
     }
-    case actions.SUBMIT_EXTRA_STATS_SUCCESS: {
+    case actions.CANCEL_SUBMITTING_EXTRA_STATS: {
         return fp.set('submittingExtraResults', false)(state);
     }
     case actions.EDIT_PLAYER_STATS_REQUEST: {
         return fp.set('editingStats', true)(state);
     }
-    case actions.EDIT_PLAYER_STATS_SUCCESS: {
+    case actions.CANCEL_EDITING_PLAYER_STATS: {
         return fp.set('editingStats', false)(state);
     }
     case actions.SET_SUCCESS_MESSAGE: {
@@ -281,7 +273,7 @@ const adminReducer = (state = initialState, action) => {
     case actions.SET_HAS_PAID_SUBS_REQUEST: {
         return fp.set('updatingSubs', true)(state);
     }
-    case actions.SET_HAS_PAID_SUBS_SUCCESS: {
+    case actions.CANCEL_UPDATING_SUBS: {
         return fp.set('updatingSubs', false)(state);
     }
     default:

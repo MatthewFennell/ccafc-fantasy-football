@@ -29,7 +29,7 @@ describe('Points saga', () => {
                 }
             ])
             .put(actions.fetchUserPointsForWeekSuccess('userId', 3, 'team'))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('getting user points error', () => {
@@ -41,6 +41,6 @@ describe('Points saga', () => {
                 { select: alreadyFetchedData(false) }
             ])
             .put(setErrorMessage('Error Fetching Points For Week', error))
-            .run();
+            .run({ silenceTimeout: true });
     });
 });
