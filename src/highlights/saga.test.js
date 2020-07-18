@@ -144,11 +144,11 @@ describe('Highlights saga', () => {
             .run({ silenceTimeout: true });
     });
 
-    it('already fetched highlights to be approved', () => {
+    it('cancel fetching highlights to be approved', () => {
         const action = actions.fetchUserHighlightsToBeApprovedRequest();
         return expectSaga(sagas.highlightsToBeApproved, api, action)
             .provide({ select: alreadyFetchedInfo(true) })
-            .put(actions.alreadyFetchedApprovedHighlights())
+            .put(actions.cancelLoadingVideosToBeApproved())
             .run({ silenceTimeout: true });
     });
 
@@ -156,7 +156,9 @@ describe('Highlights saga', () => {
         const action = actions.fetchUserHighlightsToBeApprovedRequest();
         return expectSaga(sagas.highlightsToBeApproved, api, action)
             .provide({ select: alreadyFetchedInfo(false) })
+            .call(api.getHighlightsToBeApproved)
             .put(actions.fetchUserHighlightsToBeApprovedSuccess('highlights to be approved'))
+            .put(actions.cancelLoadingVideosToBeApproved())
             .run({ silenceTimeout: true });
     });
 
@@ -184,6 +186,7 @@ describe('Highlights saga', () => {
         const action = actions.fetchRejectedHighlightsRequest();
         return expectSaga(sagas.rejectedHighlights, api, action)
             .provide({ select: alreadyFetchedInfo(false) })
+            .call(api.getRejectedHighlights)
             .put(actions.fetchRejectedHighlightsSuccess('rejected highlights'))
             .run({ silenceTimeout: true });
     });
@@ -203,7 +206,13 @@ describe('Highlights saga', () => {
     it('add comment to video', () => {
         const action = actions.addCommentToVideoRequest('comment', 'videoId');
         return expectSaga(sagas.addCommentToVideo, api, action)
+            .call(api.addComment, ({
+                collection: 'highlights',
+                collectionId: 'videoId',
+                comment: 'comment'
+            }))
             .put(actions.addCommentToVideoSuccess('new highlight'))
+            .put(actions.cancelAddingCommentToVideo())
             .run({ silenceTimeout: true });
     });
 
@@ -221,7 +230,14 @@ describe('Highlights saga', () => {
     it('add reply to video', () => {
         const action = actions.addReplyToVideoRequest('reply', 'videoId', 'commentId');
         return expectSaga(sagas.addReplyToVideo, api, action)
+            .call(api.addReply, ({
+                collection: 'highlights',
+                collectionId: 'videoId',
+                commentId: 'commentId',
+                reply: 'reply'
+            }))
             .put(actions.addReplyToVideoSuccess('another new highlight'))
+            .put(actions.cancelAddingCommentToVideo())
             .run({ silenceTimeout: true });
     });
 
@@ -239,7 +255,13 @@ describe('Highlights saga', () => {
     it('delete comment', () => {
         const action = actions.deleteCommentRequest('videoId', 'commentId');
         return expectSaga(sagas.deleteComment, api, action)
+            .call(api.deleteComment, ({
+                collection: 'highlights',
+                collectionId: 'videoId',
+                commentId: 'commentId'
+            }))
             .put(actions.deleteCommentSuccess('videoId', 'commentId'))
+            .put(actions.cancelDeletingComment())
             .run({ silenceTimeout: true });
     });
 
@@ -251,13 +273,21 @@ describe('Highlights saga', () => {
                 [matchers.call.fn(api.deleteComment), throwError(error)]
             ])
             .put(setErrorMessage('Error Deleting Comment', error))
+            .put(actions.cancelDeletingComment())
             .run({ silenceTimeout: true });
     });
 
     it('delete reply', () => {
         const action = actions.deleteReplyRequest('videoId', 'commentId', 'replyId');
         return expectSaga(sagas.deleteReply, api, action)
+            .call(api.deleteReply, ({
+                collection: 'highlights',
+                collectionId: 'videoId',
+                commentId: 'commentId',
+                replyId: 'replyId'
+            }))
             .put(actions.deleteReplySuccess('videoId', 'commentId', 'replyId'))
+            .put(actions.cancelDeletingReply())
             .run({ silenceTimeout: true });
     });
 
@@ -269,6 +299,7 @@ describe('Highlights saga', () => {
                 [matchers.call.fn(api.deleteReply), throwError(error)]
             ])
             .put(setErrorMessage('Error Deleting Reply', error))
+            .put(actions.cancelDeletingReply())
             .run({ silenceTimeout: true });
     });
 });

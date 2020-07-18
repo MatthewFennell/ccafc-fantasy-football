@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import defaultStyles from './Update.module.scss';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
-import ErrorModal from '../../common/modal/ErrorModal';
 import TextInput from '../../common/TextInput/TextInput';
 
 const Update = props => {
@@ -37,35 +36,22 @@ const Update = props => {
             >
                 <Spinner color="secondary" />
             </div>
-            <ErrorModal
-                closeModal={props.closeError}
-                headerMessage={`${props.property} Error`}
-                isOpen={props.updateError.length > 0}
-                errorCode={props.updateErrorCode}
-                errorMessage={props.updateError}
-            />
         </div>
     );
 };
 
 Update.defaultProps = {
-    closeError: noop,
     icon: '',
     styles: defaultStyles,
     updateRequest: noop,
-    updateError: '',
-    updateErrorCode: '',
     loading: false,
     property: ''
 };
 
 Update.propTypes = {
-    closeError: PropTypes.func,
     icon: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
     updateRequest: PropTypes.func,
-    updateError: PropTypes.string,
-    updateErrorCode: PropTypes.string,
     loading: PropTypes.bool,
     property: PropTypes.string
 };

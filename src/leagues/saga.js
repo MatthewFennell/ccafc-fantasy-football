@@ -16,8 +16,6 @@ export function* fetchLeagues(api) {
         if (alreadyFetched && alreadyFetched.length === 0) {
             const myLeagues = yield call(api.getLeaguesIAmIn);
             yield put(actions.fetchLeaguesSuccess(myLeagues));
-        } else {
-            yield put(actions.alreadyFetchedLeagues());
         }
     } catch (error) {
         yield put(setErrorMessage('Error Fetching Leagues', error));

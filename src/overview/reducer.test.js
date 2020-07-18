@@ -46,6 +46,48 @@ describe('Overview reducer', () => {
         });
     });
 
+    it('cancel fetching user stats', () => {
+        const action = actions.cancelFetchingUserStats('myUserId');
+        expect(reducer({
+            ...initialState,
+            userStats: {
+                myUserId: {
+                    fetching: true
+                }
+            }
+        }, action)).toEqual({
+            ...initialState,
+            userStats: {
+                myUserId: {
+                    fetching: false
+                }
+            }
+        });
+    });
+
+    it('cancel fetching user info for week', () => {
+        const action = actions.cancelFetchingUserInfoForWeek('myUserId', 3);
+        expect(reducer({
+            ...initialState,
+            userInfo: {
+                myUserId: {
+                    'week-3': {
+                        fetching: true
+                    }
+                }
+            }
+        }, action)).toEqual({
+            ...initialState,
+            userInfo: {
+                myUserId: {
+                    'week-3': {
+                        fetching: false
+                    }
+                }
+            }
+        });
+    });
+
     it('fetch user info for week request', () => {
         const action = actions.fetchUserInfoForWeekRequest('myUserId', 5);
         expect(reducer(initialState, action)).toEqual({

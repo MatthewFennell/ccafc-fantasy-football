@@ -46,7 +46,9 @@ describe('Transfers saga', () => {
         const action = actions.fetchAllPlayersRequest();
         return expectSaga(sagas.fetchAllPlayers, api, action)
             .provide([{ select: alreadyFetchedInfo(false) }])
+            .call(api.getAllPlayers)
             .put(actions.fetchAllPlayersSuccess('all players'))
+            .put(actions.cancelFetchingAllPlayers())
             .run({ silenceTimeout: true });
     });
 
@@ -55,6 +57,7 @@ describe('Transfers saga', () => {
         return expectSaga(sagas.fetchAllPlayers, api, action)
             .provide([{ select: alreadyFetchedInfo(true) }])
             .not.put(actions.fetchAllPlayersSuccess('all players'))
+            .put(actions.cancelFetchingAllPlayers())
             .run({ silenceTimeout: true });
     });
 
@@ -67,6 +70,7 @@ describe('Transfers saga', () => {
                 { select: alreadyFetchedInfo(false) }
             ])
             .put(setErrorMessage('Error Fetching Players', error))
+            .put(actions.cancelFetchingAllPlayers())
             .run({ silenceTimeout: true });
     });
 
@@ -74,17 +78,18 @@ describe('Transfers saga', () => {
         const action = actions.fetchAllTeamsRequest();
         return expectSaga(sagas.fetchAllTeams, api, action)
             .provide([{ select: alreadyFetchedInfo(false) }])
+            .call(api.getAllTeams)
             .put(actions.fetchAllTeamsSuccess('all teams'))
             .run({ silenceTimeout: true });
     });
 
-    // it('already fetched all teams', () => {
-    //     const action = actions.fetchAllTeamsRequest();
-    //     return expectSaga(sagas.fetchAllTeams, api, action)
-    //         .provide([{ select: alreadyFetchedInfo(true) }])
-    //         .put(actions.alreadyFetchedAllPlayers())
-    //         .run({ silenceTimeout: true });;
-    // });
+    it('already fetched all teams', () => {
+        const action = actions.fetchAllTeamsRequest();
+        return expectSaga(sagas.fetchAllTeams, api, action)
+            .provide([{ select: alreadyFetchedInfo(true) }])
+            .not.put(actions.fetchAllTeamsSuccess('all teams'))
+            .run({ silenceTimeout: true });
+    });
 
     it('fetch all teams error', () => {
         const error = new Error('error');
@@ -148,10 +153,17 @@ describe('Transfers saga', () => {
         return expectSaga(sagas.updateTeam, api, action)
             .provide([{ select: alreadyFetchedInfo(true) },
                 { call: provideDelay }])
+            .call(api.updateTeam, ({
+                newTeam: ['alreadyExist']
+            }))
+            .call(api.fetchActiveTeam, ({
+                userId: 'uid'
+            }))
             .put(currentTeamActions.fetchActiveTeamSuccess('uid', ['players'], 'captain'))
             .put(actions.setSuccessMessage('Team successfully updated'))
             .delay(successDelay)
             .put(actions.closeSuccessMessage())
+            .put(actions.cancelFetchingOriginalTeam())
             .run({ silenceTimeout: true });
     });
 
@@ -164,6 +176,7 @@ describe('Transfers saga', () => {
                 { select: alreadyFetchedInfo(false) }
             ])
             .put(setErrorMessage('Error Updating Team', error))
+            .put(actions.cancelFetchingOriginalTeam())
             .run({ silenceTimeout: true });
     });
 

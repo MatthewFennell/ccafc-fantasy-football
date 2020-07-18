@@ -41,6 +41,61 @@ describe('Transfers reducer', () => {
         });
     });
 
+    it('cancel fetching user stats', () => {
+        const action = overviewActions.cancelFetchingUserStats();
+        expect(reducer({
+            ...initialState,
+            fetchingUserStats: true
+        }, action)).toEqual({
+            ...initialState,
+            fetchingUserStats: false
+        });
+    });
+
+    it('cancel fetching original team', () => {
+        const action = actions.cancelFetchingOriginalTeam();
+        expect(reducer({
+            ...initialState,
+            fetchingOriginalTeam: true
+        }, action)).toEqual({
+            ...initialState,
+            fetchingOriginalTeam: false
+        });
+    });
+
+    it('cancel fetching active team', () => {
+        const action = currentTeamActions.cancelFetchingActiveTeam();
+        expect(reducer({
+            ...initialState,
+            fetchingOriginalTeam: true
+        }, action)).toEqual({
+            ...initialState,
+            fetchingOriginalTeam: false
+        });
+    });
+
+    it('cancel fetching all players', () => {
+        const action = actions.cancelFetchingAllPlayers();
+        expect(reducer({
+            ...initialState,
+            fetchingAllPlayers: true
+        }, action)).toEqual({
+            ...initialState,
+            fetchingAllPlayers: false
+        });
+    });
+
+    it('cancel updating team', () => {
+        const action = actions.cancelUpdatingTeam();
+        expect(reducer({
+            ...initialState,
+            fetchingOriginalTeam: true
+        }, action)).toEqual({
+            ...initialState,
+            fetchingOriginalTeam: false
+        });
+    });
+
     it('fetch active team success', () => {
         const activeTeam = ['Active team'];
         const action = currentTeamActions.fetchActiveTeamSuccess('myUserId', activeTeam);
@@ -566,7 +621,7 @@ describe('Transfers reducer', () => {
     });
 
     it('already fetched all players', () => {
-        const action = actions.alreadyFetchedAllPlayers();
+        const action = actions.cancelFetchingPlayers();
         expect(reducer({
             ...initialState,
             fetchingAllPlayers: true

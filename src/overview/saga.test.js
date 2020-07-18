@@ -26,14 +26,18 @@ describe('Overview saga', () => {
     };
 
     it('getting user stats', () => {
-        const action = actions.fetchUserStatsRequest('userId', 3);
+        const action = actions.fetchUserStatsRequest('userId');
         return expectSaga(sagas.getUserStats, api, action)
             .provide([
                 {
                     select: alreadyFetchedUserStatsOrInfo(false)
                 }
             ])
+            .call(api.getUserStats, ({
+                userId: 'userId'
+            }))
             .put(actions.fetchUserStatsSuccess('userId', 'stats'))
+            .put(actions.cancelFetchingUserStats(action.userId))
             .run({ silenceTimeout: true });
     });
 
@@ -46,6 +50,7 @@ describe('Overview saga', () => {
                 { select: alreadyFetchedUserStatsOrInfo(false) }
             ])
             .put(setErrorMessage('Error Fetching User Stats', error))
+            .put(actions.cancelFetchingUserStats(action.userId))
             .run({ silenceTimeout: true });
     });
 
@@ -75,7 +80,12 @@ describe('Overview saga', () => {
                     select: alreadyFetchedUserStatsOrInfo(false)
                 }
             ])
+            .call(api.getUserInfoForWeek, ({
+                userId: 'userId',
+                week: 3
+            }))
             .put(actions.fetchUserInfoForWeekSuccess('userId', 3, 'userInfo'))
+            .put(actions.cancelFetchingUserInfoForWeek('userId', 3))
             .run({ silenceTimeout: true });
     });
 

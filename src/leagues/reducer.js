@@ -20,15 +20,8 @@ const authReducer = (state = initialState, action) => {
     case actions.CANCEL_FETCHING_LEAGUES: {
         return fp.set('fetchingLeagues', false)(state);
     }
-    case actions.ALREADY_FETCHED_LEAGUES: {
-        return fp.set('fetchingLeagues', false)(state);
-    }
     case actions.CREATE_LEAGUE_SUCCESS: {
-        return {
-            ...state,
-            leagues: action.leagues,
-            creatingLeague: false
-        };
+        return fp.set('leagues', action.leagues)(state);
     }
     case actions.CREATE_LEAGUE_REQUEST: {
         return fp.set('creatingLeague', true)(state);
@@ -40,21 +33,13 @@ const authReducer = (state = initialState, action) => {
         return fp.set('leavingLeague', true)(state);
     }
     case actions.JOIN_LEAGUE_SUCCESS: {
-        return {
-            ...state,
-            leagues: action.leagues,
-            joiningLeague: false
-        };
+        return fp.set('leagues', action.leagues)(state);
     }
     case actions.CANCEL_JOINING_LEAGUE: {
-        return fp.set('joiningLeague', true)(state);
+        return fp.set('joiningLeague', false)(state);
     }
     case actions.LEAVE_LEAGUE_SUCCESS: {
-        return {
-            ...state,
-            leagues: action.leagues,
-            leavingLeague: false
-        };
+        return fp.set('leagues', action.leagues)(state);
     }
     case actions.CANCEL_LEAVING_LEAGUE: {
         return fp.set('leavingLeague', false)(state);

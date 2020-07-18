@@ -19,7 +19,9 @@ export const initialState = {
     successMessage: '',
     isSubmittingHighlight: false,
 
-    isAddingCommentToHighlight: false
+    isAddingCommentToHighlight: false,
+    commentBeingDeletedInfo: {},
+    replyBeingDeletedInfo: {}
 };
 
 const highlightsReducer = (state = initialState, action) => {
@@ -30,6 +32,25 @@ const highlightsReducer = (state = initialState, action) => {
             videos: action.highlights,
             loadedVideos: true
         };
+    }
+    case actions.DELETE_COMMENT_REQUEST: {
+        return fp.set('commentBeingDeletedInfo', ({
+            commentId: action.commentId,
+            videoId: action.videoId
+        }))(state);
+    }
+    case actions.CANCEL_DELETING_REPLY: {
+        return fp.set('replyBeingDeletedInfo', {})(state);
+    }
+    case actions.DELETE_REPLY_REQUEST: {
+        return fp.set('replyBeingDeletedInfo', ({
+            commentId: action.commentId,
+            videoId: action.videoId,
+            replyId: action.replyId
+        }))(state);
+    }
+    case actions.CANCEL_DELETING_COMMENT: {
+        return fp.set('commentBeingDeletedInfo', {})(state);
     }
     case actions.FETCH_HIGHLIGHTS_REQUEST: {
         return fp.set('loadingVideos', true)(state);
@@ -85,7 +106,7 @@ const highlightsReducer = (state = initialState, action) => {
     case actions.CANCEL_FETCHING_REJECTED_VIDEOS: {
         return fp.set('loadingRejectedVideos', false)(state);
     }
-    case actions.ALREADY_FETCHED_APPROVED_HIGHLIGHTS: {
+    case actions.CANCEL_LOADING_VIDEOS_TO_BE_APPROVED: {
         return fp.set('loadingVideosToBeApproved', false)(state);
     }
     case adminActions.DELETE_HIGHLIGHT_SUCCESS: {

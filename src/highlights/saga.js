@@ -65,11 +65,11 @@ export function* highlightsToBeApproved(api) {
         if (!alreadyFetched) {
             const highlights = yield call(api.getHighlightsToBeApproved);
             yield put(actions.fetchUserHighlightsToBeApprovedSuccess(highlights));
-        } else {
-            yield put(actions.alreadyFetchedApprovedHighlights());
         }
     } catch (error) {
         yield put(setErrorMessage('Error Fetching Highlights For Approval', error));
+    } finally {
+        yield put(actions.cancelLoadingVideosToBeApproved());
     }
 }
 
@@ -98,7 +98,7 @@ export function* addCommentToVideo(api, action) {
     } catch (error) {
         yield put(setErrorMessage('Error Adding Comment', error));
     } finally {
-        yield put(actions.cancelAddingCommentToVideo(false));
+        yield put(actions.cancelAddingCommentToVideo());
     }
 }
 
@@ -114,7 +114,7 @@ export function* addReplyToVideo(api, action) {
     } catch (error) {
         yield put(setErrorMessage('Error Replying To Comment', error));
     } finally {
-        yield put(actions.cancelAddingCommentToVideo(false));
+        yield put(actions.cancelAddingCommentToVideo());
     }
 }
 
@@ -128,6 +128,8 @@ export function* deleteComment(api, action) {
         yield put(actions.deleteCommentSuccess(action.videoId, action.commentId));
     } catch (error) {
         yield put(setErrorMessage('Error Deleting Comment', error));
+    } finally {
+        yield put(actions.cancelDeletingComment());
     }
 }
 
@@ -142,6 +144,8 @@ export function* deleteReply(api, action) {
         yield put(actions.deleteReplySuccess(action.videoId, action.commentId, action.replyId));
     } catch (error) {
         yield put(setErrorMessage('Error Deleting Reply', error));
+    } finally {
+        yield put(actions.cancelDeletingReply());
     }
 }
 

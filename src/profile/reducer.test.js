@@ -30,8 +30,46 @@ describe('Profile reducer', () => {
         });
     });
 
-    it('update team name success', () => {
-        const action = actions.updateTeamNameSuccess();
+    it('delete account request', () => {
+        const action = actions.deleteAccountRequest();
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            deletingAccount: true
+        });
+    });
+
+    it('update profile picture request', () => {
+        const action = actions.updateProfilePictureRequest('photo');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            photoUrlBeingUpdated: 'photo'
+        });
+    });
+
+    it('cancel photo url being updated', () => {
+        const action = actions.cancelPhotoUrlBeingUpdated();
+        expect(reducer({
+            ...initialState,
+            photoUrlBeingUpdated: 'someUrl'
+        }, action)).toEqual({
+            ...initialState,
+            photoUrlBeingUpdated: ''
+        });
+    });
+
+    it('cancel updating display name', () => {
+        const action = actions.cancelUpdatingDisplayName();
+        expect(reducer({
+            ...initialState,
+            updatingDisplayName: true
+        }, action)).toEqual({
+            ...initialState,
+            updatingDisplayName: false
+        });
+    });
+
+    it('cancel updating team name', () => {
+        const action = actions.cancelUpdatingTeamName();
         expect(reducer({
             ...initialState,
             updatingTeamName: true
@@ -41,16 +79,8 @@ describe('Profile reducer', () => {
         });
     });
 
-    it('delete account request', () => {
-        const action = actions.deleteAccountRequest();
-        expect(reducer(initialState, action)).toEqual({
-            ...initialState,
-            deletingAccount: true
-        });
-    });
-
     it('delete account success', () => {
-        const action = actions.setDeletingAccount(false);
+        const action = actions.cancelDeletingAccount(false);
         expect(reducer({
             ...initialState,
             deletingAccount: true

@@ -77,6 +77,7 @@ describe('Profile saga', () => {
     it('link profile to facebook', () => {
         const action = actions.linkProfileToFacebook();
         return expectSaga(sagas.linkProfileToFacebook, api, action)
+            .call(api.linkFacebookAccount)
             .run({ silenceTimeout: true });
     });
 
@@ -94,7 +95,11 @@ describe('Profile saga', () => {
     it('update display name', () => {
         const action = actions.updateDisplayNameRequest('displayName');
         return expectSaga(sagas.updateDisplayName, api, action)
+            .call(api.updateDisplayName, ({
+                displayName: 'displayName'
+            }))
             .put(actions.updateDisplayNameSuccess())
+            .put(actions.cancelUpdatingDisplayName())
             .run({ silenceTimeout: true });
     });
 
@@ -106,13 +111,17 @@ describe('Profile saga', () => {
                 [matchers.call.fn(api.updateDisplayName), throwError(error)]
             ])
             .put(setErrorMessage('Error Updating Display Name', error))
+            .put(actions.cancelUpdatingDisplayName())
             .run({ silenceTimeout: true });
     });
 
     it('update team name', () => {
         const action = actions.updateTeamNameRequest('teamName');
         return expectSaga(sagas.updateTeamName, api, action)
-            .put(actions.updateTeamNameSuccess())
+            .call(api.updateTeamName, ({
+                teamName: 'teamName'
+            }))
+            .put(actions.cancelUpdatingTeamName())
             .run({ silenceTimeout: true });
     });
 
@@ -123,7 +132,7 @@ describe('Profile saga', () => {
             .provide([
                 [matchers.call.fn(api.updateTeamName), throwError(error)]
             ])
-            .put(actions.updateTeamNameError(error))
+            .put(actions.cancelUpdatingTeamName())
             .run({ silenceTimeout: true });
     });
 
@@ -134,6 +143,7 @@ describe('Profile saga', () => {
                 code: 'not-found',
                 message: 'That is not your email'
             }))
+            .put(actions.cancelDeletingAccount())
             .run({ silenceTimeout: true });
     });
 
@@ -145,21 +155,29 @@ describe('Profile saga', () => {
                 [matchers.call.fn(api.deleteUser), throwError(error)]
             ])
             .put(setErrorMessage('Error Deleting Account', error))
+            .put(actions.cancelDeletingAccount())
             .run({ silenceTimeout: true });
     });
 
     it('delete account', () => {
         const action = actions.deleteAccountRequest('test@test.com');
         return expectSaga(sagas.deleteAccount, api, action)
-            .put(actions.setDeletingAccount(false))
+            .call(api.deleteUser, ({
+                email: 'test@test.com'
+            }))
             .put(signOut())
+            .put(actions.cancelDeletingAccount())
             .run({ silenceTimeout: true });
     });
 
     it('update profile picture', () => {
         const action = actions.updateProfilePictureRequest('photoUrl');
         return expectSaga(sagas.updateProfilePicture, api, action)
+            .call(api.updateProfilePicture, ({
+                photoUrl: 'photoUrl'
+            }))
             .put(actions.updateProfilePictureSuccess('photoUrl', 'uid'))
+            .put(actions.cancelPhotoUrlBeingUpdated())
             .run({ silenceTimeout: true });
     });
 
@@ -171,6 +189,7 @@ describe('Profile saga', () => {
                 [matchers.call.fn(api.updateProfilePicture), throwError(error)]
             ])
             .put(setErrorMessage('Error Updating Profile Picture', error))
+            .put(actions.cancelPhotoUrlBeingUpdated())
             .run({ silenceTimeout: true });
     });
 });

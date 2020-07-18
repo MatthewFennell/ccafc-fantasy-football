@@ -30,8 +30,6 @@ export function* fetchAllTeams(api) {
         if (alreadyFetched && alreadyFetched.length === 0) {
             const allTeams = yield call(api.getAllTeams);
             yield put(actions.fetchAllTeamsSuccess(allTeams));
-        } else {
-            // yield put(actions.alreadyFetchedAllPlayers());
         }
     } catch (error) {
         yield put(setErrorMessage('Error Fetching Teams', error));
@@ -66,6 +64,8 @@ export function* updateTeam(api) {
         yield put(actions.closeSuccessMessage());
     } catch (error) {
         yield put(setErrorMessage('Error Updating Team', error));
+    } finally {
+        yield put(actions.cancelFetchingOriginalTeam());
     }
 }
 

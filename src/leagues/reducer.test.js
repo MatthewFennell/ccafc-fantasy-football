@@ -30,11 +30,36 @@ describe('Leagues reducer', () => {
         });
     });
 
-    it('already fetched leagues', () => {
-        const action = actions.alreadyFetchedLeagues(null);
-        expect(reducer(initialState, action)).toEqual({
+    it('cancel joining league', () => {
+        const action = actions.cancelJoiningLeague();
+        expect(reducer({
             ...initialState,
-            fetchingLeagues: false
+            joiningLeague: true
+        }, action)).toEqual({
+            ...initialState,
+            joiningLeague: false
+        });
+    });
+
+    it('cancel leaving league', () => {
+        const action = actions.cancelLeavingLeague();
+        expect(reducer({
+            ...initialState,
+            leavingLeague: true
+        }, action)).toEqual({
+            ...initialState,
+            leavingLeague: false
+        });
+    });
+
+    it('cancel creating league', () => {
+        const action = actions.cancelCreatingLeague();
+        expect(reducer({
+            ...initialState,
+            creatingLeague: true
+        }, action)).toEqual({
+            ...initialState,
+            creatingLeague: false
         });
     });
 
@@ -47,7 +72,7 @@ describe('Leagues reducer', () => {
         }, action)).toEqual({
             ...initialState,
             leagues,
-            creatingLeague: false
+            creatingLeague: true
         });
     });
 
@@ -96,7 +121,7 @@ describe('Leagues reducer', () => {
         }, action)).toEqual({
             ...initialState,
             leagues,
-            leavingLeague: false
+            leavingLeague: true
         });
     });
     it('fetch users in league success', () => {

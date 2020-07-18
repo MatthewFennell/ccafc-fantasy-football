@@ -3,7 +3,7 @@ const pre = 'TRANSFERS/';
 export const FETCH_ALL_PLAYERS_REQUEST = `${pre}FETCH_ALL_PLAYERS_REQUEST`;
 export const FETCH_ALL_PLAYERS_SUCCESS = `${pre}FETCH_ALL_PLAYERS_SUCCESS`;
 export const CANCEL_FETCHING_ALL_PLAYERS = `${pre}CANCEL_FETCHING_ALL_PLAYERS`;
-export const ALREADY_FETCHED_ALL_PLAYERS = `${pre}ALREADY_FETCHED_ALL_PLAYERS`;
+export const CANCEL_FETCHING_PLAYERS = `${pre}CANCEL_FETCHING_PLAYERS`;
 
 export const FETCH_ALL_TEAMS_REQUEST = `${pre}FETCH_ALL_TEAMS_REQUEST`;
 export const FETCH_ALL_TEAMS_SUCCESS = `${pre}FETCH_ALL_TEAMS_SUCCESS`;
@@ -25,6 +25,12 @@ export const CANCEL_UPDATING_TEAM = `${pre}CANCEL_UPDATING_TEAM`;
 
 export const SET_SUCCESS_MESSAGE = `${pre}SET_SUCCESS_MESSAGE`;
 export const CLOSE_SUCCESS_MESSAGE = `${pre}CLOSE_SUCCESS_MESSAGE`;
+
+export const CANCEL_FETCHING_ORIGINAL_TEAM = `${pre}CANCEL_FETCHING_ORIGINAL_TEAM`;
+
+export const cancelFetchingOriginalTeam = () => ({
+    type: CANCEL_FETCHING_ORIGINAL_TEAM
+});
 
 export const setSuccessMessage = message => ({
     type: SET_SUCCESS_MESSAGE,
@@ -57,8 +63,8 @@ export const restorePlayerRequest = playerId => ({
     playerId
 });
 
-export const alreadyFetchedAllPlayers = () => ({
-    type: ALREADY_FETCHED_ALL_PLAYERS
+export const cancelFetchingPlayers = () => ({
+    type: CANCEL_FETCHING_PLAYERS
 });
 
 export const updateTeamRequest = team => ({

@@ -52,6 +52,14 @@ const FeatureRequest = props => {
         });
     }, [setDeleteCommentInfo]);
 
+    const deleteReply = useCallback(featureId => (commentId, replyId) => {
+        setDeleteReplyInfo({
+            featureId,
+            commentId,
+            replyId
+        });
+    }, [setDeleteReplyInfo]);
+
     const confirmDeleteComment = useCallback(() => {
         props.deleteCommentRequest(deleteCommentInfo.featureId, deleteCommentInfo.commentId);
         setDeleteCommentInfo({});
@@ -64,14 +72,6 @@ const FeatureRequest = props => {
         setDeleteReplyInfo({});
         // eslint-disable-next-line
     }, [deleteReplyInfo, props.deleteReplyRequest, setDeleteReplyInfo])
-
-    const deleteReply = useCallback(featureId => (commentId, replyId) => {
-        setDeleteReplyInfo({
-            featureId,
-            commentId,
-            replyId
-        });
-    }, [setDeleteReplyInfo]);
 
     return (
         <>

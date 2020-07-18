@@ -19,7 +19,7 @@ export const fetchTeamStatsByWeekSuccess = (teamId, minWeek, maxWeek, stats) => 
     stats
 });
 
-export const fetchTeamsSuccesstatsByWeek = teamId => ({
+export const cancelFetchingTeamStatsByWeek = teamId => ({
     type: CANCEL_FETCHING_TEAM_STATS_BY_WEEK,
     teamId
 });

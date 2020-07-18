@@ -5,7 +5,7 @@ export const initialState = {
     successMessage: '',
     isAddingCommentToFeature: false,
     isSubmittingFeature: false,
-    commentBeingDeletedInfo: { },
+    commentBeingDeletedInfo: {},
     replyBeingDeletedInfo: {}
 };
 

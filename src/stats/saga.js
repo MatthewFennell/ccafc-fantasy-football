@@ -17,7 +17,7 @@ export function* fetchStats(api, action) {
     } catch (error) {
         yield put(setErrorMessage('Error Fetching Team Stats For Week', error));
     } finally {
-        yield put(actions.fetchTeamsSuccesstatsByWeek(action.teamId));
+        yield put(actions.cancelFetchingTeamStatsByWeek(action.teamId));
     }
 }
 

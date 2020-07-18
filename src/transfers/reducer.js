@@ -46,20 +46,18 @@ const transfersReducer = (state = initialState, action) => {
     case currentTeamActions.FETCH_ACTIVE_TEAM_SUCCESS: {
         return fp.flow(
             fp.set('originalTeam', action.activeTeam),
-            fp.set('currentTeam', action.activeTeam),
-            fp.set('fetchingOriginalTeam', false)
+            fp.set('currentTeam', action.activeTeam)
         )(state);
+    }
+    case actions.CANCEL_FETCHING_ORIGINAL_TEAM: {
+        return fp.set('fetchingOriginalTeam', false)(state);
     }
     case currentTeamActions.CANCEL_FETCHING_ACTIVE_TEAM: {
         return fp.set('fetchingOriginalTeam', false)(state);
     }
     // ----------------------------------------------------- \\
     case actions.FETCH_ALL_PLAYERS_SUCCESS: {
-        return {
-            ...state,
-            fetchingAllPlayers: false,
-            allPlayers: action.players
-        };
+        return fp.set('allPlayers', action.players)(state);
     }
     case actions.FETCH_ALL_PLAYERS_REQUEST: {
         return fp.set('fetchingAllPlayers', true)(state);
@@ -108,7 +106,7 @@ const transfersReducer = (state = initialState, action) => {
             fp.set('remainingBudget', state.remainingBudget + action.player.price)
         )(state);
     }
-    case actions.ALREADY_FETCHED_ALL_PLAYERS: {
+    case actions.CANCEL_FETCHING_PLAYERS: {
         return fp.set('fetchingAllPlayers', false)(state);
     }
     case actions.CANCEL_UPDATING_TEAM: {

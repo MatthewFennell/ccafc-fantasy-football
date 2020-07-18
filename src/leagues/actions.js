@@ -3,7 +3,6 @@ const pre = 'LEAGUES/';
 export const FETCH_LEAGUES_REQUEST = `${pre}FETCH_LEAGUES_REQUEST`;
 export const FETCH_LEAGUES_SUCCESS = `${pre}FETCH_LEAGUES_SUCCESS`;
 export const CANCEL_FETCHING_LEAGUES = `${pre}CANCEL_FETCHING_LEAGUES`;
-export const ALREADY_FETCHED_LEAGUES = `${pre}ALREADY_FETCHED_LEAGUES`;
 
 export const FETCH_USERS_IN_LEAGUE_REQUEST = `${pre}FETCH_USERS_IN_LEAGUE_REQUEST`;
 export const FETCH_USERS_IN_LEAGUE_SUCCESS = `${pre}FETCH_USERS_IN_LEAGUE_SUCCESS`;
@@ -45,10 +44,6 @@ export const fetchedAllUsersInLeague = leagueId => ({
 export const cancelFetchingUsersInLeague = leagueId => ({
     type: CANCEL_FETCHING_USERS_IN_LEAGUE,
     leagueId
-});
-
-export const alreadyFetchedLeagues = () => ({
-    type: ALREADY_FETCHED_LEAGUES
 });
 
 export const fetchLeaguesRequest = () => ({

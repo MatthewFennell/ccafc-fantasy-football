@@ -12,7 +12,7 @@ export function* linkProfileToGoogle() {
         const provider = new firebase.auth.GoogleAuthProvider();
         yield firebase.auth().currentUser.linkWithPopup(provider);
     } catch (error) {
-        yield put(setErrorMessage, `Error Linking Email To Google - ${error.email}`, error);
+        yield put(setErrorMessage(`Error Linking Email To Google - ${error.email}`, error));
     }
 }
 
@@ -40,9 +40,10 @@ export function* updateDisplayName(api, action) {
 export function* updateTeamName(api, action) {
     try {
         yield call(api.updateTeamName, { teamName: action.teamName });
-        yield put(actions.updateTeamNameSuccess());
     } catch (error) {
-        yield put(actions.updateTeamNameError(error));
+        yield put(setErrorMessage('Error Updating Team Name', error));
+    } finally {
+        yield put(actions.cancelUpdatingTeamName());
     }
 }
 
@@ -58,7 +59,7 @@ export function* deleteAccount(api, action) {
     } catch (error) {
         yield put(setErrorMessage('Error Deleting Account', error));
     } finally {
-        yield put(actions.setDeletingAccount(false));
+        yield put(actions.cancelDeletingAccount());
     }
 }
 
@@ -72,7 +73,7 @@ export function* updateProfilePicture(api, action) {
     } catch (error) {
         yield put(setErrorMessage('Error Updating Profile Picture', error));
     } finally {
-        yield put(actions.setPhotoUrlBeingUpdated(''));
+        yield put(actions.cancelPhotoUrlBeingUpdated());
     }
 }
 

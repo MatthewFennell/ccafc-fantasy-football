@@ -177,8 +177,71 @@ describe('Highlights reducer', () => {
         }, action)).toEqual({
             ...initialState,
             videosRejected: highlights,
-            loadingRejectedVideos: false,
+            loadingRejectedVideos: true,
             loadedRejectedVideos: true
+        });
+    });
+
+    it('delete comment request', () => {
+        const action = actions.deleteCommentRequest('videoId', 'commentId');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            commentBeingDeletedInfo: {
+                commentId: 'commentId',
+                videoId: 'videoId'
+            }
+        });
+    });
+
+    it('cancel deleting reply', () => {
+        const action = actions.cancelDeletingReply();
+        expect(reducer(({
+            ...initialState,
+            replyBeingDeletedInfo: {
+                commentId: 'commentId',
+                videoId: 'videoId',
+                replyId: 'replyId'
+            }
+        }), action)).toEqual({
+            ...initialState,
+            replyBeingDeletedInfo: { }
+        });
+    });
+
+    it('cancel deleting comment', () => {
+        const action = actions.cancelDeletingComment();
+        expect(reducer(({
+            ...initialState,
+            commentBeingDeletedInfo: {
+                commentId: 'commentId',
+                videoId: 'videoId'
+            }
+        }), action)).toEqual({
+            ...initialState,
+            commentBeingDeletedInfo: { }
+        });
+    });
+
+    it('cancel submitting highlight', () => {
+        const action = actions.cancelSubmittingHighlight();
+        expect(reducer(({
+            ...initialState,
+            isSubmittingHighlight: true
+        }), action)).toEqual({
+            ...initialState,
+            isSubmittingHighlight: false
+        });
+    });
+
+    it('delete reply request', () => {
+        const action = actions.deleteReplyRequest('videoId', 'commentId', 'replyId');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            replyBeingDeletedInfo: {
+                commentId: 'commentId',
+                videoId: 'videoId',
+                replyId: 'replyId'
+            }
         });
     });
 
@@ -210,7 +273,7 @@ describe('Highlights reducer', () => {
     });
 
     it('already fetched approved videos', () => {
-        const action = actions.alreadyFetchedApprovedHighlights();
+        const action = actions.cancelLoadingVideosToBeApproved();
         expect(reducer({
             ...initialState,
             loadingVideosToBeApproved: true

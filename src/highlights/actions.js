@@ -17,7 +17,7 @@ export const CANCEL_VOTING_ON_HIGHLIGHT = `${pre}CANCEL_VOTING_ON_HIGHLIGHT`;
 
 export const FETCH_USER_HIGHLIGHTS_TO_BE_APPROVED_REQUEST = `${pre}FETCH_USER_HIGHLIGHTS_TO_BE_APPROVED_REQUEST`;
 export const FETCH_USER_HIGHLIGHTS_TO_BE_APPROVED_SUCCESS = `${pre}FETCH_USER_HIGHLIGHTS_TO_BE_APPROVED_SUCCESS`;
-export const ALREADY_FETCHED_APPROVED_HIGHLIGHTS = `${pre}ALREADY_FETCHED_APPROVED_HIGHLIGHTS`;
+export const CANCEL_LOADING_VIDEOS_TO_BE_APPROVED = `${pre}CANCEL_LOADING_VIDEOS_TO_BE_APPROVED`;
 
 export const FETCH_REJECTED_HIGHLIGHTS_REQUEST = `${pre}FETCH_REJECTED_HIGHLIGHTS_REQUEST`;
 export const FETCH_REJECTED_HIGHLIGHTS_SUCCESS = `${pre}FETCH_REJECTED_HIGHLIGHTS_SUCCESS`;
@@ -31,11 +31,13 @@ export const ADD_REPLY_TO_VIDEO_SUCCESS = `${pre}ADD_REPLY_TO_VIDEO_SUCCESS`;
 
 export const DELETE_COMMENT_REQUEST = `${pre}DELETE_COMMENT_REQUEST`;
 export const DELETE_COMMENT_SUCCESS = `${pre}DELETE_COMMENT_SUCCESS`;
+export const CANCEL_DELETING_COMMENT = `${pre}CANCEL_DELETING_COMMENT`;
 
 export const CANCEL_ADDING_COMMENT_TO_VIDEO = `${pre}CANCEL_ADDING_COMMENT_TO_VIDEO`;
 
 export const DELETE_REPLY_REQUEST = `${pre}DELETE_REPLY_REQUEST`;
 export const DELETE_REPLY_SUCCESS = `${pre}DELETE_REPLY_SUCCESS`;
+export const CANCEL_DELETING_REPLY = `${pre}CANCEL_DELETING_REPLY`;
 
 export const CLOSE_HIGHLIGHT_ERROR = `${pre}CLOSE_HIGHLIGHT_ERROR`;
 
@@ -72,8 +74,8 @@ export const fetchRejectedHighlightsSuccess = highlights => ({
     highlights
 });
 
-export const alreadyFetchedApprovedHighlights = () => ({
-    type: ALREADY_FETCHED_APPROVED_HIGHLIGHTS
+export const cancelLoadingVideosToBeApproved = () => ({
+    type: CANCEL_LOADING_VIDEOS_TO_BE_APPROVED
 });
 
 export const fetchUserHighlightsToBeApprovedRequest = () => ({
@@ -167,6 +169,10 @@ export const deleteCommentSuccess = (videoId, commentId) => ({
     commentId
 });
 
+export const cancelDeletingComment = () => ({
+    type: CANCEL_DELETING_COMMENT
+});
+
 export const deleteReplyRequest = (videoId, commentId, replyId) => ({
     type: DELETE_REPLY_REQUEST,
     videoId,
@@ -179,4 +185,8 @@ export const deleteReplySuccess = (videoId, commentId, replyId) => ({
     videoId,
     commentId,
     replyId
+});
+
+export const cancelDeletingReply = () => ({
+    type: CANCEL_DELETING_REPLY
 });
