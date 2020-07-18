@@ -79,11 +79,11 @@ export function* rejectedHighlights(api) {
         if (!alreadyFetched) {
             const highlights = yield call(api.getRejectedHighlights);
             yield put(actions.fetchRejectedHighlightsSuccess(highlights));
-        } else {
-            yield put(actions.alreadyFetchedRejectedVideos());
         }
     } catch (error) {
         yield put(setErrorMessage('Error Fetching Rejected Highlights', error));
+    } finally {
+        yield put(actions.cancelFetchingRejectedVideos());
     }
 }
 
@@ -98,7 +98,7 @@ export function* addCommentToVideo(api, action) {
     } catch (error) {
         yield put(setErrorMessage('Error Adding Comment', error));
     } finally {
-        yield put(actions.setAddingCommentToVideo(false));
+        yield put(actions.cancelAddingCommentToVideo(false));
     }
 }
 
@@ -114,7 +114,7 @@ export function* addReplyToVideo(api, action) {
     } catch (error) {
         yield put(setErrorMessage('Error Replying To Comment', error));
     } finally {
-        yield put(actions.setAddingCommentToVideo(false));
+        yield put(actions.cancelAddingCommentToVideo(false));
     }
 }
 

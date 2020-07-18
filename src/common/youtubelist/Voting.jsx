@@ -32,7 +32,6 @@ const Voting = props => {
     return (
         <div className={props.styles.votingWrapper}>
             <LoadingDiv isLoading={props.isBeingVotedOn} isPadding isMargin>
-
                 <div className={props.styles.upvoteIcon}>
                     <ArrowUpwardIcon fontSize="large" color="secondary" onClick={upvote} />
                 </div>

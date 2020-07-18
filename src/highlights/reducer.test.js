@@ -16,6 +16,68 @@ describe('Highlights reducer', () => {
         });
     });
 
+    it('submit highlight request', () => {
+        const action = actions.submitHighlightRequest();
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isSubmittingHighlight: true
+        });
+    });
+
+    it('upvote highlight request', () => {
+        const action = actions.upvoteHighlightRequest('highlightId');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            highlightBeingVotedOn: 'highlightId'
+        });
+    });
+
+    it('add comment to video request', () => {
+        const action = actions.addCommentToVideoRequest('comment', 'videoId');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isAddingCommentToHighlight: true
+        });
+    });
+
+    it('add reply to video request', () => {
+        const action = actions.addReplyToVideoRequest('reply', 'videoId', 'commentId');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isAddingCommentToHighlight: true
+        });
+    });
+
+    it('cancel adding comment to highlight', () => {
+        const action = actions.cancelAddingCommentToVideo();
+        expect(reducer({
+            ...initialState,
+            isAddingCommentToHighlight: true
+        }, action)).toEqual({
+            ...initialState,
+            isAddingCommentToHighlight: false
+        });
+    });
+
+    it('downvote highlight request', () => {
+        const action = actions.downvoteHighlightRequest('highlightId');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            highlightBeingVotedOn: 'highlightId'
+        });
+    });
+
+    it('cancel voting on highlight', () => {
+        const action = actions.cancelVotingOnHighlight();
+        expect(reducer({
+            ...initialState,
+            highlightBeingVotedOn: 'someHighlightId'
+        }, action)).toEqual({
+            ...initialState,
+            highlightBeingVotedOn: ''
+        });
+    });
+
     it('fetch highlights success', () => {
         const videos = ['a', 'b', 'c'];
         const action = actions.fetchHighlightsSuccess(videos);
@@ -25,6 +87,7 @@ describe('Highlights reducer', () => {
         }, action)).toEqual({
             ...initialState,
             videos,
+            loadingVideos: true,
             loadedVideos: true
         });
     });
@@ -136,7 +199,7 @@ describe('Highlights reducer', () => {
     });
 
     it('already fetched rejected videos', () => {
-        const action = actions.alreadyFetchedRejectedVideos();
+        const action = actions.cancelFetchingRejectedVideos();
         expect(reducer({
             ...initialState,
             loadingRejectedVideos: true

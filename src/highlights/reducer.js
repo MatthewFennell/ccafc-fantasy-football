@@ -72,7 +72,6 @@ const highlightsReducer = (state = initialState, action) => {
     case actions.FETCH_REJECTED_HIGHLIGHTS_SUCCESS: {
         return {
             ...state,
-            loadingRejectedVideos: false,
             videosRejected: action.highlights,
             loadedRejectedVideos: true
         };
@@ -83,7 +82,7 @@ const highlightsReducer = (state = initialState, action) => {
     case actions.FETCH_REJECTED_HIGHLIGHTS_REQUEST: {
         return fp.set('loadingRejectedVideos', true)(state);
     }
-    case actions.ALREADY_FETCHED_REJECTED_VIDEOS: {
+    case actions.CANCEL_FETCHING_REJECTED_VIDEOS: {
         return fp.set('loadingRejectedVideos', false)(state);
     }
     case actions.ALREADY_FETCHED_APPROVED_HIGHLIGHTS: {
@@ -125,8 +124,8 @@ const highlightsReducer = (state = initialState, action) => {
     case actions.ADD_REPLY_TO_VIDEO_REQUEST: {
         return fp.set('isAddingCommentToHighlight', true)(state);
     }
-    case actions.SET_ADDING_COMMENT_TO_VIDEO: {
-        return fp.set('isAddingCommentToHighlight', action.isAdding)(state);
+    case actions.CANCEL_ADDING_COMMENT_TO_VIDEO: {
+        return fp.set('isAddingCommentToHighlight', false)(state);
     }
     case actions.ADD_COMMENT_TO_VIDEO_SUCCESS: {
         return {

@@ -56,8 +56,6 @@ const Highlights = props => {
         // eslint-disable-next-line
     }, [props.deleteReplyRequest])
 
-    console.log('highlightBeingVotedOn', props.highlightBeingVotedOn);
-
     return (
         <>
             <div className={props.styles.highlightsWrapper}>

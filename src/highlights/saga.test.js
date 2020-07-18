@@ -43,10 +43,15 @@ describe('Highlights saga', () => {
     it('submit highlight', () => {
         const action = actions.submitHighlightRequest('videoId', 'title');
         return expectSaga(sagas.submitHighlight, api, action)
+            .call(api.submitVideo, ({
+                videoId: 'videoId',
+                title: 'title'
+            }))
             .provide({ call: provideDelay })
             .put(actions.setSuccessMessage('Highlight successfully submitted for approval'))
             .delay(successDelay)
             .put(actions.closeSuccessMessage())
+            .put(actions.cancelSubmittingHighlight())
             .run({ silenceTimeout: true });
     });
 
@@ -58,6 +63,7 @@ describe('Highlights saga', () => {
                 [matchers.call.fn(api.submitVideo), throwError(error)]
             ])
             .put(setErrorMessage('Submit Highlight Error', error))
+            .put(actions.cancelSubmittingHighlight())
             .run({ silenceTimeout: true });
     });
 
@@ -65,7 +71,9 @@ describe('Highlights saga', () => {
         const action = actions.fetchHighlightsRequest();
         return expectSaga(sagas.getHighlights, api, action)
             .provide({ select: alreadyFetchedInfo(false) })
+            .call(api.getHighlights)
             .put(actions.fetchHighlightsSuccess('highlights'))
+            .put(actions.cancelFetchingVideos())
             .run({ silenceTimeout: true });
     });
 
@@ -86,13 +94,18 @@ describe('Highlights saga', () => {
                 { select: alreadyFetchedInfo(false) }
             ])
             .put(setErrorMessage('Error Fetching Highlights', error))
+            .put(actions.cancelFetchingVideos())
             .run({ silenceTimeout: true });
     });
 
     it('upvote highlight', () => {
         const action = actions.upvoteHighlightRequest('highlightId');
         return expectSaga(sagas.upvoteHighlight, api, action)
+            .call(api.upvoteHighlight, ({
+                highlightId: 'highlightId'
+            }))
             .put(actions.upvoteHighlightSuccess('upvote'))
+            .put(actions.cancelVotingOnHighlight())
             .run({ silenceTimeout: true });
     });
 
@@ -104,13 +117,18 @@ describe('Highlights saga', () => {
                 [matchers.call.fn(api.upvoteHighlight), throwError(error)]
             ])
             .put(setErrorMessage('Error Upvoting Highlight', error))
+            .put(actions.cancelVotingOnHighlight())
             .run({ silenceTimeout: true });
     });
 
     it('downvote highlight', () => {
         const action = actions.downvoteHighlightRequest('highlightId');
         return expectSaga(sagas.downvoteHighlight, api, action)
+            .call(api.downvoteHighlight, ({
+                highlightId: 'highlightId'
+            }))
             .put(actions.downvoteHighlightSuccess('downvote'))
+            .put(actions.cancelVotingOnHighlight())
             .run({ silenceTimeout: true });
     });
 
@@ -122,6 +140,7 @@ describe('Highlights saga', () => {
                 [matchers.call.fn(api.downvoteHighlight), throwError(error)]
             ])
             .put(setErrorMessage('Error Downvoting Highlight', error))
+            .put(actions.cancelVotingOnHighlight())
             .run({ silenceTimeout: true });
     });
 
@@ -157,7 +176,7 @@ describe('Highlights saga', () => {
         const action = actions.fetchRejectedHighlightsRequest();
         return expectSaga(sagas.rejectedHighlights, api, action)
             .provide({ select: alreadyFetchedInfo(true) })
-            .put(actions.alreadyFetchedRejectedVideos())
+            .put(actions.cancelFetchingRejectedVideos())
             .run({ silenceTimeout: true });
     });
 
