@@ -56,6 +56,8 @@ const Highlights = props => {
         // eslint-disable-next-line
     }, [props.deleteReplyRequest])
 
+    console.log('highlightBeingVotedOn', props.highlightBeingVotedOn);
+
     return (
         <>
             <div className={props.styles.highlightsWrapper}>
@@ -134,6 +136,7 @@ const Highlights = props => {
                 deleteComment={deleteComment}
                 deleteReply={deleteReply}
                 downvoteHighlightRequest={props.downvoteHighlightRequest}
+                highlightBeingVotedOn={props.highlightBeingVotedOn}
                 isAddingCommentToVideo={props.isAddingCommentToHighlight}
                 videos={helpers.sortVideos(filterBy, sortBy, props.videos, searchFilter)}
                 votingPage
@@ -168,6 +171,7 @@ Highlights.defaultProps = {
     auth: {
         uid: ''
     },
+    highlightBeingVotedOn: '',
     loadingVideos: false,
     loadingVideosToBeApproved: false,
     loadingRejectedVideos: false,
@@ -196,6 +200,7 @@ Highlights.propTypes = {
     fetchHighlightsRequest: PropTypes.func.isRequired,
     fetchRejectedHighlightsRequest: PropTypes.func.isRequired,
     fetchUserHighlightsToBeApproved: PropTypes.func.isRequired,
+    highlightBeingVotedOn: PropTypes.string,
     loadingVideos: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),
     setErrorMessage: PropTypes.func.isRequired,
@@ -227,6 +232,7 @@ const mapStateToProps = state => ({
     auth: state.firebase.auth,
     commentError: state.highlights.commentError,
     commentErrorCode: state.highlights.commentErrorCode,
+    highlightBeingVotedOn: state.highlights.highlightBeingVotedOn,
     highlightError: state.highlights.submitLinkError,
     highlightErrorCode: state.highlights.submitLinkErrorCode,
     isAddingCommentToHighlight: state.highlights.isAddingCommentToHighlight,

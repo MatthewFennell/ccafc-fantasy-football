@@ -10,6 +10,7 @@ export const initialState = {
     videos: [],
     videosToBeApproved: [],
     videosRejected: [],
+    highlightBeingVotedOn: '',
 
     loadedVideos: false,
     loadedRejectedVideos: false,
@@ -27,7 +28,6 @@ const highlightsReducer = (state = initialState, action) => {
         return {
             ...state,
             videos: action.highlights,
-            loadingVideos: false,
             loadedVideos: true
         };
     }
@@ -36,6 +36,15 @@ const highlightsReducer = (state = initialState, action) => {
     }
     case actions.SUBMIT_HIGHLIGHT_REQUEST: {
         return fp.set('isSubmittingHighlight', true)(state);
+    }
+    case actions.CANCEL_VOTING_ON_HIGHLIGHT: {
+        return fp.set('highlightBeingVotedOn', '')(state);
+    }
+    case actions.UPVOTE_HIGHLIGHT_REQUEST: {
+        return fp.set('highlightBeingVotedOn', action.highlightId)(state);
+    }
+    case actions.DOWNVOTE_HIGHLIGHT_REQUEST: {
+        return fp.set('highlightBeingVotedOn', action.highlightId)(state);
     }
     case actions.UPVOTE_HIGHLIGHT_SUCCESS: {
         return {
@@ -49,7 +58,7 @@ const highlightsReducer = (state = initialState, action) => {
             videos: state.videos.map(x => (x.id === action.highlight.id ? action.highlight : x))
         };
     }
-    case actions.ALREADY_FETCHED_VIDEOS: {
+    case actions.CANCEL_FETCHING_VIDEOS: {
         return fp.set('loadingVideos', false)(state);
     }
     case actions.FETCH_USER_HIGHLIGHTS_TO_BE_APPROVED_SUCCESS: {
@@ -185,10 +194,10 @@ const highlightsReducer = (state = initialState, action) => {
         };
     }
     case actions.SET_SUCCESS_MESSAGE: {
-        return fp.flow(
-            fp.set('successMessage', action.message),
-            fp.set('isSubmittingHighlight', false)
-        )(state);
+        return fp.set('successMessage', action.message)(state);
+    }
+    case actions.CANCEL_SUBMITTING_HIGHLIGHT: {
+        return fp.set('isSubmittingHighlight', false)(state);
     }
     case actions.CLOSE_SUCCESS_MESSAGE: {
         return fp.set('successMessage', '')(state);

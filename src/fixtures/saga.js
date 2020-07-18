@@ -13,11 +13,10 @@ export function* fetchFixtures(api) {
         if (currentFixtures && currentFixtures.length === 0) {
             const fixtures = yield call(api.getFixtures);
             yield put(actions.fetchFixturesSuccess(fixtures));
-        } else {
-            yield put(actions.alreadyFetchedFixtures());
         }
     } catch (error) {
         yield put(setErrorMessage('Error Fetching Fixtures', error));
+    } finally {
         yield put(actions.cancelFetchingFixturesAndTeam());
     }
 }
@@ -31,6 +30,7 @@ export function* setMyTeam(api, action) {
         yield put(actions.closeSuccessMessage());
     } catch (error) {
         yield put(setErrorMessage('Error Setting Team', error));
+    } finally {
         yield put(actions.cancelLoadingMyTeam());
     }
 }
@@ -41,6 +41,7 @@ export function* fetchMyTeam(api) {
         yield put(actions.setMyTeam(myTeam));
     } catch (error) {
         yield put(setErrorMessage('Error Fetching Team', error));
+    } finally {
         yield put(actions.cancelFetchingFixturesAndTeam());
     }
 }

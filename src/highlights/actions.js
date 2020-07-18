@@ -1,16 +1,19 @@
 const pre = 'HIGHLIGHTS/';
 
 export const SUBMIT_HIGHLIGHT_REQUEST = `${pre}SUBMIT_HIGHLIGHT_REQUEST`;
+export const CANCEL_SUBMITTING_HIGHLIGHT = `${pre}CANCEL_SUBMITTING_HIGHLIGHT`;
 
 export const FETCH_HIGHLIGHTS_REQUEST = `${pre}FETCH_HIGHLIGHTS_REQUEST`;
 export const FETCH_HIGHLIGHTS_SUCCESS = `${pre}FETCH_HIGHLIGHTS_SUCCESS`;
-export const ALREADY_FETCHED_VIDEOS = `${pre}ALREADY_FETCHED_VIDEOS`;
+export const CANCEL_FETCHING_VIDEOS = `${pre}CANCEL_FETCHING_VIDEOS`;
 
 export const UPVOTE_HIGHLIGHT_REQUEST = `${pre}UPVOTE_HIGHLIGHT_REQUEST`;
 export const UPVOTE_HIGHLIGHT_SUCCESS = `${pre}UPVOTE_HIGHLIGHT_SUCCESS`;
 
 export const DOWNVOTE_HIGHLIGHT_REQUEST = `${pre}DOWNVOTE_HIGHLIGHT_REQUEST`;
 export const DOWNVOTE_HIGHLIGHT_SUCCESS = `${pre}DOWNVOTE_HIGHLIGHT_SUCCESS`;
+
+export const CANCEL_VOTING_ON_HIGHLIGHT = `${pre}CANCEL_VOTING_ON_HIGHLIGHT`;
 
 export const FETCH_USER_HIGHLIGHTS_TO_BE_APPROVED_REQUEST = `${pre}FETCH_USER_HIGHLIGHTS_TO_BE_APPROVED_REQUEST`;
 export const FETCH_USER_HIGHLIGHTS_TO_BE_APPROVED_SUCCESS = `${pre}FETCH_USER_HIGHLIGHTS_TO_BE_APPROVED_SUCCESS`;
@@ -83,8 +86,8 @@ export const fetchUserHighlightsToBeApprovedSuccess = highlights => ({
     highlights
 });
 
-export const alreadyFetchedVideos = () => ({
-    type: ALREADY_FETCHED_VIDEOS
+export const cancelFetchingVideos = () => ({
+    type: CANCEL_FETCHING_VIDEOS
 });
 
 export const downvoteHighlightRequest = highlightId => ({
@@ -95,6 +98,10 @@ export const downvoteHighlightRequest = highlightId => ({
 export const downvoteHighlightSuccess = highlight => ({
     type: DOWNVOTE_HIGHLIGHT_SUCCESS,
     highlight
+});
+
+export const cancelVotingOnHighlight = () => ({
+    type: CANCEL_VOTING_ON_HIGHLIGHT
 });
 
 export const upvoteHighlightRequest = highlightId => ({
@@ -120,6 +127,10 @@ export const submitHighlightRequest = (videoId, title) => ({
     type: SUBMIT_HIGHLIGHT_REQUEST,
     videoId,
     title
+});
+
+export const cancelSubmittingHighlight = () => ({
+    type: CANCEL_SUBMITTING_HIGHLIGHT
 });
 
 export const addCommentToVideoRequest = (comment, videoId) => ({

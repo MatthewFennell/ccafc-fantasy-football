@@ -18,6 +18,8 @@ export function* submitHighlight(api, action) {
         yield put(actions.closeSuccessMessage());
     } catch (error) {
         yield put(setErrorMessage('Submit Highlight Error', error));
+    } finally {
+        yield put(actions.cancelSubmittingHighlight());
     }
 }
 
@@ -27,11 +29,11 @@ export function* getHighlights(api) {
         if (!fetchedVideos) {
             const highlights = yield call(api.getHighlights);
             yield put(actions.fetchHighlightsSuccess(highlights));
-        } else {
-            yield put(actions.alreadyFetchedVideos());
         }
     } catch (error) {
         yield put(setErrorMessage('Error Fetching Highlights', error));
+    } finally {
+        yield put(actions.cancelFetchingVideos());
     }
 }
 
@@ -41,6 +43,8 @@ export function* upvoteHighlight(api, action) {
         yield put(actions.upvoteHighlightSuccess(result));
     } catch (error) {
         yield put(setErrorMessage('Error Upvoting Highlight', error));
+    } finally {
+        yield put(actions.cancelVotingOnHighlight());
     }
 }
 
@@ -50,6 +54,8 @@ export function* downvoteHighlight(api, action) {
         yield put(actions.downvoteHighlightSuccess(result));
     } catch (error) {
         yield put(setErrorMessage('Error Downvoting Highlight', error));
+    } finally {
+        yield put(actions.cancelVotingOnHighlight());
     }
 }
 

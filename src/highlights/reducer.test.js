@@ -81,7 +81,7 @@ describe('Highlights reducer', () => {
     });
 
     it('already fetched videos', () => {
-        const action = actions.alreadyFetchedVideos();
+        const action = actions.cancelFetchingVideos();
         expect(reducer({
             ...initialState,
             loadingVideos: true

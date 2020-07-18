@@ -4,16 +4,7 @@ import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import { noop } from 'lodash';
 import defaultStyles from './Voting.module.scss';
-
-const determineColor = (video, myId, isUpvote) => {
-    if (video.upvotes.includes(myId) && isUpvote) {
-        return 'secondary';
-    }
-    if (video.downvotes.includes(myId) && !isUpvote) {
-        return 'primary';
-    }
-    return 'inherit';
-};
+import LoadingDiv from '../loadingDiv/LoadingDiv';
 
 const formatKarma = video => {
     const val = video.upvotes.length - video.downvotes.length;
@@ -38,18 +29,20 @@ const Voting = props => {
         // eslint-disable-next-line
     }, [props.downvoteHighlightRequest, props.video, props.authId]);
 
-
     return (
         <div className={props.styles.votingWrapper}>
-            <div className={props.styles.upvoteIcon}>
-                <ArrowUpwardIcon fontSize="large" color={determineColor(props.video, props.authId, true)} onClick={upvote} />
-            </div>
-            <div className={props.styles.karma}>
-                {formatKarma(props.video)}
-            </div>
-            <div className={props.styles.downvoteIcon}>
-                <ArrowDownwardIcon fontSize="large" color={determineColor(props.video, props.authId, false)} onClick={downvote} />
-            </div>
+            <LoadingDiv isLoading={props.isBeingVotedOn} isPadding isMargin>
+
+                <div className={props.styles.upvoteIcon}>
+                    <ArrowUpwardIcon fontSize="large" color="secondary" onClick={upvote} />
+                </div>
+                <div className={props.styles.karma}>
+                    {formatKarma(props.video)}
+                </div>
+                <div className={props.styles.downvoteIcon}>
+                    <ArrowDownwardIcon fontSize="large" color="primary" onClick={downvote} />
+                </div>
+            </LoadingDiv>
         </div>
     );
 };
@@ -57,6 +50,7 @@ const Voting = props => {
 Voting.defaultProps = {
     authId: '',
     downvoteHighlightRequest: noop,
+    isBeingVotedOn: false,
     styles: defaultStyles,
     upvoteHighlightRequest: noop,
     video: {
@@ -68,6 +62,7 @@ Voting.defaultProps = {
 Voting.propTypes = {
     authId: PropTypes.string,
     downvoteHighlightRequest: PropTypes.func,
+    isBeingVotedOn: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),
     upvoteHighlightRequest: PropTypes.func,
     video: PropTypes.shape({

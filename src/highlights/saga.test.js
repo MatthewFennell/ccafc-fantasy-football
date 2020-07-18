@@ -73,7 +73,7 @@ describe('Highlights saga', () => {
         const action = actions.fetchHighlightsRequest();
         return expectSaga(sagas.getHighlights, api, action)
             .provide({ select: alreadyFetchedInfo(true) })
-            .put(actions.alreadyFetchedVideos())
+            .put(actions.cancelFetchingVideos())
             .run({ silenceTimeout: true });
     });
 

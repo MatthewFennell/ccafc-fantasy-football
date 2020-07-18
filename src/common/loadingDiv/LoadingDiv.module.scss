@@ -8,6 +8,7 @@
   border-radius: $spacing-small;
 }
 
+
 .fitContent {
   width: fit-content;
   margin-left: auto;
@@ -23,6 +24,10 @@
 
 .noPadding {
   padding: 0px;
+}
+
+.padding {
+  padding: $spacing-small !important;
 }
 
 .boxShadow {
