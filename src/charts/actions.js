@@ -2,11 +2,10 @@ const pre = 'CHARTS/';
 
 export const FETCH_ALL_TEAMS_REQUEST = `${pre}FETCH_ALL_TEAMS_REQUEST`;
 export const FETCH_ALL_TEAMS_SUCCESS = `${pre}FETCH_ALL_TEAMS_SUCCESS`;
-export const STOP_FETCHING_ALL_TEAMS = `${pre}STOP_FETCHING_ALL_TEAMS`;
-export const ALREADY_FETCHED_TEANS = `${pre}ALREADY_FETCHED_TEANS`;
+export const CANCEL_FETCHING_TEAMS = `${pre}CANCEL_FETCHING_TEAMS`;
 
-export const alreadyFetchedTeams = () => ({
-    type: ALREADY_FETCHED_TEANS
+export const cancelFetchingTeams = () => ({
+    type: CANCEL_FETCHING_TEAMS
 });
 
 export const fetchAllTeamsRequest = () => ({
@@ -16,8 +15,4 @@ export const fetchAllTeamsRequest = () => ({
 export const fetchAllTeamsSuccess = allTeams => ({
     type: FETCH_ALL_TEAMS_SUCCESS,
     allTeams
-});
-
-export const stopFetchingAllTeams = () => ({
-    type: STOP_FETCHING_ALL_TEAMS
 });

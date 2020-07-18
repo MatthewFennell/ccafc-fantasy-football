@@ -12,12 +12,11 @@ export function* fetchAllTeams(api) {
         if (fetchedTeams && fetchedTeams.length === 0) {
             const teams = yield call(api.getAllTeams);
             yield put(actions.fetchAllTeamsSuccess(teams));
-        } else {
-            yield put(actions.alreadyFetchedTeams());
         }
     } catch (error) {
-        yield put(actions.stopFetchingAllTeams());
         yield put(setErrorMessage('Fetch All Teams Error', error));
+    } finally {
+        yield put(actions.cancelFetchingTeams());
     }
 }
 

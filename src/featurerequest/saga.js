@@ -16,9 +16,8 @@ export function* addReplyToComment(api, action) {
         });
     } catch (error) {
         yield put(setErrorMessage('Error Replying To Feature Request', error));
-        yield put(actions.cancelAddingFeatureRequest());
     } finally {
-        yield put(actions.setAddingCommentToFeature(false));
+        yield put(actions.cancelAddingCommentToFeature());
     }
 }
 
@@ -32,9 +31,8 @@ export function* addCommentToFeature(api, action) {
             });
     } catch (error) {
         yield put(setErrorMessage('Error Adding Comment To Feature Request', error));
-        yield put(actions.cancelAddingFeatureRequest());
     } finally {
-        yield put(actions.setAddingCommentToFeature(false));
+        yield put(actions.cancelAddingCommentToFeature());
     }
 }
 
@@ -45,11 +43,12 @@ export function* submitFeature(api, action) {
             isBug: action.isBug
         });
         yield put(actions.setSuccessMessage('Feature submitted successfully'));
-        yield delay(successDelay);
-        yield put(actions.closeSuccessMessage());
     } catch (error) {
         yield put(setErrorMessage('Error Submitting Feature Request', error));
+    } finally {
         yield put(actions.cancelAddingFeatureRequest());
+        yield delay(successDelay);
+        yield put(actions.closeSuccessMessage());
     }
 }
 
@@ -62,7 +61,8 @@ export function* deleteComment(api, action) {
         });
     } catch (error) {
         yield put(setErrorMessage('Error Deleting Comment', error));
-        yield put(actions.cancelAddingFeatureRequest());
+    } finally {
+        yield put(actions.cancelDeletingComment());
     }
 }
 
@@ -76,7 +76,8 @@ export function* deleteReply(api, action) {
         });
     } catch (error) {
         yield put(setErrorMessage('Error Deleting Reply', error));
-        yield put(actions.cancelAddingFeatureRequest());
+    } finally {
+        yield put(actions.cancelDeletingReply());
     }
 }
 

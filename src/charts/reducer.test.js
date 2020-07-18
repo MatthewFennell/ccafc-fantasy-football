@@ -22,13 +22,13 @@ describe('Charts reducer', () => {
             fetchingAllTeams: true
         }, action)).toEqual({
             ...initialState,
-            fetchingAllTeams: false,
+            fetchingAllTeams: true,
             allTeams
         });
     });
 
-    it('already fetched all teams', () => {
-        const action = actions.alreadyFetchedTeams();
+    it('cancel fetching all teams', () => {
+        const action = actions.cancelFetchingTeams();
         expect(reducer({
             ...initialState,
             fetchingAllTeams: true

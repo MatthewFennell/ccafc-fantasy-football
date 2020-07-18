@@ -52,17 +52,6 @@ describe('Transfers reducer', () => {
         });
     });
 
-    it('already fetched active team', () => {
-        const action = currentTeamActions.alreadyFetchedActiveTeam('myUserId');
-        expect(reducer({
-            ...initialState,
-            fetchingOriginalTeam: true
-        }, action)).toEqual({
-            ...initialState,
-            fetchingOriginalTeam: false
-        });
-    });
-
     it('fetch all players success', () => {
         const allPlayers = ['all of the players', 'more players'];
         const action = actions.fetchAllPlayersSuccess(allPlayers);

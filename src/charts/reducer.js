@@ -12,16 +12,9 @@ const chartsReducer = (state = initialState, action) => {
         return fp.set('fetchingAllTeams', true)(state);
     }
     case actions.FETCH_ALL_TEAMS_SUCCESS: {
-        return {
-            ...state,
-            allTeams: action.allTeams,
-            fetchingAllTeams: false
-        };
+        return fp.set('allTeams', action.allTeams)(state);
     }
-    case actions.STOP_FETCHING_ALL_TEAMS: {
-        return fp.set('fetchingAllTeams', false)(state);
-    }
-    case actions.ALREADY_FETCHED_TEANS: {
+    case actions.CANCEL_FETCHING_TEAMS: {
         return fp.set('fetchingAllTeams', false)(state);
     }
     default:

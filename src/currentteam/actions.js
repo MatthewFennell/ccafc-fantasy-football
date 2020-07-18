@@ -4,7 +4,6 @@ export const RELOAD_ACTIVE_TEAM_REQUEST = `${pre}RELOAD_ACTIVE_TEAM_REQUEST`;
 export const FETCH_ACTIVE_TEAM_REQUEST = `${pre}FETCH_ACTIVE_TEAM_REQUEST`;
 export const FETCH_ACTIVE_TEAM_SUCCESS = `${pre}FETCH_ACTIVE_TEAM_SUCCESS`;
 export const CANCEL_FETCHING_ACTIVE_TEAM = `${pre}CANCEL_FETCHING_ACTIVE_TEAM`;
-export const ALREADY_FETCHED_ACTIVE_TEAM = `${pre}ALREADY_FETCHED_ACTIVE_TEAM`;
 
 export const MAKE_CAPTAIN_REQUEST = `${pre}MAKE_CAPTAIN_REQUEST`;
 export const SET_UPDATING_CAPTAIN = `${pre}SET_UPDATING_CAPTAIN`;
@@ -46,9 +45,4 @@ export const fetchActiveTeamSuccess = (userId, activeTeam, captain) => ({
     userId,
     activeTeam,
     captain
-});
-
-export const alreadyFetchedActiveTeam = userId => ({
-    type: ALREADY_FETCHED_ACTIVE_TEAM,
-    userId
 });

@@ -14,15 +14,12 @@ export function* fetchActiveTeam(forced, api, action) {
             const activeTeam = yield call(api.fetchActiveTeam, { userId: action.userId });
             yield put(actions.fetchActiveTeamSuccess(action.userId,
                 activeTeam.players, activeTeam.captain));
-        } else {
-            yield put(actions.alreadyFetchedActiveTeam(action.userId));
         }
     } catch (error) {
         yield put(setErrorMessage('Fetch Active Team Error', error));
-        yield put(actions.cancelFetchingActiveTeam(action.userId));
     } finally {
-        yield put(actions.setUpdatingCaptain(false));
         yield put(actions.setPlayerModalOpen(false));
+        yield put(actions.cancelFetchingActiveTeam(action.userId));
     }
 }
 
@@ -32,6 +29,8 @@ export function* makeCaptain(api, action) {
         yield put(actions.reloadActiveTeamRequest(firebase.auth().currentUser.uid));
     } catch (error) {
         yield put(setErrorMessage('Make Captain Error', error));
+    } finally {
+        yield put(actions.setUpdatingCaptain(false));
     }
 }
 

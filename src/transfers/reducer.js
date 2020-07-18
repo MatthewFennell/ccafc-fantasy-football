@@ -53,9 +53,6 @@ const transfersReducer = (state = initialState, action) => {
     case currentTeamActions.CANCEL_FETCHING_ACTIVE_TEAM: {
         return fp.set('fetchingOriginalTeam', false)(state);
     }
-    case currentTeamActions.ALREADY_FETCHED_ACTIVE_TEAM: {
-        return fp.set('fetchingOriginalTeam', false)(state);
-    }
     // ----------------------------------------------------- \\
     case actions.FETCH_ALL_PLAYERS_SUCCESS: {
         return {

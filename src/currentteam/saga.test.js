@@ -34,7 +34,8 @@ describe('Current team saga', () => {
                     select: alreadyFetchedInfo(true)
                 }
             ])
-            .put(actions.alreadyFetchedActiveTeam('userId'))
+            .put(actions.setPlayerModalOpen(false))
+            .put(actions.cancelFetchingActiveTeam('userId'))
             .run({ silenceTimeout: true });
     });
 
@@ -46,7 +47,12 @@ describe('Current team saga', () => {
                     select: alreadyFetchedInfo(false)
                 }
             ])
+            .call(api.fetchActiveTeam, ({
+                userId: 'userId'
+            }))
             .put(actions.fetchActiveTeamSuccess('userId', 'players', 'captain'))
+            .put(actions.setPlayerModalOpen(false))
+            .put(actions.cancelFetchingActiveTeam('userId'))
             .run({ silenceTimeout: true });
     });
 
@@ -58,7 +64,12 @@ describe('Current team saga', () => {
                     select: alreadyFetchedInfo(true)
                 }
             ])
+            .call(api.fetchActiveTeam, ({
+                userId: 'userId'
+            }))
             .put(actions.fetchActiveTeamSuccess('userId', 'players', 'captain'))
+            .put(actions.setPlayerModalOpen(false))
+            .put(actions.cancelFetchingActiveTeam('userId'))
             .run({ silenceTimeout: true });
     });
 
@@ -95,7 +106,11 @@ describe('Current team saga', () => {
 
         const action = actions.makeCaptainRequest('playerId');
         return expectSaga(sagas.makeCaptain, api, action)
+            .call(api.makeCaptain, ({
+                playerId: 'playerId'
+            }))
             .put(actions.reloadActiveTeamRequest('uniqueId'))
+            .put(actions.setUpdatingCaptain(false))
             .run({ silenceTimeout: true });
     });
 
@@ -107,6 +122,7 @@ describe('Current team saga', () => {
                 [matchers.call.fn(api.makeCaptain), throwError(error)]
             ])
             .put(setErrorMessage('Make Captain Error', error))
+            .put(actions.setUpdatingCaptain(false))
             .run({ silenceTimeout: true });
     });
 });

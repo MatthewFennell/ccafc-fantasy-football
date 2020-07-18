@@ -28,7 +28,7 @@ describe('Current team saga', () => {
                     select: alreadyFetchedInfo(true)
                 }
             ])
-            .put(actions.alreadyFetchedTeams())
+            .put(actions.cancelFetchingTeams())
             .run({ silenceTimeout: true });
     });
 
@@ -41,6 +41,7 @@ describe('Current team saga', () => {
                 }
             ])
             .put(actions.fetchAllTeamsSuccess(['a', 'b']))
+            .put(actions.cancelFetchingTeams())
             .run({ silenceTimeout: true });
     });
 

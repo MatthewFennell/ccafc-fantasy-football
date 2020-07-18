@@ -11,11 +11,14 @@ import {
 import AllFeatureRequests from './AllFeatureRequests';
 import SubmitFeature from './SubmitFeature';
 import SuccessModal from '../common/modal/SuccessModal';
+import ConfirmModal from '../common/modal/ConfirmModal';
 
 const FeatureRequest = props => {
     const [description, setDescription] = useState('');
     const [submitFeatureRequestOpen, setSubmitFeatureRequestOpen] = useState(false);
     const [isBug, setIsBug] = useState(false);
+    const [deleteCommentInfo, setDeleteCommentInfo] = useState({});
+    const [deleteReplyInfo, setDeleteReplyInfo] = useState({});
 
     const updateDescription = useCallback(e => {
         const text = e.target.value;
@@ -43,14 +46,32 @@ const FeatureRequest = props => {
     }, [description, props.submitFeatureRequest, setDescription, setSubmitFeatureRequestOpen, isBug, setIsBug]);
 
     const deleteComment = useCallback(featureId => commentId => {
-        props.deleteCommentRequest(featureId, commentId);
+        setDeleteCommentInfo({
+            featureId,
+            commentId
+        });
+    }, [setDeleteCommentInfo]);
+
+    const confirmDeleteComment = useCallback(() => {
+        props.deleteCommentRequest(deleteCommentInfo.featureId, deleteCommentInfo.commentId);
+        setDeleteCommentInfo({});
         // eslint-disable-next-line
-    }, [props.deleteCommentRequest])
+    }, [deleteCommentInfo, props.deleteCommentRequest, setDeleteCommentInfo]);
+
+    const confirmDeleteReply = useCallback(() => {
+        props.deleteReplyRequest(deleteReplyInfo.featureId,
+            deleteReplyInfo.commentId, deleteReplyInfo.replyId);
+        setDeleteReplyInfo({});
+        // eslint-disable-next-line
+    }, [deleteReplyInfo, props.deleteReplyRequest, setDeleteReplyInfo])
 
     const deleteReply = useCallback(featureId => (commentId, replyId) => {
-        props.deleteReplyRequest(featureId, commentId, replyId);
-        // eslint-disable-next-line
-    }, [props.deleteReplyRequest])
+        setDeleteReplyInfo({
+            featureId,
+            commentId,
+            replyId
+        });
+    }, [setDeleteReplyInfo]);
 
     return (
         <>
@@ -83,6 +104,25 @@ const FeatureRequest = props => {
                 headerMessage={props.successMessage}
                 toggleModal={noop}
             />
+            <ConfirmModal
+                cancel={() => setDeleteCommentInfo({})}
+                closeModal={() => setDeleteCommentInfo({})}
+                isButtonsDisabled={!_.isEmpty(props.commentBeingDeletedInfo)}
+                isLoading={!_.isEmpty(props.commentBeingDeletedInfo)}
+                isOpen={!_.isEmpty(deleteCommentInfo) || !_.isEmpty(props.commentBeingDeletedInfo)}
+                submit={confirmDeleteComment}
+                text="Delete Comment?"
+            />
+
+            <ConfirmModal
+                cancel={() => setDeleteReplyInfo({})}
+                closeModal={() => setDeleteReplyInfo({})}
+                isButtonsDisabled={!_.isEmpty(props.replyBeingDeletedInfo)}
+                isLoading={!_.isEmpty(props.replyBeingDeletedInfo)}
+                isOpen={!_.isEmpty(deleteReplyInfo) || !_.isEmpty(props.replyBeingDeletedInfo)}
+                submit={confirmDeleteReply}
+                text="Delete Reply?"
+            />
         </>
     );
 };
@@ -94,19 +134,32 @@ FeatureRequest.defaultProps = {
     auth: {
         uid: null
     },
+    commentBeingDeletedInfo: {
+        commentId: '',
+        featureId: ''
+    },
     featureRequests: {},
     isAddingCommentToFeature: false,
     isSubmittingFeature: false,
+    replyBeingDeletedInfo: {
+        featureId: '',
+        commentId: '',
+        replyId: ''
+    },
     submitFeatureRequest: noop,
     successMessage: ''
 };
 
 FeatureRequest.propTypes = {
-    closeSuccessMessage: PropTypes.func,
     addCommentToFeatureRequest: PropTypes.func,
     addReplyToCommentRequest: PropTypes.func,
     auth: PropTypes.shape({
         uid: PropTypes.string
+    }),
+    closeSuccessMessage: PropTypes.func,
+    commentBeingDeletedInfo: PropTypes.shape({
+        featureId: PropTypes.string,
+        commentId: PropTypes.string
     }),
     deleteCommentRequest: PropTypes.func.isRequired,
     deleteReplyRequest: PropTypes.func.isRequired,
@@ -117,15 +170,22 @@ FeatureRequest.propTypes = {
     })),
     isAddingCommentToFeature: PropTypes.bool,
     isSubmittingFeature: PropTypes.bool,
+    replyBeingDeletedInfo: PropTypes.shape({
+        featureId: PropTypes.string,
+        commentId: PropTypes.string,
+        replyId: PropTypes.string
+    }),
     submitFeatureRequest: PropTypes.func,
     successMessage: PropTypes.string
 };
 
 const mapStateToProps = state => ({
     auth: state.firebase.auth,
-    isAddingCommentToFeature: state.features.isAddingCommentToFeature,
+    commentBeingDeletedInfo: state.features.commentBeingDeletedInfo,
     featureRequests: state.firestore.data.featureRequests,
+    isAddingCommentToFeature: state.features.isAddingCommentToFeature,
     isSubmittingFeature: state.features.isSubmittingFeature,
+    replyBeingDeletedInfo: state.features.replyBeingDeletedInfo,
     successMessage: state.features.successMessage
 });
 
