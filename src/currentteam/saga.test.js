@@ -111,6 +111,8 @@ describe('Current team saga', () => {
             }))
             .put(actions.reloadActiveTeamRequest('uniqueId'))
             .put(actions.setUpdatingCaptain(false))
+            .put(actions.setCaptainToUpdate(''))
+            .put(actions.setPlayerModalOpen(false))
             .run({ silenceTimeout: true });
     });
 

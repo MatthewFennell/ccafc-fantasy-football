@@ -3,6 +3,7 @@ import * as actions from './actions';
 
 export const initialState = {
     activeTeam: {},
+    captainToUpdate: '',
     isPlayerModalOpen: false,
     isUpdatingCaptain: false
 };
@@ -15,6 +16,9 @@ const activeTeamReducer = (state = initialState, action) => {
             fp.set(`activeTeam.${action.userId}.fetched`, true),
             fp.set(`activeTeam.${action.userId}.captain`, action.captain)
         )(state);
+    }
+    case actions.SET_CAPTAIN_TO_UPDATE: {
+        return fp.set('captainToUpdate', action.captain)(state);
     }
     case actions.SET_PLAYER_MODAL_OPEN: {
         return fp.set('isPlayerModalOpen', action.isModalOpen)(state);

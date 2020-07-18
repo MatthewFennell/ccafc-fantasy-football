@@ -12,6 +12,7 @@ import {
 import StyledButton from '../../common/StyledButton/StyledButton';
 import SuccessModal from '../../common/modal/SuccessModal';
 import Spinner from '../../common/spinner/Spinner';
+import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
 
 const DeleteTeam = props => {
     const [teamName, setTeamName] = useState('');
@@ -42,13 +43,15 @@ const DeleteTeam = props => {
                 </div>
                 <div className={props.styles.deleteTeamForm}>
                     <div className={props.styles.deleteTeamDropdowns}>
-                        <Dropdown
-                            value={teamName}
-                            onChange={setTeamName}
-                            options={props.allTeams}
-                            title="Team"
-                            key="Team"
-                        />
+                        <LoadingDiv isLoading={props.isFetchingTeams} isPadding isBorderRadius>
+                            <Dropdown
+                                value={teamName}
+                                onChange={setTeamName}
+                                options={props.allTeams}
+                                title="Team"
+                                key="Team"
+                            />
+                        </LoadingDiv>
                     </div>
 
                 </div>
@@ -73,6 +76,7 @@ const DeleteTeam = props => {
 
 DeleteTeam.defaultProps = {
     allTeams: [],
+    isFetchingTeams: false,
     successMessage: '',
     styles: defaultStyles
 };
@@ -83,6 +87,7 @@ DeleteTeam.propTypes = {
     deleteTeamRequest: PropTypes.func.isRequired,
     deletingTeam: PropTypes.bool.isRequired,
     fetchTeamsRequest: PropTypes.func.isRequired,
+    isFetchingTeams: PropTypes.bool,
     successMessage: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string)
 };
@@ -96,6 +101,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
     allTeams: state.admin.allTeams,
     deletingTeam: state.admin.deletingTeam,
+    isFetchingTeams: state.admin.isFetchingTeams,
     successMessage: state.admin.successMessage
 });
 

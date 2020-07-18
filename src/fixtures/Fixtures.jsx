@@ -77,6 +77,7 @@ const Fixtures = props => {
                     <SetTeam
                         activeTeam={myTeam}
                         loadingMyTeam={props.loadingMyTeam}
+                        loadingFixtures={props.loadingFixtures}
                         myTeam={props.myTeam}
                         setActiveTeam={setMyTeam}
                         teamOptions={generateCollingwoodTeams(props.fixtures)}

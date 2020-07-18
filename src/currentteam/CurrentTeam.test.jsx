@@ -34,6 +34,7 @@ describe('CurrentTeam', () => {
             fetchFixturesRequest={noop}
             isPlayerModalOpen={false}
             setPlayerModalOpen={noop}
+            setCaptainToUpdate={noop}
         />);
         expect(() => wrapper).not.toThrow();
     });

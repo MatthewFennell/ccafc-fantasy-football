@@ -30,6 +30,8 @@ export function* makeCaptain(api, action) {
     } catch (error) {
         yield put(setErrorMessage('Make Captain Error', error));
     } finally {
+        yield put(actions.setPlayerModalOpen(false));
+        yield put(actions.setCaptainToUpdate(''));
         yield put(actions.setUpdatingCaptain(false));
     }
 }

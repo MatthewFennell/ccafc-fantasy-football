@@ -25,13 +25,13 @@ export function* setMyTeam(api, action) {
     try {
         yield call(api.setMyTeam, { team: action.team });
         yield put(actions.setMyTeam(action.team));
-        yield put(actions.setSuccessMessage('Team successfully set'));
-        yield delay(successDelay);
-        yield put(actions.closeSuccessMessage());
     } catch (error) {
         yield put(setErrorMessage('Error Setting Team', error));
     } finally {
         yield put(actions.cancelLoadingMyTeam());
+        yield put(actions.setSuccessMessage('Team successfully set'));
+        yield delay(successDelay);
+        yield put(actions.closeSuccessMessage());
     }
 }
 
@@ -42,7 +42,7 @@ export function* fetchMyTeam(api) {
     } catch (error) {
         yield put(setErrorMessage('Error Fetching Team', error));
     } finally {
-        yield put(actions.cancelFetchingFixturesAndTeam());
+        yield put(actions.cancelLoadingMyTeam());
     }
 }
 

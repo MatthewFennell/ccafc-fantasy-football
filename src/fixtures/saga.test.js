@@ -84,7 +84,7 @@ describe('Fixtures saga', () => {
         return expectSaga(sagas.fetchMyTeam, api, action)
             .call(api.fetchMyTeam)
             .put(actions.setMyTeam('myTeam'))
-            .put(actions.cancelFetchingFixturesAndTeam())
+            .put(actions.cancelLoadingMyTeam())
             .run({ silenceTimeout: true });
     });
 
@@ -96,7 +96,7 @@ describe('Fixtures saga', () => {
                 [matchers.call.fn(api.fetchMyTeam), throwError(error)]
             ])
             .put(setErrorMessage('Error Fetching Team', error))
-            .put(actions.cancelFetchingFixturesAndTeam())
+            .put(actions.cancelLoadingMyTeam())
             .run({ silenceTimeout: true });
     });
 });

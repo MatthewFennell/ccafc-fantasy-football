@@ -41,6 +41,14 @@ describe('Current team reducer', () => {
         });
     });
 
+    it('set captain to update', () => {
+        const action = actions.setCaptainToUpdate('captain');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            captainToUpdate: 'captain'
+        });
+    });
+
     it('make captain request', () => {
         const action = actions.makeCaptainRequest();
         expect(reducer(initialState, action)).toEqual({

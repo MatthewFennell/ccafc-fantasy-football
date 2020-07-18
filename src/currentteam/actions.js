@@ -6,9 +6,15 @@ export const FETCH_ACTIVE_TEAM_SUCCESS = `${pre}FETCH_ACTIVE_TEAM_SUCCESS`;
 export const CANCEL_FETCHING_ACTIVE_TEAM = `${pre}CANCEL_FETCHING_ACTIVE_TEAM`;
 
 export const MAKE_CAPTAIN_REQUEST = `${pre}MAKE_CAPTAIN_REQUEST`;
+export const SET_CAPTAIN_TO_UPDATE = `${pre}SET_CAPTAIN_TO_UPDATE`;
 export const SET_UPDATING_CAPTAIN = `${pre}SET_UPDATING_CAPTAIN`;
 
 export const SET_PLAYER_MODAL_OPEN = `${pre}SET_PLAYER_MODAL_OPEN`;
+
+export const setCaptainToUpdate = captain => ({
+    type: SET_CAPTAIN_TO_UPDATE,
+    captain
+});
 
 export const cancelFetchingActiveTeam = userId => ({
     type: CANCEL_FETCHING_ACTIVE_TEAM,

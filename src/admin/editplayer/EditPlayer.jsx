@@ -339,12 +339,14 @@ const EditPlayer = props => {
         <>
             <div className={props.styles.findPlayerDropdowns}>
                 <div className={props.styles.teamDropdown}>
-                    <Dropdown
-                        value={playerTeam}
-                        onChange={setTeam}
-                        options={props.allTeams}
-                        title="Team"
-                    />
+                    <LoadingDiv isPadding isBorderRadius isLoading={props.isFetchingTeams}>
+                        <Dropdown
+                            value={playerTeam}
+                            onChange={setTeam}
+                            options={props.allTeams}
+                            title="Team"
+                        />
+                    </LoadingDiv>
                 </div>
                 <div className={props.styles.playerDropdown}>
                     <LoadingDiv
@@ -402,6 +404,7 @@ EditPlayer.defaultProps = {
     allTeams: [],
     fetchingPlayerStats: false,
     isFetchingPlayersForTeam: false,
+    isFetchingTeams: false,
     maxGameWeek: null,
     playerStats: {},
     successMessage: '',
@@ -421,6 +424,7 @@ EditPlayer.propTypes = {
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired,
+    isFetchingTeams: PropTypes.bool,
     isFetchingPlayersForTeam: PropTypes.bool,
     maxGameWeek: PropTypes.number,
     playerStats: PropTypes.shape({
@@ -452,6 +456,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
     allTeams: state.admin.allTeams,
     editingStats: state.admin.editingStats,
+    isFetchingTeams: state.admin.isFetchingTeams,
     isFetchingPlayersForTeam: state.admin.isFetchingPlayersForTeam,
     fetchingPlayerStats: state.admin.fetchingPlayerStats,
     maxGameWeek: state.overview.maxGameWeek,

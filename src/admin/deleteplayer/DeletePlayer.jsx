@@ -13,6 +13,7 @@ import {
 import StyledButton from '../../common/StyledButton/StyledButton';
 import SuccessModal from '../../common/modal/SuccessModal';
 import Spinner from '../../common/spinner/Spinner';
+import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
 
 const DeletePlayer = props => {
     const [playerName, setPlayerName] = useState('');
@@ -60,13 +61,19 @@ const DeletePlayer = props => {
                             title="Team"
                             key="Team"
                         />
-                        <Dropdown
-                            value={playerName}
-                            onChange={setPlayerName}
-                            options={playersForActiveTeam}
-                            title="Player"
-                            key="Player"
-                        />
+                        <LoadingDiv
+                            isLoading={props.isFetchingPlayersForTeam}
+                            isPadding
+                            isBorderRadius
+                        >
+                            <Dropdown
+                                value={playerName}
+                                onChange={setPlayerName}
+                                options={playersForActiveTeam}
+                                title="Player"
+                                key="Player"
+                            />
+                        </LoadingDiv>
                     </div>
 
                 </div>
@@ -92,6 +99,7 @@ const DeletePlayer = props => {
 
 DeletePlayer.defaultProps = {
     allTeams: [],
+    isFetchingPlayersForTeam: false,
     successMessage: '',
     styles: defaultStyles
 };
@@ -103,6 +111,7 @@ DeletePlayer.propTypes = {
     deletingPlayer: PropTypes.bool.isRequired,
     fetchTeamsRequest: PropTypes.func.isRequired,
     fetchPlayersForTeamRequest: PropTypes.func.isRequired,
+    isFetchingPlayersForTeam: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),
     successMessage: PropTypes.string,
     teamsWithPlayers: PropTypes.objectOf(PropTypes.array).isRequired
@@ -118,6 +127,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
     allTeams: state.admin.allTeams,
     deletingPlayer: state.admin.deletingPlayer,
+    isFetchingPlayersForTeam: state.admin.isFetchingPlayersForTeam,
     successMessage: state.admin.successMessage,
     teamsWithPlayers: state.admin.teamsWithPlayers
 });
