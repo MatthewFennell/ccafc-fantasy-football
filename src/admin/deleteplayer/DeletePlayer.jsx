@@ -8,12 +8,12 @@ import defaultStyles from './DeletePlayer.module.scss';
 import Dropdown from '../../common/dropdown/Dropdown';
 import {
     fetchTeamsRequest, fetchPlayersForTeamRequest, deletePlayerRequest,
-    closeSuccessMessage, closeAdminError
+    closeSuccessMessage
 } from '../actions';
 import StyledButton from '../../common/StyledButton/StyledButton';
-import ErrorModal from '../../common/modal/ErrorModal';
 import SuccessModal from '../../common/modal/SuccessModal';
 import Spinner from '../../common/spinner/Spinner';
+import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
 
 const DeletePlayer = props => {
     const [playerName, setPlayerName] = useState('');
@@ -61,23 +61,22 @@ const DeletePlayer = props => {
                             title="Team"
                             key="Team"
                         />
-                        <Dropdown
-                            value={playerName}
-                            onChange={setPlayerName}
-                            options={playersForActiveTeam}
-                            title="Player"
-                            key="Player"
-                        />
+                        <LoadingDiv
+                            isLoading={props.isFetchingPlayersForTeam}
+                            isPadding
+                            isBorderRadius
+                        >
+                            <Dropdown
+                                value={playerName}
+                                onChange={setPlayerName}
+                                options={playersForActiveTeam}
+                                title="Player"
+                                key="Player"
+                            />
+                        </LoadingDiv>
                     </div>
 
                 </div>
-                <ErrorModal
-                    closeModal={props.closeAdminError}
-                    headerMessage={props.errorHeader}
-                    isOpen={props.errorMessage.length > 0}
-                    errorCode={props.errorCode}
-                    errorMessage={props.errorMessage}
-                />
 
                 <div className={classNames({
                     [props.styles.hidden]: !props.deletingPlayer
@@ -100,31 +99,25 @@ const DeletePlayer = props => {
 
 DeletePlayer.defaultProps = {
     allTeams: [],
-    errorMessage: '',
-    errorCode: '',
-    errorHeader: '',
+    isFetchingPlayersForTeam: false,
     successMessage: '',
     styles: defaultStyles
 };
 
 DeletePlayer.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
-    closeAdminError: PropTypes.func.isRequired,
     closeSuccessMessage: PropTypes.func.isRequired,
     deletePlayerRequest: PropTypes.func.isRequired,
     deletingPlayer: PropTypes.bool.isRequired,
-    errorMessage: PropTypes.string,
-    errorCode: PropTypes.string,
-    errorHeader: PropTypes.string,
     fetchTeamsRequest: PropTypes.func.isRequired,
     fetchPlayersForTeamRequest: PropTypes.func.isRequired,
+    isFetchingPlayersForTeam: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),
     successMessage: PropTypes.string,
     teamsWithPlayers: PropTypes.objectOf(PropTypes.array).isRequired
 };
 
 const mapDispatchToProps = {
-    closeAdminError,
     closeSuccessMessage,
     deletePlayerRequest,
     fetchTeamsRequest,
@@ -134,9 +127,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
     allTeams: state.admin.allTeams,
     deletingPlayer: state.admin.deletingPlayer,
-    errorMessage: state.admin.errorMessage,
-    errorCode: state.admin.errorCode,
-    errorHeader: state.admin.errorHeader,
+    isFetchingPlayersForTeam: state.admin.isFetchingPlayersForTeam,
     successMessage: state.admin.successMessage,
     teamsWithPlayers: state.admin.teamsWithPlayers
 });

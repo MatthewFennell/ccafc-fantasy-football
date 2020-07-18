@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import _, { noop } from 'lodash';
 import { firestoreConnect } from 'react-redux-firebase';
-import ErrorModal from '../../common/modal/ErrorModal';
 import defaultStyles from './ManageBugs.module.scss';
-import { closeAdminError, deleteFeatureRequest, setBugIdToDelete } from '../actions';
+import { deleteFeatureRequest, setBugIdToDelete } from '../actions';
 import { editDisabledPageRequest } from '../../auth/actions';
 import ConfirmModal from '../../common/modal/ConfirmModal';
 import Bug from './Bug';
@@ -53,24 +52,13 @@ const ManageBugs = props => {
                 submit={confirmBugToDelete}
                 text="Delete Bug?"
             />
-            <ErrorModal
-                closeModal={props.closeAdminError}
-                headerMessage={props.errorHeader}
-                isOpen={props.errorMessage.length > 0}
-                errorCode={props.errorCode}
-                errorMessage={props.errorMessage}
-            />
         </>
     );
 };
 
 ManageBugs.defaultProps = {
     bugIdToDelete: '',
-    closeAdminError: noop,
     deleteFeatureRequest: noop,
-    errorMessage: '',
-    errorCode: '',
-    errorHeader: '',
     featureRequestBugs: {},
     isDeletingBug: false,
     setBugIdToDelete: noop,
@@ -79,11 +67,7 @@ ManageBugs.defaultProps = {
 
 ManageBugs.propTypes = {
     bugIdToDelete: PropTypes.string,
-    closeAdminError: PropTypes.func,
     deleteFeatureRequest: PropTypes.func,
-    errorMessage: PropTypes.string,
-    errorCode: PropTypes.string,
-    errorHeader: PropTypes.string,
     featureRequestBugs: PropTypes.shape({}),
     isDeletingBug: PropTypes.bool,
     setBugIdToDelete: PropTypes.func,
@@ -91,7 +75,6 @@ ManageBugs.propTypes = {
 };
 
 const mapDispatchToProps = {
-    closeAdminError,
     deleteFeatureRequest,
     editDisabledPageRequest,
     setBugIdToDelete
@@ -99,9 +82,6 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
     bugIdToDelete: state.admin.bugIdToDelete,
-    errorMessage: state.admin.errorMessage,
-    errorCode: state.admin.errorCode,
-    errorHeader: state.admin.errorHeader,
     isDeletingBug: state.admin.isDeletingBug,
     featureRequestBugs: state.firestore.data.featureRequestBugs
 });

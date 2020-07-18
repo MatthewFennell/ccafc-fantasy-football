@@ -17,17 +17,6 @@ describe('Transfers reducer', () => {
         });
     });
 
-    it('fetch user stats error', () => {
-        const action = overviewActions.fetchUserStatsError('myUserId', null);
-        expect(reducer({
-            ...initialState,
-            fetchingUserStats: true
-        }, action)).toEqual({
-            ...initialState,
-            fetchingUserStats: false
-        });
-    });
-
     it('fetch user stats success', () => {
         const userStats = {
             remainingBudget: 100,
@@ -52,6 +41,61 @@ describe('Transfers reducer', () => {
         });
     });
 
+    it('cancel fetching user stats', () => {
+        const action = overviewActions.cancelFetchingUserStats();
+        expect(reducer({
+            ...initialState,
+            fetchingUserStats: true
+        }, action)).toEqual({
+            ...initialState,
+            fetchingUserStats: false
+        });
+    });
+
+    it('cancel fetching original team', () => {
+        const action = actions.cancelFetchingOriginalTeam();
+        expect(reducer({
+            ...initialState,
+            fetchingOriginalTeam: true
+        }, action)).toEqual({
+            ...initialState,
+            fetchingOriginalTeam: false
+        });
+    });
+
+    it('cancel fetching active team', () => {
+        const action = currentTeamActions.cancelFetchingActiveTeam();
+        expect(reducer({
+            ...initialState,
+            fetchingOriginalTeam: true
+        }, action)).toEqual({
+            ...initialState,
+            fetchingOriginalTeam: false
+        });
+    });
+
+    it('cancel fetching all players', () => {
+        const action = actions.cancelFetchingAllPlayers();
+        expect(reducer({
+            ...initialState,
+            fetchingAllPlayers: true
+        }, action)).toEqual({
+            ...initialState,
+            fetchingAllPlayers: false
+        });
+    });
+
+    it('cancel updating team', () => {
+        const action = actions.cancelUpdatingTeam();
+        expect(reducer({
+            ...initialState,
+            fetchingOriginalTeam: true
+        }, action)).toEqual({
+            ...initialState,
+            fetchingOriginalTeam: false
+        });
+    });
+
     it('fetch active team success', () => {
         const activeTeam = ['Active team'];
         const action = currentTeamActions.fetchActiveTeamSuccess('myUserId', activeTeam);
@@ -60,25 +104,6 @@ describe('Transfers reducer', () => {
             fetchingOriginalTeam: false,
             originalTeam: activeTeam,
             currentTeam: activeTeam
-        });
-    });
-
-    it('fetch active team error', () => {
-        const action = currentTeamActions.fetchActiveTeamError('myUserId', null);
-        expect(reducer(initialState, action)).toEqual({
-            ...initialState,
-            fetchingOriginalTeam: false
-        });
-    });
-
-    it('already fetched active team', () => {
-        const action = currentTeamActions.alreadyFetchedActiveTeam('myUserId');
-        expect(reducer({
-            ...initialState,
-            fetchingOriginalTeam: true
-        }, action)).toEqual({
-            ...initialState,
-            fetchingOriginalTeam: false
         });
     });
 
@@ -97,14 +122,6 @@ describe('Transfers reducer', () => {
         expect(reducer(initialState, action)).toEqual({
             ...initialState,
             fetchingAllPlayers: true
-        });
-    });
-
-    it('fetch all players error', () => {
-        const action = actions.fetchAllPlayersError(null);
-        expect(reducer(initialState, action)).toEqual({
-            ...initialState,
-            fetchingAllPlayers: false
         });
     });
 
@@ -272,31 +289,6 @@ describe('Transfers reducer', () => {
             ...initialState,
             currentTeam: currentTeam.filter(x => x.id !== 'p3').concat(player),
             remainingBudget: -3
-        });
-    });
-
-    it('add player to current team error', () => {
-        const action = actions.addPlayerToCurrentTeamError({
-            message: 'Error message',
-            code: 'Error code'
-        });
-        expect(reducer(initialState, action)).toEqual({
-            ...initialState,
-            transfersError: 'Error message',
-            transfersErrorCode: 'Error code'
-        });
-    });
-
-    it('close transfers error', () => {
-        const action = actions.closeTransfersError();
-        expect(reducer({
-            ...initialState,
-            transfersError: 'Error message',
-            transfersErrorCode: 'Error code'
-        }, action)).toEqual({
-            ...initialState,
-            transfersError: '',
-            transfersErrorCode: ''
         });
     });
 
@@ -629,30 +621,13 @@ describe('Transfers reducer', () => {
     });
 
     it('already fetched all players', () => {
-        const action = actions.alreadyFetchedAllPlayers();
+        const action = actions.cancelFetchingPlayers();
         expect(reducer({
             ...initialState,
             fetchingAllPlayers: true
         }, action)).toEqual({
             ...initialState,
             fetchingAllPlayers: false
-        });
-    });
-
-    it('update team error', () => {
-        const action = actions.updateTeamError({
-            message: 'Error message',
-            code: 'Error code'
-        });
-        expect(reducer({
-            ...initialState,
-            fetchingOriginalTeam: true
-        },
-        action)).toEqual({
-            ...initialState,
-            transfersError: 'Error message',
-            transfersErrorCode: 'Error code',
-            fetchingOriginalTeam: false
         });
     });
 
@@ -803,7 +778,7 @@ describe('Transfers reducer', () => {
             }
         ];
 
-        const action = adminActions.setHasPaidSubsSuccess(changes);
+        const action = adminActions.cancelUpdatingSubs(changes);
 
         expect(reducer({
             ...initialState,

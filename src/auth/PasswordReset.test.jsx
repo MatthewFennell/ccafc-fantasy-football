@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { noop } from 'lodash';
 import { Provider } from 'react-redux';
@@ -18,7 +17,6 @@ describe('Reset Password', () => {
         expect(() => wrapper).not.toThrow();
     });
 });
-
 
 describe('Password Reset connected', () => {
     it('Connected password reset', () => {

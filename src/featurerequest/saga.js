@@ -4,6 +4,7 @@ import {
 import * as actions from './actions';
 import * as featuresApi from './api';
 import { successDelay } from '../constants';
+import { setErrorMessage } from '../errorHandling/actions';
 
 export function* addReplyToComment(api, action) {
     try {
@@ -14,9 +15,9 @@ export function* addReplyToComment(api, action) {
             commentId: action.commentId
         });
     } catch (error) {
-        yield put(actions.featureRequestError(error, 'Reply Error'));
+        yield put(setErrorMessage('Error Replying To Feature Request', error));
     } finally {
-        yield put(actions.setAddingCommentToFeature(false));
+        yield put(actions.cancelAddingCommentToFeature());
     }
 }
 
@@ -29,9 +30,9 @@ export function* addCommentToFeature(api, action) {
                 collectionId: action.featureId
             });
     } catch (error) {
-        yield put(actions.featureRequestError(error, 'Comment Error'));
+        yield put(setErrorMessage('Error Adding Comment To Feature Request', error));
     } finally {
-        yield put(actions.setAddingCommentToFeature(false));
+        yield put(actions.cancelAddingCommentToFeature());
     }
 }
 
@@ -42,10 +43,12 @@ export function* submitFeature(api, action) {
             isBug: action.isBug
         });
         yield put(actions.setSuccessMessage('Feature submitted successfully'));
+    } catch (error) {
+        yield put(setErrorMessage('Error Submitting Feature Request', error));
+    } finally {
+        yield put(actions.cancelAddingFeatureRequest());
         yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
-    } catch (error) {
-        yield put(actions.featureRequestError(error, 'Submit Feature Error'));
     }
 }
 
@@ -57,7 +60,9 @@ export function* deleteComment(api, action) {
             commentId: action.commentId
         });
     } catch (error) {
-        yield put(actions.featureRequestError(error, 'Delete Comment Error'));
+        yield put(setErrorMessage('Error Deleting Comment', error));
+    } finally {
+        yield put(actions.cancelDeletingComment());
     }
 }
 
@@ -70,7 +75,9 @@ export function* deleteReply(api, action) {
             replyId: action.replyId
         });
     } catch (error) {
-        yield put(actions.featureRequestError(error, 'Delete Reply Error'));
+        yield put(setErrorMessage('Error Deleting Reply', error));
+    } finally {
+        yield put(actions.cancelDeletingReply());
     }
 }
 

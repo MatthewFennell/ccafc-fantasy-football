@@ -1,41 +1,35 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import firebase from 'firebase';
 import _ from 'lodash';
 import {
     linkProfileToFacebook, linkProfileToGoogle, updateTeamNameRequest,
-    closeAccountLinkError, updateDisplayNameRequest, closeDisplayNameError,
-    closeTeamNameError, deleteAccountRequest, closeDeleteAccountError,
-    updateProfilePictureRequest
+    updateDisplayNameRequest, deleteAccountRequest, updateProfilePictureRequest
 } from './actions';
 import defaultStyles from './Profile.module.scss';
 import LinkAccounts from './linkaccounts/LinkAccounts';
-import SuccessModal from '../common/modal/SuccessModal';
 import Update from './update/Update';
-import StyledButton from '../common/StyledButton/StyledButton';
-import ErrorModal from '../common/modal/ErrorModal';
 import LoadingDiv from '../common/loadingDiv/LoadingDiv';
 import SelectProfilePicture from './selectprofilepicture/SelectProfilePicture';
-import TextInput from '../common/TextInput/TextInput';
 import * as textInputConstants from '../common/TextInput/constants';
 import * as selectors from './selectors';
 
 const Profile = props => {
-    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-    const [email, setEmail] = useState('');
+    // const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    // const [email, setEmail] = useState('');
 
-    const closeModal = useCallback(() => {
-        setDeleteModalOpen(false);
-        setEmail('');
-    }, []);
+    // const closeModal = useCallback(() => {
+    //     setDeleteModalOpen(false);
+    //     setEmail('');
+    // }, []);
 
-    const deleteAccount = useCallback(() => {
-        props.deleteAccountRequest(email);
-        setDeleteModalOpen(false);
-        setEmail('');
-        // eslint-disable-next-line
-    }, [props.deleteAccountRequest, email]);
+    // const deleteAccount = useCallback(() => {
+    //     props.deleteAccountRequest(email);
+    //     setDeleteModalOpen(false);
+    //     setEmail('');
+    //     // eslint-disable-next-line
+    // }, [props.deleteAccountRequest, email]);
 
     const updateProfilePicture = useCallback(photoUrl => {
         props.updateProfilePictureRequest(photoUrl);
@@ -62,20 +56,14 @@ const Profile = props => {
                 />
                 <Update
                     loading={props.updatingDisplayName}
-                    closeError={props.closeDisplayNameError}
                     property="Display Name"
                     updateRequest={props.updateDisplayNameRequest}
-                    updateError={props.updateDisplayNameError}
-                    updateErrorCode={props.updateDisplayNameErrorCode}
                     icon={textInputConstants.textInputIcons.user}
                 />
                 <Update
                     loading={props.updatingTeamName}
-                    closeError={props.closeTeamNameError}
                     property="Team Name"
                     updateRequest={props.updateTeamNameRequest}
-                    updateError={props.updateTeamNameError}
-                    updateErrorCode={props.updateTeamNameErrorCode}
                 />
                 <SelectProfilePicture
                     currentPhotoUrl={props.profile.photoUrl}
@@ -87,10 +75,13 @@ const Profile = props => {
 
             <div className={props.styles.deleteButtonWrapper}>
                 <LoadingDiv isLoading={props.deletingAccount} isBorderRadius isFitContent>
-                    <StyledButton color="secondary" text="Delete Account" onClick={() => setDeleteModalOpen(true)} disabled={props.deletingAccount} />
+                    {/* <StyledButton color="secondary" text="Delete Account"
+                    onClick={() => setDeleteModalOpen(true)} disabled={props.deletingAccount} /> */}
                 </LoadingDiv>
             </div>
-            <SuccessModal
+
+            {/* {TO:DO CHANGE THIS} */}
+            {/* <SuccessModal
                 backdrop
                 closeModal={props.closeAccountLinkError}
                 error
@@ -111,8 +102,8 @@ const Profile = props => {
                         </div>
                     )}
                 </div>
-            </SuccessModal>
-            <SuccessModal
+            </SuccessModal> */}
+            {/* <SuccessModal
                 backdrop
                 closeModal={closeModal}
                 error
@@ -135,27 +126,15 @@ const Profile = props => {
                 <div className={props.styles.submitDeleteAccountWrapper}>
                     <StyledButton color="primary" text="Confirm" onClick={deleteAccount} />
                 </div>
-            </SuccessModal>
-            <ErrorModal
-                closeModal={props.closeDeleteAccountError}
-                headerMessage="Delete Account Error"
-                isOpen={props.deleteAccountError.length > 0}
-                errorCode={props.deleteAccountErrorCode}
-                errorMessage={props.deleteAccountError}
-            />
+            </SuccessModal> */}
         </div>
     );
 };
 
 Profile.defaultProps = {
-    attemptedEmailToLink: '',
-    deleteAccountError: '',
-    deleteAccountErrorCode: '',
     deletingAccount: false,
     isSignedInWithFacebook: false,
     isSignedInWithGoogle: false,
-    linkAccountErrorCode: '',
-    linkAccountErrorMessage: '',
     photoUrlBeingUpdated: '',
     profile: {
         displayName: '',
@@ -164,27 +143,13 @@ Profile.defaultProps = {
     },
     styles: defaultStyles,
     updatingDisplayName: false,
-    updateDisplayNameError: '',
-    updateDisplayNameErrorCode: '',
-    updatingTeamName: false,
-    updateTeamNameError: '',
-    updateTeamNameErrorCode: ''
+    updatingTeamName: false
 };
 
 Profile.propTypes = {
-    attemptedEmailToLink: PropTypes.string,
-    closeAccountLinkError: PropTypes.func.isRequired,
-    closeDeleteAccountError: PropTypes.func.isRequired,
-    closeDisplayNameError: PropTypes.func.isRequired,
-    closeTeamNameError: PropTypes.func.isRequired,
-    deleteAccountError: PropTypes.string,
-    deleteAccountErrorCode: PropTypes.string,
-    deleteAccountRequest: PropTypes.func.isRequired,
     deletingAccount: PropTypes.bool,
     isSignedInWithFacebook: PropTypes.bool,
     isSignedInWithGoogle: PropTypes.bool,
-    linkAccountErrorCode: PropTypes.string,
-    linkAccountErrorMessage: PropTypes.string,
     linkProfileToFacebook: PropTypes.func.isRequired,
     linkProfileToGoogle: PropTypes.func.isRequired,
     photoUrlBeingUpdated: PropTypes.string,
@@ -198,19 +163,11 @@ Profile.propTypes = {
     updateDisplayNameRequest: PropTypes.func.isRequired,
     updateTeamNameRequest: PropTypes.func.isRequired,
     updatingDisplayName: PropTypes.bool,
-    updateDisplayNameError: PropTypes.string,
-    updateDisplayNameErrorCode: PropTypes.string,
     updateProfilePictureRequest: PropTypes.func.isRequired,
-    updatingTeamName: PropTypes.bool,
-    updateTeamNameError: PropTypes.string,
-    updateTeamNameErrorCode: PropTypes.string
+    updatingTeamName: PropTypes.bool
 };
 
 const mapDispatchToProps = {
-    closeAccountLinkError,
-    closeDeleteAccountError,
-    closeDisplayNameError,
-    closeTeamNameError,
     deleteAccountRequest,
     linkProfileToFacebook,
     linkProfileToGoogle,

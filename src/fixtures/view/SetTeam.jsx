@@ -5,6 +5,7 @@ import defaultStyles from './SetTeam.module.scss';
 import Dropdown from '../../common/dropdown/Dropdown';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
+import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
 
 const Button = props => (
     <div className={props.styles.selectTeamWrapper}>
@@ -22,13 +23,15 @@ const Button = props => (
                 )}
         </div>
         <div>
-            <Dropdown
-                value={props.activeTeam}
-                onChange={props.setActiveTeam}
-                options={props.teamOptions}
-                title="Set Team"
-                key="Set Team"
-            />
+            <LoadingDiv isLoading={props.loadingFixtures} isPadding>
+                <Dropdown
+                    value={props.activeTeam}
+                    onChange={props.setActiveTeam}
+                    options={props.teamOptions}
+                    title="Set Team"
+                    key="Set Team"
+                />
+            </LoadingDiv>
         </div>
 
         <div>
@@ -47,6 +50,7 @@ const Button = props => (
 Button.defaultProps = {
     activeTeam: '',
     loadingMyTeam: false,
+    loadingFixtures: false,
     myTeam: '',
     setActiveTeam: noop,
     styles: defaultStyles,
@@ -57,6 +61,7 @@ Button.defaultProps = {
 Button.propTypes = {
     activeTeam: PropTypes.string,
     loadingMyTeam: PropTypes.bool,
+    loadingFixtures: PropTypes.bool,
     myTeam: PropTypes.string,
     setActiveTeam: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string),

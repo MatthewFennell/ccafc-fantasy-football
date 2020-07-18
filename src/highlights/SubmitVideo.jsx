@@ -86,17 +86,17 @@ const SubmitVideo = props => {
         if (videoTitle.length && video.length > 3) {
             props.submitHighlightRequest(video, videoTitle);
         } else if (video.length) {
-            props.submitHighlightError({
+            props.setErrorMessage('Error submitting highlight', {
                 code: 'Invalid title',
                 message: 'Title must be at least 4 characters long'
-            }, 'Error submitting highlight');
+            });
         }
         props.closeSubmitVideo();
         setVideo('');
         setVideoTitle('');
         // eslint-disable-next-line
     }, [video, props.submitHighlightRequest,
-        props.submitHighlightError, exampleOpen, setExampleOpen, videoTitle]);
+        props.setErrorMessage, exampleOpen, setExampleOpen, videoTitle]);
 
     const generateRows = (approved, waitingApproval, rejected) => approved.map(x => ({
         title: x.title,
@@ -204,7 +204,7 @@ SubmitVideo.defaultProps = {
     loadingVideosToBeApproved: false,
     loadingRejectedVideos: false,
     myVideos: [],
-    submitHighlightError: noop,
+    setErrorMessage: noop,
     submitHighlightRequest: noop,
     submitVideoOpen: false,
     styles: defaultStyles,
@@ -219,7 +219,7 @@ SubmitVideo.propTypes = {
     loadingVideosToBeApproved: PropTypes.bool,
     loadingRejectedVideos: PropTypes.bool,
     myVideos: PropTypes.arrayOf(PropTypes.shape({})),
-    submitHighlightError: PropTypes.func,
+    setErrorMessage: PropTypes.func,
     submitHighlightRequest: PropTypes.func,
     submitVideoOpen: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),

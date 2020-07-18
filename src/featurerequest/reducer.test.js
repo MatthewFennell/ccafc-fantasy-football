@@ -25,31 +25,101 @@ describe('Fixtures reducer', () => {
         });
     });
 
-    it('feature request error', () => {
-        const action = actions.featureRequestError({
-            message: 'Error message',
-            code: 'Error code'
-        }, 'Error header');
+    it('delete comment request', () => {
+        const action = actions.deleteCommentRequest('featureId', 'commentId');
         expect(reducer(initialState, action)).toEqual({
             ...initialState,
-            errorMessage: 'Error message',
-            errorCode: 'Error code',
-            errorHeader: 'Error header'
+            commentBeingDeletedInfo: {
+                commentId: 'commentId',
+                featureId: 'featureId'
+            }
         });
     });
 
-    it('close feature request error', () => {
-        const action = actions.closeFeatureRequestError();
+    it('delete reply request', () => {
+        const action = actions.deleteReplyRequest('featureId', 'commentId', 'replyId');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            replyBeingDeletedInfo: {
+                commentId: 'commentId',
+                featureId: 'featureId',
+                replyId: 'replyId'
+            }
+        });
+    });
+
+    it('cancel deleting comment', () => {
+        const action = actions.cancelDeletingComment();
+        expect(reducer(({
+            ...initialState,
+            commentBeingDeletedInfo: {
+                commentId: 'commentId',
+                featureId: 'featureId'
+            }
+        }), action)).toEqual({
+            ...initialState,
+            commentBeingDeletedInfo: { }
+        });
+    });
+
+    it('cancel deleting reply', () => {
+        const action = actions.cancelDeletingReply();
+        expect(reducer(({
+            ...initialState,
+            replyBeingDeletedInfo: {
+                commentId: 'commentId',
+                featureId: 'featureId',
+                replyId: 'replyId'
+            }
+        }), action)).toEqual({
+            ...initialState,
+            replyBeingDeletedInfo: { }
+        });
+    });
+
+    it('submit feature request', () => {
+        const action = actions.submitFeatureRequest('description', true);
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isSubmittingFeature: true
+        });
+    });
+
+    it('add comment to feature request', () => {
+        const action = actions.addCommentToFeatureRequest('comment', 'featureId');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isAddingCommentToFeature: true
+        });
+    });
+
+    it('add reply to comment request', () => {
+        const action = actions.addReplyToCommentRequest('comment', 'featureId', 'commentId');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isAddingCommentToFeature: true
+        });
+    });
+
+    it('cancel adding feature request', () => {
+        const action = actions.cancelAddingFeatureRequest();
         expect(reducer({
             ...initialState,
-            errorCode: 'abc',
-            errorHeader: 'abc',
-            errorMessage: 'abc'
+            isSubmittingFeature: true
         }, action)).toEqual({
             ...initialState,
-            errorMessage: '',
-            errorCode: '',
-            errorHeader: ''
+            isSubmittingFeature: false
+        });
+    });
+
+    it('cancel adding comment to feature request', () => {
+        const action = actions.cancelAddingCommentToFeature();
+        expect(reducer({
+            ...initialState,
+            isAddingCommentToFeature: true
+        }, action)).toEqual({
+            ...initialState,
+            isAddingCommentToFeature: false
         });
     });
 });

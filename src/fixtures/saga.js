@@ -5,6 +5,7 @@ import * as actions from './actions';
 import * as fixturesApi from './api';
 import { successDelay } from '../constants';
 import * as selectors from './selectors';
+import { setErrorMessage } from '../errorHandling/actions';
 
 export function* fetchFixtures(api) {
     try {
@@ -12,11 +13,11 @@ export function* fetchFixtures(api) {
         if (currentFixtures && currentFixtures.length === 0) {
             const fixtures = yield call(api.getFixtures);
             yield put(actions.fetchFixturesSuccess(fixtures));
-        } else {
-            yield put(actions.alreadyFetchedFixtures());
         }
     } catch (error) {
-        yield put(actions.setFixturesError(error, 'Error Fetching Fixtures'));
+        yield put(setErrorMessage('Error Fetching Fixtures', error));
+    } finally {
+        yield put(actions.cancelFetchingFixturesAndTeam());
     }
 }
 
@@ -24,11 +25,13 @@ export function* setMyTeam(api, action) {
     try {
         yield call(api.setMyTeam, { team: action.team });
         yield put(actions.setMyTeam(action.team));
+    } catch (error) {
+        yield put(setErrorMessage('Error Setting Team', error));
+    } finally {
+        yield put(actions.cancelLoadingMyTeam());
         yield put(actions.setSuccessMessage('Team successfully set'));
         yield delay(successDelay);
         yield put(actions.closeSuccessMessage());
-    } catch (error) {
-        yield put(actions.setFixturesError(error, 'Error Setting Team'));
     }
 }
 
@@ -37,7 +40,9 @@ export function* fetchMyTeam(api) {
         const myTeam = yield call(api.fetchMyTeam);
         yield put(actions.setMyTeam(myTeam));
     } catch (error) {
-        yield put(actions.setFixturesError(error, 'Error Fetching Team'));
+        yield put(setErrorMessage('Error Fetching Team', error));
+    } finally {
+        yield put(actions.cancelLoadingMyTeam());
     }
 }
 

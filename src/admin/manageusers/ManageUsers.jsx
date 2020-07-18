@@ -7,13 +7,12 @@ import defaultStyles from './ManageUsers.module.scss';
 import {
     fetchUsersWithExtraRolesRequest, addUserRoleRequest, removeUserRoleRequest,
     clearDatabaseRequest, rollOverToNextYearRequest,
-    deleteAllOldUsersRequest, closeSuccessMessage, closeAdminError
+    deleteAllOldUsersRequest, closeSuccessMessage
 } from '../actions';
 import Grid from '../../common/grid/Grid';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Dropdown from '../../common/dropdown/Dropdown';
 import Menu from '../../common/menu/Menu';
-import ErrorModal from '../../common/modal/ErrorModal';
 import SuccessModal from '../../common/modal/SuccessModal';
 import RolesToPermissions from './RolesToPermissions';
 import ConfirmModal from '../../common/modal/ConfirmModal';
@@ -215,13 +214,6 @@ const ManageUsers = props => {
                     />
                 </div>
             </div>
-            <ErrorModal
-                closeModal={props.closeAdminError}
-                headerMessage={props.errorHeader}
-                isOpen={props.errorMessage.length > 0}
-                errorCode={props.errorCode}
-                errorMessage={props.errorMessage}
-            />
             <SuccessModal
                 backdrop
                 closeModal={props.closeSuccessMessage}
@@ -245,9 +237,6 @@ const ManageUsers = props => {
 
 ManageUsers.defaultProps = {
     allRoles: [],
-    errorMessage: '',
-    errorCode: '',
-    errorHeader: '',
     fetchingUsersWithExtraRoles: false,
     isRollingOverToNextYear: false,
     successMessage: '',
@@ -260,12 +249,8 @@ ManageUsers.propTypes = {
     allRoles: PropTypes.arrayOf(PropTypes.string),
     addUserRoleRequest: PropTypes.func.isRequired,
     clearDatabaseRequest: PropTypes.func.isRequired,
-    closeAdminError: PropTypes.func.isRequired,
     closeSuccessMessage: PropTypes.func.isRequired,
     deleteAllOldUsersRequest: PropTypes.func.isRequired,
-    errorMessage: PropTypes.string,
-    errorCode: PropTypes.string,
-    errorHeader: PropTypes.string,
     fetchingUsersWithExtraRoles: PropTypes.bool,
     fetchUsersWithExtraRolesRequest: PropTypes.func.isRequired,
     isRollingOverToNextYear: PropTypes.bool,
@@ -283,7 +268,6 @@ ManageUsers.propTypes = {
 
 const mapDispatchToProps = {
     addUserRoleRequest,
-    closeAdminError,
     clearDatabaseRequest,
     closeSuccessMessage,
     deleteAllOldUsersRequest,
@@ -294,9 +278,6 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
     allRoles: state.auth.allRoles,
-    errorMessage: state.admin.errorMessage,
-    errorCode: state.admin.errorCode,
-    errorHeader: state.admin.errorHeader,
     fetchingUsersWithExtraRoles: state.admin.fetchingUsersWithExtraRoles,
     isRollingOverToNextYear: state.admin.isRollingOverToNextYear,
     successMessage: state.admin.successMessage,

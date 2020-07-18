@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { noop } from 'lodash';
 import { Provider } from 'react-redux';
@@ -14,6 +13,7 @@ describe('Trigger Week', () => {
             closeSuccessMessage={noop}
             closeAdminError={noop}
             triggerWeekRequest={noop}
+            recalculateLeaguePositionsRequest={noop}
         />);
         expect(() => wrapper).not.toThrow();
     });

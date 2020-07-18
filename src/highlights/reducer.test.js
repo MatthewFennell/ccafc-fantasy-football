@@ -16,6 +16,68 @@ describe('Highlights reducer', () => {
         });
     });
 
+    it('submit highlight request', () => {
+        const action = actions.submitHighlightRequest();
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isSubmittingHighlight: true
+        });
+    });
+
+    it('upvote highlight request', () => {
+        const action = actions.upvoteHighlightRequest('highlightId');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            highlightBeingVotedOn: 'highlightId'
+        });
+    });
+
+    it('add comment to video request', () => {
+        const action = actions.addCommentToVideoRequest('comment', 'videoId');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isAddingCommentToHighlight: true
+        });
+    });
+
+    it('add reply to video request', () => {
+        const action = actions.addReplyToVideoRequest('reply', 'videoId', 'commentId');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isAddingCommentToHighlight: true
+        });
+    });
+
+    it('cancel adding comment to highlight', () => {
+        const action = actions.cancelAddingCommentToVideo();
+        expect(reducer({
+            ...initialState,
+            isAddingCommentToHighlight: true
+        }, action)).toEqual({
+            ...initialState,
+            isAddingCommentToHighlight: false
+        });
+    });
+
+    it('downvote highlight request', () => {
+        const action = actions.downvoteHighlightRequest('highlightId');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            highlightBeingVotedOn: 'highlightId'
+        });
+    });
+
+    it('cancel voting on highlight', () => {
+        const action = actions.cancelVotingOnHighlight();
+        expect(reducer({
+            ...initialState,
+            highlightBeingVotedOn: 'someHighlightId'
+        }, action)).toEqual({
+            ...initialState,
+            highlightBeingVotedOn: ''
+        });
+    });
+
     it('fetch highlights success', () => {
         const videos = ['a', 'b', 'c'];
         const action = actions.fetchHighlightsSuccess(videos);
@@ -25,6 +87,7 @@ describe('Highlights reducer', () => {
         }, action)).toEqual({
             ...initialState,
             videos,
+            loadingVideos: true,
             loadedVideos: true
         });
     });
@@ -81,7 +144,7 @@ describe('Highlights reducer', () => {
     });
 
     it('already fetched videos', () => {
-        const action = actions.alreadyFetchedVideos();
+        const action = actions.cancelFetchingVideos();
         expect(reducer({
             ...initialState,
             loadingVideos: true
@@ -114,8 +177,71 @@ describe('Highlights reducer', () => {
         }, action)).toEqual({
             ...initialState,
             videosRejected: highlights,
-            loadingRejectedVideos: false,
+            loadingRejectedVideos: true,
             loadedRejectedVideos: true
+        });
+    });
+
+    it('delete comment request', () => {
+        const action = actions.deleteCommentRequest('videoId', 'commentId');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            commentBeingDeletedInfo: {
+                commentId: 'commentId',
+                videoId: 'videoId'
+            }
+        });
+    });
+
+    it('cancel deleting reply', () => {
+        const action = actions.cancelDeletingReply();
+        expect(reducer(({
+            ...initialState,
+            replyBeingDeletedInfo: {
+                commentId: 'commentId',
+                videoId: 'videoId',
+                replyId: 'replyId'
+            }
+        }), action)).toEqual({
+            ...initialState,
+            replyBeingDeletedInfo: { }
+        });
+    });
+
+    it('cancel deleting comment', () => {
+        const action = actions.cancelDeletingComment();
+        expect(reducer(({
+            ...initialState,
+            commentBeingDeletedInfo: {
+                commentId: 'commentId',
+                videoId: 'videoId'
+            }
+        }), action)).toEqual({
+            ...initialState,
+            commentBeingDeletedInfo: { }
+        });
+    });
+
+    it('cancel submitting highlight', () => {
+        const action = actions.cancelSubmittingHighlight();
+        expect(reducer(({
+            ...initialState,
+            isSubmittingHighlight: true
+        }), action)).toEqual({
+            ...initialState,
+            isSubmittingHighlight: false
+        });
+    });
+
+    it('delete reply request', () => {
+        const action = actions.deleteReplyRequest('videoId', 'commentId', 'replyId');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            replyBeingDeletedInfo: {
+                commentId: 'commentId',
+                videoId: 'videoId',
+                replyId: 'replyId'
+            }
         });
     });
 
@@ -136,7 +262,7 @@ describe('Highlights reducer', () => {
     });
 
     it('already fetched rejected videos', () => {
-        const action = actions.alreadyFetchedRejectedVideos();
+        const action = actions.cancelFetchingRejectedVideos();
         expect(reducer({
             ...initialState,
             loadingRejectedVideos: true
@@ -147,7 +273,7 @@ describe('Highlights reducer', () => {
     });
 
     it('already fetched approved videos', () => {
-        const action = actions.alreadyFetchedApprovedHighlights();
+        const action = actions.cancelLoadingVideosToBeApproved();
         expect(reducer({
             ...initialState,
             loadingVideosToBeApproved: true
@@ -535,19 +661,6 @@ describe('Highlights reducer', () => {
         }, action)).toEqual({
             ...initialState,
             videos: newVideos
-        });
-    });
-
-    it('set highlight error', () => {
-        const action = actions.setHighlightError({
-            message: 'Error message',
-            code: 'Error code'
-        }, 'Error header');
-        expect(reducer(initialState, action)).toEqual({
-            ...initialState,
-            errorMessage: 'Error message',
-            errorCode: 'Error code',
-            errorHeader: 'Error header'
         });
     });
 

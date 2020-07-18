@@ -2,11 +2,10 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import fp from 'lodash/fp';
 import PropTypes from 'prop-types';
-import { closeCupError, fetchCupRequest } from './actions';
+import { fetchCupRequest } from './actions';
 import defaultStyles from './TheCup.module.scss';
 import WeekInfo, { getName } from './WeekInfo';
 import Spinner from '../common/spinner/Spinner';
-import ErrorModal from '../common/modal/ErrorModal';
 
 const TheCup = props => {
     const {
@@ -65,22 +64,12 @@ const TheCup = props => {
                     />
                 ))}
             </div>
-            <ErrorModal
-                closeModal={props.closeCupError}
-                headerMessage={props.errorHeader}
-                isOpen={props.errorMessage.length > 0}
-                errorCode={props.errorCode}
-                errorMessage={props.errorMessage}
-            />
         </>
     );
 };
 
 TheCup.defaultProps = {
     cup: {},
-    errorMessage: '',
-    errorCode: '',
-    errorHeader: '',
     isFetchingCup: false,
     styles: defaultStyles
 };
@@ -92,9 +81,6 @@ TheCup.propTypes = {
         hasFinished: PropTypes.bool,
         winner: PropTypes.string
     }),
-    errorMessage: PropTypes.string,
-    errorCode: PropTypes.string,
-    errorHeader: PropTypes.string,
     fetchCupRequest: PropTypes.func.isRequired,
     isFetchingCup: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string)
@@ -102,14 +88,10 @@ TheCup.propTypes = {
 
 const mapStateToProps = state => ({
     cup: state.cup.cup,
-    errorMessage: state.cup.errorMessage,
-    errorCode: state.cup.errorCode,
-    errorHeader: state.cup.errorHeader,
     isFetchingCup: state.cup.isFetchingCup
 });
 
 const mapDispatchToProps = {
-    closeCupError,
     fetchCupRequest
 };
 

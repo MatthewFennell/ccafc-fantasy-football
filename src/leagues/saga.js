@@ -8,6 +8,7 @@ import * as actions from './actions';
 import * as leaguesApi from './api';
 import * as selectors from './selectors';
 import * as constants from '../constants';
+import { setErrorMessage } from '../errorHandling/actions';
 
 export function* fetchLeagues(api) {
     try {
@@ -15,11 +16,11 @@ export function* fetchLeagues(api) {
         if (alreadyFetched && alreadyFetched.length === 0) {
             const myLeagues = yield call(api.getLeaguesIAmIn);
             yield put(actions.fetchLeaguesSuccess(myLeagues));
-        } else {
-            yield put(actions.alreadyFetchedLeagues());
         }
     } catch (error) {
-        yield put(actions.fetchLeaguesError(error));
+        yield put(setErrorMessage('Error Fetching Leagues', error));
+    } finally {
+        yield put(actions.cancelFetchingLeagues());
     }
 }
 
@@ -42,6 +43,7 @@ export function* fetchUsersInLeague(api, action) {
         if ((action.pageNumber + constants.LEAGUE_PAGE_BUFFER) * action.rowsPerPage > usersForThatLeague.length && !fetchedAllUsersInLeague) {
             yield put(actions.alreadyFetchedUsersInLeague(action.leagueId));
             const finalId = fp.last(usersForThatLeague).id;
+            yield put(actions.fetchingUsersInLeague(action.leagueId));
             const nextBatch = yield call(api.getUsersInLeague,
                 {
                     leagueId: action.leagueId,
@@ -58,7 +60,9 @@ export function* fetchUsersInLeague(api, action) {
             }
         }
     } catch (error) {
-        yield put(actions.fetchUsersInLeagueError(action.leagueId, error));
+        yield put(setErrorMessage('Error Fetching Users In League', error));
+    } finally {
+        yield put(actions.cancelFetchingUsersInLeague(action.leagueId));
     }
 }
 
@@ -71,7 +75,9 @@ export function* createLeague(api, action) {
         const myLeagues = yield call(api.getLeaguesIAmIn);
         yield put(actions.createLeagueSuccess(myLeagues));
     } catch (error) {
-        yield put(actions.createLeagueError(error));
+        yield put(setErrorMessage('Error Creating League', error));
+    } finally {
+        yield put(actions.cancelCreatingLeague());
     }
 }
 
@@ -81,7 +87,9 @@ export function* joinLeague(api, action) {
         const myLeagues = yield call(api.getLeaguesIAmIn);
         yield put(actions.joinLeagueSuccess(myLeagues));
     } catch (error) {
-        yield put(actions.joinLeagueError(error));
+        yield put(setErrorMessage('Error Joining League', error));
+    } finally {
+        yield put(actions.cancelJoiningLeague());
     }
 }
 
@@ -92,7 +100,9 @@ export function* leaveLeague(api, action) {
         yield put(actions.leaveLeagueSuccess(myLeagues));
         yield put(push(constants.URL.LEAGUES));
     } catch (error) {
-        yield put(actions.leaveLeagueError(error));
+        yield put(setErrorMessage('Error Leaving League', error));
+    } finally {
+        yield put(actions.cancelLeavingLeague());
     }
 }
 

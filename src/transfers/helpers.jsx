@@ -50,7 +50,6 @@ export const canAddPlayer = (player, currentTeam) => {
     return true;
 };
 
-
 export const canReplacePlayer = (oldPlayer, newPlayer, currentTeam) => {
     if (currentTeam.find(x => x.id === oldPlayer.id) === undefined) {
         return error('not-found', 'You are trying to remove a player not in your team');

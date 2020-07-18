@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import defaultStyles from './Fixtures.module.scss';
 import {
     fetchFixturesRequest, setMyTeamRequest, fetchMyTeamRequest,
-    closeFixturesError, closeSuccessMessage
+    closeSuccessMessage
 } from './actions';
 import Grid from '../common/grid/Grid';
 import FixtureFilter from './view/FixtureFilters';
@@ -15,7 +15,6 @@ import SetTeam from './view/SetTeam';
 import {
     generateCollingwoodTeams, gridStyles, fixturesFilters, columns, filterFixtures
 } from './helpers';
-import ErrorModal from '../common/modal/ErrorModal';
 import SuccessModal from '../common/modal/SuccessModal';
 import Fade from '../common/Fade/Fade';
 
@@ -78,6 +77,7 @@ const Fixtures = props => {
                     <SetTeam
                         activeTeam={myTeam}
                         loadingMyTeam={props.loadingMyTeam}
+                        loadingFixtures={props.loadingFixtures}
                         myTeam={props.myTeam}
                         setActiveTeam={setMyTeam}
                         teamOptions={generateCollingwoodTeams(props.fixtures)}
@@ -124,13 +124,6 @@ const Fixtures = props => {
                     />
                 </div>
             </div>
-            <ErrorModal
-                closeModal={props.closeFixturesError}
-                headerMessage={props.errorHeader}
-                isOpen={props.errorMessage.length > 0}
-                errorCode={props.errorCode}
-                errorMessage={props.errorMessage}
-            />
             <SuccessModal
                 backdrop
                 closeModal={props.closeSuccessMessage}
@@ -144,11 +137,7 @@ const Fixtures = props => {
 };
 
 Fixtures.defaultProps = {
-    closeFixturesError: noop,
     closeSuccessMessage: noop,
-    errorMessage: '',
-    errorCode: '',
-    errorHeader: '',
     fetchFixturesRequest: noop,
     fetchMyTeamRequest: noop,
     fixtures: [],
@@ -161,11 +150,7 @@ Fixtures.defaultProps = {
 };
 
 Fixtures.propTypes = {
-    closeFixturesError: PropTypes.func,
     closeSuccessMessage: PropTypes.func,
-    errorMessage: PropTypes.string,
-    errorCode: PropTypes.string,
-    errorHeader: PropTypes.string,
     fetchFixturesRequest: PropTypes.func,
     fetchMyTeamRequest: PropTypes.func,
     fixtures: PropTypes.arrayOf(PropTypes.shape({
@@ -186,9 +171,6 @@ Fixtures.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    errorMessage: state.fixtures.errorMessage,
-    errorCode: state.fixtures.errorCode,
-    errorHeader: state.fixtures.errorHeader,
     fixtures: state.fixtures.fixtures,
     loadingFixtures: state.fixtures.loadingFixtures,
     loadingMyTeam: state.fixtures.loadingMyTeam,
@@ -197,7 +179,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-    closeFixturesError,
     closeSuccessMessage,
     fetchFixturesRequest,
     fetchMyTeamRequest,

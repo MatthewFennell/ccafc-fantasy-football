@@ -8,6 +8,7 @@ import * as actions from './actions';
 import * as authApi from './api';
 import * as consts from '../constants';
 import { fetchMaxGameWeekRequest } from '../overview/actions';
+import { setErrorMessage } from '../errorHandling/actions';
 
 const actionCodeSettings = {
     url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT,
@@ -19,7 +20,7 @@ export function* signOut() {
         yield firebase.auth().signOut();
         yield put(actions.signOutSuccess());
     } catch (error) {
-        yield put(actions.signOutError(error));
+        yield put(setErrorMessage('Sign Out Error', error));
     }
 }
 
@@ -49,7 +50,7 @@ export function* loggingIn(api, action) {
         }));
         yield put(actions.setLoadedPermissions(true));
     } catch (error) {
-        yield put(actions.signInError(error));
+        yield put(setErrorMessage('Sign In Error', error));
     }
 }
 
@@ -58,9 +59,9 @@ export function* signUp(api, action) {
         yield firebase.auth().createUserWithEmailAndPassword(action.email, action.password);
         yield call(api.updateDisplayName, ({ displayName: action.displayName }));
         yield delay(2000);
-        yield firebase.auth().currentUser.sendEmailVerification(actionCodeSettings);
+        yield firebase.auth().currentUser.sendEmailVeriication(actionCodeSettings);
     } catch (error) {
-        yield put(actions.signUpError(error));
+        yield put(setErrorMessage('Sign Up Error', error));
     }
 }
 
@@ -71,7 +72,7 @@ export function* signIn(action) {
             .signInWithEmailAndPassword(action.email, action.password);
         yield put(actions.signInSuccess());
     } catch (error) {
-        yield put(actions.signInError(error));
+        yield put(setErrorMessage('Sign In Error', error));
     }
 }
 
@@ -79,16 +80,17 @@ export function* sendResetPasswordEmail(action) {
     try {
         yield firebase.auth().sendPasswordResetEmail(action.email);
     } catch (error) {
-        yield put(actions.sendPasswordResetEmailError(error));
+        yield put(setErrorMessage('Password Reset Error', error));
     }
 }
 
 export function* resendVerificationEmall() {
     try {
         yield firebase.auth().currentUser.sendEmailVerification(actionCodeSettings);
-        yield put(actions.resendEmailVerificationSuccess());
     } catch (error) {
-        yield put(actions.resendEmailVerificationError(error));
+        yield put(setErrorMessage('Resend Email Verification Error', error));
+    } finally {
+        yield put(actions.cancelSendingEmailVerification());
     }
 }
 
@@ -99,9 +101,9 @@ export function* editDisabledPage(api, action) {
             isDisabled: action.isDisabled
         }));
     } catch (error) {
-        yield put(actions.editDisabledPageError(error));
+        yield put(setErrorMessage('Edit Disabled Pages Error', error));
     } finally {
-        yield put(actions.setIsEditingPage(''));
+        yield put(actions.cancelEditingPage(''));
     }
 }
 

@@ -6,42 +6,6 @@ describe('Auth reducer', () => {
         expect(reducer(undefined, {})).toEqual(initialState);
     });
 
-    it('sign up error', () => {
-        const action = actions.signUpError({
-            message: 'Error message',
-            code: 'Error code'
-        });
-        expect(reducer(initialState, action)).toEqual({
-            ...initialState,
-            signUpError: 'Error message',
-            signUpErrorCode: 'Error code'
-        });
-    });
-
-    it('sign in error', () => {
-        const action = actions.signInError({
-            message: 'Error message',
-            code: 'Error code'
-        });
-        expect(reducer(initialState, action)).toEqual({
-            ...initialState,
-            signInError: 'Error message',
-            signInErrorCode: 'Error code'
-        });
-    });
-
-    it('send password reset email error', () => {
-        const action = actions.sendPasswordResetEmailError({
-            message: 'Error message',
-            code: 'Error code'
-        });
-        expect(reducer(initialState, action)).toEqual({
-            ...initialState,
-            passwordResetError: 'Error message',
-            passwordResetErrorCode: 'Error code'
-        });
-    });
-
     it('resend verification email request', () => {
         const action = actions.resendEmailVerificationRequest();
         expect(reducer(initialState, action)).toEqual({
@@ -50,43 +14,41 @@ describe('Auth reducer', () => {
         });
     });
 
-    it('resend verification email success', () => {
-        const action = actions.resendEmailVerificationSuccess();
+    it('set loading app', () => {
+        const action = actions.setLoadingApp(true);
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            loadingApp: true
+        });
+    });
+
+    it('edit disabled page request', () => {
+        const action = actions.editDisabledPageRequest('page');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isEditingPage: 'page'
+        });
+    });
+
+    it('cancel is editing page', () => {
+        const action = actions.cancelEditingPage();
+        expect(reducer({
+            ...initialState,
+            isEditingPage: 'page'
+        }, action)).toEqual({
+            ...initialState,
+            isEditingPage: ''
+        });
+    });
+
+    it('cancel sending email verification', () => {
+        const action = actions.cancelSendingEmailVerification();
         expect(reducer({
             ...initialState,
             sendingEmailVerification: true
         }, action)).toEqual({
             ...initialState,
             sendingEmailVerification: false
-        });
-    });
-
-    it('resend verification email error', () => {
-        const action = actions.resendEmailVerificationError({
-            message: 'Error message',
-            code: 'Error code'
-        });
-        expect(reducer({
-            ...initialState,
-            sendingEmailVerification: true
-        }, action)).toEqual({
-            ...initialState,
-            sendingEmailVerification: false,
-            resendVerificationEmailError: 'Error message',
-            resendVerificationEmailErrorCode: 'Error code'
-        });
-    });
-
-    it('close verification email error', () => {
-        const action = actions.closeEmailVerificationError();
-        expect(reducer({
-            ...initialState,
-            resendVerificationEmailError: 'Error message',
-            resendVerificationEmailErrorCode: 'Error code'
-        }, action)).toEqual({
-            ...initialState,
-            resendVerificationEmailError: '',
-            resendVerificationEmailErrorCode: ''
         });
     });
 
@@ -121,23 +83,6 @@ describe('Auth reducer', () => {
             ...initialState,
             permissionMappings: ['a', 'b', 'c'],
             allRoles: ['All', 'Rol', 'Es']
-        });
-    });
-
-    it('close auth error', () => {
-        const action = actions.closeAuthError();
-        expect(reducer({
-            ...initialState,
-            signUpError: 'abc',
-            signUpErrorCode: 'def',
-            signInError: 'ghi',
-            signInErrorCode: 'jkl'
-        }, action)).toEqual({
-            ...initialState,
-            signUpError: '',
-            signUpErrorCode: '',
-            signInError: '',
-            signInErrorCode: ''
         });
     });
 });
