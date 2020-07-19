@@ -8,7 +8,7 @@ import * as actions from './actions';
 import * as authApi from './api';
 import * as consts from '../constants';
 import { fetchMaxGameWeekRequest } from '../overview/actions';
-import { setErrorMessage } from '../errorHandling/actions';
+import { setErrorMessage } from '../modalHandling/actions';
 
 const actionCodeSettings = {
     url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT,

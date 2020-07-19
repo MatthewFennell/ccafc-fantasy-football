@@ -23,7 +23,7 @@ const Button = props => (
                 )}
         </div>
         <div>
-            <LoadingDiv isLoading={props.loadingFixtures} isPadding>
+            <LoadingDiv isLoading={props.loadingFixtures} isPadding isBorderRadius>
                 <Dropdown
                     value={props.activeTeam}
                     onChange={props.setActiveTeam}

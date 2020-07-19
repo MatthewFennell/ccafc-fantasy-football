@@ -1,6 +1,6 @@
 import fp from 'lodash/fp';
 import * as actions from './actions';
-import * as errorHandlingActions from '../errorHandling/actions';
+import * as modalHandlingActions from '../modalHandling/actions';
 
 export const initialState = {
     allTeams: [],
@@ -248,13 +248,7 @@ const adminReducer = (state = initialState, action) => {
     case actions.CANCEL_EDITING_PLAYER_STATS: {
         return fp.set('editingStats', false)(state);
     }
-    case actions.SET_SUCCESS_MESSAGE: {
-        return fp.set('successMessage', action.message)(state);
-    }
-    case actions.CLOSE_SUCCESS_MESSAGE: {
-        return fp.set('successMessage', '')(state);
-    }
-    case errorHandlingActions.CLOSE_ERROR_MESSAGE: {
+    case modalHandlingActions.CLOSE_ERROR_MESSAGE: {
         return {
             ...state,
             creatingPlayer: false,

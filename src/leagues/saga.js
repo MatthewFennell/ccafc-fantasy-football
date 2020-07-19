@@ -8,7 +8,7 @@ import * as actions from './actions';
 import * as leaguesApi from './api';
 import * as selectors from './selectors';
 import * as constants from '../constants';
-import { setErrorMessage } from '../errorHandling/actions';
+import { setErrorMessage } from '../modalHandling/actions';
 
 export function* fetchLeagues(api) {
     try {

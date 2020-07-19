@@ -9,9 +9,6 @@ export const CANCEL_DELETING_COMMENT = `${pre}CANCEL_DELETING_COMMENT`;
 export const DELETE_REPLY_REQUEST = `${pre}DELETE_REPLY_REQUEST`;
 export const CANCEL_DELETING_REPLY = `${pre}CANCEL_DELETING_REPLY`;
 
-export const SET_SUCCESS_MESSAGE = `${pre}SET_SUCCESS_MESSAGE`;
-export const CLOSE_SUCCESS_MESSAGE = `${pre}CLOSE_SUCCESS_MESSAGE`;
-
 export const SUBMIT_FEATURE_REQUEST = `${pre}SUBMIT_FEATURE_REQUEST`;
 export const CANCEL_ADDING_FEATURE_REQUEST = `${pre}CANCEL_ADDING_FEATURE_REQUEST`;
 
@@ -21,15 +18,6 @@ export const cancelAddingFeatureRequest = () => ({
 
 export const cancelAddingCommentToFeature = () => ({
     type: CANCEL_ADDING_COMMENT_TO_FEATURE
-});
-
-export const setSuccessMessage = message => ({
-    type: SET_SUCCESS_MESSAGE,
-    message
-});
-
-export const closeSuccessMessage = () => ({
-    type: CLOSE_SUCCESS_MESSAGE
 });
 
 export const submitFeatureRequest = (description, isBug) => ({

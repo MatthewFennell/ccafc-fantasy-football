@@ -37,12 +37,6 @@ const fixturesReducer = (state = initialState, action) => {
             loadingMyTeam: false
         };
     }
-    case actions.SET_SUCCESS_MESSAGE: {
-        return fp.set('successMessage', action.message)(state);
-    }
-    case actions.CLOSE_SUCCESS_MESSAGE: {
-        return fp.set('successMessage', '')(state);
-    }
     default:
         return state;
     }

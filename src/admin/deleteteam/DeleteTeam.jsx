@@ -3,14 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import fp from 'lodash/fp';
-import { noop } from 'lodash';
 import defaultStyles from './DeleteTeam.module.scss';
 import Dropdown from '../../common/dropdown/Dropdown';
-import {
-    fetchTeamsRequest, deleteTeamRequest, closeSuccessMessage
-} from '../actions';
+import { fetchTeamsRequest, deleteTeamRequest } from '../actions';
 import StyledButton from '../../common/StyledButton/StyledButton';
-import SuccessModal from '../../common/modal/SuccessModal';
 import Spinner from '../../common/spinner/Spinner';
 import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
 
@@ -62,14 +58,6 @@ const DeleteTeam = props => {
                     <Spinner color="secondary" />
                 </div>
             </div>
-            <SuccessModal
-                backdrop
-                closeModal={props.closeSuccessMessage}
-                isOpen={props.successMessage.length > 0}
-                isSuccess
-                headerMessage={props.successMessage}
-                toggleModal={noop}
-            />
         </>
     );
 };
@@ -77,23 +65,19 @@ const DeleteTeam = props => {
 DeleteTeam.defaultProps = {
     allTeams: [],
     isFetchingTeams: false,
-    successMessage: '',
     styles: defaultStyles
 };
 
 DeleteTeam.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
-    closeSuccessMessage: PropTypes.func.isRequired,
     deleteTeamRequest: PropTypes.func.isRequired,
     deletingTeam: PropTypes.bool.isRequired,
     fetchTeamsRequest: PropTypes.func.isRequired,
     isFetchingTeams: PropTypes.bool,
-    successMessage: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 
 const mapDispatchToProps = {
-    closeSuccessMessage,
     deleteTeamRequest,
     fetchTeamsRequest
 };
@@ -101,8 +85,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
     allTeams: state.admin.allTeams,
     deletingTeam: state.admin.deletingTeam,
-    isFetchingTeams: state.admin.isFetchingTeams,
-    successMessage: state.admin.successMessage
+    isFetchingTeams: state.admin.isFetchingTeams
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeleteTeam);

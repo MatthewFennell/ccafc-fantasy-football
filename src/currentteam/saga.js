@@ -5,7 +5,7 @@ import firebase from 'firebase';
 import * as actions from './actions';
 import * as teamApi from './api';
 import * as selectors from './selectors';
-import { setErrorMessage } from '../errorHandling/actions';
+import { setErrorMessage } from '../modalHandling/actions';
 
 export function* fetchActiveTeam(forced, api, action) {
     try {

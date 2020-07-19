@@ -1,6 +1,6 @@
 import reducer, { initialState } from './reducer';
 import * as actions from './actions';
-import * as errorHandlingActions from '../errorHandling/actions';
+import * as modalHandlingActions from '../modalHandling/actions';
 
 describe('Admin reducer', () => {
     it('should return the initial state', () => {
@@ -222,7 +222,7 @@ describe('Admin reducer', () => {
     });
 
     it('close error message', () => {
-        const action = errorHandlingActions.closeErrorMessage();
+        const action = modalHandlingActions.closeErrorMessage();
         expect(reducer({
             ...initialState,
             creatingPlayer: true,
@@ -535,25 +535,6 @@ describe('Admin reducer', () => {
         }, action)).toEqual({
             ...initialState,
             editingStats: false
-        });
-    });
-
-    it('set success message', () => {
-        const action = actions.setSuccessMessage('success message');
-        expect(reducer(initialState, action)).toEqual({
-            ...initialState,
-            successMessage: 'success message'
-        });
-    });
-
-    it('close success message', () => {
-        const action = actions.closeSuccessMessage();
-        expect(reducer({
-            ...initialState,
-            successMessage: 'success message'
-        }, action)).toEqual({
-            ...initialState,
-            successMessage: ''
         });
     });
 

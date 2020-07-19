@@ -1,11 +1,10 @@
 import {
-    all, takeEvery, put, call, delay, takeLatest, select
+    all, takeEvery, put, call, takeLatest, select
 } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as fixturesApi from './api';
-import { successDelay } from '../constants';
 import * as selectors from './selectors';
-import { setErrorMessage } from '../errorHandling/actions';
+import { setErrorMessage, setSuccessMessage } from '../modalHandling/actions';
 
 export function* fetchFixtures(api) {
     try {
@@ -29,9 +28,7 @@ export function* setMyTeam(api, action) {
         yield put(setErrorMessage('Error Setting Team', error));
     } finally {
         yield put(actions.cancelLoadingMyTeam());
-        yield put(actions.setSuccessMessage('Team successfully set'));
-        yield delay(successDelay);
-        yield put(actions.closeSuccessMessage());
+        yield put(setSuccessMessage('Team successfully set'));
     }
 }
 

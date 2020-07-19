@@ -1,11 +1,10 @@
 import {
-    all, takeEvery, put, call, select, delay
+    all, takeEvery, put, call, select
 } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as highlightsApi from './api';
 import * as selectors from './selectors';
-import { successDelay } from '../constants';
-import { setErrorMessage } from '../errorHandling/actions';
+import { setErrorMessage, setSuccessMessage } from '../modalHandling/actions';
 
 export function* submitHighlight(api, action) {
     try {
@@ -17,9 +16,7 @@ export function* submitHighlight(api, action) {
         yield put(setErrorMessage('Error Submitting Highlight', error));
     } finally {
         yield put(actions.cancelSubmittingHighlight());
-        yield put(actions.setSuccessMessage('Highlight successfully submitted for approval'));
-        yield delay(successDelay);
-        yield put(actions.closeSuccessMessage());
+        yield put(setSuccessMessage('Highlight successfully submitted for approval'));
     }
 }
 

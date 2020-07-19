@@ -3,17 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import fp from 'lodash/fp';
 import { withRouter } from 'react-router-dom';
-import { noop } from 'lodash';
 import defaultStyles from './EditPlayer.module.scss';
 import {
-    fetchTeamsRequest, fetchPlayersForTeamRequest, fetchPlayerStatsRequest, editPlayerStatsRequest,
-    closeSuccessMessage
+    fetchTeamsRequest, fetchPlayersForTeamRequest, fetchPlayerStatsRequest, editPlayerStatsRequest
 } from '../actions';
 import Dropdown from '../../common/dropdown/Dropdown';
 import Grid from '../../common/grid/Grid';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
-import SuccessModal from '../../common/modal/SuccessModal';
 import TextInput from '../../common/TextInput/TextInput';
 import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
 
@@ -388,14 +385,6 @@ const EditPlayer = props => {
                     />
                 </div>
             </div>
-            <SuccessModal
-                backdrop
-                closeModal={props.closeSuccessMessage}
-                isOpen={props.successMessage.length > 0}
-                isSuccess
-                headerMessage={props.successMessage}
-                toggleModal={noop}
-            />
         </>
     );
 };
@@ -407,14 +396,12 @@ EditPlayer.defaultProps = {
     isFetchingTeams: false,
     maxGameWeek: null,
     playerStats: {},
-    successMessage: '',
     styles: defaultStyles,
     teamsWithPlayers: {}
 };
 
 EditPlayer.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
-    closeSuccessMessage: PropTypes.func.isRequired,
     editingStats: PropTypes.bool.isRequired,
     editPlayerStatsRequest: PropTypes.func.isRequired,
     fetchingPlayerStats: PropTypes.bool,
@@ -440,13 +427,11 @@ EditPlayer.propTypes = {
         penaltyMisses: PropTypes.number,
         penaltySaves: PropTypes.number
     }),
-    successMessage: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
     teamsWithPlayers: PropTypes.objectOf(PropTypes.array)
 };
 
 const mapDispatchToProps = {
-    closeSuccessMessage,
     editPlayerStatsRequest,
     fetchPlayersForTeamRequest,
     fetchPlayerStatsRequest,
@@ -461,7 +446,6 @@ const mapStateToProps = state => ({
     fetchingPlayerStats: state.admin.fetchingPlayerStats,
     maxGameWeek: state.overview.maxGameWeek,
     playerStats: state.admin.playerStats,
-    successMessage: state.admin.successMessage,
     teamsWithPlayers: state.admin.teamsWithPlayers
 });
 

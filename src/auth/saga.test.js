@@ -10,7 +10,7 @@ import * as consts from '../constants';
 import * as actions from './actions';
 import { successDelay } from '../constants';
 import { fetchMaxGameWeekRequest } from '../overview/actions';
-import { setErrorMessage } from '../errorHandling/actions';
+import { setErrorMessage } from '../modalHandling/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 

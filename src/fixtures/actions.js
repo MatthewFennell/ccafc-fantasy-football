@@ -12,24 +12,12 @@ export const CANCEL_LOADING_MY_TEAM = `${pre}CANCEL_LOADING_MY_TEAM`;
 
 export const CANCEL_FETCHING_FIXTURES_AND_TEAM = `${pre}CANCEL_FETCHING_FIXTURES_AND_TEAM`;
 
-export const SET_SUCCESS_MESSAGE = `${pre}SET_SUCCESS_MESSAGE`;
-export const CLOSE_SUCCESS_MESSAGE = `${pre}CLOSE_SUCCESS_MESSAGE`;
-
 export const cancelLoadingMyTeam = () => ({
     type: CANCEL_LOADING_MY_TEAM
 });
 
 export const cancelFetchingFixturesAndTeam = () => ({
     type: CANCEL_FETCHING_FIXTURES_AND_TEAM
-});
-
-export const setSuccessMessage = message => ({
-    type: SET_SUCCESS_MESSAGE,
-    message
-});
-
-export const closeSuccessMessage = () => ({
-    type: CLOSE_SUCCESS_MESSAGE
 });
 
 export const setMyTeam = team => ({

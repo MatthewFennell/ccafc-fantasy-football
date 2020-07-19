@@ -11,7 +11,7 @@ import {
     fetchRejectedHighlightsRequest, addCommentToVideoRequest, addReplyToVideoRequest,
     deleteCommentRequest, deleteReplyRequest, closeSuccessMessage
 } from './actions';
-import { setErrorMessage } from '../errorHandling/actions';
+import { setErrorMessage } from '../modalHandling/actions';
 import SuccessModal from '../common/modal/SuccessModal';
 import YouTubeList from '../common/youtubelist/YouTubeList';
 import SubmitVideo from './SubmitVideo';

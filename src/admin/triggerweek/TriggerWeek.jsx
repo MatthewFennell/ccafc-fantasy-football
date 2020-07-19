@@ -2,13 +2,11 @@ import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import { noop } from 'lodash';
 import defaultStyles from './TriggerWeek.module.scss';
 import {
-    triggerWeekRequest, closeSuccessMessage, recalculateLeaguePositionsRequest
+    triggerWeekRequest, recalculateLeaguePositionsRequest
 } from '../actions';
 import StyledButton from '../../common/StyledButton/StyledButton';
-import SuccessModal from '../../common/modal/SuccessModal';
 import Spinner from '../../common/spinner/Spinner';
 import Dropdown from '../../common/dropdown/Dropdown';
 
@@ -67,14 +65,6 @@ const TriggerWeek = props => {
                     <Spinner color="secondary" />
                 </div>
             </div>
-            <SuccessModal
-                backdrop
-                closeModal={props.closeSuccessMessage}
-                isOpen={props.successMessage.length > 0}
-                isSuccess
-                headerMessage={props.successMessage}
-                toggleModal={noop}
-            />
         </>
     );
 };
@@ -82,16 +72,13 @@ const TriggerWeek = props => {
 TriggerWeek.defaultProps = {
     isRecalculatingLeaguePositions: false,
     maxGameWeek: null,
-    successMessage: '',
     styles: defaultStyles,
     triggeringWeek: false
 };
 
 TriggerWeek.propTypes = {
-    closeSuccessMessage: PropTypes.func.isRequired,
     isRecalculatingLeaguePositions: PropTypes.bool,
     maxGameWeek: PropTypes.number,
-    successMessage: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
     triggeringWeek: PropTypes.bool,
     recalculateLeaguePositionsRequest: PropTypes.func.isRequired,
@@ -99,7 +86,6 @@ TriggerWeek.propTypes = {
 };
 
 const mapDispatchToProps = {
-    closeSuccessMessage,
     recalculateLeaguePositionsRequest,
     triggerWeekRequest
 };
@@ -109,8 +95,7 @@ const mapStateToProps = state => ({
     triggeringWeek: state.admin.triggeringWeek,
     triggerWeekError: state.admin.triggerWeekError,
     triggerWeekErrorCode: state.admin.triggerWeekErrorCode,
-    maxGameWeek: state.overview.maxGameWeek,
-    successMessage: state.admin.successMessage
+    maxGameWeek: state.overview.maxGameWeek
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TriggerWeek);

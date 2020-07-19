@@ -2,14 +2,10 @@ import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import { noop } from 'lodash';
 import defaultStyles from './CreateTeam.module.scss';
-import {
-    createTeamRequest, closeSuccessMessage
-} from '../actions';
+import { createTeamRequest } from '../actions';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
-import SuccessModal from '../../common/modal/SuccessModal';
 import TextInput from '../../common/TextInput/TextInput';
 
 const CreateTeam = props => {
@@ -46,39 +42,26 @@ const CreateTeam = props => {
                     <Spinner color="secondary" />
                 </div>
             </div>
-            <SuccessModal
-                backdrop
-                closeModal={props.closeSuccessMessage}
-                isOpen={props.successMessage.length > 0}
-                isSuccess
-                headerMessage={props.successMessage}
-                toggleModal={noop}
-            />
         </>
     );
 };
 
 CreateTeam.defaultProps = {
-    styles: defaultStyles,
-    successMessage: ''
+    styles: defaultStyles
 };
 
 CreateTeam.propTypes = {
-    closeSuccessMessage: PropTypes.func.isRequired,
     creatingTeam: PropTypes.bool.isRequired,
     createTeamRequest: PropTypes.func.isRequired,
-    styles: PropTypes.objectOf(PropTypes.string),
-    successMessage: PropTypes.string
+    styles: PropTypes.objectOf(PropTypes.string)
 };
 
 const mapDispatchToProps = {
-    closeSuccessMessage,
     createTeamRequest
 };
 
 const mapStateToProps = state => ({
-    creatingTeam: state.admin.creatingTeam,
-    successMessage: state.admin.successMessage
+    creatingTeam: state.admin.creatingTeam
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateTeam);

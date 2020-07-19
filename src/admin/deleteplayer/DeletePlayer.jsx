@@ -3,15 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import fp from 'lodash/fp';
-import { noop } from 'lodash';
 import defaultStyles from './DeletePlayer.module.scss';
 import Dropdown from '../../common/dropdown/Dropdown';
 import {
-    fetchTeamsRequest, fetchPlayersForTeamRequest, deletePlayerRequest,
-    closeSuccessMessage
+    fetchTeamsRequest, fetchPlayersForTeamRequest, deletePlayerRequest
 } from '../actions';
 import StyledButton from '../../common/StyledButton/StyledButton';
-import SuccessModal from '../../common/modal/SuccessModal';
 import Spinner from '../../common/spinner/Spinner';
 import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
 
@@ -85,14 +82,6 @@ const DeletePlayer = props => {
                     <Spinner color="secondary" />
                 </div>
             </div>
-            <SuccessModal
-                backdrop
-                closeModal={props.closeSuccessMessage}
-                isOpen={props.successMessage.length > 0}
-                isSuccess
-                headerMessage={props.successMessage}
-                toggleModal={noop}
-            />
         </>
     );
 };
@@ -100,25 +89,21 @@ const DeletePlayer = props => {
 DeletePlayer.defaultProps = {
     allTeams: [],
     isFetchingPlayersForTeam: false,
-    successMessage: '',
     styles: defaultStyles
 };
 
 DeletePlayer.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
-    closeSuccessMessage: PropTypes.func.isRequired,
     deletePlayerRequest: PropTypes.func.isRequired,
     deletingPlayer: PropTypes.bool.isRequired,
     fetchTeamsRequest: PropTypes.func.isRequired,
     fetchPlayersForTeamRequest: PropTypes.func.isRequired,
     isFetchingPlayersForTeam: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),
-    successMessage: PropTypes.string,
     teamsWithPlayers: PropTypes.objectOf(PropTypes.array).isRequired
 };
 
 const mapDispatchToProps = {
-    closeSuccessMessage,
     deletePlayerRequest,
     fetchTeamsRequest,
     fetchPlayersForTeamRequest
@@ -128,7 +113,6 @@ const mapStateToProps = state => ({
     allTeams: state.admin.allTeams,
     deletingPlayer: state.admin.deletingPlayer,
     isFetchingPlayersForTeam: state.admin.isFetchingPlayersForTeam,
-    successMessage: state.admin.successMessage,
     teamsWithPlayers: state.admin.teamsWithPlayers
 });
 

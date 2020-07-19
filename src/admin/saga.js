@@ -6,8 +6,7 @@ import * as adminApi from './api';
 import * as selectors from './selectors';
 import { fetchMaxGameWeekRequest } from '../overview/actions';
 import { signOut } from '../auth/actions';
-import { successDelay } from '../constants';
-import { setErrorMessage } from '../errorHandling/actions';
+import { setErrorMessage, setSuccessMessage } from '../modalHandling/actions';
 
 export function* fetchTeams(api) {
     try {
@@ -36,9 +35,7 @@ export function* createPlayer(api, action) {
         yield put(setErrorMessage('Error Creating Player', error));
     } finally {
         yield put(actions.cancelCreatingPlayer());
-        yield put(actions.setSuccessMessage('Player successfully created'));
-        yield delay(successDelay);
-        yield put(actions.closeSuccessMessage());
+        yield put(setSuccessMessage('Player successfully created'));
     }
 }
 
@@ -52,9 +49,7 @@ export function* createTeam(api, action) {
         yield put(setErrorMessage('Error Creating Team', error));
     } finally {
         yield put(actions.cancelCreatingTeam());
-        yield put(actions.setSuccessMessage('Team successfully created'));
-        yield delay(successDelay);
-        yield put(actions.closeSuccessMessage());
+        yield put(setSuccessMessage('Team successfully created'));
     }
 }
 
@@ -86,9 +81,7 @@ export function* submitResult(api, action) {
         yield put(setErrorMessage('Error Submitting Result', error));
     } finally {
         yield put(actions.cancelSubmittingResult());
-        yield put(actions.setSuccessMessage('Result successfully submitted'));
-        yield delay(successDelay);
-        yield put(actions.closeSuccessMessage());
+        yield put(setSuccessMessage('Result successfully submitted'));
     }
 }
 
@@ -99,9 +92,7 @@ export function* deletePlayer(api, action) {
         yield put(setErrorMessage('Error Deleting Player', error));
     } finally {
         yield put(actions.cancelDeletingPlayer());
-        yield put(actions.setSuccessMessage('Player successfully deleted'));
-        yield delay(successDelay);
-        yield put(actions.closeSuccessMessage());
+        yield put(setSuccessMessage('Player successfully deleted'));
     }
 }
 
@@ -118,9 +109,7 @@ export function* deleteTeam(api, action) {
         yield put(setErrorMessage('Error Deleting Team', error));
     } finally {
         yield put(actions.deleteTeamSuccess());
-        yield put(actions.setSuccessMessage('Team successfully deleted'));
-        yield delay(successDelay);
-        yield put(actions.closeSuccessMessage());
+        yield put(setSuccessMessage('Team successfully deleted'));
     }
 }
 
@@ -132,9 +121,7 @@ export function* triggerWeek(api, action) {
         yield put(setErrorMessage('Error Triggering Week', error));
     } finally {
         yield put(actions.cancelTriggeringWeek());
-        yield put(actions.setSuccessMessage(`Week ${action.week} successfully triggered`));
-        yield delay(successDelay);
-        yield put(actions.closeSuccessMessage());
+        yield put(setSuccessMessage(`Week ${action.week} successfully triggered`));
     }
 }
 
@@ -161,9 +148,7 @@ export function* editPlayerStats(api, action) {
         yield put(setErrorMessage('Error Editing Player Stats', error));
     } finally {
         yield put(actions.cancelEditingPlayerStats());
-        yield put(actions.setSuccessMessage('Played successfully edited'));
-        yield delay(successDelay);
-        yield put(actions.closeSuccessMessage());
+        yield put(setSuccessMessage('Played successfully edited'));
     }
 }
 
@@ -194,9 +179,7 @@ export function* addUserRole(api, action) {
         yield put(setErrorMessage('Error Adding User Role', error));
     } finally {
         yield put(actions.cancelFetchingUsersWithExtraRoles());
-        yield put(actions.setSuccessMessage('User role successfully added'));
-        yield delay(successDelay);
-        yield put(actions.closeSuccessMessage());
+        yield put(setSuccessMessage('User role successfully added'));
     }
 }
 
@@ -213,9 +196,7 @@ export function* removeUserRole(api, action) {
         yield put(setErrorMessage('Error Removing User Role', error));
     } finally {
         yield put(actions.cancelFetchingUsersWithExtraRoles());
-        yield put(actions.setSuccessMessage('User role successfully removed'));
-        yield delay(successDelay);
-        yield put(actions.closeSuccessMessage());
+        yield put(setSuccessMessage('User role successfully removed'));
     }
 }
 
@@ -268,9 +249,7 @@ export function* approveHighlight(api, action) {
         yield put(setErrorMessage('Error Approving Highlight', error));
     } finally {
         yield put(actions.cancelApprovingHighlight());
-        yield put(actions.setSuccessMessage('Highlight successfully approved'));
-        yield delay(successDelay);
-        yield put(actions.closeSuccessMessage());
+        yield put(setSuccessMessage('Highlight successfully approved'));
     }
 }
 
@@ -285,9 +264,7 @@ export function* rejectHighlight(api, action) {
         yield put(setErrorMessage('Error Rejecting Highlight', error));
     } finally {
         yield put(actions.cancelRejectingHighlight());
-        yield put(actions.setSuccessMessage('Highlight successfully rejected'));
-        yield delay(successDelay);
-        yield put(actions.closeSuccessMessage());
+        yield put(setSuccessMessage('Highlight successfully rejected'));
     }
 }
 
@@ -302,9 +279,7 @@ export function* deleteHighlight(api, action) {
         yield put(setErrorMessage('Error Deleting Highlight', error));
     } finally {
         yield put(actions.cancelDeletingHighlight());
-        yield put(actions.setSuccessMessage('Highlight successfully deleted'));
-        yield delay(successDelay);
-        yield put(actions.closeSuccessMessage());
+        yield put(setSuccessMessage('Highlight successfully deleted'));
     }
 }
 
@@ -331,9 +306,7 @@ export function* reapproveRejectedHighlight(api, action) {
         yield put(setErrorMessage('Error Reapproving Rejected Highlight', error));
     } finally {
         yield put(actions.cancelLoadingRejectedHighlights());
-        yield put(actions.setSuccessMessage('Highlight successfully reapproved'));
-        yield delay(successDelay);
-        yield put(actions.closeSuccessMessage());
+        yield put(setSuccessMessage('Highlight successfully reapproved'));
     }
 }
 
@@ -351,9 +324,7 @@ export function* submitExtraResults(api, action) {
         yield put(setErrorMessage('Error Submitting Extra Results', error));
     } finally {
         yield put(actions.cancelSubmittingExtraStats());
-        yield put(actions.setSuccessMessage('Extra stats successfully submitted'));
-        yield delay(successDelay);
-        yield put(actions.closeSuccessMessage());
+        yield put(setSuccessMessage('Extra stats successfully submitted'));
     }
 }
 

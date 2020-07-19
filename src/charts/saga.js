@@ -4,7 +4,7 @@ import {
 import * as actions from './actions';
 import * as chartsApi from './api';
 import * as selectors from './selectors';
-import { setErrorMessage } from '../errorHandling/actions';
+import { setErrorMessage } from '../modalHandling/actions';
 
 export function* fetchAllTeams(api) {
     try {
