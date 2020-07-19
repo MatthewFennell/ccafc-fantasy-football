@@ -55,6 +55,7 @@ const TheCup = props => {
                 )}
                 {Object.keys(rest).reverse().map((key, index) => (
                     <WeekInfo
+                        auth={props.auth}
                         byes={fp.get('byes')(props.cup[key])}
                         displayNameMappings={displayNameMappings}
                         week={Number(key)}
@@ -69,12 +70,18 @@ const TheCup = props => {
 };
 
 TheCup.defaultProps = {
+    auth: {
+        uid: ''
+    },
     cup: {},
     isFetchingCup: false,
     styles: defaultStyles
 };
 
 TheCup.propTypes = {
+    auth: PropTypes.shape({
+        uid: PropTypes.string
+    }),
     closeCupError: PropTypes.func.isRequired,
     cup: PropTypes.shape({
         displayNameMappings: PropTypes.shape({ }),
@@ -87,6 +94,7 @@ TheCup.propTypes = {
 };
 
 const mapStateToProps = state => ({
+    auth: state.firebase.auth,
     cup: state.cup.cup,
     isFetchingCup: state.cup.isFetchingCup
 });

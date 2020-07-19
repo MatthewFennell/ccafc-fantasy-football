@@ -14,7 +14,7 @@ export function* submitHighlight(api, action) {
             title: action.title
         });
     } catch (error) {
-        yield put(setErrorMessage('Submit Highlight Error', error));
+        yield put(setErrorMessage('Error Submitting Highlight', error));
     } finally {
         yield put(actions.cancelSubmittingHighlight());
         yield put(actions.setSuccessMessage('Highlight successfully submitted for approval'));

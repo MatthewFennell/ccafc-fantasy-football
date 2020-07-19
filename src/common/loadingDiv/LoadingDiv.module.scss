@@ -22,6 +22,10 @@
     overflow:hidden;
   }
 
+.whiteBackground {
+  background-color: $color-white !important;
+}
+
 .noPadding {
   padding: 0px;
 }

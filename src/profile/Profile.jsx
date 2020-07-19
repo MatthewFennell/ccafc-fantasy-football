@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import firebase from 'firebase';
@@ -14,22 +14,25 @@ import LoadingDiv from '../common/loadingDiv/LoadingDiv';
 import SelectProfilePicture from './selectprofilepicture/SelectProfilePicture';
 import * as textInputConstants from '../common/TextInput/constants';
 import * as selectors from './selectors';
+import SuccessModal from '../common/modal/SuccessModal';
+import TextInput from '../common/TextInput/TextInput';
+import StyledButton from '../common/StyledButton/StyledButton';
 
 const Profile = props => {
-    // const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-    // const [email, setEmail] = useState('');
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [email, setEmail] = useState('');
 
-    // const closeModal = useCallback(() => {
-    //     setDeleteModalOpen(false);
-    //     setEmail('');
-    // }, []);
+    const closeModal = useCallback(() => {
+        setDeleteModalOpen(false);
+        setEmail('');
+    }, []);
 
-    // const deleteAccount = useCallback(() => {
-    //     props.deleteAccountRequest(email);
-    //     setDeleteModalOpen(false);
-    //     setEmail('');
-    //     // eslint-disable-next-line
-    // }, [props.deleteAccountRequest, email]);
+    const deleteAccount = useCallback(() => {
+        props.deleteAccountRequest(email);
+        setDeleteModalOpen(false);
+        setEmail('');
+        // eslint-disable-next-line
+    }, [props.deleteAccountRequest, email]);
 
     const updateProfilePicture = useCallback(photoUrl => {
         props.updateProfilePictureRequest(photoUrl);
@@ -75,8 +78,12 @@ const Profile = props => {
 
             <div className={props.styles.deleteButtonWrapper}>
                 <LoadingDiv isLoading={props.deletingAccount} isBorderRadius isFitContent>
-                    {/* <StyledButton color="secondary" text="Delete Account"
-                    onClick={() => setDeleteModalOpen(true)} disabled={props.deletingAccount} /> */}
+                    <StyledButton
+                        color="secondary"
+                        text="Delete Account"
+                        onClick={() => setDeleteModalOpen(true)}
+                        disabled={props.deletingAccount}
+                    />
                 </LoadingDiv>
             </div>
 
@@ -103,13 +110,13 @@ const Profile = props => {
                     )}
                 </div>
             </SuccessModal> */}
-            {/* <SuccessModal
+            <SuccessModal
                 backdrop
                 closeModal={closeModal}
                 error
                 isOpen={deleteModalOpen}
                 headerMessage="Delete Account: This cannot be reversed"
-                toggleModal={props.closeAccountLinkError}
+                toggleModal={closeModal}
             >
                 <div className={props.styles.enterEmailMessage}>
                     Please confirm your email
@@ -126,7 +133,7 @@ const Profile = props => {
                 <div className={props.styles.submitDeleteAccountWrapper}>
                     <StyledButton color="primary" text="Confirm" onClick={deleteAccount} />
                 </div>
-            </SuccessModal> */}
+            </SuccessModal>
         </div>
     );
 };
@@ -148,6 +155,7 @@ Profile.defaultProps = {
 
 Profile.propTypes = {
     deletingAccount: PropTypes.bool,
+    deleteAccountRequest: PropTypes.func.isRequired,
     isSignedInWithFacebook: PropTypes.bool,
     isSignedInWithGoogle: PropTypes.bool,
     linkProfileToFacebook: PropTypes.func.isRequired,
@@ -187,7 +195,7 @@ const mapStateToProps = state => ({
     isSignedInWithFacebook: selectors.isSignedIn(state, 'facebook.com'),
     isSignedInWithGoogle: selectors.isSignedIn(state, 'google.com'),
 
-    profile: state.firebase.profile,
+    profile: selectors.getProfile(state),
     linkAccountErrorCode: state.profile.linkAccountErrorCode,
     linkAccountErrorMessage: state.profile.linkAccountError,
 

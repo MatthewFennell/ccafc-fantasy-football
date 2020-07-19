@@ -25,7 +25,7 @@ const SelectProfilePicture = props => {
                 Select your own avatar
             </div>
             <div className={props.styles.potentialPicturesWrapper}>
-                {props.potentialPictures.map(photoUrl => (
+                {props.potentialPictures.filter(photoUrl => Boolean(photoUrl)).map(photoUrl => (
                     <div className={props.styles.imageWrapper} key={photoUrl}>
                         <div
                             className={classNames({

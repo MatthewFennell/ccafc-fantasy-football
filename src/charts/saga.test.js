@@ -53,7 +53,7 @@ describe('Current team saga', () => {
                 [matchers.call.fn(api.getAllTeams), throwError(error)],
                 { select: alreadyFetchedInfo(false) }
             ])
-            .put(setErrorMessage('Fetch All Teams Error', error))
+            .put(setErrorMessage('Error Fetching Teams', error))
             .run({ silenceTimeout: true });
     });
 });

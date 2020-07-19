@@ -60,6 +60,7 @@ const Stats = props => {
                         isFitContent
                         isBorderRadius
                         isBoxShadow
+                        isWhiteBackground
                     >
                         <div className={props.styles.statsHeader}>
                             <div className={props.styles.dropdownWrapper}>

@@ -16,7 +16,7 @@ export function* fetchActiveTeam(forced, api, action) {
                 activeTeam.players, activeTeam.captain));
         }
     } catch (error) {
-        yield put(setErrorMessage('Fetch Active Team Error', error));
+        yield put(setErrorMessage('Error Fetching Active Team', error));
     } finally {
         yield put(actions.setPlayerModalOpen(false));
         yield put(actions.cancelFetchingActiveTeam(action.userId));
@@ -28,7 +28,7 @@ export function* makeCaptain(api, action) {
         yield call(api.makeCaptain, { playerId: action.playerId });
         yield put(actions.reloadActiveTeamRequest(firebase.auth().currentUser.uid));
     } catch (error) {
-        yield put(setErrorMessage('Make Captain Error', error));
+        yield put(setErrorMessage('Error Making Player Captain', error));
     } finally {
         yield put(actions.setPlayerModalOpen(false));
         yield put(actions.setCaptainToUpdate(''));
@@ -36,7 +36,7 @@ export function* makeCaptain(api, action) {
     }
 }
 
-export default function* leaguesSaga() {
+export default function* currentTeamSaga() {
     yield all([
         takeEvery(actions.FETCH_ACTIVE_TEAM_REQUEST, fetchActiveTeam, false, teamApi),
         takeEvery(actions.MAKE_CAPTAIN_REQUEST, makeCaptain, teamApi),

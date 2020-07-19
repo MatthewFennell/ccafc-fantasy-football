@@ -14,7 +14,7 @@ export function* fetchAllTeams(api) {
             yield put(actions.fetchAllTeamsSuccess(teams));
         }
     } catch (error) {
-        yield put(setErrorMessage('Fetch All Teams Error', error));
+        yield put(setErrorMessage('Error Fetching Teams', error));
     } finally {
         yield put(actions.cancelFetchingTeams());
     }
