@@ -20,6 +20,12 @@
   }
 }
 
+.gridFooter {
+  display: flex;
+  width: fit-content;
+  margin-left: auto;
+}
+
 
 .active{
   background-color: $color-gray;

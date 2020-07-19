@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { CSVLink } from 'react-csv';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
@@ -15,6 +16,7 @@ import * as helpers from './helpers';
 import * as constants from './constants';
 import TextInput from '../../common/TextInput/TextInput';
 import * as textInputConstants from '../../common/TextInput/constants';
+import { generateCsvTitle } from '../../helperFunctions';
 
 const ManageSubs = props => {
     useEffect(() => {
@@ -25,8 +27,12 @@ const ManageSubs = props => {
     const [differences, setDifferences] = useState([]);
     const [teamFilter, setTeamFilter] = useState('All');
     const [nameFilter, setNameFilter] = useState('');
-
     const [toggleFilter, setToggleFilter] = useState('All');
+    const [csvLink, setLink] = useState(null);
+
+    useEffect(() => {
+        setLink(React.createRef());
+    }, [setLink]);
 
     const getCurrentPaidForId = id => {
         if (differences.includes(id)) {
@@ -71,6 +77,17 @@ const ManageSubs = props => {
         setDifferences([]);
         // eslint-disable-next-line
     }, [props.setHasPaidSubsRequest, props.allPlayers, differences])
+
+    const generateCsvData = useCallback(() => props.allPlayers.map(player => ({
+        Name: player.name,
+        Team: player.team,
+        'Paid Subs': player.hasPaidSubs ? 'Yes' : 'No'
+    })),
+    [props.allPlayers]);
+
+    const downloadAsCsv = useCallback(() => {
+        csvLink.current.link.click();
+    }, [csvLink]);
 
     const generateRows = players => helpers
         .filterPlayers(players, teamFilter, toggleFilter, nameFilter)
@@ -142,6 +159,11 @@ const ManageSubs = props => {
                 </div>
                 <div className={props.styles.confirmChangesWrapper}>
                     <StyledButton
+                        onClick={downloadAsCsv}
+                        text="Download as CSV"
+                        color="primary"
+                    />
+                    <StyledButton
                         onClick={saveChanges}
                         text="Save Changes"
                         color="primary"
@@ -155,6 +177,13 @@ const ManageSubs = props => {
                     />
                 </div>
             </div>
+            <CSVLink
+                data={generateCsvData()}
+                filename={generateCsvTitle('Subs')}
+                className="hidden"
+                ref={csvLink}
+                target="_blank"
+            />
         </>
     );
 };

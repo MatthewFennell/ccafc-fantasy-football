@@ -101,6 +101,7 @@ const Stats = props => {
                 {combineWeeks ? (
                     <WeekStats
                         activeColumns={activeColumns}
+                        isCombined
                         loading={props.fetching && props.fetching.length > 0}
                         stats={combinePlayers(props.stats, props.minWeek, props.maxWeek)}
                         title={`Weeks ${props.minWeek}-${props.maxWeek}`}

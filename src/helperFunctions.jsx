@@ -48,3 +48,11 @@ export const getNextMatchPerTeam = (fixtures, team) => {
     const removedDuplicates = _.uniqBy(nextMatchPerTeam, x => x.teamOne + x.teamTwo);
     return removedDuplicates;
 };
+
+export const generateCsvTitle = title => {
+    const date = new Date();
+    const month = date.toLocaleString('default', { month: 'short' });
+    const year = date.getFullYear();
+    const day = date.getDate();
+    return `${title}_${day}_${month}_${year}.csv`;
+};
