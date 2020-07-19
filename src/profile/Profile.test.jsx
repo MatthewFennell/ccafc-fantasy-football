@@ -66,6 +66,9 @@ const mockfirebaseStore = {
     auth: {
         email: 'email',
         uid: 'uid'
+    },
+    profile: {
+        isEmpty: true
     }
 };
 
