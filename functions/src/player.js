@@ -49,6 +49,7 @@ exports.createPlayer = functions
                                         points: 0,
                                         goals: 0,
                                         assists: 0,
+                                        hasPaidSubs: false,
                                         previousScore: parseFloat(data.previousScore, 10)
                                     });
                                 return Promise.resolve({ message: 'Player created', verified: true });

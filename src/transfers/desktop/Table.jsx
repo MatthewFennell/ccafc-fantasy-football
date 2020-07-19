@@ -9,6 +9,7 @@ import Slider from '../../common/slider/Slider';
 import { generateMarks, sortListAscDescDesktop } from '../common/helpers';
 import TextInput from '../../common/TextInput/TextInput';
 import * as textInputConstants from '../../common/TextInput/constants';
+import { generateCsvTitle } from '../../helperFunctions';
 
 const positionOptions = [
     {
@@ -127,6 +128,7 @@ const Table = props => {
             <div className={props.styles.gridWrapper}>
                 <Grid
                     columns={props.desktopColumns.filter(x => x.active)}
+                    csvTitle={generateCsvTitle('Players')}
                     loading={props.fetchingAllPlayers}
                     onRowClick={props.onTransfersRequest}
                     rows={filterPlayers(props.allPlayers, searchByName).map(x => ({
@@ -134,6 +136,17 @@ const Table = props => {
                         position: x.position.charAt(0) + x.position.slice(1).toLowerCase()
                     }))}
                     rowsPerPageOptions={[50]}
+                    rowMapping={row => ({
+                        Name: row.name,
+                        Position: row.position,
+                        Team: row.team,
+                        Price: row.price,
+                        Points: row.points,
+                        Goals: row.goals,
+                        Assists: row.assists,
+                        'Previous Score': row.previousScore
+                    })}
+                    showDownloadAsCsv
                     maxHeight={550}
                 />
             </div>

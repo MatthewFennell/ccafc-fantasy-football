@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { CSVLink } from 'react-csv';
 import fp from 'lodash/fp';
 import defaultStyles from './WeekStats.module.scss';
 import Spinner from '../../common/spinner/Spinner';
+import StyledButton from '../../common/StyledButton/StyledButton';
+import { generateCsvTitle } from '../../helperFunctions';
 
 const WeekStats = props => {
+    console.log('stats', props.stats);
+    const [csvLink, setLink] = useState(null);
+    useEffect(() => {
+        setLink(React.createRef());
+    }, [setLink]);
+
     const renderList = (key, title, stats) => (stats.filter(stat => stat[key]).length ? (
         <div key={key}>
             <div className={props.styles.statTitle}>
@@ -18,6 +27,27 @@ const WeekStats = props => {
         </div>
     ) : null);
 
+    const downloadAsCsv = useCallback(() => {
+        csvLink.current.link.click();
+    }, [csvLink]);
+
+    const generateCsvData = useCallback(() => props.stats.map(stat => ({
+        Name: stat.name,
+        Position: stat.position.charAt(0).toUpperCase() + stat.position.slice(1).toLowerCase(),
+        Team: stat.team,
+        Points: stat.points,
+        Goals: stat.goals,
+        Assists: stat.assists,
+        'Clean Sheets': stat.cleanSheets,
+        MotMs: stat.manOfTheMatch,
+        DotDs: stat.dickOfTheDay,
+        'Yellow Cards': stat.yellowCard,
+        'Red Cards': stat.redCard,
+        'Own Goals': stat.ownGoals,
+        'Penalty Misses': stat.penaltyMisses,
+        'Penalty Saves': stat.penaltySaves
+    })), [props.stats]);
+
     return (
         props.loading
             ? (
@@ -25,14 +55,31 @@ const WeekStats = props => {
                     <Spinner color="primary" />
                 </div>
             ) : (
-                <div className={props.styles.weekStatsWrapper}>
-                    <div className={props.styles.weekStatsHeader}>
-                        {props.title}
+                <>
+                    <div className={props.styles.weekStatsWrapper}>
+                        <div className={props.styles.weekStatsHeader}>
+                            {props.title}
+                        </div>
+                        <div className={props.styles.statsWrapper}>
+                            {props.activeColumns.map(x => renderList(x.id, x.label, props.stats))}
+                        </div>
+                        {props.isCombined && (
+                            <div className={props.styles.downloadAsCsv}>
+                                <StyledButton
+                                    onClick={downloadAsCsv}
+                                    text="Download as CSV "
+                                />
+                            </div>
+                        )}
                     </div>
-                    <div className={props.styles.statsWrapper}>
-                        {props.activeColumns.map(x => renderList(x.id, x.label, props.stats))}
-                    </div>
-                </div>
+                    <CSVLink
+                        data={generateCsvData()}
+                        filename={generateCsvTitle('Stats')}
+                        className="hidden"
+                        ref={csvLink}
+                        target="_blank"
+                    />
+                </>
             )
     );
 };
@@ -40,6 +87,7 @@ const WeekStats = props => {
 WeekStats.defaultProps = {
     activeColumns: [],
     loading: false,
+    isCombined: false,
     stats: [],
     styles: defaultStyles,
     title: ''
@@ -48,6 +96,7 @@ WeekStats.defaultProps = {
 WeekStats.propTypes = {
     activeColumns: PropTypes.arrayOf(PropTypes.shape({})),
     loading: PropTypes.bool,
+    isCombined: PropTypes.bool,
     stats: PropTypes.arrayOf(PropTypes.shape({})),
     styles: PropTypes.objectOf(PropTypes.string),
     title: PropTypes.string

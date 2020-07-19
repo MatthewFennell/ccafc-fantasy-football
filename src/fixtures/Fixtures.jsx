@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import fp from 'lodash/fp';
 import { noop } from 'lodash';
 import { connect } from 'react-redux';
 import Paper from '@material-ui/core/Paper';
@@ -15,6 +16,12 @@ import {
     generateCollingwoodTeams, gridStyles, fixturesFilters, columns, filterFixtures
 } from './helpers';
 import Fade from '../common/Fade/Fade';
+import { generateCsvTitle } from '../helperFunctions';
+
+const convertResult = result => {
+    const split = result.split(' - ');
+    return (`(${fp.head(split)}) - (${fp.tail(split)})`);
+};
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -104,6 +111,7 @@ const Fixtures = props => {
             <div className={props.styles.gridWrapper}>
                 <Grid
                     columns={columns}
+                    csvTitle={generateCsvTitle('Fixtures')}
                     gridHeader="Fixtures"
                     loading={props.loadingFixtures}
                     onRowClick={noop}
@@ -114,7 +122,16 @@ const Fixtures = props => {
                         upcomingMatchesOnly,
                         teamNameFilter
                     )}
+                    showDownloadAsCsv
                     showPagination={false}
+                    rowMapping={row => ({
+                        'Home Team': row.teamOne,
+                        'Away Team': row.teamTwo,
+                        Result: row.completed ? convertResult(row.result) : 'Not played yet',
+                        Location: row.location,
+                        Date: row.time,
+                        League: row.league
+                    })}
                     rowsPerPageOptions={[100000]}
                     maxHeight={600}
                     gridStyles={gridStyles}
