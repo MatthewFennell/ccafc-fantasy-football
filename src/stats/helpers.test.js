@@ -13,7 +13,8 @@ const players = [
         cleanSheet: true,
         yellowCard: true,
         penaltySaves: 1,
-        redCard: true
+        redCard: true,
+        points: 4
     },
     {
         goals: 4,
@@ -27,7 +28,8 @@ const players = [
         cleanSheet: true,
         yellowCard: true,
         penaltySaves: 1,
-        redCard: true
+        redCard: true,
+        points: 8
     }
 ];
 
@@ -44,7 +46,8 @@ const playersWithFalseValues = [
         cleanSheet: true,
         yellowCard: true,
         penaltySaves: 1,
-        redCard: true
+        redCard: true,
+        points: 5
     },
     {
         goals: 4,
@@ -58,7 +61,8 @@ const playersWithFalseValues = [
         cleanSheet: false,
         yellowCard: false,
         penaltySaves: 0,
-        redCard: false
+        redCard: false,
+        points: 3
     }
 ];
 
@@ -160,7 +164,8 @@ describe('Combining player stats together', () => {
                 cleanSheet: 2,
                 yellowCard: 2,
                 penaltySaves: 2,
-                redCard: 2
+                redCard: 2,
+                points: 12
             }
         ]);
     });
@@ -179,7 +184,8 @@ describe('Combining player stats together', () => {
                 cleanSheet: 1,
                 yellowCard: 1,
                 penaltySaves: 1,
-                redCard: 1
+                redCard: 1,
+                points: 4
             }
         ]);
     });
@@ -198,7 +204,8 @@ describe('Combining player stats together', () => {
                 cleanSheet: 1,
                 yellowCard: 1,
                 penaltySaves: 1,
-                redCard: 1
+                redCard: 1,
+                points: 8
             }
         ]);
     });
