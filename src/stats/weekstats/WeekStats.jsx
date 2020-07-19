@@ -8,7 +8,6 @@ import StyledButton from '../../common/StyledButton/StyledButton';
 import { generateCsvTitle } from '../../helperFunctions';
 
 const WeekStats = props => {
-    console.log('stats', props.stats);
     const [csvLink, setLink] = useState(null);
     useEffect(() => {
         setLink(React.createRef());
