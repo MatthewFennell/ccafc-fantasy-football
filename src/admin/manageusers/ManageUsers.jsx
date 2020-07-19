@@ -2,12 +2,11 @@ import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
-import { noop } from 'lodash';
 import defaultStyles from './ManageUsers.module.scss';
 import {
     fetchUsersWithExtraRolesRequest, addUserRoleRequest, removeUserRoleRequest,
     clearDatabaseRequest, rollOverToNextYearRequest,
-    deleteAllOldUsersRequest, closeSuccessMessage
+    deleteAllOldUsersRequest
 } from '../actions';
 import Grid from '../../common/grid/Grid';
 import StyledButton from '../../common/StyledButton/StyledButton';
@@ -214,14 +213,6 @@ const ManageUsers = props => {
                     />
                 </div>
             </div>
-            <SuccessModal
-                backdrop
-                closeModal={props.closeSuccessMessage}
-                isOpen={props.successMessage.length > 0}
-                isSuccess
-                headerMessage={props.successMessage}
-                toggleModal={noop}
-            />
             <ConfirmModal
                 cancel={() => setIsRollingOverToNextYear(false)}
                 closeModal={() => setIsRollingOverToNextYear(false)}
@@ -239,7 +230,6 @@ ManageUsers.defaultProps = {
     allRoles: [],
     fetchingUsersWithExtraRoles: false,
     isRollingOverToNextYear: false,
-    successMessage: '',
     styles: defaultStyles,
     usersWithExtraRoles: [],
     permissionMappings: {}
@@ -249,14 +239,12 @@ ManageUsers.propTypes = {
     allRoles: PropTypes.arrayOf(PropTypes.string),
     addUserRoleRequest: PropTypes.func.isRequired,
     clearDatabaseRequest: PropTypes.func.isRequired,
-    closeSuccessMessage: PropTypes.func.isRequired,
     deleteAllOldUsersRequest: PropTypes.func.isRequired,
     fetchingUsersWithExtraRoles: PropTypes.bool,
     fetchUsersWithExtraRolesRequest: PropTypes.func.isRequired,
     isRollingOverToNextYear: PropTypes.bool,
     removeUserRoleRequest: PropTypes.func.isRequired,
     rollOverToNextYearRequest: PropTypes.func.isRequired,
-    successMessage: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
     usersWithExtraRoles: PropTypes.arrayOf(PropTypes.shape({
         roles: PropTypes.arrayOf(PropTypes.string),
@@ -269,7 +257,6 @@ ManageUsers.propTypes = {
 const mapDispatchToProps = {
     addUserRoleRequest,
     clearDatabaseRequest,
-    closeSuccessMessage,
     deleteAllOldUsersRequest,
     fetchUsersWithExtraRolesRequest,
     removeUserRoleRequest,
@@ -280,7 +267,6 @@ const mapStateToProps = state => ({
     allRoles: state.auth.allRoles,
     fetchingUsersWithExtraRoles: state.admin.fetchingUsersWithExtraRoles,
     isRollingOverToNextYear: state.admin.isRollingOverToNextYear,
-    successMessage: state.admin.successMessage,
     usersWithExtraRoles: state.admin.usersWithExtraRoles,
     permissionMappings: state.auth.permissionMappings
 });

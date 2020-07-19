@@ -1,10 +1,9 @@
 import {
-    all, takeEvery, put, call, delay, takeLatest
+    all, takeEvery, put, call, takeLatest
 } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as featuresApi from './api';
-import { successDelay } from '../constants';
-import { setErrorMessage } from '../errorHandling/actions';
+import { setErrorMessage, setSuccessMessage } from '../modalHandling/actions';
 
 export function* addReplyToComment(api, action) {
     try {
@@ -42,13 +41,11 @@ export function* submitFeature(api, action) {
             description: action.description,
             isBug: action.isBug
         });
-        yield put(actions.setSuccessMessage('Feature submitted successfully'));
+        yield put(setSuccessMessage('Feature submitted successfully'));
     } catch (error) {
         yield put(setErrorMessage('Error Submitting Feature Request', error));
     } finally {
         yield put(actions.cancelAddingFeatureRequest());
-        yield delay(successDelay);
-        yield put(actions.closeSuccessMessage());
     }
 }
 

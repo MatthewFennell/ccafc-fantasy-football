@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import { signUp } from './actions';
-import { setErrorMessage } from '../errorHandling/actions';
+import { setErrorMessage } from '../modalHandling/actions';
 import defaultStyles from './SignUp.module.scss';
 import StyledButton from '../common/StyledButton/StyledButton';
 import TextInput from '../common/TextInput/TextInput';

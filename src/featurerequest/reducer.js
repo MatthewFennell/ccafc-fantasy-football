@@ -2,7 +2,6 @@ import fp from 'lodash/fp';
 import * as actions from './actions';
 
 export const initialState = {
-    successMessage: '',
     isAddingCommentToFeature: false,
     isSubmittingFeature: false,
     commentBeingDeletedInfo: {},
@@ -11,9 +10,6 @@ export const initialState = {
 
 const featureReducer = (state = initialState, action) => {
     switch (action.type) {
-    case actions.SET_SUCCESS_MESSAGE: {
-        return fp.set('successMessage', action.message)(state);
-    }
     case actions.DELETE_COMMENT_REQUEST: {
         return fp.set('commentBeingDeletedInfo', ({
             commentId: action.commentId,
@@ -41,9 +37,6 @@ const featureReducer = (state = initialState, action) => {
     }
     case actions.ADD_REPLY_TO_COMMENT_REQUEST: {
         return fp.set('isAddingCommentToFeature')(true)(state);
-    }
-    case actions.CLOSE_SUCCESS_MESSAGE: {
-        return fp.set('successMessage', '')(state);
     }
     case actions.CANCEL_ADDING_FEATURE_REQUEST: {
         return fp.set('isSubmittingFeature', false)(state);

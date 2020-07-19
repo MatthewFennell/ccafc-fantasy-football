@@ -4,7 +4,7 @@ import {
 } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as cupApi from './api';
-import { setErrorMessage } from '../errorHandling/actions';
+import { setErrorMessage } from '../modalHandling/actions';
 import * as selectors from './selectors';
 
 export function* fetchCup(api) {

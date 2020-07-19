@@ -2,15 +2,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import { noop } from 'lodash';
 import defaultStyles from './CreatePlayer.module.scss';
 import Dropdown from '../../common/dropdown/Dropdown';
 import {
-    createPlayerRequest, fetchTeamsRequest, closeSuccessMessage
+    createPlayerRequest, fetchTeamsRequest
 } from '../actions';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
-import SuccessModal from '../../common/modal/SuccessModal';
 import TextInput from '../../common/TextInput/TextInput';
 import * as textInputConstants from '../../common/TextInput/constants';
 import Switch from '../../common/Switch/Switch';
@@ -105,44 +103,31 @@ const CreatePlayer = props => {
                     />
                 </div>
             </div>
-            <SuccessModal
-                backdrop
-                closeModal={props.closeSuccessMessage}
-                isOpen={props.successMessage.length > 0 && !suppressPopup}
-                isSuccess
-                headerMessage={props.successMessage}
-                toggleModal={noop}
-            />
         </>
     );
 };
 
 CreatePlayer.defaultProps = {
     allTeams: [],
-    styles: defaultStyles,
-    successMessage: ''
+    styles: defaultStyles
 };
 
 CreatePlayer.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
-    closeSuccessMessage: PropTypes.func.isRequired,
     creatingPlayer: PropTypes.bool.isRequired,
     createPlayerRequest: PropTypes.func.isRequired,
     fetchTeamsRequest: PropTypes.func.isRequired,
-    styles: PropTypes.objectOf(PropTypes.string),
-    successMessage: PropTypes.string
+    styles: PropTypes.objectOf(PropTypes.string)
 };
 
 const mapDispatchToProps = {
     createPlayerRequest,
-    closeSuccessMessage,
     fetchTeamsRequest
 };
 
 const mapStateToProps = state => ({
     allTeams: state.admin.allTeams,
-    creatingPlayer: state.admin.creatingPlayer,
-    successMessage: state.admin.successMessage
+    creatingPlayer: state.admin.creatingPlayer
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePlayer);

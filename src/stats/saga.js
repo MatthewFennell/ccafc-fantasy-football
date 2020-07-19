@@ -3,7 +3,7 @@ import {
 } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as statsApi from './api';
-import { setErrorMessage } from '../errorHandling/actions';
+import { setErrorMessage } from '../modalHandling/actions';
 
 export function* fetchStats(api, action) {
     try {

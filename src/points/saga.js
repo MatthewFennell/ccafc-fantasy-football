@@ -4,7 +4,7 @@ import {
 import * as actions from './actions';
 import * as selectors from './selectors';
 import * as pointsApi from './api';
-import { setErrorMessage } from '../errorHandling/actions';
+import { setErrorMessage } from '../modalHandling/actions';
 
 export function* getUsername(userId, api) {
     try {

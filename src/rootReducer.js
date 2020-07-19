@@ -16,7 +16,7 @@ import charts from './charts/reducer';
 import highlights from './highlights/reducer';
 import fixtures from './fixtures/reducer';
 import features from './featurerequest/reducer';
-import errorHandling from './errorHandling/reducer';
+import modalHandling from './modalHandling/reducer';
 import cup from './cup/reducer';
 
 const appReducer = history => combineReducers({
@@ -25,13 +25,13 @@ const appReducer = history => combineReducers({
     charts,
     currentTeam,
     cup,
-    errorHandling,
     leagues,
     features,
     firestore: firestoreReducer,
     firebase: firebaseReducer,
     fixtures,
     highlights,
+    modalHandling,
     overview,
     points,
     profile,

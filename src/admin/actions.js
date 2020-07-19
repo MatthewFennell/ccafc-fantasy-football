@@ -78,9 +78,6 @@ export const CANCEL_LOADING_REJECTED_HIGHLIGHTS = `${pre}CANCEL_LOADING_REJECTED
 export const SUBMIT_EXTRA_STATS_REQUEST = `${pre}SUBMIT_EXTRA_STATS_REQUEST`;
 export const CANCEL_SUBMITTING_EXTRA_STATS = `${pre}CANCEL_SUBMITTING_EXTRA_STATS`;
 
-export const SET_SUCCESS_MESSAGE = `${pre}SET_SUCCESS_MESSAGE`;
-export const CLOSE_SUCCESS_MESSAGE = `${pre}CLOSE_SUCCESS_MESSAGE`;
-
 export const SET_HAS_PAID_SUBS_REQUEST = `${pre}SET_HAS_PAID_SUBS_REQUEST`;
 export const CANCEL_UPDATING_SUBS = `${pre}CANCEL_UPDATING_SUBS`;
 
@@ -129,15 +126,6 @@ export const cancelUpdatingSubs = changes => ({
 export const setHasPaidSubsRequest = changes => ({
     type: SET_HAS_PAID_SUBS_REQUEST,
     changes
-});
-
-export const setSuccessMessage = message => ({
-    type: SET_SUCCESS_MESSAGE,
-    message
-});
-
-export const closeSuccessMessage = () => ({
-    type: CLOSE_SUCCESS_MESSAGE
 });
 
 export const submitExtraStatsRequest = (

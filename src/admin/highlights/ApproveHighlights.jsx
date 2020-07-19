@@ -3,12 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
-import { noop } from 'lodash';
 import defaultStyles from './ApproveHighlights.module.scss';
 import {
     fetchHighlightsForApprovalRequest, approveHighlightRequest, rejectHighlightRequest,
-    deleteHighlightRequest, fetchAllRejectedHighlightsRequest, reapproveRejectedHighlightRequest,
-    closeSuccessMessage
+    deleteHighlightRequest, fetchAllRejectedHighlightsRequest, reapproveRejectedHighlightRequest
 } from '../actions';
 import YouTubeList from '../../common/youtubelist/YouTubeList';
 import StyledButton from '../../common/StyledButton/StyledButton';
@@ -301,14 +299,6 @@ const ApproveHighlights = props => {
                     </div>
                 </div>
             </SuccessModal>
-            <SuccessModal
-                backdrop
-                closeModal={props.closeSuccessMessage}
-                isOpen={props.successMessage.length > 0}
-                isSuccess
-                headerMessage={props.successMessage}
-                toggleModal={noop}
-            />
         </>
     );
 };
@@ -321,14 +311,12 @@ ApproveHighlights.defaultProps = {
     loadingHighlightsForApproval: false,
     loadingVideos: false,
     rejectedHighlights: [],
-    successMessage: '',
     styles: defaultStyles,
     videos: []
 };
 
 ApproveHighlights.propTypes = {
     approveHighlightRequest: PropTypes.func.isRequired,
-    closeSuccessMessage: PropTypes.func.isRequired,
     deleteHighlightRequest: PropTypes.func.isRequired,
     fetchAllRejectedHighlightsRequest: PropTypes.func.isRequired,
     fetchHighlightsRequest: PropTypes.func.isRequired,
@@ -346,14 +334,12 @@ ApproveHighlights.propTypes = {
     reapproveRejectedHighlightRequest: PropTypes.func.isRequired,
     rejectedHighlights: PropTypes.arrayOf(PropTypes.shape({})),
     rejectHighlightRequest: PropTypes.func.isRequired,
-    successMessage: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
     videos: PropTypes.arrayOf(PropTypes.shape({}))
 };
 
 const mapDispatchToProps = {
     approveHighlightRequest,
-    closeSuccessMessage,
     deleteHighlightRequest,
     fetchAllRejectedHighlightsRequest,
     fetchHighlightsRequest,
@@ -370,7 +356,6 @@ const mapStateToProps = state => ({
     loadingRejectedHighlights: state.admin.loadingRejectedHighlights,
     loadingHighlightsForApproval: state.admin.loadingHighlightsForApproval,
     rejectedHighlights: state.admin.rejectedHighlights,
-    successMessage: state.admin.successMessage,
     videos: state.highlights.videos
 });
 

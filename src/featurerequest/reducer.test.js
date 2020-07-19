@@ -6,25 +6,6 @@ describe('Fixtures reducer', () => {
         expect(reducer(undefined, {})).toEqual(initialState);
     });
 
-    it('set success message', () => {
-        const action = actions.setSuccessMessage('message');
-        expect(reducer(initialState, action)).toEqual({
-            ...initialState,
-            successMessage: 'message'
-        });
-    });
-
-    it('close success message', () => {
-        const action = actions.closeSuccessMessage();
-        expect(reducer({
-            ...initialState,
-            successMessage: 'message'
-        }, action)).toEqual({
-            ...initialState,
-            successMessage: ''
-        });
-    });
-
     it('delete comment request', () => {
         const action = actions.deleteCommentRequest('featureId', 'commentId');
         expect(reducer(initialState, action)).toEqual({

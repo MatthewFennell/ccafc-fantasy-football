@@ -50,3 +50,5 @@ exports.scheduledFirestoreExport = functions.region(constants.region).pubsub
 // After 30 days, backup is deleted
 
 // So will have 30 backups alive at once max
+
+// fantasypassword for all dummy accounts

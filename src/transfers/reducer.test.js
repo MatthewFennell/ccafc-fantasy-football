@@ -707,27 +707,6 @@ describe('Transfers reducer', () => {
         });
     });
 
-    it('set success message', () => {
-        const action = actions.setSuccessMessage('message');
-
-        expect(reducer(initialState, action)).toEqual({
-            ...initialState,
-            successMessage: 'message'
-        });
-    });
-
-    it('close success message', () => {
-        const action = actions.closeSuccessMessage();
-
-        expect(reducer({
-            ...initialState,
-            successMessage: 'some message'
-        }, action)).toEqual({
-            ...initialState,
-            successMessage: ''
-        });
-    });
-
     it('set has paid subs', () => {
         const allPlayers = [
             {

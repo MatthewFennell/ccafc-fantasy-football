@@ -5,7 +5,7 @@ import firebase from 'firebase';
 import * as actions from './actions';
 import * as profileApi from './api';
 import { signOut } from '../auth/actions';
-import { setErrorMessage } from '../errorHandling/actions';
+import { setErrorMessage } from '../modalHandling/actions';
 
 export function* linkProfileToGoogle() {
     try {

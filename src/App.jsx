@@ -2,12 +2,10 @@ import React from 'react';
 import { ConnectedRouter } from 'connected-react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { noop } from 'lodash';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import Container from '@material-ui/core/Container';
-import { closeErrorMessage } from './errorHandling/actions';
 
 import defaultStyles from './App.module.scss';
 import NewNavbar from './navbar/NewNavbar';
@@ -15,7 +13,7 @@ import NewNavbar from './navbar/NewNavbar';
 import RenderRoutes from './RenderRoutes';
 import Spinner from './common/spinner/Spinner';
 
-import ErrorModal from './common/modal/ErrorModal';
+import ModalHandling from './modalHandling/ModalHandling';
 
 const App = props => (
     props.auth && props.auth.isLoaded ? (
@@ -41,13 +39,7 @@ const App = props => (
                                 <Spinner color="secondary" />
                             </div>
                         )}
-                    <ErrorModal
-                        closeModal={props.closeErrorMessage}
-                        headerMessage={props.errorHeader}
-                        isOpen={props.errorMessage.length > 0}
-                        errorCode={props.errorCode}
-                        errorMessage={props.errorMessage}
-                    />
+                    <ModalHandling />
                 </div>
             </>
         </ConnectedRouter>
@@ -58,10 +50,6 @@ App.defaultProps = {
     auth: {
         isLoaded: false
     },
-    closeErrorMessage: noop,
-    errorCode: '',
-    errorHeader: '',
-    errorMessage: '',
     history: {},
     loadingApp: false,
     maxGameWeek: null,
@@ -73,10 +61,6 @@ App.propTypes = {
         isLoaded: PropTypes.bool,
         uid: PropTypes.string
     }),
-    closeErrorMessage: PropTypes.func,
-    errorCode: PropTypes.string,
-    errorHeader: PropTypes.string,
-    errorMessage: PropTypes.string,
     history: PropTypes.shape({}),
     loadingApp: PropTypes.bool,
     maxGameWeek: PropTypes.number,
@@ -85,17 +69,10 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
     auth: state.firebase.auth,
-    errorCode: state.errorHandling.errorCode,
-    errorHeader: state.errorHandling.errorHeader,
-    errorMessage: state.errorHandling.errorMessage,
     loadingApp: state.auth.loadingApp,
     maxGameWeek: state.overview.maxGameWeek
 });
 
-const mapDispatchToProps = {
-    closeErrorMessage
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, null)(App);
 
 // Error message on get Active Team

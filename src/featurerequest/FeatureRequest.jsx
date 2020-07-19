@@ -6,11 +6,10 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import {
     addReplyToCommentRequest, submitFeatureRequest, addCommentToFeatureRequest,
-    deleteCommentRequest, deleteReplyRequest, closeSuccessMessage
+    deleteCommentRequest, deleteReplyRequest
 } from './actions';
 import AllFeatureRequests from './AllFeatureRequests';
 import SubmitFeature from './SubmitFeature';
-import SuccessModal from '../common/modal/SuccessModal';
 import ConfirmModal from '../common/modal/ConfirmModal';
 
 const FeatureRequest = props => {
@@ -96,14 +95,6 @@ const FeatureRequest = props => {
                 setSubmitFeatureRequestOpen={setSubmitFeatureRequestOpen}
                 loggedInUserId={props.auth.uid}
             />
-            <SuccessModal
-                backdrop
-                closeModal={props.closeSuccessMessage}
-                isOpen={props.successMessage.length > 0}
-                isSuccess
-                headerMessage={props.successMessage}
-                toggleModal={noop}
-            />
             <ConfirmModal
                 cancel={() => setDeleteCommentInfo({})}
                 closeModal={() => setDeleteCommentInfo({})}
@@ -128,7 +119,6 @@ const FeatureRequest = props => {
 };
 
 FeatureRequest.defaultProps = {
-    closeSuccessMessage: noop,
     addCommentToFeatureRequest: noop,
     addReplyToCommentRequest: noop,
     auth: {
@@ -146,8 +136,7 @@ FeatureRequest.defaultProps = {
         commentId: '',
         replyId: ''
     },
-    submitFeatureRequest: noop,
-    successMessage: ''
+    submitFeatureRequest: noop
 };
 
 FeatureRequest.propTypes = {
@@ -156,7 +145,6 @@ FeatureRequest.propTypes = {
     auth: PropTypes.shape({
         uid: PropTypes.string
     }),
-    closeSuccessMessage: PropTypes.func,
     commentBeingDeletedInfo: PropTypes.shape({
         featureId: PropTypes.string,
         commentId: PropTypes.string
@@ -175,8 +163,7 @@ FeatureRequest.propTypes = {
         commentId: PropTypes.string,
         replyId: PropTypes.string
     }),
-    submitFeatureRequest: PropTypes.func,
-    successMessage: PropTypes.string
+    submitFeatureRequest: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -185,14 +172,12 @@ const mapStateToProps = state => ({
     featureRequests: state.firestore.data.featureRequests,
     isAddingCommentToFeature: state.features.isAddingCommentToFeature,
     isSubmittingFeature: state.features.isSubmittingFeature,
-    replyBeingDeletedInfo: state.features.replyBeingDeletedInfo,
-    successMessage: state.features.successMessage
+    replyBeingDeletedInfo: state.features.replyBeingDeletedInfo
 });
 
 const mapDispatchToProps = {
     addCommentToFeatureRequest,
     addReplyToCommentRequest,
-    closeSuccessMessage,
     deleteCommentRequest,
     deleteReplyRequest,
     submitFeatureRequest

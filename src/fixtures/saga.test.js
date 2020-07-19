@@ -4,9 +4,8 @@ import { throwError } from 'redux-saga-test-plan/providers';
 import { noop } from 'lodash';
 import * as sagas from './saga';
 import * as actions from './actions';
-import { successDelay } from '../constants';
 import * as selectors from './selectors';
-import { setErrorMessage } from '../errorHandling/actions';
+import { setErrorMessage, setSuccessMessage } from '../modalHandling/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -60,9 +59,7 @@ describe('Fixtures saga', () => {
                 team: 'team'
             }))
             .put(actions.setMyTeam('team'))
-            .put(actions.setSuccessMessage('Team successfully set'))
-            .delay(successDelay)
-            .put(actions.closeSuccessMessage())
+            .put(setSuccessMessage('Team successfully set'))
             .put(actions.cancelLoadingMyTeam())
             .run({ silenceTimeout: true });
     });

@@ -4,8 +4,7 @@ import { throwError } from 'redux-saga-test-plan/providers';
 import { noop } from 'lodash';
 import * as sagas from './saga';
 import * as actions from './actions';
-import { successDelay } from '../constants';
-import { setErrorMessage } from '../errorHandling/actions';
+import { setErrorMessage, setSuccessMessage } from '../modalHandling/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -78,10 +77,8 @@ describe('Feature requests saga', () => {
                 description: 'description',
                 isBug: true
             }))
-            .put(actions.setSuccessMessage('Feature submitted successfully'))
+            .put(setSuccessMessage('Feature submitted successfully'))
             .put(actions.cancelAddingFeatureRequest())
-            .delay(successDelay)
-            .put(actions.closeSuccessMessage())
             .run({ silenceTimeout: true });
     });
 
@@ -95,8 +92,6 @@ describe('Feature requests saga', () => {
             ])
             .put(setErrorMessage('Error Submitting Feature Request', error))
             .put(actions.cancelAddingFeatureRequest())
-            .delay(successDelay)
-            .put(actions.closeSuccessMessage())
             .run({ silenceTimeout: true });
     });
 
