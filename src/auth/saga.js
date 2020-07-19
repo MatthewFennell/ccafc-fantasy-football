@@ -20,7 +20,7 @@ export function* signOut() {
         yield firebase.auth().signOut();
         yield put(actions.signOutSuccess());
     } catch (error) {
-        yield put(setErrorMessage('Sign Out Error', error));
+        yield put(setErrorMessage('Error Signing Out', error));
     }
 }
 
@@ -50,7 +50,7 @@ export function* loggingIn(api, action) {
         }));
         yield put(actions.setLoadedPermissions(true));
     } catch (error) {
-        yield put(setErrorMessage('Sign In Error', error));
+        yield put(setErrorMessage('Error Signing In', error));
     }
 }
 
@@ -61,7 +61,7 @@ export function* signUp(api, action) {
         yield delay(2000);
         yield firebase.auth().currentUser.sendEmailVeriication(actionCodeSettings);
     } catch (error) {
-        yield put(setErrorMessage('Sign Up Error', error));
+        yield put(setErrorMessage('Error Signing Up', error));
     }
 }
 
@@ -72,7 +72,7 @@ export function* signIn(action) {
             .signInWithEmailAndPassword(action.email, action.password);
         yield put(actions.signInSuccess());
     } catch (error) {
-        yield put(setErrorMessage('Sign In Error', error));
+        yield put(setErrorMessage('Error Signing In', error));
     }
 }
 
@@ -80,7 +80,7 @@ export function* sendResetPasswordEmail(action) {
     try {
         yield firebase.auth().sendPasswordResetEmail(action.email);
     } catch (error) {
-        yield put(setErrorMessage('Password Reset Error', error));
+        yield put(setErrorMessage('Error Sending Password Reset Email', error));
     }
 }
 
@@ -88,7 +88,7 @@ export function* resendVerificationEmall() {
     try {
         yield firebase.auth().currentUser.sendEmailVerification(actionCodeSettings);
     } catch (error) {
-        yield put(setErrorMessage('Resend Email Verification Error', error));
+        yield put(setErrorMessage('Error Sending Verification Email', error));
     } finally {
         yield put(actions.cancelSendingEmailVerification());
     }
@@ -101,7 +101,7 @@ export function* editDisabledPage(api, action) {
             isDisabled: action.isDisabled
         }));
     } catch (error) {
-        yield put(setErrorMessage('Edit Disabled Pages Error', error));
+        yield put(setErrorMessage('Error Editing Disabled Pages', error));
     } finally {
         yield put(actions.cancelEditingPage(''));
     }

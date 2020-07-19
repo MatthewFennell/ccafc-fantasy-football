@@ -152,7 +152,7 @@ describe('Auth saga', () => {
             .provide([
                 [matchers.call.fn(api.getRolePermissions), throwError(error)]
             ])
-            .put(setErrorMessage('Sign In Error', error))
+            .put(setErrorMessage('Error Signing In', error))
             .run({ silenceTimeout: true });
     });
 
@@ -172,7 +172,7 @@ describe('Auth saga', () => {
             .provide([
                 [matchers.call.fn(api.updateDisplayName), throwError(error)]
             ])
-            .put(setErrorMessage('Sign Up Error', error))
+            .put(setErrorMessage('Error Signing Up', error))
             .run({ silenceTimeout: true });
     });
 
@@ -208,7 +208,7 @@ describe('Auth saga', () => {
             .provide([
                 [matchers.call.fn(api.editDisabledPages), throwError(error)]
             ])
-            .put(setErrorMessage('Edit Disabled Pages Error', error))
+            .put(setErrorMessage('Error Editing Disabled Pages', error))
             .run({ silenceTimeout: true });
     });
 });

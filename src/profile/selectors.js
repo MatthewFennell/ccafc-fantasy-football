@@ -11,3 +11,17 @@ export const isSignedIn = (state, provider) => {
     }
     return providerData.some(x => x.providerId === provider);
 };
+
+export const getProfile = state => {
+    const { profile } = state.firebase;
+    if (!profile.isEmpty) {
+        return profile;
+    }
+    const { auth } = state.firebase;
+    return {
+        email: auth.email,
+        displayName: auth.displayName,
+        photoUrl: auth.photoURL,
+        teamName: 'N/A'
+    };
+};

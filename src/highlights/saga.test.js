@@ -62,7 +62,7 @@ describe('Highlights saga', () => {
             .provide([
                 [matchers.call.fn(api.submitVideo), throwError(error)]
             ])
-            .put(setErrorMessage('Submit Highlight Error', error))
+            .put(setErrorMessage('Error Submitting Highlight', error))
             .put(actions.cancelSubmittingHighlight())
             .run({ silenceTimeout: true });
     });

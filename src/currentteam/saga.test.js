@@ -81,7 +81,7 @@ describe('Current team saga', () => {
                 [matchers.call.fn(api.fetchActiveTeam), throwError(error)],
                 { select: alreadyFetchedInfo(false) }
             ])
-            .put(setErrorMessage('Fetch Active Team Error', error))
+            .put(setErrorMessage('Error Fetching Active Team', error))
             .run({ silenceTimeout: true });
     });
 
@@ -123,7 +123,7 @@ describe('Current team saga', () => {
             .provide([
                 [matchers.call.fn(api.makeCaptain), throwError(error)]
             ])
-            .put(setErrorMessage('Make Captain Error', error))
+            .put(setErrorMessage('Error Making Player Captain', error))
             .put(actions.setUpdatingCaptain(false))
             .run({ silenceTimeout: true });
     });
