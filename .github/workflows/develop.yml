@@ -90,3 +90,18 @@ jobs:
         npx firebase deploy --only hosting
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+    - name: Deploy Firebase Security Rules
+      run: |
+        npm ci
+        npx firebase use ccafc-fantasy-football-dev
+        npx firebase deploy --only firestore:rules
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+    - name: Deploy Firebase Indexes
+      run: |
+        npm ci
+        npx firebase use ccafc-fantasy-football-dev
+        npx firebase deploy --only firestore:indexes
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
