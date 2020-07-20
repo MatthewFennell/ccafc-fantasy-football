@@ -5,6 +5,7 @@
   padding-top: $spacing-huge;
   padding-bottom: $spacing-huge;
   .shadowWrapper{
+    border-radius: $spacing-small;
     margin-left: auto;
     margin-right: auto;
     width: 80%;
@@ -33,6 +34,21 @@
     color: $color-danger-red;
     font-weight: $font-weight-normal;
   }
+}
+
+.privacyPolicyWrapper {
+  text-align: center;
+} 
+
+.privacyPolicy {
+  text-align: center;
+  justify-content: center;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.privacyPolicy:hover {
+  font-weight: bold;
 }
 
 @media only screen and (max-width: 600px) {

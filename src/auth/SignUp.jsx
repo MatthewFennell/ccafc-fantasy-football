@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { connect } from 'react-redux';
@@ -12,6 +12,7 @@ import defaultStyles from './SignUp.module.scss';
 import StyledButton from '../common/StyledButton/StyledButton';
 import TextInput from '../common/TextInput/TextInput';
 import * as textInputConstants from '../common/TextInput/constants';
+import * as constants from '../constants';
 
 const SignUp = props => {
     const [email, setEmail] = useState('');
@@ -41,6 +42,10 @@ const SignUp = props => {
             });
         }
     };
+
+    const redirectToPrivacyPolicy = useCallback(() => {
+        props.history.push(constants.URL.PRIVACY_POLICY);
+    }, [props.history]);
 
     return (
         <div className={props.styles.signUpWrapper}>
@@ -93,6 +98,16 @@ const SignUp = props => {
                             text="Sign up"
                             type="submit"
                         />
+                    </div>
+                    <div className={props.styles.privacyPolicyWrapper}>
+                        <div
+                            className={props.styles.privacyPolicy}
+                            role="button"
+                            tabIndex={0}
+                            onClick={redirectToPrivacyPolicy}
+                        >
+                            See our Privacy Policy
+                        </div>
                     </div>
                 </form>
                 <StyledFirebaseAuth
