@@ -12,6 +12,7 @@ import SignUp from './auth/SignUp';
 import Profile from './profile/Profile';
 import VerifyEmail from './auth/VerifyEmail';
 import PasswordReset from './auth/PasswordReset';
+import PrivacyPolicy from './privacypolicy/PrivacyPolicy';
 import { MyContext } from './Context';
 
 import UsersInLeague from './leagues/UsersInLeague';
@@ -50,6 +51,12 @@ const RenderRoutes = props => (
                     <UnauthenticatedRoute
                         path={constants.URL.RESET_PASSWORD}
                         component={PasswordReset}
+                        redirect={`${constants.URL.OVERVIEW}/${props.auth.uid}/${props.maxGameWeek}`}
+                    />
+                    <UnauthenticatedRoute
+                        exact
+                        path={constants.URL.PRIVACY_POLICY}
+                        component={PrivacyPolicy}
                         redirect={`${constants.URL.OVERVIEW}/${props.auth.uid}/${props.maxGameWeek}`}
                     />
                     <UnauthenticatedRoute

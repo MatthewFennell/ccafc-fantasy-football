@@ -17,6 +17,7 @@ export const URL = {
     HIGHLIGHTS: '/highlights',
     FIXTURES: '/fixtures',
     FEATURE_REQUEST: '/feature-request',
+    PRIVACY_POLICY: '/privacy-policy',
 
     CREATE_PLAYER: '/create-player',
     DELETE_PLAYER: '/delete-player',
