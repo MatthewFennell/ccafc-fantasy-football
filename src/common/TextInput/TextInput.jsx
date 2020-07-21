@@ -9,6 +9,7 @@ import LockIcon from '@material-ui/icons/Lock';
 import SportsSoccerIcon from '@material-ui/icons/SportsSoccer';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import SearchIcon from '@material-ui/icons/Search';
+import MessageIcon from '@material-ui/icons/Message';
 import FaceIcon from '@material-ui/icons/Face';
 import { noop } from 'lodash';
 import * as constants from './constants';
@@ -35,7 +36,8 @@ const iconMapping = iconColor => ({
     [constants.textInputIcons.football]: generateIcon(SportsSoccerIcon, iconColor),
     [constants.textInputIcons.money]: generateIcon(AttachMoneyIcon, iconColor),
     [constants.textInputIcons.search]: generateIcon(SearchIcon, iconColor),
-    [constants.textInputIcons.face]: generateIcon(FaceIcon, iconColor)
+    [constants.textInputIcons.face]: generateIcon(FaceIcon, iconColor),
+    [constants.textInputIcons.message]: generateIcon(MessageIcon, iconColor)
 });
 
 const TextInput = props => {

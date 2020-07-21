@@ -4,6 +4,9 @@ export const FETCH_TEAMS_REQUEST = `${pre}FETCH_TEAMS_REQUEST`;
 export const FETCH_TEAMS_SUCCESS = `${pre}FETCH_TEAMS_SUCCESS`;
 export const SET_FETCHING_TEAMS = `${pre}SET_FETCHING_TEAMS`;
 
+export const ADD_NOTIFICATION_REQUEST = `${pre}ADD_NOTIFICATION_REQUEST`;
+export const CANCEL_ADDING_NOTIFICATION = `${pre}CANCEL_ADDING_NOTIFICATION`;
+
 export const CREATE_PLAYER_REQUEST = `${pre}CREATE_PLAYER_REQUEST`;
 export const CANCEL_CREATING_PLAYER = `${pre}CANCEL_CREATING_PLAYER`;
 
@@ -89,6 +92,15 @@ export const CANCEL_DELETING_BUG = `${pre}CANCEL_DELETING_BUG`;
 export const SET_BUG_ID_TO_DELETE = `${pre}SET_BUG_ID_TO_DELETE`;
 
 export const SUBMIT_CUSTOM_RESULTS = `${pre}SUBMIT_CUSTOM_RESULTS`;
+
+export const addNotificationRequest = notification => ({
+    type: ADD_NOTIFICATION_REQUEST,
+    notification
+});
+
+export const cancelAddingNotification = () => ({
+    type: CANCEL_ADDING_NOTIFICATION
+});
 
 export const cancelDeletingBug = () => ({
     type: CANCEL_DELETING_BUG

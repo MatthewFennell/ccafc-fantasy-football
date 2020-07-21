@@ -9,6 +9,7 @@ import GradeIcon from '@material-ui/icons/Grade';
 import LayersIcon from '@material-ui/icons/Layers';
 import DeleteIcon from '@material-ui/icons/Delete';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
+import MessageIcon from '@material-ui/icons/Message';
 import EditIcon from '@material-ui/icons/Edit';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import TransferWithinAStationIcon from '@material-ui/icons/TransferWithinAStation';
@@ -100,6 +101,15 @@ export const adminLinks = [
         path: () => constants.URL.MANAGE_SUBS,
         urlIncludes: constants.URL.MANAGE_SUBS,
         permissionRequired: constants.PERMISSIONS.MANAGE_SUBS
+    },
+    {
+        title: 'Add Notifications',
+        icon: <MessageIcon color="primary" />,
+        component: adminComponents.AddNotification,
+        addUserId: false,
+        path: () => constants.URL.ADD_NOTIFICATIONS,
+        urlIncludes: constants.URL.ADD_NOTIFICATIONS,
+        permissionRequired: constants.PERMISSIONS.MANAGE_SUBS // CHANGE THIS
     },
     {
         title: 'Toggle Pages',

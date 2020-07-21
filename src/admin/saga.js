@@ -23,6 +23,18 @@ export function* fetchTeams(api) {
     }
 }
 
+export function* addNotif(api, action) {
+    try {
+        yield call(api.addNotification, {
+            notification: action.notification
+        });
+    } catch (error) {
+        yield put(setErrorMessage('Error Adding Notification', error));
+    } finally {
+        yield put(actions.cancelAddingNotification());
+    }
+}
+
 export function* createPlayer(api, action) {
     try {
         yield call(api.createPlayer, {
@@ -1001,6 +1013,7 @@ export default function* adminSaga() {
         takeEvery(actions.SET_HAS_PAID_SUBS_REQUEST, setHasPaidSubs, adminApi),
         takeEvery(actions.SUBMIT_CUSTOM_RESULTS, customSubmit, adminApi),
         takeEvery(actions.DELETE_FEATURE_REQUEST, deleteBug, adminApi),
+        takeEvery(actions.ADD_NOTIFICATION_REQUEST, addNotif, adminApi),
         takeEvery(actions.RECALCULATE_LEAGUE_POSITIONS_REQUEST, recalculateLeaguePositions,
             adminApi)
     ]);

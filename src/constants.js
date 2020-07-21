@@ -30,6 +30,7 @@ export const URL = {
     MANAGE_SUBS: '/manage-subs',
     MANAGE_BUGS: '/manage-bugs',
     MANAGE_USERS: '/manage-users',
+    ADD_NOTIFICATIONS: '/add-notifications',
     TOGGLE_PAGES: '/toggle-pages'
 };
 
@@ -95,7 +96,8 @@ export const PERMISSIONS = {
     MANAGE_SUBS: 'MANAGE_SUBS',
     MANAGE_BUGS: 'MANAGE_BUGS',
     TOGGLE_PAGES: 'TOGGLE_PAGES',
-    SORT_LEAGUES: 'SORT_LEAGUES'
+    SORT_LEAGUES: 'SORT_LEAGUES',
+    ADD_NOTIFICATIONS: 'ADD_NOTIFICATIONS'
 };
 
 export const successDelay = 3500;

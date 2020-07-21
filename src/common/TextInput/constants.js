@@ -6,5 +6,6 @@ export const textInputIcons = {
     football: 'football',
     money: 'money',
     search: 'search',
-    face: 'face'
+    face: 'face',
+    message: 'message'
 };
