@@ -36,7 +36,7 @@ const SignUp = props => {
         if (password === passwordTwo) {
             props.signUp(email, password, displayName);
         } else {
-            props.setErrorMessage('Sign Up Error', {
+            props.addNotification('Sign Up Error', {
                 code: 'auth/mismatching passwords',
                 message: 'The passwords do not match'
             });
@@ -133,7 +133,7 @@ SignUp.propTypes = {
         push: PropTypes.func.isRequired
     }).isRequired,
     signUp: PropTypes.func.isRequired,
-    setErrorMessage: PropTypes.func.isRequired,
+    addNotification: PropTypes.func.isRequired,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 

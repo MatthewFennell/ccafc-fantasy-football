@@ -5,6 +5,8 @@ const constants = require('./constants');
 
 const db = admin.firestore();
 
+const operations = admin.firestore.FieldValue;
+
 exports.userInfoForWeek = functions
     .region(constants.region)
     .https.onCall((data, context) => {
@@ -91,6 +93,21 @@ exports.maxGameWeek = functions
                 return result.data().total_weeks;
             }
         );
+    });
+
+exports.removeNotification = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+
+        if (!data.notification) {
+            throw new functions.https.HttpsError('invalid-argument', 'No notification provided');
+        }
+        return db.collection('users').doc(context.auth.uid).get().then(user => {
+            user.ref.update({
+                notifications: operations.arrayRemove(data.notification)
+            });
+        });
     });
 
 exports.getUser = functions

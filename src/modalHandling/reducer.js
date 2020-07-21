@@ -1,12 +1,9 @@
-import fp from 'lodash/fp';
 import * as actions from './actions';
 
 export const initialState = {
     errorCode: '',
     errorHeader: '',
-    errorMessage: '',
-
-    successMessage: ''
+    errorMessage: ''
 };
 
 const errorReducer = (state = initialState, action) => {
@@ -26,12 +23,6 @@ const errorReducer = (state = initialState, action) => {
             errorCode: '',
             errorHeader: ''
         };
-    }
-    case actions.SET_SUCCESS_MESSAGE: {
-        return fp.set('successMessage', action.message)(state);
-    }
-    case actions.CLOSE_SUCCESS_MESSAGE: {
-        return fp.set('successMessage', '')(state);
     }
     default:
         return state;

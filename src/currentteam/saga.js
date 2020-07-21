@@ -6,6 +6,7 @@ import * as actions from './actions';
 import * as teamApi from './api';
 import * as selectors from './selectors';
 import { setErrorMessage } from '../modalHandling/actions';
+import { addNotification } from '../notifications/actions';
 
 export function* fetchActiveTeam(forced, api, action) {
     try {
@@ -30,6 +31,7 @@ export function* makeCaptain(api, action) {
     } catch (error) {
         yield put(setErrorMessage('Error Making Player Captain', error));
     } finally {
+        yield put(addNotification('Captain successfully set'));
         yield put(actions.setPlayerModalOpen(false));
         yield put(actions.setCaptainToUpdate(''));
         yield put(actions.setUpdatingCaptain(false));

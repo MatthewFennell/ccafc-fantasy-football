@@ -5,7 +5,8 @@ import { noop } from 'lodash';
 import * as sagas from './saga';
 import * as actions from './actions';
 import * as selectors from './selectors';
-import { setErrorMessage, setSuccessMessage } from '../modalHandling/actions';
+import { setErrorMessage } from '../modalHandling/actions';
+import { addNotification } from '../notifications/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -59,7 +60,7 @@ describe('Fixtures saga', () => {
                 team: 'team'
             }))
             .put(actions.setMyTeam('team'))
-            .put(setSuccessMessage('Team successfully set'))
+            .put(addNotification('Team successfully set'))
             .put(actions.cancelLoadingMyTeam())
             .run({ silenceTimeout: true });
     });

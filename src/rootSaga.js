@@ -8,7 +8,7 @@ import featuresRequestSaga from './featurerequest/saga';
 import fixturesSaga from './fixtures/saga';
 import highlightSaga from './highlights/saga';
 import leagueSaga from './leagues/saga';
-import modalHandlingSaga from './modalHandling/saga';
+import notificationSaga from './notifications/saga';
 import overviewSaga from './overview/saga';
 import pointsSaga from './points/saga';
 import profileSaga from './profile/saga';
@@ -26,7 +26,7 @@ export default function* rootSaga() {
         fixturesSaga(),
         highlightSaga(),
         leagueSaga(),
-        modalHandlingSaga(),
+        notificationSaga(),
         overviewSaga(),
         pointsSaga(),
         profileSaga(),

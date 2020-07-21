@@ -3,7 +3,8 @@ import {
 } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as featuresApi from './api';
-import { setErrorMessage, setSuccessMessage } from '../modalHandling/actions';
+import { setErrorMessage } from '../modalHandling/actions';
+import { addNotification } from '../notifications/actions';
 
 export function* addReplyToComment(api, action) {
     try {
@@ -41,7 +42,7 @@ export function* submitFeature(api, action) {
             description: action.description,
             isBug: action.isBug
         });
-        yield put(setSuccessMessage('Feature submitted successfully'));
+        yield put(addNotification('Feature submitted successfully'));
     } catch (error) {
         yield put(setErrorMessage('Error Submitting Feature Request', error));
     } finally {

@@ -7,7 +7,8 @@ import * as transfersApi from './api';
 import * as selectors from './selectors';
 import * as helpers from './helpers';
 import * as currentTeamActions from '../currentteam/actions';
-import { setErrorMessage, setSuccessMessage } from '../modalHandling/actions';
+import { setErrorMessage } from '../modalHandling/actions';
+import { addNotification } from '../notifications/actions';
 
 export function* fetchAllPlayers(api) {
     try {
@@ -62,7 +63,7 @@ export function* updateTeam(api) {
         yield put(setErrorMessage('Error Updating Team', error));
     } finally {
         yield put(actions.cancelFetchingOriginalTeam());
-        yield put(setSuccessMessage('Team successfully updated'));
+        yield put(addNotification('Team successfully updated'));
     }
 }
 
