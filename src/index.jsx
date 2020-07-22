@@ -15,6 +15,7 @@ import rootSaga from './rootSaga';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import MyProvider from './Context';
+import 'react-notifications-component/dist/theme.css';
 
 const history = createBrowserHistory();
 

@@ -6,7 +6,8 @@ import * as adminApi from './api';
 import * as selectors from './selectors';
 import { fetchMaxGameWeekRequest } from '../overview/actions';
 import { signOut } from '../auth/actions';
-import { setErrorMessage, setSuccessMessage } from '../modalHandling/actions';
+import { setErrorMessage } from '../modalHandling/actions';
+import { addNotification } from '../notifications/actions';
 
 export function* fetchTeams(api) {
     try {
@@ -19,6 +20,18 @@ export function* fetchTeams(api) {
         yield put(setErrorMessage('Error Fetching Teams', error));
     } finally {
         yield put(actions.setFetchingTeams(false));
+    }
+}
+
+export function* addNotif(api, action) {
+    try {
+        yield call(api.addNotification, {
+            notification: action.notification
+        });
+    } catch (error) {
+        yield put(setErrorMessage('Error Adding Notification', error));
+    } finally {
+        yield put(actions.cancelAddingNotification());
     }
 }
 
@@ -35,7 +48,7 @@ export function* createPlayer(api, action) {
         yield put(setErrorMessage('Error Creating Player', error));
     } finally {
         yield put(actions.cancelCreatingPlayer());
-        yield put(setSuccessMessage('Player successfully created'));
+        yield put(addNotification('Player successfully created'));
     }
 }
 
@@ -49,7 +62,7 @@ export function* createTeam(api, action) {
         yield put(setErrorMessage('Error Creating Team', error));
     } finally {
         yield put(actions.cancelCreatingTeam());
-        yield put(setSuccessMessage('Team successfully created'));
+        yield put(addNotification('Team successfully created'));
     }
 }
 
@@ -81,7 +94,7 @@ export function* submitResult(api, action) {
         yield put(setErrorMessage('Error Submitting Result', error));
     } finally {
         yield put(actions.cancelSubmittingResult());
-        yield put(setSuccessMessage('Result successfully submitted'));
+        yield put(addNotification('Result successfully submitted'));
     }
 }
 
@@ -92,7 +105,7 @@ export function* deletePlayer(api, action) {
         yield put(setErrorMessage('Error Deleting Player', error));
     } finally {
         yield put(actions.cancelDeletingPlayer());
-        yield put(setSuccessMessage('Player successfully deleted'));
+        yield put(addNotification('Player successfully deleted'));
     }
 }
 
@@ -109,7 +122,7 @@ export function* deleteTeam(api, action) {
         yield put(setErrorMessage('Error Deleting Team', error));
     } finally {
         yield put(actions.deleteTeamSuccess());
-        yield put(setSuccessMessage('Team successfully deleted'));
+        yield put(addNotification('Team successfully deleted'));
     }
 }
 
@@ -121,7 +134,7 @@ export function* triggerWeek(api, action) {
         yield put(setErrorMessage('Error Triggering Week', error));
     } finally {
         yield put(actions.cancelTriggeringWeek());
-        yield put(setSuccessMessage(`Week ${action.week} successfully triggered`));
+        yield put(addNotification(`Week ${action.week} successfully triggered`));
     }
 }
 
@@ -148,7 +161,7 @@ export function* editPlayerStats(api, action) {
         yield put(setErrorMessage('Error Editing Player Stats', error));
     } finally {
         yield put(actions.cancelEditingPlayerStats());
-        yield put(setSuccessMessage('Played successfully edited'));
+        yield put(addNotification('Played successfully edited'));
     }
 }
 
@@ -179,7 +192,7 @@ export function* addUserRole(api, action) {
         yield put(setErrorMessage('Error Adding User Role', error));
     } finally {
         yield put(actions.cancelFetchingUsersWithExtraRoles());
-        yield put(setSuccessMessage('User role successfully added'));
+        yield put(addNotification('User role successfully added'));
     }
 }
 
@@ -196,7 +209,7 @@ export function* removeUserRole(api, action) {
         yield put(setErrorMessage('Error Removing User Role', error));
     } finally {
         yield put(actions.cancelFetchingUsersWithExtraRoles());
-        yield put(setSuccessMessage('User role successfully removed'));
+        yield put(addNotification('User role successfully removed'));
     }
 }
 
@@ -249,7 +262,7 @@ export function* approveHighlight(api, action) {
         yield put(setErrorMessage('Error Approving Highlight', error));
     } finally {
         yield put(actions.cancelApprovingHighlight());
-        yield put(setSuccessMessage('Highlight successfully approved'));
+        yield put(addNotification('Highlight successfully approved'));
     }
 }
 
@@ -264,7 +277,7 @@ export function* rejectHighlight(api, action) {
         yield put(setErrorMessage('Error Rejecting Highlight', error));
     } finally {
         yield put(actions.cancelRejectingHighlight());
-        yield put(setSuccessMessage('Highlight successfully rejected'));
+        yield put(addNotification('Highlight successfully rejected'));
     }
 }
 
@@ -279,7 +292,7 @@ export function* deleteHighlight(api, action) {
         yield put(setErrorMessage('Error Deleting Highlight', error));
     } finally {
         yield put(actions.cancelDeletingHighlight());
-        yield put(setSuccessMessage('Highlight successfully deleted'));
+        yield put(addNotification('Highlight successfully deleted'));
     }
 }
 
@@ -306,7 +319,7 @@ export function* reapproveRejectedHighlight(api, action) {
         yield put(setErrorMessage('Error Reapproving Rejected Highlight', error));
     } finally {
         yield put(actions.cancelLoadingRejectedHighlights());
-        yield put(setSuccessMessage('Highlight successfully reapproved'));
+        yield put(addNotification('Highlight successfully reapproved'));
     }
 }
 
@@ -324,7 +337,7 @@ export function* submitExtraResults(api, action) {
         yield put(setErrorMessage('Error Submitting Extra Results', error));
     } finally {
         yield put(actions.cancelSubmittingExtraStats());
-        yield put(setSuccessMessage('Extra stats successfully submitted'));
+        yield put(addNotification('Extra stats successfully submitted'));
     }
 }
 
@@ -1000,6 +1013,7 @@ export default function* adminSaga() {
         takeEvery(actions.SET_HAS_PAID_SUBS_REQUEST, setHasPaidSubs, adminApi),
         takeEvery(actions.SUBMIT_CUSTOM_RESULTS, customSubmit, adminApi),
         takeEvery(actions.DELETE_FEATURE_REQUEST, deleteBug, adminApi),
+        takeEvery(actions.ADD_NOTIFICATION_REQUEST, addNotif, adminApi),
         takeEvery(actions.RECALCULATE_LEAGUE_POSITIONS_REQUEST, recalculateLeaguePositions,
             adminApi)
     ]);

@@ -33,23 +33,4 @@ describe('Error Handling reducer', () => {
             errorHeader: ''
         });
     });
-
-    it('set success message', () => {
-        const action = actions.setSuccessMessage('message');
-        expect(reducer(initialState, action)).toEqual({
-            ...initialState,
-            successMessage: 'message'
-        });
-    });
-
-    it('close success message', () => {
-        const action = actions.closeSuccessMessage();
-        expect(reducer({
-            ...initialState,
-            successMessage: 'success'
-        }, action)).toEqual({
-            ...initialState,
-            successMessage: ''
-        });
-    });
 });

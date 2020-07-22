@@ -88,7 +88,7 @@ describe('Profile saga', () => {
     //         .provide([
     //             [matchers.call.fn(api.linkFacebookAccount), throwError(error)]
     //         ])
-    //         .put(setErrorMessage(error))
+    //         .put(addNotification(error))
     //         .run({ silenceTimeout: true });;
     // });
 

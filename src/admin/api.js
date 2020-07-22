@@ -50,3 +50,5 @@ export const setHasPaidSubs = request => functionToCall('clubSubs-setHasPaidSubs
 
 export const recalculateLeaguePositions = request => functionToCall('league-calculatePositions')(request);
 export const deleteBug = request => functionToCall('features-deleteFeatureRequest')(request);
+
+export const addNotification = request => functionToCall('notification-addNotification')(request);

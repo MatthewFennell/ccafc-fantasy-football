@@ -7,7 +7,8 @@ import * as actions from './actions';
 import * as selectors from './selectors';
 import { fetchMaxGameWeekRequest } from '../overview/actions';
 import { signOut } from '../auth/actions';
-import { setErrorMessage, setSuccessMessage } from '../modalHandling/actions';
+import { setErrorMessage } from '../modalHandling/actions';
+import { addNotification } from '../notifications/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -110,7 +111,7 @@ describe('Admin saga', () => {
                 team: 'team',
                 previousScore: 0
             }))
-            .put(setSuccessMessage('Player successfully created'))
+            .put(addNotification('Player successfully created'))
             .put(actions.cancelCreatingPlayer())
             .run({ silenceTimeout: true });
     });
@@ -136,7 +137,7 @@ describe('Admin saga', () => {
             .put(actions.cancelCreatingTeam())
             .call(api.getAllTeams)
             .put(actions.fetchTeamsSuccess('all teams'))
-            .put(setSuccessMessage('Team successfully created'))
+            .put(addNotification('Team successfully created'))
             .put(actions.cancelCreatingTeam())
             .run({ silenceTimeout: true });
     });
@@ -202,7 +203,7 @@ describe('Admin saga', () => {
                 week: 3,
                 players: []
             }))
-            .put(setSuccessMessage('Result successfully submitted'))
+            .put(addNotification('Result successfully submitted'))
             .put(actions.cancelSubmittingResult())
             .run({ silenceTimeout: true });
     });
@@ -225,7 +226,7 @@ describe('Admin saga', () => {
             .call(api.deletePlayer, ({
                 playerId: 'playerId'
             }))
-            .put(setSuccessMessage('Player successfully deleted'))
+            .put(addNotification('Player successfully deleted'))
             .put(actions.cancelDeletingPlayer())
             .run({ silenceTimeout: true });
     });
@@ -252,7 +253,7 @@ describe('Admin saga', () => {
             .put(actions.deleteTeamSuccess())
             .call(api.getAllTeams)
             .put(actions.fetchTeamsSuccess('all teams'))
-            .put(setSuccessMessage('Team successfully deleted'))
+            .put(addNotification('Team successfully deleted'))
             .run({ silenceTimeout: true });
     });
 
@@ -276,7 +277,7 @@ describe('Admin saga', () => {
             }))
             .put(actions.cancelTriggeringWeek())
             .put(fetchMaxGameWeekRequest())
-            .put(setSuccessMessage('Week 8 successfully triggered'))
+            .put(addNotification('Week 8 successfully triggered'))
             .run({ silenceTimeout: true });
     });
 
@@ -328,7 +329,7 @@ describe('Admin saga', () => {
             }))
             .put(actions.fetchPlayerStatsSuccess('player stats'))
             .put(actions.cancelEditingPlayerStats())
-            .put(setSuccessMessage('Played successfully edited'))
+            .put(addNotification('Played successfully edited'))
             .run({ silenceTimeout: true });
     });
 
@@ -382,7 +383,7 @@ describe('Admin saga', () => {
             }))
             .call(api.getUsersWithExtraRoles)
             .put(actions.fetchUsersWithExtraRolesSuccess('extra roles'))
-            .put(setSuccessMessage('User role successfully added'))
+            .put(addNotification('User role successfully added'))
             .run({ silenceTimeout: true });
     });
 
@@ -408,7 +409,7 @@ describe('Admin saga', () => {
             }))
             .call(api.getUsersWithExtraRoles)
             .put(actions.fetchUsersWithExtraRolesSuccess('extra roles'))
-            .put(setSuccessMessage('User role successfully removed'))
+            .put(addNotification('User role successfully removed'))
             .run({ silenceTimeout: true });
     });
 
@@ -516,7 +517,7 @@ describe('Admin saga', () => {
                 highlightId: 'highlightId'
             }))
             .put(actions.approveHighlightSuccess('highlight'))
-            .put(setSuccessMessage('Highlight successfully approved'))
+            .put(addNotification('Highlight successfully approved'))
             .run({ silenceTimeout: true });
     });
 
@@ -540,7 +541,7 @@ describe('Admin saga', () => {
                 reason: 'reason'
             }))
             .put(actions.rejectHighlightSuccess('rejected highlight'))
-            .put(setSuccessMessage('Highlight successfully rejected'))
+            .put(addNotification('Highlight successfully rejected'))
             .run({ silenceTimeout: true });
     });
 
@@ -564,7 +565,7 @@ describe('Admin saga', () => {
                 reason: 'reason'
             }))
             .put(actions.deleteHighlightSuccess('deleted highlight'))
-            .put(setSuccessMessage('Highlight successfully deleted'))
+            .put(addNotification('Highlight successfully deleted'))
             .run({ silenceTimeout: true });
     });
 
@@ -616,7 +617,7 @@ describe('Admin saga', () => {
                 highlightId: 'hightlightId'
             }))
             .put(actions.reapproveRejectedHighlightSuccess('reapproved rejected highlight'))
-            .put(setSuccessMessage('Highlight successfully reapproved'))
+            .put(addNotification('Highlight successfully reapproved'))
             .run({ silenceTimeout: true });
     });
 
@@ -643,7 +644,7 @@ describe('Admin saga', () => {
                 penaltyMissed: 'penaltyMissed',
                 ownGoal: 'ownGoal'
             }))
-            .put(setSuccessMessage('Extra stats successfully submitted'))
+            .put(addNotification('Extra stats successfully submitted'))
             .put(actions.cancelSubmittingExtraStats())
             .run({ silenceTimeout: true });
     });

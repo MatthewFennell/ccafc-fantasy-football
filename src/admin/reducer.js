@@ -42,7 +42,9 @@ export const initialState = {
 
     isDeletingBug: false,
     bugIdToDelete: '',
-    isRollingOverToNextYear: false
+    isRollingOverToNextYear: false,
+
+    addingNotification: false
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -58,6 +60,12 @@ const adminReducer = (state = initialState, action) => {
     }
     case actions.SET_ROLLING_OVER_TO_NEXT_YEAR: {
         return fp.set('isRollingOverToNextYear', action.isRollingOver)(state);
+    }
+    case actions.ADD_NOTIFICATION_REQUEST: {
+        return fp.set('addingNotification', true)(state);
+    }
+    case actions.CANCEL_ADDING_NOTIFICATION: {
+        return fp.set('addingNotification', false)(state);
     }
     case actions.SET_BUG_ID_TO_DELETE: {
         return fp.set('bugIdToDelete', action.bugId)(state);

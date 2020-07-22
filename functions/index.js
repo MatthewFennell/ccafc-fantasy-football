@@ -26,6 +26,7 @@ exports.highlights = require('./src/highlights');
 exports.league = require('./src/league');
 exports.listeners = require('./src/listeners');
 exports.management = require('./src/management');
+exports.notification = require('./src/notification');
 exports.onDelete = require('./src/onDelete');
 exports.onSignUp = require('./src/onSignUp');
 exports.player = require('./src/player');

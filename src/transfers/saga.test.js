@@ -7,7 +7,8 @@ import * as sagas from './saga';
 import * as actions from './actions';
 import * as selectors from './selectors';
 import * as currentTeamActions from '../currentteam/actions';
-import { setErrorMessage, setSuccessMessage } from '../modalHandling/actions';
+import { setErrorMessage } from '../modalHandling/actions';
+import { addNotification } from '../notifications/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -159,7 +160,7 @@ describe('Transfers saga', () => {
                 userId: 'uid'
             }))
             .put(currentTeamActions.fetchActiveTeamSuccess('uid', ['players'], 'captain'))
-            .put(setSuccessMessage('Team successfully updated'))
+            .put(addNotification('Team successfully updated'))
             .put(actions.cancelFetchingOriginalTeam())
             .run({ silenceTimeout: true });
     });

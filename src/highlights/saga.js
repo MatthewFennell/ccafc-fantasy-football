@@ -4,7 +4,8 @@ import {
 import * as actions from './actions';
 import * as highlightsApi from './api';
 import * as selectors from './selectors';
-import { setErrorMessage, setSuccessMessage } from '../modalHandling/actions';
+import { setErrorMessage } from '../modalHandling/actions';
+import { addNotification } from '../notifications/actions';
 
 export function* submitHighlight(api, action) {
     try {
@@ -16,7 +17,7 @@ export function* submitHighlight(api, action) {
         yield put(setErrorMessage('Error Submitting Highlight', error));
     } finally {
         yield put(actions.cancelSubmittingHighlight());
-        yield put(setSuccessMessage('Highlight successfully submitted for approval'));
+        yield put(addNotification('Highlight successfully submitted for approval'));
     }
 }
 

@@ -152,7 +152,8 @@ exports.rollOverToNextYear = functions
                     userBatches[batchToTarget].update(docRef, {
                         remaining_budget: 100,
                         remaining_transfers: 0,
-                        total_points: 0
+                        total_points: 0,
+                        notifications: []
                     });
                     const leaguePointsRef = db.collection('leagues-points').doc();
                     userLeagueBatches[batchToTarget].set(leaguePointsRef, {

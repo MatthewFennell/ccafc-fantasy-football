@@ -4,7 +4,8 @@ import {
 import * as actions from './actions';
 import * as fixturesApi from './api';
 import * as selectors from './selectors';
-import { setErrorMessage, setSuccessMessage } from '../modalHandling/actions';
+import { setErrorMessage } from '../modalHandling/actions';
+import { addNotification } from '../notifications/actions';
 
 export function* fetchFixtures(api) {
     try {
@@ -28,7 +29,7 @@ export function* setMyTeam(api, action) {
         yield put(setErrorMessage('Error Setting Team', error));
     } finally {
         yield put(actions.cancelLoadingMyTeam());
-        yield put(setSuccessMessage('Team successfully set'));
+        yield put(addNotification('Team successfully set'));
     }
 }
 

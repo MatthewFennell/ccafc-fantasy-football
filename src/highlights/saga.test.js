@@ -5,7 +5,8 @@ import { noop } from 'lodash';
 import * as sagas from './saga';
 import * as actions from './actions';
 import * as selectors from './selectors';
-import { setErrorMessage, setSuccessMessage } from '../modalHandling/actions';
+import { setErrorMessage } from '../modalHandling/actions';
+import { addNotification } from '../notifications/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -47,7 +48,7 @@ describe('Highlights saga', () => {
                 title: 'title'
             }))
             .provide({ call: provideDelay })
-            .put(setSuccessMessage('Highlight successfully submitted for approval'))
+            .put(addNotification('Highlight successfully submitted for approval'))
             .put(actions.cancelSubmittingHighlight())
             .run({ silenceTimeout: true });
     });
