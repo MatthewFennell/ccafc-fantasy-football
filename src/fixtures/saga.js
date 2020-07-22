@@ -15,7 +15,7 @@ export function* fetchFixtures(api) {
             yield put(actions.fetchFixturesSuccess(fixtures));
         }
     } catch (error) {
-        yield put(setErrorMessage('Error Fetching Fixtures', error));
+        yield put(setErrorMessage('Error Fetching Fixtures. Is the Team Durham website down?', error));
     } finally {
         yield put(actions.cancelFetchingFixturesAndTeam());
     }
