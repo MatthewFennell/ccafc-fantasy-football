@@ -1,17 +1,22 @@
 import {
-    all, takeEvery, call
+    all, takeEvery, call, put
 } from 'redux-saga/effects';
 import { store } from 'react-notifications-component';
 import * as actions from './actions';
-import * as api from './api';
+import * as notificationsApi from './api';
 import * as constants from './constants';
+import { setErrorMessage } from '../modalHandling/actions';
 
 let notificationId = 0;
 
-export function* closeNotification(action) {
-    yield call(api.removeNotification, ({
-        notification: action.notification
-    }));
+export function* closeNotification(api, action) {
+    try {
+        yield call(api.removeNotification, ({
+            notification: action.notification
+        }));
+    } catch (error) {
+        yield put(setErrorMessage('Error Closing Notification', error));
+    }
 }
 
 export function addNotification(action) {
@@ -32,7 +37,7 @@ export function addNotification(action) {
 
 export default function* notificationsSaga() {
     yield all([
-        takeEvery(actions.CLOSE_NOTIFICATION, closeNotification),
+        takeEvery(actions.CLOSE_NOTIFICATION, closeNotification, notificationsApi),
         takeEvery(actions.ADD_NOTIFICATION, addNotification)
     ]);
 }
