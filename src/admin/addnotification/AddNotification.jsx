@@ -32,7 +32,11 @@ const AddNotification = props => {
                 />
             </div>
             <div className={props.styles.confirmNotification}>
-                <StyledButton text="Confirm Notification" onClick={confirmNotification} />
+                <StyledButton
+                    text="Confirm Notification"
+                    onClick={confirmNotification}
+                    disabled={props.addingNotification}
+                />
             </div>
             <div className={classNames({
                 [props.styles.hidden]: !props.addingNotification

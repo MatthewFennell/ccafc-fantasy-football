@@ -109,7 +109,7 @@ export const adminLinks = [
         addUserId: false,
         path: () => constants.URL.ADD_NOTIFICATIONS,
         urlIncludes: constants.URL.ADD_NOTIFICATIONS,
-        permissionRequired: constants.PERMISSIONS.MANAGE_SUBS // CHANGE THIS
+        permissionRequired: constants.PERMISSIONS.ADD_NOTIFICATIONS
     },
     {
         title: 'Toggle Pages',
