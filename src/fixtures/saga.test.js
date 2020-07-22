@@ -24,6 +24,9 @@ describe('Fixtures saga', () => {
         if (selector === selectors.getFixtures) {
             return fetched ? ['1', '2', '3'] : [];
         }
+        if (selector === selectors.getFetchedFixtures) {
+            return fetched;
+        }
         return next();
     };
 
@@ -47,7 +50,7 @@ describe('Fixtures saga', () => {
                 [matchers.call.fn(api.getFixtures), throwError(error)],
                 { select: alreadyFetchedInfo(false) }
             ])
-            .put(setErrorMessage('Error Fetching Fixtures', error))
+            .put(setErrorMessage('Error Fetching Fixtures. Is the Team Durham website down?', error))
             .put(actions.cancelFetchingFixturesAndTeam())
             .run({ silenceTimeout: true });
     });

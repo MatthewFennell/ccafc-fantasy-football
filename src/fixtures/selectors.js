@@ -1,2 +1,2 @@
-// eslint-disable-next-line import/prefer-default-export
 export const getFixtures = state => state.fixtures.fixtures;
+export const getFetchedFixtures = state => state.fixtures.fetchedFixtures;

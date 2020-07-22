@@ -47,11 +47,21 @@ describe('Points reducer', () => {
 
     it('set user details fetching', () => {
         const action = actions.setUserDetailsFetching('userId');
-        expect(reducer(initialState, action)).toEqual({
+        expect(reducer({
             ...initialState,
             userTeams: {
                 userId: {
                     details: {
+                        displayName: 'displayName'
+                    }
+                }
+            }
+        }, action)).toEqual({
+            ...initialState,
+            userTeams: {
+                userId: {
+                    details: {
+                        displayName: 'displayName',
                         fetching: true
                     }
                 }
@@ -66,6 +76,7 @@ describe('Points reducer', () => {
             userTeams: {
                 userId: {
                     details: {
+                        displayName: 'displayName',
                         fetching: true
                     }
                 }
@@ -75,6 +86,7 @@ describe('Points reducer', () => {
             userTeams: {
                 userId: {
                     details: {
+                        displayName: 'displayName',
                         fetching: false
                     }
                 }

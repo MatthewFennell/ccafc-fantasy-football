@@ -39,7 +39,8 @@ describe('Fixtures reducer', () => {
         }, action)).toEqual({
             ...initialState,
             loadingFixtures: false,
-            loadingMyTeam: false
+            loadingMyTeam: false,
+            fetchedFixtures: true
         });
     });
 

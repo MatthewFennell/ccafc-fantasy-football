@@ -17,14 +17,10 @@ const pointsReducer = (state = initialState, action) => {
         return fp.set(`userTeams.${action.userId}.week-${action.week}.fetching`, false)(state);
     }
     case actions.SET_USER_DETAILS_FETCHING: {
-        return fp.set(`userTeams.${action.userId}.details`, ({
-            fetching: true
-        }))(state);
+        return fp.set(`userTeams.${action.userId}.details.fetching`, true)(state);
     }
     case actions.CANCEL_FETCHING_USER_DETAILS: {
-        return fp.set(`userTeams.${action.userId}.details`, ({
-            fetching: false
-        }))(state);
+        return fp.set(`userTeams.${action.userId}.details.fetching`, false)(state);
     }
     case actions.SET_USER_DETAILS: {
         return fp.set(`userTeams.${action.userId}.details`, ({

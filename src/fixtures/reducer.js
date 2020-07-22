@@ -2,6 +2,7 @@ import fp from 'lodash/fp';
 import * as actions from './actions';
 
 export const initialState = {
+    fetchedFixtures: false,
     fixtures: [],
     loadingFixtures: false,
     loadingMyTeam: false,
@@ -34,7 +35,8 @@ const fixturesReducer = (state = initialState, action) => {
         return {
             ...state,
             loadingFixtures: false,
-            loadingMyTeam: false
+            loadingMyTeam: false,
+            fetchedFixtures: true
         };
     }
     default:

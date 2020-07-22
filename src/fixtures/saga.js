@@ -9,8 +9,8 @@ import { addNotification } from '../notifications/actions';
 
 export function* fetchFixtures(api) {
     try {
-        const currentFixtures = yield select(selectors.getFixtures);
-        if (currentFixtures && currentFixtures.length === 0) {
+        const alreadyFetchedFixtures = yield select(selectors.getFetchedFixtures);
+        if (!alreadyFetchedFixtures) {
             const fixtures = yield call(api.getFixtures);
             yield put(actions.fetchFixturesSuccess(fixtures));
         }
