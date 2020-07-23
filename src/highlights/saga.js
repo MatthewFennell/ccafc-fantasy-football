@@ -13,11 +13,11 @@ export function* submitHighlight(api, action) {
             videoId: action.videoId,
             title: action.title
         });
+        yield put(addNotification('Highlight successfully submitted for approval'));
     } catch (error) {
         yield put(setErrorMessage('Error Submitting Highlight', error));
     } finally {
         yield put(actions.cancelSubmittingHighlight());
-        yield put(addNotification('Highlight successfully submitted for approval'));
     }
 }
 

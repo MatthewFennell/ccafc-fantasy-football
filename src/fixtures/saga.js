@@ -25,11 +25,11 @@ export function* setMyTeam(api, action) {
     try {
         yield call(api.setMyTeam, { team: action.team });
         yield put(actions.setMyTeam(action.team));
+        yield put(addNotification('Team successfully set'));
     } catch (error) {
         yield put(setErrorMessage('Error Setting Team', error));
     } finally {
         yield put(actions.cancelLoadingMyTeam());
-        yield put(addNotification('Team successfully set'));
     }
 }
 

@@ -28,10 +28,10 @@ export function* makeCaptain(api, action) {
     try {
         yield call(api.makeCaptain, { playerId: action.playerId });
         yield put(actions.reloadActiveTeamRequest(firebase.auth().currentUser.uid));
+        yield put(addNotification('Captain successfully set'));
     } catch (error) {
         yield put(setErrorMessage('Error Making Player Captain', error));
     } finally {
-        yield put(addNotification('Captain successfully set'));
         yield put(actions.setPlayerModalOpen(false));
         yield put(actions.setCaptainToUpdate(''));
         yield put(actions.setUpdatingCaptain(false));

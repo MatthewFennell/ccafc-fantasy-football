@@ -70,7 +70,7 @@ describe('Feature requests saga', () => {
             .run({ silenceTimeout: true });
     });
 
-    it('submit feature', () => {
+    it('submit Bug', () => {
         const action = actions.submitFeatureRequest('description', true);
         return expectSaga(sagas.submitFeature, api, action)
             .provide({ call: provideDelay })
@@ -78,7 +78,7 @@ describe('Feature requests saga', () => {
                 description: 'description',
                 isBug: true
             }))
-            .put(addNotification('Feature submitted successfully'))
+            .put(addNotification('Bug submitted successfully'))
             .put(actions.cancelAddingFeatureRequest())
             .run({ silenceTimeout: true });
     });

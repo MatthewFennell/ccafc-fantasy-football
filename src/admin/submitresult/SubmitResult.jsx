@@ -179,7 +179,13 @@ const SubmitResult = props => {
     return (
         <>
             <div className={props.styles.submitResultWrapper}>
-                <StyledButton text="Custom submit" onClick={() => props.submitCustumResults(gameWeek)} disabled={!gameWeek} />
+                {(!process.env.NODE_ENV || process.env.NODE_ENV === 'development') && (
+                    <StyledButton
+                        text="Custom submit"
+                        onClick={() => props.submitCustumResults(gameWeek)}
+                        disabled={!gameWeek}
+                    />
+                )}
                 <div className={props.styles.submitButtonWrapper}>
                     <StyledButton
                         color="primary"
@@ -218,7 +224,7 @@ const SubmitResult = props => {
                     />
                 </div>
                 <LoadingDiv
-                    isLoading={props.isFetchingPlayersForTeam && teamName}
+                    isLoading={Boolean(props.isFetchingPlayersForTeam && teamName)}
                     isFitContent
                     isBorderRadius
                 >

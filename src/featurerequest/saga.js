@@ -42,7 +42,7 @@ export function* submitFeature(api, action) {
             description: action.description,
             isBug: action.isBug
         });
-        yield put(addNotification('Feature submitted successfully'));
+        yield put(addNotification(`${action.isBug ? 'Bug' : 'Feature'} submitted successfully`));
     } catch (error) {
         yield put(setErrorMessage('Error Submitting Feature Request', error));
     } finally {
