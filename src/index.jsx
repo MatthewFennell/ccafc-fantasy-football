@@ -28,11 +28,13 @@ const rrfConfig = {
 
 const sagaMiddleware = createSagaMiddleware();
 
+const isDevelopment = (!process.env.NODE_ENV || process.env.NODE_ENV === 'development');
+
 const enhancers = compose(
     applyMiddleware(routerMiddleware(history), sagaMiddleware),
-    window.__REDUX_DEVTOOLS_EXTENSION__
+    isDevelopment && (window.__REDUX_DEVTOOLS_EXTENSION__
         ? window.__REDUX_DEVTOOLS_EXTENSION__()
-        : f => f
+        : f => f)
 );
 
 const store = createStore(createRootReducer(history), enhancers);

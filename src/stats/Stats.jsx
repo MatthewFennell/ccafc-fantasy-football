@@ -23,7 +23,7 @@ const Stats = props => {
     }, [props.fetchTeamsRequest]);
 
     useEffect(() => {
-        if (props.currentTeam !== 'none') {
+        if (props.currentTeam !== 'none' && props.currentTeam !== 'undefined') {
             const weeksToFetch = weeksToRequest(props.minWeek, props.maxWeek, props.weeksFetched);
             weeksToFetch.forEach(x => {
                 props.fetchTeamStatsByWeekRequest(props.currentTeam, x.min, x.max);

@@ -82,7 +82,6 @@ TheCup.propTypes = {
     auth: PropTypes.shape({
         uid: PropTypes.string
     }),
-    closeCupError: PropTypes.func.isRequired,
     cup: PropTypes.shape({
         displayNameMappings: PropTypes.shape({ }),
         hasFinished: PropTypes.bool,

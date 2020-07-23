@@ -59,11 +59,11 @@ export function* updateTeam(api) {
         const activeTeam = yield call(api.fetchActiveTeam, { userId: myId });
         yield put(currentTeamActions.fetchActiveTeamSuccess(myId,
             activeTeam.players, activeTeam.captain));
+        yield put(addNotification('Team successfully updated'));
     } catch (error) {
         yield put(setErrorMessage('Error Updating Team', error));
     } finally {
         yield put(actions.cancelFetchingOriginalTeam());
-        yield put(addNotification('Team successfully updated'));
     }
 }
 
