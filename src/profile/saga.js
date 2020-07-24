@@ -6,11 +6,13 @@ import * as actions from './actions';
 import * as profileApi from './api';
 import { signOut } from '../auth/actions';
 import { setErrorMessage } from '../modalHandling/actions';
+import { addNotification } from '../notifications/actions';
 
 export function* linkProfileToGoogle() {
     try {
         const provider = new firebase.auth.GoogleAuthProvider();
         yield firebase.auth().currentUser.linkWithPopup(provider);
+        yield put(addNotification('Profile Successfully linked to Google'));
     } catch (error) {
         yield put(setErrorMessage(`Error Linking Email To Google - ${error.email}`, error));
     }
@@ -21,6 +23,7 @@ export function* linkProfileToFacebook(api) {
         const provider = new firebase.auth.FacebookAuthProvider();
         yield firebase.auth().currentUser.linkWithPopup(provider);
         yield call(api.linkFacebookAccount);
+        yield put(addNotification('Profile Successfully linked to Facebook'));
     } catch (error) {
         yield put(setErrorMessage, `Error Linking Email To Facebook - ${error.email}`, error);
     }
@@ -30,6 +33,7 @@ export function* updateDisplayName(api, action) {
     try {
         yield call(api.updateDisplayName, { displayName: action.displayName });
         yield put(actions.updateDisplayNameSuccess());
+        yield put(addNotification('Display Name successfully updated'));
     } catch (error) {
         yield put(setErrorMessage('Error Updating Display Name', error));
     } finally {
@@ -40,6 +44,7 @@ export function* updateDisplayName(api, action) {
 export function* updateTeamName(api, action) {
     try {
         yield call(api.updateTeamName, { teamName: action.teamName });
+        yield put(addNotification('Team Name successfully updated'));
     } catch (error) {
         yield put(setErrorMessage('Error Updating Team Name', error));
     } finally {
@@ -70,6 +75,7 @@ export function* updateProfilePicture(api, action) {
         }));
         const userId = firebase.auth().currentUser.uid;
         yield put(actions.updateProfilePictureSuccess(action.photoUrl, userId));
+        yield put(addNotification('Profile picture successfully updated'));
     } catch (error) {
         yield put(setErrorMessage('Error Updating Profile Picture', error));
     } finally {

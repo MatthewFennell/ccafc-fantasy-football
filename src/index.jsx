@@ -30,11 +30,13 @@ const sagaMiddleware = createSagaMiddleware();
 
 const isDevelopment = (!process.env.NODE_ENV || process.env.NODE_ENV === 'development');
 
-const enhancers = compose(
+const enhancers = isDevelopment ? compose(
     applyMiddleware(routerMiddleware(history), sagaMiddleware),
-    isDevelopment && (window.__REDUX_DEVTOOLS_EXTENSION__
+    (window.__REDUX_DEVTOOLS_EXTENSION__
         ? window.__REDUX_DEVTOOLS_EXTENSION__()
         : f => f)
+) : compose(
+    applyMiddleware(routerMiddleware(history), sagaMiddleware)
 );
 
 const store = createStore(createRootReducer(history), enhancers);
