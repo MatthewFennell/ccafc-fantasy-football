@@ -44,7 +44,7 @@ export function* createPlayer(api, action) {
             team: action.team,
             previousScore: action.previousScore
         });
-        yield put(addNotification('Player successfully created'));
+        yield put(addNotification(`Player successfully created (${action.name})`));
     } catch (error) {
         yield put(setErrorMessage('Error Creating Player', error));
     } finally {

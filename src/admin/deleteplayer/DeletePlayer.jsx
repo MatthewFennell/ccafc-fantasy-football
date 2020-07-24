@@ -60,7 +60,6 @@ const DeletePlayer = props => {
                         />
                         <LoadingDiv
                             isLoading={props.isFetchingPlayersForTeam}
-                            isPadding
                             isBorderRadius
                         >
                             <Dropdown

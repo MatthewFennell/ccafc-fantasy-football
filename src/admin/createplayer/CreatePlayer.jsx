@@ -11,7 +11,6 @@ import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
 import TextInput from '../../common/TextInput/TextInput';
 import * as textInputConstants from '../../common/TextInput/constants';
-import Switch from '../../common/Switch/Switch';
 
 const options = [
     { value: 'GOALKEEPER', text: 'Goalkeeper', id: 'GOALKEEPER' },
@@ -38,12 +37,6 @@ const CreatePlayer = props => {
         // eslint-disable-next-line
     }, [playerName, playerPrice, playerPosition, playerTeam,
         props.createPlayerRequest, previousScore]);
-
-    const [suppressPopup, setSuppressPopup] = useState(false);
-
-    const toggleSuppressPopup = useCallback(() => {
-        setSuppressPopup(!suppressPopup);
-    }, [suppressPopup, setSuppressPopup]);
 
     return (
         <>
@@ -92,15 +85,6 @@ const CreatePlayer = props => {
                 })}
                 >
                     <Spinner color="secondary" />
-                </div>
-                <div className={props.styles.suppressPopupWrapper}>
-                    <div className={props.styles.suppressMessage}>
-                        Suppress popup
-                    </div>
-                    <Switch
-                        onChange={toggleSuppressPopup}
-                        checked={suppressPopup}
-                    />
                 </div>
             </div>
         </>

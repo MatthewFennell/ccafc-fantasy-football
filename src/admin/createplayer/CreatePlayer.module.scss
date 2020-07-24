@@ -36,18 +36,6 @@
 }
 
 
-
-.suppressPopupWrapper {
-  display: flex;
-  justify-content: center;
-}
-
-.suppressMessage {
-  color: $color-gray;
-  font-weight: bold;
-  @include vertical-center-div();
-}
-
 @media only screen and (max-width: 600px) { 
   .createPlayerWrapper {
     width: 100%;
