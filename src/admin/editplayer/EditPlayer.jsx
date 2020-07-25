@@ -381,7 +381,9 @@ const EditPlayer = props => {
                         color="primary"
                         onClick={editPlayer}
                         text="Edit Stats"
-                        disabled={!playerTeam || !playerToEdit || !week}
+                        disabled={!playerTeam || !playerToEdit || !week
+                            || props.fetchingPlayerStats
+                            || props.editingStats}
                     />
                 </div>
             </div>
