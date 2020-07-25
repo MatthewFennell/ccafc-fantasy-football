@@ -111,7 +111,7 @@ describe('Admin saga', () => {
                 team: 'team',
                 previousScore: 0
             }))
-            .put(addNotification('Player successfully created'))
+            .put(addNotification('Player successfully created (name)'))
             .put(actions.cancelCreatingPlayer())
             .run({ silenceTimeout: true });
     });
