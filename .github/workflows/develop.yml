@@ -32,29 +32,29 @@ jobs:
           echo 'REACT_APP_MEASUREMENT_ID=${{ secrets.FIREBASE_MEASUREMENT_ID_DEV }}' >> .env.production
           echo 'REACT_APP_CONFIRMATION_EMAIL_REDIRECT=${{ secrets.EMAIL_REDIRECT_DEV }}' >> .env.production
 
-    - name: Build
-      run: 
-        npm run build
-      env:
-        CI: true
+    # - name: Build
+    #   run: 
+    #     npm run build
+    #   env:
+    #     CI: true
 
-    - name: Lint
-      run:
-        npm run lint
-      env:
-        CI: true
+    # - name: Lint
+    #   run:
+    #     npm run lint
+    #   env:
+    #     CI: true
 
-    - name: Testing
-      run:
-        npm test
-      env:
-        CI: true
+    # - name: Testing
+    #   run:
+    #     npm test
+    #   env:
+    #     CI: true
 
-    - name: Archive Production Artifact
-      uses: actions/upload-artifact@master
-      with:
-        name: build
-        path: build
+    # - name: Archive Production Artifact
+    #   uses: actions/upload-artifact@master
+    #   with:
+    #     name: build
+    #     path: build
 
   deploy:
     name: Deploy
@@ -90,18 +90,18 @@ jobs:
         npx firebase deploy --only hosting
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-    - name: Deploy Firebase Security Rules
-      run: |
-        npm ci
-        npx firebase use ccafc-fantasy-football-dev
-        npx firebase deploy --only firestore:rules
-      env:
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-    - name: Deploy Firebase Indexes
-      run: |
-        npm ci
-        npx firebase use ccafc-fantasy-football-dev
-        npx firebase deploy --only firestore:indexes
-      env:
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+    # - name: Deploy Firebase Security Rules
+    #   run: |
+    #     npm ci
+    #     npx firebase use ccafc-fantasy-football-dev
+    #     npx firebase deploy --only firestore:rules
+    #   env:
+    #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+    # - name: Deploy Firebase Indexes
+    #   run: |
+    #     npm ci
+    #     npx firebase use ccafc-fantasy-football-dev
+    #     npx firebase deploy --only firestore:indexes
+    #   env:
+    #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
