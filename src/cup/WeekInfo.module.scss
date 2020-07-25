@@ -5,6 +5,7 @@
     background-color: $color-white;
     text-align: center;
     @include light-box-shadow();
+    border-radius: $spacing-tiny;
 }
 
 .byesHeader, .matchupsHeader {

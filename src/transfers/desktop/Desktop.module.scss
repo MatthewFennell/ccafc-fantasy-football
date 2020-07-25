@@ -15,6 +15,7 @@
     background-color: $color-white;
     @include light-box-shadow();
     min-height: 100vh;
+    border-radius: $spacing-tiny;
 }
 
 .transfersHeader{

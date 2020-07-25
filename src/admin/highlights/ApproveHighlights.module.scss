@@ -9,6 +9,7 @@
   margin: $spacing-medium;
   background-color: $color-white;
   @include light-box-shadow();
+  border-radius: $spacing-tiny;
 }
 
 .highlightsHeaderMessage{
@@ -79,6 +80,7 @@
   margin: $spacing-medium;
   background-color: $color-white;
   @include light-box-shadow();
+  border-radius: $spacing-tiny;
 }
 
 .deleteIcon{

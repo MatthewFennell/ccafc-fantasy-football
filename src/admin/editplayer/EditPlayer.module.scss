@@ -8,6 +8,7 @@
   margin: $spacing-medium;
   background-color: $color-white;
   flex-wrap: wrap;
+  border-radius: $spacing-tiny;
   > div { 
     justify-content: center;
     text-align: center;
@@ -27,6 +28,7 @@
   margin: $spacing-medium;
   background-color: $color-white;
   flex-wrap: wrap;
+  border-radius: $spacing-tiny;
 
   .buttonWrapper{
     margin-top: $spacing-small;

@@ -27,6 +27,7 @@
     @include light-box-shadow();
     display: flex;
     flex-wrap: wrap;
+    border-radius: $spacing-small;
     > div {
         flex-grow: 1;
     }

@@ -36,6 +36,7 @@ const WeekInfo = props => {
                 </div>
             )}
             isBigSideMargins
+            isBorderRadiusTiny
         >
             <div className={props.styles.weekInfoWrapper}>
                 {props.byes.length > 0 && (

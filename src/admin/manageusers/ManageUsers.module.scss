@@ -3,6 +3,7 @@
 .extraRolesWrapper, .rolesToPermissionsWrapper, .clearDatabaseWrapper {
   margin: $spacing-large;
   @include light-box-shadow();
+  border-radius: $spacing-tiny;
 }
 
 .manageUserGridHeaderWrapper{

@@ -158,6 +158,7 @@ const Overview = props => {
                                     Rules and Settings
                                 </div>
                             )}
+                            isBorderRadiusSmall
                         >
                             {matches.mobile && (
                                 <div className={props.styles.desktopRulesWrapper}>

@@ -11,6 +11,7 @@
 }
 
 .tableWrapper{
+    border-radius: $spacing-tiny;
     margin: $spacing-small;
     background-color: $color-white;
     @include light-box-shadow();

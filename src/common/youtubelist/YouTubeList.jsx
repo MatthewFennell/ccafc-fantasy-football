@@ -29,21 +29,23 @@ const YouTubeList = props => (
                             className={props.styles.videoWrapper}
                             key={video.id}
                         >
-                            <FadingCollapsable title={(
-                                <YouTubeItemClosed
-                                    authId={props.authId}
-                                    author={video.displayName}
-                                    date={generateTime(video.dateCreated)}
-                                    downvoteHighlightRequest={props
-                                        .downvoteHighlightRequest}
-                                    isBeingVotedOn={props.highlightBeingVotedOn === video.id}
-                                    title={video.title}
-                                    upvote={props.upvote}
-                                    upvoteHighlightRequest={props.upvoteHighlightRequest}
-                                    video={video}
-                                    votingPage={props.votingPage}
-                                />
-                            )}
+                            <FadingCollapsable
+                                title={(
+                                    <YouTubeItemClosed
+                                        authId={props.authId}
+                                        author={video.displayName}
+                                        date={generateTime(video.dateCreated)}
+                                        downvoteHighlightRequest={props
+                                            .downvoteHighlightRequest}
+                                        isBeingVotedOn={props.highlightBeingVotedOn === video.id}
+                                        title={video.title}
+                                        upvote={props.upvote}
+                                        upvoteHighlightRequest={props.upvoteHighlightRequest}
+                                        video={video}
+                                        votingPage={props.votingPage}
+                                    />
+                                )}
+                                isBorderRadiusTiny
                             >
                                 <YouTubeItemOpen
                                     addNewComment={props.addNewComment(video.id)}

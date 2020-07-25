@@ -26,6 +26,7 @@ const Charts = props => {
             <FadingCollapsable
                 isBigSideMargins
                 isNoPhoneMargin
+                isBorderRadiusTiny
                 title={(
                     <div className={props.styles.titleMessage}>
                         Graphs (Click to expand)
@@ -42,6 +43,7 @@ const Charts = props => {
                 <FadingCollapsable
                     isBigSideMargins
                     isNoPhoneMargin
+                    isBorderRadiusTiny
                     title={(
                         <div className={props.styles.titleMessage}>
                             League table (Click to expand)

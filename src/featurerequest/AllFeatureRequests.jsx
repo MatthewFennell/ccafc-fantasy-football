@@ -90,6 +90,7 @@ const AllFeatureRequests = props => {
                     <div className={props.styles.featureWrapper} key={x.id}>
                         <FadingCollapsable
                             isSideMargins
+                            isBorderRadiusTiny
                             title={<div className={props.styles.featureTitle}>{`Feature Request by ${x.displayName}`}</div>}
                         >
                             <FeatureRequest
