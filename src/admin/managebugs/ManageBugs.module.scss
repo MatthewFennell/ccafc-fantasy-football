@@ -19,10 +19,9 @@
 }
 
 @media only screen and (max-width: 600px) { 
-    
-.listOfBugs {
-    > div {
-        width: 80%;
+    .listOfBugs {
+        > div {
+            width: 80%;
+        }
     }
-}
 }
