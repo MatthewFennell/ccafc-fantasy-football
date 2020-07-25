@@ -90,9 +90,11 @@
     }
 
     .featuresWrapper {
+        margin-bottom: $spacing-medium;
         > div {
             max-width: 100%;
             width: 100%;
         }
     }
+    
 }

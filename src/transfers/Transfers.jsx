@@ -44,11 +44,11 @@ const Transfers = props => {
     const [searchByName, setSearchByName] = useState('');
     const [pointsFilter, setPointsFilter] = useState('Desc');
     const [teamFilter, setTeamFilter] = useState('');
-    const [goalFilter, setGoalFilter] = useState('Asc');
-    const [assistsFilter, setAssistsFilter] = useState('Asc');
+    const [goalFilter, setGoalFilter] = useState('Desc');
+    const [assistsFilter, setAssistsFilter] = useState('Desc');
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(20);
-    const [priceFilter, setPriceFilter] = useState('Asc');
+    const [priceFilter, setPriceFilter] = useState('Desc');
     const [previousScoreFilter, setPreviousScoreFilter] = useState('Desc');
     const [myColumns, setMyColumns] = useState(getColumns(() => setColumnModalOpen(true)));
     const [isAscendingSort, setIsAscendingSort] = useState(false);
