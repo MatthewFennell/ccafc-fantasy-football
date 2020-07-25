@@ -32,11 +32,11 @@ jobs:
           echo 'REACT_APP_MEASUREMENT_ID=${{ secrets.FIREBASE_MEASUREMENT_ID_DEV }}' >> .env.production
           echo 'REACT_APP_CONFIRMATION_EMAIL_REDIRECT=${{ secrets.EMAIL_REDIRECT_DEV }}' >> .env.production
 
-    # - name: Build
-    #   run: 
-    #     npm run build
-    #   env:
-    #     CI: true
+    - name: Build
+      run: 
+        npm run build
+      env:
+        CI: true
 
     # - name: Lint
     #   run:
