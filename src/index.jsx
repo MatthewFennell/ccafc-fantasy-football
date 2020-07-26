@@ -61,9 +61,4 @@ ReactDOM.render(
     document.getElementById('root')
 );
 
-// serviceWorker.register();
-
-serviceWorker.register({
-    onSuccess: () => store.dispatch({ type: 'SW_INIT' }),
-    onUpdate: reg => console.log('updated', reg)
-});
+serviceWorker.register();
