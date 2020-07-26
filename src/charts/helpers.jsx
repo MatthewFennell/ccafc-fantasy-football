@@ -55,12 +55,10 @@ const generateAccumulation = (team, maxWeek) => {
     return result;
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export const findGraphData = (allTeams, activeTeams, graphMode, maxGameweek) => {
     const includedTeams = allTeams.filter(team => activeTeams.includes(team.id));
 
     const output = [];
-
 
     const accumulation = fp.flow(
         allTeams.map(x => fp.set(x.id, generateAccumulation(x, maxGameweek)))
@@ -468,7 +466,6 @@ export const makeGraphAccumulation = (prevAcc, fixtures, allDays, activeTeams) =
         ...acc,
         [cur]: makeTeamAccumulation(fixtures, cur, firstSat, lastSat)
     }), {});
-
 
     const allAccumulations = fp.merge(newAccumulations)(prevAcc);
 

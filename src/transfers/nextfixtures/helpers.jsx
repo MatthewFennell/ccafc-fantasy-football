@@ -1,7 +1,6 @@
 import React from 'react';
 import * as collegeIcons from './collegeicons/icons';
 
-// eslint-disable-next-line import/prefer-default-export
 export const renderCollegeIcon = (collegeName, styles) => {
     if (collegeName.includes('Collingwood')) {
         return <img src={collegeIcons.collingwood} className={styles.collegeIcon} alt="collegeCrest" />;

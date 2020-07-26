@@ -1,5 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-// eslint-disable-next-line import/prefer-default-export
 export const dateFilters = {
     pastDay: {
         label: 'Past 24 hours',
