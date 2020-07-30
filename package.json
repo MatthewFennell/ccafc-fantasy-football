@@ -97,7 +97,11 @@
       "!src/rootReducer.js",
       "!src/rootSaga.js",
       "!src/routes.jsx",
-      "!src/serviceWorker.js"
+      "!src/serviceWorker.js",
+      "!src/config/fbConfig.js",
+      "!src/api/api.js",
+      "!src/transfers/nextfixtures/helpers.jsx",
+      "!src/notifications/saga.js"
     ]
   }
 }

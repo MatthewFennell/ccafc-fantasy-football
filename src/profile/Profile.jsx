@@ -86,30 +86,6 @@ const Profile = props => {
                     />
                 </LoadingDiv>
             </div>
-
-            {/* {TO:DO CHANGE THIS} */}
-            {/* <SuccessModal
-                backdrop
-                closeModal={props.closeAccountLinkError}
-                error
-                isOpen={props.linkAccountErrorMessage.length > 0}
-                headerMessage="Account Linking Error"
-                toggleModal={props.closeAccountLinkError}
-            >
-                <div className={props.styles.modalWrapper}>
-                    <div>
-                        {`Code: ${props.linkAccountErrorCode}`}
-                    </div>
-                    <div>
-                        {`Message: ${props.linkAccountErrorMessage}`}
-                    </div>
-                    {props.attemptedEmailToLink && (
-                        <div>
-                            {`Attempted Email: ${props.attemptedEmailToLink}`}
-                        </div>
-                    )}
-                </div>
-            </SuccessModal> */}
             <SuccessModal
                 backdrop
                 closeModal={closeModal}

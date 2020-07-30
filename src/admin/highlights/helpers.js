@@ -7,7 +7,7 @@ export const dateFilters = {
             const date = new Date(d.dateCreated._seconds * 1000);
             const yesterday = new Date();
             yesterday.setDate(yesterday.getDate() - 1);
-            return date < yesterday;
+            return date > yesterday;
         }
     },
     pastWeek: {
@@ -17,7 +17,7 @@ export const dateFilters = {
             const date = new Date(d.dateCreated._seconds * 1000);
             const lastWeek = new Date();
             lastWeek.setDate(lastWeek.getDate() - 7);
-            return date < lastWeek;
+            return date > lastWeek;
         }
     },
     pastMonth: {
@@ -27,7 +27,7 @@ export const dateFilters = {
             const date = new Date(d.dateCreated._seconds * 1000);
             const lastMonth = new Date();
             lastMonth.setMonth(lastMonth.getMonth() - 1);
-            return date < lastMonth;
+            return date > lastMonth;
         }
     },
     pastYear: {
@@ -37,7 +37,7 @@ export const dateFilters = {
             const date = new Date(d.dateCreated._seconds * 1000);
             const lastYear = new Date();
             lastYear.setFullYear(lastYear.getFullYear() - 1);
-            return date < lastYear;
+            return date > lastYear;
         }
     },
     allTime: {
@@ -48,8 +48,8 @@ export const dateFilters = {
 };
 
 const filterBySearch = (videos, searchFilter) => videos
-    .filter(x => x.email.includes(searchFilter)
-    || x.title.toLowerCase().includes(searchFilter.toLowerCase()));
+    .filter(x => (x.email && x.email.includes(searchFilter))
+    || (x.title && x.title.toLowerCase().includes(searchFilter.toLowerCase())));
 
 export const filterByDate = (filter, videos, searchFilter) => {
     const { filterFunction } = Object.values(dateFilters).find(x => x.id === filter);

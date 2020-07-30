@@ -6,32 +6,35 @@ import StyledButton from '../common/StyledButton/StyledButton';
 import defaultStyles from './styles/LeagueForm.module.scss';
 import TextInput from '../common/TextInput/TextInput';
 
-const CreateLeague = props => (
-    <div className={props.styles.createLeagueWrapper}>
-        <div className={props.styles.textInputsWrapper}>
-            <TextInput
-                label="League Name"
-                onChange={props.setLeagueName}
-                styles={inputOverrideStyles}
-                value={props.leagueName}
-            />
-            <TextInput
-                label="Start Week"
-                onChange={props.setStartWeek}
-                styles={inputOverrideStyles}
-                type="number"
-                value={props.startWeek.toString()}
+const CreateLeague = props => {
+    console.log('here', props.leagueName);
+    return (
+        <div className={props.styles.createLeagueWrapper}>
+            <div className={props.styles.textInputsWrapper}>
+                <TextInput
+                    label="League Name"
+                    onChange={props.setLeagueName}
+                    styles={inputOverrideStyles}
+                    value={props.leagueName}
+                />
+                <TextInput
+                    label="Start Week"
+                    onChange={props.setStartWeek}
+                    styles={inputOverrideStyles}
+                    type="number"
+                    value={props.startWeek.toString()}
+                />
+            </div>
+            <StyledButton
+                color="primary"
+                onClick={props.onCreate}
+                text="Create"
+                type="submit"
+                disabled={!props.leagueName}
             />
         </div>
-        <StyledButton
-            color="primary"
-            onClick={props.onCreate}
-            text="Create"
-            type="submit"
-            disabled={!props.leagueName}
-        />
-    </div>
-);
+    );
+};
 
 CreateLeague.defaultProps = {
     leagueName: '',

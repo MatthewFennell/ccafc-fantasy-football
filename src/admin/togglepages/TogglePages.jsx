@@ -8,9 +8,10 @@ import * as routes from '../../routes';
 import defaultStyles from './TogglePages.module.scss';
 import Switch from '../../common/Switch/Switch';
 import { editDisabledPageRequest } from '../../auth/actions';
+import * as constants from '../../constants';
 import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
 
-const getDisabledPages = appInfo => _.head(_.map(appInfo, value => (value.disabledPages)));
+const getDisabledPages = appInfo => _.get(appInfo, [constants.APPLICATION_INFO_ID, 'disabledPages']) || [];
 
 const TogglePages = props => (
     <div className={props.styles.togglePagesWrapper}>
@@ -76,5 +77,9 @@ export default compose(
         }
     ])
 )(TogglePages);
+
+const connected = connect(mapStateToProps, mapDispatchToProps)(TogglePages);
+
+export { connected as TogglePagesConnected };
 
 export { TogglePages as TogglePagesUnconnected };

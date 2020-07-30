@@ -28,6 +28,8 @@ const WeekInfo = props => {
     const numByesColumns = 2;
     const byesColumns = generateByesColumns(props.byes, numByesColumns);
 
+    console.log('pairings', props.pairings);
+
     return (
         <FadingCollapsable
             title={(
@@ -110,7 +112,7 @@ WeekInfo.defaultProps = {
     auth: {
         uid: ''
     },
-    byes: PropTypes.arrayOf(PropTypes.string),
+    byes: [],
     displayNameMappings: {},
     isFinalWeek: false,
     pairings: [],

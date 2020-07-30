@@ -42,6 +42,7 @@ const Leagues = props => {
     }, [setStartWeek]);
 
     const onLeagueCreate = useCallback(() => {
+        console.log('on league create');
         setCreateLeagueOpen(false);
         props.createLeagueRequest(leagueName, parseFloat(startWeek, 10));
         setLeagueName('');

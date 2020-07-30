@@ -15,7 +15,10 @@ export const getFetchedAllUsersInLeague = (state, leagueId) => fp.flow(
     fp.get('fetchedAll')
 )(state.leagues.usersInLeague);
 
-export const getCurrentLeagueProperty = (state, props, property) => fp.flow(
-    fp.get(getLeagueId(props)),
-    fp.get(property)
-)(state.leagues.usersInLeague);
+export const getCurrentLeagueProperty = (state, props, property) => {
+    console.log('props', props);
+    return fp.flow(
+        fp.get(getLeagueId(props)),
+        fp.get(property)
+    )(state.leagues.usersInLeague);
+};

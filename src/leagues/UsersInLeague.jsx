@@ -191,3 +191,5 @@ UsersInLeague.propTypes = {
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UsersInLeague));
+
+export { UsersInLeague as UsersInLeagueUnconnected };
