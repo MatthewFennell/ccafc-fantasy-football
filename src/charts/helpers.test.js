@@ -1,5 +1,6 @@
 import * as helpers from './helpers';
 import * as testData from './testData';
+import { fixtures } from '../test/fixtures';
 
 const allTeams = [
     {
@@ -250,209 +251,6 @@ const edgeCase = [
     }
 ];
 
-const listOfFixtures = [
-    {
-        teamOne: 'Collingwood D',
-        result: '1 - 2',
-        teamTwo: 'St. Aidan\'s A',
-        location: 'Rubber Crumb 1 (Old)',
-        time: '12/10/2019 10:45',
-        completed: true,
-        league: 'Premiership',
-        isCup: false
-    },
-    {
-        teamOne: 'Staff A',
-        result: '1 - 8',
-        teamTwo: 'Grey A',
-        location: 'Rubber Crumb 3 (Track)',
-        time: '12/10/2019 15:00',
-        completed: true,
-        league: 'Premiership',
-        isCup: false
-    },
-    {
-        teamOne: 'Josephine Butler A',
-        result: '0 - 5',
-        teamTwo: 'Collingwood A',
-        location: 'Rubber Crumb 1 (Old)',
-        time: '12/10/2019 16:45',
-        completed: true,
-        league: 'Premiership',
-        isCup: false
-    },
-    {
-        teamOne: 'Collingwood C',
-        result: '6 - 1',
-        teamTwo: 'St. Cuthbert\'s A',
-        location: 'Rubber Crumb 3 (Track)',
-        time: '12/10/2019 18:30',
-        completed: true,
-        league: 'Premiership',
-        isCup: false
-    },
-    {
-        teamOne: 'Van Mildert A',
-        result: '2 - 2',
-        teamTwo: 'Hatfield A',
-        location: 'Rubber Crumb 3 (Track)',
-        time: '13/10/2019 18:30',
-        completed: true,
-        league: 'Premiership',
-        isCup: false
-    },
-    {
-        teamOne: 'Collingwood A',
-        result: '4 - 0',
-        teamTwo: 'St. Aidan\'s A',
-        location: 'Rubber Crumb 2',
-        time: '19/10/2019 10:45',
-        completed: true,
-        league: 'Premiership',
-        isCup: false
-    },
-    {
-        teamOne: 'St. Cuthbert\'s A',
-        result: '0 - 2',
-        teamTwo: 'Collingwood D',
-        location: 'Rubber Crumb 3 (Track)',
-        time: '19/10/2019 18:30',
-        completed: true,
-        league: 'Premiership',
-        isCup: false
-    },
-    {
-        teamOne: 'Trevelyan A',
-        result: '1 - 0',
-        teamTwo: 'Stephenson Rangers A',
-        location: 'Rubber Crumb 1 (Old)',
-        time: '19/10/2019 18:30',
-        completed: true,
-        league: 'Premiership',
-        isCup: false
-    },
-    {
-        teamOne: 'Collingwood B',
-        result: '2 - 0',
-        teamTwo: 'Hatfield A',
-        location: 'Rubber Crumb 2',
-        time: '20/10/2019 09:00',
-        completed: true,
-        league: 'Premiership',
-        isCup: false
-    },
-    {
-        teamOne: 'Josephine Butler A',
-        result: '2 - 2',
-        teamTwo: 'Collingwood B',
-        location: 'Rubber Crumb 1 (Old)',
-        time: '26/10/2019 14:15',
-        completed: true,
-        league: 'Premiership',
-        isCup: false
-    },
-    {
-        teamOne: 'Trevelyan A',
-        result: '0 - 0',
-        teamTwo: 'Grey A',
-        location: 'Rubber Crumb 3 (Track)',
-        time: '26/10/2019 18:30',
-        completed: true,
-        league: 'Premiership',
-        isCup: false
-    },
-    {
-        teamOne: 'Collingwood A',
-        result: '3 - 4',
-        teamTwo: 'Van Mildert A',
-        location: 'Rubber Crumb 2',
-        time: '27/10/2019 09:00',
-        completed: true,
-        league: 'Premiership',
-        isCup: false
-    },
-    {
-        teamOne: 'Staff A',
-        result: '3 - 6',
-        teamTwo: 'Collingwood C',
-        location: 'Rubber Crumb 2',
-        time: '27/10/2019 18:30',
-        completed: true,
-        league: 'Premiership',
-        isCup: false
-    },
-    {
-        teamOne: 'Trevelyan A',
-        result: '2 - 0',
-        teamTwo: 'Collingwood D',
-        location: 'Rubber Crumb 2',
-        time: '03/11/2019 09:00',
-        completed: true,
-        league: 'Premiership',
-        isCup: false
-    },
-    {
-        teamOne: 'Staff A',
-        result: '1 - 14',
-        teamTwo: 'Collingwood A',
-        location: 'Rubber Crumb 3 (Track)',
-        time: '03/11/2019 18:30',
-        completed: true,
-        league: 'Premiership',
-        isCup: false
-    },
-    {
-        teamOne: 'Collingwood C',
-        result: '3 - 1',
-        teamTwo: 'Grey A',
-        location: 'Rubber Crumb 2',
-        time: '03/11/2019 18:30',
-        completed: true,
-        league: 'Premiership',
-        isCup: false
-    },
-    {
-        teamOne: 'St. Cuthbert\'s A',
-        result: '2 - 3',
-        teamTwo: 'Josephine Butler A',
-        location: 'Rubber Crumb 3 (Track)',
-        time: '03/11/2019 20:15',
-        completed: true,
-        league: 'Premiership',
-        isCup: false
-    },
-    {
-        teamOne: 'Trevelyan A',
-        result: '2 - 3',
-        teamTwo: 'Josephine Butler A',
-        location: 'Rubber Crumb 2',
-        time: '09/11/2019 20:15',
-        completed: true,
-        league: 'Premiership',
-        isCup: false
-    },
-    {
-        teamOne: 'Staff A',
-        result: '3 - 5',
-        teamTwo: 'St. Aidan\'s A',
-        location: 'Rubber Crumb 2',
-        time: '10/11/2019 16:45',
-        completed: true,
-        league: 'Premiership',
-        isCup: false
-    },
-    {
-        teamOne: 'St. Cuthbert\'s A',
-        result: '0 - 3',
-        teamTwo: 'Stephenson Rangers A',
-        location: 'Rubber Crumb 3 (Track)',
-        time: '10/11/2019 18:30',
-        completed: true,
-        league: 'Premiership',
-        isCup: false
-    }
-];
-
 const activeTeams = ['teamOne', 'teamTwo'];
 
 describe('Generating graph data for charts', () => {
@@ -468,7 +266,7 @@ describe('Generating graph data for charts', () => {
     });
 
     it('Generate unique teams from fixtures', () => {
-        expect(helpers.generateUniqueTeams(listOfFixtures)).toEqual([
+        expect(helpers.generateUniqueTeams(fixtures)).toEqual([
             {
                 id: 'Collingwood A',
                 value: 'Collingwood A',
@@ -781,14 +579,14 @@ describe('Generating graph data for charts', () => {
 
     it('Generate graph accumulation', () => {
         expect(helpers.makeGraphAccumulation(testData.accumlation,
-            testData.fixtures,
+            fixtures,
             testData.allDays,
             testData.nonCwoodTeams))
             .toEqual(testData.result);
     });
 
     it('Generate new table', () => {
-        expect(JSON.stringify(helpers.generateNewTable(listOfFixtures))).toEqual('[{"goalDifference":21,"wins":3,"draws":0,"losses":1,"gamesPlayed":4,"score":9,"team":"Collingwood A","id":"Collingwood A","position":{"type":"div","key":null,"ref":null,"props":{"style":{"fontWeight":"bold"},"children":1},"_owner":null,"_store":{}}},{"goalDifference":10,"wins":3,"draws":0,"losses":0,"gamesPlayed":3,"score":9,"team":"Collingwood C","id":"Collingwood C","position":{"type":"div","key":null,"ref":null,"props":{"style":{"fontWeight":"bold"},"children":2},"_owner":null,"_store":{}}},{"goalDifference":2,"wins":1,"draws":1,"losses":0,"gamesPlayed":2,"score":4,"team":"Collingwood B","id":"Collingwood B","position":{"type":"div","key":null,"ref":null,"props":{"style":{"fontWeight":"bold"},"children":3},"_owner":null,"_store":{}}},{"goalDifference":-1,"wins":1,"draws":0,"losses":2,"gamesPlayed":3,"score":3,"team":"Collingwood D","id":"Collingwood D","position":{"type":"div","key":null,"ref":null,"props":{"style":{"fontWeight":"bold"},"children":4},"_owner":null,"_store":{}}}]');
+        expect(JSON.stringify(helpers.generateNewTable(fixtures))).toEqual('[{"goalDifference":33,"wins":7,"draws":0,"losses":1,"gamesPlayed":8,"score":21,"team":"Collingwood A","id":"Collingwood A","position":{"type":"div","key":null,"ref":null,"props":{"style":{"fontWeight":"bold"},"children":1},"_owner":null,"_store":{}}},{"goalDifference":6,"wins":6,"draws":0,"losses":2,"gamesPlayed":8,"score":18,"team":"Collingwood C","id":"Collingwood C","position":{"type":"div","key":null,"ref":null,"props":{"style":{"fontWeight":"bold"},"children":2},"_owner":null,"_store":{}}},{"goalDifference":16,"wins":5,"draws":1,"losses":0,"gamesPlayed":6,"score":16,"team":"Collingwood B","id":"Collingwood B","position":{"type":"div","key":null,"ref":null,"props":{"style":{"fontWeight":"bold"},"children":3},"_owner":null,"_store":{}}},{"goalDifference":2,"wins":3,"draws":0,"losses":5,"gamesPlayed":8,"score":9,"team":"Collingwood D","id":"Collingwood D","position":{"type":"div","key":null,"ref":null,"props":{"style":{"fontWeight":"bold"},"children":4},"_owner":null,"_store":{}}}]');
     });
 
     it('Goals For extending to the correct week going past the number of weeks their is data for', () => {

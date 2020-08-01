@@ -9,7 +9,7 @@ import { initialState } from './reducer';
 import Graph from './graph/Graph';
 import { initialState as overviewinitialState } from '../overview/reducer';
 import { initialState as fixturesInitialState } from '../fixtures/reducer';
-import { fixtures } from './testData';
+import { fixtures } from '../test/fixtures';
 
 describe('Charts', () => {
     it('The Charts component renders without crashing', () => {

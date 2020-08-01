@@ -101,7 +101,9 @@
       "!src/config/fbConfig.js",
       "!src/api/api.js",
       "!src/transfers/nextfixtures/helpers.jsx",
-      "!src/notifications/saga.js"
+      "!src/notifications/saga.js",
+      "!src/RenderRoutes.jsx",
+      "!src/**/api.js"
     ]
   }
 }
