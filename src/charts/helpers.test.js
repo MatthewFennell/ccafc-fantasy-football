@@ -1,5 +1,4 @@
 import * as helpers from './helpers';
-import * as testData from './testData';
 import { fixtures } from '../test/fixtures';
 
 const allTeams = [
