@@ -44,7 +44,8 @@ export const initialState = {
     bugIdToDelete: '',
     isRollingOverToNextYear: false,
 
-    addingNotification: false
+    addingNotification: false,
+    isEditingPlayerPrice: false
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -60,6 +61,27 @@ const adminReducer = (state = initialState, action) => {
     }
     case actions.SET_ROLLING_OVER_TO_NEXT_YEAR: {
         return fp.set('isRollingOverToNextYear', action.isRollingOver)(state);
+    }
+    case actions.EDIT_PLAYER_PRICE_REQUEST: {
+        return fp.set('isEditingPlayerPrice', true)(state);
+    }
+    case actions.EDIT_PLAYER_PRICE_SUCCESS: {
+        return {
+            ...state,
+            teamsWithPlayers: {
+                ...state.teamsWithPlayers,
+                [action.playerTeam]: state.teamsWithPlayers[action.playerTeam]
+                    .map(player => (player.id === action.playerId ? ({
+                        ...player,
+                        price: action.newPrice
+                    }) : ({
+                        ...player
+                    })))
+            }
+        };
+    }
+    case actions.CANCEL_EDITING_PLAYER_PRICE: {
+        return fp.set('isEditingPlayerPrice', false)(state);
     }
     case actions.ADD_NOTIFICATION_REQUEST: {
         return fp.set('addingNotification', true)(state);

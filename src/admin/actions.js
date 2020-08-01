@@ -10,6 +10,10 @@ export const CANCEL_ADDING_NOTIFICATION = `${pre}CANCEL_ADDING_NOTIFICATION`;
 export const CREATE_PLAYER_REQUEST = `${pre}CREATE_PLAYER_REQUEST`;
 export const CANCEL_CREATING_PLAYER = `${pre}CANCEL_CREATING_PLAYER`;
 
+export const EDIT_PLAYER_PRICE_REQUEST = `${pre}EDIT_PLAYER_PRICE_REQUEST`;
+export const EDIT_PLAYER_PRICE_SUCCESS = `${pre}EDIT_PLAYER_PRICE_SUCCESS`;
+export const CANCEL_EDITING_PLAYER_PRICE = `${pre}CANCEL_EDITING_PLAYER_PRICE`;
+
 export const CREATE_TEAM_REQUEST = `${pre}CREATE_TEAM_REQUEST`;
 export const CANCEL_CREATING_TEAM = `${pre}CANCEL_CREATING_TEAM`;
 
@@ -356,6 +360,24 @@ export const createPlayerRequest = (name, position, price, team, previousScore) 
 
 export const cancelCreatingPlayer = () => ({
     type: CANCEL_CREATING_PLAYER
+});
+
+export const editPlayerPriceRequest = (playerId, newPrice, playerTeam) => ({
+    type: EDIT_PLAYER_PRICE_REQUEST,
+    playerId,
+    newPrice,
+    playerTeam
+});
+
+export const editPlayerPriceSuccess = (playerId, newPrice, playerTeam) => ({
+    type: EDIT_PLAYER_PRICE_SUCCESS,
+    playerId,
+    newPrice,
+    playerTeam
+});
+
+export const cancelEditingPlayerPrice = () => ({
+    type: CANCEL_EDITING_PLAYER_PRICE
 });
 
 // -------------------------------------------------------------------- \\

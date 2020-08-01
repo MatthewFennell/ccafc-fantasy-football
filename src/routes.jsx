@@ -77,11 +77,19 @@ export const adminLinks = [
         permissionRequired: constants.PERMISSIONS.TRIGGER_WEEK
     },
     {
-        title: 'Edit Player',
+        title: 'Edit Player Stats',
         icon: <EditIcon color="primary" />,
         component: adminComponents.EditPlayer,
-        path: () => constants.URL.EDIT_PLAYER,
-        urlIncludes: constants.URL.EDIT_PLAYER,
+        path: () => constants.URL.EDIT_PLAYER_STATS,
+        urlIncludes: constants.URL.EDIT_PLAYER_STATS,
+        permissionRequired: constants.PERMISSIONS.EDIT_PLAYER
+    },
+    {
+        title: 'Edit Player Price',
+        icon: <EditIcon color="primary" />,
+        component: adminComponents.EditPlayerPrice,
+        path: () => constants.URL.EDIT_PLAYER_PRICE,
+        urlIncludes: constants.URL.EDIT_PLAYER_PRICE,
         permissionRequired: constants.PERMISSIONS.EDIT_PLAYER
     },
     {

@@ -58,7 +58,7 @@ export function* createTeam(api, action) {
         yield put(actions.cancelCreatingTeam());
         const allTeams = yield call(api.getAllTeams);
         yield put(actions.fetchTeamsSuccess(allTeams));
-        yield put(addNotification('Team successfully created'));
+        yield put(addNotification(`Team ${action.teamName} successfully created`));
     } catch (error) {
         yield put(setErrorMessage('Error Creating Team', error));
     } finally {
@@ -77,6 +77,23 @@ export function* getPlayersForTeam(api, action) {
         yield put(setErrorMessage('Error Fetching Players In Team', error));
     } finally {
         yield put(actions.setFetchingPlayersForTeam(false));
+    }
+}
+
+export function* editPlayerPrice(api, action) {
+    try {
+        yield call(api.editPlayerPrice,
+            {
+                playerId: action.playerId,
+                newPrice: action.newPrice
+            });
+        yield put(actions.editPlayerPriceSuccess(action.playerId,
+            action.newPrice, action.playerTeam));
+        yield put(addNotification('Player Price successfully changed'));
+    } catch (error) {
+        yield put(setErrorMessage('Error Changing Price', error));
+    } finally {
+        yield put(actions.cancelEditingPlayerPrice());
     }
 }
 
@@ -1015,6 +1032,7 @@ export default function* adminSaga() {
         takeEvery(actions.SUBMIT_CUSTOM_RESULTS, customSubmit, adminApi),
         takeEvery(actions.DELETE_FEATURE_REQUEST, deleteBug, adminApi),
         takeEvery(actions.ADD_NOTIFICATION_REQUEST, addNotif, adminApi),
+        takeEvery(actions.EDIT_PLAYER_PRICE_REQUEST, editPlayerPrice, adminApi),
         takeEvery(actions.RECALCULATE_LEAGUE_POSITIONS_REQUEST, recalculateLeaguePositions,
             adminApi)
     ]);

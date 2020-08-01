@@ -72,6 +72,30 @@ exports.getAllPlayers = functions
                 .map(doc => ({ id: doc.id, ...doc.data() })));
     });
 
+exports.editPlayerPrice = functions
+    .region(constants.region)
+    .https.onCall((data, context) => common.hasPermission(context.auth.uid,
+        constants.PERMISSIONS.EDIT_PLAYER)
+        .then(() => {
+            if (!data.playerId) {
+                throw new functions.https.HttpsError('invalid-argument', 'Invalid player');
+            }
+            if (!data.newPrice || data.newPrice < 0) {
+                throw new functions.https.HttpsError('invalid-argument', 'Invalid price');
+            }
+            if (!common.isNumber(data.newPrice)) {
+                throw new functions.https.HttpsError('invalid-argument', 'Invalid price');
+            }
+            return db.collection('players').doc(data.playerId).get().then(player => {
+                if (!player.exists) {
+                    throw new functions.https.HttpsError('invalid-argument', 'Can\'t find that player');
+                }
+                return player.ref.update({
+                    price: data.newPrice
+                });
+            });
+        }));
+
 exports.deletePlayer = functions
     .region(constants.region)
     .https.onCall((data, context) => common.hasPermission(context.auth.uid,
