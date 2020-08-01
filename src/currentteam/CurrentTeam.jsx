@@ -182,13 +182,13 @@ CurrentTeam.propTypes = {
 };
 
 const mapStateToProps = (state, props) => ({
-    activeTeam: selectors.getActiveTeam(state, props),
-    captain: selectors.getCurrentCaptain(state, props),
+    activeTeam: selectors.getFieldForUser(state, props, 'players'),
+    captain: selectors.getFieldForUser(state, props, 'captain'),
     captainToUpdate: state.currentTeam.captainToUpdate,
     isPlayerModalOpen: state.currentTeam.isPlayerModalOpen,
     isUpdatingCaptain: state.currentTeam.isUpdatingCaptain,
     loadingFixtures: state.fixtures.loadingFixtures,
-    fetchingForUser: selectors.getFetchingForUser(state, props),
+    fetchingForUser: selectors.getFieldForUser(state, props, 'fetching'),
     fixtures: state.fixtures.fixtures,
     userId: selectors.getUserId(props)
 });

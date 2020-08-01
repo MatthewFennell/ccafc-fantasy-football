@@ -138,3 +138,5 @@ SignUp.propTypes = {
 };
 
 export default withRouter(connect(null, mapDispatchToProps)(SignUp));
+
+export { SignUp as SignUpUnconnected };

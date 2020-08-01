@@ -3,6 +3,7 @@ import { noop } from 'lodash';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
+import StyledButton from '../common/StyledButton/StyledButton';
 import { shallow, mount } from '../enzyme';
 import Leagues, { LeaguesUnconnected } from './Leagues';
 import { initialState } from './reducer';
@@ -25,6 +26,17 @@ describe('Leagues', () => {
             history={mockHistory}
         />);
         expect(() => wrapper).not.toThrow();
+    });
+
+    it('Create league', () => {
+        const wrapper = mount(<LeaguesUnconnected
+            history={mockHistory}
+            fetchLeaguesRequest={noop}
+            joinLeagueRequest={noop}
+            createLeagueRequest={noop}
+        />);
+
+        expect(wrapper.find(StyledButton)).toHaveLength(2);
     });
 });
 

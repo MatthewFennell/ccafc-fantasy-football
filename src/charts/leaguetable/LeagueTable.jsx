@@ -7,6 +7,7 @@ import * as helpers from '../helpers';
 const LeagueTable = props => {
     const leagueTable = useCallback(() => helpers.generateNewTable(props.fixtures),
         [props.fixtures]);
+
     return (
         <div className={props.styles.leagueTableWrapper}>
             <Grid

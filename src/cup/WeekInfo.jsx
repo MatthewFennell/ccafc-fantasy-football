@@ -110,7 +110,7 @@ WeekInfo.defaultProps = {
     auth: {
         uid: ''
     },
-    byes: PropTypes.arrayOf(PropTypes.string),
+    byes: [],
     displayNameMappings: {},
     isFinalWeek: false,
     pairings: [],

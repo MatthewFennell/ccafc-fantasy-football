@@ -40,7 +40,10 @@ const SelectProfilePicture = props => {
                             isBorderRadius
                         >
                             <img
-                                className={props.styles.profilePicture}
+                                className={classNames({
+                                    [props.styles.profilePicture]: true,
+                                    [props.styles.borderProfile]: props.currentPhotoUrl !== photoUrl
+                                })}
                                 onClick={() => updateImage(photoUrl)}
                                 src={photoUrl}
                                 alt="new"

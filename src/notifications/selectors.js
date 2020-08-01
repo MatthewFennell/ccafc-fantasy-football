@@ -1,6 +1,5 @@
 import fp from 'lodash/fp';
 
-// eslint-disable-next-line import/prefer-default-export
 export const getNotifications = state => {
     const profile = fp.flow(
         fp.get('firebase'),

@@ -99,5 +99,4 @@ AutocompleteCheckbox.defaultProps = {
     withPadding: false
 };
 
-
 export default AutocompleteCheckbox;

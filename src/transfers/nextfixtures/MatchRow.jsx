@@ -28,7 +28,6 @@ const renderTeamName = name => {
     return name;
 };
 
-
 const MatchRow = props => (
     <div className={props.styles.matchWrapper} key={`${props.match.teamOne}-${props.match.teamTwo}`}>
         <div className={props.styles.leftHand}>

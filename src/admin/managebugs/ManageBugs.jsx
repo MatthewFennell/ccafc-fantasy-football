@@ -97,4 +97,8 @@ export default compose(
     ])
 )(ManageBugs);
 
+const connected = connect(mapStateToProps, mapDispatchToProps)(ManageBugs);
+
+export { connected as ManageBugsConnected };
+
 export { ManageBugs as ManageBugsUnconnected };

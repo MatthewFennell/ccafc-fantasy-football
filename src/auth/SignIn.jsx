@@ -111,3 +111,5 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(connect(null, mapDispatchToProps)(SignIn));
+
+export { SignIn as SignInUnconnected };
