@@ -8,6 +8,7 @@ export { default as DeleteTeam } from './admin/deleteteam/DeleteTeam';
 export { default as Points } from './points/Points';
 export { default as TriggerWeek } from './admin/triggerweek/TriggerWeek';
 export { default as EditPlayer } from './admin/editplayer/EditPlayer';
+export { default as EditPlayerPrice } from './admin/editplayerprice/EditPlayerPrice';
 export { default as ManageUsers } from './admin/manageusers/ManageUsers';
 export { default as ApproveHighlights } from './admin/highlights/ApproveHighlights';
 export { default as ManageSubs } from './admin/managesubs/ManageSubs';

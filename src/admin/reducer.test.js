@@ -16,6 +16,75 @@ describe('Admin reducer', () => {
         });
     });
 
+    it('edit player request', () => {
+        const action = actions.editPlayerPriceRequest('playerId', 10, 'team');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isEditingPlayerPrice: true
+        });
+    });
+
+    it('cancel editing player', () => {
+        const action = actions.cancelEditingPlayerPrice();
+        expect(reducer({
+            ...initialState,
+            isEditingPlayerPrice: true
+        }, action)).toEqual({
+            ...initialState,
+            isEditingPlayerPrice: false
+        });
+    });
+
+    it('add notification request', () => {
+        const action = actions.addNotificationRequest();
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            addingNotification: true
+        });
+    });
+
+    it('cancel adding notification', () => {
+        const action = actions.cancelAddingNotification();
+        expect(reducer({
+            ...initialState,
+            addingNotification: true
+        }, action)).toEqual({
+            ...initialState,
+            addingNotification: false
+        });
+    });
+
+    it('edit player price success', () => {
+        const action = actions.editPlayerPriceSuccess('playerId', 10, 'team');
+        expect(reducer({
+            ...initialState,
+            teamsWithPlayers: {
+                team: [
+                    {
+                        id: 'playerId',
+                        price: 15
+                    }, {
+                        id: 'id',
+                        price: 8
+                    }
+                ]
+            }
+        }, action)).toEqual({
+            ...initialState,
+            teamsWithPlayers: {
+                team: [
+                    {
+                        id: 'playerId',
+                        price: 10
+                    }, {
+                        id: 'id',
+                        price: 8
+                    }
+                ]
+            }
+        });
+    });
+
     it('create player request', () => {
         const action = actions.createPlayerRequest(null);
         expect(reducer(initialState, action)).toEqual({

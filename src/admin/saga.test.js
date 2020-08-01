@@ -14,6 +14,7 @@ import { addNotification } from '../notifications/actions';
 
 const api = {
     addUserRole: noop,
+    addNotification: noop,
     approveHighlight: () => 'highlight',
     clearDatabase: noop,
     createPlayer: noop,
@@ -24,6 +25,7 @@ const api = {
     deletePlayer: noop,
     deleteTeam: noop,
     editStats: noop,
+    editPlayerPrice: noop,
     getAllTeams: () => 'all teams',
     getHighlightsForApproval: () => 'highlights approval',
     getPlayersInTeam: () => 'players in team',
@@ -137,7 +139,7 @@ describe('Admin saga', () => {
             .put(actions.cancelCreatingTeam())
             .call(api.getAllTeams)
             .put(actions.fetchTeamsSuccess('all teams'))
-            .put(addNotification('Team successfully created'))
+            .put(addNotification('Team team name successfully created'))
             .put(actions.cancelCreatingTeam())
             .run({ silenceTimeout: true });
     });
@@ -150,6 +152,53 @@ describe('Admin saga', () => {
                 [matchers.call.fn(api.createTeam), throwError(error)]
             ])
             .put(setErrorMessage('Error Creating Team', error))
+            .run({ silenceTimeout: true });
+    });
+
+    it('Edit Player Price', () => {
+        const action = actions.editPlayerPriceRequest('playerId', 10, 'team');
+        return expectSaga(sagas.editPlayerPrice, api, action)
+            .provide({ call: provideDelay })
+            .call(api.editPlayerPrice, ({
+                playerId: 'playerId',
+                newPrice: 10
+            }))
+            .put(actions.editPlayerPriceSuccess('playerId', 10, 'team'))
+            .put(addNotification('Player Price successfully changed'))
+            .put(actions.cancelEditingPlayerPrice())
+            .run({ silenceTimeout: true });
+    });
+
+    it('Add Notification', () => {
+        const action = actions.addNotificationRequest('notification');
+        return expectSaga(sagas.addNotif, api, action)
+            .provide({ call: provideDelay })
+            .call(api.addNotification, ({
+                notification: 'notification'
+            }))
+            .put(actions.cancelAddingNotification())
+            .run({ silenceTimeout: true });
+    });
+
+    it('add notification error', () => {
+        const error = new Error('error');
+        const action = actions.addNotificationRequest('playerId', 10, 'team');
+        return expectSaga(sagas.addNotif, api, action)
+            .provide([
+                [matchers.call.fn(api.addNotification), throwError(error)]
+            ])
+            .put(setErrorMessage('Error Adding Notification', error))
+            .run({ silenceTimeout: true });
+    });
+
+    it('edit player price error', () => {
+        const error = new Error('error');
+        const action = actions.editPlayerPriceRequest('playerId', 10, 'team');
+        return expectSaga(sagas.editPlayerPrice, api, action)
+            .provide([
+                [matchers.call.fn(api.editPlayerPrice), throwError(error)]
+            ])
+            .put(setErrorMessage('Error Changing Price', error))
             .run({ silenceTimeout: true });
     });
 

@@ -53,7 +53,8 @@ exports.getPlayersInTeam = functions
             .then(docs => docs.docs.map(doc => ({
                 name: doc.data().name,
                 position: doc.data().position,
-                id: doc.id
+                id: doc.id,
+                price: doc.data().price
             })));
     });
 
