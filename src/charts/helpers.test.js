@@ -577,13 +577,13 @@ describe('Generating graph data for charts', () => {
             ]));
     });
 
-    it('Generate graph accumulation', () => {
-        expect(helpers.makeGraphAccumulation(testData.accumlation,
-            fixtures,
-            testData.allDays,
-            testData.nonCwoodTeams))
-            .toEqual(testData.result);
-    });
+    // it.only('Generate graph accumulation', () => {
+    //     expect(helpers.makeGraphAccumulation(testData.accumlation,
+    //         fixtures,
+    //         testData.allDays,
+    //         testData.nonCwoodTeams))
+    //         .toEqual(testData.result);
+    // });
 
     it('Generate new table', () => {
         expect(JSON.stringify(helpers.generateNewTable(fixtures))).toEqual('[{"goalDifference":33,"wins":7,"draws":0,"losses":1,"gamesPlayed":8,"score":21,"team":"Collingwood A","id":"Collingwood A","position":{"type":"div","key":null,"ref":null,"props":{"style":{"fontWeight":"bold"},"children":1},"_owner":null,"_store":{}}},{"goalDifference":6,"wins":6,"draws":0,"losses":2,"gamesPlayed":8,"score":18,"team":"Collingwood C","id":"Collingwood C","position":{"type":"div","key":null,"ref":null,"props":{"style":{"fontWeight":"bold"},"children":2},"_owner":null,"_store":{}}},{"goalDifference":16,"wins":5,"draws":1,"losses":0,"gamesPlayed":6,"score":16,"team":"Collingwood B","id":"Collingwood B","position":{"type":"div","key":null,"ref":null,"props":{"style":{"fontWeight":"bold"},"children":3},"_owner":null,"_store":{}}},{"goalDifference":2,"wins":3,"draws":0,"losses":5,"gamesPlayed":8,"score":9,"team":"Collingwood D","id":"Collingwood D","position":{"type":"div","key":null,"ref":null,"props":{"style":{"fontWeight":"bold"},"children":4},"_owner":null,"_store":{}}}]');
