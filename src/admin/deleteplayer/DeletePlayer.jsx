@@ -51,13 +51,18 @@ const DeletePlayer = props => {
                 </div>
                 <div className={props.styles.deletePlayerForm}>
                     <div className={props.styles.deletePlayerDropdowns}>
-                        <Dropdown
-                            value={playerTeam}
-                            onChange={setTeam}
-                            options={props.allTeams}
-                            title="Team"
-                            key="Team"
-                        />
+                        <LoadingDiv
+                            isLoading={props.isFetchingTeams}
+                            isBorderRadius
+                        >
+                            <Dropdown
+                                value={playerTeam}
+                                onChange={setTeam}
+                                options={props.allTeams}
+                                title="Team"
+                                key="Team"
+                            />
+                        </LoadingDiv>
                         <LoadingDiv
                             isLoading={props.isFetchingPlayersForTeam}
                             isBorderRadius
@@ -88,6 +93,7 @@ const DeletePlayer = props => {
 DeletePlayer.defaultProps = {
     allTeams: [],
     isFetchingPlayersForTeam: false,
+    isFetchingTeams: false,
     styles: defaultStyles
 };
 
@@ -98,6 +104,7 @@ DeletePlayer.propTypes = {
     fetchTeamsRequest: PropTypes.func.isRequired,
     fetchPlayersForTeamRequest: PropTypes.func.isRequired,
     isFetchingPlayersForTeam: PropTypes.bool,
+    isFetchingTeams: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),
     teamsWithPlayers: PropTypes.objectOf(PropTypes.array).isRequired
 };
@@ -112,6 +119,7 @@ const mapStateToProps = state => ({
     allTeams: state.admin.allTeams,
     deletingPlayer: state.admin.deletingPlayer,
     isFetchingPlayersForTeam: state.admin.isFetchingPlayersForTeam,
+    isFetchingTeams: state.admin.isFetchingTeams,
     teamsWithPlayers: state.admin.teamsWithPlayers
 });
 

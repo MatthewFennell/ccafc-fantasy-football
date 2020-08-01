@@ -173,7 +173,7 @@ exports.editDisabledPages = functions
         return db.collection('application-info').doc(constants.applicationInfoId).get().then(
             result => {
                 if (!result.exists) {
-                    throw new functions.https.HttpsError('invalid-argument', 'Server Error. Something has gone terribly wrong');
+                    throw new functions.https.HttpsError('invalid-argument', 'Server Error. Something has gone wrong');
                 }
 
                 const { disabledPages } = result.data();

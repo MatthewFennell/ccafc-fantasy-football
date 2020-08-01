@@ -34,8 +34,8 @@ const transfersReducer = (state = initialState, action) => {
         return {
             ...state,
             remainingTransfers: action.stats.remainingTransfers,
-            originalBudget: action.stats.remainingBudget,
-            remainingBudget: action.stats.remainingBudget,
+            originalBudget: Number(action.stats.remainingBudget),
+            remainingBudget: Number(action.stats.remainingBudget),
             fetchingUserStats: false
         };
     }
@@ -81,13 +81,13 @@ const transfersReducer = (state = initialState, action) => {
 
         return fp.flow(
             fp.set('currentTeam', newTeam),
-            fp.set('remainingBudget', state.remainingBudget - action.player.price)
+            fp.set('remainingBudget', Number(state.remainingBudget) - Number(action.player.price))
         )(state);
     }
     case actions.UNDO_TRANSFER_CHANGES: {
         return fp.flow(
             fp.set('currentTeam', state.originalTeam),
-            fp.set('remainingBudget', state.originalBudget)
+            fp.set('remainingBudget', Number(state.originalBudget))
         )(state);
     }
     case actions.REMOVE_PLAYER_FROM_CURRENT_TEAM: {
@@ -103,7 +103,7 @@ const transfersReducer = (state = initialState, action) => {
 
         return fp.flow(
             remove(action.player),
-            fp.set('remainingBudget', state.remainingBudget + action.player.price)
+            fp.set('remainingBudget', Number(state.remainingBudget) + Number(action.player.price))
         )(state);
     }
     case actions.CANCEL_FETCHING_PLAYERS: {
@@ -117,14 +117,14 @@ const transfersReducer = (state = initialState, action) => {
 
         return fp.flow(
             fp.set('currentTeam', state.currentTeam.map(x => (x.id === action.playerId ? playerToRestore : x))),
-            fp.set('remainingBudget', state.remainingBudget - playerToRestore.price)
+            fp.set('remainingBudget', Number(state.remainingBudget) - Number(playerToRestore.price))
         )(state);
     }
     case actions.REPLACE_PLAYER_SUCCESS: {
-        const budgetDiff = action.oldPlayer.price - action.newPlayer.price;
+        const budgetDiff = Number(action.oldPlayer.price) - Number(action.newPlayer.price);
         return fp.flow(
             fp.set('currentTeam', state.currentTeam.map(x => (x.id === action.oldPlayer.id ? action.newPlayer : x))),
-            fp.set('remainingBudget', state.remainingBudget + budgetDiff)
+            fp.set('remainingBudget', Number(state.remainingBudget) + budgetDiff)
         )(state);
     }
     case actions.UPDATE_TEAM_REQUEST: {

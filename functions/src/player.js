@@ -104,13 +104,21 @@ exports.deletePlayer = functions
             if (!data.playerId) {
                 throw new functions.https.HttpsError('invalid-argument', 'Must provide a valid player id');
             }
-            return db.collection('weekly-teams').where('player_ids', 'array-contains', data.playerId).get()
-                .then(docs => {
-                    if (docs.size > 0) {
+            return db.collection('active-teams').where('player_ids', 'array-contains', data.playerId).get().then(
+                activeTeamDocs => {
+                    if (activeTeamDocs.size > 0) {
                         throw new functions.https.HttpsError('invalid-argument', 'That player exists in somebodys team. Cannot be deleted');
                     }
-                    return db.collection('players').doc(data.playerId).delete();
-                });
+                    return db.collection('weekly-teams').where('player_ids', 'array-contains', data.playerId).get()
+                        .then(docs => {
+                            if (docs.size > 0) {
+                                throw new functions.https.HttpsError('invalid-argument', 'That player exists in somebodys team. Cannot be deleted');
+                            }
+                            return db.collection('players').doc(data.playerId).delete();
+                        });
+                }
+
+            );
         }));
 
 exports.editPlayerStats = functions

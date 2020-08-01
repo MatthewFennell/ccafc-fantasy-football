@@ -10,34 +10,19 @@ const operations = admin.firestore.FieldValue;
 exports.createInitialLeague = functions
     .region(constants.region)
     .auth.user()
-    .onCreate(user => db.collection('application-info').doc(constants.applicationInfoId).get().then(query => {
-        if (query.exists) {
+    .onCreate(user => db.collection('leagues').doc(constants.collingwoodLeagueId).get().then(
+        result => {
+            if (!result.exists) {
+                return db.collection('leagues').doc(constants.collingwoodLeagueId).set({
+                    owner: user.uid,
+                    start_week: 0,
+                    name: constants.collingwoodLeagueName,
+                    number_of_users: 0
+                });
+            }
             return Promise.resolve();
         }
-
-        return db.collection('leagues').doc(constants.collingwoodLeagueId).get().then(
-            result => {
-                if (!result.exists) {
-                    return db.collection('leagues').doc(constants.collingwoodLeagueId).set({
-                        owner: user.uid,
-                        start_week: 0,
-                        name: constants.collingwoodLeagueName,
-                        number_of_users: 0
-                    }).then(() => db.collection('leagues-points').add({
-                        league_id: constants.collingwoodLeagueId,
-                        user_id: user.uid,
-                        start_week: 0,
-                        name: constants.collingwoodLeagueName,
-                        user_points: 0,
-                        username: user.displayName,
-                        position: 1,
-                        teamName: 'Default Team Name'
-                    }));
-                }
-                return Promise.resolve();
-            }
-        );
-    }));
+    ));
 
 exports.joinInitialLeague = functions
     .region(constants.region)

@@ -24,7 +24,7 @@ exports.triggerWeeklyTeams = functions
                             total_weeks: operations.increment(1)
                         });
                     } else {
-                        throw new functions.https.HttpsError('invalid-argument', 'Server Error. Something has gone terribly wrong');
+                        throw new functions.https.HttpsError('invalid-argument', 'Server Error. Something has gone wrong');
                     }
                 });
 

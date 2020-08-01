@@ -26,7 +26,7 @@ const ManageBugs = props => {
         <>
             <div className={props.styles.manageBugsWrapper}>
                 <div className={props.styles.bugsHeader}>
-                    These are bugs that have been submitted by users
+                    These are the bugs that have been submitted by users
                 </div>
 
                 <div className={props.styles.listOfBugs}>

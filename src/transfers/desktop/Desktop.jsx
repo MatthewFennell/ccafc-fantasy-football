@@ -11,8 +11,8 @@ import Table from './Table';
 import NextFixtures from '../nextfixtures/NextFixtures';
 import { teamsAreDifferent } from '../helpers';
 
-const calculateSquadValue = (originalTeam, remainingBudget) => originalTeam
-    .reduce((acc, cur) => acc + cur.price, 0) + remainingBudget;
+const calculateSquadValue = (currentTeam, remainingBudget) => currentTeam
+    .reduce((acc, cur) => Number(acc) + Number(cur.price), 0) + remainingBudget;
 
 const Desktop = props => {
     const teamsDiffer = teamsAreDifferent(props.originalTeam, props.currentTeam);
@@ -34,7 +34,7 @@ const Desktop = props => {
                                 <div className={props.styles.squadValueText}>
                                     Squad Value
                                 </div>
-                                <div>{`£${((calculateSquadValue(props.originalTeam, props.remainingBudget)).toFixed(1))} mil`}</div>
+                                <div>{`£${((calculateSquadValue(props.currentTeam, props.remainingBudget) || 0).toFixed(1))} mil`}</div>
                             </div>
                         </div>
                         <div>
