@@ -32,7 +32,7 @@ exports.onSignUp = require('./src/onSignUp');
 exports.player = require('./src/player');
 exports.points = require('./src/points');
 exports.profile = require('./src/profile');
-exports.team = require('./src/teams');
+exports.team = require('./src/team');
 exports.users = require('./src/users');
 exports.weeklyTeam = require('./src/weeklyTeam');
 

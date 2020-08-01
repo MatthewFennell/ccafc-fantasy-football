@@ -49,13 +49,18 @@ const EditPlayerPrice = props => {
             <div className={props.styles.editPlayerPriceWrapper}>
                 <div className={props.styles.editPlayerPriceForm}>
                     <div className={props.styles.editPlayerPriceDropdowns}>
-                        <Dropdown
-                            value={playerTeam}
-                            onChange={setTeam}
-                            options={props.allTeams}
-                            title="Team"
-                            key="Team"
-                        />
+                        <LoadingDiv
+                            isLoading={props.isFetchingTeams}
+                            isBorderRadius
+                        >
+                            <Dropdown
+                                value={playerTeam}
+                                onChange={setTeam}
+                                options={props.allTeams}
+                                title="Team"
+                                key="Team"
+                            />
+                        </LoadingDiv>
                         <LoadingDiv
                             isLoading={props.isFetchingPlayersForTeam}
                             isBorderRadius
@@ -116,6 +121,7 @@ const EditPlayerPrice = props => {
 EditPlayerPrice.defaultProps = {
     allTeams: [],
     isFetchingPlayersForTeam: false,
+    isFetchingTeams: false,
     styles: defaultStyles
 };
 
@@ -126,6 +132,7 @@ EditPlayerPrice.propTypes = {
     fetchTeamsRequest: PropTypes.func.isRequired,
     fetchPlayersForTeamRequest: PropTypes.func.isRequired,
     isFetchingPlayersForTeam: PropTypes.bool,
+    isFetchingTeams: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),
     teamsWithPlayers: PropTypes.objectOf(PropTypes.array).isRequired
 };
@@ -140,6 +147,7 @@ const mapStateToProps = state => ({
     allTeams: state.admin.allTeams,
     isEditingPlayerPrice: state.admin.isEditingPlayerPrice,
     isFetchingPlayersForTeam: state.admin.isFetchingPlayersForTeam,
+    isFetchingTeams: state.admin.isFetchingTeams,
     teamsWithPlayers: state.admin.teamsWithPlayers
 });
 
