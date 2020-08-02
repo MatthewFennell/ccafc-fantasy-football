@@ -131,7 +131,8 @@ const Overview = props => {
                     <>
                         <div className={props.styles.remainingTransfersWrapper}>
                             <div className={props.styles.remainingTransfersValue}>
-                                {props.remainingTransfers}
+                                {/* {props.remainingTransfers} */}
+                                {'Unlimited'}
                             </div>
                             <div>Remaining Transfers</div>
                         </div>
