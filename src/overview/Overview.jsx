@@ -98,7 +98,7 @@ const Overview = props => {
                                 <div className={props.styles.averagePointsValue}>
                                     {Math.round(props.averagePoints)}
                                 </div>
-                                <div>Average Points</div>
+                                <div>Average</div>
                             </div>
                             <div
                                 className={props.styles.yourPointsWrapper}
@@ -109,7 +109,7 @@ const Overview = props => {
                                 <div className={props.styles.yourPointsValue}>
                                     {props.weekPoints}
                                 </div>
-                                <div>Your Points</div>
+                                <div>Your points</div>
                             </div>
                             <div
                                 className={props.styles.highestPointsWrapper}
@@ -120,7 +120,7 @@ const Overview = props => {
                                 <div className={props.styles.highestPointsValue}>
                                     {props.highestPoints.points}
                                 </div>
-                                <div>Highest Points</div>
+                                <div>Highest</div>
                             </div>
                         </div>
                     </>

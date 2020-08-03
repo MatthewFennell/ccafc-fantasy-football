@@ -5,6 +5,7 @@ import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
 import HomeIcon from '@material-ui/icons/Home';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import GradeIcon from '@material-ui/icons/Grade';
 import LayersIcon from '@material-ui/icons/Layers';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -139,7 +140,7 @@ export const adminLinks = [
     },
     {
         title: 'Manage Users',
-        icon: <SupervisorAccountIcon color="primary" />,
+        icon: <PeopleOutlineIcon color="primary" />,
         component: adminComponents.ManageUsers,
         addUserId: false,
         path: () => constants.URL.MANAGE_USERS,
