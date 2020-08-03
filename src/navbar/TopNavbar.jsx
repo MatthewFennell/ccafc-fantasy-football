@@ -69,7 +69,7 @@ const TopNavbar = props => {
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" className={classes.title}>
-                    CCAFC Fantasy 1
+                    CCAFC Fantasy 2
                 </Typography>
                 <div>
                     <IconButton
