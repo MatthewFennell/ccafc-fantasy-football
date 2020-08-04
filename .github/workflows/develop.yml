@@ -38,17 +38,17 @@ jobs:
       env:
         CI: true
 
-    - name: Lint
-      run:
-        npm run lint
+    # - name: Lint
+    #   run:
+    #     npm run lint
       env:
         CI: true
 
-    - name: Testing
-      run:
-        npm test
-      env:
-        CI: true
+    # - name: Testing
+    #   run:
+    #     npm test
+    #   env:
+    #     CI: true
 
     - name: Archive Production Artifact
       uses: actions/upload-artifact@master
