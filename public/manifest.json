@@ -5,12 +5,14 @@
     {
       "src": "cwood-colors-striped-rounds.ico",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "type": "image/x-icon",
+      "purpose": "maskable"
     },
     {
       "src": "cwood-colors-striped-rounds.png",
       "type": "image/png",
-      "sizes": "192x192 512x512"
+      "sizes": "192x192 512x512",
+      "purpose": "maskable"
     }
   ],
   "start_url": "./index.html",
