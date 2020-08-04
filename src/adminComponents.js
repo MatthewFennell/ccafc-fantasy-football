@@ -1,18 +1,34 @@
-export { default as CreatePlayer } from './admin/createplayer/CreatePlayer';
-export { default as CreateTeam } from './admin/createteam/CreateTeam';
-export { default as SubmitResult } from './admin/submitresult/SubmitResult';
-export { default as DeletePlayer } from './admin/deleteplayer/DeletePlayer';
-export { default as SignIn } from './auth/SignIn';
-export { default as SignUp } from './auth/SignUp';
-export { default as DeleteTeam } from './admin/deleteteam/DeleteTeam';
-export { default as Points } from './points/Points';
-export { default as TriggerWeek } from './admin/triggerweek/TriggerWeek';
-export { default as EditPlayer } from './admin/editplayer/EditPlayer';
-export { default as EditPlayerPrice } from './admin/editplayerprice/EditPlayerPrice';
-export { default as ManageUsers } from './admin/manageusers/ManageUsers';
-export { default as ApproveHighlights } from './admin/highlights/ApproveHighlights';
-export { default as ManageSubs } from './admin/managesubs/ManageSubs';
-export { default as AddNotification } from './admin/addnotification/AddNotification';
-export { default as ManageBugs } from './admin/managebugs/ManageBugs';
+import { lazy } from 'react';
+
+const CreateTeam = lazy(() => import('./admin/createteam/CreateTeam'));
+const CreatePlayer = lazy(() => import('./admin/createplayer/CreatePlayer'));
+const SubmitResult = lazy(() => import('./admin/submitresult/SubmitResult'));
+const DeletePlayer = lazy(() => import('./admin/deleteplayer/DeletePlayer'));
+const DeleteTeam = lazy(() => import('./admin/deleteteam/DeleteTeam'));
+const TriggerWeek = lazy(() => import('./admin/triggerweek/TriggerWeek'));
+const EditPlayer = lazy(() => import('./admin/editplayer/EditPlayer'));
+const EditPlayerPrice = lazy(() => import('./admin/editplayer/EditPlayer'));
+const ManageUsers = lazy(() => import('./admin/manageusers/ManageUsers'));
+const ApproveHighlights = lazy(() => import('./admin/highlights/ApproveHighlights'));
+const ManageSubs = lazy(() => import('./admin/managesubs/ManageSubs'));
+const AddNotification = lazy(() => import('./admin/addnotification/AddNotification'));
+const ManageBugs = lazy(() => import('./admin/managebugs/ManageBugs'));
+const TogglePages = lazy(() => import('./admin/togglepages/TogglePages'));
 // eslint-disable-next-line import/no-cycle
-export { default as TogglePages } from './admin/togglepages/TogglePages';
+
+export {
+    CreateTeam,
+    CreatePlayer,
+    SubmitResult,
+    DeletePlayer,
+    DeleteTeam,
+    TriggerWeek,
+    EditPlayer,
+    EditPlayerPrice,
+    ManageUsers,
+    ApproveHighlights,
+    ManageSubs,
+    AddNotification,
+    ManageBugs,
+    TogglePages
+};

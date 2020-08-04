@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
@@ -27,12 +27,19 @@ import fp from 'lodash/fp';
 import * as adminComponents from './adminComponents';
 import * as rootComponents from './rootComponents';
 import * as constants from './constants';
+import Spinner from './common/spinner/Spinner';
+
+const generateLazyComponent = Component => () => (
+    <Suspense fallback={<Spinner />}>
+        <Component />
+    </Suspense>
+);
 
 export const adminLinks = [
     {
         title: 'Create Player',
         icon: <PersonAddIcon color="primary" />,
-        component: adminComponents.CreatePlayer,
+        component: generateLazyComponent(adminComponents.CreatePlayer),
         path: () => constants.URL.CREATE_PLAYER,
         urlIncludes: constants.URL.CREATE_PLAYER,
         permissionRequired: constants.PERMISSIONS.CREATE_PLAYER
@@ -40,7 +47,7 @@ export const adminLinks = [
     {
         title: 'Delete Player',
         icon: <DeleteIcon color="primary" />,
-        component: adminComponents.DeletePlayer,
+        component: generateLazyComponent(adminComponents.DeletePlayer),
         path: () => constants.URL.DELETE_PLAYER,
         urlIncludes: constants.URL.DELETE_PLAYER,
         permissionRequired: constants.PERMISSIONS.DELETE_PLAYER
@@ -48,7 +55,7 @@ export const adminLinks = [
     {
         title: 'Create Team',
         icon: <PersonAddIcon color="primary" />,
-        component: adminComponents.CreateTeam,
+        component: generateLazyComponent(adminComponents.CreateTeam),
         path: () => constants.URL.CREATE_TEAM,
         urlIncludes: constants.URL.CREATE_TEAM,
         permissionRequired: constants.PERMISSIONS.CREATE_TEAM
@@ -56,7 +63,7 @@ export const adminLinks = [
     {
         title: 'Delete Team',
         icon: <DeleteIcon color="primary" />,
-        component: adminComponents.DeleteTeam,
+        component: generateLazyComponent(adminComponents.DeleteTeam),
         path: () => constants.URL.DELETE_TEAM,
         urlIncludes: constants.URL.DELETE_TEAM,
         permissionRequired: constants.PERMISSIONS.DELETE_TEAM
@@ -64,7 +71,7 @@ export const adminLinks = [
     {
         title: 'Submit Result',
         icon: <PersonAddIcon color="primary" />,
-        component: adminComponents.SubmitResult,
+        component: generateLazyComponent(adminComponents.SubmitResult),
         path: () => constants.URL.SUBMIT_RESULT,
         urlIncludes: constants.URL.SUBMIT_RESULT,
         permissionRequired: constants.PERMISSIONS.SUBMIT_RESULT
@@ -72,7 +79,7 @@ export const adminLinks = [
     {
         title: 'Trigger Week',
         icon: <WhatshotIcon color="primary" />,
-        component: adminComponents.TriggerWeek,
+        component: generateLazyComponent(adminComponents.TriggerWeek),
         path: () => constants.URL.TRIGGER_WEEK,
         urlIncludes: constants.URL.TRIGGER_WEEK,
         permissionRequired: constants.PERMISSIONS.TRIGGER_WEEK
@@ -80,7 +87,7 @@ export const adminLinks = [
     {
         title: 'Edit Player Stats',
         icon: <EditIcon color="primary" />,
-        component: adminComponents.EditPlayer,
+        component: generateLazyComponent(adminComponents.EditPlayer),
         path: () => constants.URL.EDIT_PLAYER_STATS,
         urlIncludes: constants.URL.EDIT_PLAYER_STATS,
         permissionRequired: constants.PERMISSIONS.EDIT_PLAYER
@@ -88,7 +95,7 @@ export const adminLinks = [
     {
         title: 'Edit Player Price',
         icon: <EditIcon color="primary" />,
-        component: adminComponents.EditPlayerPrice,
+        component: generateLazyComponent(adminComponents.EditPlayerPrice),
         path: () => constants.URL.EDIT_PLAYER_PRICE,
         urlIncludes: constants.URL.EDIT_PLAYER_PRICE,
         permissionRequired: constants.PERMISSIONS.EDIT_PLAYER
@@ -96,7 +103,7 @@ export const adminLinks = [
     {
         title: 'Approve Highlights',
         icon: <VideoLabelIcon color="primary" />,
-        component: adminComponents.ApproveHighlights,
+        component: generateLazyComponent(adminComponents.ApproveHighlights),
         addUserId: false,
         path: () => constants.URL.APPROVE_HIGHLIGHTS,
         urlIncludes: constants.URL.APPROVE_HIGHLIGHTS,
@@ -105,7 +112,7 @@ export const adminLinks = [
     {
         title: 'Manage Subs',
         icon: <AttachMoneyIcon color="primary" />,
-        component: adminComponents.ManageSubs,
+        component: generateLazyComponent(adminComponents.ManageSubs),
         addUserId: false,
         path: () => constants.URL.MANAGE_SUBS,
         urlIncludes: constants.URL.MANAGE_SUBS,
@@ -114,7 +121,7 @@ export const adminLinks = [
     {
         title: 'Add Notifications',
         icon: <MessageIcon color="primary" />,
-        component: adminComponents.AddNotification,
+        component: generateLazyComponent(adminComponents.AddNotification),
         addUserId: false,
         path: () => constants.URL.ADD_NOTIFICATIONS,
         urlIncludes: constants.URL.ADD_NOTIFICATIONS,
@@ -123,7 +130,7 @@ export const adminLinks = [
     {
         title: 'Toggle Pages',
         icon: <SupervisorAccountIcon color="primary" />,
-        component: adminComponents.TogglePages,
+        component: generateLazyComponent(adminComponents.TogglePages),
         addUserId: false,
         path: () => constants.URL.TOGGLE_PAGES,
         urlIncludes: constants.URL.TOGGLE_PAGES,
@@ -132,16 +139,16 @@ export const adminLinks = [
     {
         title: 'Manage Bugs',
         icon: <SupervisorAccountIcon color="primary" />,
-        component: adminComponents.ManageBugs,
+        component: generateLazyComponent(adminComponents.ManageBugs),
         addUserId: false,
         path: () => constants.URL.MANAGE_BUGS,
         urlIncludes: constants.URL.MANAGE_BUGS,
-        permissionRequired: constants.PERMISSIONS.MANAGE_USERS /// MUST REPLACE THIS TO:DO
+        permissionRequired: constants.PERMISSIONS.MANAGE_BUGS
     },
     {
         title: 'Manage Users',
         icon: <PeopleOutlineIcon color="primary" />,
-        component: adminComponents.ManageUsers,
+        component: generateLazyComponent(adminComponents.ManageUsers),
         addUserId: false,
         path: () => constants.URL.MANAGE_USERS,
         urlIncludes: constants.URL.MANAGE_USERS,
@@ -153,14 +160,14 @@ export const signedOutLinks = [
     {
         title: 'Sign In',
         icon: <DoubleArrowIcon color="primary" />,
-        component: rootComponents.SignIn,
+        component: generateLazyComponent(rootComponents.SignIn),
         path: () => constants.URL.SIGN_IN,
         urlIncludes: constants.URL.SIGN_IN
     },
     {
         title: 'Sign Up',
         icon: <AccountBoxIcon color="primary" />,
-        component: rootComponents.SignUp,
+        component: generateLazyComponent(rootComponents.SignUp),
         path: () => constants.URL.SIGN_UP,
         urlIncludes: constants.URL.SIGN_UP
     }
@@ -170,7 +177,7 @@ export const signedInLinks = [
     {
         title: 'Overview',
         icon: <HomeIcon color="primary" />,
-        component: rootComponents.Overview,
+        component: generateLazyComponent(rootComponents.Overview),
         addUserId: false,
         path: props => `${constants.URL.OVERVIEW}/${fp.get('userId')(props)}/${fp.get('maxGameWeek')(props)}`,
         renderPath: `${constants.URL.OVERVIEW}/:userId/:week`,
@@ -180,7 +187,7 @@ export const signedInLinks = [
     {
         title: 'Current Team',
         icon: <PeopleAltIcon color="primary" />,
-        component: rootComponents.CurrentTeam,
+        component: generateLazyComponent(rootComponents.CurrentTeam),
         addUserId: true,
         path: props => `${constants.URL.CURRENT_TEAM}/${fp.get('userId')(props)}`,
         renderPath: `${constants.URL.CURRENT_TEAM}/:userId`,
@@ -190,7 +197,7 @@ export const signedInLinks = [
     {
         title: 'Points',
         icon: <GradeIcon color="primary" />,
-        component: rootComponents.Points,
+        component: generateLazyComponent(rootComponents.Points),
         addUserId: false,
         path: props => `${constants.URL.POINTS}/${fp.get('userId')(props)}/${fp.get('maxGameWeek')(props)}`,
         renderPath: `${constants.URL.POINTS}/:userId/:week`,
@@ -200,7 +207,7 @@ export const signedInLinks = [
     {
         title: 'Leagues',
         icon: <LayersIcon color="primary" />,
-        component: rootComponents.Leagues,
+        component: generateLazyComponent(rootComponents.Leagues),
         addUserId: false,
         path: () => constants.URL.LEAGUES,
         renderPath: constants.URL.LEAGUES,
@@ -210,7 +217,7 @@ export const signedInLinks = [
     {
         title: 'The Cup',
         icon: <LocalCafeIcon color="primary" />,
-        component: rootComponents.Cup,
+        component: generateLazyComponent(rootComponents.Cup),
         addUserId: false,
         path: () => constants.URL.CUP,
         renderPath: constants.URL.CUP,
@@ -220,7 +227,7 @@ export const signedInLinks = [
     {
         title: 'Transfers',
         icon: <TransferWithinAStationIcon color="primary" />,
-        component: rootComponents.Transfers,
+        component: generateLazyComponent(rootComponents.Transfers),
         addUserId: false,
         path: () => constants.URL.TRANSFERS,
         renderPath: constants.URL.TRANSFERS,
@@ -230,7 +237,7 @@ export const signedInLinks = [
     {
         title: 'Stats',
         icon: <WavesIcon color="primary" />,
-        component: rootComponents.Stats,
+        component: generateLazyComponent(rootComponents.Stats),
         addUserId: false,
         path: props => `${constants.URL.STATS}/none/${fp.get('maxGameWeek')(props)}/${fp.get('maxGameWeek')(props)}`,
         renderPath: `${constants.URL.STATS}/:teamId/:minWeek/:maxWeek`,
@@ -240,7 +247,7 @@ export const signedInLinks = [
     {
         title: 'Charts',
         icon: <EqualizerIcon color="primary" />,
-        component: rootComponents.Charts,
+        component: generateLazyComponent(rootComponents.Charts),
         addUserId: false,
         path: () => constants.URL.CHARTS,
         renderPath: constants.URL.CHARTS,
@@ -250,7 +257,7 @@ export const signedInLinks = [
     {
         title: 'Highlights',
         icon: <VideoLibraryIcon color="primary" />,
-        component: rootComponents.Highlights,
+        component: generateLazyComponent(rootComponents.Highlights),
         addUserId: false,
         path: () => constants.URL.HIGHLIGHTS,
         renderPath: constants.URL.HIGHLIGHTS,
@@ -260,7 +267,7 @@ export const signedInLinks = [
     {
         title: 'Fixtures',
         icon: <DehazeIcon color="primary" />,
-        component: rootComponents.Fixtures,
+        component: generateLazyComponent(rootComponents.Fixtures),
         addUserId: false,
         path: () => constants.URL.FIXTURES,
         renderPath: constants.URL.FIXTURES,
@@ -270,7 +277,7 @@ export const signedInLinks = [
     {
         title: 'Feature Request',
         icon: <QuestionAnswerIcon color="primary" />,
-        component: rootComponents.FeatureRequest,
+        component: generateLazyComponent(rootComponents.FeatureRequest),
         addUserId: false,
         path: () => constants.URL.FEATURE_REQUEST,
         renderPath: constants.URL.FEATURE_REQUEST,

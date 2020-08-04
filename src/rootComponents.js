@@ -1,13 +1,32 @@
-export { default as SignIn } from './auth/SignIn';
-export { default as SignUp } from './auth/SignUp';
-export { default as Points } from './points/Points';
-export { default as Overview } from './overview/Overview';
-export { default as Leagues } from './leagues/Leagues';
-export { default as CurrentTeam } from './currentteam/CurrentTeam';
-export { default as Transfers } from './transfers/Transfers';
-export { default as Stats } from './stats/Stats';
-export { default as Charts } from './charts/Charts';
-export { default as Highlights } from './highlights/Highlights';
-export { default as Fixtures } from './fixtures/Fixtures';
-export { default as FeatureRequest } from './featurerequest/FeatureRequest';
-export { default as Cup } from './cup/TheCup';
+import { lazy } from 'react';
+
+const SignIn = lazy(() => import('./auth/SignIn'));
+const SignUp = lazy(() => import('./auth/SignUp'));
+
+const Points = lazy(() => import('./points/Points'));
+const Leagues = lazy(() => import('./leagues/Leagues'));
+const Overview = lazy(() => import('./overview/Overview'));
+const CurrentTeam = lazy(() => import('./currentteam/CurrentTeam'));
+const Transfers = lazy(() => import('./transfers/Transfers'));
+const Cup = lazy(() => import('./cup/TheCup'));
+const Stats = lazy(() => import('./stats/Stats'));
+const Charts = lazy(() => import('./charts/Charts'));
+const Highlights = lazy(() => import('./highlights/Highlights'));
+const Fixtures = lazy(() => import('./fixtures/Fixtures'));
+const FeatureRequest = lazy(() => import('./featurerequest/FeatureRequest'));
+
+export {
+    SignIn,
+    SignUp,
+    Overview,
+    Points,
+    Leagues,
+    CurrentTeam,
+    Transfers,
+    Cup,
+    Stats,
+    Charts,
+    Highlights,
+    Fixtures,
+    FeatureRequest
+};
