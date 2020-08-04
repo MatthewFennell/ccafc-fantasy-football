@@ -3,12 +3,12 @@
   "name": "Collingwood Fantasy Football",
   "icons": [
     {
-      "src": "cwood-test.ico",
+      "src": "cwood-colors-striped-rounds.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "cwood-test.png",
+      "src": "cwood-colors-striped-rounds.png",
       "type": "image/png",
       "sizes": "192x192 512x512"
     }
