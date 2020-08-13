@@ -24,6 +24,7 @@ export function* getUsername(userId, api) {
 }
 
 export function* getUserPointsForWeek(api, action) {
+    console.log('action', action);
     try {
         yield fork(getUsername, action.userId, api);
         const alreadyFetched = yield select(selectors.alreadyFetchedUserPoints,

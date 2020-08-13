@@ -38,7 +38,7 @@ const UserInfo = props => {
                             <img
                                 className={props.styles.photo}
                                 src={props.photoUrl}
-                                alt="new"
+                                alt="Error loading"
                             />
                         </div>
                     )}
