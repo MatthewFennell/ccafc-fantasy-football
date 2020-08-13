@@ -30,7 +30,7 @@ import * as constants from './constants';
 import Spinner from './common/spinner/Spinner';
 
 const generateLazyComponent = Component => () => (
-    <Suspense fallback={<Spinner />}>
+    <Suspense fallback={<div style={{ textAlign: 'center', marginTop: '30px' }}><Spinner /></div>}>
         <Component />
     </Suspense>
 );

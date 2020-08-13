@@ -100,12 +100,15 @@ const TopNavbar = props => {
 
                         {props.auth.uid ? (
                             <div>
-                                <MenuItem onClick={() => redirectOnClick(
-                                    constants.URL.PROFILE
-                                )}
-                                >
-                                    My account
-                                </MenuItem>
+                                {props.auth.emailVerified
+                                && (
+                                    <MenuItem onClick={() => redirectOnClick(
+                                        constants.URL.PROFILE
+                                    )}
+                                    >
+                                        My account
+                                    </MenuItem>
+                                ) }
                                 <MenuItem onClick={props.signOut}>Sign out</MenuItem>
                             </div>
                         ) : (
