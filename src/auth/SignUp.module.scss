@@ -11,7 +11,6 @@
     width: 80%;
     padding: $spacing-large;
     @include light-box-shadow();
-    .signUpForm {      
       .textInputsWrapper {
         width: 50%;
         margin-left: auto;
@@ -27,7 +26,6 @@
       .submitButtons{
         text-align: center;
       }
-    }
 }
   .modalWrapper{
     text-align: center;

@@ -21,7 +21,7 @@ describe('Navbar - TopNavbar', () => {
     it('Load profile page', () => {
         const mockFn = jest.fn(noop);
         const wrapper = mount(<TopNavbar
-            auth={{ uid: 'logged in' }}
+            auth={{ uid: 'logged in', emailVerified: true }}
             redirect={mockFn}
         />);
         wrapper.find(MenuItem).at(0).simulate('click');
@@ -33,7 +33,7 @@ describe('Navbar - TopNavbar', () => {
     it('Signs out', () => {
         const mockFn = jest.fn(noop);
         const wrapper = mount(<TopNavbar
-            auth={{ uid: 'logged in' }}
+            auth={{ uid: 'logged in', emailVerified: true }}
             signOut={mockFn}
         />);
         wrapper.find(MenuItem).at(1).simulate('click');
@@ -79,7 +79,7 @@ describe('Navbar - TopNavbar', () => {
 
     it('Renders correct menu items when logged in', () => {
         const wrapper = mount(<TopNavbar
-            auth={{ uid: 'some id' }}
+            auth={{ uid: 'some id', emailVerified: true }}
         />);
         expect(wrapper.find(MenuItem)).toHaveLength(2);
     });
