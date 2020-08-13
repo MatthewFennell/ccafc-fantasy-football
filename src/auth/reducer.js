@@ -10,6 +10,7 @@ export const initialState = {
     isEditingPage: '',
     permissionMappings: {},
     sendingEmailVerification: false,
+    isSendingPasswordReset: false,
     userPermissions: []
 };
 
@@ -17,6 +18,12 @@ const authReducer = (state = initialState, action) => {
     switch (action.type) {
     case actions.SET_LOADING_APP: {
         return fp.set('loadingApp', action.isLoadingApp)(state);
+    }
+    case actions.SEND_PASSWORD_RESET_EMAIL: {
+        return fp.set('isSendingPasswordReset', true)(state);
+    }
+    case actions.CANCEL_SENDING_PASSWORD_RESET_EMAIL: {
+        return fp.set('isSendingPasswordReset', false)(state);
     }
     case actions.EDIT_DISABLED_PAGE_REQUEST: {
         return fp.set('isEditingPage', action.page)(state);

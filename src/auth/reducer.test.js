@@ -22,6 +22,25 @@ describe('Auth reducer', () => {
         });
     });
 
+    it('send reset password email', () => {
+        const action = actions.sendPasswordResetEmail('email');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isSendingPasswordReset: true
+        });
+    });
+
+    it('cancel send reset password email', () => {
+        const action = actions.cancelSendingPasswordResetEmail();
+        expect(reducer({
+            ...initialState,
+            isSendingPasswordReset: true
+        }, action)).toEqual({
+            ...initialState,
+            isSendingPasswordReset: false
+        });
+    });
+
     it('edit disabled page request', () => {
         const action = actions.editDisabledPageRequest('page');
         expect(reducer(initialState, action)).toEqual({

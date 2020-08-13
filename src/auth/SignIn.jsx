@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React from 'react';
+import React, { useCallback } from 'react';
 import firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { connect } from 'react-redux';
@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import defaultStyles from './SignIn.module.scss';
+import * as constants from '../constants';
 
 const SignIn = props => {
     const uiConfig = {
@@ -20,11 +21,25 @@ const SignIn = props => {
         }
     };
 
+    const redirectToPasswordReset = useCallback(() => {
+        props.history.push(constants.URL.RESET_PASSWORD);
+    }, [props.history]);
+
     return (
         <div className={props.styles.signInWrapper}>
             <div className={props.styles.shadowWrapper}>
                 <div className={props.styles.signInMessage}>
                     Sign In
+                </div>
+                <div className={props.styles.passwordWrapper}>
+                    <div
+                        className={props.styles.forgotPasswordLink}
+                        role="button"
+                        tabIndex={0}
+                        onClick={redirectToPasswordReset}
+                    >
+                        Forgot your password?
+                    </div>
                 </div>
                 <StyledFirebaseAuth
                     uiConfig={uiConfig}

@@ -15,6 +15,7 @@ export const LINK_PROFILE_TO_FACEBOOK = `${pre}LINK_PROFILE_TO_FACEBOOK`;
 export const UPDATE_DISPLAY_NAME = `${pre}UPDATE_DISPLAY_NAME`;
 
 export const SEND_PASSWORD_RESET_EMAIL = `${pre}SEND_PASSWORD_RESET_EMAIL`;
+export const CANCEL_SENDING_PASSWORD_RESET_EMAIL = `${pre}CANCEL_SENDING_PASSWORD_RESET_EMAIL`;
 
 export const RESEND_VERIFICATION_EMAIL_REQUEST = `${pre}RESEND_VERIFICATION_EMAIL_REQUEST`;
 export const CANCEL_SENDING_EMAIL_VERIFICATION = `${pre}CANCEL_SENDING_EMAIL_VERIFICATION`;
@@ -74,6 +75,10 @@ export const updateDisplayName = displayName => ({
 export const sendPasswordResetEmail = email => ({
     type: SEND_PASSWORD_RESET_EMAIL,
     email
+});
+
+export const cancelSendingPasswordResetEmail = () => ({
+    type: CANCEL_SENDING_PASSWORD_RESET_EMAIL
 });
 
 export const linkProfileToGoogle = () => ({

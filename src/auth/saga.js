@@ -9,6 +9,7 @@ import * as authApi from './api';
 import * as consts from '../constants';
 import { fetchMaxGameWeekRequest } from '../overview/actions';
 import { setErrorMessage } from '../modalHandling/actions';
+import { addNotification } from '../notifications/actions';
 
 const actionCodeSettings = {
     url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT,
@@ -79,8 +80,11 @@ export function* signIn(action) {
 export function* sendResetPasswordEmail(action) {
     try {
         yield firebase.auth().sendPasswordResetEmail(action.email);
+        yield put(addNotification('Player Price successfully changed'));
     } catch (error) {
         yield put(setErrorMessage('Error Sending Password Reset Email', error));
+    } finally {
+        yield put(actions.cancelSendingPasswordResetEmail());
     }
 }
 

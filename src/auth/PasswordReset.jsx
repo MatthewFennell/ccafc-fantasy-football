@@ -6,6 +6,7 @@ import { sendPasswordResetEmail } from './actions';
 import StyledButton from '../common/StyledButton/StyledButton';
 import TextInput from '../common/TextInput/TextInput';
 import * as textInputConstants from '../common/TextInput/constants';
+import LoadingDiv from '../common/loadingDiv/LoadingDiv';
 
 const PasswordReset = props => {
     const [email, setEmail] = useState('');
@@ -20,21 +21,28 @@ const PasswordReset = props => {
                 iconColor="secondary"
             />
             <div className={props.styles.resetPasswordButton}>
-                <StyledButton
-                    color="primary"
-                    onClick={() => props.sendPasswordResetEmail(email)}
-                    text="Send reset password email"
-                />
+                <LoadingDiv
+                    isLoading={props.isSendingPasswordReset}
+                    isBorderRadius
+                >
+                    <StyledButton
+                        color="primary"
+                        onClick={() => props.sendPasswordResetEmail(email)}
+                        text="Send reset password email"
+                    />
+                </LoadingDiv>
             </div>
         </div>
     );
 };
 
 PasswordReset.defaultProps = {
+    isSendingPasswordReset: false,
     styles: defaultStyles
 };
 
 PasswordReset.propTypes = {
+    isSendingPasswordReset: PropTypes.bool,
     sendPasswordResetEmail: PropTypes.func.isRequired,
     styles: PropTypes.objectOf(PropTypes.string)
 };
@@ -43,6 +51,10 @@ const mapDispatchToProps = {
     sendPasswordResetEmail
 };
 
-export default connect(null, mapDispatchToProps)(PasswordReset);
+const mapStateToProps = state => ({
+    isSendingPasswordReset: state.auth.isSendingPasswordReset
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PasswordReset);
 
 export { PasswordReset as PasswordResetUnconnected };

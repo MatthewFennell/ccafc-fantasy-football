@@ -11,6 +11,7 @@ import * as actions from './actions';
 import { successDelay } from '../constants';
 import { fetchMaxGameWeekRequest } from '../overview/actions';
 import { setErrorMessage } from '../modalHandling/actions';
+import { addNotification } from '../notifications/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -187,6 +188,14 @@ describe('Auth saga', () => {
         const action = actions.resendEmailVerificationRequest();
         return expectSaga(sagas.resendVerificationEmall, api, action)
             .put(actions.cancelSendingEmailVerification())
+            .run({ silenceTimeout: true });
+    });
+
+    it('send reset email password', () => {
+        const action = actions.sendPasswordResetEmail();
+        return expectSaga(sagas.sendResetPasswordEmail, api, action)
+            .put(addNotification('Player Price successfully changed'))
+            .put(actions.cancelSendingPasswordResetEmail())
             .run({ silenceTimeout: true });
     });
 
