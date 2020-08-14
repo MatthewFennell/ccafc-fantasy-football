@@ -64,10 +64,6 @@ const Overview = props => {
         props.history.push(`${constants.URL.POINTS}/${props.auth.uid}/${props.currentGameWeek}`);
     }, [props.auth.uid, props.currentGameWeek, props.history]);
 
-    const array = [1, 2, 3, 4, 5];
-
-    console.log(array[8].testing);
-
     return (
         <div className={props.styles.overviewWrapper}>
             <div className={props.styles.pointsWrapper}>
