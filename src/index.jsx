@@ -71,12 +71,12 @@ ReactDOM.render(
 
 serviceWorker.register({
     onUpdate: () => {
-        console.log('hello');
         store.dispatch({
             type: notificationActions.ADD_NOTIFICATION,
             notificationType: notificationTypes.NOTIFICATION_TYPE_INFO,
-            notification: 'There are new updates available. Close all tabs to get the new changes',
-            duration: 0
+            notification: 'There are new updates available. Close all tabs to receive the updates.',
+            duration: 0,
+            title: 'Updates Available'
         });
     }
 });

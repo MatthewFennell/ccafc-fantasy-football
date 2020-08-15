@@ -12,9 +12,10 @@ export const closeNotification = notification => ({
 
 export const addNotification = (notification,
     notificationType = constants.NOTIFICATION_TYPE_SUCCESS,
-    duration = 5000) => ({
+    duration = 5000, title = 'Success') => ({
     type: ADD_NOTIFICATION,
     notification,
     notificationType,
-    duration
+    duration,
+    title
 });

@@ -22,7 +22,7 @@ export function* closeNotification(api, action) {
 export function addNotification(action) {
     store.addNotification({
         ...constants.commonNotificationProps,
-        title: 'Success',
+        title: action.title,
         message: action.notification,
         type: action.notificationType,
         id: `${action.notification}-${notificationId}`,
