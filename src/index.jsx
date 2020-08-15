@@ -17,6 +17,8 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import MyProvider from './Context';
 import 'react-notifications-component/dist/theme.css';
+import * as notificationActions from './notifications/actions';
+import * as notificationTypes from './notifications/constants';
 
 Sentry.init({
     dsn: 'https://0868b0821d5242cbbd15dfa2f5bd3a73@o434496.ingest.sentry.io/5391607',
@@ -67,4 +69,14 @@ ReactDOM.render(
     document.getElementById('root')
 );
 
-serviceWorker.register();
+serviceWorker.register({
+    onUpdate: () => {
+        console.log('hello');
+        store.dispatch({
+            type: notificationActions.ADD_NOTIFICATION,
+            notificationType: notificationTypes.NOTIFICATION_TYPE_INFO,
+            notification: 'There are new updates available. Close all tabs to get the new changes',
+            duration: 0
+        });
+    }
+});
