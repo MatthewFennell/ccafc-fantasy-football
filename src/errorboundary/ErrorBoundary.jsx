@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import * as Sentry from '@sentry/browser';
 import defaultStyles from './ErrorBoundary.module.scss';
+import * as selectors from './selectors';
 
 class ErrorBoundary extends React.Component {
     constructor(props) {
@@ -8,18 +11,26 @@ class ErrorBoundary extends React.Component {
         this.state = { hasError: false };
     }
 
-    componentDidCatch() {
-        // Display fallback UI
+    componentDidCatch(error, errorInfo) {
         this.setState({ hasError: true });
+        Sentry.withScope(scope => {
+            scope.setUser({
+                email: this.props.email,
+                id: this.props.uid,
+                username: this.props.displayName
+            });
+            scope.setContext();
+            scope.setExtras(errorInfo);
+            Sentry.captureException(error);
+        });
     }
 
     render() {
         if (this.state.hasError) {
-        // You can render any custom fallback UI
             return (
                 <div className={this.props.styles.errorMessageWrapper}>
                     <div className={this.props.styles.errorHeader}>
-                        {`There was an error in the ${this.props.moduleName} module`}
+                        {`There was an error in the ${this.props.moduleName} module. This error has been reported to the web developer.`}
                     </div>
 
                     <ul className={this.props.styles.options}>
@@ -39,7 +50,6 @@ class ErrorBoundary extends React.Component {
                             If the error persists,
                             let the website maintainer know (and which module)
                         </li>
-
                     </ul>
                 </div>
             );
@@ -53,14 +63,28 @@ ErrorBoundary.propTypes = {
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node
     ]),
+    displayName: PropTypes.string,
+    email: PropTypes.string,
     moduleName: PropTypes.string,
-    styles: PropTypes.objectOf(PropTypes.string)
+    styles: PropTypes.objectOf(PropTypes.string),
+    uid: PropTypes.string
 };
 
 ErrorBoundary.defaultProps = {
     children: null,
+    displayName: '',
+    email: '',
     moduleName: '',
-    styles: defaultStyles
+    styles: defaultStyles,
+    uid: ''
 };
 
-export default ErrorBoundary;
+const mapStateToProps = state => ({
+    email: selectors.getAuthField(state, 'email'),
+    uid: selectors.getAuthField(state, 'uid'),
+    displayName: selectors.getAuthField(state, 'displayName')
+});
+
+export default connect(mapStateToProps, null)(ErrorBoundary);
+
+export { ErrorBoundary as ErrorBoundaryUnconnected };
