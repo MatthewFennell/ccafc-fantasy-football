@@ -34,7 +34,11 @@ jobs:
       id: package-version
       uses: martinbeentjes/npm-get-version-action@master
       with:
-        path: ./
+        path: ./package.json
+
+    - name: print-version
+      run:
+        echo ${{ steps.package-version.outputs.current-version}}
 
     - name: Lint
       run:
@@ -44,6 +48,6 @@ jobs:
 
     - name: Testing
       run:
-        npm test:coverage
+        npm test
       env:
         CI: true
