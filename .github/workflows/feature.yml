@@ -26,6 +26,10 @@ jobs:
       env:
         CI: true
 
+    - name: Testing
+      run:
+        echo $npm_package_version
+
     - name: Lint
       run:
         npm run lint

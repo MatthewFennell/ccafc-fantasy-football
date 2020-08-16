@@ -21,8 +21,9 @@ import * as notificationActions from './notifications/actions';
 import * as notificationTypes from './notifications/constants';
 
 Sentry.init({
+    environment: process.env.REACT_APP_PROJECT_ID,
     dsn: process.env.REACT_APP_SENTRY_DSN,
-    environment: process.env.REACT_APP_PROJECT_ID
+    release: process.env.REACT_APP_VERSION
 });
 
 const history = createBrowserHistory();
