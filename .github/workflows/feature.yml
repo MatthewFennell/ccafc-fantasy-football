@@ -26,20 +26,6 @@ jobs:
       env:
         CI: true
 
-    - name: list
-      run:
-        ls
-
-    - name: get-npm-version
-      id: package-version
-      uses: martinbeentjes/npm-get-version-action@master
-      with:
-        path: .
-
-    - name: print-version
-      run:
-        echo ${{ steps.package-version.outputs.current-version}}
-
     - name: Lint
       run:
         npm run lint
