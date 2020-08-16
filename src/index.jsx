@@ -26,8 +26,6 @@ Sentry.init({
     release: process.env.REACT_APP_VERSION
 });
 
-console.log('env version', process.env.REACT_APP_VERSION);
-
 const history = createBrowserHistory();
 
 // react-redux-firebase config
