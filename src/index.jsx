@@ -21,7 +21,7 @@ import * as notificationActions from './notifications/actions';
 import * as notificationTypes from './notifications/constants';
 
 Sentry.init({
-    dsn: 'https://0868b0821d5242cbbd15dfa2f5bd3a73@o434496.ingest.sentry.io/5391607',
+    dsn: process.env.REACT_APP_SENTRY_DSN,
     environment: process.env.REACT_APP_PROJECT_ID
 });
 
