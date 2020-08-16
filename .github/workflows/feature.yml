@@ -26,9 +26,15 @@ jobs:
       env:
         CI: true
 
-    - name: Testing
+    - name: list
       run:
-        echo $npm_package_version
+        ls
+
+    - name: get-npm-version
+      id: package-version
+      uses: martinbeentjes/npm-get-version-action@master
+      with:
+        path: ./
 
     - name: Lint
       run:
