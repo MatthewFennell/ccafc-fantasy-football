@@ -47,7 +47,7 @@ const Transfers = props => {
     const [goalFilter, setGoalFilter] = useState('Desc');
     const [assistsFilter, setAssistsFilter] = useState('Desc');
     const [minPrice, setMinPrice] = useState(0);
-    const [maxPrice, setMaxPrice] = useState(20);
+    const [maxPrice, setMaxPrice] = useState(20000);
     const [priceFilter, setPriceFilter] = useState('Desc');
     const [previousScoreFilter, setPreviousScoreFilter] = useState('Desc');
     const [myColumns, setMyColumns] = useState(getColumns(() => setColumnModalOpen(true)));

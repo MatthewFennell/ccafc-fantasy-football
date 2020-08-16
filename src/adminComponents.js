@@ -7,7 +7,7 @@ const DeletePlayer = lazy(() => import('./admin/deleteplayer/DeletePlayer'));
 const DeleteTeam = lazy(() => import('./admin/deleteteam/DeleteTeam'));
 const TriggerWeek = lazy(() => import('./admin/triggerweek/TriggerWeek'));
 const EditPlayer = lazy(() => import('./admin/editplayer/EditPlayer'));
-const EditPlayerPrice = lazy(() => import('./admin/editplayer/EditPlayer'));
+const EditPlayerPrice = lazy(() => import('./admin/editplayerprice/EditPlayerPrice'));
 const ManageUsers = lazy(() => import('./admin/manageusers/ManageUsers'));
 const ApproveHighlights = lazy(() => import('./admin/highlights/ApproveHighlights'));
 const ManageSubs = lazy(() => import('./admin/managesubs/ManageSubs'));

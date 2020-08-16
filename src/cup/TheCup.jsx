@@ -32,7 +32,7 @@ const TheCup = props => {
                                     Players will randomly be assigned
                                     byes to fix the number of players
                                 </li>
-                                <li>Must get the more points than your opponent to go through</li>
+                                <li>Must get more points than your opponent to go through</li>
                                 <li>Ties result in both players being eliminated</li>
                                 <li>Must score more than 0 points in Week 2 to take part</li>
                             </ul>
