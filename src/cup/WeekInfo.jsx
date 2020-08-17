@@ -36,6 +36,7 @@ const WeekInfo = props => {
                 </div>
             )}
             isBigSideMargins
+            isBorderRadiusTiny
         >
             <div className={props.styles.weekInfoWrapper}>
                 {props.byes.length > 0 && (
@@ -63,7 +64,14 @@ const WeekInfo = props => {
                 </div>
                 <div className={props.styles.matchupsWrapper}>
                     {props.pairings.map(pairing => (
-                        <div className={props.styles.pairingWrapper} key={pairing.playerOneId}>
+                        <div
+                            key={pairing.playerOneId}
+                            className={classNames({
+                                [props.styles.pairingWrapper]: true,
+                                [props.styles.includesMe]: pairing.playerOneId === props.auth.uid
+                            || pairing.playerTwoId === props.auth.uid
+                            })}
+                        >
                             <div className={classNames({
                                 [props.styles.pairingItem]: true,
                                 [props.styles.winningPlayer]: pairing.playerOneScore
@@ -99,7 +107,10 @@ const WeekInfo = props => {
 };
 
 WeekInfo.defaultProps = {
-    byes: PropTypes.arrayOf(PropTypes.string),
+    auth: {
+        uid: ''
+    },
+    byes: [],
     displayNameMappings: {},
     isFinalWeek: false,
     pairings: [],
@@ -108,6 +119,9 @@ WeekInfo.defaultProps = {
 };
 
 WeekInfo.propTypes = {
+    auth: PropTypes.shape({
+        uid: PropTypes.string
+    }),
     byes: PropTypes.arrayOf(PropTypes.string),
     displayNameMappings: PropTypes.shape({}),
     isFinalWeek: PropTypes.bool,

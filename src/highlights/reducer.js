@@ -10,19 +10,18 @@ export const initialState = {
     videos: [],
     videosToBeApproved: [],
     videosRejected: [],
+    highlightBeingVotedOn: '',
 
     loadedVideos: false,
     loadedRejectedVideos: false,
     loadedVideosToBeApproved: false,
 
-    errorHeader: '',
-    errorMessage: '',
-    errorCode: '',
-
     successMessage: '',
     isSubmittingHighlight: false,
 
-    isAddingCommentToHighlight: false
+    isAddingCommentToHighlight: false,
+    commentBeingDeletedInfo: {},
+    replyBeingDeletedInfo: {}
 };
 
 const highlightsReducer = (state = initialState, action) => {
@@ -31,15 +30,42 @@ const highlightsReducer = (state = initialState, action) => {
         return {
             ...state,
             videos: action.highlights,
-            loadingVideos: false,
             loadedVideos: true
         };
+    }
+    case actions.DELETE_COMMENT_REQUEST: {
+        return fp.set('commentBeingDeletedInfo', ({
+            commentId: action.commentId,
+            videoId: action.videoId
+        }))(state);
+    }
+    case actions.CANCEL_DELETING_REPLY: {
+        return fp.set('replyBeingDeletedInfo', {})(state);
+    }
+    case actions.DELETE_REPLY_REQUEST: {
+        return fp.set('replyBeingDeletedInfo', ({
+            commentId: action.commentId,
+            videoId: action.videoId,
+            replyId: action.replyId
+        }))(state);
+    }
+    case actions.CANCEL_DELETING_COMMENT: {
+        return fp.set('commentBeingDeletedInfo', {})(state);
     }
     case actions.FETCH_HIGHLIGHTS_REQUEST: {
         return fp.set('loadingVideos', true)(state);
     }
     case actions.SUBMIT_HIGHLIGHT_REQUEST: {
         return fp.set('isSubmittingHighlight', true)(state);
+    }
+    case actions.CANCEL_VOTING_ON_HIGHLIGHT: {
+        return fp.set('highlightBeingVotedOn', '')(state);
+    }
+    case actions.UPVOTE_HIGHLIGHT_REQUEST: {
+        return fp.set('highlightBeingVotedOn', action.highlightId)(state);
+    }
+    case actions.DOWNVOTE_HIGHLIGHT_REQUEST: {
+        return fp.set('highlightBeingVotedOn', action.highlightId)(state);
     }
     case actions.UPVOTE_HIGHLIGHT_SUCCESS: {
         return {
@@ -53,7 +79,7 @@ const highlightsReducer = (state = initialState, action) => {
             videos: state.videos.map(x => (x.id === action.highlight.id ? action.highlight : x))
         };
     }
-    case actions.ALREADY_FETCHED_VIDEOS: {
+    case actions.CANCEL_FETCHING_VIDEOS: {
         return fp.set('loadingVideos', false)(state);
     }
     case actions.FETCH_USER_HIGHLIGHTS_TO_BE_APPROVED_SUCCESS: {
@@ -67,7 +93,6 @@ const highlightsReducer = (state = initialState, action) => {
     case actions.FETCH_REJECTED_HIGHLIGHTS_SUCCESS: {
         return {
             ...state,
-            loadingRejectedVideos: false,
             videosRejected: action.highlights,
             loadedRejectedVideos: true
         };
@@ -78,10 +103,10 @@ const highlightsReducer = (state = initialState, action) => {
     case actions.FETCH_REJECTED_HIGHLIGHTS_REQUEST: {
         return fp.set('loadingRejectedVideos', true)(state);
     }
-    case actions.ALREADY_FETCHED_REJECTED_VIDEOS: {
+    case actions.CANCEL_FETCHING_REJECTED_VIDEOS: {
         return fp.set('loadingRejectedVideos', false)(state);
     }
-    case actions.ALREADY_FETCHED_APPROVED_HIGHLIGHTS: {
+    case actions.CANCEL_LOADING_VIDEOS_TO_BE_APPROVED: {
         return fp.set('loadingVideosToBeApproved', false)(state);
     }
     case adminActions.DELETE_HIGHLIGHT_SUCCESS: {
@@ -120,8 +145,8 @@ const highlightsReducer = (state = initialState, action) => {
     case actions.ADD_REPLY_TO_VIDEO_REQUEST: {
         return fp.set('isAddingCommentToHighlight', true)(state);
     }
-    case actions.SET_ADDING_COMMENT_TO_VIDEO: {
-        return fp.set('isAddingCommentToHighlight', action.isAdding)(state);
+    case actions.CANCEL_ADDING_COMMENT_TO_VIDEO: {
+        return fp.set('isAddingCommentToHighlight', false)(state);
     }
     case actions.ADD_COMMENT_TO_VIDEO_SUCCESS: {
         return {
@@ -180,14 +205,6 @@ const highlightsReducer = (state = initialState, action) => {
             }))
         };
     }
-    case actions.SET_HIGHLIGHT_ERROR: {
-        return {
-            ...state,
-            errorMessage: action.error.message,
-            errorCode: action.error.code,
-            errorHeader: action.header
-        };
-    }
     case actions.CLOSE_HIGHLIGHT_ERROR: {
         return {
             ...state,
@@ -197,10 +214,10 @@ const highlightsReducer = (state = initialState, action) => {
         };
     }
     case actions.SET_SUCCESS_MESSAGE: {
-        return fp.flow(
-            fp.set('successMessage', action.message),
-            fp.set('isSubmittingHighlight', false)
-        )(state);
+        return fp.set('successMessage', action.message)(state);
+    }
+    case actions.CANCEL_SUBMITTING_HIGHLIGHT: {
+        return fp.set('isSubmittingHighlight', false)(state);
     }
     case actions.CLOSE_SUCCESS_MESSAGE: {
         return fp.set('successMessage', '')(state);

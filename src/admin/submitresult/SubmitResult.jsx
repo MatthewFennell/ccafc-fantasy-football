@@ -3,19 +3,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import fp from 'lodash/fp';
-import { noop } from 'lodash';
 import defaultStyles from './SubmitResult.module.scss';
 import {
     fetchTeamsRequest, fetchPlayersForTeamRequest, submitResultRequest,
-    submitExtraStatsRequest, closeSuccessMessage,
-    closeAdminError, submitCustumResults
+    submitExtraStatsRequest,
+    submitCustumResults
 } from '../actions';
 import Dropdown from '../../common/dropdown/Dropdown';
 import { isDefensive } from '../../helperFunctions';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
-import ErrorModal from '../../common/modal/ErrorModal';
-import SuccessModal from '../../common/modal/SuccessModal';
 import ExtraStats from './ExtraStats';
 import TextInput from '../../common/TextInput/TextInput';
 import * as textInputConstants from '../../common/TextInput/constants';
@@ -182,7 +179,13 @@ const SubmitResult = props => {
     return (
         <>
             <div className={props.styles.submitResultWrapper}>
-                <StyledButton text="Custom submit" onClick={() => props.submitCustumResults(gameWeek)} disabled={!gameWeek} />
+                {(!process.env.NODE_ENV || process.env.NODE_ENV === 'development') && (
+                    <StyledButton
+                        text="Custom submit"
+                        onClick={() => props.submitCustumResults(gameWeek)}
+                        disabled={!gameWeek}
+                    />
+                )}
                 <div className={props.styles.submitButtonWrapper}>
                     <StyledButton
                         color="primary"
@@ -221,7 +224,7 @@ const SubmitResult = props => {
                     />
                 </div>
                 <LoadingDiv
-                    isLoading={props.isFetchingPlayersForTeam && teamName}
+                    isLoading={Boolean(props.isFetchingPlayersForTeam && teamName)}
                     isFitContent
                     isBorderRadius
                 >
@@ -264,13 +267,6 @@ const SubmitResult = props => {
                         </div>
                     </div>
                 </LoadingDiv>
-                <ErrorModal
-                    closeModal={props.closeAdminError}
-                    headerMessage={props.errorHeader}
-                    isOpen={props.errorMessage.length > 0}
-                    errorCode={props.errorCode}
-                    errorMessage={props.errorMessage}
-                />
                 <div className={classNames({
                     [props.styles.hidden]: !props.submittingResult
                 })}
@@ -288,37 +284,20 @@ const SubmitResult = props => {
                 submittingExtraResult={props.submittingExtraResult}
                 teamsWithPlayers={props.teamsWithPlayers}
             />
-            <SuccessModal
-                backdrop
-                closeModal={props.closeSuccessMessage}
-                isOpen={props.successMessage.length > 0}
-                isSuccess
-                headerMessage={props.successMessage}
-                toggleModal={noop}
-            />
         </>
     );
 };
 
 SubmitResult.defaultProps = {
     allTeams: [],
-    errorMessage: '',
-    errorCode: '',
-    errorHeader: '',
     isFetchingTeams: false,
     isFetchingPlayersForTeam: false,
     maxGameWeek: null,
-    successMessage: '',
     styles: defaultStyles
 };
 
 SubmitResult.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
-    closeAdminError: PropTypes.func.isRequired,
-    closeSuccessMessage: PropTypes.func.isRequired,
-    errorMessage: PropTypes.string,
-    errorCode: PropTypes.string,
-    errorHeader: PropTypes.string,
     fetchTeamsRequest: PropTypes.func.isRequired,
     fetchPlayersForTeamRequest: PropTypes.func.isRequired,
     fetchMaxGameWeekRequest: PropTypes.func.isRequired,
@@ -331,13 +310,10 @@ SubmitResult.propTypes = {
     submitCustumResults: PropTypes.func.isRequired,
     submitExtraStatsRequest: PropTypes.func.isRequired,
     submittingExtraResult: PropTypes.bool.isRequired,
-    successMessage: PropTypes.string,
     teamsWithPlayers: PropTypes.objectOf(PropTypes.array).isRequired
 };
 
 const mapDispatchToProps = {
-    closeAdminError,
-    closeSuccessMessage,
     fetchTeamsRequest,
     fetchPlayersForTeamRequest,
     submitResultRequest,
@@ -348,9 +324,6 @@ const mapDispatchToProps = {
 
 const mapStateToprops = state => ({
     allTeams: state.admin.allTeams,
-    errorMessage: state.admin.errorMessage,
-    errorCode: state.admin.errorCode,
-    errorHeader: state.admin.errorHeader,
     isFetchingTeams: state.admin.isFetchingTeams,
     isFetchingPlayersForTeam: state.admin.isFetchingPlayersForTeam,
     maxGameWeek: state.overview.maxGameWeek,
@@ -358,7 +331,6 @@ const mapStateToprops = state => ({
     submittingExtraResult: state.admin.submittingExtraResults,
     submitResultError: state.admin.submitResultError,
     submitResultErrorCode: state.admin.submitResultErrorCode,
-    successMessage: state.admin.successMessage,
     teamsWithPlayers: state.admin.teamsWithPlayers
 });
 

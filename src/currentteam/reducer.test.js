@@ -14,21 +14,8 @@ describe('Current team reducer', () => {
             activeTeam: {
                 userId: {
                     players: activeTeam,
-                    fetching: false,
                     fetched: true,
                     captain: 'captain'
-                }
-            }
-        });
-    });
-
-    it('fetch active team error', () => {
-        const action = actions.fetchActiveTeamError('userId', null);
-        expect(reducer(initialState, action)).toEqual({
-            ...initialState,
-            activeTeam: {
-                userId: {
-                    fetching: false
                 }
             }
         });
@@ -46,9 +33,48 @@ describe('Current team reducer', () => {
         });
     });
 
-    it('already fetched active team', () => {
-        const action = actions.alreadyFetchedActiveTeam('userId');
+    it('set player modal open', () => {
+        const action = actions.setPlayerModalOpen(true);
         expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isPlayerModalOpen: true
+        });
+    });
+
+    it('set captain to update', () => {
+        const action = actions.setCaptainToUpdate('captain');
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            captainToUpdate: 'captain'
+        });
+    });
+
+    it('make captain request', () => {
+        const action = actions.makeCaptainRequest();
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isUpdatingCaptain: true
+        });
+    });
+
+    it('set updating captain', () => {
+        const action = actions.setUpdatingCaptain(true);
+        expect(reducer(initialState, action)).toEqual({
+            ...initialState,
+            isUpdatingCaptain: true
+        });
+    });
+
+    it('cancel fetching active team', () => {
+        const action = actions.cancelFetchingActiveTeam('userId');
+        expect(reducer({
+            ...initialState,
+            activeTeam: {
+                userId: {
+                    fetching: true
+                }
+            }
+        }, action)).toEqual({
             ...initialState,
             activeTeam: {
                 userId: {

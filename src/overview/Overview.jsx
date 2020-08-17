@@ -98,7 +98,7 @@ const Overview = props => {
                                 <div className={props.styles.averagePointsValue}>
                                     {Math.round(props.averagePoints)}
                                 </div>
-                                <div>Average Points</div>
+                                <div>Average</div>
                             </div>
                             <div
                                 className={props.styles.yourPointsWrapper}
@@ -109,7 +109,7 @@ const Overview = props => {
                                 <div className={props.styles.yourPointsValue}>
                                     {props.weekPoints}
                                 </div>
-                                <div>Your Points</div>
+                                <div>Your points</div>
                             </div>
                             <div
                                 className={props.styles.highestPointsWrapper}
@@ -120,7 +120,7 @@ const Overview = props => {
                                 <div className={props.styles.highestPointsValue}>
                                     {props.highestPoints.points}
                                 </div>
-                                <div>Highest Points</div>
+                                <div>Highest</div>
                             </div>
                         </div>
                     </>
@@ -131,7 +131,8 @@ const Overview = props => {
                     <>
                         <div className={props.styles.remainingTransfersWrapper}>
                             <div className={props.styles.remainingTransfersValue}>
-                                {props.remainingTransfers}
+                                {/* {props.remainingTransfers} */}
+                                {'Unlimited'}
                             </div>
                             <div>Remaining Transfers</div>
                         </div>
@@ -158,6 +159,7 @@ const Overview = props => {
                                     Rules and Settings
                                 </div>
                             )}
+                            isBorderRadiusSmall
                         >
                             {matches.mobile && (
                                 <div className={props.styles.desktopRulesWrapper}>
@@ -199,7 +201,7 @@ Overview.defaultProps = {
     },
     maxGameWeek: null,
     remainingBudget: null,
-    remainingTransfers: null,
+    // remainingTransfers: null,
     styles: defaultStyles,
     totalPoints: null,
     userId: '',
@@ -227,7 +229,7 @@ Overview.propTypes = {
     }).isRequired,
     maxGameWeek: PropTypes.number,
     remainingBudget: PropTypes.number,
-    remainingTransfers: PropTypes.number,
+    // remainingTransfers: PropTypes.number,
     styles: PropTypes.objectOf(PropTypes.string),
     totalPoints: PropTypes.number,
     userId: PropTypes.string,

@@ -4,6 +4,7 @@ import {
 import * as actions from './actions';
 import * as chartsApi from './api';
 import * as selectors from './selectors';
+import { setErrorMessage } from '../modalHandling/actions';
 
 export function* fetchAllTeams(api) {
     try {
@@ -11,11 +12,11 @@ export function* fetchAllTeams(api) {
         if (fetchedTeams && fetchedTeams.length === 0) {
             const teams = yield call(api.getAllTeams);
             yield put(actions.fetchAllTeamsSuccess(teams));
-        } else {
-            yield put(actions.alreadyFetchedTeams());
         }
     } catch (error) {
-        yield put(actions.fetchAllTeamsError(error));
+        yield put(setErrorMessage('Error Fetching Teams', error));
+    } finally {
+        yield put(actions.cancelFetchingTeams());
     }
 }
 

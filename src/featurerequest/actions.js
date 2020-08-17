@@ -2,41 +2,22 @@ const pre = 'features/';
 
 export const ADD_COMMENT_TO_FEATURE_REQUEST = `${pre}ADD_COMMENT_TO_FEATURE_REQUEST`;
 export const ADD_REPLY_TO_COMMENT_REQUEST = `${pre}ADD_REPLY_TO_COMMENT_REQUEST`;
+export const CANCEL_ADDING_COMMENT_TO_FEATURE = `${pre}CANCEL_ADDING_COMMENT_TO_FEATURE`;
 
 export const DELETE_COMMENT_REQUEST = `${pre}DELETE_COMMENT_REQUEST`;
+export const CANCEL_DELETING_COMMENT = `${pre}CANCEL_DELETING_COMMENT`;
 export const DELETE_REPLY_REQUEST = `${pre}DELETE_REPLY_REQUEST`;
-
-export const SET_SUCCESS_MESSAGE = `${pre}SET_SUCCESS_MESSAGE`;
-export const CLOSE_SUCCESS_MESSAGE = `${pre}CLOSE_SUCCESS_MESSAGE`;
+export const CANCEL_DELETING_REPLY = `${pre}CANCEL_DELETING_REPLY`;
 
 export const SUBMIT_FEATURE_REQUEST = `${pre}SUBMIT_FEATURE_REQUEST`;
-export const FEATURE_REQUEST_ERROR = `${pre}FEATURE_REQUEST_ERROR`;
-export const CLOSE_FEATURE_REQUEST_ERROR = `${pre}CLOSE_FEATURE_REQUEST_ERROR`;
+export const CANCEL_ADDING_FEATURE_REQUEST = `${pre}CANCEL_ADDING_FEATURE_REQUEST`;
 
-export const SET_ADDING_COMMENT_TO_FEATURE = `${pre}SET_ADDING_COMMENT_TO_FEATURE`;
-
-export const setAddingCommentToFeature = isAdding => ({
-    type: SET_ADDING_COMMENT_TO_FEATURE,
-    isAdding
+export const cancelAddingFeatureRequest = () => ({
+    type: CANCEL_ADDING_FEATURE_REQUEST
 });
 
-export const closeFeatureRequestError = () => ({
-    type: CLOSE_FEATURE_REQUEST_ERROR
-});
-
-export const featureRequestError = (error, header) => ({
-    type: FEATURE_REQUEST_ERROR,
-    error,
-    header
-});
-
-export const setSuccessMessage = message => ({
-    type: SET_SUCCESS_MESSAGE,
-    message
-});
-
-export const closeSuccessMessage = () => ({
-    type: CLOSE_SUCCESS_MESSAGE
+export const cancelAddingCommentToFeature = () => ({
+    type: CANCEL_ADDING_COMMENT_TO_FEATURE
 });
 
 export const submitFeatureRequest = (description, isBug) => ({
@@ -62,6 +43,14 @@ export const deleteCommentRequest = (featureId, commentId) => ({
     type: DELETE_COMMENT_REQUEST,
     featureId,
     commentId
+});
+
+export const cancelDeletingComment = () => ({
+    type: CANCEL_DELETING_COMMENT
+});
+
+export const cancelDeletingReply = () => ({
+    type: CANCEL_DELETING_REPLY
 });
 
 export const deleteReplyRequest = (featureId, commentId, replyId) => ({

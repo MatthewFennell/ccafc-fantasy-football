@@ -10,6 +10,7 @@
     @include light-box-shadow();
     justify-content: center;
     background-color: $color-white;
+    border-radius: $spacing-tiny;
 
     .extraStatsTitle {
         text-align: center;

@@ -5,6 +5,7 @@
     margin: $spacing-medium;
     background-color: $color-white;
     @include light-box-shadow();
+    border-radius: $spacing-tiny;
 
     .subsHeader{
         font-size: $font-size-huge;

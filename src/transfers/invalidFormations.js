@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
 export const invalidFormations = [
     [0, 5, 5, 0],
     [0, 5, 5, 1],

@@ -2,19 +2,15 @@ import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import { noop } from 'lodash';
 import defaultStyles from './CreatePlayer.module.scss';
 import Dropdown from '../../common/dropdown/Dropdown';
 import {
-    closeAdminError, createPlayerRequest, fetchTeamsRequest, closeSuccessMessage
+    createPlayerRequest, fetchTeamsRequest
 } from '../actions';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
-import ErrorModal from '../../common/modal/ErrorModal';
-import SuccessModal from '../../common/modal/SuccessModal';
 import TextInput from '../../common/TextInput/TextInput';
 import * as textInputConstants from '../../common/TextInput/constants';
-import Switch from '../../common/Switch/Switch';
 
 const options = [
     { value: 'GOALKEEPER', text: 'Goalkeeper', id: 'GOALKEEPER' },
@@ -41,12 +37,6 @@ const CreatePlayer = props => {
         // eslint-disable-next-line
     }, [playerName, playerPrice, playerPosition, playerTeam,
         props.createPlayerRequest, previousScore]);
-
-    const [suppressPopup, setSuppressPopup] = useState(false);
-
-    const toggleSuppressPopup = useCallback(() => {
-        setSuppressPopup(!suppressPopup);
-    }, [suppressPopup, setSuppressPopup]);
 
     return (
         <>
@@ -89,13 +79,6 @@ const CreatePlayer = props => {
                         />
                     </div>
                 </div>
-                <ErrorModal
-                    closeModal={props.closeAdminError}
-                    headerMessage={props.errorHeader}
-                    isOpen={props.errorMessage.length > 0}
-                    errorCode={props.errorCode}
-                    errorMessage={props.errorMessage}
-                />
 
                 <div className={classNames({
                     [props.styles.hidden]: !props.creatingPlayer
@@ -103,65 +86,32 @@ const CreatePlayer = props => {
                 >
                     <Spinner color="secondary" />
                 </div>
-                <div className={props.styles.suppressPopupWrapper}>
-                    <div className={props.styles.suppressMessage}>
-                        Suppress popup
-                    </div>
-                    <Switch
-                        onChange={toggleSuppressPopup}
-                        checked={suppressPopup}
-                    />
-                </div>
             </div>
-            <SuccessModal
-                backdrop
-                closeModal={props.closeSuccessMessage}
-                isOpen={props.successMessage.length > 0 && !suppressPopup}
-                isSuccess
-                headerMessage={props.successMessage}
-                toggleModal={noop}
-            />
         </>
     );
 };
 
 CreatePlayer.defaultProps = {
     allTeams: [],
-    errorMessage: '',
-    errorCode: '',
-    errorHeader: '',
-    styles: defaultStyles,
-    successMessage: ''
+    styles: defaultStyles
 };
 
 CreatePlayer.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
-    closeAdminError: PropTypes.func.isRequired,
-    closeSuccessMessage: PropTypes.func.isRequired,
     creatingPlayer: PropTypes.bool.isRequired,
     createPlayerRequest: PropTypes.func.isRequired,
-    errorMessage: PropTypes.string,
-    errorCode: PropTypes.string,
-    errorHeader: PropTypes.string,
     fetchTeamsRequest: PropTypes.func.isRequired,
-    styles: PropTypes.objectOf(PropTypes.string),
-    successMessage: PropTypes.string
+    styles: PropTypes.objectOf(PropTypes.string)
 };
 
 const mapDispatchToProps = {
-    closeAdminError,
     createPlayerRequest,
-    closeSuccessMessage,
     fetchTeamsRequest
 };
 
 const mapStateToProps = state => ({
     allTeams: state.admin.allTeams,
-    creatingPlayer: state.admin.creatingPlayer,
-    errorMessage: state.admin.errorMessage,
-    errorCode: state.admin.errorCode,
-    errorHeader: state.admin.errorHeader,
-    successMessage: state.admin.successMessage
+    creatingPlayer: state.admin.creatingPlayer
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePlayer);

@@ -3,18 +3,10 @@ import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import defaultStyles from './Modals.module.scss';
 import SuccessModal from '../../common/modal/SuccessModal';
-import ErrorModal from '../../common/modal/ErrorModal';
 import StyledButton from '../../common/StyledButton/StyledButton';
 
 const Modals = props => (
     <>
-        <ErrorModal
-            closeModal={props.closeTransfersError}
-            headerMessage="Transfer Error"
-            isOpen={props.transfersError.length > 0}
-            errorCode={props.transfersErrorCode}
-            errorMessage={props.transfersError}
-        />
         <SuccessModal
             backdrop
             closeModal={props.closeRemoveModal}
@@ -68,7 +60,6 @@ const Modals = props => (
 Modals.defaultProps = {
     closeRemoveModal: noop,
     closeRestoreModal: noop,
-    closeTransfersError: noop,
     removeModalOpen: false,
     removePlayer: noop,
     restoreModalOpen: false,
@@ -77,15 +68,12 @@ Modals.defaultProps = {
         id: ''
     },
     selectReplacement: noop,
-    styles: defaultStyles,
-    transfersError: '',
-    transfersErrorCode: ''
+    styles: defaultStyles
 };
 
 Modals.propTypes = {
     closeRemoveModal: PropTypes.func,
     closeRestoreModal: PropTypes.func,
-    closeTransfersError: PropTypes.func,
     playerToRemove: PropTypes.shape({
         id: PropTypes.string
     }),
@@ -94,9 +82,7 @@ Modals.propTypes = {
     restoreModalOpen: PropTypes.bool,
     restorePlayer: PropTypes.func,
     selectReplacement: PropTypes.func,
-    styles: PropTypes.objectOf(PropTypes.string),
-    transfersError: PropTypes.string,
-    transfersErrorCode: PropTypes.string
+    styles: PropTypes.objectOf(PropTypes.string)
 };
 
 export default Modals;

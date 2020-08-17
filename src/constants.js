@@ -17,6 +17,7 @@ export const URL = {
     HIGHLIGHTS: '/highlights',
     FIXTURES: '/fixtures',
     FEATURE_REQUEST: '/feature-request',
+    PRIVACY_POLICY: '/privacy-policy',
 
     CREATE_PLAYER: '/create-player',
     DELETE_PLAYER: '/delete-player',
@@ -24,11 +25,13 @@ export const URL = {
     DELETE_TEAM: '/delete-team',
     SUBMIT_RESULT: '/submit-result',
     TRIGGER_WEEK: '/trigger-week',
-    EDIT_PLAYER: '/edit-player',
+    EDIT_PLAYER_STATS: '/edit-player-stats',
+    EDIT_PLAYER_PRICE: '/edit-player-price',
     APPROVE_HIGHLIGHTS: '/approve-highlights',
     MANAGE_SUBS: '/manage-subs',
     MANAGE_BUGS: '/manage-bugs',
     MANAGE_USERS: '/manage-users',
+    ADD_NOTIFICATIONS: '/add-notifications',
     TOGGLE_PAGES: '/toggle-pages'
 };
 
@@ -94,7 +97,8 @@ export const PERMISSIONS = {
     MANAGE_SUBS: 'MANAGE_SUBS',
     MANAGE_BUGS: 'MANAGE_BUGS',
     TOGGLE_PAGES: 'TOGGLE_PAGES',
-    SORT_LEAGUES: 'SORT_LEAGUES'
+    SORT_LEAGUES: 'SORT_LEAGUES',
+    ADD_NOTIFICATIONS: 'ADD_NOTIFICATIONS'
 };
 
 export const successDelay = 3500;
@@ -105,3 +109,5 @@ export const LEAGUE_INITIAL_ROWS_PER_PAGE = 20;
 // Ideally, these two should be the same
 export const LEAGUE_INITIAL_NUMBER_OF_PAGES_TO_LOAD = 3;
 export const LEAGUE_PAGE_BUFFER = 3;
+
+export const APPLICATION_INFO_ID = 'application-info-id';

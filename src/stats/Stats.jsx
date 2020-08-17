@@ -23,7 +23,7 @@ const Stats = props => {
     }, [props.fetchTeamsRequest]);
 
     useEffect(() => {
-        if (props.currentTeam !== 'none') {
+        if (props.currentTeam !== 'none' && props.currentTeam !== 'undefined') {
             const weeksToFetch = weeksToRequest(props.minWeek, props.maxWeek, props.weeksFetched);
             weeksToFetch.forEach(x => {
                 props.fetchTeamStatsByWeekRequest(props.currentTeam, x.min, x.max);
@@ -60,6 +60,7 @@ const Stats = props => {
                         isFitContent
                         isBorderRadius
                         isBoxShadow
+                        isWhiteBackground
                     >
                         <div className={props.styles.statsHeader}>
                             <div className={props.styles.dropdownWrapper}>
@@ -100,6 +101,7 @@ const Stats = props => {
                 {combineWeeks ? (
                     <WeekStats
                         activeColumns={activeColumns}
+                        isCombined
                         loading={props.fetching && props.fetching.length > 0}
                         stats={combinePlayers(props.stats, props.minWeek, props.maxWeek)}
                         title={`Weeks ${props.minWeek}-${props.maxWeek}`}

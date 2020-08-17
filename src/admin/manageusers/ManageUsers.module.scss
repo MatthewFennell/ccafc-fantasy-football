@@ -1,7 +1,9 @@
 @import "../../common/Styles.scss";
 
-.extraRolesWrapper, .rolesToPermissionsWrapper{
-  padding: $spacing-large;
+.extraRolesWrapper, .rolesToPermissionsWrapper, .clearDatabaseWrapper {
+  margin: $spacing-large;
+  @include light-box-shadow();
+  border-radius: $spacing-tiny;
 }
 
 .manageUserGridHeaderWrapper{
@@ -37,16 +39,14 @@
 }
 
 .clearDatabaseWrapper{
-  margin: $spacing-medium;
-  padding: $spacing-medium;
   display: flex;
-  
-  @include light-box-shadow();
+  padding: $spacing-small;
 }
 
 @media only screen and (max-width: 600px) {
   .extraRolesWrapper {
     padding: 0px;
+    margin: 0px;
   }
 
   .manageUserGridHeaderWrapper {
@@ -55,6 +55,7 @@
 
   .rolesToPermissionsWrapper {
     padding: 0px;
+    margin: 0px;
     margin-top: $spacing-medium;
   }
 

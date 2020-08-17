@@ -4,8 +4,9 @@ import { throwError } from 'redux-saga-test-plan/providers';
 import { noop } from 'lodash';
 import * as sagas from './saga';
 import * as actions from './actions';
-import { successDelay } from '../constants';
 import * as selectors from './selectors';
+import { setErrorMessage } from '../modalHandling/actions';
+import { addNotification } from '../notifications/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -23,6 +24,9 @@ describe('Fixtures saga', () => {
         if (selector === selectors.getFixtures) {
             return fetched ? ['1', '2', '3'] : [];
         }
+        if (selector === selectors.getFetchedFixtures) {
+            return fetched;
+        }
         return next();
     };
 
@@ -32,8 +36,10 @@ describe('Fixtures saga', () => {
             .provide([
                 { select: alreadyFetchedInfo(false) }
             ])
+            .call(api.getFixtures)
             .put(actions.fetchFixturesSuccess('fixtures'))
-            .run();
+            .put(actions.cancelFetchingFixturesAndTeam())
+            .run({ silenceTimeout: true });
     });
 
     it('fetch fixtures error', () => {
@@ -44,19 +50,22 @@ describe('Fixtures saga', () => {
                 [matchers.call.fn(api.getFixtures), throwError(error)],
                 { select: alreadyFetchedInfo(false) }
             ])
-            .put(actions.setFixturesError(error, 'Error Fetching Fixtures'))
-            .run();
+            .put(setErrorMessage('Error Fetching Fixtures. Is the Team Durham website down?', error))
+            .put(actions.cancelFetchingFixturesAndTeam())
+            .run({ silenceTimeout: true });
     });
 
     it('set my team', () => {
         const action = actions.setMyTeamRequest('team');
         return expectSaga(sagas.setMyTeam, api, action)
             .provide({ call: provideDelay })
+            .call(api.setMyTeam, ({
+                team: 'team'
+            }))
             .put(actions.setMyTeam('team'))
-            .put(actions.setSuccessMessage('Team successfully set'))
-            .delay(successDelay)
-            .put(actions.closeSuccessMessage())
-            .run();
+            .put(addNotification('Team successfully set'))
+            .put(actions.cancelLoadingMyTeam())
+            .run({ silenceTimeout: true });
     });
 
     it('set my team error', () => {
@@ -66,15 +75,18 @@ describe('Fixtures saga', () => {
             .provide([
                 [matchers.call.fn(api.setMyTeam), throwError(error)]
             ])
-            .put(actions.setFixturesError(error, 'Error Setting Team'))
-            .run();
+            .put(setErrorMessage('Error Setting Team', error))
+            .put(actions.cancelLoadingMyTeam())
+            .run({ silenceTimeout: true });
     });
 
     it('fetch my team', () => {
         const action = actions.fetchMyTeamRequest();
         return expectSaga(sagas.fetchMyTeam, api, action)
+            .call(api.fetchMyTeam)
             .put(actions.setMyTeam('myTeam'))
-            .run();
+            .put(actions.cancelLoadingMyTeam())
+            .run({ silenceTimeout: true });
     });
 
     it('fetch my team error', () => {
@@ -84,7 +96,8 @@ describe('Fixtures saga', () => {
             .provide([
                 [matchers.call.fn(api.fetchMyTeam), throwError(error)]
             ])
-            .put(actions.setFixturesError(error, 'Error Fetching Team'))
-            .run();
+            .put(setErrorMessage('Error Fetching Team', error))
+            .put(actions.cancelLoadingMyTeam())
+            .run({ silenceTimeout: true });
     });
 });

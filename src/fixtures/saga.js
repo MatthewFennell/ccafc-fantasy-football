@@ -1,22 +1,23 @@
 import {
-    all, takeEvery, put, call, delay, takeLatest, select
+    all, takeEvery, put, call, takeLatest, select
 } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as fixturesApi from './api';
-import { successDelay } from '../constants';
 import * as selectors from './selectors';
+import { setErrorMessage } from '../modalHandling/actions';
+import { addNotification } from '../notifications/actions';
 
 export function* fetchFixtures(api) {
     try {
-        const currentFixtures = yield select(selectors.getFixtures);
-        if (currentFixtures && currentFixtures.length === 0) {
+        const alreadyFetchedFixtures = yield select(selectors.getFetchedFixtures);
+        if (!alreadyFetchedFixtures) {
             const fixtures = yield call(api.getFixtures);
             yield put(actions.fetchFixturesSuccess(fixtures));
-        } else {
-            yield put(actions.alreadyFetchedFixtures());
         }
     } catch (error) {
-        yield put(actions.setFixturesError(error, 'Error Fetching Fixtures'));
+        yield put(setErrorMessage('Error Fetching Fixtures. Is the Team Durham website down?', error));
+    } finally {
+        yield put(actions.cancelFetchingFixturesAndTeam());
     }
 }
 
@@ -24,11 +25,11 @@ export function* setMyTeam(api, action) {
     try {
         yield call(api.setMyTeam, { team: action.team });
         yield put(actions.setMyTeam(action.team));
-        yield put(actions.setSuccessMessage('Team successfully set'));
-        yield delay(successDelay);
-        yield put(actions.closeSuccessMessage());
+        yield put(addNotification('Team successfully set'));
     } catch (error) {
-        yield put(actions.setFixturesError(error, 'Error Setting Team'));
+        yield put(setErrorMessage('Error Setting Team', error));
+    } finally {
+        yield put(actions.cancelLoadingMyTeam());
     }
 }
 
@@ -37,7 +38,9 @@ export function* fetchMyTeam(api) {
         const myTeam = yield call(api.fetchMyTeam);
         yield put(actions.setMyTeam(myTeam));
     } catch (error) {
-        yield put(actions.setFixturesError(error, 'Error Fetching Team'));
+        yield put(setErrorMessage('Error Fetching Team', error));
+    } finally {
+        yield put(actions.cancelLoadingMyTeam());
     }
 }
 

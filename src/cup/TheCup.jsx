@@ -2,11 +2,10 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import fp from 'lodash/fp';
 import PropTypes from 'prop-types';
-import { closeCupError, fetchCupRequest } from './actions';
+import { fetchCupRequest } from './actions';
 import defaultStyles from './TheCup.module.scss';
 import WeekInfo, { getName } from './WeekInfo';
 import Spinner from '../common/spinner/Spinner';
-import ErrorModal from '../common/modal/ErrorModal';
 
 const TheCup = props => {
     const {
@@ -33,7 +32,7 @@ const TheCup = props => {
                                     Players will randomly be assigned
                                     byes to fix the number of players
                                 </li>
-                                <li>Must get the more points than your opponent to go through</li>
+                                <li>Must get more points than your opponent to go through</li>
                                 <li>Ties result in both players being eliminated</li>
                                 <li>Must score more than 0 points in Week 2 to take part</li>
                             </ul>
@@ -56,6 +55,7 @@ const TheCup = props => {
                 )}
                 {Object.keys(rest).reverse().map((key, index) => (
                     <WeekInfo
+                        auth={props.auth}
                         byes={fp.get('byes')(props.cup[key])}
                         displayNameMappings={displayNameMappings}
                         week={Number(key)}
@@ -65,51 +65,40 @@ const TheCup = props => {
                     />
                 ))}
             </div>
-            <ErrorModal
-                closeModal={props.closeCupError}
-                headerMessage={props.errorHeader}
-                isOpen={props.errorMessage.length > 0}
-                errorCode={props.errorCode}
-                errorMessage={props.errorMessage}
-            />
         </>
     );
 };
 
 TheCup.defaultProps = {
+    auth: {
+        uid: ''
+    },
     cup: {},
-    errorMessage: '',
-    errorCode: '',
-    errorHeader: '',
     isFetchingCup: false,
     styles: defaultStyles
 };
 
 TheCup.propTypes = {
-    closeCupError: PropTypes.func.isRequired,
+    auth: PropTypes.shape({
+        uid: PropTypes.string
+    }),
     cup: PropTypes.shape({
         displayNameMappings: PropTypes.shape({ }),
         hasFinished: PropTypes.bool,
         winner: PropTypes.string
     }),
-    errorMessage: PropTypes.string,
-    errorCode: PropTypes.string,
-    errorHeader: PropTypes.string,
     fetchCupRequest: PropTypes.func.isRequired,
     isFetchingCup: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 
 const mapStateToProps = state => ({
+    auth: state.firebase.auth,
     cup: state.cup.cup,
-    errorMessage: state.cup.errorMessage,
-    errorCode: state.cup.errorCode,
-    errorHeader: state.cup.errorHeader,
     isFetchingCup: state.cup.isFetchingCup
 });
 
 const mapDispatchToProps = {
-    closeCupError,
     fetchCupRequest
 };
 

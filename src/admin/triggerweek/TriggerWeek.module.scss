@@ -10,6 +10,7 @@
   padding-bottom: $spacing-medium;
   @include light-box-shadow();
   background-color: $color-white;
+  border-radius: $spacing-tiny;
 
   .triggerWeekHeader, .recalculateLeaguePositions{
     font-size: $font-size-gigantic;

@@ -3,6 +3,7 @@ import * as matchers from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
 import * as sagas from './saga';
 import * as actions from './actions';
+import { setErrorMessage } from '../modalHandling/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -18,12 +19,18 @@ describe('Stats saga', () => {
     it('fetch stats success', () => {
         const action = actions.fetchTeamStatsByWeekRequest('teamId', 3, 7);
         return expectSaga(sagas.fetchStats, api, action)
+            .call(api.getTeamStatsByWeek, ({
+                teamId: 'teamId',
+                minWeek: 3,
+                maxWeek: 7
+            }))
             .put(actions.fetchTeamStatsByWeekSuccess('teamId', 3, 7, {
                 id: 'teamId',
                 minWeek: 3,
                 maxWeek: 7
             }))
-            .run();
+            .put(actions.cancelFetchingTeamStatsByWeek('teamId'))
+            .run({ silenceTimeout: true });
     });
 
     it('fetch stats error', () => {
@@ -33,7 +40,8 @@ describe('Stats saga', () => {
             .provide([
                 [matchers.call.fn(api.getTeamStatsByWeek), throwError(error)]
             ])
-            .put(actions.fetchTeamStatsByWeekError(error))
-            .run();
+            .put(setErrorMessage('Error Fetching Team Stats For Week', error))
+            .put(actions.cancelFetchingTeamStatsByWeek('teamId'))
+            .run({ silenceTimeout: true });
     });
 });

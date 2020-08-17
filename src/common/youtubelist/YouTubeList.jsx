@@ -24,53 +24,56 @@ const YouTubeList = props => (
         {props.loading ? <div className={props.styles.loadingSpinner}><Spinner color="secondary" /></div>
             : (
                 <div className={props.styles.videoListWrapper}>
-                    {props.videos.map(x => (
+                    {props.videos.map(video => (
                         <div
                             className={props.styles.videoWrapper}
-                            key={x.id}
+                            key={video.id}
                         >
-                            <FadingCollapsable title={(
-                                <YouTubeItemClosed
-                                    authId={props.authId}
-                                    author={x.displayName}
-                                    date={generateTime(x.dateCreated)}
-                                    downvoteHighlightRequest={props
-                                        .downvoteHighlightRequest}
-                                    title={x.title}
-                                    upvote={props.upvote}
-                                    upvoteHighlightRequest={props.upvoteHighlightRequest}
-                                    video={x}
-                                    votingPage={props.votingPage}
-                                />
-                            )}
+                            <FadingCollapsable
+                                title={(
+                                    <YouTubeItemClosed
+                                        authId={props.authId}
+                                        author={video.displayName}
+                                        date={generateTime(video.dateCreated)}
+                                        downvoteHighlightRequest={props
+                                            .downvoteHighlightRequest}
+                                        isBeingVotedOn={props.highlightBeingVotedOn === video.id}
+                                        title={video.title}
+                                        upvote={props.upvote}
+                                        upvoteHighlightRequest={props.upvoteHighlightRequest}
+                                        video={video}
+                                        votingPage={props.votingPage}
+                                    />
+                                )}
+                                isBorderRadiusTiny
                             >
                                 <YouTubeItemOpen
-                                    addNewComment={props.addNewComment(x.id)}
-                                    addNewReply={props.addNewReply(x.id)}
+                                    addNewComment={props.addNewComment(video.id)}
+                                    addNewReply={props.addNewReply(video.id)}
                                     approversPage={props.approversPage}
                                     authId={props.authId}
-                                    comments={x.comments}
-                                    date={generateTime(x.dateCreated)}
-                                    dateCreated={x.dateCreated}
-                                    deleteComment={props.deleteComment(x.id)}
-                                    deleteReply={props.deleteReply(x.id)}
-                                    displayName={x.displayName}
+                                    comments={video.comments}
+                                    date={generateTime(video.dateCreated)}
+                                    dateCreated={video.dateCreated}
+                                    deleteComment={props.deleteComment(video.id)}
+                                    deleteReply={props.deleteReply(video.id)}
+                                    displayName={video.displayName}
                                     downvoteHighlightRequest={props
                                         .downvoteHighlightRequest}
-                                    email={x.email}
+                                    email={video.email}
                                     isAddingCommentToVideo={props.isAddingCommentToVideo}
-                                    isBeingApproved={props.highlightBeingApproved === x.id}
-                                    isBeingRejected={props.highlightBeingRejected === x.id}
+                                    isBeingApproved={props.highlightBeingApproved === video.id}
+                                    isBeingRejected={props.highlightBeingRejected === video.id}
                                     openConfirm={props.openConfirm}
                                     openReject={props.openReject}
                                     opts={props.opts}
                                     upvote={props.upvote}
                                     upvoteHighlightRequest={props.upvoteHighlightRequest}
-                                    video={x}
-                                    videoId={x.id}
-                                    videoLinkId={x.videoId}
+                                    video={video}
+                                    videoId={video.id}
+                                    videoLinkId={video.videoId}
                                     votingPage={props.votingPage}
-                                    youTubeTitle={x.title}
+                                    youTubeTitle={video.title}
                                 />
                             </FadingCollapsable>
                         </div>
@@ -91,6 +94,7 @@ YouTubeList.defaultProps = {
     downvoteHighlightRequest: noop,
     highlightBeingApproved: '',
     highlightBeingRejected: '',
+    highlightBeingVotedOn: '',
     isAddingCommentToVideo: false,
     loading: false,
     openConfirm: noop,
@@ -113,6 +117,7 @@ YouTubeList.propTypes = {
     downvoteHighlightRequest: PropTypes.func,
     highlightBeingApproved: PropTypes.string,
     highlightBeingRejected: PropTypes.string,
+    highlightBeingVotedOn: PropTypes.string,
     isAddingCommentToVideo: PropTypes.bool,
     loading: PropTypes.bool,
     openConfirm: PropTypes.func,

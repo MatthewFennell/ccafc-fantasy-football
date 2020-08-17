@@ -3,17 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import fp from 'lodash/fp';
-import { noop } from 'lodash';
 import defaultStyles from './DeletePlayer.module.scss';
 import Dropdown from '../../common/dropdown/Dropdown';
 import {
-    fetchTeamsRequest, fetchPlayersForTeamRequest, deletePlayerRequest,
-    closeSuccessMessage, closeAdminError
+    fetchTeamsRequest, fetchPlayersForTeamRequest, deletePlayerRequest
 } from '../actions';
 import StyledButton from '../../common/StyledButton/StyledButton';
-import ErrorModal from '../../common/modal/ErrorModal';
-import SuccessModal from '../../common/modal/SuccessModal';
 import Spinner from '../../common/spinner/Spinner';
+import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
 
 const DeletePlayer = props => {
     const [playerName, setPlayerName] = useState('');
@@ -54,30 +51,33 @@ const DeletePlayer = props => {
                 </div>
                 <div className={props.styles.deletePlayerForm}>
                     <div className={props.styles.deletePlayerDropdowns}>
-                        <Dropdown
-                            value={playerTeam}
-                            onChange={setTeam}
-                            options={props.allTeams}
-                            title="Team"
-                            key="Team"
-                        />
-                        <Dropdown
-                            value={playerName}
-                            onChange={setPlayerName}
-                            options={playersForActiveTeam}
-                            title="Player"
-                            key="Player"
-                        />
+                        <LoadingDiv
+                            isLoading={props.isFetchingTeams}
+                            isBorderRadius
+                        >
+                            <Dropdown
+                                value={playerTeam}
+                                onChange={setTeam}
+                                options={props.allTeams}
+                                title="Team"
+                                key="Team"
+                            />
+                        </LoadingDiv>
+                        <LoadingDiv
+                            isLoading={props.isFetchingPlayersForTeam}
+                            isBorderRadius
+                        >
+                            <Dropdown
+                                value={playerName}
+                                onChange={setPlayerName}
+                                options={playersForActiveTeam}
+                                title="Player"
+                                key="Player"
+                            />
+                        </LoadingDiv>
                     </div>
 
                 </div>
-                <ErrorModal
-                    closeModal={props.closeAdminError}
-                    headerMessage={props.errorHeader}
-                    isOpen={props.errorMessage.length > 0}
-                    errorCode={props.errorCode}
-                    errorMessage={props.errorMessage}
-                />
 
                 <div className={classNames({
                     [props.styles.hidden]: !props.deletingPlayer
@@ -86,46 +86,30 @@ const DeletePlayer = props => {
                     <Spinner color="secondary" />
                 </div>
             </div>
-            <SuccessModal
-                backdrop
-                closeModal={props.closeSuccessMessage}
-                isOpen={props.successMessage.length > 0}
-                isSuccess
-                headerMessage={props.successMessage}
-                toggleModal={noop}
-            />
         </>
     );
 };
 
 DeletePlayer.defaultProps = {
     allTeams: [],
-    errorMessage: '',
-    errorCode: '',
-    errorHeader: '',
-    successMessage: '',
+    isFetchingPlayersForTeam: false,
+    isFetchingTeams: false,
     styles: defaultStyles
 };
 
 DeletePlayer.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
-    closeAdminError: PropTypes.func.isRequired,
-    closeSuccessMessage: PropTypes.func.isRequired,
     deletePlayerRequest: PropTypes.func.isRequired,
     deletingPlayer: PropTypes.bool.isRequired,
-    errorMessage: PropTypes.string,
-    errorCode: PropTypes.string,
-    errorHeader: PropTypes.string,
     fetchTeamsRequest: PropTypes.func.isRequired,
     fetchPlayersForTeamRequest: PropTypes.func.isRequired,
+    isFetchingPlayersForTeam: PropTypes.bool,
+    isFetchingTeams: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),
-    successMessage: PropTypes.string,
     teamsWithPlayers: PropTypes.objectOf(PropTypes.array).isRequired
 };
 
 const mapDispatchToProps = {
-    closeAdminError,
-    closeSuccessMessage,
     deletePlayerRequest,
     fetchTeamsRequest,
     fetchPlayersForTeamRequest
@@ -134,10 +118,8 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
     allTeams: state.admin.allTeams,
     deletingPlayer: state.admin.deletingPlayer,
-    errorMessage: state.admin.errorMessage,
-    errorCode: state.admin.errorCode,
-    errorHeader: state.admin.errorHeader,
-    successMessage: state.admin.successMessage,
+    isFetchingPlayersForTeam: state.admin.isFetchingPlayersForTeam,
+    isFetchingTeams: state.admin.isFetchingTeams,
     teamsWithPlayers: state.admin.teamsWithPlayers
 });
 

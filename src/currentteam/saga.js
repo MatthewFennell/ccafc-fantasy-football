@@ -5,6 +5,8 @@ import firebase from 'firebase';
 import * as actions from './actions';
 import * as teamApi from './api';
 import * as selectors from './selectors';
+import { setErrorMessage } from '../modalHandling/actions';
+import { addNotification } from '../notifications/actions';
 
 export function* fetchActiveTeam(forced, api, action) {
     try {
@@ -13,14 +15,12 @@ export function* fetchActiveTeam(forced, api, action) {
             const activeTeam = yield call(api.fetchActiveTeam, { userId: action.userId });
             yield put(actions.fetchActiveTeamSuccess(action.userId,
                 activeTeam.players, activeTeam.captain));
-        } else {
-            yield put(actions.alreadyFetchedActiveTeam(action.userId));
         }
     } catch (error) {
-        yield put(actions.fetchActiveTeamError(error));
+        yield put(setErrorMessage('Error Fetching Active Team', error));
     } finally {
-        yield put(actions.setUpdatingCaptain(false));
         yield put(actions.setPlayerModalOpen(false));
+        yield put(actions.cancelFetchingActiveTeam(action.userId));
     }
 }
 
@@ -28,12 +28,17 @@ export function* makeCaptain(api, action) {
     try {
         yield call(api.makeCaptain, { playerId: action.playerId });
         yield put(actions.reloadActiveTeamRequest(firebase.auth().currentUser.uid));
+        yield put(addNotification('Captain successfully set'));
     } catch (error) {
-        yield put(actions.makeCaptainError(error));
+        yield put(setErrorMessage('Error Making Player Captain', error));
+    } finally {
+        yield put(actions.setPlayerModalOpen(false));
+        yield put(actions.setCaptainToUpdate(''));
+        yield put(actions.setUpdatingCaptain(false));
     }
 }
 
-export default function* leaguesSaga() {
+export default function* currentTeamSaga() {
     yield all([
         takeEvery(actions.FETCH_ACTIVE_TEAM_REQUEST, fetchActiveTeam, false, teamApi),
         takeEvery(actions.MAKE_CAPTAIN_REQUEST, makeCaptain, teamApi),

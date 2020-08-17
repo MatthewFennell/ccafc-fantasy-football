@@ -20,6 +20,7 @@ describe('Submit Result', () => {
             submitResultRequest={noop}
             fetchPlayersForTeamRequest={noop}
             fetchTeamsRequest={noop}
+            submitCustumResults={noop}
         />);
         expect(() => wrapper).not.toThrow();
     });

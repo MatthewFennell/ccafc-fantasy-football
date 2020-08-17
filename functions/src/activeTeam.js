@@ -77,6 +77,7 @@ exports.getActiveTeam = functions
         common.isAuthenticated(context);
         return db.collection('active-teams').where('user_id', '==', context.auth.uid).get().then(
             result => {
+                console.log('context', context.auth.uid);
                 if (result.size === 0) {
                     throw new functions.https.HttpsError('not-found', 'Somehow you have no active team');
                 }

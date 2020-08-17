@@ -1,5 +1,6 @@
 import React from 'react';
 import { ConnectedRouter } from 'connected-react-router';
+import ReactNotification from 'react-notifications-component';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -13,6 +14,9 @@ import NewNavbar from './navbar/NewNavbar';
 import RenderRoutes from './RenderRoutes';
 import Spinner from './common/spinner/Spinner';
 
+import Notifications from './notifications/Notifications';
+import ModalHandling from './modalHandling/ModalHandling';
+
 const App = props => (
     props.auth && props.auth.isLoaded ? (
         <ConnectedRouter history={props.history}>
@@ -21,6 +25,7 @@ const App = props => (
                 <div className={props.styles.app}>
                     <NewNavbar />
                     <Toolbar />
+                    <ReactNotification />
                     {!props.loadingApp
                         ? (
                             <Container className={props.styles.appContainer}>
@@ -37,6 +42,8 @@ const App = props => (
                                 <Spinner color="secondary" />
                             </div>
                         )}
+                    <ModalHandling />
+                    <Notifications />
                 </div>
             </>
         </ConnectedRouter>
@@ -70,4 +77,6 @@ const mapStateToProps = state => ({
     maxGameWeek: state.overview.maxGameWeek
 });
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, null)(App);
+
+// Error message on get Active Team

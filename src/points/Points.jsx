@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Media from 'react-media';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import { withRouter } from 'react-router-dom';
 import fp from 'lodash/fp';
 import defaultStyles from './Points.module.scss';
 import * as selectors from './selectors';
@@ -205,6 +206,6 @@ const mapStateToProps = (state, props) => ({
     userId: selectors.getUserId(props)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Points);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Points));
 
 export { Points as PointsUnconnected };

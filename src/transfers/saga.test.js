@@ -7,7 +7,8 @@ import * as sagas from './saga';
 import * as actions from './actions';
 import * as selectors from './selectors';
 import * as currentTeamActions from '../currentteam/actions';
-import { successDelay } from '../constants';
+import { setErrorMessage } from '../modalHandling/actions';
+import { addNotification } from '../notifications/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -45,8 +46,10 @@ describe('Transfers saga', () => {
         const action = actions.fetchAllPlayersRequest();
         return expectSaga(sagas.fetchAllPlayers, api, action)
             .provide([{ select: alreadyFetchedInfo(false) }])
+            .call(api.getAllPlayers)
             .put(actions.fetchAllPlayersSuccess('all players'))
-            .run();
+            .put(actions.cancelFetchingAllPlayers())
+            .run({ silenceTimeout: true });
     });
 
     it('already fetched all players', () => {
@@ -54,7 +57,8 @@ describe('Transfers saga', () => {
         return expectSaga(sagas.fetchAllPlayers, api, action)
             .provide([{ select: alreadyFetchedInfo(true) }])
             .not.put(actions.fetchAllPlayersSuccess('all players'))
-            .run();
+            .put(actions.cancelFetchingAllPlayers())
+            .run({ silenceTimeout: true });
     });
 
     it('fetch all players error', () => {
@@ -65,24 +69,26 @@ describe('Transfers saga', () => {
                 [matchers.call.fn(api.getAllPlayers), throwError(error)],
                 { select: alreadyFetchedInfo(false) }
             ])
-            .put(actions.fetchAllPlayersError(error))
-            .run();
+            .put(setErrorMessage('Error Fetching Players', error))
+            .put(actions.cancelFetchingAllPlayers())
+            .run({ silenceTimeout: true });
     });
 
     it('fetch all teams', () => {
         const action = actions.fetchAllTeamsRequest();
         return expectSaga(sagas.fetchAllTeams, api, action)
             .provide([{ select: alreadyFetchedInfo(false) }])
+            .call(api.getAllTeams)
             .put(actions.fetchAllTeamsSuccess('all teams'))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('already fetched all teams', () => {
         const action = actions.fetchAllTeamsRequest();
         return expectSaga(sagas.fetchAllTeams, api, action)
             .provide([{ select: alreadyFetchedInfo(true) }])
-            .put(actions.alreadyFetchedAllPlayers())
-            .run();
+            .not.put(actions.fetchAllTeamsSuccess('all teams'))
+            .run({ silenceTimeout: true });
     });
 
     it('fetch all teams error', () => {
@@ -93,8 +99,8 @@ describe('Transfers saga', () => {
                 [matchers.call.fn(api.getAllTeams), throwError(error)],
                 { select: alreadyFetchedInfo(false) }
             ])
-            .put(actions.fetchAllTeamsError(error))
-            .run();
+            .put(setErrorMessage('Error Fetching Teams', error))
+            .run({ silenceTimeout: true });
     });
 
     it('can add player to current team', () => {
@@ -110,7 +116,7 @@ describe('Transfers saga', () => {
                 ...player,
                 position: 'DEFENDER'
             })))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('cant add player to current team', () => {
@@ -123,11 +129,11 @@ describe('Transfers saga', () => {
         const action = actions.addPlayerToCurrentTeamRequest(player);
         return expectSaga(sagas.addPlayerToCurrentTeam, action)
             .provide([{ select: alreadyFetchedInfo(true) }])
-            .put(actions.addPlayerToCurrentTeamError({
+            .put(setErrorMessage('Error Adding Player To Team', {
                 code: 'already-found',
                 message: 'You already have that player selected'
             }))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('update team', () => {
@@ -147,11 +153,16 @@ describe('Transfers saga', () => {
         return expectSaga(sagas.updateTeam, api, action)
             .provide([{ select: alreadyFetchedInfo(true) },
                 { call: provideDelay }])
+            .call(api.updateTeam, ({
+                newTeam: ['alreadyExist']
+            }))
+            .call(api.fetchActiveTeam, ({
+                userId: 'uid'
+            }))
             .put(currentTeamActions.fetchActiveTeamSuccess('uid', ['players'], 'captain'))
-            .put(actions.setSuccessMessage('Team successfully updated'))
-            .delay(successDelay)
-            .put(actions.closeSuccessMessage())
-            .run();
+            .put(addNotification('Team successfully updated'))
+            .put(actions.cancelFetchingOriginalTeam())
+            .run({ silenceTimeout: true });
     });
 
     it('update team error', () => {
@@ -162,8 +173,9 @@ describe('Transfers saga', () => {
                 [matchers.call.fn(api.updateTeam), throwError(error)],
                 { select: alreadyFetchedInfo(false) }
             ])
-            .put(actions.updateTeamError(error))
-            .run();
+            .put(setErrorMessage('Error Updating Team', error))
+            .put(actions.cancelFetchingOriginalTeam())
+            .run({ silenceTimeout: true });
     });
 
     it('replace player', () => {
@@ -183,7 +195,7 @@ describe('Transfers saga', () => {
         return expectSaga(sagas.replacePlayer, action)
             .provide([{ select: alreadyFetchedInfo(true) }])
             .put(actions.replacePlayerSuccess(playerToRemove, playerToAdd))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('cant replace player that does not exist', () => {
@@ -202,10 +214,10 @@ describe('Transfers saga', () => {
         const action = actions.replacePlayerRequest(playerToRemove, playerToAdd);
         return expectSaga(sagas.replacePlayer, action)
             .provide([{ select: alreadyFetchedInfo(true) }])
-            .put(actions.replacePlayerError({
+            .put(setErrorMessage('Error Replacing Player', {
                 code: 'not-found',
                 message: 'You are trying to remove a player not in your team'
             }))
-            .run();
+            .run({ silenceTimeout: true });
     });
 });

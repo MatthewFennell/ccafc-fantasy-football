@@ -1,16 +1,18 @@
 {
-  "short_name": "Cwood Footy",
+  "short_name": "CCAFC",
   "name": "Collingwood Fantasy Football",
   "icons": [
     {
-      "src": "cwood-colors-striped.ico",
+      "src": "cwood-colors-striped-rounded.ico",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "type": "image/x-icon",
+      "purpose": "maskable"
     },
     {
-      "src": "cwood-colors-striped.png",
+      "src": "cwood-colors-striped-rounded.png",
+      "sizes": "192x192 512x512",
       "type": "image/png",
-      "sizes": "192x192 512x512"
+      "purpose": "maskable"
     }
   ],
   "start_url": "./index.html",

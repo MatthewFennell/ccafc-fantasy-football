@@ -2,7 +2,7 @@ const pre = 'STATS/';
 
 export const FETCH_TEAM_STATS_BY_WEEK_REQUEST = `${pre}FETCH_TEAM_STATS_BY_WEEK_REQUEST`;
 export const FETCH_TEAM_STATS_BY_WEEK_SUCCESS = `${pre}FETCH_TEAM_STATS_BY_WEEK_SUCCESS`;
-export const FETCH_TEAM_STATS_BY_WEEK_ERROR = `${pre}FETCH_TEAM_STATS_BY_WEEK_ERROR`;
+export const CANCEL_FETCHING_TEAM_STATS_BY_WEEK = `${pre}CANCEL_FETCHING_TEAM_STATS_BY_WEEK`;
 
 export const fetchTeamStatsByWeekRequest = (teamId, minWeek, maxWeek) => ({
     type: FETCH_TEAM_STATS_BY_WEEK_REQUEST,
@@ -19,7 +19,7 @@ export const fetchTeamStatsByWeekSuccess = (teamId, minWeek, maxWeek, stats) => 
     stats
 });
 
-export const fetchTeamStatsByWeekError = error => ({
-    type: FETCH_TEAM_STATS_BY_WEEK_ERROR,
-    error
+export const cancelFetchingTeamStatsByWeek = teamId => ({
+    type: CANCEL_FETCHING_TEAM_STATS_BY_WEEK,
+    teamId
 });

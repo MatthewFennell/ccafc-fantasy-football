@@ -3,14 +3,23 @@ const pre = 'CURRENT_TEAM/';
 export const RELOAD_ACTIVE_TEAM_REQUEST = `${pre}RELOAD_ACTIVE_TEAM_REQUEST`;
 export const FETCH_ACTIVE_TEAM_REQUEST = `${pre}FETCH_ACTIVE_TEAM_REQUEST`;
 export const FETCH_ACTIVE_TEAM_SUCCESS = `${pre}FETCH_ACTIVE_TEAM_SUCCESS`;
-export const FETCH_ACTIVE_TEAM_ERROR = `${pre}FETCH_ACTIVE_TEAM_ERROR`;
-export const ALREADY_FETCHED_ACTIVE_TEAM = `${pre}ALREADY_FETCHED_ACTIVE_TEAM`;
+export const CANCEL_FETCHING_ACTIVE_TEAM = `${pre}CANCEL_FETCHING_ACTIVE_TEAM`;
 
 export const MAKE_CAPTAIN_REQUEST = `${pre}MAKE_CAPTAIN_REQUEST`;
-export const MAKE_CAPTAIN_ERROR = `${pre}MAKE_CAPTAIN_ERROR`;
+export const SET_CAPTAIN_TO_UPDATE = `${pre}SET_CAPTAIN_TO_UPDATE`;
 export const SET_UPDATING_CAPTAIN = `${pre}SET_UPDATING_CAPTAIN`;
 
 export const SET_PLAYER_MODAL_OPEN = `${pre}SET_PLAYER_MODAL_OPEN`;
+
+export const setCaptainToUpdate = captain => ({
+    type: SET_CAPTAIN_TO_UPDATE,
+    captain
+});
+
+export const cancelFetchingActiveTeam = userId => ({
+    type: CANCEL_FETCHING_ACTIVE_TEAM,
+    userId
+});
 
 export const setPlayerModalOpen = isModalOpen => ({
     type: SET_PLAYER_MODAL_OPEN,
@@ -20,11 +29,6 @@ export const setPlayerModalOpen = isModalOpen => ({
 export const setUpdatingCaptain = isUpdating => ({
     type: SET_UPDATING_CAPTAIN,
     isUpdating
-});
-
-export const makeCaptainError = error => ({
-    type: MAKE_CAPTAIN_ERROR,
-    error
 });
 
 export const makeCaptainRequest = playerId => ({
@@ -42,20 +46,9 @@ export const reloadActiveTeamRequest = userId => ({
     userId
 });
 
-export const fetchActiveTeamError = (userId, error) => ({
-    type: FETCH_ACTIVE_TEAM_ERROR,
-    userId,
-    error
-});
-
 export const fetchActiveTeamSuccess = (userId, activeTeam, captain) => ({
     type: FETCH_ACTIVE_TEAM_SUCCESS,
     userId,
     activeTeam,
     captain
-});
-
-export const alreadyFetchedActiveTeam = userId => ({
-    type: ALREADY_FETCHED_ACTIVE_TEAM,
-    userId
 });

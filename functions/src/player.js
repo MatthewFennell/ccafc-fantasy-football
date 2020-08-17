@@ -49,6 +49,7 @@ exports.createPlayer = functions
                                         points: 0,
                                         goals: 0,
                                         assists: 0,
+                                        hasPaidSubs: false,
                                         previousScore: parseFloat(data.previousScore, 10)
                                     });
                                 return Promise.resolve({ message: 'Player created', verified: true });
@@ -71,6 +72,30 @@ exports.getAllPlayers = functions
                 .map(doc => ({ id: doc.id, ...doc.data() })));
     });
 
+exports.editPlayerPrice = functions
+    .region(constants.region)
+    .https.onCall((data, context) => common.hasPermission(context.auth.uid,
+        constants.PERMISSIONS.EDIT_PLAYER)
+        .then(() => {
+            if (!data.playerId) {
+                throw new functions.https.HttpsError('invalid-argument', 'Invalid player');
+            }
+            if (!data.newPrice || data.newPrice < 0) {
+                throw new functions.https.HttpsError('invalid-argument', 'Invalid price');
+            }
+            if (!common.isNumber(data.newPrice)) {
+                throw new functions.https.HttpsError('invalid-argument', 'Invalid price');
+            }
+            return db.collection('players').doc(data.playerId).get().then(player => {
+                if (!player.exists) {
+                    throw new functions.https.HttpsError('invalid-argument', 'Can\'t find that player');
+                }
+                return player.ref.update({
+                    price: data.newPrice
+                });
+            });
+        }));
+
 exports.deletePlayer = functions
     .region(constants.region)
     .https.onCall((data, context) => common.hasPermission(context.auth.uid,
@@ -79,13 +104,21 @@ exports.deletePlayer = functions
             if (!data.playerId) {
                 throw new functions.https.HttpsError('invalid-argument', 'Must provide a valid player id');
             }
-            return db.collection('weekly-teams').where('player_ids', 'array-contains', data.playerId).get()
-                .then(docs => {
-                    if (docs.size > 0) {
+            return db.collection('active-teams').where('player_ids', 'array-contains', data.playerId).get().then(
+                activeTeamDocs => {
+                    if (activeTeamDocs.size > 0) {
                         throw new functions.https.HttpsError('invalid-argument', 'That player exists in somebodys team. Cannot be deleted');
                     }
-                    return db.collection('players').doc(data.playerId).delete();
-                });
+                    return db.collection('weekly-teams').where('player_ids', 'array-contains', data.playerId).get()
+                        .then(docs => {
+                            if (docs.size > 0) {
+                                throw new functions.https.HttpsError('invalid-argument', 'That player exists in somebodys team. Cannot be deleted');
+                            }
+                            return db.collection('players').doc(data.playerId).delete();
+                        });
+                }
+
+            );
         }));
 
 exports.editPlayerStats = functions

@@ -2,18 +2,16 @@ import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
-import { noop } from 'lodash';
 import defaultStyles from './ManageUsers.module.scss';
 import {
     fetchUsersWithExtraRolesRequest, addUserRoleRequest, removeUserRoleRequest,
     clearDatabaseRequest, rollOverToNextYearRequest,
-    deleteAllOldUsersRequest, closeSuccessMessage, closeAdminError
+    deleteAllOldUsersRequest
 } from '../actions';
 import Grid from '../../common/grid/Grid';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Dropdown from '../../common/dropdown/Dropdown';
 import Menu from '../../common/menu/Menu';
-import ErrorModal from '../../common/modal/ErrorModal';
 import SuccessModal from '../../common/modal/SuccessModal';
 import RolesToPermissions from './RolesToPermissions';
 import ConfirmModal from '../../common/modal/ConfirmModal';
@@ -58,6 +56,7 @@ const ManageUsers = props => {
     const [removeRoleModalOpen, setRemoveRoleModalOpen] = useState(false);
     const [email, setEmail] = useState('');
     const [role, setRole] = useState('');
+    const [isRollingOverToNextYear, setIsRollingOverToNextYear] = useState(false);
 
     const closeModal = useCallback(() => {
         setEmail('');
@@ -71,7 +70,6 @@ const ManageUsers = props => {
         closeModal();
         // eslint-disable-next-line
     }, [props.addUserRoleRequest, email, role, closeModal]);
-
 
     const removeRole = useCallback(() => {
         props.removeUserRoleRequest(email, role);
@@ -117,6 +115,13 @@ const ManageUsers = props => {
 
     const generateToggleRows = rows => rows.map(row => generateRow(row));
 
+    const rollOver = useCallback(() => {
+        props.rollOverToNextYearRequest();
+        setIsRollingOverToNextYear(false);
+
+        // eslint-disable-next-line
+    }, [setIsRollingOverToNextYear, props.rollOverToNextYearRequest])
+
     return (
         <>
             <div className={props.styles.manageUsersWrapper}>
@@ -126,7 +131,7 @@ const ManageUsers = props => {
                         gridHeader={(
                             <div className={props.styles.manageUserGridHeaderWrapper}>
                                 <div className={props.styles.gridHeaderText}>
-                            Users with extra roles
+                                    Users with extra roles
                                 </div>
                                 <div className={props.styles.addRoleButton}>
                                     <StyledButton
@@ -197,7 +202,7 @@ const ManageUsers = props => {
                         text="Clear DB"
                     />
                     <StyledButton
-                        onClick={props.rollOverToNextYearRequest}
+                        onClick={() => setIsRollingOverToNextYear(true)}
                         color="secondary"
                         text="Roll Over to Next Year"
                     />
@@ -208,20 +213,14 @@ const ManageUsers = props => {
                     />
                 </div>
             </div>
-            <ErrorModal
-                closeModal={props.closeAdminError}
-                headerMessage={props.errorHeader}
-                isOpen={props.errorMessage.length > 0}
-                errorCode={props.errorCode}
-                errorMessage={props.errorMessage}
-            />
-            <SuccessModal
-                backdrop
-                closeModal={props.closeSuccessMessage}
-                isOpen={props.successMessage.length > 0}
-                isSuccess
-                headerMessage={props.successMessage}
-                toggleModal={noop}
+            <ConfirmModal
+                cancel={() => setIsRollingOverToNextYear(false)}
+                closeModal={() => setIsRollingOverToNextYear(false)}
+                isButtonsDisabled={props.isRollingOverToNextYear}
+                isLoading={props.isRollingOverToNextYear}
+                isOpen={isRollingOverToNextYear || props.isRollingOverToNextYear}
+                submit={rollOver}
+                text="Roll over to next year?"
             />
         </>
     );
@@ -229,11 +228,8 @@ const ManageUsers = props => {
 
 ManageUsers.defaultProps = {
     allRoles: [],
-    errorMessage: '',
-    errorCode: '',
-    errorHeader: '',
     fetchingUsersWithExtraRoles: false,
-    successMessage: '',
+    isRollingOverToNextYear: false,
     styles: defaultStyles,
     usersWithExtraRoles: [],
     permissionMappings: {}
@@ -243,17 +239,12 @@ ManageUsers.propTypes = {
     allRoles: PropTypes.arrayOf(PropTypes.string),
     addUserRoleRequest: PropTypes.func.isRequired,
     clearDatabaseRequest: PropTypes.func.isRequired,
-    closeAdminError: PropTypes.func.isRequired,
-    closeSuccessMessage: PropTypes.func.isRequired,
     deleteAllOldUsersRequest: PropTypes.func.isRequired,
-    errorMessage: PropTypes.string,
-    errorCode: PropTypes.string,
-    errorHeader: PropTypes.string,
     fetchingUsersWithExtraRoles: PropTypes.bool,
     fetchUsersWithExtraRolesRequest: PropTypes.func.isRequired,
+    isRollingOverToNextYear: PropTypes.bool,
     removeUserRoleRequest: PropTypes.func.isRequired,
     rollOverToNextYearRequest: PropTypes.func.isRequired,
-    successMessage: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
     usersWithExtraRoles: PropTypes.arrayOf(PropTypes.shape({
         roles: PropTypes.arrayOf(PropTypes.string),
@@ -265,9 +256,7 @@ ManageUsers.propTypes = {
 
 const mapDispatchToProps = {
     addUserRoleRequest,
-    closeAdminError,
     clearDatabaseRequest,
-    closeSuccessMessage,
     deleteAllOldUsersRequest,
     fetchUsersWithExtraRolesRequest,
     removeUserRoleRequest,
@@ -276,11 +265,8 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
     allRoles: state.auth.allRoles,
-    errorMessage: state.admin.errorMessage,
-    errorCode: state.admin.errorCode,
-    errorHeader: state.admin.errorHeader,
     fetchingUsersWithExtraRoles: state.admin.fetchingUsersWithExtraRoles,
-    successMessage: state.admin.successMessage,
+    isRollingOverToNextYear: state.admin.isRollingOverToNextYear,
     usersWithExtraRoles: state.admin.usersWithExtraRoles,
     permissionMappings: state.auth.permissionMappings
 });

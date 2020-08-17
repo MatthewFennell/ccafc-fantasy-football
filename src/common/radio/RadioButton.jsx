@@ -68,5 +68,4 @@ RadioButton.propTypes = {
     value: PropTypes.string
 };
 
-
 export default RadioButton;

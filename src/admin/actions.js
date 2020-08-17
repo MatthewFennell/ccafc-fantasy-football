@@ -4,38 +4,46 @@ export const FETCH_TEAMS_REQUEST = `${pre}FETCH_TEAMS_REQUEST`;
 export const FETCH_TEAMS_SUCCESS = `${pre}FETCH_TEAMS_SUCCESS`;
 export const SET_FETCHING_TEAMS = `${pre}SET_FETCHING_TEAMS`;
 
+export const ADD_NOTIFICATION_REQUEST = `${pre}ADD_NOTIFICATION_REQUEST`;
+export const CANCEL_ADDING_NOTIFICATION = `${pre}CANCEL_ADDING_NOTIFICATION`;
+
 export const CREATE_PLAYER_REQUEST = `${pre}CREATE_PLAYER_REQUEST`;
-export const CREATE_PLAYER_SUCCESS = `${pre}CREATE_PLAYER_SUCCESS`;
+export const CANCEL_CREATING_PLAYER = `${pre}CANCEL_CREATING_PLAYER`;
+
+export const EDIT_PLAYER_PRICE_REQUEST = `${pre}EDIT_PLAYER_PRICE_REQUEST`;
+export const EDIT_PLAYER_PRICE_SUCCESS = `${pre}EDIT_PLAYER_PRICE_SUCCESS`;
+export const CANCEL_EDITING_PLAYER_PRICE = `${pre}CANCEL_EDITING_PLAYER_PRICE`;
 
 export const CREATE_TEAM_REQUEST = `${pre}CREATE_TEAM_REQUEST`;
-export const CREATE_TEAM_SUCCESS = `${pre}CREATE_TEAM_SUCCESS`;
+export const CANCEL_CREATING_TEAM = `${pre}CANCEL_CREATING_TEAM`;
 
 export const SUBMIT_RESULT_REQUEST = `${pre}SUBMIT_RESULT_REQUEST`;
-export const SUBMIT_RESULT_SUCCESS = `${pre}SUBMIT_RESULT_SUCCESS`;
+export const CANCEL_SUBMITTING_RESULT = `${pre}CANCEL_SUBMITTING_RESULT`;
 
 export const FETCH_PLAYERS_FOR_TEAM_REQUEST = `${pre}FETCH_PLAYERS_FOR_TEAM_REQUEST`;
 export const FETCH_PLAYERS_FOR_TEAM_SUCCESS = `${pre}FETCH_PLAYERS_FOR_TEAM_SUCCESS`;
 export const SET_FETCHING_PLAYERS_FOR_TEAM = `${pre}SET_FETCHING_PLAYERS_FOR_TEAM`;
 
 export const DELETE_PLAYER_REQUEST = `${pre}DELETE_PLAYER_REQUEST`;
-export const DELETE_PLAYER_SUCCESS = `${pre}DELETE_PLAYER_SUCCESS`;
+export const CANCEL_DELETING_PLAYER = `${pre}CANCEL_DELETING_PLAYER`;
 
 export const DELETE_TEAM_REQUEST = `${pre}DELETE_TEAM_REQUEST`;
 export const DELETE_TEAM_SUCCESS = `${pre}DELETE_TEAM_SUCCESS`;
 
 export const TRIGGER_WEEK_REQUEST = `${pre}TRIGGER_WEEK_REQUEST`;
-export const TRIGGER_WEEK_SUCCESS = `${pre}TRIGGER_WEEK_SUCCESS`;
+export const CANCEL_TRIGGERING_WEEK = `${pre}CANCEL_TRIGGERING_WEEK`;
 
 export const FETCH_PLAYER_STATS_REQUEST = `${pre}FETCH_PLAYER_STATS_REQUEST`;
 export const FETCH_PLAYER_STATS_SUCCESS = `${pre}FETCH_PLAYER_STATS_SUCCESS`;
+export const CANCEL_FETCHING_PLAYER_STATS = `${pre}CANCEL_FETCHING_PLAYER_STATS`;
 
 export const EDIT_PLAYER_STATS_REQUEST = `${pre}EDIT_PLAYER_STATS_REQUEST`;
-export const EDIT_PLAYER_STATS_SUCCESS = `${pre}EDIT_PLAYER_STATS_SUCCESS`;
+export const CANCEL_EDITING_PLAYER_STATS = `${pre}CANCEL_EDITING_PLAYER_STATS`;
 
 export const FETCH_USERS_WITH_EXTRA_ROLES_REQUEST = `${pre}FETCH_USERS_WITH_EXTRA_ROLES_REQUEST`;
 export const FETCH_USERS_WITH_EXTRA_ROLES_SUCCESS = `${pre}FETCH_USERS_WITH_EXTRA_ROLES_SUCCESS`;
 export const LOAD_USERS_WITH_EXTRA_ROLES = `${pre}LOAD_USERS_WITH_EXTRA_ROLES`;
-export const ALREADY_FETCHED_USERS_WITH_EXTRA_ROLES = `${pre}ALREADY_FETCHED_USERS_WITH_EXTRA_ROLES`;
+export const CANCEL_FETCHING_USERS_WITH_EXTRA_ROLES = `${pre}CANCEL_FETCHING_USERS_WITH_EXTRA_ROLES`;
 
 export const FETCH_INITIAL_USERS_REQUEST = `${pre}FETCH_INITIAL_USERS_REQUEST`;
 export const FETCH_INITIAL_USERS_SUCCESS = `${pre}FETCH_INITIAL_USERS_SUCCESS`;
@@ -46,52 +54,60 @@ export const REMOVE_USER_ROLE_REQUEST = `${pre}REMOVE_USER_ROLE_REQUEST`;
 export const CLEAR_DATABASE_REQUEST = `${pre}CLEAR_DATABASE_REQUEST`;
 
 export const ROLL_OVER_TO_NEXT_YEAR_REQUEST = `${pre}ROLL_OVER_TO_NEXT_YEAR_REQUEST`;
+export const SET_ROLLING_OVER_TO_NEXT_YEAR = `${pre}SET_ROLLING_OVER_TO_NEXT_YEAR`;
 
 export const DELETE_ALL_OLD_USERS_REQUEST = `${pre}DELETE_ALL_OLD_USERS_REQUEST`;
 
 export const FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST = `${pre}FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST`;
 export const FETCH_HIGHLIGHTS_FOR_APPROVAL_SUCCESS = `${pre}FETCH_HIGHLIGHTS_FOR_APPROVAL_SUCCESS`;
-export const ALREADY_FETCHED_HIGHLIGHTS_FOR_APPROVAL = `${pre}ALREADY_FETCHED_HIGHLIGHTS_FOR_APPROVAL`;
+export const CANCEL_FETCHING_HIGHLIGHTS_FOR_APPROVAL = `${pre}CANCEL_FETCHING_HIGHLIGHTS_FOR_APPROVAL`;
 
 export const APPROVE_HIGHLIGHT_REQUEST = `${pre}APPROVE_HIGHLIGHT_REQUEST`;
 export const APPROVE_HIGHLIGHT_SUCCESS = `${pre}APPROVE_HIGHLIGHT_SUCCESS`;
+export const CANCEL_APPROVING_HIGHLIGHT = `${pre}CANCEL_APPROVING_HIGHLIGHT`;
 
 export const REJECT_HIGHLIGHT_REQUEST = `${pre}REJECT_HIGHLIGHT_REQUEST`;
 export const REJECT_HIGHLIGHT_SUCCESS = `${pre}REJECT_HIGHLIGHT_SUCCESS`;
+export const CANCEL_REJECTING_HIGHLIGHT = `${pre}CANCEL_REJECTING_HIGHLIGHT`;
 
 export const DELETE_HIGHLIGHT_REQUEST = `${pre}DELETE_HIGHLIGHT_REQUEST`;
 export const DELETE_HIGHLIGHT_SUCCESS = `${pre}DELETE_HIGHLIGHT_SUCCESS`;
+export const CANCEL_DELETING_HIGHLIGHT = `${pre}CANCEL_DELETING_HIGHLIGHT`;
 
 export const FETCH_ALL_REJECTED_HIGHLIGHTS_REQUEST = `${pre}FETCH_ALL_REJECTED_HIGHLIGHTS_REQUEST`;
 export const FETCH_ALL_REJECTED_HIGHLIGHTS_SUCCESS = `${pre}FETCH_ALL_REJECTED_HIGHLIGHTS_SUCCESS`;
-export const ALREADY_FETCHED_REJECTED_HIGHLIGHTS = `${pre}ALREADY_FETCHED_REJECTED_HIGHLIGHTS`;
+export const CANCEL_FETCHING_REJECTED_HIGHLIGHTS = `${pre}CANCEL_FETCHING_REJECTED_HIGHLIGHTS`;
 
 export const REAPPROVE_REJECTED_HIGHLIGHT_REQUEST = `${pre}REAPPROVE_REJECTED_HIGHLIGHT_REQUEST`;
 export const REAPPROVE_REJECTED_HIGHLIGHT_SUCCESS = `${pre}REAPPROVE_REJECTED_HIGHLIGHT_SUCCESS`;
+export const CANCEL_LOADING_REJECTED_HIGHLIGHTS = `${pre}CANCEL_LOADING_REJECTED_HIGHLIGHTS`;
 
 export const SUBMIT_EXTRA_STATS_REQUEST = `${pre}SUBMIT_EXTRA_STATS_REQUEST`;
-export const SUBMIT_EXTRA_STATS_SUCCESS = `${pre}SUBMIT_EXTRA_STATS_SUCCESS`;
-
-export const SET_SUCCESS_MESSAGE = `${pre}SET_SUCCESS_MESSAGE`;
-export const CLOSE_SUCCESS_MESSAGE = `${pre}CLOSE_SUCCESS_MESSAGE`;
-
-export const SET_ADMIN_ERROR = `${pre}SET_ADMIN_ERROR`;
-export const CLOSE_ADMIN_ERROR = `${pre}CLOSE_ADMIN_ERROR`;
+export const CANCEL_SUBMITTING_EXTRA_STATS = `${pre}CANCEL_SUBMITTING_EXTRA_STATS`;
 
 export const SET_HAS_PAID_SUBS_REQUEST = `${pre}SET_HAS_PAID_SUBS_REQUEST`;
-export const SET_HAS_PAID_SUBS_SUCCESS = `${pre}SET_HAS_PAID_SUBS_SUCCESS`;
+export const CANCEL_UPDATING_SUBS = `${pre}CANCEL_UPDATING_SUBS`;
 
 export const RECALCULATE_LEAGUE_POSITIONS_REQUEST = `${pre}RECALCULATE_LEAGUE_POSITIONS_REQUEST`;
 export const SET_RECALCULATING_LEAGUE_POSITIONS = `${pre}SET_RECALCULATING_LEAGUE_POSITIONS`;
 
 export const DELETE_FEATURE_REQUEST = `${pre}DELETE_FEATURE_REQUEST`;
-export const DELETE_FEATURE_SUCCESS = `${pre}DELETE_FEATURE_SUCCESS`;
+export const CANCEL_DELETING_BUG = `${pre}CANCEL_DELETING_BUG`;
 export const SET_BUG_ID_TO_DELETE = `${pre}SET_BUG_ID_TO_DELETE`;
 
 export const SUBMIT_CUSTOM_RESULTS = `${pre}SUBMIT_CUSTOM_RESULTS`;
 
-export const deleteFeatureSuccess = () => ({
-    type: DELETE_FEATURE_SUCCESS
+export const addNotificationRequest = notification => ({
+    type: ADD_NOTIFICATION_REQUEST,
+    notification
+});
+
+export const cancelAddingNotification = () => ({
+    type: CANCEL_ADDING_NOTIFICATION
+});
+
+export const cancelDeletingBug = () => ({
+    type: CANCEL_DELETING_BUG
 });
 
 export const setBugIdToDelete = bugId => ({
@@ -118,33 +134,14 @@ export const recalculateLeaguePositionsRequest = () => ({
     type: RECALCULATE_LEAGUE_POSITIONS_REQUEST
 });
 
-export const setHasPaidSubsSuccess = changes => ({
-    type: SET_HAS_PAID_SUBS_SUCCESS,
+export const cancelUpdatingSubs = changes => ({
+    type: CANCEL_UPDATING_SUBS,
     changes
 });
 
 export const setHasPaidSubsRequest = changes => ({
     type: SET_HAS_PAID_SUBS_REQUEST,
     changes
-});
-
-export const setAdminError = (error, header) => ({
-    type: SET_ADMIN_ERROR,
-    error,
-    header
-});
-
-export const closeAdminError = () => ({
-    type: CLOSE_ADMIN_ERROR
-});
-
-export const setSuccessMessage = message => ({
-    type: SET_SUCCESS_MESSAGE,
-    message
-});
-
-export const closeSuccessMessage = () => ({
-    type: CLOSE_SUCCESS_MESSAGE
 });
 
 export const submitExtraStatsRequest = (
@@ -159,8 +156,8 @@ export const submitExtraStatsRequest = (
     ownGoal
 });
 
-export const submitExtraStatsSuccess = () => ({
-    type: SUBMIT_EXTRA_STATS_SUCCESS
+export const cancelSubmittingExtraStats = () => ({
+    type: CANCEL_SUBMITTING_EXTRA_STATS
 });
 
 export const reapproveRejectedHighlightRequest = highlightId => ({
@@ -173,6 +170,10 @@ export const reapproveRejectedHighlightSuccess = highlight => ({
     highlight
 });
 
+export const cancelLoadingRejectedHighlights = () => ({
+    type: CANCEL_LOADING_REJECTED_HIGHLIGHTS
+});
+
 export const fetchAllRejectedHighlightsRequest = () => ({
     type: FETCH_ALL_REJECTED_HIGHLIGHTS_REQUEST
 });
@@ -182,8 +183,8 @@ export const fetchAllRejectedHighlightsSuccess = highlights => ({
     highlights
 });
 
-export const alreadyFetchedRejectedHighlights = () => ({
-    type: ALREADY_FETCHED_REJECTED_HIGHLIGHTS
+export const cancelFetchingRejectedHighlights = () => ({
+    type: CANCEL_FETCHING_REJECTED_HIGHLIGHTS
 });
 
 export const deleteHighlightRequest = (highlightId, reason) => ({
@@ -197,8 +198,12 @@ export const deleteHighlightSuccess = highlight => ({
     highlight
 });
 
-export const alreadyFetchedHighlightsForApproval = () => ({
-    type: ALREADY_FETCHED_HIGHLIGHTS_FOR_APPROVAL
+export const cancelDeletingHighlight = () => ({
+    type: CANCEL_DELETING_HIGHLIGHT
+});
+
+export const cancelingFetchingHighlightsForApproval = () => ({
+    type: CANCEL_FETCHING_HIGHLIGHTS_FOR_APPROVAL
 });
 
 export const approveHighlightRequest = highlightId => ({
@@ -211,6 +216,10 @@ export const approveHighlightSuccess = highlight => ({
     highlight
 });
 
+export const cancelApprovingHighlight = () => ({
+    type: CANCEL_APPROVING_HIGHLIGHT
+});
+
 export const rejectHighlightRequest = (highlightId, reason) => ({
     type: REJECT_HIGHLIGHT_REQUEST,
     highlightId,
@@ -220,6 +229,10 @@ export const rejectHighlightRequest = (highlightId, reason) => ({
 export const rejectHighlightSuccess = highlight => ({
     type: REJECT_HIGHLIGHT_SUCCESS,
     highlight
+});
+
+export const cancelRejectingHighlight = () => ({
+    type: CANCEL_REJECTING_HIGHLIGHT
 });
 
 export const fetchHighlightsForApprovalSuccess = highlights => ({
@@ -239,12 +252,17 @@ export const rollOverToNextYearRequest = () => ({
     type: ROLL_OVER_TO_NEXT_YEAR_REQUEST
 });
 
+export const setRollingOverToNextYear = isRollingOver => ({
+    type: SET_ROLLING_OVER_TO_NEXT_YEAR,
+    isRollingOver
+});
+
 export const clearDatabaseRequest = () => ({
     type: CLEAR_DATABASE_REQUEST
 });
 
-export const alreadyFetchedUsersWithExtraRoles = () => ({
-    type: ALREADY_FETCHED_USERS_WITH_EXTRA_ROLES
+export const cancelFetchingUsersWithExtraRoles = () => ({
+    type: CANCEL_FETCHING_USERS_WITH_EXTRA_ROLES
 });
 
 export const loadUsersWithExtraRoles = () => ({
@@ -281,8 +299,8 @@ export const editPlayerStatsRequest = (playerId, week, difference) => ({
     difference
 });
 
-export const editPlayerStatsSuccess = () => ({
-    type: EDIT_PLAYER_STATS_SUCCESS
+export const cancelEditingPlayerStats = () => ({
+    type: CANCEL_EDITING_PLAYER_STATS
 });
 
 // -------------------------------------------------------------------- \\
@@ -298,6 +316,10 @@ export const fetchPlayerStatsSuccess = playerStats => ({
     playerStats
 });
 
+export const cancelFetchingPlayerStats = () => ({
+    type: CANCEL_FETCHING_PLAYER_STATS
+});
+
 // -------------------------------------------------------------------- \\
 
 export const triggerWeekRequest = week => ({
@@ -305,8 +327,8 @@ export const triggerWeekRequest = week => ({
     week
 });
 
-export const triggerWeekSuccess = () => ({
-    type: TRIGGER_WEEK_SUCCESS
+export const cancelTriggeringWeek = () => ({
+    type: CANCEL_TRIGGERING_WEEK
 });
 
 // -------------------------------------------------------------------- \\
@@ -336,8 +358,26 @@ export const createPlayerRequest = (name, position, price, team, previousScore) 
     previousScore
 });
 
-export const createPlayerSuccess = () => ({
-    type: CREATE_PLAYER_SUCCESS
+export const cancelCreatingPlayer = () => ({
+    type: CANCEL_CREATING_PLAYER
+});
+
+export const editPlayerPriceRequest = (playerId, newPrice, playerTeam) => ({
+    type: EDIT_PLAYER_PRICE_REQUEST,
+    playerId,
+    newPrice,
+    playerTeam
+});
+
+export const editPlayerPriceSuccess = (playerId, newPrice, playerTeam) => ({
+    type: EDIT_PLAYER_PRICE_SUCCESS,
+    playerId,
+    newPrice,
+    playerTeam
+});
+
+export const cancelEditingPlayerPrice = () => ({
+    type: CANCEL_EDITING_PLAYER_PRICE
 });
 
 // -------------------------------------------------------------------- \\
@@ -347,8 +387,8 @@ export const createTeamRequest = teamName => ({
     teamName
 });
 
-export const createTeamSuccess = () => ({
-    type: CREATE_TEAM_SUCCESS
+export const cancelCreatingTeam = () => ({
+    type: CANCEL_CREATING_TEAM
 });
 
 // -------------------------------------------------------------------- \\
@@ -362,8 +402,8 @@ export const submitResultRequest = (teamId, goalsFor, goalsAgainst, week, player
     players
 });
 
-export const submitResultSuccess = () => ({
-    type: SUBMIT_RESULT_SUCCESS
+export const cancelSubmittingResult = () => ({
+    type: CANCEL_SUBMITTING_RESULT
 });
 
 // -------------------------------------------------------------------- \\
@@ -391,8 +431,8 @@ export const deletePlayerRequest = playerId => ({
     playerId
 });
 
-export const deletePlayerSuccess = () => ({
-    type: DELETE_PLAYER_SUCCESS
+export const cancelDeletingPlayer = () => ({
+    type: CANCEL_DELETING_PLAYER
 });
 
 // -------------------------------------------------------------------- \\

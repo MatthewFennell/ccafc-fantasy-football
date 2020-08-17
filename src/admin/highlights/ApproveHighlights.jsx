@@ -3,17 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
-import { noop } from 'lodash';
 import defaultStyles from './ApproveHighlights.module.scss';
 import {
     fetchHighlightsForApprovalRequest, approveHighlightRequest, rejectHighlightRequest,
-    deleteHighlightRequest, fetchAllRejectedHighlightsRequest, reapproveRejectedHighlightRequest,
-    closeSuccessMessage, closeAdminError
+    deleteHighlightRequest, fetchAllRejectedHighlightsRequest, reapproveRejectedHighlightRequest
 } from '../actions';
 import YouTubeList from '../../common/youtubelist/YouTubeList';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import SuccessModal from '../../common/modal/SuccessModal';
-import ErrorModal from '../../common/modal/ErrorModal';
 import Spinner from '../../common/spinner/Spinner';
 import { fetchHighlightsRequest } from '../../highlights/actions';
 import Grid from '../../common/grid/Grid';
@@ -302,29 +299,11 @@ const ApproveHighlights = props => {
                     </div>
                 </div>
             </SuccessModal>
-            <ErrorModal
-                closeModal={props.closeAdminError}
-                headerMessage={props.errorHeader}
-                isOpen={props.errorMessage.length > 0}
-                errorCode={props.errorCode}
-                errorMessage={props.errorMessage}
-            />
-            <SuccessModal
-                backdrop
-                closeModal={props.closeSuccessMessage}
-                isOpen={props.successMessage.length > 0}
-                isSuccess
-                headerMessage={props.successMessage}
-                toggleModal={noop}
-            />
         </>
     );
 };
 
 ApproveHighlights.defaultProps = {
-    errorMessage: '',
-    errorCode: '',
-    errorHeader: '',
     highlightBeingApproved: '',
     highlightBeingRejected: '',
     highlightsForApproval: [],
@@ -332,19 +311,13 @@ ApproveHighlights.defaultProps = {
     loadingHighlightsForApproval: false,
     loadingVideos: false,
     rejectedHighlights: [],
-    successMessage: '',
     styles: defaultStyles,
     videos: []
 };
 
 ApproveHighlights.propTypes = {
     approveHighlightRequest: PropTypes.func.isRequired,
-    closeAdminError: PropTypes.func.isRequired,
-    closeSuccessMessage: PropTypes.func.isRequired,
     deleteHighlightRequest: PropTypes.func.isRequired,
-    errorMessage: PropTypes.string,
-    errorCode: PropTypes.string,
-    errorHeader: PropTypes.string,
     fetchAllRejectedHighlightsRequest: PropTypes.func.isRequired,
     fetchHighlightsRequest: PropTypes.func.isRequired,
     fetchHighlightsForApprovalRequest: PropTypes.func.isRequired,
@@ -361,15 +334,12 @@ ApproveHighlights.propTypes = {
     reapproveRejectedHighlightRequest: PropTypes.func.isRequired,
     rejectedHighlights: PropTypes.arrayOf(PropTypes.shape({})),
     rejectHighlightRequest: PropTypes.func.isRequired,
-    successMessage: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
     videos: PropTypes.arrayOf(PropTypes.shape({}))
 };
 
 const mapDispatchToProps = {
     approveHighlightRequest,
-    closeAdminError,
-    closeSuccessMessage,
     deleteHighlightRequest,
     fetchAllRejectedHighlightsRequest,
     fetchHighlightsRequest,
@@ -379,9 +349,6 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-    errorMessage: state.admin.errorMessage,
-    errorCode: state.admin.errorCode,
-    errorHeader: state.admin.errorHeader,
     highlightsForApproval: state.admin.highlightsForApproval,
     highlightBeingApproved: state.admin.highlightBeingApproved,
     highlightBeingRejected: state.admin.highlightBeingRejected,
@@ -389,7 +356,6 @@ const mapStateToProps = state => ({
     loadingRejectedHighlights: state.admin.loadingRejectedHighlights,
     loadingHighlightsForApproval: state.admin.loadingHighlightsForApproval,
     rejectedHighlights: state.admin.rejectedHighlights,
-    successMessage: state.admin.successMessage,
     videos: state.highlights.videos
 });
 

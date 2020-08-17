@@ -18,8 +18,6 @@ export const initialState = {
     fetchingAllPlayers: false,
 
     allTeams: [],
-    transfersError: '',
-    transfersErrorCode: '',
 
     successMessage: ''
 };
@@ -29,15 +27,15 @@ const transfersReducer = (state = initialState, action) => {
     case overviewActions.FETCH_USER_STATS_REQUEST: {
         return fp.set('fetchingUserStats', true)(state);
     }
-    case overviewActions.FETCH_USER_STATS_ERROR: {
+    case overviewActions.CANCEL_FETCHING_USER_STATS: {
         return fp.set('fetchingUserStats', false)(state);
     }
     case overviewActions.FETCH_USER_STATS_SUCCESS: {
         return {
             ...state,
             remainingTransfers: action.stats.remainingTransfers,
-            originalBudget: action.stats.remainingBudget,
-            remainingBudget: action.stats.remainingBudget,
+            originalBudget: Number(action.stats.remainingBudget),
+            remainingBudget: Number(action.stats.remainingBudget),
             fetchingUserStats: false
         };
     }
@@ -48,32 +46,24 @@ const transfersReducer = (state = initialState, action) => {
     case currentTeamActions.FETCH_ACTIVE_TEAM_SUCCESS: {
         return fp.flow(
             fp.set('originalTeam', action.activeTeam),
-            fp.set('currentTeam', action.activeTeam),
-            fp.set('fetchingOriginalTeam', false)
+            fp.set('currentTeam', action.activeTeam)
         )(state);
     }
-    case currentTeamActions.FETCH_ACTIVE_TEAM_ERROR: {
+    case actions.CANCEL_FETCHING_ORIGINAL_TEAM: {
         return fp.set('fetchingOriginalTeam', false)(state);
     }
-    case currentTeamActions.ALREADY_FETCHED_ACTIVE_TEAM: {
+    case currentTeamActions.CANCEL_FETCHING_ACTIVE_TEAM: {
         return fp.set('fetchingOriginalTeam', false)(state);
     }
     // ----------------------------------------------------- \\
     case actions.FETCH_ALL_PLAYERS_SUCCESS: {
-        return {
-            ...state,
-            fetchingAllPlayers: false,
-            allPlayers: action.players
-        };
+        return fp.set('allPlayers', action.players)(state);
     }
     case actions.FETCH_ALL_PLAYERS_REQUEST: {
         return fp.set('fetchingAllPlayers', true)(state);
     }
-    case actions.FETCH_ALL_PLAYERS_ERROR: {
-        return {
-            ...state,
-            fetchingAllPlayers: false
-        };
+    case actions.CANCEL_FETCHING_ALL_PLAYERS: {
+        return fp.set('fetchingAllPlayers', false)(state);
     }
     // ----------------------------------------------------- \\
     case actions.FETCH_ALL_TEAMS_SUCCESS: {
@@ -91,27 +81,13 @@ const transfersReducer = (state = initialState, action) => {
 
         return fp.flow(
             fp.set('currentTeam', newTeam),
-            fp.set('remainingBudget', state.remainingBudget - action.player.price)
+            fp.set('remainingBudget', Number(state.remainingBudget) - Number(action.player.price))
         )(state);
-    }
-    case actions.ADD_PLAYER_TO_CURRENT_TEAM_ERROR: {
-        return {
-            ...state,
-            transfersError: action.error.message,
-            transfersErrorCode: action.error.code
-        };
-    }
-    case actions.CLOSE_TRANSFERS_ERROR: {
-        return {
-            ...state,
-            transfersError: '',
-            transfersErrorCode: ''
-        };
     }
     case actions.UNDO_TRANSFER_CHANGES: {
         return fp.flow(
             fp.set('currentTeam', state.originalTeam),
-            fp.set('remainingBudget', state.originalBudget)
+            fp.set('remainingBudget', Number(state.originalBudget))
         )(state);
     }
     case actions.REMOVE_PLAYER_FROM_CURRENT_TEAM: {
@@ -127,33 +103,28 @@ const transfersReducer = (state = initialState, action) => {
 
         return fp.flow(
             remove(action.player),
-            fp.set('remainingBudget', state.remainingBudget + action.player.price)
+            fp.set('remainingBudget', Number(state.remainingBudget) + Number(action.player.price))
         )(state);
     }
-    case actions.ALREADY_FETCHED_ALL_PLAYERS: {
+    case actions.CANCEL_FETCHING_PLAYERS: {
         return fp.set('fetchingAllPlayers', false)(state);
     }
-    case actions.UPDATE_TEAM_ERROR: {
-        return {
-            ...state,
-            transfersError: action.error.message,
-            transfersErrorCode: action.error.code,
-            fetchingOriginalTeam: false
-        };
+    case actions.CANCEL_UPDATING_TEAM: {
+        return fp.set('fetchingOriginalTeam', false)(state);
     }
     case actions.RESTORE_PLAYER_REQUEST: {
         const playerToRestore = state.allPlayers.find(x => x.id === action.playerId);
 
         return fp.flow(
             fp.set('currentTeam', state.currentTeam.map(x => (x.id === action.playerId ? playerToRestore : x))),
-            fp.set('remainingBudget', state.remainingBudget - playerToRestore.price)
+            fp.set('remainingBudget', Number(state.remainingBudget) - Number(playerToRestore.price))
         )(state);
     }
     case actions.REPLACE_PLAYER_SUCCESS: {
-        const budgetDiff = action.oldPlayer.price - action.newPlayer.price;
+        const budgetDiff = Number(action.oldPlayer.price) - Number(action.newPlayer.price);
         return fp.flow(
             fp.set('currentTeam', state.currentTeam.map(x => (x.id === action.oldPlayer.id ? action.newPlayer : x))),
-            fp.set('remainingBudget', state.remainingBudget + budgetDiff)
+            fp.set('remainingBudget', Number(state.remainingBudget) + budgetDiff)
         )(state);
     }
     case actions.UPDATE_TEAM_REQUEST: {
@@ -165,7 +136,7 @@ const transfersReducer = (state = initialState, action) => {
     case actions.CLOSE_SUCCESS_MESSAGE: {
         return fp.set('successMessage', '')(state);
     }
-    case adminActions.SET_HAS_PAID_SUBS_SUCCESS: {
+    case adminActions.CANCEL_UPDATING_SUBS: {
         return {
             ...state,
             allPlayers: state.allPlayers

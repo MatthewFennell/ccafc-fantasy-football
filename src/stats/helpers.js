@@ -91,7 +91,8 @@ export const combinePlayers = (players, minWeek, maxWeek) => {
                 dickOfTheDay: player.dickOfTheDay ? x.dickOfTheDay + 1 : x.dickOfTheDay,
                 ownGoals: x.ownGoals + player.ownGoals,
                 penaltySaves: x.penaltySaves + player.penaltySaves,
-                penaltyMisses: x.penaltyMisses + player.penaltyMisses
+                penaltyMisses: x.penaltyMisses + player.penaltyMisses,
+                points: x.points + player.points
             }) : x));
         } else {
             output.push({

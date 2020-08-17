@@ -12,7 +12,7 @@ const statsReducer = (state = initialState, action) => {
         const currentLoading = fp.getOr([], 'fetching')(state.teamStatsByWeek[action.teamId]);
         return fp.set(`teamStatsByWeek.${action.teamId}.fetching`, fp.union(range, currentLoading))(state);
     }
-    case actions.FETCH_TEAM_STATS_BY_WEEK_ERROR: {
+    case actions.CANCEL_FETCHING_TEAM_STATS_BY_WEEK: {
         return fp.set(`teamStatsByWeek.${action.teamId}.fetching`, [])(state);
     }
     case actions.FETCH_TEAM_STATS_BY_WEEK_SUCCESS: {

@@ -10,7 +10,9 @@ const LoadingDiv = props => (
         [props.styles.borderRadius]: props.isBorderRadius,
         [props.styles.fitContent]: props.isFitContent,
         [props.styles.noPadding]: props.isNoPadding,
-        [props.styles.boxShadow]: props.isBoxShadow
+        [props.styles.boxShadow]: props.isBoxShadow,
+        [props.styles.padding]: props.isPadding,
+        [props.styles.whiteBackground]: props.isWhiteBackground
     })}
     >
         <span className={classNames({
@@ -54,7 +56,9 @@ LoadingDiv.defaultProps = {
     isLoading: false,
     isMargin: false,
     isNoPadding: false,
+    isPadding: false,
     isRed: false,
+    isWhiteBackground: false,
     styles: defaultStyles
 };
 
@@ -70,7 +74,9 @@ LoadingDiv.propTypes = {
     isLoading: PropTypes.bool,
     isMargin: PropTypes.bool,
     isNoPadding: PropTypes.bool,
+    isPadding: PropTypes.bool,
     isRed: PropTypes.bool,
+    isWhiteBackground: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 

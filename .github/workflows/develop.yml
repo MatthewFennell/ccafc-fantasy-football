@@ -20,6 +20,13 @@ jobs:
     - name: install
       run:
         npm ci
+
+    - name: get-npm-version
+      id: package-version
+      uses: martinbeentjes/npm-get-version-action@master
+      with:
+        path: .
+
     - name: Load API Config
       run: |
           echo 'REACT_APP_API_KEY=${{ secrets.FIREBASE_API_KEY_DEV }}' >> .env.production
@@ -31,6 +38,8 @@ jobs:
           echo 'REACT_APP_APP_ID=${{ secrets.FIREBASE_APP_ID_DEV }}' >> .env.production
           echo 'REACT_APP_MEASUREMENT_ID=${{ secrets.FIREBASE_MEASUREMENT_ID_DEV }}' >> .env.production
           echo 'REACT_APP_CONFIRMATION_EMAIL_REDIRECT=${{ secrets.EMAIL_REDIRECT_DEV }}' >> .env.production
+          echo 'REACT_APP_SENTRY_DSN=${{ secrets.SENTRY_DSN }}' >> .env.production
+          echo 'REACT_APP_VERSION=${{ steps.package-version.outputs.current-version}}' >> .env.production
 
     - name: Build
       run: 
@@ -38,17 +47,17 @@ jobs:
       env:
         CI: true
 
-    - name: Lint
-      run:
-        npm run lint
-      env:
-        CI: true
+    # - name: Lint
+    #   run:
+    #     npm run lint
+      # env:
+      #   CI: true
 
-    - name: Testing
-      run:
-        npm test
-      env:
-        CI: true
+    # - name: Testing
+    #   run:
+    #     npm test
+    #   env:
+    #     CI: true
 
     - name: Archive Production Artifact
       uses: actions/upload-artifact@master
@@ -90,3 +99,18 @@ jobs:
         npx firebase deploy --only hosting
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+    - name: Deploy Firebase Security Rules
+      run: |
+        npm ci
+        npx firebase use ccafc-fantasy-football-dev
+        npx firebase deploy --only firestore:rules
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+    - name: Deploy Firebase Indexes
+      run: |
+        npm ci
+        npx firebase use ccafc-fantasy-football-dev
+        npx firebase deploy --only firestore:indexes
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+

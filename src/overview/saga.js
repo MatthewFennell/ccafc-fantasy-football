@@ -4,6 +4,7 @@ import {
 import * as actions from './actions';
 import * as selectors from './selectors';
 import * as overviewApi from './api';
+import { setErrorMessage } from '../modalHandling/actions';
 
 export function* getUserStats(api, action) {
     try {
@@ -13,11 +14,11 @@ export function* getUserStats(api, action) {
                 userId: action.userId
             });
             yield put(actions.fetchUserStatsSuccess(action.userId, stats));
-        } else {
-            yield put(actions.alreadyFetchedUserStats(action.userId));
         }
     } catch (error) {
-        yield put(actions.fetchUserStatsError(action.userId, error));
+        yield put(setErrorMessage('Error Fetching User Stats', error));
+    } finally {
+        yield put(actions.cancelFetchingUserStats(action.userId));
     }
 }
 
@@ -26,7 +27,7 @@ export function* getMaxGameWeek(api) {
         const maxGameWeek = yield call(api.getMaxGameWeek);
         yield put(actions.fetchMaxGameWeekSuccess(maxGameWeek));
     } catch (error) {
-        yield put(actions.fetchMaxGameWeekError(error));
+        yield put(setErrorMessage('Error Fetching Gameweek', error));
     }
 }
 
@@ -40,11 +41,11 @@ export function* getUserInfoForWeek(api, action) {
                 week: action.week
             }));
             yield put(actions.fetchUserInfoForWeekSuccess(action.userId, action.week, userInfo));
-        } else {
-            yield put(actions.alreadyFetchedUserInfoForWeek(action.userId, action.week));
         }
     } catch (error) {
-        yield put(actions.fetchUserInfoForWeekError(action.userId, action.week, error));
+        yield put(setErrorMessage('Error Fetching User Info for Week', error));
+    } finally {
+        yield put(actions.cancelFetchingUserInfoForWeek(action.userId, action.week));
     }
 }
 

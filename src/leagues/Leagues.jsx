@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import defaultStyles from './styles/Leagues.module.scss';
 import {
-    fetchLeaguesRequest, createLeagueRequest, closeCreateLeagueError,
-    joinLeagueRequest, closeJoinLeagueError
+    fetchLeaguesRequest, createLeagueRequest,
+    joinLeagueRequest
 } from './actions';
 import * as selectors from './selectors';
 import Grid from '../common/grid/Grid';
@@ -13,7 +13,6 @@ import * as constants from '../constants';
 import StyledButton from '../common/StyledButton/StyledButton';
 import CreateLeagueForm from './CreateLeagueForm';
 import JoinLeagueForm from './JoinLeagueForm';
-import ErrorModal from '../common/modal/ErrorModal';
 import Spinner from '../common/spinner/Spinner';
 import SuccessModal from '../common/modal/SuccessModal';
 
@@ -128,20 +127,6 @@ const Leagues = props => {
                     />
                 </div>
             </SuccessModal>
-            <ErrorModal
-                closeModal={props.closeCreateLeagueError}
-                headerMessage="Error creating league"
-                isOpen={props.createLeagueError.length > 0}
-                errorCode={props.createLeagueErrorCode}
-                errorMessage={props.createLeagueError}
-            />
-            <ErrorModal
-                closeModal={props.closeJoinLeagueError}
-                headerMessage="Error joinning league"
-                isOpen={props.joinLeagueError.length > 0}
-                errorCode={props.joinLeagueErrorCode}
-                errorMessage={props.joinLeagueError}
-            />
             {props.creatingLeague
             && (
                 <div className={props.styles.spinnerWrapper}>
@@ -159,30 +144,20 @@ const Leagues = props => {
 };
 
 Leagues.defaultProps = {
-    createLeagueError: '',
-    createLeagueErrorCode: '',
     creatingLeague: false,
     fetchingLeagues: false,
-    joinLeagueError: '',
-    joinLeagueErrorCode: '',
     joiningLeague: false,
     leagues: [],
     styles: defaultStyles
 };
 
 Leagues.propTypes = {
-    closeCreateLeagueError: PropTypes.func.isRequired,
-    closeJoinLeagueError: PropTypes.func.isRequired,
-    createLeagueError: PropTypes.string,
-    createLeagueErrorCode: PropTypes.string,
     createLeagueRequest: PropTypes.func.isRequired,
     creatingLeague: PropTypes.bool,
     fetchingLeagues: PropTypes.bool,
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired,
-    joinLeagueError: PropTypes.string,
-    joinLeagueErrorCode: PropTypes.string,
     joinLeagueRequest: PropTypes.func.isRequired,
     joiningLeague: PropTypes.bool,
     leagues: PropTypes.arrayOf(PropTypes.shape({
@@ -198,8 +173,6 @@ Leagues.propTypes = {
 };
 
 const mapDispatchToProps = {
-    closeCreateLeagueError,
-    closeJoinLeagueError,
     createLeagueRequest,
     joinLeagueRequest,
     fetchLeaguesRequest

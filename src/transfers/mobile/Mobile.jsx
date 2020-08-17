@@ -95,15 +95,12 @@ const Mobile = props => {
             <Modals
                 closeRemoveModal={props.closeRemoveModal}
                 closeRestoreModal={props.closeRestoreModal}
-                closeTransfersError={props.closeTransfersError}
                 playerToRemove={props.playerToRemove}
                 removeModalOpen={props.removeModalOpen}
                 removePlayer={props.removePlayer}
                 restoreModalOpen={props.restoreModalOpen}
                 restorePlayer={props.restorePlayer}
                 selectReplacement={props.selectReplacement}
-                transfersError={props.transfersError}
-                transfersErrorCode={props.transfersErrorCode}
             />
         </>
     );
@@ -115,7 +112,6 @@ Mobile.defaultProps = {
     closePlayerTable: noop,
     closeRemoveModal: noop,
     closeRestoreModal: noop,
-    closeTransfersError: noop,
     currentTeam: [],
     fetchingAllPlayers: false,
     fetchingOriginalTeam: false,
@@ -137,8 +133,6 @@ Mobile.defaultProps = {
     setSortBy: noop,
     sortBy: '',
     styles: defaultStyles,
-    transfersError: '',
-    transfersErrorCode: '',
     undoTransferChanges: noop,
     updateTeamRequest: noop,
     stateObj: {}
@@ -150,7 +144,6 @@ Mobile.propTypes = {
     closePlayerTable: PropTypes.func,
     closeRemoveModal: PropTypes.func,
     closeRestoreModal: PropTypes.func,
-    closeTransfersError: PropTypes.func,
     currentTeam: PropTypes.arrayOf(PropTypes.shape({})),
     fetchingAllPlayers: PropTypes.bool,
     fetchingOriginalTeam: PropTypes.bool,
@@ -188,8 +181,6 @@ Mobile.propTypes = {
     setSortBy: PropTypes.func,
     sortBy: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
-    transfersError: PropTypes.string,
-    transfersErrorCode: PropTypes.string,
     undoTransferChanges: PropTypes.func,
     updateTeamRequest: PropTypes.func,
     stateObj: PropTypes.shape({})

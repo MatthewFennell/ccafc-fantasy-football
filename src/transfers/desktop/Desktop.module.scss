@@ -15,6 +15,7 @@
     background-color: $color-white;
     @include light-box-shadow();
     min-height: 100vh;
+    border-radius: $spacing-tiny;
 }
 
 .transfersHeader{
@@ -38,13 +39,13 @@
       font-weight: bold;
     }
 
-    .remainingBudgetValue, .remainingTransfersValue {
+    .remainingBudgetValue, .squadValueValue, .remainingTransfersValue {
       font-size: $font-size-small;
       color: $color-blue;
       font-weight: bold;
       text-align: center;
     }
-    .remainingBudgetText{
+    .remainingBudgetText, .squadValueText{
       font-size: $font-size-miniscule;
     }
 

@@ -27,13 +27,14 @@
     @include light-box-shadow();
     display: flex;
     flex-wrap: wrap;
+    border-radius: $spacing-small;
     > div {
         flex-grow: 1;
     }
 
     .searchFilter {
         margin-top: $spacing-small;
-        width: 50%;
+        width: 70%;
         margin-left: auto;
         margin-right: auto;
     }
@@ -89,9 +90,11 @@
     }
 
     .featuresWrapper {
+        margin-bottom: $spacing-medium;
         > div {
             max-width: 100%;
             width: 100%;
         }
     }
+    
 }

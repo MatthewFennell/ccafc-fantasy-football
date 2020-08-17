@@ -52,7 +52,8 @@ const Summary = props => {
 
                         <div className={props.styles.updateCaptainButton}>
                             <LoadingDiv
-                                isLoading={props.isUpdatingCaptain && props.captainToUpdate}
+                                isLoading={Boolean(props.isUpdatingCaptain
+                                    && props.captainToUpdate)}
                                 isBorderRadius
                                 isFitContent
                                 isNoPadding

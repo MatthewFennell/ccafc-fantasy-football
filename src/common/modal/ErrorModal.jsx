@@ -7,10 +7,10 @@ const ErrorModal = props => (
     <>
         <div className={props.styles.modalWrapper}>
             <div>
-                {`Code: ${props.errorCode}`}
+                {`Code: ${props.errorCode !== 'internal' ? props.errorCode : 'Internal'}`}
             </div>
             <div>
-                {`Message: ${props.errorMessage}`}
+                {`Message: ${props.errorMessage !== 'INTERNAL' ? props.errorMessage : 'Internal Server Error'}`}
             </div>
         </div>
     </>

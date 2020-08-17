@@ -7,7 +7,7 @@ import { fetchUserStatsRequest } from '../overview/actions';
 import { fetchActiveTeamRequest } from '../currentteam/actions';
 import {
     fetchAllPlayersRequest, fetchAllTeamsRequest, addPlayerToCurrentTeamRequest,
-    closeTransfersError, undoTransferChanges, removePlayerFromCurrentTeam,
+    undoTransferChanges, removePlayerFromCurrentTeam,
     updateTeamRequest, restorePlayerRequest, replacePlayerRequest, closeSuccessMessage
 } from './actions';
 import { fetchFixturesRequest } from '../fixtures/actions';
@@ -44,11 +44,11 @@ const Transfers = props => {
     const [searchByName, setSearchByName] = useState('');
     const [pointsFilter, setPointsFilter] = useState('Desc');
     const [teamFilter, setTeamFilter] = useState('');
-    const [goalFilter, setGoalFilter] = useState('Asc');
-    const [assistsFilter, setAssistsFilter] = useState('Asc');
+    const [goalFilter, setGoalFilter] = useState('Desc');
+    const [assistsFilter, setAssistsFilter] = useState('Desc');
     const [minPrice, setMinPrice] = useState(0);
-    const [maxPrice, setMaxPrice] = useState(20);
-    const [priceFilter, setPriceFilter] = useState('Asc');
+    const [maxPrice, setMaxPrice] = useState(20000);
+    const [priceFilter, setPriceFilter] = useState('Desc');
     const [previousScoreFilter, setPreviousScoreFilter] = useState('Desc');
     const [myColumns, setMyColumns] = useState(getColumns(() => setColumnModalOpen(true)));
     const [isAscendingSort, setIsAscendingSort] = useState(false);
@@ -192,7 +192,6 @@ const Transfers = props => {
                                 closeRemoveModal={closeRemove}
                                 closeRestoreModal={closeRestore}
                                 closePlayerTable={closeTable}
-                                closeTransfersError={props.closeTransfersError}
                                 currentTeam={props.currentTeam}
                                 fetchingAllPlayers={props.fetchingAllPlayers}
                                 fetchingOriginalTeam={props.fetchingOriginalTeam}
@@ -213,8 +212,6 @@ const Transfers = props => {
                                 selectReplacement={selectReplacement}
                                 setSortBy={setSortBy}
                                 sortBy={sortBy}
-                                transfersError={props.transfersError}
-                                transfersErrorCode={props.transfersErrorCode}
                                 undoTransferChanges={props.undoTransferChanges}
                                 updateTeamRequest={props.updateTeamRequest}
                                 stateObj={stateObj}
@@ -226,7 +223,6 @@ const Transfers = props => {
                                 allTeams={props.allTeams}
                                 closeRemoveModal={closeRemove}
                                 closeRestoreModal={closeRestore}
-                                closeTransfersError={props.closeTransfersError}
                                 currentTeam={props.currentTeam}
                                 desktopColumns={desktopColumns(desktopSortBy, sortBy, props.styles)}
                                 fetchingAllPlayers={props.fetchingAllPlayers}
@@ -248,8 +244,6 @@ const Transfers = props => {
                                 setPositionFilter={setPositionFilter}
                                 sortBy={sortBy}
                                 stateObj={stateObj}
-                                transfersError={props.transfersError}
-                                transfersErrorCode={props.transfersErrorCode}
                                 undoTransferChanges={props.undoTransferChanges}
                                 updateTeamRequest={props.updateTeamRequest}
                             />
@@ -281,9 +275,7 @@ Transfers.defaultProps = {
     originalTeam: [],
     remainingBudget: 0,
     successMessage: '',
-    styles: defaultStyles,
-    transfersError: '',
-    transfersErrorCode: ''
+    styles: defaultStyles
 };
 
 Transfers.propTypes = {
@@ -294,7 +286,6 @@ Transfers.propTypes = {
         uid: PropTypes.string
     }),
     closeSuccessMessage: PropTypes.func.isRequired,
-    closeTransfersError: PropTypes.func.isRequired,
     currentTeam: PropTypes.arrayOf(PropTypes.shape({})),
     fetchingAllPlayers: PropTypes.bool,
     fetchAllPlayersRequest: PropTypes.func.isRequired,
@@ -320,8 +311,6 @@ Transfers.propTypes = {
     restorePlayerRequest: PropTypes.func.isRequired,
     successMessage: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
-    transfersError: PropTypes.string,
-    transfersErrorCode: PropTypes.string,
     undoTransferChanges: PropTypes.func.isRequired,
     updateTeamRequest: PropTypes.func.isRequired
 };
@@ -329,7 +318,6 @@ Transfers.propTypes = {
 const mapDispatchToProps = {
     addPlayerToCurrentTeamRequest,
     closeSuccessMessage,
-    closeTransfersError,
     fetchActiveTeamRequest,
     fetchAllPlayersRequest,
     fetchAllTeamsRequest,
@@ -353,9 +341,7 @@ const mapStateToProps = state => ({
     loadingFixtures: state.fixtures.loadingFixtures,
     originalTeam: state.transfers.originalTeam,
     remainingBudget: state.transfers.remainingBudget,
-    successMessage: state.transfers.successMessage,
-    transfersError: state.transfers.transfersError,
-    transfersErrorCode: state.transfers.transfersErrorCode
+    successMessage: state.transfers.successMessage
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Transfers);

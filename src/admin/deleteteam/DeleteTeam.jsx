@@ -3,17 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import fp from 'lodash/fp';
-import { noop } from 'lodash';
 import defaultStyles from './DeleteTeam.module.scss';
 import Dropdown from '../../common/dropdown/Dropdown';
-import {
-    fetchTeamsRequest, deleteTeamRequest, closeSuccessMessage,
-    closeAdminError
-} from '../actions';
+import { fetchTeamsRequest, deleteTeamRequest } from '../actions';
 import StyledButton from '../../common/StyledButton/StyledButton';
-import ErrorModal from '../../common/modal/ErrorModal';
-import SuccessModal from '../../common/modal/SuccessModal';
 import Spinner from '../../common/spinner/Spinner';
+import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
 
 const DeleteTeam = props => {
     const [teamName, setTeamName] = useState('');
@@ -44,23 +39,18 @@ const DeleteTeam = props => {
                 </div>
                 <div className={props.styles.deleteTeamForm}>
                     <div className={props.styles.deleteTeamDropdowns}>
-                        <Dropdown
-                            value={teamName}
-                            onChange={setTeamName}
-                            options={props.allTeams}
-                            title="Team"
-                            key="Team"
-                        />
+                        <LoadingDiv isLoading={props.isFetchingTeams} isPadding isBorderRadius>
+                            <Dropdown
+                                value={teamName}
+                                onChange={setTeamName}
+                                options={props.allTeams}
+                                title="Team"
+                                key="Team"
+                            />
+                        </LoadingDiv>
                     </div>
 
                 </div>
-                <ErrorModal
-                    closeModal={props.closeAdminError}
-                    headerMessage={props.errorHeader}
-                    isOpen={props.errorMessage.length > 0}
-                    errorCode={props.errorCode}
-                    errorMessage={props.errorMessage}
-                />
                 <div className={classNames({
                     [props.styles.hidden]: !props.deletingTeam
                 })}
@@ -68,44 +58,26 @@ const DeleteTeam = props => {
                     <Spinner color="secondary" />
                 </div>
             </div>
-            <SuccessModal
-                backdrop
-                closeModal={props.closeSuccessMessage}
-                isOpen={props.successMessage.length > 0}
-                isSuccess
-                headerMessage={props.successMessage}
-                toggleModal={noop}
-            />
         </>
     );
 };
 
 DeleteTeam.defaultProps = {
     allTeams: [],
-    errorMessage: '',
-    errorCode: '',
-    errorHeader: '',
-    successMessage: '',
+    isFetchingTeams: false,
     styles: defaultStyles
 };
 
 DeleteTeam.propTypes = {
     allTeams: PropTypes.arrayOf(PropTypes.shape({})),
-    closeAdminError: PropTypes.func.isRequired,
-    closeSuccessMessage: PropTypes.func.isRequired,
     deleteTeamRequest: PropTypes.func.isRequired,
     deletingTeam: PropTypes.bool.isRequired,
-    errorMessage: PropTypes.string,
-    errorCode: PropTypes.string,
-    errorHeader: PropTypes.string,
     fetchTeamsRequest: PropTypes.func.isRequired,
-    successMessage: PropTypes.string,
+    isFetchingTeams: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 
 const mapDispatchToProps = {
-    closeAdminError,
-    closeSuccessMessage,
     deleteTeamRequest,
     fetchTeamsRequest
 };
@@ -113,10 +85,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
     allTeams: state.admin.allTeams,
     deletingTeam: state.admin.deletingTeam,
-    errorMessage: state.admin.errorMessage,
-    errorCode: state.admin.errorCode,
-    errorHeader: state.admin.errorHeader,
-    successMessage: state.admin.successMessage
+    isFetchingTeams: state.admin.isFetchingTeams
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeleteTeam);

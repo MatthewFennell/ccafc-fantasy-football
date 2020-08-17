@@ -5,6 +5,7 @@ import { noop } from 'lodash';
 import * as sagas from './saga';
 import * as actions from './actions';
 import * as selectors from './selectors';
+import { setErrorMessage } from '../modalHandling/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -68,11 +69,11 @@ describe('League saga', () => {
                     select: alreadyFetchedInfo(true)
                 }
             ])
-            .put(actions.alreadyFetchedLeagues())
-            .run();
+            .put(actions.cancelFetchingLeagues())
+            .run({ silenceTimeout: true });
     });
 
-    it('getting user stats', () => {
+    it('fetch leagues success', () => {
         const action = actions.fetchLeaguesRequest();
         return expectSaga(sagas.fetchLeagues, api, action)
             .provide([
@@ -80,11 +81,13 @@ describe('League saga', () => {
                     select: alreadyFetchedInfo(false)
                 }
             ])
+            .call(api.getLeaguesIAmIn)
             .put(actions.fetchLeaguesSuccess(['leagues']))
-            .run();
+            .put(actions.cancelFetchingLeagues())
+            .run({ silenceTimeout: true });
     });
 
-    it('getting user stats error', () => {
+    it('fetching leagues error', () => {
         const error = new Error('error');
         const action = actions.fetchLeaguesRequest();
         return expectSaga(sagas.fetchLeagues, api, action)
@@ -92,12 +95,13 @@ describe('League saga', () => {
                 [matchers.call.fn(api.getLeaguesIAmIn), throwError(error)],
                 { select: alreadyFetchedInfo(false) }
             ])
-            .put(actions.fetchLeaguesError(error))
-            .run();
+            .put(setErrorMessage('Error Fetching Leagues', error))
+            .put(actions.cancelFetchingLeagues())
+            .run({ silenceTimeout: true });
     });
 
     it('fetching users in league', () => {
-        const action = actions.fetchUsersInLeagueRequest('leagueId', 5, 10, 1, 5);
+        const action = actions.fetchUsersInLeagueRequest('leagueId', 1, 10, 3, 5);
         return expectSaga(sagas.fetchUsersInLeague, api, action)
             .provide([
                 {
@@ -105,8 +109,15 @@ describe('League saga', () => {
                 }
             ])
             .put(actions.fetchingUsersInLeague('leagueId'))
+            .call(api.getUsersInLeague, ({
+                leagueId: 'leagueId',
+                week: 1,
+                requestedSize: 10,
+                previousId: null
+            }))
             .put(actions.fetchUsersInLeagueSuccess('leagueId', ['a', 'b', 'c'], 3, 'leagueName'))
-            .run();
+            .put(actions.cancelFetchingUsersInLeague('leagueId'))
+            .run({ silenceTimeout: true });
     });
 
     it('fetching users in league for possible next page', () => {
@@ -119,7 +130,7 @@ describe('League saga', () => {
             ])
             .put(actions.alreadyFetchedUsersInLeague('leagueId'))
             .put(actions.fetchMoreUsersInLeagueSuccess('leagueId', ['a', 'b', 'c'], 'lastId'))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('fetching users in league for possible next page not reaches buffer', () => {
@@ -132,7 +143,7 @@ describe('League saga', () => {
             ])
             .not.put(actions.alreadyFetchedUsersInLeague('leagueId'))
             .not.put(actions.fetchMoreUsersInLeagueSuccess('leagueId', ['a', 'b', 'c'], 'lastId'))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('have fetched all users', () => {
@@ -145,7 +156,7 @@ describe('League saga', () => {
             ])
             .put(actions.alreadyFetchedUsersInLeague('leagueId'))
             .put(actions.fetchedAllUsersInLeague('leagueId'))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('fetching users error', () => {
@@ -156,15 +167,21 @@ describe('League saga', () => {
                 [matchers.call.fn(api.getUsersInLeague), throwError(error)],
                 { select: alreadyHaveUsers }
             ])
-            .put(actions.fetchUsersInLeagueError('leagueId', error))
-            .run();
+            .put(setErrorMessage('Error Fetching Users In League', error))
+            .put(actions.cancelFetchingUsersInLeague('leagueId'))
+            .run({ silenceTimeout: true });
     });
 
     it('create league', () => {
         const action = actions.createLeagueRequest('leagueName', 5);
         return expectSaga(sagas.createLeague, api, action)
+            .call(api.createLeague, ({
+                leagueName: 'leagueName',
+                startWeek: 5
+            }))
             .put(actions.createLeagueSuccess(['leagues']))
-            .run();
+            .put(actions.cancelCreatingLeague())
+            .run({ silenceTimeout: true });
     });
 
     it('create league error', () => {
@@ -174,15 +191,20 @@ describe('League saga', () => {
             .provide([
                 [matchers.call.fn(api.createLeague), throwError(error)]
             ])
-            .put(actions.createLeagueError(error))
-            .run();
+            .put(setErrorMessage('Error Creating League', error))
+            .put(actions.cancelCreatingLeague())
+            .run({ silenceTimeout: true });
     });
 
     it('join league', () => {
         const action = actions.joinLeagueRequest('leagueName');
         return expectSaga(sagas.joinLeague, api, action)
+            .call(api.joinLeague, ({
+                leagueName: 'leagueName'
+            }))
             .put(actions.joinLeagueSuccess(['leagues']))
-            .run();
+            .put(actions.cancelJoiningLeague())
+            .run({ silenceTimeout: true });
     });
 
     it('join league error', () => {
@@ -192,15 +214,20 @@ describe('League saga', () => {
             .provide([
                 [matchers.call.fn(api.joinLeague), throwError(error)]
             ])
-            .put(actions.joinLeagueError(error))
-            .run();
+            .put(setErrorMessage('Error Joining League', error))
+            .put(actions.cancelJoiningLeague())
+            .run({ silenceTimeout: true });
     });
 
     it('leave league', () => {
-        const action = actions.leaveLeagueRequest('leagueName');
+        const action = actions.leaveLeagueRequest('leagueId');
         return expectSaga(sagas.leaveLeague, api, action)
+            .call(api.leaveLeague, ({
+                leagueId: 'leagueId'
+            }))
             .put(actions.leaveLeagueSuccess(['leagues']))
-            .run();
+            .put(actions.cancelLeavingLeague())
+            .run({ silenceTimeout: true });
     });
 
     it('leave league error', () => {
@@ -210,7 +237,8 @@ describe('League saga', () => {
             .provide([
                 [matchers.call.fn(api.leaveLeague), throwError(error)]
             ])
-            .put(actions.leaveLeagueError(error))
-            .run();
+            .put(setErrorMessage('Error Leaving League', error))
+            .put(actions.cancelLeavingLeague())
+            .run({ silenceTimeout: true });
     });
 });

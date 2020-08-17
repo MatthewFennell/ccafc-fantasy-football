@@ -25,7 +25,7 @@ const SelectProfilePicture = props => {
                 Select your own avatar
             </div>
             <div className={props.styles.potentialPicturesWrapper}>
-                {props.potentialPictures.map(photoUrl => (
+                {props.potentialPictures.filter(photoUrl => Boolean(photoUrl)).map(photoUrl => (
                     <div className={props.styles.imageWrapper} key={photoUrl}>
                         <div
                             className={classNames({
@@ -40,7 +40,10 @@ const SelectProfilePicture = props => {
                             isBorderRadius
                         >
                             <img
-                                className={props.styles.profilePicture}
+                                className={classNames({
+                                    [props.styles.profilePicture]: true,
+                                    [props.styles.borderProfile]: props.currentPhotoUrl !== photoUrl
+                                })}
                                 onClick={() => updateImage(photoUrl)}
                                 src={photoUrl}
                                 alt="new"

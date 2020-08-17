@@ -7,7 +7,10 @@ import Media from 'react-media';
 import { fetchFixturesRequest } from '../fixtures/actions';
 import defaultStyles from './CurrentTeam.module.scss';
 import * as selectors from './selectors';
-import { fetchActiveTeamRequest, makeCaptainRequest, setPlayerModalOpen } from './actions';
+import {
+    fetchActiveTeamRequest, makeCaptainRequest, setPlayerModalOpen,
+    setCaptainToUpdate
+} from './actions';
 import goalkeeperStyles from './ShirtStyles/Goalkeeper.module.scss';
 import activePlayerStyles from './ShirtStyles/ActivePlayer.module.scss';
 import Pitch from '../common/pitch/Pitch';
@@ -24,18 +27,11 @@ const CurrentTeam = props => {
 
     const [emptyPlayerOpen, setEmptyPlayerOpen] = useState(false);
     const [modalPlayer, setModalPlayer] = useState({});
-    const [captainToUpdate, setCaptainToUpdate] = useState('');
 
     const makePlayerCaptain = useCallback(() => {
-        props.makeCaptainRequest(captainToUpdate);
+        props.makeCaptainRequest(props.captainToUpdate);
         // eslint-disable-next-line
-    }, [captainToUpdate, props.makeCaptainRequest])
-
-    useEffect(() => {
-        if (props.captain === captainToUpdate) {
-            setCaptainToUpdate('');
-        }
-    }, [props.captain, captainToUpdate]);
+    }, [ props.makeCaptainRequest, props.captainToUpdate])
 
     const onPlayerClick = useCallback(p => {
         const { position, ...rest } = p;
@@ -106,12 +102,12 @@ const CurrentTeam = props => {
                                 <div className={props.styles.summary}>
                                     <Summary
                                         captain={props.captain}
-                                        captainToUpdate={captainToUpdate}
+                                        captainToUpdate={props.captainToUpdate}
                                         isUpdatingCaptain={props.isUpdatingCaptain}
                                         loading={props.fetchingForUser}
                                         players={props.activeTeam}
                                         makePlayerCaptain={makePlayerCaptain}
-                                        setCaptainToUpdate={setCaptainToUpdate}
+                                        setCaptainToUpdate={props.setCaptainToUpdate}
                                     />
 
                                     <NextMatch
@@ -130,8 +126,8 @@ const CurrentTeam = props => {
             <ConfirmModal
                 cancel={closeModal}
                 closeModal={closeModal}
-                isButtonsDisabled={props.isUpdatingCaptain && !captainToUpdate}
-                isLoading={props.isUpdatingCaptain && !captainToUpdate}
+                isButtonsDisabled={props.isUpdatingCaptain && !props.captainToUpdate}
+                isLoading={props.isUpdatingCaptain && !props.captainToUpdate}
                 isOpen={props.isPlayerModalOpen}
                 submit={submit}
                 text="Make captain?"
@@ -149,6 +145,7 @@ const CurrentTeam = props => {
 CurrentTeam.defaultProps = {
     activeTeam: [],
     captain: '',
+    captainToUpdate: '',
     fetchingForUser: false,
     fixtures: [],
     loadingFixtures: false,
@@ -164,6 +161,7 @@ CurrentTeam.propTypes = {
         team: PropTypes.string
     })),
     captain: PropTypes.string,
+    captainToUpdate: PropTypes.string,
     fetchActiveTeamRequest: PropTypes.func.isRequired,
     fetchFixturesRequest: PropTypes.func.isRequired,
     fetchingForUser: PropTypes.bool,
@@ -177,18 +175,20 @@ CurrentTeam.propTypes = {
     isPlayerModalOpen: PropTypes.bool.isRequired,
     isUpdatingCaptain: PropTypes.bool,
     makeCaptainRequest: PropTypes.func.isRequired,
+    setCaptainToUpdate: PropTypes.func.isRequired,
     setPlayerModalOpen: PropTypes.func.isRequired,
     styles: PropTypes.objectOf(PropTypes.string),
     userId: PropTypes.string
 };
 
 const mapStateToProps = (state, props) => ({
-    activeTeam: selectors.getActiveTeam(state, props),
-    captain: selectors.getCurrentCaptain(state, props),
+    activeTeam: selectors.getFieldForUser(state, props, 'players'),
+    captain: selectors.getFieldForUser(state, props, 'captain'),
+    captainToUpdate: state.currentTeam.captainToUpdate,
     isPlayerModalOpen: state.currentTeam.isPlayerModalOpen,
     isUpdatingCaptain: state.currentTeam.isUpdatingCaptain,
     loadingFixtures: state.fixtures.loadingFixtures,
-    fetchingForUser: selectors.getFetchingForUser(state, props),
+    fetchingForUser: selectors.getFieldForUser(state, props, 'fetching'),
     fixtures: state.fixtures.fixtures,
     userId: selectors.getUserId(props)
 });
@@ -197,7 +197,8 @@ const mapDispatchToProps = {
     fetchActiveTeamRequest,
     fetchFixturesRequest,
     makeCaptainRequest,
-    setPlayerModalOpen
+    setPlayerModalOpen,
+    setCaptainToUpdate
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CurrentTeam));

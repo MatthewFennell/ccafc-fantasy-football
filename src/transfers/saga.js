@@ -1,5 +1,5 @@
 import {
-    all, takeEvery, put, call, select, delay
+    all, takeEvery, put, call, select
 } from 'redux-saga/effects';
 import firebase from 'firebase';
 import * as actions from './actions';
@@ -7,7 +7,8 @@ import * as transfersApi from './api';
 import * as selectors from './selectors';
 import * as helpers from './helpers';
 import * as currentTeamActions from '../currentteam/actions';
-import { successDelay } from '../constants';
+import { setErrorMessage } from '../modalHandling/actions';
+import { addNotification } from '../notifications/actions';
 
 export function* fetchAllPlayers(api) {
     try {
@@ -17,7 +18,9 @@ export function* fetchAllPlayers(api) {
             yield put(actions.fetchAllPlayersSuccess(allPlayers));
         }
     } catch (error) {
-        yield put(actions.fetchAllPlayersError(error));
+        yield put(setErrorMessage('Error Fetching Players', error));
+    } finally {
+        yield put(actions.cancelFetchingAllPlayers());
     }
 }
 
@@ -27,11 +30,9 @@ export function* fetchAllTeams(api) {
         if (alreadyFetched && alreadyFetched.length === 0) {
             const allTeams = yield call(api.getAllTeams);
             yield put(actions.fetchAllTeamsSuccess(allTeams));
-        } else {
-            yield put(actions.alreadyFetchedAllPlayers());
         }
     } catch (error) {
-        yield put(actions.fetchAllTeamsError(error));
+        yield put(setErrorMessage('Error Fetching Teams', error));
     }
 }
 
@@ -44,7 +45,7 @@ export function* addPlayerToCurrentTeam(action) {
             position: action.player.position.toUpperCase()
         }));
     } else {
-        yield put(actions.addPlayerToCurrentTeamError(canAddPlayer));
+        yield put(setErrorMessage('Error Adding Player To Team', canAddPlayer));
     }
 }
 
@@ -58,11 +59,11 @@ export function* updateTeam(api) {
         const activeTeam = yield call(api.fetchActiveTeam, { userId: myId });
         yield put(currentTeamActions.fetchActiveTeamSuccess(myId,
             activeTeam.players, activeTeam.captain));
-        yield put(actions.setSuccessMessage('Team successfully updated'));
-        yield delay(successDelay);
-        yield put(actions.closeSuccessMessage());
+        yield put(addNotification('Team successfully updated'));
     } catch (error) {
-        yield put(actions.updateTeamError(error));
+        yield put(setErrorMessage('Error Updating Team', error));
+    } finally {
+        yield put(actions.cancelFetchingOriginalTeam());
     }
 }
 
@@ -72,7 +73,7 @@ export function* replacePlayer(action) {
     if (canAddPlayer === true) {
         yield put(actions.replacePlayerSuccess(action.oldPlayer, action.newPlayer));
     } else {
-        yield put(actions.replacePlayerError(canAddPlayer));
+        yield put(setErrorMessage('Error Replacing Player', canAddPlayer));
     }
 }
 

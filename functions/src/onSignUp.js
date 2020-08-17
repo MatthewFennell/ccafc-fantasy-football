@@ -10,64 +10,43 @@ const operations = admin.firestore.FieldValue;
 exports.createInitialLeague = functions
     .region(constants.region)
     .auth.user()
-    .onCreate(user => db.collection('application-info').get().then(query => {
-        if (query.size === 0 || (query.size === 1 && query.docs[0].data().number_of_users <= 1)) {
-            return db.collection('leagues').where('name', '==', 'Collingwood').get().then(
-                result => {
-                    if (result.empty) {
-                        return db.collection('leagues').add({
-                            owner: user.uid,
-                            start_week: 0,
-                            name: 'Collingwood'
-                        }).then(docRef => db.collection('leagues-points').add({
-                            league_id: docRef.id,
-                            user_id: user.uid,
-                            start_week: 0,
-                            name: 'Collingwood',
-                            user_points: 0,
-                            username: user.displayName,
-                            position: 1,
-                            teamName: 'Default Team Name'
-                        }));
-                    }
-                    return Promise.resolve();
-                }
-            );
-        }
-        return Promise.resolve();
-    }));
-
-exports.joinInitialLeague = functions
-    .region(constants.region)
-    .auth.user()
-    .onCreate(user => db.collection('leagues').where('name', '==', 'Collingwood').get().then(
+    .onCreate(user => db.collection('leagues').doc(constants.collingwoodLeagueId).get().then(
         result => {
-            if (result.size === 1) {
-                return db.collection('leagues-points')
-                    .where('name', '==', 'Collingwood').where('user_id', '==', user.uid)
-                    .get()
-                    .then(obj => {
-                        if (obj.empty) {
-                            const league = result.docs[0];
-                            return db.collection('leagues-points').where('name', '==', 'Collingwood').get().then(
-                                query => db.collection('leagues-points').add({
-                                    league_id: league.id,
-                                    user_id: user.uid,
-                                    start_week: 0,
-                                    name: 'Collingwood',
-                                    user_points: 0,
-                                    username: user.displayName,
-                                    position: query.size + 1,
-                                    teamName: 'Default Team Name'
-                                })
-                            );
-                        }
-                        return Promise.resolve();
-                    });
+            if (!result.exists) {
+                return db.collection('leagues').doc(constants.collingwoodLeagueId).set({
+                    owner: user.uid,
+                    start_week: 0,
+                    name: constants.collingwoodLeagueName,
+                    number_of_users: 0
+                });
             }
             return Promise.resolve();
         }
     ));
+
+exports.joinInitialLeague = functions
+    .region(constants.region)
+    .auth.user()
+    .onCreate(user => db.collection('leagues-points')
+        .where('name', '==', constants.collingwoodLeagueName).where('user_id', '==', user.uid)
+        .get()
+        .then(result => {
+            if (result.empty) {
+                return db.collection('leagues-points').where('name', '==', constants.collingwoodLeagueName).get().then(
+                    query => db.collection('leagues-points').add({
+                        league_id: constants.collingwoodLeagueId,
+                        user_id: user.uid,
+                        start_week: 0,
+                        name: constants.collingwoodLeagueName,
+                        user_points: 0,
+                        username: user.displayName,
+                        position: query.size + 1,
+                        teamName: 'Default Team Name'
+                    })
+                );
+            }
+            return Promise.resolve();
+        }));
 
 exports.setAdminUserClaims = functions
     .region(constants.region)
@@ -97,17 +76,17 @@ exports.setAdminUserClaims = functions
 exports.increaseNumberOfUsers = functions
     .region(constants.region)
     .auth.user()
-    .onCreate(() => db.collection('application-info').get().then(
+    .onCreate(() => db.collection('application-info').doc(constants.applicationInfoId).get().then(
         appInfo => {
-            if (appInfo.empty) {
-                db.collection('application-info').add({
+            if (!appInfo.exists) {
+                db.collection('application-info').doc(constants.applicationInfoId).set({
                     total_weeks: 0,
                     number_of_users: 1
                 });
             } else {
-                appInfo.docs.map(doc => doc.ref.update({
-                    number_of_users: admin.firestore.FieldValue.increment(1)
-                }));
+                appInfo.ref.update({
+                    number_of_users: operations.increment(1)
+                });
             }
         }
     ));

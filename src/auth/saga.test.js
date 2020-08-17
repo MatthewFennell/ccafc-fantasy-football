@@ -8,7 +8,10 @@ import { constants } from 'react-redux-firebase';
 import * as sagas from './saga';
 import * as consts from '../constants';
 import * as actions from './actions';
+import { successDelay } from '../constants';
 import { fetchMaxGameWeekRequest } from '../overview/actions';
+import { setErrorMessage } from '../modalHandling/actions';
+import { addNotification } from '../notifications/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -25,6 +28,7 @@ const rolePermissions = {
 };
 
 const api = {
+    editDisabledPages: noop,
     getRolePermissions: () => rolePermissions,
     updateDisplayName: noop
 };
@@ -84,7 +88,6 @@ describe('Auth saga', () => {
         signOut,
         createUserWithEmailAndPassword: noop,
         signInWithEmailAndPassword: noop
-
     }));
 
     firebase.auth.FacebookAuthProvider = jest.fn(() => {});
@@ -92,11 +95,13 @@ describe('Auth saga', () => {
 
     firebase.auth().signOut = jest.fn(noop);
 
+    const provideDelay = ({ fn }, next) => ((fn.name === 'delayP') ? null : next());
+
     it('sign out success', () => {
         const action = actions.signOut();
         return expectSaga(sagas.signOut, api, action)
             .put(actions.signOutSuccess())
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('logging in', () => {
@@ -109,11 +114,12 @@ describe('Auth saga', () => {
         return expectSaga(sagas.loggingIn, api, action)
             .put(fetchMaxGameWeekRequest())
             .put(push(consts.URL.VERIFY_EMAIL))
+            .call(api.getRolePermissions)
             .put(actions.setPermissionsMappingsAndRoles(rolePermissions))
             .put(actions.addPermissions(adminPermissions))
             .put(actions.addPermissions(editorPermissions))
             .put(actions.setLoadedPermissions(true))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('logging in email verified', () => {
@@ -125,8 +131,15 @@ describe('Auth saga', () => {
         };
         return expectSaga(sagas.loggingIn, api, action)
             .not.put(push(consts.URL.VERIFY_EMAIL))
-            .run();
+            .run({ silenceTimeout: true });
     });
+
+    it('set app loading', () => expectSaga(sagas.setAppLoading)
+        .provide({ call: provideDelay })
+        .put(actions.setLoadingApp(true))
+        .delay(successDelay)
+        .put(actions.setLoadingApp(false))
+        .run({ silenceTimeout: true }));
 
     it('logging in error', () => {
         const error = new Error('error');
@@ -140,14 +153,17 @@ describe('Auth saga', () => {
             .provide([
                 [matchers.call.fn(api.getRolePermissions), throwError(error)]
             ])
-            .put(actions.signInError(error))
-            .run();
+            .put(setErrorMessage('Error Signing In', error))
+            .run({ silenceTimeout: true });
     });
 
     it('sign up', () => {
         const action = actions.signUp('email', 'password', 'display');
         return expectSaga(sagas.signUp, api, action)
-            .run();
+            .call(api.updateDisplayName, ({
+                displayName: 'display'
+            }))
+            .run({ silenceTimeout: true });
     });
 
     it('sign up error', () => {
@@ -157,21 +173,51 @@ describe('Auth saga', () => {
             .provide([
                 [matchers.call.fn(api.updateDisplayName), throwError(error)]
             ])
-            .put(actions.signUpError(error))
-            .run();
+            .put(setErrorMessage('Error Signing Up', error))
+            .run({ silenceTimeout: true });
     });
 
     it('sign in', () => {
         const action = actions.signIn('email', 'password');
         return expectSaga(sagas.signIn, api, action)
             .put(actions.signInSuccess())
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('resend email verification', () => {
         const action = actions.resendEmailVerificationRequest();
         return expectSaga(sagas.resendVerificationEmall, api, action)
-            .put(actions.resendEmailVerificationSuccess())
-            .run();
+            .put(actions.cancelSendingEmailVerification())
+            .run({ silenceTimeout: true });
+    });
+
+    it('send reset email password', () => {
+        const action = actions.sendPasswordResetEmail();
+        return expectSaga(sagas.sendResetPasswordEmail, api, action)
+            .put(addNotification('Player Price successfully changed'))
+            .put(actions.cancelSendingPasswordResetEmail())
+            .run({ silenceTimeout: true });
+    });
+
+    it('edit disabled page', () => {
+        const action = actions.editDisabledPageRequest('page', true);
+        return expectSaga(sagas.editDisabledPage, api, action)
+            .call(api.editDisabledPages, ({
+                page: 'page',
+                isDisabled: true
+            }))
+            .put(actions.cancelEditingPage())
+            .run({ silenceTimeout: true });
+    });
+
+    it('edit disabled error', () => {
+        const error = new Error('error');
+        const action = actions.editDisabledPageRequest('page', true);
+        return expectSaga(sagas.editDisabledPage, api, action)
+            .provide([
+                [matchers.call.fn(api.editDisabledPages), throwError(error)]
+            ])
+            .put(setErrorMessage('Error Editing Disabled Pages', error))
+            .run({ silenceTimeout: true });
     });
 });

@@ -5,12 +5,12 @@
   padding-top: $spacing-huge;
   padding-bottom: $spacing-huge;
   .shadowWrapper{
+    border-radius: $spacing-small;
     margin-left: auto;
     margin-right: auto;
     width: 80%;
     padding: $spacing-large;
     @include light-box-shadow();
-    .signUpForm {      
       .textInputsWrapper {
         width: 50%;
         margin-left: auto;
@@ -26,13 +26,27 @@
       .submitButtons{
         text-align: center;
       }
-    }
 }
   .modalWrapper{
     text-align: center;
     color: $color-danger-red;
     font-weight: $font-weight-normal;
   }
+}
+
+.privacyPolicyWrapper {
+  text-align: center;
+} 
+
+.privacyPolicy {
+  text-align: center;
+  justify-content: center;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.privacyPolicy:hover {
+  font-weight: bold;
 }
 
 @media only screen and (max-width: 600px) {

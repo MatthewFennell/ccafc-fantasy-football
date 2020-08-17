@@ -41,9 +41,11 @@
                 cursor: pointer;
             }
 
-            .profilePicture:hover{
+            .borderProfile:hover{
                 box-shadow: 0 4px 8px 0 $color-hover, 0 6px 20px 0 $color-hover;
             }
+
+            
         }
     }
 

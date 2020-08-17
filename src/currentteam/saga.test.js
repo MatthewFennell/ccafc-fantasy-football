@@ -6,6 +6,7 @@ import * as firebase from 'firebase';
 import * as sagas from './saga';
 import * as actions from './actions';
 import * as selectors from './selectors';
+import { setErrorMessage } from '../modalHandling/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -33,8 +34,9 @@ describe('Current team saga', () => {
                     select: alreadyFetchedInfo(true)
                 }
             ])
-            .put(actions.alreadyFetchedActiveTeam('userId'))
-            .run();
+            .put(actions.setPlayerModalOpen(false))
+            .put(actions.cancelFetchingActiveTeam('userId'))
+            .run({ silenceTimeout: true });
     });
 
     it('fetch active team', () => {
@@ -45,8 +47,13 @@ describe('Current team saga', () => {
                     select: alreadyFetchedInfo(false)
                 }
             ])
+            .call(api.fetchActiveTeam, ({
+                userId: 'userId'
+            }))
             .put(actions.fetchActiveTeamSuccess('userId', 'players', 'captain'))
-            .run();
+            .put(actions.setPlayerModalOpen(false))
+            .put(actions.cancelFetchingActiveTeam('userId'))
+            .run({ silenceTimeout: true });
     });
 
     it('fetch active team forced', () => {
@@ -57,8 +64,13 @@ describe('Current team saga', () => {
                     select: alreadyFetchedInfo(true)
                 }
             ])
+            .call(api.fetchActiveTeam, ({
+                userId: 'userId'
+            }))
             .put(actions.fetchActiveTeamSuccess('userId', 'players', 'captain'))
-            .run();
+            .put(actions.setPlayerModalOpen(false))
+            .put(actions.cancelFetchingActiveTeam('userId'))
+            .run({ silenceTimeout: true });
     });
 
     it('fetch active team error', () => {
@@ -69,8 +81,8 @@ describe('Current team saga', () => {
                 [matchers.call.fn(api.fetchActiveTeam), throwError(error)],
                 { select: alreadyFetchedInfo(false) }
             ])
-            .put(actions.fetchActiveTeamError(error))
-            .run();
+            .put(setErrorMessage('Error Fetching Active Team', error))
+            .run({ silenceTimeout: true });
     });
 
     it('make captain', () => {
@@ -94,8 +106,14 @@ describe('Current team saga', () => {
 
         const action = actions.makeCaptainRequest('playerId');
         return expectSaga(sagas.makeCaptain, api, action)
+            .call(api.makeCaptain, ({
+                playerId: 'playerId'
+            }))
             .put(actions.reloadActiveTeamRequest('uniqueId'))
-            .run();
+            .put(actions.setUpdatingCaptain(false))
+            .put(actions.setCaptainToUpdate(''))
+            .put(actions.setPlayerModalOpen(false))
+            .run({ silenceTimeout: true });
     });
 
     it('make captain error', () => {
@@ -105,7 +123,8 @@ describe('Current team saga', () => {
             .provide([
                 [matchers.call.fn(api.makeCaptain), throwError(error)]
             ])
-            .put(actions.makeCaptainError(error))
-            .run();
+            .put(setErrorMessage('Error Making Player Captain', error))
+            .put(actions.setUpdatingCaptain(false))
+            .run({ silenceTimeout: true });
     });
 });

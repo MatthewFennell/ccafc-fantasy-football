@@ -2,23 +2,32 @@ import fp from 'lodash/fp';
 import * as actions from './actions';
 
 export const initialState = {
-    errorHeader: '',
-    errorMessage: '',
-    errorCode: '',
-
-    successMessage: '',
-
     isAddingCommentToFeature: false,
-    isSubmittingFeature: false
+    isSubmittingFeature: false,
+    commentBeingDeletedInfo: {},
+    replyBeingDeletedInfo: {}
 };
 
 const featureReducer = (state = initialState, action) => {
     switch (action.type) {
-    case actions.SET_SUCCESS_MESSAGE: {
-        return fp.flow(
-            fp.set('successMessage', action.message),
-            fp.set('isSubmittingFeature', false)
-        )(state);
+    case actions.DELETE_COMMENT_REQUEST: {
+        return fp.set('commentBeingDeletedInfo', ({
+            commentId: action.commentId,
+            featureId: action.featureId
+        }))(state);
+    }
+    case actions.DELETE_REPLY_REQUEST: {
+        return fp.set('replyBeingDeletedInfo', ({
+            commentId: action.commentId,
+            featureId: action.featureId,
+            replyId: action.replyId
+        }))(state);
+    }
+    case actions.CANCEL_DELETING_COMMENT: {
+        return fp.set('commentBeingDeletedInfo', {})(state);
+    }
+    case actions.CANCEL_DELETING_REPLY: {
+        return fp.set('replyBeingDeletedInfo', {})(state);
     }
     case actions.SUBMIT_FEATURE_REQUEST: {
         return fp.set('isSubmittingFeature', true)(state);
@@ -29,28 +38,11 @@ const featureReducer = (state = initialState, action) => {
     case actions.ADD_REPLY_TO_COMMENT_REQUEST: {
         return fp.set('isAddingCommentToFeature')(true)(state);
     }
-    case actions.SET_ADDING_COMMENT_TO_FEATURE: {
-        return fp.set('isAddingCommentToFeature')(action.isAdding)(state);
+    case actions.CANCEL_ADDING_FEATURE_REQUEST: {
+        return fp.set('isSubmittingFeature', false)(state);
     }
-    case actions.CLOSE_SUCCESS_MESSAGE: {
-        return fp.set('successMessage', '')(state);
-    }
-    case actions.FEATURE_REQUEST_ERROR: {
-        return {
-            ...state,
-            errorMessage: action.error.message,
-            errorCode: action.error.code,
-            errorHeader: action.header,
-            isAddingCommentToFeature: false
-        };
-    }
-    case actions.CLOSE_FEATURE_REQUEST_ERROR: {
-        return {
-            ...state,
-            errorMessage: '',
-            errorCode: '',
-            errorHeader: ''
-        };
+    case actions.CANCEL_ADDING_COMMENT_TO_FEATURE: {
+        return fp.set('isAddingCommentToFeature', false)(state);
     }
     default:
         return state;

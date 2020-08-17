@@ -11,6 +11,7 @@
   @include light-box-shadow();
   justify-content: center;
   background-color: $color-white;
+  border-radius: $spacing-tiny;
   
   .goalsForWrapper{
     width: 100%;
@@ -68,6 +69,6 @@
   .submitResultWrapper {
     width: 100%;
     margin-top: 0px;
-    padding-top: 0px;
+    padding-top: $spacing-small;
   }
 }

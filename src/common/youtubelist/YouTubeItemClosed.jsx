@@ -14,6 +14,7 @@ const YouTubeItemClosed = props => (
                 authId={props.authId}
                 downvoteHighlightRequest={props
                     .downvoteHighlightRequest}
+                isBeingVotedOn={props.isBeingVotedOn}
                 video={props.video}
                 upvote={props.upvote}
                 upvoteHighlightRequest={props
@@ -28,6 +29,7 @@ YouTubeItemClosed.defaultProps = {
     authId: '',
     date: '',
     downvoteHighlightRequest: noop,
+    isBeingVotedOn: false,
     styles: defaultStyles,
     upvote: noop,
     upvoteHighlightRequest: noop,
@@ -41,6 +43,7 @@ YouTubeItemClosed.propTypes = {
     author: PropTypes.string,
     date: PropTypes.string,
     downvoteHighlightRequest: PropTypes.func,
+    isBeingVotedOn: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),
     upvote: PropTypes.func,
     upvoteHighlightRequest: PropTypes.func,

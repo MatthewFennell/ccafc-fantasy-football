@@ -12,6 +12,7 @@ const generateTime = date => moment(new Date(date.seconds * 1000)).startOf('seco
 const Bug = props => (
     <div key={props.id}>
         <FadingCollapsable
+            isBorderRadiusTiny
             title={<div className={props.styles.bugTitle}>{`Submitted by ${props.displayName}`}</div>}
         >
             <div className={props.styles.bugWrapper}>

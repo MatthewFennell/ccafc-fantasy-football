@@ -1,16 +1,21 @@
 /* eslint-disable max-len */
 import {
-    all, call, takeEvery, put
+    all, call, takeEvery, put, select
 } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as cupApi from './api';
+import { setErrorMessage } from '../modalHandling/actions';
+import * as selectors from './selectors';
 
 export function* fetchCup(api) {
     try {
-        const cup = yield call(api.fetchCup);
-        yield put(actions.fetchCupSuccess(cup || {}));
+        const hasFetchedCup = yield select(selectors.getHasFetchedCup);
+        if (!hasFetchedCup) {
+            const cup = yield call(api.fetchCup);
+            yield put(actions.fetchCupSuccess(cup || {}));
+        }
     } catch (error) {
-        yield put(actions.setCupError(error, 'Error fetching cup info'));
+        yield put(setErrorMessage('Error Fetching Cup Info', error));
     } finally {
         yield put(actions.setIsFetchingCup(false));
     }

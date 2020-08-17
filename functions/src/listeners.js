@@ -11,6 +11,9 @@ const operations = admin.firestore.FieldValue;
 exports.addStatsToPlayer = functions.region(constants.region).firestore
     .document('player-points/{id}')
     .onWrite(change => {
+        if (!change.after.exists) {
+            return Promise.resolve();
+        }
         const difference = common.calculateDifference(change.before.data(), change.after.data());
         return db.collection('players').doc(change.after.data().player_id).get().then(doc => {
             const points = common.calculatePointDifference(difference,
@@ -26,6 +29,9 @@ exports.addStatsToPlayer = functions.region(constants.region).firestore
 exports.updateWeeklyTeams = functions.region(constants.region).firestore
     .document('player-points/{id}')
     .onWrite(change => {
+        if (!change.after.exists) {
+            return Promise.resolve();
+        }
         const difference = common.calculateDifference(change.before.data(), change.after.data());
         const points = common.calculatePointDifference(difference,
             change.after.data().position);
@@ -42,6 +48,9 @@ exports.updateWeeklyTeams = functions.region(constants.region).firestore
 exports.updateWeeklyPlayers = functions.region(constants.region).firestore
     .document('player-points/{id}')
     .onWrite(change => {
+        if (!change.after.exists) {
+            return Promise.resolve();
+        }
         const difference = common.calculateDifference(change.before.data(), change.after.data());
         const points = common.calculatePointDifference(difference,
             change.after.data().position);
@@ -70,6 +79,9 @@ exports.updateWeeklyPlayers = functions.region(constants.region).firestore
 exports.updateUserScores = functions.region(constants.region).firestore
     .document('player-points/{id}')
     .onWrite(change => {
+        if (!change.after.exists) {
+            return Promise.resolve();
+        }
         const difference = common.calculateDifference(change.before.data(), change.after.data());
         const points = common.calculatePointDifference(difference,
             change.after.data().position);
@@ -87,6 +99,9 @@ exports.updateUserScores = functions.region(constants.region).firestore
 exports.updateLeaguesPoints = functions.region(constants.region).firestore
     .document('player-points/{id}')
     .onWrite(change => {
+        if (!change.after.exists) {
+            return Promise.resolve();
+        }
         const difference = common.calculateDifference(change.before.data(), change.after.data());
         const points = common.calculatePointDifference(difference,
             change.after.data().position);
@@ -108,6 +123,9 @@ exports.updateLeaguesPoints = functions.region(constants.region).firestore
 exports.addExtraCaptainPoints = functions.region(constants.region).firestore
     .document('player-points/{id}')
     .onWrite(change => {
+        if (!change.after.exists) {
+            return Promise.resolve();
+        }
         const difference = common.calculateDifference(change.before.data(), change.after.data());
         const points = common.calculatePointDifference(difference,
             change.after.data().position);

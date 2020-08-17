@@ -4,6 +4,7 @@ import {
 import * as actions from './actions';
 import * as selectors from './selectors';
 import * as pointsApi from './api';
+import { setErrorMessage } from '../modalHandling/actions';
 
 export function* getUsername(userId, api) {
     try {
@@ -16,7 +17,9 @@ export function* getUsername(userId, api) {
             yield put(actions.setUserDetails(userId, userDetails));
         }
     } catch (error) {
-        yield put(actions.fetchUserPointsForWeekError(userId, error));
+        yield put(setErrorMessage('Error Fetching User Info', error));
+    } finally {
+        yield put(actions.cancelFetchingUserDetails(userId));
     }
 }
 
@@ -31,11 +34,11 @@ export function* getUserPointsForWeek(api, action) {
                 week: action.week
             }));
             yield put(actions.fetchUserPointsForWeekSuccess(action.userId, action.week, team));
-        } else {
-            yield put(actions.alreadyFetchedPointsForWeek(action.userId, action.week));
         }
     } catch (error) {
-        yield put(actions.fetchUserPointsForWeekError(action.userId, action.week, error));
+        yield put(setErrorMessage('Error Fetching Points For Week', error));
+    } finally {
+        yield put(actions.cancelFetchingUserPointsForWeek(action.userId, action.week));
     }
 }
 

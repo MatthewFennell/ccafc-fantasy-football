@@ -7,6 +7,7 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase';
 import { createFirestoreInstance } from 'redux-firestore';
+import * as Sentry from '@sentry/react';
 import { createBrowserHistory } from 'history';
 import { routerMiddleware } from 'connected-react-router';
 import { firebaseApp } from './config/fbConfig';
@@ -15,6 +16,15 @@ import rootSaga from './rootSaga';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import MyProvider from './Context';
+import 'react-notifications-component/dist/theme.css';
+import * as notificationActions from './notifications/actions';
+import * as notificationTypes from './notifications/constants';
+
+Sentry.init({
+    environment: process.env.REACT_APP_PROJECT_ID,
+    dsn: process.env.REACT_APP_SENTRY_DSN,
+    release: process.env.REACT_APP_VERSION
+});
 
 const history = createBrowserHistory();
 
@@ -27,11 +37,15 @@ const rrfConfig = {
 
 const sagaMiddleware = createSagaMiddleware();
 
-const enhancers = compose(
+const isDevelopment = (!process.env.NODE_ENV || process.env.NODE_ENV === 'development');
+
+const enhancers = isDevelopment ? compose(
     applyMiddleware(routerMiddleware(history), sagaMiddleware),
-    window.__REDUX_DEVTOOLS_EXTENSION__
+    (window.__REDUX_DEVTOOLS_EXTENSION__
         ? window.__REDUX_DEVTOOLS_EXTENSION__()
-        : f => f
+        : f => f)
+) : compose(
+    applyMiddleware(routerMiddleware(history), sagaMiddleware)
 );
 
 const store = createStore(createRootReducer(history), enhancers);
@@ -56,4 +70,14 @@ ReactDOM.render(
     document.getElementById('root')
 );
 
-serviceWorker.register();
+serviceWorker.register({
+    onUpdate: () => {
+        store.dispatch({
+            type: notificationActions.ADD_NOTIFICATION,
+            notificationType: notificationTypes.NOTIFICATION_TYPE_INFO,
+            notification: 'There are new updates available. Close all tabs to receive the updates.',
+            duration: 0,
+            title: 'Updates Available'
+        });
+    }
+});

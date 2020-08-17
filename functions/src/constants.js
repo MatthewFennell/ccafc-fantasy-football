@@ -58,7 +58,8 @@ const PERMISSIONS = {
     MANAGE_SUBS: 'MANAGE_SUBS',
     MANAGE_BUGS: 'MANAGE_BUGS',
     TOGGLE_PAGES: 'TOGGLE_PAGES',
-    SORT_LEAGUES: 'SORT_LEAGUES'
+    SORT_LEAGUES: 'SORT_LEAGUES',
+    ADD_NOTIFICATIONS: 'ADD_NOTIFICATIONS'
 };
 
 module.exports.PERMISSIONS = PERMISSIONS;
@@ -86,6 +87,7 @@ module.exports.ROLE_PERMISSIONS = {
         PERMISSIONS.SUBMIT_RESULT,
         PERMISSIONS.TRIGGER_WEEK,
         PERMISSIONS.EDIT_PLAYER,
+        PERMISSIONS.ADD_NOTIFICATIONS,
         PERMISSIONS.APPROVE_HIGHLIGHTS,
         PERMISSIONS.MANAGE_SUBS],
     MAINTAINER: [
@@ -94,6 +96,7 @@ module.exports.ROLE_PERMISSIONS = {
         PERMISSIONS.SORT_LEAGUES,
         PERMISSIONS.CREATE_TEAM,
         PERMISSIONS.DELETE_TEAM,
+        PERMISSIONS.ADD_NOTIFICATIONS,
         PERMISSIONS.SUBMIT_RESULT,
         PERMISSIONS.TRIGGER_WEEK,
         PERMISSIONS.EDIT_PLAYER,
@@ -119,5 +122,8 @@ module.exports.leaguesForFixtures = [
 ];
 
 module.exports.cupDatabaseId = 'ccafc-cup-id';
+module.exports.collingwoodLeagueId = 'collingwood-league-id';
+module.exports.collingwoodLeagueName = 'Collingwood';
+module.exports.applicationInfoId = 'application-info-id';
 
 module.exports.cupStartingWeek = 3;

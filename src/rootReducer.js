@@ -4,7 +4,7 @@ import { firebaseReducer } from 'react-redux-firebase';
 import { connectRouter } from 'connected-react-router';
 import admin from './admin/reducer';
 import auth from './auth/reducer';
-import league from './leagues/reducer';
+import leagues from './leagues/reducer';
 import overview from './overview/reducer';
 import currentTeam from './currentteam/reducer';
 import points from './points/reducer';
@@ -16,6 +16,7 @@ import charts from './charts/reducer';
 import highlights from './highlights/reducer';
 import fixtures from './fixtures/reducer';
 import features from './featurerequest/reducer';
+import modalHandling from './modalHandling/reducer';
 import cup from './cup/reducer';
 
 const appReducer = history => combineReducers({
@@ -24,12 +25,13 @@ const appReducer = history => combineReducers({
     charts,
     currentTeam,
     cup,
-    leagues: league,
+    leagues,
     features,
     firestore: firestoreReducer,
     firebase: firebaseReducer,
     fixtures,
     highlights,
+    modalHandling,
     overview,
     points,
     profile,

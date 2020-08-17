@@ -31,6 +31,10 @@ describe('CurrentTeam', () => {
             fetchActiveTeamRequest={noop}
             history={mockHistory}
             userId=""
+            fetchFixturesRequest={noop}
+            isPlayerModalOpen={false}
+            setPlayerModalOpen={noop}
+            setCaptainToUpdate={noop}
         />);
         expect(() => wrapper).not.toThrow();
     });

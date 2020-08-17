@@ -20,7 +20,8 @@ export const getPlayersInTeam = request => functionToCall('team-getPlayersInTeam
         id: player.id,
         text: player.name,
         value: player.name,
-        position: player.position
+        position: player.position,
+        price: player.price
     })));
 
 export const submitResult = request => functionToCall('points-submitResult')(request);
@@ -50,3 +51,6 @@ export const setHasPaidSubs = request => functionToCall('clubSubs-setHasPaidSubs
 
 export const recalculateLeaguePositions = request => functionToCall('league-calculatePositions')(request);
 export const deleteBug = request => functionToCall('features-deleteFeatureRequest')(request);
+
+export const addNotification = request => functionToCall('notification-addNotification')(request);
+export const editPlayerPrice = request => functionToCall('player-editPlayerPrice')(request);

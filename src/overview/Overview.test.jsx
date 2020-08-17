@@ -41,6 +41,7 @@ describe('Overview connected', () => {
             removeListener() {}
         };
     };
+
     it('Connected overview', () => {
         const mockStore = configureMockStore([]);
         const mockStoreInitialized = mockStore({

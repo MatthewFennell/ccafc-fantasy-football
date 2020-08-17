@@ -25,6 +25,25 @@ describe('Stats reducer', () => {
         });
     });
 
+    it('cancel fetching team stats by week', () => {
+        const action = actions.cancelFetchingTeamStatsByWeek('teamId');
+        expect(reducer({
+            ...initialState,
+            teamStatsByWeek: {
+                teamId: {
+                    fetching: [3, 4, 5]
+                }
+            }
+        }, action)).toEqual({
+            ...initialState,
+            teamStatsByWeek: {
+                teamId: {
+                    fetching: []
+                }
+            }
+        });
+    });
+
     it('fetch team stats by week success', () => {
         const previousStats = ['a', 'b', 'c', 'd'];
         const previousWeeksFetched = [1, 2, 3];

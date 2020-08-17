@@ -105,6 +105,9 @@ exports.updateDisplayName = functions
 exports.updateCupDisplayNameMapping = functions.region(constants.region).firestore
     .document('users/{id}')
     .onWrite(change => {
+        if (!change.after.exists) {
+            return Promise.resolve();
+        }
         const displayNameBefore = change.before.data().displayName;
         const displayNameAfter = change.after.data().displayName;
 

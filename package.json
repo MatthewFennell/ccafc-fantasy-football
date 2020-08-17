@@ -1,6 +1,6 @@
 {
   "name": "collingwood-fantasy",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.11.2",
@@ -9,6 +9,7 @@
     "@material-ui/icons": "^4.4.3",
     "@material-ui/lab": "^4.0.0-alpha.39",
     "@material-ui/styles": "^4.5.0",
+    "@sentry/react": "^5.21.1",
     "bootstrap-css-only": "^4.3.1",
     "classnames": "^2.2.6",
     "connected-react-router": "^6.0.0",
@@ -19,7 +20,7 @@
     "firebase-tools": "^7.8.1",
     "history": "^4.7.1",
     "jest": "^24.9.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "material-ui": "^0.20.2",
     "mdbreact": "4.19.1",
     "mockdate": "^2.0.5",
@@ -27,12 +28,14 @@
     "node-sass": "^4.12.0",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
+    "react-csv": "^2.0.3",
     "react-dom": "^16.6.0",
     "react-firebaseui": "^4.0.0",
     "react-google-charts": "^3.0.15",
     "react-google-login": "^5.0.5",
     "react-media": "^1.10.0",
     "react-modal": "^3.10.1",
+    "react-notifications-component": "^2.4.0",
     "react-redux": "^6.0.0",
     "react-redux-firebase": "^3.0.0-alpha.16",
     "react-router": "^4.3.1",
@@ -82,10 +85,10 @@
   "jest": {
     "coverageThreshold": {
       "global": {
-        "statements": 100,
-        "branches": 100,
-        "functions": 100,
-        "lines": 100
+        "statements": 60,
+        "branches": 60,
+        "functions": 60,
+        "lines": 60
       }
     },
     "collectCoverageFrom": [
@@ -95,7 +98,13 @@
       "!src/rootReducer.js",
       "!src/rootSaga.js",
       "!src/routes.jsx",
-      "!src/serviceWorker.js"
+      "!src/serviceWorker.js",
+      "!src/config/fbConfig.js",
+      "!src/api/api.js",
+      "!src/transfers/nextfixtures/helpers.jsx",
+      "!src/notifications/saga.js",
+      "!src/RenderRoutes.jsx",
+      "!src/**/api.js"
     ]
   }
 }

@@ -5,6 +5,7 @@
     background-color: $color-white;
     text-align: center;
     @include light-box-shadow();
+    border-radius: $spacing-tiny;
 }
 
 .byesHeader, .matchupsHeader {
@@ -58,6 +59,10 @@
     border-radius: $spacing-average;
     background-color: $color-light-blue;
     border: 2px solid black;
+}
+
+.includesMe {
+    background-color: $color-light-green;
 }
 
 .pairingRow {

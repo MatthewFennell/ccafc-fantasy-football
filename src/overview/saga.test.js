@@ -4,6 +4,7 @@ import { throwError } from 'redux-saga-test-plan/providers';
 import * as sagas from './saga';
 import * as actions from './actions';
 import * as selectors from './selectors';
+import { setErrorMessage } from '../modalHandling/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
@@ -24,28 +25,20 @@ describe('Overview saga', () => {
         return next();
     };
 
-    it('already fetched user stats', () => {
-        const action = actions.fetchUserStatsRequest('userId');
-        return expectSaga(sagas.getUserStats, api, action)
-            .provide([
-                {
-                    select: alreadyFetchedUserStatsOrInfo(true)
-                }
-            ])
-            .put(actions.alreadyFetchedUserStats('userId'))
-            .run();
-    });
-
     it('getting user stats', () => {
-        const action = actions.fetchUserStatsRequest('userId', 3);
+        const action = actions.fetchUserStatsRequest('userId');
         return expectSaga(sagas.getUserStats, api, action)
             .provide([
                 {
                     select: alreadyFetchedUserStatsOrInfo(false)
                 }
             ])
+            .call(api.getUserStats, ({
+                userId: 'userId'
+            }))
             .put(actions.fetchUserStatsSuccess('userId', 'stats'))
-            .run();
+            .put(actions.cancelFetchingUserStats(action.userId))
+            .run({ silenceTimeout: true });
     });
 
     it('getting user stats error', () => {
@@ -56,15 +49,16 @@ describe('Overview saga', () => {
                 [matchers.call.fn(api.getUserStats), throwError(error)],
                 { select: alreadyFetchedUserStatsOrInfo(false) }
             ])
-            .put(actions.fetchUserStatsError('userId', error))
-            .run();
+            .put(setErrorMessage('Error Fetching User Stats', error))
+            .put(actions.cancelFetchingUserStats(action.userId))
+            .run({ silenceTimeout: true });
     });
 
     it('get max gameweek', () => {
         const action = actions.fetchMaxGameWeekRequest();
         return expectSaga(sagas.getMaxGameWeek, api, action)
             .put(actions.fetchMaxGameWeekSuccess(5))
-            .run();
+            .run({ silenceTimeout: true });
     });
 
     it('get max gameweek error', () => {
@@ -74,20 +68,8 @@ describe('Overview saga', () => {
             .provide([
                 [matchers.call.fn(api.getMaxGameWeek), throwError(error)]
             ])
-            .put(actions.fetchMaxGameWeekError(error))
-            .run();
-    });
-
-    it('already fetched user info', () => {
-        const action = actions.fetchUserInfoForWeekRequest('userId', 3);
-        return expectSaga(sagas.getUserInfoForWeek, api, action)
-            .provide([
-                {
-                    select: alreadyFetchedUserStatsOrInfo(true)
-                }
-            ])
-            .put(actions.alreadyFetchedUserInfoForWeek('userId', 3))
-            .run();
+            .put(setErrorMessage('Error Fetching Gameweek', error))
+            .run({ silenceTimeout: true });
     });
 
     it('getting user info', () => {
@@ -98,8 +80,13 @@ describe('Overview saga', () => {
                     select: alreadyFetchedUserStatsOrInfo(false)
                 }
             ])
+            .call(api.getUserInfoForWeek, ({
+                userId: 'userId',
+                week: 3
+            }))
             .put(actions.fetchUserInfoForWeekSuccess('userId', 3, 'userInfo'))
-            .run();
+            .put(actions.cancelFetchingUserInfoForWeek('userId', 3))
+            .run({ silenceTimeout: true });
     });
 
     it('getting user info error', () => {
@@ -110,7 +97,8 @@ describe('Overview saga', () => {
                 [matchers.call.fn(api.getUserInfoForWeek), throwError(error)],
                 { select: alreadyFetchedUserStatsOrInfo(false) }
             ])
-            .put(actions.fetchUserInfoForWeekError('userId', 3, error))
-            .run();
+            .put(setErrorMessage('Error Fetching User Info for Week', error))
+            .put(actions.cancelFetchingUserInfoForWeek('userId', 3))
+            .run({ silenceTimeout: true });
     });
 });

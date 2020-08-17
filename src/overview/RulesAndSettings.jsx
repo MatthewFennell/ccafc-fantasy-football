@@ -20,8 +20,6 @@ const RulesAndSettings = props => {
                 <ul>
                     <li>Unlimited transfers</li>
                     <li>Maxiumum of 3 players per team</li>
-                    <li>Prices not in effect this year</li>
-                    <li> Points this year will dictate future price</li>
                     <li>Please report any bugs on the Features page</li>
                 </ul>
             </div>

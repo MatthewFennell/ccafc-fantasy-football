@@ -16,6 +16,14 @@
     margin-right: $spacing-medium;
 }
 
+.borderRadiusSmall {
+    border-radius: $spacing-small;
+}
+
+.borderRadiusTiny {
+    border-radius: $spacing-tiny;
+}
+
 .icon {
     position: absolute;
     right: $spacing-tiny;

@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
 export const textInputIcons = {
     email: 'email',
     user: 'user',
@@ -6,5 +5,6 @@ export const textInputIcons = {
     football: 'football',
     money: 'money',
     search: 'search',
-    face: 'face'
+    face: 'face',
+    message: 'message'
 };

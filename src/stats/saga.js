@@ -3,6 +3,7 @@ import {
 } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as statsApi from './api';
+import { setErrorMessage } from '../modalHandling/actions';
 
 export function* fetchStats(api, action) {
     try {
@@ -14,7 +15,9 @@ export function* fetchStats(api, action) {
         yield put(actions.fetchTeamStatsByWeekSuccess(action.teamId,
             action.minWeek, action.maxWeek, weekStats));
     } catch (error) {
-        yield put(actions.fetchTeamStatsByWeekError(error));
+        yield put(setErrorMessage('Error Fetching Team Stats For Week', error));
+    } finally {
+        yield put(actions.cancelFetchingTeamStatsByWeek(action.teamId));
     }
 }
 

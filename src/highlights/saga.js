@@ -1,10 +1,11 @@
 import {
-    all, takeEvery, put, call, select, delay
+    all, takeEvery, put, call, select
 } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as highlightsApi from './api';
 import * as selectors from './selectors';
-import { successDelay } from '../constants';
+import { setErrorMessage } from '../modalHandling/actions';
+import { addNotification } from '../notifications/actions';
 
 export function* submitHighlight(api, action) {
     try {
@@ -12,11 +13,11 @@ export function* submitHighlight(api, action) {
             videoId: action.videoId,
             title: action.title
         });
-        yield put(actions.setSuccessMessage('Highlight successfully submitted for approval'));
-        yield delay(successDelay);
-        yield put(actions.closeSuccessMessage());
+        yield put(addNotification('Highlight successfully submitted for approval'));
     } catch (error) {
-        yield put(actions.setHighlightError(error, 'Submit Highlight Error'));
+        yield put(setErrorMessage('Error Submitting Highlight', error));
+    } finally {
+        yield put(actions.cancelSubmittingHighlight());
     }
 }
 
@@ -26,11 +27,11 @@ export function* getHighlights(api) {
         if (!fetchedVideos) {
             const highlights = yield call(api.getHighlights);
             yield put(actions.fetchHighlightsSuccess(highlights));
-        } else {
-            yield put(actions.alreadyFetchedVideos());
         }
     } catch (error) {
-        yield put(actions.setHighlightError(error, 'Fetching Highlights Error'));
+        yield put(setErrorMessage('Error Fetching Highlights', error));
+    } finally {
+        yield put(actions.cancelFetchingVideos());
     }
 }
 
@@ -39,7 +40,9 @@ export function* upvoteHighlight(api, action) {
         const result = yield call(api.upvoteHighlight, ({ highlightId: action.highlightId }));
         yield put(actions.upvoteHighlightSuccess(result));
     } catch (error) {
-        yield put(actions.setHighlightError(error, 'Upvoting Highlight Error'));
+        yield put(setErrorMessage('Error Upvoting Highlight', error));
+    } finally {
+        yield put(actions.cancelVotingOnHighlight());
     }
 }
 
@@ -48,7 +51,9 @@ export function* downvoteHighlight(api, action) {
         const result = yield call(api.downvoteHighlight, ({ highlightId: action.highlightId }));
         yield put(actions.downvoteHighlightSuccess(result));
     } catch (error) {
-        yield put(actions.setHighlightError(error, 'Downvoting Highlight Error'));
+        yield put(setErrorMessage('Error Downvoting Highlight', error));
+    } finally {
+        yield put(actions.cancelVotingOnHighlight());
     }
 }
 
@@ -58,11 +63,11 @@ export function* highlightsToBeApproved(api) {
         if (!alreadyFetched) {
             const highlights = yield call(api.getHighlightsToBeApproved);
             yield put(actions.fetchUserHighlightsToBeApprovedSuccess(highlights));
-        } else {
-            yield put(actions.alreadyFetchedApprovedHighlights());
         }
     } catch (error) {
-        yield put(actions.setHighlightError(error, 'Fetch Approval Highlights Error'));
+        yield put(setErrorMessage('Error Fetching Highlights For Approval', error));
+    } finally {
+        yield put(actions.cancelLoadingVideosToBeApproved());
     }
 }
 
@@ -72,11 +77,11 @@ export function* rejectedHighlights(api) {
         if (!alreadyFetched) {
             const highlights = yield call(api.getRejectedHighlights);
             yield put(actions.fetchRejectedHighlightsSuccess(highlights));
-        } else {
-            yield put(actions.alreadyFetchedRejectedVideos());
         }
     } catch (error) {
-        yield put(actions.setHighlightError(error, 'Fetch Rejected Highlights Error'));
+        yield put(setErrorMessage('Error Fetching Rejected Highlights', error));
+    } finally {
+        yield put(actions.cancelFetchingRejectedVideos());
     }
 }
 
@@ -89,9 +94,9 @@ export function* addCommentToVideo(api, action) {
         }));
         yield put(actions.addCommentToVideoSuccess(newHighlight));
     } catch (error) {
-        yield put(actions.setHighlightError(error, 'Add Comment Error'));
+        yield put(setErrorMessage('Error Adding Comment', error));
     } finally {
-        yield put(actions.setAddingCommentToVideo(false));
+        yield put(actions.cancelAddingCommentToVideo());
     }
 }
 
@@ -105,9 +110,9 @@ export function* addReplyToVideo(api, action) {
         }));
         yield put(actions.addReplyToVideoSuccess(newHighlight));
     } catch (error) {
-        yield put(actions.setHighlightError(error, 'Add Reply Error'));
+        yield put(setErrorMessage('Error Replying To Comment', error));
     } finally {
-        yield put(actions.setAddingCommentToVideo(false));
+        yield put(actions.cancelAddingCommentToVideo());
     }
 }
 
@@ -120,7 +125,9 @@ export function* deleteComment(api, action) {
         });
         yield put(actions.deleteCommentSuccess(action.videoId, action.commentId));
     } catch (error) {
-        yield put(actions.setHighlightError(error, 'Delete Comment Error'));
+        yield put(setErrorMessage('Error Deleting Comment', error));
+    } finally {
+        yield put(actions.cancelDeletingComment());
     }
 }
 
@@ -134,7 +141,9 @@ export function* deleteReply(api, action) {
         });
         yield put(actions.deleteReplySuccess(action.videoId, action.commentId, action.replyId));
     } catch (error) {
-        yield put(actions.setHighlightError(error, 'Delete Reply Error'));
+        yield put(setErrorMessage('Error Deleting Reply', error));
+    } finally {
+        yield put(actions.cancelDeletingReply());
     }
 }
 

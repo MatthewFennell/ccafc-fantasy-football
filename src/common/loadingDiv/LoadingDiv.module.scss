@@ -8,6 +8,7 @@
   border-radius: $spacing-small;
 }
 
+
 .fitContent {
   width: fit-content;
   margin-left: auto;
@@ -21,8 +22,16 @@
     overflow:hidden;
   }
 
+.whiteBackground {
+  background-color: $color-white !important;
+}
+
 .noPadding {
   padding: 0px;
+}
+
+.padding {
+  padding: $spacing-small !important;
 }
 
 .boxShadow {

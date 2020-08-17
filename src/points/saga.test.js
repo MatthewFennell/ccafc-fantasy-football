@@ -4,32 +4,65 @@ import { throwError } from 'redux-saga-test-plan/providers';
 import * as sagas from './saga';
 import * as actions from './actions';
 import * as selectors from './selectors';
+import { setErrorMessage } from '../modalHandling/actions';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
 const api = {
-    fetchPointsForUserInWeek: () => 'team'
+    fetchPointsForUserInWeek: () => 'team',
+    getUserInfo: () => 'details'
 };
 
 describe('Points saga', () => {
     const alreadyFetchedData = fetched => ({ selector }, next) => {
+        if (selector === selectors.alreadyFetchedUserDetails) {
+            return fetched;
+        }
         if (selector === selectors.alreadyFetchedUserPoints) {
             return fetched;
         }
         return next();
     };
 
-    it('already fetched user points', () => {
-        const action = actions.fetchUserPointsForWeekRequest('userId', 3);
-        return expectSaga(sagas.getUserPointsForWeek, api, action)
+    it('get username', () => expectSaga(sagas.getUsername, 'userId', api)
+        .provide([
+            {
+                select: alreadyFetchedData(false)
+            }
+        ])
+        .put(actions.setUserDetailsFetching('userId', true))
+        .call(api.getUserInfo, ({
+            userId: 'userId'
+        }))
+        .put(actions.setUserDetails('userId', 'details'))
+        .put(actions.cancelFetchingUserDetails('userId'))
+        .run({ silenceTimeout: true }));
+
+    it('getting username error', () => {
+        const error = new Error('error');
+        return expectSaga(sagas.getUsername, 'userId', api)
             .provide([
-                {
-                    select: alreadyFetchedData(true)
-                }
+                [matchers.call.fn(api.getUserInfo), throwError(error)],
+                { select: alreadyFetchedData(false) }
             ])
-            .put(actions.alreadyFetchedPointsForWeek('userId', 3))
-            .run();
+            .put(actions.setUserDetailsFetching('userId', true))
+            .put(setErrorMessage('Error Fetching User Info', error))
+            .put(actions.cancelFetchingUserDetails('userId'))
+            .run({ silenceTimeout: true });
     });
+
+    it('already fetched username', () => expectSaga(sagas.getUsername, 'userId', api)
+        .provide([
+            {
+                select: alreadyFetchedData(true)
+            }
+        ])
+        .not.call(api.getUserInfo, ({
+            userId: 'userId'
+        }))
+        .not.put(actions.setUserDetails('userId', 'details'))
+        .put(actions.cancelFetchingUserDetails('userId'))
+        .run({ silenceTimeout: true }));
 
     it('getting user points', () => {
         const action = actions.fetchUserPointsForWeekRequest('userId', 3);
@@ -39,8 +72,14 @@ describe('Points saga', () => {
                     select: alreadyFetchedData(false)
                 }
             ])
+            .fork(sagas.getUsername, 'userId', api)
             .put(actions.fetchUserPointsForWeekSuccess('userId', 3, 'team'))
-            .run();
+            .call(api.fetchPointsForUserInWeek, ({
+                userId: 'userId',
+                week: 3
+            }))
+            .put(actions.cancelFetchingUserPointsForWeek('userId', 3))
+            .run({ silenceTimeout: true });
     });
 
     it('getting user points error', () => {
@@ -51,7 +90,8 @@ describe('Points saga', () => {
                 [matchers.call.fn(api.fetchPointsForUserInWeek), throwError(error)],
                 { select: alreadyFetchedData(false) }
             ])
-            .put(actions.fetchUserPointsForWeekError('userId', 3, error))
-            .run();
+            .put(setErrorMessage('Error Fetching Points For Week', error))
+            .put(actions.cancelFetchingUserPointsForWeek('userId', 3))
+            .run({ silenceTimeout: true });
     });
 });

@@ -15,18 +15,32 @@ describe('Fixtures reducer', () => {
         }, action)).toEqual({
             ...initialState,
             fixtures,
-            loadingFixtures: false
+            loadingFixtures: true
+        });
+    });
+
+    it('cancel loading team', () => {
+        const action = actions.cancelLoadingMyTeam();
+        expect(reducer({
+            ...initialState,
+            loadingMyTeam: true
+        }, action)).toEqual({
+            ...initialState,
+            loadingMyTeam: false
         });
     });
 
     it('already fetched fixtures', () => {
-        const action = actions.alreadyFetchedFixtures();
+        const action = actions.cancelFetchingFixturesAndTeam();
         expect(reducer({
             ...initialState,
-            loadingFixtures: true
+            loadingFixtures: true,
+            loadingMyTeam: true
         }, action)).toEqual({
             ...initialState,
-            loadingFixtures: false
+            loadingFixtures: false,
+            loadingMyTeam: false,
+            fetchedFixtures: true
         });
     });
 
@@ -38,27 +52,15 @@ describe('Fixtures reducer', () => {
         });
     });
 
-    it('fetch fixtures error', () => {
-        const action = actions.fetchFixturesError(null);
-        expect(reducer({
-            ...initialState,
-            loadingFixtures: true
-        }, action)).toEqual({
-            ...initialState,
-            loadingFixtures: false
-        });
-    });
-
     it('set my team', () => {
-        const team = 'Demancia';
-        const action = actions.setMyTeam(team);
+        const action = actions.setMyTeam('Demancia');
         expect(reducer({
             ...initialState,
             loadingMyTeam: true
         }, action)).toEqual({
             ...initialState,
-            loadingMyTeam: false,
-            myTeam: team
+            loadingMyTeam: true,
+            myTeam: 'Demancia'
         });
     });
 
@@ -70,75 +72,11 @@ describe('Fixtures reducer', () => {
         });
     });
 
-    it('set my team error', () => {
-        const action = actions.setMyTeamError(null);
-        expect(reducer({
-            ...initialState,
-            loadingMyTeam: true
-        }, action)).toEqual({
-            ...initialState,
-            loadingMyTeam: false
-        });
-    });
-
     it('set my team request', () => {
         const action = actions.setMyTeamRequest();
         expect(reducer(initialState, action)).toEqual({
             ...initialState,
             loadingMyTeam: true
-        });
-    });
-
-    it('set fixtures error', () => {
-        const action = actions.setFixturesError({
-            message: 'Error message',
-            code: 'Error code'
-        }, 'Error header');
-        expect(reducer({
-            ...initialState,
-            loadingFixtures: true,
-            loadingMyTeam: true
-        }, action)).toEqual({
-            ...initialState,
-            errorMessage: 'Error message',
-            errorCode: 'Error code',
-            errorHeader: 'Error header',
-            loadingFixtures: false,
-            loadingMyTeam: false
-        });
-    });
-
-    it('close fixtures error', () => {
-        const action = actions.closeFixturesError();
-        expect(reducer({
-            ...initialState,
-            errorMessage: 'Error message',
-            errorCode: 'Error code',
-            errorHeader: 'Error header'
-        }, action)).toEqual({
-            ...initialState,
-            errorMessage: '',
-            errorCode: '',
-            errorHeader: ''
-        });
-    });
-
-    it('set success message', () => {
-        const action = actions.setSuccessMessage('message');
-        expect(reducer(initialState, action)).toEqual({
-            ...initialState,
-            successMessage: 'message'
-        });
-    });
-
-    it('close success message', () => {
-        const action = actions.closeSuccessMessage();
-        expect(reducer({
-            ...initialState,
-            successMessage: 'message'
-        }, action)).toEqual({
-            ...initialState,
-            successMessage: ''
         });
     });
 });

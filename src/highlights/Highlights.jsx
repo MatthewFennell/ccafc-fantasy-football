@@ -2,16 +2,16 @@ import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
-import { noop } from 'lodash';
+import _, { noop } from 'lodash';
 import defaultStyles from './Highlights.module.scss';
 import StyledButton from '../common/StyledButton/StyledButton';
 import {
-    closeHighlightError, submitHighlightRequest, fetchHighlightsRequest,
+    submitHighlightRequest, fetchHighlightsRequest,
     upvoteHighlightRequest, downvoteHighlightRequest, fetchUserHighlightsToBeApprovedRequest,
     fetchRejectedHighlightsRequest, addCommentToVideoRequest, addReplyToVideoRequest,
-    deleteCommentRequest, deleteReplyRequest, closeSuccessMessage, setHighlightError
+    deleteCommentRequest, deleteReplyRequest, closeSuccessMessage
 } from './actions';
-import ErrorModal from '../common/modal/ErrorModal';
+import { setErrorMessage } from '../modalHandling/actions';
 import SuccessModal from '../common/modal/SuccessModal';
 import YouTubeList from '../common/youtubelist/YouTubeList';
 import SubmitVideo from './SubmitVideo';
@@ -21,6 +21,7 @@ import * as textInputConstants from '../common/TextInput/constants';
 import Dropdown from '../common/dropdown/Dropdown';
 import LoadingDiv from '../common/loadingDiv/LoadingDiv';
 import Spinner from '../common/spinner/Spinner';
+import ConfirmModal from '../common/modal/ConfirmModal';
 
 const Highlights = props => {
     useEffect(() => {
@@ -32,6 +33,9 @@ const Highlights = props => {
     const [filterBy, setFilterBy] = useState('allTime');
     const [sortBy, setSortBy] = useState('newestFirst');
     const [searchFilter, setSearchFilter] = useState('');
+    const [deleteCommentInfo, setDeleteCommentInfo] = useState({});
+    const [deleteReplyInfo, setDeleteReplyInfo] = useState({});
+
     const openSubmitVideo = useCallback(() => {
         setSubmitVideoOpen(true);
     }, [setSubmitVideoOpen]);
@@ -47,14 +51,32 @@ const Highlights = props => {
     }, [props.addReplyToVideoRequest]);
 
     const deleteComment = useCallback(videoId => commentId => {
-        props.deleteCommentRequest(videoId, commentId);
-        // eslint-disable-next-line
-    }, [props.deleteCommentRequest])
+        setDeleteCommentInfo({
+            videoId,
+            commentId
+        });
+    }, [setDeleteCommentInfo]);
 
-    const deleteReply = useCallback(featureId => (commentId, replyId) => {
-        props.deleteReplyRequest(featureId, commentId, replyId);
+    const confirmDeleteComment = useCallback(() => {
+        props.deleteCommentRequest(deleteCommentInfo.videoId, deleteCommentInfo.commentId);
+        setDeleteCommentInfo({});
         // eslint-disable-next-line
-    }, [props.deleteReplyRequest])
+    }, [deleteCommentInfo, props.deleteCommentRequest, setDeleteCommentInfo]);
+
+    const deleteReply = useCallback(videoId => (commentId, replyId) => {
+        setDeleteReplyInfo({
+            videoId,
+            commentId,
+            replyId
+        });
+    }, [setDeleteReplyInfo]);
+
+    const confirmDeleteReply = useCallback(() => {
+        props.deleteReplyRequest(deleteReplyInfo.videoId,
+            deleteReplyInfo.commentId, deleteReplyInfo.replyId);
+        setDeleteReplyInfo({});
+        // eslint-disable-next-line
+    }, [deleteReplyInfo, props.deleteReplyRequest, setDeleteReplyInfo])
 
     return (
         <>
@@ -134,6 +156,7 @@ const Highlights = props => {
                 deleteComment={deleteComment}
                 deleteReply={deleteReply}
                 downvoteHighlightRequest={props.downvoteHighlightRequest}
+                highlightBeingVotedOn={props.highlightBeingVotedOn}
                 isAddingCommentToVideo={props.isAddingCommentToHighlight}
                 videos={helpers.sortVideos(filterBy, sortBy, props.videos, searchFilter)}
                 votingPage
@@ -147,17 +170,10 @@ const Highlights = props => {
                 loadingRejectedVideos={props.loadingRejectedVideos}
                 submitVideoOpen={submitVideoOpen}
                 submitHighlightRequest={props.submitHighlightRequest}
-                submitHighlightError={props.setHighlightError}
+                setErrorMessage={props.setErrorMessage}
                 videosToBeApproved={props.videosToBeApproved}
                 videosRejected={props.videosRejected}
                 myVideos={props.videos.filter(x => x.userId === props.auth.uid)}
-            />
-            <ErrorModal
-                closeModal={props.closeHighlightError}
-                headerMessage={props.errorHeader}
-                isOpen={props.errorMessage.length > 0}
-                errorCode={props.errorCode}
-                errorMessage={props.errorMessage}
             />
             <SuccessModal
                 backdrop
@@ -167,6 +183,25 @@ const Highlights = props => {
                 headerMessage={props.successMessage}
                 toggleModal={noop}
             />
+            <ConfirmModal
+                cancel={() => setDeleteCommentInfo({})}
+                closeModal={() => setDeleteCommentInfo({})}
+                isButtonsDisabled={!_.isEmpty(props.commentBeingDeletedInfo)}
+                isLoading={!_.isEmpty(props.commentBeingDeletedInfo)}
+                isOpen={!_.isEmpty(deleteCommentInfo) || !_.isEmpty(props.commentBeingDeletedInfo)}
+                submit={confirmDeleteComment}
+                text="Delete Comment?"
+            />
+
+            <ConfirmModal
+                cancel={() => setDeleteReplyInfo({})}
+                closeModal={() => setDeleteReplyInfo({})}
+                isButtonsDisabled={!_.isEmpty(props.replyBeingDeletedInfo)}
+                isLoading={!_.isEmpty(props.replyBeingDeletedInfo)}
+                isOpen={!_.isEmpty(deleteReplyInfo) || !_.isEmpty(props.replyBeingDeletedInfo)}
+                submit={confirmDeleteReply}
+                text="Delete Reply?"
+            />
         </>
     );
 };
@@ -175,14 +210,21 @@ Highlights.defaultProps = {
     auth: {
         uid: ''
     },
-    errorMessage: '',
-    errorCode: '',
-    errorHeader: '',
+    commentBeingDeletedInfo: {
+        commentId: '',
+        featureId: ''
+    },
+    highlightBeingVotedOn: '',
     loadingVideos: false,
     loadingVideosToBeApproved: false,
     loadingRejectedVideos: false,
     isAddingCommentToHighlight: false,
     isSubmittingHighlight: false,
+    replyBeingDeletedInfo: {
+        featureId: '',
+        commentId: '',
+        replyId: ''
+    },
     successMessage: '',
     styles: defaultStyles,
     videos: [],
@@ -196,11 +238,11 @@ Highlights.propTypes = {
     auth: PropTypes.shape({
         uid: PropTypes.string
     }),
-    closeHighlightError: PropTypes.func.isRequired,
+    commentBeingDeletedInfo: PropTypes.shape({
+        featureId: PropTypes.string,
+        commentId: PropTypes.string
+    }),
     closeSuccessMessage: PropTypes.func.isRequired,
-    errorMessage: PropTypes.string,
-    errorCode: PropTypes.string,
-    errorHeader: PropTypes.string,
     deleteCommentRequest: PropTypes.func.isRequired,
     deleteReplyRequest: PropTypes.func.isRequired,
     downvoteHighlightRequest: PropTypes.func.isRequired,
@@ -210,9 +252,15 @@ Highlights.propTypes = {
     fetchHighlightsRequest: PropTypes.func.isRequired,
     fetchRejectedHighlightsRequest: PropTypes.func.isRequired,
     fetchUserHighlightsToBeApproved: PropTypes.func.isRequired,
+    highlightBeingVotedOn: PropTypes.string,
     loadingVideos: PropTypes.bool,
+    replyBeingDeletedInfo: PropTypes.shape({
+        featureId: PropTypes.string,
+        commentId: PropTypes.string,
+        replyId: PropTypes.string
+    }),
     styles: PropTypes.objectOf(PropTypes.string),
-    setHighlightError: PropTypes.func.isRequired,
+    setErrorMessage: PropTypes.func.isRequired,
     isSubmittingHighlight: PropTypes.bool,
     submitHighlightRequest: PropTypes.func.isRequired,
     successMessage: PropTypes.string,
@@ -225,7 +273,6 @@ Highlights.propTypes = {
 const mapDispatchToProps = {
     addCommentToVideoRequest,
     addReplyToVideoRequest,
-    closeHighlightError,
     closeSuccessMessage,
     deleteCommentRequest,
     deleteReplyRequest,
@@ -233,18 +280,17 @@ const mapDispatchToProps = {
     fetchRejectedHighlightsRequest,
     fetchHighlightsRequest,
     fetchUserHighlightsToBeApproved: fetchUserHighlightsToBeApprovedRequest,
-    setHighlightError,
+    setErrorMessage,
     submitHighlightRequest,
     upvoteHighlightRequest
 };
 
 const mapStateToProps = state => ({
     auth: state.firebase.auth,
+    commentBeingDeletedInfo: state.highlights.commentBeingDeletedInfo,
     commentError: state.highlights.commentError,
     commentErrorCode: state.highlights.commentErrorCode,
-    errorMessage: state.highlights.errorMessage,
-    errorCode: state.highlights.errorCode,
-    errorHeader: state.highlights.errorHeader,
+    highlightBeingVotedOn: state.highlights.highlightBeingVotedOn,
     highlightError: state.highlights.submitLinkError,
     highlightErrorCode: state.highlights.submitLinkErrorCode,
     isAddingCommentToHighlight: state.highlights.isAddingCommentToHighlight,
@@ -252,6 +298,7 @@ const mapStateToProps = state => ({
     loadingVideosToBeApproved: state.highlights.loadingVideosToBeApproved,
     loadingRejectedVideos: state.highlights.loadingRejectedVideos,
     isSubmittingHighlight: state.highlights.isSubmittingHighlight,
+    replyBeingDeletedInfo: state.highlights.replyBeingDeletedInfo,
     successMessage: state.highlights.successMessage,
     videos: state.highlights.videos,
     videosToBeApproved: state.highlights.videosToBeApproved,
