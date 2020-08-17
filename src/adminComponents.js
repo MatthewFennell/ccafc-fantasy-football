@@ -14,7 +14,6 @@ const ManageSubs = lazy(() => import('./admin/managesubs/ManageSubs'));
 const AddNotification = lazy(() => import('./admin/addnotification/AddNotification'));
 const ManageBugs = lazy(() => import('./admin/managebugs/ManageBugs'));
 const TogglePages = lazy(() => import('./admin/togglepages/TogglePages'));
-// eslint-disable-next-line import/no-cycle
 
 export {
     CreateTeam,
