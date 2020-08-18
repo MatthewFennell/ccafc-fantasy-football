@@ -63,7 +63,7 @@ const Desktop = props => {
                     </div>
                     <Pitch
                         // additionalInfo={player => `£${player.price} mil`}
-                        additionalInfo={player => player.team}
+                        additionalInfo={player => `${player.team} (£${player.price} mil)`}
                         activeTeam={props.currentTeam}
                         loading={props.fetchingOriginalTeam}
                         maxInPos={{

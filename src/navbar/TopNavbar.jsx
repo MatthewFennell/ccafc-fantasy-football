@@ -69,8 +69,17 @@ const TopNavbar = props => {
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" className={classes.title}>
-                    CCAFC Fantasy
+                    <div className={props.styles.titleWrapper}>
+                        <div>
+                            CCAFC Fantasy
+                        </div>
+
+                        <div className={props.styles.version}>
+                            {`v${process.env.REACT_APP_VERSION}`}
+                        </div>
+                    </div>
                 </Typography>
+
                 <div>
                     <IconButton
                         aria-label="account of current user"

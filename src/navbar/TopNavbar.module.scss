@@ -1,1 +1,11 @@
 @import "../common/Styles.scss";
+
+.titleWrapper {
+    display: flex;
+}
+
+.version {
+    font-size: $font-size-tiny;
+    @include vertical-center-div();
+    margin-left: $spacing-tiny;
+}
