@@ -88,7 +88,7 @@ export function* rejectedHighlights(api) {
 export function* addCommentToVideo(api, action) {
     try {
         const newHighlight = yield call(api.addComment, ({
-            collection: 'highlights', // TO:DO Replace with constants for database collection names
+            collection: 'highlights',
             collectionId: action.videoId,
             comment: action.comment
         }));
@@ -103,7 +103,7 @@ export function* addCommentToVideo(api, action) {
 export function* addReplyToVideo(api, action) {
     try {
         const newHighlight = yield call(api.addReply, ({
-            collection: 'highlights', // TO:DO Replace with constants for database collection names
+            collection: 'highlights',
             collectionId: action.videoId,
             commentId: action.commentId,
             reply: action.reply
