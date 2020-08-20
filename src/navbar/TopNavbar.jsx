@@ -70,13 +70,7 @@ const TopNavbar = props => {
                 </IconButton>
                 <Typography variant="h6" className={classes.title}>
                     <div className={props.styles.titleWrapper}>
-                        <div>
-                            CCAFC Fantasy
-                        </div>
-
-                        <div className={props.styles.version}>
-                            {`v${process.env.REACT_APP_VERSION}`}
-                        </div>
+                        CCAFC Fantasy
                     </div>
                 </Typography>
 

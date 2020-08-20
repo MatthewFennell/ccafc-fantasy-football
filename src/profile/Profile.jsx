@@ -48,6 +48,7 @@ const Profile = props => {
                     <div>{props.profile.displayName || 'N/A'}</div>
                     <div>{props.profile.teamName || 'N/A'}</div>
                     <div>{props.profile.email || 'N/A'}</div>
+                    <div>{`App Version ${process.env.REACT_APP_VERSION}`}</div>
                 </div>
             </div>
             <div className={props.styles.bodyWrapper}>
