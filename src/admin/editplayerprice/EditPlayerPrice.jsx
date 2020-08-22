@@ -37,6 +37,9 @@ const EditPlayerPrice = props => {
     const nameToPrice = name => fp.get('price')(playersForActiveTeam.find(a => a.value === name));
 
     const editPlayerPrice = useCallback(() => {
+        if (!playerTeam || !playerName || !newPrice) {
+            return;
+        }
         props.editPlayerPriceRequest(nameToId(playerName), newPrice, playerTeam);
         setPlayerName('');
         setPlayerTeam('');
@@ -94,6 +97,7 @@ const EditPlayerPrice = props => {
                             iconColor="primary"
                             type="number"
                             label="Set new price"
+                            onSubmit={editPlayerPrice}
                         />
                     </div>
                 </Fade>

@@ -105,10 +105,16 @@ const Profile = props => {
                         value={email}
                         icon={textInputConstants.textInputIcons.email}
                         iconColor="primary"
+                        onSubmit={deleteAccount}
                     />
                 </div>
                 <div className={props.styles.submitDeleteAccountWrapper}>
-                    <StyledButton color="primary" text="Confirm" onClick={deleteAccount} />
+                    <StyledButton
+                        color="primary"
+                        text="Confirm"
+                        onClick={deleteAccount}
+                        disabled={!email}
+                    />
                 </div>
             </SuccessModal>
         </div>

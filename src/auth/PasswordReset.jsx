@@ -19,6 +19,7 @@ const PasswordReset = props => {
                 onChange={setEmail}
                 value={email}
                 iconColor="secondary"
+                onSubmit={() => props.sendPasswordResetEmail(email)}
             />
             <div className={props.styles.resetPasswordButton}>
                 <LoadingDiv

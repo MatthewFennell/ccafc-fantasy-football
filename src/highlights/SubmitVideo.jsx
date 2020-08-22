@@ -82,6 +82,10 @@ const SubmitVideo = props => {
     }, [setVideoTitle, setExampleOpen]);
 
     const submitVideo = useCallback(() => {
+        if (!videoTitle || !video) {
+            return;
+        }
+
         setExampleOpen(false);
         if (videoTitle.length && video.length > 3) {
             props.submitHighlightRequest(video, videoTitle);
@@ -156,6 +160,7 @@ const SubmitVideo = props => {
                                 value={video}
                                 label="YouTube Video ID"
                                 onBlur={openExample}
+                                onSubmit={submitVideo}
                             />
                             <StyledButton
                                 onClick={submitVideo}

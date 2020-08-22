@@ -21,12 +21,13 @@ const CreateLeague = props => (
                 styles={inputOverrideStyles}
                 type="number"
                 value={props.startWeek.toString()}
+                onSubmit={props.onCreate}
             />
         </div>
         <StyledButton
             color="primary"
             onClick={props.onCreate}
-            text="Create"
+            text="Create League"
             type="submit"
             disabled={!props.leagueName}
         />

@@ -290,6 +290,7 @@ const ApproveHighlights = props => {
                                 label="Reason"
                                 onChange={setReasonToReject}
                                 value={reasonToReject}
+                                onSubmit={confirmFancyModal}
                             />
                         </div>
                     )}

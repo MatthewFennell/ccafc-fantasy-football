@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types';
@@ -43,8 +43,15 @@ const iconMapping = iconColor => ({
 const TextInput = props => {
     const classes = useStyles();
 
+    const { onSubmit } = props;
+
+    const onFormSubmit = useCallback(e => {
+        e.preventDefault();
+        onSubmit();
+    }, [onSubmit]);
+
     return (
-        <form className={classes.root} noValidate autoComplete="off">
+        <form className={classes.root} noValidate autoComplete="off" onSubmit={onFormSubmit}>
             <TextField
                 id="outlined-secondary"
                 label={props.label}
@@ -70,6 +77,7 @@ TextInput.defaultProps = {
     label: '',
     onBlur: noop,
     onChange: noop,
+    onSubmit: noop,
     variant: 'outlined',
     disabled: false,
     type: '',
@@ -83,6 +91,7 @@ TextInput.propTypes = {
     label: PropTypes.string,
     onBlur: PropTypes.func,
     onChange: PropTypes.func,
+    onSubmit: PropTypes.func,
     variant: PropTypes.string,
     type: PropTypes.string,
     disabled: PropTypes.bool,

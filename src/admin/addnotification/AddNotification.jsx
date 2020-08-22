@@ -29,6 +29,7 @@ const AddNotification = props => {
                     onChange={setNotification}
                     icon="message"
                     iconColor="secondary"
+                    onSubmit={confirmNotification}
                 />
             </div>
             <div className={props.styles.confirmNotification}>
