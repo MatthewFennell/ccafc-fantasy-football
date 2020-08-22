@@ -32,6 +32,7 @@ const AddReply = props => {
                 onChange={props.setText}
                 icon={textInputConstants.textInputIcons.face}
                 iconColor="secondary"
+                onSubmit={onSubmitReply}
             />
             <div className={props.styles.replyOptions}>
                 <div

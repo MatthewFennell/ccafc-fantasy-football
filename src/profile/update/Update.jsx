@@ -23,12 +23,13 @@ const Update = props => {
                 value={displayName}
                 icon={props.icon}
                 iconColor="secondary"
+                onSubmit={update}
             />
             <StyledButton
                 color="primary"
                 onClick={update}
                 text={`Update ${props.property}`}
-                disabled={props.loading}
+                disabled={props.loading || !displayName}
             />
             <div className={classNames({
                 [props.styles.hidden]: !props.loading
