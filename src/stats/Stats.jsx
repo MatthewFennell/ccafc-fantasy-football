@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import fp from 'lodash/fp';
 import EditIcon from '@material-ui/icons/Edit';
+import { withRouter } from 'react-router-dom';
 import defaultStyles from './Stats.module.scss';
 import { fetchTeamsRequest } from '../admin/actions';
 import Dropdown from '../common/dropdown/Dropdown';
@@ -183,6 +184,6 @@ const mapStateToProps = (state, props) => ({
     weeksFetched: selectors.getProperty(state, props, 'weeksFetched')
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Stats);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Stats));
 
 export { Stats as StatsUnconnected };

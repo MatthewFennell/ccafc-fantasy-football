@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { noop } from 'lodash';
 import defaultStyles from './LinkAccounts.module.scss';
 import GoogleImage from '../../common/images/google-image.jpg';
@@ -8,7 +9,11 @@ import FacebookImage from '../../common/images/facebook-image.jpg';
 
 const LinkAccounts = props => (
     <div className={props.styles.linkAccountsWrapper}>
-        <div className={props.styles.facebookLinkWrapper}>
+        <div className={classNames({
+            [props.styles.facebookLinkWrapper]: true,
+            [props.styles.clickFacebook]: !props.isSignedInWithFacebook
+        })}
+        >
             <div
                 className={props.styles.facebookLinkMessage}
                 onClick={props.linkProfileToFacebook}
@@ -21,7 +26,11 @@ const LinkAccounts = props => (
                 <img alt="Facebook" className={props.styles.facebookImage} src={FacebookImage} onClick={props.linkProfileToFacebook} />
             </div>
         </div>
-        <div className={props.styles.googleLinkWrapper}>
+        <div className={classNames({
+            [props.styles.googleLinkWrapper]: true,
+            [props.styles.clickGoogle]: !props.isSignedInWithGoogle
+        })}
+        >
             <div
                 className={props.styles.googleLinkMessage}
                 onClick={props.linkProfileToGoogle}
