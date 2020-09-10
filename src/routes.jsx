@@ -189,9 +189,9 @@ export const signedInLinks = [
         canToggle: false
     },
     {
-        title: 'Current Team',
+        title: 'Team',
         icon: <PeopleAltIcon color="primary" />,
-        component: generateLazyComponent(rootComponents.CurrentTeam, 'Current Team'),
+        component: generateLazyComponent(rootComponents.CurrentTeam, 'Team'),
         addUserId: true,
         path: props => `${constants.URL.CURRENT_TEAM}/${fp.get('userId')(props)}`,
         renderPath: `${constants.URL.CURRENT_TEAM}/:userId`,
@@ -279,9 +279,9 @@ export const signedInLinks = [
         canToggle: true
     },
     {
-        title: 'Feature Request',
+        title: 'Features',
         icon: <QuestionAnswerIcon color="primary" />,
-        component: generateLazyComponent(rootComponents.FeatureRequest, 'Feature Request'),
+        component: generateLazyComponent(rootComponents.FeatureRequest, 'Features'),
         addUserId: false,
         path: () => constants.URL.FEATURE_REQUEST,
         renderPath: constants.URL.FEATURE_REQUEST,
