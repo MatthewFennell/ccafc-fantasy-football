@@ -46,34 +46,31 @@ const NewNavbar = props => {
     const continueWithRouting = useCallback(() => {
         redirect(pathToRouteTo);
         setIsUnsavedChangesOpen(false);
-    }, [props, pathToRouteTo]);
+    }, [pathToRouteTo, redirect]);
 
     return (
         <>
             <TopNavbar
                 auth={props.auth}
                 closeNavbar={closeSidebar}
-                currentTeam={props.currentTeam}
                 currentPath={props.history.location.pathname}
                 isSignedIn={props.auth.uid && props.auth.emailVerified}
                 maxGameWeek={props.maxGameWeek}
                 openNavbar={openSidebar}
-                originalTeam={props.originalTeam}
                 redirect={onItemClick}
                 signOut={props.signOut}
                 toggleNavbar={toggleSidebar}
                 userId={props.auth.uid}
+                userPermissions={props.userPermissions}
             />
             <SideNavbar
                 closeNavbar={closeSidebar}
                 currentPath={props.history.location.pathname}
-                currentTeam={props.currentTeam}
                 isOpen={sidebarOpen}
                 isSignedIn={props.auth.uid && props.auth.emailVerified}
                 maxGameWeek={props.maxGameWeek}
-                originalTeam={props.originalTeam}
                 openNavbar={openSidebar}
-                redirect={redirect}
+                redirect={onItemClick}
                 toggleNavbar={toggleSidebar}
                 userId={props.auth.uid}
                 userPermissions={props.userPermissions}
