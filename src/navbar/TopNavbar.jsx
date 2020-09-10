@@ -73,8 +73,6 @@ const TopNavbar = props => {
     const availableAdminRoutes = routes.adminLinks.filter(route => props.userPermissions
         .includes(route.permissionRequired));
 
-    console.log('disabled pages', props.disabledPages);
-
     return (
         <AppBar
             className={props.styles.topNavbar}
