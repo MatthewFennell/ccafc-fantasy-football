@@ -112,4 +112,4 @@ export const LEAGUE_PAGE_BUFFER = 3;
 
 export const APPLICATION_INFO_ID = 'application-info-id';
 
-export const mobileScreenSize = 600;
+export const mobileScreenSize = 800;

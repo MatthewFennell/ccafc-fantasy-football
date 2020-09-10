@@ -43,13 +43,13 @@
     }
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 800px) {
     .defenders, .midfielders, .attackers{
       margin-top: 8%
     }
   }
 
-  @media only screen and (max-height: 600px) {
+  @media only screen and (max-height: 800px) {
     .midfielders, .attackers{
       margin-top: 5%
     }

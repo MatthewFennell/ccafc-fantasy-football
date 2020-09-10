@@ -12,6 +12,10 @@ service cloud.firestore {
     match /feature-requests/{feature} {
       allow read: if request.auth.uid != null;
     }
+
+    match/application-info/{app} {
+    	allow read: if request.auth.uid != null;
+    }
     
     match /application-info/{appInfo} {
       allow read, write: if request.auth.token.ADMIN == true
