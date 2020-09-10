@@ -2,8 +2,8 @@ import React, { useEffect, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Media from 'react-media';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import defaultStyles from './Overview.module.scss';
 import {
@@ -12,7 +12,7 @@ import {
 import * as selectors from './selectors';
 import Spinner from '../common/spinner/Spinner';
 import { generateOverviewRoute } from '../helperFunctions';
-import * as constants from '../constants';
+import * as appConstants from '../constants';
 import RulesAndSettings from './RulesAndSettings';
 import FadingCollapsable from '../common/fadingCollapsable/FadingCollapsable';
 
@@ -57,12 +57,14 @@ const Overview = props => {
     }, [props.currentGameWeek, props.maxGameWeek, props.history, props.userId]);
 
     const onHighestPointClick = useCallback(() => {
-        props.history.push(`${constants.URL.POINTS}/${props.highestPoints.userId}/${props.currentGameWeek}`);
+        props.history.push(`${appConstants.URL.POINTS}/${props.highestPoints.userId}/${props.currentGameWeek}`);
     }, [props.highestPoints.userId, props.currentGameWeek, props.history]);
 
     const onyMyPointsClick = useCallback(() => {
-        props.history.push(`${constants.URL.POINTS}/${props.auth.uid}/${props.currentGameWeek}`);
+        props.history.push(`${appConstants.URL.POINTS}/${props.auth.uid}/${props.currentGameWeek}`);
     }, [props.auth.uid, props.currentGameWeek, props.history]);
+
+    const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
 
     return (
         <div className={props.styles.overviewWrapper}>
@@ -131,8 +133,7 @@ const Overview = props => {
                     <>
                         <div className={props.styles.remainingTransfersWrapper}>
                             <div className={props.styles.remainingTransfersValue}>
-                                {/* {props.remainingTransfers} */}
-                                {'Unlimited'}
+                                Unlimited
                             </div>
                             <div>Remaining Transfers</div>
                         </div>
@@ -145,43 +146,23 @@ const Overview = props => {
                     </>
                 )}
             </div>
-
-            <Media queries={{
-                mobile: '(max-width: 599px)',
-                desktop: '(min-width: 600px)'
-            }}
-            >
-                {matches => (
-                    <div className={props.styles.rulesWrapper}>
-                        <FadingCollapsable
-                            title={(
-                                <div className={props.styles.rulesTitle}>
-                                    Rules and Settings
-                                </div>
-                            )}
-                            isBorderRadiusSmall
-                        >
-                            {matches.mobile && (
-                                <div className={props.styles.desktopRulesWrapper}>
-                                    <div className={props.styles.desktopRulesHeader}>
-                                        Rules and Settings
-                                    </div>
-                                    <RulesAndSettings isTwoColumns />
-                                </div>
-                            )}
-                            {matches.desktop && (
-                                <div className={props.styles.desktopRulesWrapper}>
-                                    <div className={props.styles.desktopRulesHeader}>
-                                        Rules and Settings
-                                    </div>
-                                    <RulesAndSettings />
-                                </div>
-
-                            )}
-                        </FadingCollapsable>
+            <div className={props.styles.rulesWrapper}>
+                <FadingCollapsable
+                    title={(
+                        <div className={props.styles.rulesTitle}>
+                            Rules and Settings
+                        </div>
+                    )}
+                    isBorderRadiusSmall
+                >
+                    <div className={props.styles.desktopRulesWrapper}>
+                        <div className={props.styles.desktopRulesHeader}>
+                            Rules and Settings
+                        </div>
+                        <RulesAndSettings isTwoColumns={isMobile} />
                     </div>
-                )}
-            </Media>
+                </FadingCollapsable>
+            </div>
         </div>
     );
 };

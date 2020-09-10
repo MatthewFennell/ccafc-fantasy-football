@@ -1,9 +1,9 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Media from 'react-media';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { withRouter } from 'react-router-dom';
 import fp from 'lodash/fp';
 import defaultStyles from './Points.module.scss';
@@ -16,6 +16,7 @@ import SuccessModal from '../common/modal/SuccessModal';
 import PointsTable from './PointsTable/PointsTable';
 import { generatePointsRoute } from '../helperFunctions';
 import UserInfo from './UserInfo';
+import * as appConstants from '../constants';
 
 const Points = props => {
     const [playerModalOpen, setPlayerModalOpen] = useState(false);
@@ -51,6 +52,7 @@ const Points = props => {
     }, [setPlayerModalOpen, setPlayerObj]);
 
     const captainId = fp.get('player_id')(props.currentTeam.find(x => x.isCaptain));
+    const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
 
     const pitch = (
         <Pitch
@@ -66,13 +68,13 @@ const Points = props => {
         />
     );
 
-    const arrowSection = isMobile => (
+    const arrowSection = isMobileApp => (
         <div className={props.styles.gameWeekText}>
             <div className={props.styles.arrowBackWrapper}>
                 <ArrowBackIcon
                     color={props.currentGameWeek > 1 ? 'secondary' : 'disabled'}
                     onClick={loadPreviousWeek}
-                    fontSize={isMobile ? 'default' : 'large'}
+                    fontSize={isMobileApp ? 'default' : 'large'}
                 />
             </div>
             <div className={props.styles.gameWeekTextWrapper}>
@@ -82,7 +84,7 @@ const Points = props => {
                 <ArrowForwardIcon
                     color={props.currentGameWeek === props.maxGameWeek ? 'disabled' : 'secondary'}
                     onClick={loadNextWeek}
-                    fontSize={isMobile ? 'default' : 'large'}
+                    fontSize={isMobileApp ? 'default' : 'large'}
                 />
             </div>
         </div>
@@ -90,41 +92,31 @@ const Points = props => {
 
     return (
         <div className={props.styles.pitchWrapper}>
-            <Media queries={{
-                mobile: '(max-width: 599px)',
-                desktop: '(min-width: 600px)'
-            }}
-            >
-                {matches => (
-                    <>
-                        {matches.mobile && (
-                            <>
-                                {arrowSection(true)}
-                                <div className={props.styles.currentTeamWrapper}>
-                                    {pitch}
-                                </div>
-                            </>
-                        )}
-                        {matches.desktop && (
-                            <div className={props.styles.desktopWrapper}>
-                                <div className={props.styles.desktopPitch}>
-                                    {pitch}
-                                </div>
-                                <div className={props.styles.summary}>
-                                    {arrowSection(false)}
-                                    <UserInfo
-                                        displayName={props.displayName}
-                                        fetchingDetails={props.fetchingDetails || props.loading}
-                                        photoUrl={props.photoUrl}
-                                        team={props.currentTeam}
-                                        teamName={props.teamName}
-                                    />
-                                </div>
-                            </div>
-                        )}
-                    </>
-                )}
-            </Media>
+            {isMobile && (
+                <>
+                    {arrowSection(true)}
+                    <div className={props.styles.currentTeamWrapper}>
+                        {pitch}
+                    </div>
+                </>
+            )}
+            {!isMobile && (
+                <div className={props.styles.desktopWrapper}>
+                    <div className={props.styles.desktopPitch}>
+                        {pitch}
+                    </div>
+                    <div className={props.styles.summary}>
+                        {arrowSection(false)}
+                        <UserInfo
+                            displayName={props.displayName}
+                            fetchingDetails={props.fetchingDetails || props.loading}
+                            photoUrl={props.photoUrl}
+                            team={props.currentTeam}
+                            teamName={props.teamName}
+                        />
+                    </div>
+                </div>
+            )}
             <SuccessModal
                 backdrop
                 closeModal={() => setPlayerModalOpen(false)}
