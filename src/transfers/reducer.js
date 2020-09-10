@@ -95,7 +95,7 @@ const transfersReducer = (state = initialState, action) => {
             if (state.originalTeam.some(x => x.id === player.id)) {
                 return fp.set('currentTeam', state.currentTeam.map(x => (x.id !== action.player.id ? x
                     : ({
-                        id: x.id, inactive: true, position: x.position, name: `${action.player.name} (removed)`, price: 0
+                        id: x.id, inactive: true, position: x.position, name: `${action.player.name} (removed)`, price: 0, team: action.player.team
                     }))));
             }
             return fp.set('currentTeam', state.currentTeam.filter(x => x.id !== player.id));

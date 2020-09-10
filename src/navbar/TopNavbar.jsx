@@ -16,7 +16,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import * as routes from '../routes';
-import * as constants from '../constants';
+import * as appConstants from '../constants';
 import defaultStyles from './TopNavbar.module.scss';
 
 const useStyles = makeStyles(theme => ({
@@ -48,7 +48,7 @@ const TopNavbar = props => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-    const isMobile = useMediaQuery(`(max-width:${constants.mobileScreenSize}px)`);
+    const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
 
     const handleMenu = event => {
         setAnchorEl(event.currentTarget);
@@ -147,7 +147,7 @@ const TopNavbar = props => {
                                 {props.auth.emailVerified
                                 && (
                                     <MenuItem onClick={() => redirectOnClick(
-                                        constants.URL.PROFILE
+                                        appConstants.URL.PROFILE
                                     )}
                                     >
                                         My account
@@ -157,17 +157,17 @@ const TopNavbar = props => {
                             </div>
                         ) : (
                             <div>
-                                <MenuItem onClick={() => redirectOnClick(constants.URL.SIGN_IN)}>
+                                <MenuItem onClick={() => redirectOnClick(appConstants.URL.SIGN_IN)}>
                                     Sign in
                                 </MenuItem>
                                 <MenuItem onClick={() => redirectOnClick(
-                                    constants.URL.SIGN_UP
+                                    appConstants.URL.SIGN_UP
                                 )}
                                 >
                                     Sign up
                                 </MenuItem>
                                 <MenuItem onClick={() => redirectOnClick(
-                                    constants.URL.RESET_PASSWORD
+                                    appConstants.URL.RESET_PASSWORD
                                 )}
                                 >
                                     Forgot password?
