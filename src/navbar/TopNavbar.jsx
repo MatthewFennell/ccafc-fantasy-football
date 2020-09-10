@@ -7,9 +7,14 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
+import classNames from 'classnames';
 import Menu from '@material-ui/core/Menu';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import * as routes from '../routes';
 import * as constants from '../constants';
 import defaultStyles from './TopNavbar.module.scss';
 
@@ -26,9 +31,6 @@ const useStyles = makeStyles(theme => ({
         '&:hover': {
             backgroundColor: '#5c6bc0'
         }
-    },
-    title: {
-        flexGrow: 1
     },
     userProfile: {
         '&:focus': {
@@ -60,6 +62,12 @@ const TopNavbar = props => {
         // eslint-disable-next-line
     }, [props.redirect, setAnchorEl, anchorEl]);
 
+    const linksToRender = props.isSignedIn ? routes.signedInLinks : routes.signedOutLinks;
+
+    const onItemClick = useCallback(item => {
+        props.redirect(item.path(props));
+    }, [props]);
+
     return (
         <AppBar
             className={props.styles.topNavbar}
@@ -70,11 +78,28 @@ const TopNavbar = props => {
                 </IconButton>
                 <Typography variant="h6" className={classes.title}>
                     <div className={props.styles.titleWrapper}>
-                        CCAFC Fantasy
+                        CCAFC
                     </div>
                 </Typography>
 
-                <div>
+                <List className={props.styles.navbarRoutes}>
+                    {linksToRender
+                        .map(item => (
+                            <ListItem
+                                button
+                                key={item.title}
+                                onClick={() => onItemClick(item)}
+                                className={classNames({
+                                    [props.styles.activeRoute]: props.currentPath
+                                        .includes(item.urlIncludes)
+                                })}
+                            >
+                                {/* <ListItemIcon>{item.icon}</ListItemIcon> */}
+                                <ListItemText primary={item.title} />
+                            </ListItem>
+                        ))}
+                </List>
+                <div className={props.styles.navbarIcon}>
                     <IconButton
                         aria-label="account of current user"
                         aria-controls="menu-appbar"
@@ -142,6 +167,8 @@ const TopNavbar = props => {
 
 TopNavbar.defaultProps = {
     auth: {},
+    currentPath: '',
+    isSignedIn: false,
     redirect: noop,
     signOut: noop,
     styles: defaultStyles,
@@ -153,6 +180,8 @@ TopNavbar.propTypes = {
         uid: PropTypes.string,
         emailVerified: PropTypes.bool
     }),
+    currentPath: PropTypes.string,
+    isSignedIn: PropTypes.bool,
     redirect: PropTypes.func,
     signOut: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string),
