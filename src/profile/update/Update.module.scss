@@ -6,6 +6,7 @@
   @include light-box-shadow();
   padding: $spacing-small $spacing-large $spacing-small $spacing-large;
   margin: $spacing-medium;
+  border-radius: $spacing-small;
 
   .hidden{
     visibility: hidden;

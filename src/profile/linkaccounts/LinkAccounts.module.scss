@@ -5,23 +5,23 @@
   flex-grow: 1;
 }
 
-.clickGoogle {
+.clickGoogle, .clickFacebook {
   cursor: pointer;
-  .googleLinkMessage:hover{
-    color: $color-light-blue;
-  }
 }
 
-.clickFacebook {
-  cursor: pointer;
-  .facebookLinkMessage:hover{
-    color: $color-light-blue;
-  }
+.clickGoogle:hover {
+  background-color: rgba(144,238,144,0.3)
+}
+
+
+.facebookLinkWrapper:hover{
+  background-color: rgba(173,216,230,0.3)
 }
 
 .googleLinkWrapper, .facebookLinkWrapper{
   display: flex;
   justify-content: center;
+  border-radius: $spacing-small;
   margin: $spacing-medium;
   padding: $spacing-medium;
   @include light-box-shadow();

@@ -4,6 +4,7 @@
     @include light-box-shadow();
     margin: $spacing-medium;
     padding: $spacing-small;
+    border-radius: $spacing-small;
 
     .selectAvatar{
         font-size: $font-size-huge;

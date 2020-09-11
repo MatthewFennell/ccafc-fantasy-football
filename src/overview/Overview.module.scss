@@ -119,6 +119,8 @@
       font-weight: bold;
       text-align: center;
       font-size: $font-size-large;
+      outline: none;
+      cursor: pointer;
     }
   }
 
@@ -128,6 +130,8 @@
     text-align: center;
     padding: $spacing-average;
     font-size: $font-size-large;
+    cursor: pointer;
+    outline: none;
   }
 
   .rulesWrapper {
