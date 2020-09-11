@@ -1,6 +1,8 @@
 @import "../Styles.scss";
 
 .expandedWrapper{
+    cursor: pointer;
+    outline: none;
     display: flex;
     flex-wrap: wrap;
     margin-top: $spacing-tiny;

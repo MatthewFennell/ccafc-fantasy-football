@@ -14,6 +14,8 @@
         font-size: $font-size-large;
         margin-left: auto;
         margin-right: auto;
+        cursor: pointer;
+        outline: none;
 
         .key {
             font-weight: bold;

@@ -12,7 +12,12 @@ const FeatureRequest = props => {
     return (
         <div className={props.styles.featureRequestWrapper}>
             {props.showAuthor && (
-                <div className={props.styles.author}>
+                <div
+                    className={props.styles.author}
+                    onClick={() => props.setIsCollapsableOpen(false)}
+                    role="button"
+                    tabIndex={0}
+                >
                     <div className={props.styles.key}>
                         Author:
                     </div>
@@ -21,7 +26,12 @@ const FeatureRequest = props => {
                     </div>
                 </div>
             )}
-            <div className={props.styles.featureDescription}>
+            <div
+                className={props.styles.featureDescription}
+                onClick={() => props.setIsCollapsableOpen(false)}
+                role="button"
+                tabIndex={0}
+            >
                 <div className={props.styles.key}>
                     Description:
                 </div>
@@ -51,6 +61,7 @@ FeatureRequest.defaultProps = {
     deleteReply: noop,
     details: {},
     isAddingCommentToFeature: false,
+    setIsCollapsableOpen: noop,
     showAuthor: false,
     styles: defaultStyles,
     loggedInUserId: ''
@@ -72,6 +83,7 @@ FeatureRequest.propTypes = {
         userId: PropTypes.string
     }),
     isAddingCommentToFeature: PropTypes.bool,
+    setIsCollapsableOpen: PropTypes.func,
     showAuthor: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),
     loggedInUserId: PropTypes.string

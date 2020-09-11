@@ -11,6 +11,27 @@ import Dropdown from '../common/dropdown/Dropdown';
 import FadingCollapsable from '../common/fadingCollapsable/FadingCollapsable';
 import LoadingDiv from '../common/loadingDiv/LoadingDiv';
 
+const Title = props => (
+    <div
+        onClick={() => props.setIsCollapsableOpen(true)}
+        className={defaultStyles.featureTitle}
+        role="button"
+        tabIndex={0}
+    >
+        {`Feature Request by ${props.displayName}`}
+    </div>
+);
+
+Title.defaultProps = {
+    displayName: '',
+    setIsCollapsableOpen: noop
+};
+
+Title.propTypes = {
+    displayName: PropTypes.string,
+    setIsCollapsableOpen: PropTypes.func
+};
+
 const AllFeatureRequests = props => {
     const [filterBy, setFilterBy] = useState('allTime');
     const [sortBy, setSortBy] = useState('newestFirst');
@@ -91,7 +112,7 @@ const AllFeatureRequests = props => {
                         <FadingCollapsable
                             isSideMargins
                             isBorderRadiusTiny
-                            title={<div className={props.styles.featureTitle}>{`Feature Request by ${x.displayName}`}</div>}
+                            title={<Title displayName={x.displayName} />}
                         >
                             <FeatureRequest
                                 addNewComment={props.addNewComment(x.id)}
