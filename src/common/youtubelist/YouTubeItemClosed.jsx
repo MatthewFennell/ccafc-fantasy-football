@@ -5,7 +5,12 @@ import defaultStyles from './YouTubeItem.module.scss';
 import Voting from './Voting';
 
 const YouTubeItemClosed = props => (
-    <div className={props.styles.closedVideoItemWrapper}>
+    <div
+        className={props.styles.closedVideoItemWrapper}
+        onClick={() => props.setIsCollapsableOpen(true)}
+        role="button"
+        tabIndex={0}
+    >
         <div>{`Title: ${props.title}`}</div>
         <div>{`Author: ${props.author}`}</div>
         <div>{`Created ${props.date}`}</div>
@@ -30,6 +35,7 @@ YouTubeItemClosed.defaultProps = {
     date: '',
     downvoteHighlightRequest: noop,
     isBeingVotedOn: false,
+    setIsCollapsableOpen: noop,
     styles: defaultStyles,
     upvote: noop,
     upvoteHighlightRequest: noop,
@@ -44,6 +50,7 @@ YouTubeItemClosed.propTypes = {
     date: PropTypes.string,
     downvoteHighlightRequest: PropTypes.func,
     isBeingVotedOn: PropTypes.bool,
+    setIsCollapsableOpen: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string),
     upvote: PropTypes.func,
     upvoteHighlightRequest: PropTypes.func,

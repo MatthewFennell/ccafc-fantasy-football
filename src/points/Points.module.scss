@@ -37,6 +37,7 @@
   @include light-box-shadow();
   margin-left: $spacing-medium;
   margin-right: $spacing-medium;
+  border-radius: $spacing-small;
   width: 70%;
 }
 
@@ -44,6 +45,7 @@
   @include light-box-shadow();
   padding: $spacing-medium;
   width: 25%;
+  border-radius: $spacing-small;
   height: fit-content;
 }
 

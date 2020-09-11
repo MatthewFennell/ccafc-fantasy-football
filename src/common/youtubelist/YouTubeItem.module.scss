@@ -38,6 +38,8 @@
 .closedVideoItemWrapper{
   margin-top: $spacing-tiny;
   padding: $spacing-average;
+  cursor: pointer;
+  outline: none;
     > div {
         font-weight: bold;
         margin-left: auto;
