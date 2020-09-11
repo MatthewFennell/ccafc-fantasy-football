@@ -26,13 +26,14 @@ const FadingCollapsable = props => {
             <Fade
                 checked={isOpen}
             >
-                {/* {props.children} */}
-                {React.cloneElement(props.children, { setIsCollapsableOpen: setIsOpen })}
+                {props.children
+                && React.cloneElement(props.children, { setIsCollapsableOpen: setIsOpen })}
             </Fade>
             <Fade
                 checked={!isOpen}
             >
-                {React.cloneElement(props.title, { setIsCollapsableOpen: setIsOpen })}
+                {props.title
+                && React.cloneElement(props.title, { setIsCollapsableOpen: setIsOpen })}
             </Fade>
         </div>
     );
