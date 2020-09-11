@@ -44,11 +44,41 @@ const Profile = props => {
     return (
         <div className={props.styles.profileWrapper}>
             <div className={props.styles.profileHeader}>
-                <div className={props.styles.fields}>
-                    <div>{props.profile.displayName || 'N/A'}</div>
-                    <div>{props.profile.teamName || 'N/A'}</div>
-                    <div>{props.profile.email || 'N/A'}</div>
-                    <div>{`App Version ${process.env.REACT_APP_VERSION}`}</div>
+
+                <div>
+                    <div className={props.styles.key}>
+                        Display Name
+                    </div>
+                    <div>
+                        {props.profile.displayName || 'N/A'}
+                    </div>
+                </div>
+
+                <div>
+                    <div className={props.styles.key}>
+                        Team Name
+                    </div>
+                    <div>
+                        {props.profile.teamName || 'N/A'}
+                    </div>
+                </div>
+
+                <div>
+                    <div className={props.styles.key}>
+                        Email
+                    </div>
+                    <div>
+                        {props.profile.email || 'N/A'}
+                    </div>
+                </div>
+
+                <div>
+                    <div className={props.styles.key}>
+                        App Version
+                    </div>
+                    <div>
+                        {process.env.REACT_APP_VERSION}
+                    </div>
                 </div>
             </div>
             <div className={props.styles.bodyWrapper}>

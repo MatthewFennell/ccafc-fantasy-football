@@ -7,9 +7,24 @@
   margin-right: auto;
 
   .profileHeader{
+    background-color: $color-white;
     font-size: $font-size-huge;
     color: $color-blue;
-    display: inline-block;
+    display: flex;
+    justify-content: space-evenly;
+    margin: $spacing-medium;
+    @include light-box-shadow();
+    padding: $spacing-medium;
+    border-radius: $spacing-small;
+
+    .key {
+      font-weight: bold;
+      color: $color-dark-green;
+      margin-right: $spacing-tiny;
+      font-size: $font-size-medium;
+      @include vertical-center-div();
+      font-size: $font-size-small;
+    }
   }
 
   .modalWrapper{

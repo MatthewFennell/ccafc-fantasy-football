@@ -1,19 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { noop } from 'lodash';
 import defaultStyles from './LoadingDiv.module.scss';
 
 const LoadingDiv = props => (
-    <div className={classNames({
-        [props.styles.wrapper]: true,
-        [props.styles.margin]: props.isMargin,
-        [props.styles.borderRadius]: props.isBorderRadius,
-        [props.styles.fitContent]: props.isFitContent,
-        [props.styles.noPadding]: props.isNoPadding,
-        [props.styles.boxShadow]: props.isBoxShadow,
-        [props.styles.padding]: props.isPadding,
-        [props.styles.whiteBackground]: props.isWhiteBackground
-    })}
+    <div
+        className={classNames({
+            [props.styles.wrapper]: true,
+            [props.styles.margin]: props.isMargin,
+            [props.styles.borderRadius]: props.isBorderRadius,
+            [props.styles.fitContent]: props.isFitContent,
+            [props.styles.noPadding]: props.isNoPadding,
+            [props.styles.boxShadow]: props.isBoxShadow,
+            [props.styles.padding]: props.isPadding,
+            [props.styles.whiteBackground]: props.isWhiteBackground
+        })}
+        onClick={props.onClick}
+        tabIndex={0}
+        role="button"
     >
         <span className={classNames({
             [props.styles.firstSpan]: true,
@@ -59,6 +64,7 @@ LoadingDiv.defaultProps = {
     isPadding: false,
     isRed: false,
     isWhiteBackground: false,
+    onClick: noop,
     styles: defaultStyles
 };
 
@@ -77,6 +83,7 @@ LoadingDiv.propTypes = {
     isPadding: PropTypes.bool,
     isRed: PropTypes.bool,
     isWhiteBackground: PropTypes.bool,
+    onClick: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 

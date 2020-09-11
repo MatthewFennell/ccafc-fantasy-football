@@ -2,6 +2,7 @@ import React, { useEffect, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { noop } from 'lodash';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
@@ -15,6 +16,25 @@ import { generateOverviewRoute } from '../helperFunctions';
 import * as appConstants from '../constants';
 import RulesAndSettings from './RulesAndSettings';
 import FadingCollapsable from '../common/fadingCollapsable/FadingCollapsable';
+
+const RulesAndSettingsTitle = props => (
+    <div
+        className={defaultStyles.rulesTitle}
+        onClick={() => props.setIsCollapsableOpen(true)}
+        tabIndex={0}
+        role="button"
+    >
+        Rules and Settings
+    </div>
+);
+
+RulesAndSettingsTitle.defaultProps = {
+    setIsCollapsableOpen: noop
+};
+
+RulesAndSettingsTitle.propTypes = {
+    setIsCollapsableOpen: PropTypes.func
+};
 
 const Overview = props => {
     useEffect(() => {
@@ -65,6 +85,20 @@ const Overview = props => {
     }, [props.auth.uid, props.currentGameWeek, props.history]);
 
     const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
+
+    const ExpandedRulesAndSettings = newProps => (
+        <div className={props.styles.desktopRulesWrapper}>
+            <div
+                className={props.styles.desktopRulesHeader}
+                onClick={() => newProps.setIsCollapsableOpen(false)}
+                role="button"
+                tabIndex={0}
+            >
+                Rules and Settings
+            </div>
+            <RulesAndSettings isTwoColumns={isMobile} />
+        </div>
+    );
 
     return (
         <div className={props.styles.overviewWrapper}>
@@ -148,19 +182,10 @@ const Overview = props => {
             </div>
             <div className={props.styles.rulesWrapper}>
                 <FadingCollapsable
-                    title={(
-                        <div className={props.styles.rulesTitle}>
-                            Rules and Settings
-                        </div>
-                    )}
+                    title={<RulesAndSettingsTitle />}
                     isBorderRadiusSmall
                 >
-                    <div className={props.styles.desktopRulesWrapper}>
-                        <div className={props.styles.desktopRulesHeader}>
-                            Rules and Settings
-                        </div>
-                        <RulesAndSettings isTwoColumns={isMobile} />
-                    </div>
+                    <ExpandedRulesAndSettings />
                 </FadingCollapsable>
             </div>
         </div>

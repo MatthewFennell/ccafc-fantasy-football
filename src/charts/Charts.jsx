@@ -1,12 +1,34 @@
 import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { noop } from 'lodash';
 import { fetchAllTeamsRequest } from './actions';
 import Graph from './graph/Graph';
 import LeagueTable from './leaguetable/LeagueTable';
 import { fetchFixturesRequest } from '../fixtures/actions';
 import FadingCollapsable from '../common/fadingCollapsable/FadingCollapsable';
 import defaultStyles from './Charts.module.scss';
+
+const Heading = props => (
+    <div
+        className={defaultStyles.titleMessage}
+        onClick={() => props.setIsCollapsableOpen(true)}
+        role="button"
+        tabIndex={0}
+    >
+        {props.titleMessage}
+    </div>
+);
+
+Heading.defaultProps = {
+    setIsCollapsableOpen: noop,
+    titleMessage: ''
+};
+
+Heading.propTypes = {
+    setIsCollapsableOpen: PropTypes.func,
+    titleMessage: PropTypes.string
+};
 
 const Charts = props => {
     useEffect(() => {
@@ -28,9 +50,7 @@ const Charts = props => {
                 isNoPhoneMargin
                 isBorderRadiusTiny
                 title={(
-                    <div className={props.styles.titleMessage}>
-                        Graphs (Click to expand)
-                    </div>
+                    <Heading titleMessage="Graphs (Click to expand)" />
                 )}
             >
                 <Graph
@@ -45,9 +65,7 @@ const Charts = props => {
                     isNoPhoneMargin
                     isBorderRadiusTiny
                     title={(
-                        <div className={props.styles.titleMessage}>
-                            League table (Click to expand)
-                        </div>
+                        <Heading titleMessage="League Table (Click to expand)" />
                     )}
                 >
                     <LeagueTable

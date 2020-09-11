@@ -1,6 +1,8 @@
 @import "../Styles.scss";
 
 .expandedWrapper{
+    cursor: pointer;
+    outline: none;
     display: flex;
     flex-wrap: wrap;
     margin-top: $spacing-tiny;
@@ -38,6 +40,8 @@
 .closedVideoItemWrapper{
   margin-top: $spacing-tiny;
   padding: $spacing-average;
+  cursor: pointer;
+  outline: none;
     > div {
         font-weight: bold;
         margin-left: auto;
