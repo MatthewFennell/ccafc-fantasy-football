@@ -95,9 +95,4 @@ describe('Common - YouTubeList', () => {
         expect(wrapper.find('.videoListWrapper')).toHaveLength(1);
         expect(wrapper.find('.videoWrapper')).toHaveLength(4);
     });
-
-    it('The YouTubeList component renders spinner', () => {
-        const wrapper = mount(<YouTubeList loading />);
-        expect(wrapper.find(Spinner)).toHaveLength(1);
-    });
 });
