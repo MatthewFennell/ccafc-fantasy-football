@@ -1,6 +1,10 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
+import classNames from 'classnames';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import defaultStyles from './AllFeatureRequests.module.scss';
 import FeatureRequest from '../common/featurerequest/FeatureRequest';
 import * as helpers from './helpers';
@@ -10,6 +14,8 @@ import * as textInputConstants from '../common/TextInput/constants';
 import Dropdown from '../common/dropdown/Dropdown';
 import FadingCollapsable from '../common/fadingCollapsable/FadingCollapsable';
 import LoadingDiv from '../common/loadingDiv/LoadingDiv';
+import materialStyles from '../materialStyles';
+import * as appConstants from '../constants';
 
 const Title = props => (
     <div
@@ -36,6 +42,8 @@ const AllFeatureRequests = props => {
     const [filterBy, setFilterBy] = useState('allTime');
     const [sortBy, setSortBy] = useState('newestFirst');
     const [searchFilter, setSearchFilter] = useState('');
+    const classes = makeStyles(materialStyles)();
+    const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
 
     const generateFilteredFeatures = useCallback(() => helpers
         .sortVideos(filterBy, sortBy, props.featureRequests, searchFilter),
@@ -43,7 +51,13 @@ const AllFeatureRequests = props => {
 
     return (
         <div className={props.styles.allFeatureRequests}>
-            <div className={props.styles.featureRequestHeader}>
+            <Paper
+                elevation={4}
+                className={classNames({
+                    [classes.paper]: !isMobile,
+                    [classes.paperMobile]: isMobile
+                })}
+            >
                 <div>
                     <div className={props.styles.infoWrapper}>
                         <div className={props.styles.featureRequestMessage}>
@@ -105,7 +119,7 @@ const AllFeatureRequests = props => {
                         />
                     </div>
                 </div>
-            </div>
+            </Paper>
             <div className={props.styles.featuresWrapper}>
                 {generateFilteredFeatures().map(x => (
                     <div className={props.styles.featureWrapper} key={x.id}>

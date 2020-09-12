@@ -16,10 +16,10 @@ import {
 import * as selectors from './selectors';
 import Spinner from '../common/spinner/Spinner';
 import { generateOverviewRoute } from '../helperFunctions';
-import * as appConstants from '../constants';
 import RulesAndSettings from './RulesAndSettings';
 import FadingCollapsable from '../common/fadingCollapsable/FadingCollapsable';
 import materialStyles from '../materialStyles';
+import * as appConstants from '../constants';
 
 const RulesAndSettingsTitle = props => (
     <div
