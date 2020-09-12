@@ -4,8 +4,11 @@ import { connect } from 'react-redux';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import classNames from 'classnames';
 import { withRouter } from 'react-router-dom';
 import fp from 'lodash/fp';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import defaultStyles from './Points.module.scss';
 import * as selectors from './selectors';
 import { fetchUserPointsForWeekRequest, fetchUserPointsForWeekRequestBackground } from './actions';
@@ -17,10 +20,13 @@ import PointsTable from './PointsTable/PointsTable';
 import { generatePointsRoute } from '../helperFunctions';
 import UserInfo from './UserInfo';
 import * as appConstants from '../constants';
+import materialStyles from '../materialStyles';
 
 const Points = props => {
     const [playerModalOpen, setPlayerModalOpen] = useState(false);
     const [playerObj, setPlayerObj] = useState({});
+    const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
+    const classes = makeStyles(materialStyles)();
 
     useEffect(() => {
         props.fetchUserPointsForWeekRequest(props.userId, props.currentGameWeek);
@@ -52,7 +58,6 @@ const Points = props => {
     }, [setPlayerModalOpen, setPlayerObj]);
 
     const captainId = fp.get('player_id')(props.currentTeam.find(x => x.isCaptain));
-    const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
 
     const pitch = (
         <Pitch
@@ -102,10 +107,22 @@ const Points = props => {
             )}
             {!isMobile && (
                 <div className={props.styles.desktopWrapper}>
-                    <div className={props.styles.desktopPitch}>
+                    <Paper
+                        elevation={4}
+                        className={classNames({
+                            [classes.paper]: !isMobile,
+                            [classes.maxWidth]: true
+                        })}
+                    >
                         {pitch}
-                    </div>
-                    <div className={props.styles.summary}>
+                    </Paper>
+                    <Paper
+                        elevation={4}
+                        className={classNames({
+                            [classes.paper]: !isMobile,
+                            [classes.thirtyWidth]: true
+                        })}
+                    >
                         {arrowSection(false)}
                         <UserInfo
                             displayName={props.displayName}
@@ -114,7 +131,7 @@ const Points = props => {
                             team={props.currentTeam}
                             teamName={props.teamName}
                         />
-                    </div>
+                    </Paper>
                 </div>
             )}
             <SuccessModal

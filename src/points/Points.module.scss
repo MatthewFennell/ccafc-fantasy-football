@@ -29,24 +29,8 @@
 
 .desktopWrapper {
   display: flex;
-  margin-top: $spacing-medium;
   min-height: 100vh;
-}
-
-.desktopPitch {
-  @include light-box-shadow();
-  margin-left: $spacing-medium;
-  margin-right: $spacing-medium;
-  border-radius: $spacing-small;
-  width: 70%;
-}
-
-.summary {
-  @include light-box-shadow();
-  padding: $spacing-medium;
-  width: 25%;
-  border-radius: $spacing-small;
-  height: fit-content;
+  justify-content: center;
 }
 
 .pitchWrapper{
