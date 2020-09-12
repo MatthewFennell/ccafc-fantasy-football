@@ -10,12 +10,12 @@
 }
 
 .clickGoogle:hover {
-  background-color: rgba(144,238,144,0.3)
+  background-color: $color-light-green-hover;
 }
 
 
 .facebookLinkWrapper:hover{
-  background-color: rgba(173,216,230,0.3)
+  background-color: $color-light-blue-hover
 }
 
 .googleLinkWrapper, .facebookLinkWrapper{

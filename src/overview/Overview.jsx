@@ -204,9 +204,8 @@ const Overview = props => {
                 )}
             </Paper>
             <FadingCollapsable
-                desktopClass="paperBigSideMargins"
-                mobileClass="paper"
-
+                desktopClass="paperBigSideMarginsFadingCollapsable"
+                mobileClass="fadingCollapsable"
                 title={<RulesAndSettingsTitle />}
                 isBorderRadiusSmall
             >

@@ -145,7 +145,7 @@ const SubmitVideo = props => {
                 elevation={4}
                 className={classes.paper}
             >
-                {window.innerWidth < widthForSmallColumns && (
+                {true && (
                     <div className={props.styles.backIcon}>
                         <ArrowBackIcon
                             onClick={props.closeSubmitVideo}

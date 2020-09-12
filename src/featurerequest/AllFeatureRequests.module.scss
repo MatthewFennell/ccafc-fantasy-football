@@ -50,6 +50,11 @@
     font-weight: bold;
     cursor: pointer;
     padding: $spacing-small;
+    outline: none;
+}
+
+.featureTitle:hover {
+    background-color: $color-light-blue-hover;
 }
 
 .reportBugsMessage {

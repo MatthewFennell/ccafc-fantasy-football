@@ -9,6 +9,10 @@
     outline: none;
 }
 
+.titleMessage:hover {
+    background-color: $color-light-blue-hover;
+}
+
 .leagueWrapper {
     margin-bottom: $spacing-medium;
 }

@@ -101,6 +101,50 @@ exports.updateDisplayName = functions
         );
     });
 
+// Update highlights display names
+exports.updateHighlightsDisplayNames = functions.region(constants.region).firestore
+    .document('users/{id}')
+    .onWrite(change => {
+        if (!change.after.exists) {
+            return Promise.resolve();
+        }
+        const displayNameBefore = change.before.data().displayName;
+        const displayNameAfter = change.after.data().displayName;
+        const userId = change.after.id;
+
+        if (displayNameBefore === displayNameAfter) {
+            return Promise.resolve();
+        }
+
+        return db.collection('highlights').where('userId', '==', userId).get().then(
+            result => result.docs.forEach(doc => doc.ref.update({
+                displayName: displayNameAfter
+            }))
+        );
+    });
+
+// Update highlights display names
+exports.updateFeatures = functions.region(constants.region).firestore
+    .document('users/{id}')
+    .onWrite(change => {
+        if (!change.after.exists) {
+            return Promise.resolve();
+        }
+        const displayNameBefore = change.before.data().displayName;
+        const displayNameAfter = change.after.data().displayName;
+        const userId = change.after.id;
+
+        if (displayNameBefore === displayNameAfter) {
+            return Promise.resolve();
+        }
+
+        return db.collection('feature-requests').where('userId', '==', userId).get().then(
+            result => result.docs.forEach(doc => doc.ref.update({
+                displayName: displayNameAfter
+            }))
+        );
+    });
+
 // Update cup display name mapping
 exports.updateCupDisplayNameMapping = functions.region(constants.region).firestore
     .document('users/{id}')
