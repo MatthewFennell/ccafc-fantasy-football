@@ -1,15 +1,10 @@
 @import "../../common/Styles.scss";
 
-.approveHighlightsWrapper{
+.highlightInfo{
   color: $color-blue;
   font-size: $font-size-large;
   text-align: center;
   font-weight: bold;
-  padding: $spacing-medium;
-  margin: $spacing-medium;
-  background-color: $color-white;
-  @include light-box-shadow();
-  border-radius: $spacing-tiny;
 }
 
 .highlightsHeaderMessage{

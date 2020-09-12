@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import fp from 'lodash/fp';
 import { withRouter } from 'react-router-dom';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import defaultStyles from './EditPlayer.module.scss';
 import {
     fetchTeamsRequest, fetchPlayersForTeamRequest, fetchPlayerStatsRequest, editPlayerStatsRequest
@@ -13,6 +15,7 @@ import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
 import TextInput from '../../common/TextInput/TextInput';
 import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
+import materialStyles from '../../materialStyles';
 
 const generateWeekOptions = maxGameWeek => {
     const options = [];
@@ -85,6 +88,7 @@ const booleanOptions = [
 ];
 
 const EditPlayer = props => {
+    const classes = makeStyles(materialStyles)();
     const [playerTeam, setPlayerTeam] = useState('');
     const [playerToEdit, setPlayerToEdit] = useState('');
     const [week, setWeek] = useState('');
@@ -334,7 +338,10 @@ const EditPlayer = props => {
 
     return (
         <>
-            <div className={props.styles.findPlayerDropdowns}>
+            <Paper
+                elevation={4}
+                className={classes.paper}
+            >
                 <div className={props.styles.teamDropdown}>
                     <LoadingDiv isPadding isBorderRadius isLoading={props.isFetchingTeams}>
                         <Dropdown
@@ -360,7 +367,7 @@ const EditPlayer = props => {
                         />
                     </LoadingDiv>
                 </div>
-                <div>
+                <div className={props.styles.weekOptions}>
                     <Dropdown
                         value={week}
                         onChange={setWeekToEdit}
@@ -368,8 +375,11 @@ const EditPlayer = props => {
                         title="Week"
                     />
                 </div>
-            </div>
-            <div className={props.styles.oldStatsWrapper}>
+            </Paper>
+            <Paper
+                elevation={4}
+                className={classes.paper}
+            >
                 <Grid
                     columns={columns}
                     rows={rowsToUse}
@@ -386,7 +396,7 @@ const EditPlayer = props => {
                             || props.editingStats}
                     />
                 </div>
-            </div>
+            </Paper>
         </>
     );
 };

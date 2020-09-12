@@ -4,46 +4,55 @@ import { connect } from 'react-redux';
 import _, { noop } from 'lodash';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import * as routes from '../../routes';
 import defaultStyles from './TogglePages.module.scss';
 import Switch from '../../common/Switch/Switch';
 import { editDisabledPageRequest } from '../../auth/actions';
-import * as constants from '../../constants';
 import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
+import materialStyles from '../../materialStyles';
+import * as appConstants from '../../constants';
 
-const getDisabledPages = appInfo => _.get(appInfo, [constants.APPLICATION_INFO_ID, 'disabledPages']) || [];
+const getDisabledPages = appInfo => _.get(appInfo, [appConstants.APPLICATION_INFO_ID, 'disabledPages']) || [];
 
-const TogglePages = props => (
-    <div className={props.styles.togglePagesWrapper}>
-        <div className={props.styles.headerMessage}>
-            These are the active pages
-        </div>
+const TogglePages = props => {
+    const classes = makeStyles(materialStyles)();
+    return (
+        <Paper
+            elevation={4}
+            className={classes.paper}
+        >
+            <div className={props.styles.headerMessage}>
+                These are the active pages
+            </div>
 
-        <div className={props.styles.routesWrapper}>
-            {routes.signedInLinks.map(route => (
-                <LoadingDiv
-                    isLoading={route.title === props.isEditingPage}
-                    isBorderRadius
-                    isRed
-                    key={route.title}
-                >
-                    <div className={props.styles.optionWrapper} key={route.title}>
-                        <div>
-                            {route.title}
+            <div className={props.styles.routesWrapper}>
+                {routes.signedInLinks.map(route => (
+                    <LoadingDiv
+                        isLoading={route.title === props.isEditingPage}
+                        isBorderRadius
+                        isRed
+                        key={route.title}
+                    >
+                        <div className={props.styles.optionWrapper} key={route.title}>
+                            <div>
+                                {route.title}
+                            </div>
+                            <Switch
+                                color="primary"
+                                checked={!props.disabledPages.includes(route.title)}
+                                onChange={() => props.editDisabledPageRequest(route.title,
+                                    !props.disabledPages.includes(route.title))}
+                                disabled={!route.canToggle}
+                            />
                         </div>
-                        <Switch
-                            color="primary"
-                            checked={!props.disabledPages.includes(route.title)}
-                            onChange={() => props.editDisabledPageRequest(route.title,
-                                !props.disabledPages.includes(route.title))}
-                            disabled={!route.canToggle}
-                        />
-                    </div>
-                </LoadingDiv>
-            ))}
-        </div>
-    </div>
-);
+                    </LoadingDiv>
+                ))}
+            </div>
+        </Paper>
+    );
+};
 
 TogglePages.defaultProps = {
     disabledPages: [],

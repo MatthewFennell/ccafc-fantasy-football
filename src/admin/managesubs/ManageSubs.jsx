@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import _ from 'lodash';
+import classNames from 'classnames';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import defaultStyles from './ManageSubs.module.scss';
 import { fetchAllPlayersRequest } from '../../transfers/actions';
 import Grid from '../../common/grid/Grid';
@@ -17,8 +21,12 @@ import * as constants from './constants';
 import TextInput from '../../common/TextInput/TextInput';
 import * as textInputConstants from '../../common/TextInput/constants';
 import { generateCsvTitle } from '../../helperFunctions';
+import materialStyles from '../../materialStyles';
+import * as appConstants from '../../constants';
 
 const ManageSubs = props => {
+    const classes = makeStyles(materialStyles)();
+    const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
     useEffect(() => {
         props.fetchAllPlayersRequest();
         // eslint-disable-next-line
@@ -118,7 +126,13 @@ const ManageSubs = props => {
 
     return (
         <>
-            <div className={props.styles.subsWrapper}>
+            <Paper
+                elevation={4}
+                className={classNames({
+                    [classes.paper]: !isMobile,
+                    [classes.paperMobile]: isMobile
+                })}
+            >
                 <div className={props.styles.subsHeader}>
                     Manage Subs
                 </div>
@@ -176,7 +190,7 @@ const ManageSubs = props => {
                         disabled={!differences.length}
                     />
                 </div>
-            </div>
+            </Paper>
             <CSVLink
                 data={generateCsvData()}
                 filename={generateCsvTitle('Subs')}

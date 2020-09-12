@@ -2,8 +2,11 @@ import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import defaultStyles from './CreatePlayer.module.scss';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import Dropdown from '../../common/dropdown/Dropdown';
+import defaultStyles from './CreatePlayer.module.scss';
 import {
     createPlayerRequest, fetchTeamsRequest
 } from '../actions';
@@ -11,6 +14,8 @@ import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
 import TextInput from '../../common/TextInput/TextInput';
 import * as textInputConstants from '../../common/TextInput/constants';
+import materialStyles from '../../materialStyles';
+import * as appConstants from '../../constants';
 
 const options = [
     { value: 'GOALKEEPER', text: 'Goalkeeper', id: 'GOALKEEPER' },
@@ -20,6 +25,8 @@ const options = [
 ];
 
 const CreatePlayer = props => {
+    const classes = makeStyles(materialStyles)();
+    const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
     const [playerName, setPlayerName] = useState('');
     const [playerPrice, setPlayerPrice] = useState('');
     const [playerPosition, setPlayerPosition] = useState('');
@@ -39,55 +46,59 @@ const CreatePlayer = props => {
         props.createPlayerRequest, previousScore]);
 
     return (
-        <>
-            <div className={props.styles.createPlayerWrapper}>
-                <div className={props.styles.createPlayerHeader}>
-                    <StyledButton
-                        color="primary"
-                        onClick={createPlayer}
-                        text="Create Player"
-                        disabled={!playerName
+        <Paper
+            elevation={4}
+            className={classNames({
+                [classes.paper]: !isMobile,
+                [classes.paperMobile]: isMobile
+            })}
+        >
+            <div className={props.styles.createPlayerHeader}>
+                <StyledButton
+                    color="primary"
+                    onClick={createPlayer}
+                    text="Create Player"
+                    disabled={!playerName
                             || !playerPosition
                             || !playerTeam
                             || (!playerPrice && playerPrice !== 0) || props.creatingPlayer}
-                    />
-                </div>
-                <div className={props.styles.createPlayerForm}>
+                />
+            </div>
+            <div className={props.styles.createPlayerForm}>
+                <TextInput
+                    label="Name"
+                    onChange={setPlayerName}
+                    value={playerName}
+                    icon={textInputConstants.textInputIcons.user}
+                    iconColor="primary"
+                />
+                <TextInput
+                    label="Price"
+                    onChange={setPlayerPrice}
+                    type="number"
+                    value={playerPrice}
+                    icon={textInputConstants.textInputIcons.money}
+                    iconColor="primary"
+                />
+                <div className={props.styles.createPlayerDropdowns}>
+                    <Dropdown value={playerPosition} onChange={setPlayerPosition} options={options} title="Position" />
+                    <Dropdown value={playerTeam} onChange={setPlayerTeam} options={props.allTeams} title="Team" />
                     <TextInput
-                        label="Name"
-                        onChange={setPlayerName}
-                        value={playerName}
-                        icon={textInputConstants.textInputIcons.user}
-                        iconColor="primary"
-                    />
-                    <TextInput
-                        label="Price"
-                        onChange={setPlayerPrice}
+                        label="Previous Score"
+                        onChange={setPreviousScore}
                         type="number"
-                        value={playerPrice}
-                        icon={textInputConstants.textInputIcons.money}
-                        iconColor="primary"
+                        value={previousScore.toString()}
                     />
-                    <div className={props.styles.createPlayerDropdowns}>
-                        <Dropdown value={playerPosition} onChange={setPlayerPosition} options={options} title="Position" />
-                        <Dropdown value={playerTeam} onChange={setPlayerTeam} options={props.allTeams} title="Team" />
-                        <TextInput
-                            label="Previous Score"
-                            onChange={setPreviousScore}
-                            type="number"
-                            value={previousScore.toString()}
-                        />
-                    </div>
-                </div>
-
-                <div className={classNames({
-                    [props.styles.hidden]: !props.creatingPlayer
-                })}
-                >
-                    <Spinner color="secondary" />
                 </div>
             </div>
-        </>
+
+            <div className={classNames({
+                [props.styles.hidden]: !props.creatingPlayer
+            })}
+            >
+                <Spinner color="secondary" />
+            </div>
+        </Paper>
     );
 };
 
