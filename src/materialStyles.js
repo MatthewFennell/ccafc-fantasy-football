@@ -18,5 +18,11 @@ export default theme => ({
         margin: theme.spacing(1),
         marginTop: theme.spacing(3),
         marginBottom: theme.spacing(3)
+    },
+    thirtyWidth: {
+        width: '30%'
+    },
+    maxWidth: {
+        width: '100%'
     }
 });
