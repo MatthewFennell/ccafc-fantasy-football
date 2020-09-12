@@ -2,6 +2,10 @@ import React, { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import classNames from 'classnames';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import defaultStyles from './styles/Leagues.module.scss';
 import {
     fetchLeaguesRequest, createLeagueRequest,
@@ -9,12 +13,13 @@ import {
 } from './actions';
 import * as selectors from './selectors';
 import Grid from '../common/grid/Grid';
-import * as constants from '../constants';
+import * as appConstants from '../constants';
 import StyledButton from '../common/StyledButton/StyledButton';
 import CreateLeagueForm from './CreateLeagueForm';
 import JoinLeagueForm from './JoinLeagueForm';
 import Spinner from '../common/spinner/Spinner';
 import SuccessModal from '../common/modal/SuccessModal';
+import materialStyles from '../materialStyles';
 
 const columns = [
     {
@@ -30,6 +35,8 @@ const columns = [
 ];
 
 const Leagues = props => {
+    const classes = makeStyles(materialStyles)();
+    const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
     const [createLeagueOpen, setCreateLeagueOpen] = useState(false);
     const [leagueName, setLeagueName] = useState('');
     const [startWeek, setStartWeek] = useState(0);
@@ -68,12 +75,18 @@ const Leagues = props => {
     }, [props.fetchLeaguesRequest]);
 
     const onRowClick = useCallback(row => {
-        props.history.push(`${constants.URL.LEAGUES}/${row.leagueId}`);
+        props.history.push(`${appConstants.URL.LEAGUES}/${row.leagueId}`);
     }, [props.history]);
 
     return (
         <>
-            <div className={props.styles.leaguesWrapper}>
+            <Paper
+                elevation={4}
+                className={classNames({
+                    [classes.paperNoPadding]: !isMobile,
+                    [classes.paperSmallMargin]: isMobile
+                })}
+            >
                 <div className={props.styles.myLeaguesTable}>
                     <Grid
                         columns={columns}
@@ -97,7 +110,7 @@ const Leagues = props => {
                         disabled={props.creatingLeague || props.joiningLeague}
                     />
                 </div>
-            </div>
+            </Paper>
 
             <SuccessModal
                 backdrop

@@ -17,15 +17,6 @@ const FadingCollapsable = props => {
     const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
 
     return (
-        // <div className={classNames({
-        //     [props.styles.collapsableWrapper]: true,
-        //     [props.styles.sideMargins]: props.isSideMargins,
-        //     [props.styles.bigSideMargins]: props.isBigSideMargins,
-        //     [props.styles.noPhoneMargin]: props.isNoPhoneMargin,
-        //     [props.styles.borderRadiusSmall]: props.isBorderRadiusSmall,
-        //     [props.styles.borderRadiusTiny]: props.isBorderRadiusTiny
-        // })}
-        // >
         <Paper
             elevation={4}
             className={classNames({
@@ -60,11 +51,6 @@ const FadingCollapsable = props => {
 
 FadingCollapsable.defaultProps = {
     children: null,
-    isBigSideMargins: false,
-    isBorderRadiusSmall: false,
-    isBorderRadiusTiny: false,
-    isNoPhoneMargin: false,
-    isSideMargins: false,
     styles: defaultStyles,
     title: null
 };
@@ -74,11 +60,6 @@ FadingCollapsable.propTypes = {
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node
     ]),
-    isBigSideMargins: PropTypes.bool,
-    isBorderRadiusSmall: PropTypes.bool,
-    isBorderRadiusTiny: PropTypes.bool,
-    isNoPhoneMargin: PropTypes.bool,
-    isSideMargins: PropTypes.bool,
     styles: PropTypes.objectOf(PropTypes.string),
     title: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
