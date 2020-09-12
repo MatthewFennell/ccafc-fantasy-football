@@ -5,7 +5,6 @@
     outline: none;
     display: flex;
     flex-wrap: wrap;
-    margin-top: $spacing-tiny;
     > div {
       flex-grow: 1;
     }
@@ -37,8 +36,7 @@
     padding: 0px $spacing-medium $spacing-average $spacing-medium;
   }
 
-.closedVideoItemWrapper{
-  margin-top: $spacing-tiny;
+.closedVideoItemWrapper {
   padding: $spacing-average;
   cursor: pointer;
   outline: none;
@@ -49,6 +47,10 @@
         outline-width: 0px;
         text-align: center;
     }
+}
+
+.closedVideoItemWrapper:hover {
+  background-color: $color-light-blue-hover;
 }
 
 .commentsWrapper{

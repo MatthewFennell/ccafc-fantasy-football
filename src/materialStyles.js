@@ -4,10 +4,16 @@ export default theme => ({
         padding: '30px'
     },
     paperBigSideMargins: {
+        padding: '30px',
+        margin: theme.spacing(4),
+        marginLeft: theme.spacing(16),
+        marginRight: theme.spacing(16)
+    },
+    paperBigSideMarginsFadingCollapsable: {
         margin: theme.spacing(4),
         marginLeft: theme.spacing(16),
         marginRight: theme.spacing(16),
-        padding: '30px'
+        position: 'relative'
     },
     paperMobile: {
         margin: theme.spacing(1),

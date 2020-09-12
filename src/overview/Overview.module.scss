@@ -47,6 +47,7 @@
       .highestPointsWrapper, .yourPointsWrapper {
         border-radius: $spacing-medium;
         cursor: pointer;
+        outline: none;
       }
       .highestPointsWrapper:hover, .yourPointsWrapper:hover {
         background-color: $color-very-very-light-blue;
@@ -104,6 +105,10 @@
     font-size: $font-size-large;
     cursor: pointer;
     outline: none;
+  }
+
+  .rulesTitle:hover {
+    background-color: $color-light-blue-hover;
   }
 
   .rulesWrapper {
