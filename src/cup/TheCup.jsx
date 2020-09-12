@@ -2,15 +2,24 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import fp from 'lodash/fp';
 import PropTypes from 'prop-types';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
 import { fetchCupRequest } from './actions';
 import defaultStyles from './TheCup.module.scss';
 import WeekInfo, { getName } from './WeekInfo';
 import Spinner from '../common/spinner/Spinner';
+import * as appConstants from '../constants';
+import materialStyles from '../materialStyles';
 
 const TheCup = props => {
     const {
         displayNameMappings, hasFinished, winner, ...rest
     } = props.cup;
+
+    const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
+    const classes = makeStyles(materialStyles)();
 
     useEffect(() => {
         props.fetchCupRequest();
@@ -20,7 +29,13 @@ const TheCup = props => {
     return (
         <>
             <div className={props.styles.cupWrapper}>
-                <div className={props.styles.cupDescription}>
+                <Paper
+                    elevation={4}
+                    className={classNames({
+                        [classes.paper]: !isMobile,
+                        [classes.paperMobile]: isMobile
+                    })}
+                >
                     <div className={props.styles.cupHeader}>
                         The Cup
                     </div>
@@ -47,7 +62,7 @@ const TheCup = props => {
                             </div>
                         )}
                     </div>
-                </div>
+                </Paper>
                 {props.isFetchingCup && (
                     <div className={props.styles.loadingSpinner}>
                         <Spinner color="secondary" />
