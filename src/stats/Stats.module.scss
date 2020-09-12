@@ -1,16 +1,6 @@
 @import "../common/Styles.scss";
 
 .statsWrapper{
-  margin: $spacing-average;
-  .statsHeader{
-    color: $color-black;
-    padding: $spacing-average;
-    display: flex;
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: $color-white;
-    
     .dropdownWrapper{
       justify-content: center;
       width: 100%;
@@ -27,10 +17,11 @@
       display: flex;
       @include vertical-center-div();
       cursor: pointer;
-
-      .editFilter{
-        margin-left: auto;
+      margin-top: $spacing-average;
+      :nth-child(2) {
+        margin-left: $spacing-tiny;
       }
+
     }
     .editFiltersWrapper:focus{
       outline: 0px;
@@ -41,7 +32,6 @@
         color: $color-dark-blue;
       }
     }
-  }
 }
 
 .statsMessage {

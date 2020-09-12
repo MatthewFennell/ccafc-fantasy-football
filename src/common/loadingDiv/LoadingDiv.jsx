@@ -14,7 +14,8 @@ const LoadingDiv = props => (
             [props.styles.noPadding]: props.isNoPadding,
             [props.styles.boxShadow]: props.isBoxShadow,
             [props.styles.padding]: props.isPadding,
-            [props.styles.whiteBackground]: props.isWhiteBackground
+            [props.styles.whiteBackground]: props.isWhiteBackground,
+            [props.styles.paperMargin]: props.isPaperMargin
         })}
         onClick={props.onClick}
         tabIndex={0}
@@ -62,6 +63,7 @@ LoadingDiv.defaultProps = {
     isMargin: false,
     isNoPadding: false,
     isPadding: false,
+    isPaperMargin: false,
     isRed: false,
     isWhiteBackground: false,
     onClick: noop,
@@ -81,6 +83,7 @@ LoadingDiv.propTypes = {
     isMargin: PropTypes.bool,
     isNoPadding: PropTypes.bool,
     isPadding: PropTypes.bool,
+    isPaperMargin: PropTypes.bool,
     isRed: PropTypes.bool,
     isWhiteBackground: PropTypes.bool,
     onClick: PropTypes.func,

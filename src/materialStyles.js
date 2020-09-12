@@ -13,6 +13,9 @@ export default theme => ({
         margin: theme.spacing(2),
         padding: '30px'
     },
+    paperNoMargin: {
+        padding: '30px'
+    },
     fadingCollapsable: {
         position: 'relative',
         margin: theme.spacing(4)
