@@ -207,9 +207,18 @@ const ApproveHighlights = props => {
             )}
 
             {props.highlightsForApproval.length === 0 && !props.loadingHighlightsForApproval && (
-                <div className={props.styles.noHighlights}>
-                    No highlights waiting to be approved
-                </div>
+                <Paper
+                    elevation={4}
+                    className={classNames({
+                        [classes.paper]: !isMobile,
+                        [classes.paperMobile]: isMobile
+                    })}
+                >
+                    <div className={props.styles.noHighlights}>
+
+                        No highlights waiting to be approved
+                    </div>
+                </Paper>
             )}
 
             <Paper

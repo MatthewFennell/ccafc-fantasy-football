@@ -3,6 +3,12 @@ export default theme => ({
         margin: theme.spacing(4),
         padding: '30px'
     },
+    paperBigSideMargins: {
+        margin: theme.spacing(4),
+        marginLeft: theme.spacing(16),
+        marginRight: theme.spacing(16),
+        padding: '30px'
+    },
     paperMobile: {
         margin: theme.spacing(1),
         marginTop: theme.spacing(3),

@@ -1,13 +1,5 @@
 @import "../../common//Styles.scss";
 
-.togglePagesWrapper {
-    @include light-box-shadow();
-    background-color: $color-white;
-    margin: $spacing-medium;
-    padding: $spacing-medium;
-    border-radius: $spacing-tiny;
-}
-
 .headerMessage {
     font-size: $font-size-large;
     color: $color-green;

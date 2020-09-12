@@ -6,14 +6,6 @@
   justify-content: center;
 }
 
-.summary {
-  @include light-box-shadow();
-  padding: $spacing-medium;
-  width: 25%;
-  height: fit-content;
-  border-radius: $spacing-small;
-}
-
 .pitchWrapper{
   right: 0px;
   overflow-x: hidden;
@@ -27,19 +19,9 @@
   margin-left: auto;;
   margin-right: auto;;
   width: 70%;
-
-  .pitchBackground{
-    padding: $spacing-average;
-    justify-content: center;
-    
-    text-align: center;
-    background-image: url("../common//images/CCAFC.png");
-    background-size: 100% 100%;
-  }
 }
 
 @media only screen and (max-width: 800px) {
-
   .pitchWrapper {
     right: 0;
     position: absolute;

@@ -3,13 +3,17 @@ import React, { useCallback } from 'react';
 import firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { connect } from 'react-redux';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import defaultStyles from './SignIn.module.scss';
 import * as constants from '../constants';
+import materialStyles from '../materialStyles';
 
 const SignIn = props => {
+    const classes = makeStyles(materialStyles)();
     const uiConfig = {
         signInFlow: 'popup',
         signInOptions: [
@@ -26,27 +30,28 @@ const SignIn = props => {
     }, [props.history]);
 
     return (
-        <div className={props.styles.signInWrapper}>
-            <div className={props.styles.shadowWrapper}>
-                <div className={props.styles.signInMessage}>
-                    Sign In
-                </div>
-                <div className={props.styles.passwordWrapper}>
-                    <div
-                        className={props.styles.forgotPasswordLink}
-                        role="button"
-                        tabIndex={0}
-                        onClick={redirectToPasswordReset}
-                    >
-                        Forgot your password?
-                    </div>
-                </div>
-                <StyledFirebaseAuth
-                    uiConfig={uiConfig}
-                    firebaseAuth={firebase.auth()}
-                />
+        <Paper
+            elevation={4}
+            className={classes.paper}
+        >
+            <div className={props.styles.signInMessage}>
+                Sign In
             </div>
-        </div>
+            <div className={props.styles.passwordWrapper}>
+                <div
+                    className={props.styles.forgotPasswordLink}
+                    role="button"
+                    tabIndex={0}
+                    onClick={redirectToPasswordReset}
+                >
+                    Forgot your password?
+                </div>
+            </div>
+            <StyledFirebaseAuth
+                uiConfig={uiConfig}
+                firebaseAuth={firebase.auth()}
+            />
+        </Paper>
     );
 };
 

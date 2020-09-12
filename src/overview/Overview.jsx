@@ -2,9 +2,9 @@ import React, { useEffect, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import { noop } from 'lodash';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import classNames from 'classnames';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
@@ -110,8 +110,8 @@ const Overview = props => {
             <Paper
                 elevation={4}
                 className={classNames({
-                    [classes.paper]: !isMobile,
-                    [classes.paperMobile]: isMobile
+                    [classes.paperBigSideMargins]: !isMobile,
+                    [classes.paper]: isMobile
                 })}
             >
                 <div className={props.styles.totalPointsWrapper}>
@@ -129,8 +129,8 @@ const Overview = props => {
             <Paper
                 elevation={4}
                 className={classNames({
-                    [classes.paper]: !isMobile,
-                    [classes.paperMobile]: isMobile
+                    [classes.paperBigSideMargins]: !isMobile,
+                    [classes.paper]: isMobile
                 })}
             >
                 {props.fetchingUserInfo ? <Spinner color="secondary" /> : (
@@ -182,8 +182,8 @@ const Overview = props => {
             <Paper
                 elevation={4}
                 className={classNames({
-                    [classes.paper]: !isMobile,
-                    [classes.paperMobile]: isMobile
+                    [classes.paperBigSideMargins]: !isMobile,
+                    [classes.paper]: isMobile
                 })}
             >
                 {props.fetchingUserStats ? <Spinner color="secondary" /> : (
@@ -203,14 +203,15 @@ const Overview = props => {
                     </div>
                 )}
             </Paper>
-            <div className={props.styles.rulesWrapper}>
-                <FadingCollapsable
-                    title={<RulesAndSettingsTitle />}
-                    isBorderRadiusSmall
-                >
-                    <ExpandedRulesAndSettings />
-                </FadingCollapsable>
-            </div>
+            <FadingCollapsable
+                desktopClass="paperBigSideMargins"
+                mobileClass="paper"
+
+                title={<RulesAndSettingsTitle />}
+                isBorderRadiusSmall
+            >
+                <ExpandedRulesAndSettings />
+            </FadingCollapsable>
         </div>
     );
 };

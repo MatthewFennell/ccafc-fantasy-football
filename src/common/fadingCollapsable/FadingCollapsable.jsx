@@ -20,8 +20,10 @@ const FadingCollapsable = props => {
         <Paper
             elevation={4}
             className={classNames({
-                [classes.fadingCollapsable]: !isMobile,
-                [classes.fadingCollapsableMobile]: isMobile
+                [classes.fadingCollapsable]: !isMobile && !props.desktopClass,
+                [classes.fadingCollapsableMobile]: isMobile && !props.mobileClass,
+                [classes[props.desktopClass]]: props.desktopClass && !isMobile,
+                [classes[props.mobileClass]]: props.mobileClass && isMobile
             })}
         >
             <div
@@ -51,6 +53,8 @@ const FadingCollapsable = props => {
 
 FadingCollapsable.defaultProps = {
     children: null,
+    desktopClass: '',
+    mobileClass: '',
     styles: defaultStyles,
     title: null
 };
@@ -60,6 +64,8 @@ FadingCollapsable.propTypes = {
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node
     ]),
+    desktopClass: PropTypes.string,
+    mobileClass: PropTypes.string,
     styles: PropTypes.objectOf(PropTypes.string),
     title: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
