@@ -196,7 +196,7 @@ const Overview = props => {
                         </div>
                         <div className={props.styles.remainingBudgetWrapper}>
                             <div className={props.styles.remainingBudgetValue}>
-                                {`£${props.remainingBudget}m`}
+                                {`£${((props.remainingBudget || 0).toFixed(1))}m`}
                             </div>
                             <div>Remaining Budget</div>
                         </div>
