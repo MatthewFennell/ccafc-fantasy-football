@@ -1,10 +1,10 @@
 @import "../Styles.scss";
 
-.collapsableWrapper {
-    position: relative;
-    @include light-box-shadow();
-    margin-top: $spacing-average;
-}
+// .collapsableWrapper {
+//     position: relative;
+//     @include light-box-shadow();
+//     margin-top: $spacing-average;
+// }
 
 .sideMargins {
     margin-left: $spacing-small;
@@ -24,10 +24,10 @@
     border-radius: $spacing-tiny;
 }
 
-.icon {
+.iconWrapper {
+    cursor: pointer;
     position: absolute;
     right: $spacing-tiny;
-    cursor: pointer;
 }
 
 @media only screen and (max-width: 800px) {

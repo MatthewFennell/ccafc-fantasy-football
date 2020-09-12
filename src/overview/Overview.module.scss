@@ -3,39 +3,23 @@
 .overviewWrapper {
   margin-left: 10%;
   margin-right: 10%;
-
-  .pointsWrapper {
-    padding-bottom: $spacing-medium;
-    background-color: $color-white;
-    text-align: center;
-    color: $color-white;
-    padding-top: $spacing-medium;
-    margin-top: $spacing-medium;
-    @include light-box-shadow();
-    border-radius: $spacing-small;
-
-    .totalPointsWrapper {
-      justify-content: center;
-
-      .totalPointsText{
-        @include vertical-center-div();
-        font-size: $font-size-small;
-        color: $color-gray;
-      }
-      .totalPointsValue {
-        font-size: $font-size-gigantic;
-        color: $color-blue;
-      }
-    }    
-  }
-
-  .gameweekPointsWrapper {
-    border-radius: $spacing-small;
-    margin-top: $spacing-huge;
-    padding: $spacing-average;
+  text-align: center;
+  .totalPointsWrapper {
     justify-content: center;
-    @include light-box-shadow();
-    background-color: $color-white;
+
+    .totalPointsText{
+      @include vertical-center-div();
+      font-size: $font-size-small;
+      color: $color-gray;
+    }
+    .totalPointsValue {
+      font-size: $font-size-gigantic;
+      color: $color-blue;
+    }
+  }    
+
+    border-radius: $spacing-small;
+    justify-content: center;
     text-align: center;
 
     .gameWeekText{
@@ -77,16 +61,9 @@
         color: $color-blue;
       }
     }
-  }
 
   .userInfoWrapper {
-    border-radius: $spacing-small;
-    margin-top: $spacing-huge;
-    margin-bottom: $spacing-huge;
-    padding: $spacing-average;
     justify-content: center;
-    @include light-box-shadow();
-    background-color: $color-white;
     text-align: center;
     display: flex;
     color: $color-gray;
@@ -108,11 +85,8 @@
   }
 
   .desktopRulesWrapper {
-    border-radius: $spacing-small;
     padding: $spacing-average;
     justify-content: center;
-    @include light-box-shadow();
-    background-color: $color-white;
 
     .desktopRulesHeader {     
       color: $color-green;
