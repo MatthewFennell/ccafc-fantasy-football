@@ -4,12 +4,16 @@ import firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import { noop } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import defaultStyles from './SignUp.module.scss';
 import * as constants from '../constants';
+import materialStyles from '../materialStyles';
 
 const SignUp = props => {
+    const classes = makeStyles(materialStyles)();
     const uiConfig = {
         signInFlow: 'popup',
         signInOptions: [
@@ -26,27 +30,28 @@ const SignUp = props => {
     }, [props.history]);
 
     return (
-        <div className={props.styles.signUpWrapper}>
-            <div className={props.styles.shadowWrapper}>
-                <div className={props.styles.signUpMessage}>
-                    Sign up
-                </div>
-                <div className={props.styles.privacyPolicyWrapper}>
-                    <div
-                        className={props.styles.privacyPolicy}
-                        role="button"
-                        tabIndex={0}
-                        onClick={redirectToPrivacyPolicy}
-                    >
-                        See our Privacy Policy
-                    </div>
-                </div>
-                <StyledFirebaseAuth
-                    uiConfig={uiConfig}
-                    firebaseAuth={firebase.auth()}
-                />
+        <Paper
+            elevation={4}
+            className={classes.paper}
+        >
+            <div className={props.styles.signUpMessage}>
+                Sign up
             </div>
-        </div>
+            <div className={props.styles.privacyPolicyWrapper}>
+                <div
+                    className={props.styles.privacyPolicy}
+                    role="button"
+                    tabIndex={0}
+                    onClick={redirectToPrivacyPolicy}
+                >
+                    See our Privacy Policy
+                </div>
+            </div>
+            <StyledFirebaseAuth
+                uiConfig={uiConfig}
+                firebaseAuth={firebase.auth()}
+            />
+        </Paper>
     );
 };
 

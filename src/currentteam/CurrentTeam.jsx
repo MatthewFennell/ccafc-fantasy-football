@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import classNames from 'classnames';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import { fetchFixturesRequest } from '../fixtures/actions';
 import defaultStyles from './CurrentTeam.module.scss';
 import * as selectors from './selectors';
@@ -19,8 +22,12 @@ import SuccessModal from '../common/modal/SuccessModal';
 import Summary from './components/Summary';
 import NextMatch from './components/NextMatch';
 import * as appConstants from '../constants';
+import materialStyles from '../materialStyles';
 
 const CurrentTeam = props => {
+    const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
+    const classes = makeStyles(materialStyles)();
+
     useEffect(() => {
         props.fetchActiveTeamRequest(props.userId);
         // eslint-disable-next-line
@@ -61,8 +68,6 @@ const CurrentTeam = props => {
         // eslint-disable-next-line
     }, [setModalPlayer, props.makeCaptainRequest, modalPlayer.id]);
 
-    const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
-
     return (
         <div className={props.styles.pitchWrapper}>
             {isMobile && (
@@ -82,7 +87,13 @@ const CurrentTeam = props => {
             )}
             {!isMobile && (
                 <div className={props.styles.desktopWrapper}>
-                    <div className={props.styles.desktopPitch}>
+                    <Paper
+                        elevation={4}
+                        className={classNames({
+                            [classes.paper]: true,
+                            [classes.maxWidth]: true
+                        })}
+                    >
                         <Pitch
                             additionalInfo={player => player.team}
                             activeTeam={props.activeTeam}
@@ -94,8 +105,14 @@ const CurrentTeam = props => {
                             renderEmptyPlayers
                             showCaptain
                         />
-                    </div>
-                    <div className={props.styles.summary}>
+                    </Paper>
+                    <Paper
+                        elevation={4}
+                        className={classNames({
+                            [classes.paper]: true,
+                            [classes.thirtyWidth]: true
+                        })}
+                    >
                         <Summary
                             captain={props.captain}
                             captainToUpdate={props.captainToUpdate}
@@ -112,7 +129,7 @@ const CurrentTeam = props => {
                             loadingFixtures={props.loadingFixtures}
                             players={props.activeTeam}
                         />
-                    </div>
+                    </Paper>
 
                 </div>
             )}

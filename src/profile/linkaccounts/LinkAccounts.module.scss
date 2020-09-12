@@ -19,12 +19,9 @@
 }
 
 .googleLinkWrapper, .facebookLinkWrapper{
+  padding: $spacing-medium;
   display: flex;
   justify-content: center;
-  border-radius: $spacing-small;
-  margin: $spacing-medium;
-  padding: $spacing-medium;
-  @include light-box-shadow();
   .googleLinkMessage, .facebookLinkMessage{
     @include vertical-center-div();
     margin-right: $spacing-medium;

@@ -1,36 +1,24 @@
 @import "../../common//Styles.scss";
 
-.createTeamWrapper{
+.createTeamHeader{
   text-align: center;
-  margin: $spacing-huge;
-  width: 80%;
+  font-size: $font-size-gigantic;
+  color: $color-dark-gray;    
+}
+.createTeamForm{
   margin-left: auto;
   margin-right: auto;
-  padding-top: $spacing-medium;
-  padding-bottom: $spacing-medium;
-  background-color: $color-white;
-  border-radius: $spacing-tiny;
-  
-  @include light-box-shadow();
-  .createTeamHeader{
-    font-size: $font-size-gigantic;
-    color: $color-dark-gray;    
-  }
-  .createTeamForm{
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
-  }
-  .createTeamDropdowns{
-    display: flex;
-    justify-content: center;
-  }
+  width: 50%;
+}
+.createTeamDropdowns{
+  display: flex;
+  justify-content: center;
+}
 
-  .createTeamButton{
-    margin-top: $spacing-small;
-  }
+.createTeamButton{
+  margin-top: $spacing-small;
+}
 
-  .hidden{
-    visibility: hidden;
-  }
+.hidden{
+  visibility: hidden;
 }

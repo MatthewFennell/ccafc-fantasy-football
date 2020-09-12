@@ -2,7 +2,11 @@ import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import DeleteIcon from '@material-ui/icons/Delete';
+import classNames from 'classnames';
 import AddIcon from '@material-ui/icons/Add';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import defaultStyles from './ApproveHighlights.module.scss';
 import {
     fetchHighlightsForApprovalRequest, approveHighlightRequest, rejectHighlightRequest,
@@ -19,6 +23,8 @@ import * as helpers from './helpers';
 import TextInput from '../../common/TextInput/TextInput';
 import * as textInputConstants from '../../common/TextInput/constants';
 import Dropdown from '../../common/dropdown/Dropdown';
+import materialStyles from '../../materialStyles';
+import * as appConstants from '../../constants';
 
 const columns = [
     {
@@ -87,6 +93,8 @@ const modalOptions = {
 };
 
 const ApproveHighlights = props => {
+    const classes = makeStyles(materialStyles)();
+    const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
     useEffect(() => {
         props.fetchHighlightsForApprovalRequest();
         props.fetchHighlightsRequest();
@@ -166,14 +174,20 @@ const ApproveHighlights = props => {
 
     return (
         <>
-            <div className={props.styles.approveHighlightsWrapper}>
+            <Paper
+                elevation={4}
+                className={classNames({
+                    [classes.paper]: !isMobile,
+                    [classes.paperMobile]: isMobile
+                })}
+            >
                 <div className={props.styles.highlightInfo}>
                     Here you can approve / reject highlights. Please give a reason when rejecting.
                     You can also delete active highlights and reapprove rejected ones.
                     Rejected highlights are
                     automatically deleted once they are at least a month old.
                 </div>
-            </div>
+            </Paper>
             <div className={props.styles.highlightsWrapper}>
                 <YouTubeList
                     approversPage
@@ -193,12 +207,27 @@ const ApproveHighlights = props => {
             )}
 
             {props.highlightsForApproval.length === 0 && !props.loadingHighlightsForApproval && (
-                <div className={props.styles.noHighlights}>
-                    No highlights waiting to be approved
-                </div>
+                <Paper
+                    elevation={4}
+                    className={classNames({
+                        [classes.paper]: !isMobile,
+                        [classes.paperMobile]: isMobile
+                    })}
+                >
+                    <div className={props.styles.noHighlights}>
+
+                        No highlights waiting to be approved
+                    </div>
+                </Paper>
             )}
 
-            <div className={props.styles.allVideos}>
+            <Paper
+                elevation={4}
+                className={classNames({
+                    [classes.paper]: !isMobile,
+                    [classes.paperMobile]: isMobile
+                })}
+            >
                 <div className={props.styles.approveHighlightsHeader}>
                     <div className={props.styles.highlightsHeaderMessage}>
                         All Approved Highlights
@@ -234,9 +263,15 @@ const ApproveHighlights = props => {
                         rows={mapRows(helpers.filterByDate(filterBy, props.videos, searchBy), true)}
                     />
                 </div>
-            </div>
+            </Paper>
 
-            <div className={props.styles.allRejectedVideos}>
+            <Paper
+                elevation={4}
+                className={classNames({
+                    [classes.paper]: !isMobile,
+                    [classes.paperMobile]: isMobile
+                })}
+            >
                 <div className={props.styles.rejectedHighlightsHeader}>
                     <div className={props.styles.highlightsHeaderMessage}>
                         All Rejected Highlights
@@ -274,7 +309,7 @@ const ApproveHighlights = props => {
                             props.rejectedHighlights, searchByRejected), false)}
                     />
                 </div>
-            </div>
+            </Paper>
             <SuccessModal
                 backdrop
                 closeModal={closeFancyModal}

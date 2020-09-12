@@ -1,7 +1,6 @@
 @import "../Styles.scss";
 
 .pitchBackground{
-    height: 100%;
     padding: $spacing-average;
     justify-content: center;
     border-radius: $spacing-small;
@@ -9,6 +8,10 @@
     text-align: center;
     background-image: url("../../common/images/CCAFC.png");
     background-size: 100% 100%;
+  }
+
+  .maxHeightDefault {
+    height: 100%;
   }
 
   .goalKeepers{

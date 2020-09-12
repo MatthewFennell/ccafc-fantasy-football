@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
+import defaultStyles from './Slider.module.scss';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -18,13 +19,14 @@ function valuetext(value) {
     return value;
 }
 
-
 const CustomSlider = props => {
     const classes = useStyles();
 
     return (
         <div className={classes.root}>
-            {props.text}
+            <div className={props.styles.sliderText}>
+                {props.text}
+            </div>
             <Slider
                 onChange={(e, value) => {
                     e.stopPropagation();
@@ -53,6 +55,7 @@ CustomSlider.defaultProps = {
     onChange: noop,
     showMarker: true,
     step: 1,
+    styles: defaultStyles,
     text: '',
     value: 0
 };
@@ -77,6 +80,7 @@ CustomSlider.propTypes = {
     onChange: PropTypes.func,
     showMarker: PropTypes.bool,
     step: PropTypes.number,
+    styles: PropTypes.objectOf(PropTypes.string),
     text: PropTypes.string,
     value: PropTypes.number
 };

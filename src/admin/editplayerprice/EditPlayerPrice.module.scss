@@ -1,59 +1,47 @@
 @import "../../common/Styles.scss";
 
-.editPlayerPriceWrapper{
+.editPlayerPriceHeader{
+  font-size: $font-size-gigantic;
+  color: $color-dark-gray;    
   text-align: center;
-  margin: $spacing-huge;
-  width: 80%;
+}
+.editPlayerPriceForm {
   margin-left: auto;
   margin-right: auto;
-  padding-top: $spacing-medium;
-  padding-bottom: $spacing-medium;
-  background-color: $color-white;
-  border-radius: $spacing-tiny;
-  
-  @include light-box-shadow();
-  .editPlayerPriceHeader{
-    font-size: $font-size-gigantic;
-    color: $color-dark-gray;    
-  }
-  .editPlayerPriceForm {
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
-  }
-  .editPlayerPriceDropdowns {
+  width: 50%;
+}
+.editPlayerPriceDropdowns {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.deletePlayerButton{
+  margin-top: $spacing-small;
+}
+
+.hidden{
+  visibility: hidden;
+}
+
+.currentPrice {
+    margin-top: $spacing-medium;
+    font-size: $font-size-huge;
+    color: $color-blue;
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-  }
+}
 
-  .deletePlayerButton{
-    margin-top: $spacing-small;
-  }
+.currentPriceValue {
+    @include vertical-center-div();
+    margin-left: $spacing-tiny;
+}
 
-  .hidden{
-    visibility: hidden;
-  }
-
-  .currentPrice {
-      margin-top: $spacing-medium;
-      font-size: $font-size-huge;
-      color: $color-blue;
-      display: flex;
-      justify-content: center;
-  }
-
-  .currentPriceValue {
-      @include vertical-center-div();
-      margin-left: $spacing-tiny;
-  }
-
-  .newPrice {
-      margin-top: $spacing-average;
-      width: 50%;
-      margin-left: auto;
-      margin-right: auto;
-  }
+.newPrice {
+    margin-top: $spacing-average;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 

@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import firebase from 'firebase';
 import _ from 'lodash';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import {
     linkProfileToFacebook, linkProfileToGoogle, updateTeamNameRequest,
     updateDisplayNameRequest, deleteAccountRequest, updateProfilePictureRequest
@@ -17,8 +19,10 @@ import * as selectors from './selectors';
 import SuccessModal from '../common/modal/SuccessModal';
 import TextInput from '../common/TextInput/TextInput';
 import StyledButton from '../common/StyledButton/StyledButton';
+import materialStyles from '../materialStyles';
 
 const Profile = props => {
+    const classes = makeStyles(materialStyles)();
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [email, setEmail] = useState('');
 
@@ -43,44 +47,48 @@ const Profile = props => {
 
     return (
         <div className={props.styles.profileWrapper}>
-            <div className={props.styles.profileHeader}>
-
-                <div>
-                    <div className={props.styles.key}>
-                        Display Name
-                    </div>
+            <Paper
+                elevation={4}
+                className={classes.paper}
+            >
+                <div className={props.styles.profileHeader}>
                     <div>
-                        {props.profile.displayName || 'N/A'}
+                        <div className={props.styles.key}>
+                            Display Name
+                        </div>
+                        <div>
+                            {props.profile.displayName || 'N/A'}
+                        </div>
+                    </div>
+
+                    <div>
+                        <div className={props.styles.key}>
+                            Team Name
+                        </div>
+                        <div>
+                            {props.profile.teamName || 'N/A'}
+                        </div>
+                    </div>
+
+                    <div>
+                        <div className={props.styles.key}>
+                            Email
+                        </div>
+                        <div>
+                            {props.profile.email || 'N/A'}
+                        </div>
+                    </div>
+
+                    <div>
+                        <div className={props.styles.key}>
+                            App Version
+                        </div>
+                        <div>
+                            {process.env.REACT_APP_VERSION}
+                        </div>
                     </div>
                 </div>
-
-                <div>
-                    <div className={props.styles.key}>
-                        Team Name
-                    </div>
-                    <div>
-                        {props.profile.teamName || 'N/A'}
-                    </div>
-                </div>
-
-                <div>
-                    <div className={props.styles.key}>
-                        Email
-                    </div>
-                    <div>
-                        {props.profile.email || 'N/A'}
-                    </div>
-                </div>
-
-                <div>
-                    <div className={props.styles.key}>
-                        App Version
-                    </div>
-                    <div>
-                        {process.env.REACT_APP_VERSION}
-                    </div>
-                </div>
-            </div>
+            </Paper>
             <div className={props.styles.bodyWrapper}>
                 <LinkAccounts
                     isSignedInWithFacebook={props.isSignedInWithFacebook}

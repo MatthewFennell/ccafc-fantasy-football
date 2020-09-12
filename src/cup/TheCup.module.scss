@@ -4,15 +4,6 @@
     margin-bottom: 150px;
   }
 
-  .cupDescription {
-    border-radius: $spacing-small;
-    padding: $spacing-medium;
-    padding-bottom: 0px;
-    background-color: $color-white;
-    margin: $spacing-medium;
-    @include light-box-shadow();    
-  }
-
   .cupWinner {
     padding: $spacing-medium;
     background-color: $color-white;

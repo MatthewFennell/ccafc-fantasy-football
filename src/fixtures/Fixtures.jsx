@@ -17,25 +17,20 @@ import {
 } from './helpers';
 import Fade from '../common/Fade/Fade';
 import { generateCsvTitle } from '../helperFunctions';
+import materialStyles from '../materialStyles';
 
 const convertResult = result => {
     const split = result.split(' - ');
     return (`(${fp.head(split)}) - (${fp.tail(split)})`);
 };
 
-const useStyles = makeStyles(theme => ({
-    paper: {
-        margin: theme.spacing(4)
-    }
-}));
-
 const Fixtures = props => {
-    const classes = useStyles();
     const [myTeam, setMyTeam] = useState('');
     const [radioValue, setRadioValue] = useState('All');
     const [collingwoodOnly, setCollingwoodOnly] = useState(true);
     const [upcomingMatchesOnly, setUpcomingMatchesOnly] = useState(false);
     const [teamNameFilter, setTeamNameFilter] = useState('');
+    const classes = makeStyles(materialStyles)();
 
     useEffect(() => {
         props.fetchFixturesRequest();
@@ -108,7 +103,7 @@ const Fixtures = props => {
                     </Fade>
                 </div>
             </Paper>
-            <div className={props.styles.gridWrapper}>
+            <Paper elevation={4} className={classes.paper}>
                 <Grid
                     columns={columns}
                     csvTitle={generateCsvTitle('Fixtures')}
@@ -136,7 +131,7 @@ const Fixtures = props => {
                     maxHeight={600}
                     gridStyles={gridStyles}
                 />
-            </div>
+            </Paper>
         </div>
     );
 };

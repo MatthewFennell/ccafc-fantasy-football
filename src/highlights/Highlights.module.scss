@@ -1,20 +1,5 @@
 @import "../common/Styles.scss";
 
-.addHighlight {
-  padding: $spacing-medium;
-  margin: $spacing-medium;
-  background-color: $color-white;
-  @include light-box-shadow();
-
-  
-
-  .inputWrapper{
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
 .loadingVideos {
   text-align: center;
 }
@@ -27,14 +12,6 @@
 .searchFilter{
   margin-left: auto;
   margin-right: auto;
-}
-
-.highlightsWrapper {
-  border-radius: $spacing-tiny;
-  padding: $spacing-medium;
-  margin: $spacing-medium;
-  background-color: $color-white;
-  @include light-box-shadow();
 }
 
 .highlightsHeader{
@@ -90,14 +67,6 @@
 }
 
 @media only screen and (max-width: 800px) {
-  .highlightsWrapper {
-    margin: 0px;
-    padding: 0px;
-    .highlightsMessage{
-      margin-top: $spacing-small;
-      font-size: $spacing-medium;
-    }
-  }
 
   .karmaWrapper {
     margin-right: $spacing-small;

@@ -2,9 +2,12 @@ import React, { useEffect, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import { noop } from 'lodash';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import defaultStyles from './Overview.module.scss';
 import {
@@ -13,9 +16,10 @@ import {
 import * as selectors from './selectors';
 import Spinner from '../common/spinner/Spinner';
 import { generateOverviewRoute } from '../helperFunctions';
-import * as appConstants from '../constants';
 import RulesAndSettings from './RulesAndSettings';
 import FadingCollapsable from '../common/fadingCollapsable/FadingCollapsable';
+import materialStyles from '../materialStyles';
+import * as appConstants from '../constants';
 
 const RulesAndSettingsTitle = props => (
     <div
@@ -37,6 +41,9 @@ RulesAndSettingsTitle.propTypes = {
 };
 
 const Overview = props => {
+    const classes = makeStyles(materialStyles)();
+    const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
+
     useEffect(() => {
         if (props.currentGameWeek || props.currentGameWeek === 0) {
             props.fetchUserInfoForWeekRequest(props.userId, props.currentGameWeek);
@@ -84,8 +91,6 @@ const Overview = props => {
         props.history.push(`${appConstants.URL.POINTS}/${props.auth.uid}/${props.currentGameWeek}`);
     }, [props.auth.uid, props.currentGameWeek, props.history]);
 
-    const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
-
     const ExpandedRulesAndSettings = newProps => (
         <div className={props.styles.desktopRulesWrapper}>
             <div
@@ -102,7 +107,13 @@ const Overview = props => {
 
     return (
         <div className={props.styles.overviewWrapper}>
-            <div className={props.styles.pointsWrapper}>
+            <Paper
+                elevation={4}
+                className={classNames({
+                    [classes.paperBigSideMargins]: !isMobile,
+                    [classes.paper]: isMobile
+                })}
+            >
                 <div className={props.styles.totalPointsWrapper}>
                     {props.fetchingUserStats ? <Spinner color="secondary" /> : (
                         <>
@@ -113,9 +124,15 @@ const Overview = props => {
                         </>
                     )}
                 </div>
-            </div>
+            </Paper>
 
-            <div className={props.styles.gameweekPointsWrapper}>
+            <Paper
+                elevation={4}
+                className={classNames({
+                    [classes.paperBigSideMargins]: !isMobile,
+                    [classes.paper]: isMobile
+                })}
+            >
                 {props.fetchingUserInfo ? <Spinner color="secondary" /> : (
                     <>
                         <div className={props.styles.gameWeekText}>
@@ -161,10 +178,16 @@ const Overview = props => {
                         </div>
                     </>
                 )}
-            </div>
-            <div className={props.styles.userInfoWrapper}>
+            </Paper>
+            <Paper
+                elevation={4}
+                className={classNames({
+                    [classes.paperBigSideMargins]: !isMobile,
+                    [classes.paper]: isMobile
+                })}
+            >
                 {props.fetchingUserStats ? <Spinner color="secondary" /> : (
-                    <>
+                    <div className={props.styles.userInfoWrapper}>
                         <div className={props.styles.remainingTransfersWrapper}>
                             <div className={props.styles.remainingTransfersValue}>
                                 Unlimited
@@ -177,17 +200,18 @@ const Overview = props => {
                             </div>
                             <div>Remaining Budget</div>
                         </div>
-                    </>
+                    </div>
                 )}
-            </div>
-            <div className={props.styles.rulesWrapper}>
-                <FadingCollapsable
-                    title={<RulesAndSettingsTitle />}
-                    isBorderRadiusSmall
-                >
-                    <ExpandedRulesAndSettings />
-                </FadingCollapsable>
-            </div>
+            </Paper>
+            <FadingCollapsable
+                desktopClass="paperBigSideMargins"
+                mobileClass="paper"
+
+                title={<RulesAndSettingsTitle />}
+                isBorderRadiusSmall
+            >
+                <ExpandedRulesAndSettings />
+            </FadingCollapsable>
         </div>
     );
 };
@@ -207,7 +231,6 @@ Overview.defaultProps = {
     },
     maxGameWeek: null,
     remainingBudget: null,
-    // remainingTransfers: null,
     styles: defaultStyles,
     totalPoints: null,
     userId: '',
@@ -235,7 +258,6 @@ Overview.propTypes = {
     }).isRequired,
     maxGameWeek: PropTypes.number,
     remainingBudget: PropTypes.number,
-    // remainingTransfers: PropTypes.number,
     styles: PropTypes.objectOf(PropTypes.string),
     totalPoints: PropTypes.number,
     userId: PropTypes.string,

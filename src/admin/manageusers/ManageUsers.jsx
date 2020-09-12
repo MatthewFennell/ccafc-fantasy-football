@@ -2,6 +2,10 @@ import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import classNames from 'classnames';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import defaultStyles from './ManageUsers.module.scss';
 import {
     fetchUsersWithExtraRolesRequest, addUserRoleRequest, removeUserRoleRequest,
@@ -17,6 +21,8 @@ import RolesToPermissions from './RolesToPermissions';
 import ConfirmModal from '../../common/modal/ConfirmModal';
 import TextInput from '../../common/TextInput/TextInput';
 import * as textInputConstants from '../../common/TextInput/constants';
+import materialStyles from '../../materialStyles';
+import * as appConstants from '../../constants';
 
 const columnsForAllUsers = allRoles => [
     {
@@ -47,6 +53,8 @@ const rolesForDropdown = allRoles => allRoles.map(role => ({
 }));
 
 const ManageUsers = props => {
+    const classes = makeStyles(materialStyles)();
+    const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
     useEffect(() => {
         props.fetchUsersWithExtraRolesRequest();
         // eslint-disable-next-line
@@ -125,7 +133,13 @@ const ManageUsers = props => {
     return (
         <>
             <div className={props.styles.manageUsersWrapper}>
-                <div className={props.styles.extraRolesWrapper}>
+                <Paper
+                    elevation={4}
+                    className={classNames({
+                        [classes.paper]: !isMobile,
+                        [classes.paperMobile]: isMobile
+                    })}
+                >
                     <Grid
                         columns={columnsForAllUsers(props.allRoles)}
                         gridHeader={(
@@ -144,13 +158,19 @@ const ManageUsers = props => {
                         loading={props.fetchingUsersWithExtraRoles}
                         rows={generateToggleRows(props.usersWithExtraRoles)}
                     />
-                </div>
-                <div className={props.styles.rolesToPermissionsWrapper}>
+                </Paper>
+                <Paper
+                    elevation={4}
+                    className={classNames({
+                        [classes.paper]: !isMobile,
+                        [classes.paperMobile]: isMobile
+                    })}
+                >
                     <RolesToPermissions
                         allRoles={props.allRoles}
                         permissionMappings={props.permissionMappings}
                     />
-                </div>
+                </Paper>
                 <SuccessModal
                     backdrop
                     closeModal={closeModal}
@@ -195,7 +215,13 @@ const ManageUsers = props => {
                     submit={removeRole}
                     text={`Are you sure you want to remove ${role === 'ALL' ? 'all roles ' : role} from ${email}`}
                 />
-                <div className={props.styles.clearDatabaseWrapper}>
+                <Paper
+                    elevation={4}
+                    className={classNames({
+                        [classes.paper]: !isMobile,
+                        [classes.paperMobile]: isMobile
+                    })}
+                >
                     <StyledButton
                         onClick={props.clearDatabaseRequest}
                         color="secondary"
@@ -211,7 +237,7 @@ const ManageUsers = props => {
                         color="secondary"
                         text="Delete all old users"
                     />
-                </div>
+                </Paper>
             </div>
             <ConfirmModal
                 cancel={() => setIsRollingOverToNextYear(false)}

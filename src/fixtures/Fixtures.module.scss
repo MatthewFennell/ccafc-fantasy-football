@@ -4,24 +4,3 @@
   margin-top: $spacing-medium;
   text-align: center;
 }
-
-.fixturesWrapper, .gridWrapper {
-    margin: $spacing-medium;
-    text-align: center;
-    @include light-box-shadow();
-    background-color: $color-white;
-    border-radius: $spacing-small;
-}
-
-@media only screen and (max-width: 800px) {
-    .fixturesWrapper {
-      padding: 0px;
-      margin: 0px;
-      margin-top: $spacing-medium;
-    }
-    .gridWrapper {
-      padding: 0px;
-      margin: 0px;
-      margin-top: $spacing-medium;
-    }
-}

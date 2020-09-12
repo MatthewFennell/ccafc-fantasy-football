@@ -3,14 +3,21 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import fp from 'lodash/fp';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import defaultStyles from './DeleteTeam.module.scss';
 import Dropdown from '../../common/dropdown/Dropdown';
 import { fetchTeamsRequest, deleteTeamRequest } from '../actions';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
 import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
+import materialStyles from '../../materialStyles';
+import * as appConstants from '../../constants';
 
 const DeleteTeam = props => {
+    const classes = makeStyles(materialStyles)();
+    const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
     const [teamName, setTeamName] = useState('');
 
     useEffect(() => {
@@ -27,38 +34,42 @@ const DeleteTeam = props => {
     }, [teamName, props.deleteTeamRequest, nameToId]);
 
     return (
-        <>
-            <div className={props.styles.deleteTeamWrapper}>
-                <div className={props.styles.deleteTeamHeader}>
-                    <StyledButton
-                        color="primary"
-                        onClick={deleteTeam}
-                        text="Delete Team"
-                        disabled={!teamName}
-                    />
-                </div>
-                <div className={props.styles.deleteTeamForm}>
-                    <div className={props.styles.deleteTeamDropdowns}>
-                        <LoadingDiv isLoading={props.isFetchingTeams} isPadding isBorderRadius>
-                            <Dropdown
-                                value={teamName}
-                                onChange={setTeamName}
-                                options={props.allTeams}
-                                title="Team"
-                                key="Team"
-                            />
-                        </LoadingDiv>
-                    </div>
-
-                </div>
-                <div className={classNames({
-                    [props.styles.hidden]: !props.deletingTeam
-                })}
-                >
-                    <Spinner color="secondary" />
-                </div>
+        <Paper
+            elevation={4}
+            className={classNames({
+                [classes.paper]: !isMobile,
+                [classes.paperMobile]: isMobile
+            })}
+        >
+            <div className={props.styles.deleteTeamHeader}>
+                <StyledButton
+                    color="primary"
+                    onClick={deleteTeam}
+                    text="Delete Team"
+                    disabled={!teamName}
+                />
             </div>
-        </>
+            <div className={props.styles.deleteTeamForm}>
+                <div className={props.styles.deleteTeamDropdowns}>
+                    <LoadingDiv isLoading={props.isFetchingTeams} isPadding isBorderRadius>
+                        <Dropdown
+                            value={teamName}
+                            onChange={setTeamName}
+                            options={props.allTeams}
+                            title="Team"
+                            key="Team"
+                        />
+                    </LoadingDiv>
+                </div>
+
+            </div>
+            <div className={classNames({
+                [props.styles.hidden]: !props.deletingTeam
+            })}
+            >
+                <Spinner color="secondary" />
+            </div>
+        </Paper>
     );
 };
 

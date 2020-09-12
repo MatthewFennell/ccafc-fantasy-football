@@ -2,12 +2,16 @@ import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import classNames from 'classnames';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import defaultStyles from './Update.module.scss';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
 import TextInput from '../../common/TextInput/TextInput';
+import materialStyles from '../../materialStyles';
 
 const Update = props => {
+    const classes = makeStyles(materialStyles)();
     const [displayName, setDisplayName] = useState('');
 
     const update = useCallback(() => {
@@ -16,7 +20,10 @@ const Update = props => {
     }, [displayName, props.updateRequest]);
 
     return (
-        <div className={props.styles.updateWrapper}>
+        <Paper
+            elevation={4}
+            className={classes.paper}
+        >
             <TextInput
                 label={props.property}
                 onChange={setDisplayName}
@@ -37,7 +44,7 @@ const Update = props => {
             >
                 <Spinner color="secondary" />
             </div>
-        </div>
+        </Paper>
     );
 };
 
