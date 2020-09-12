@@ -1,18 +1,9 @@
 @import "../common/Styles.scss";
 
-.drawerWrapper{
-  width: 80vw;
-}
-
 .backIcon{
   padding: $spacing-small;
   display: flex;
   align-items: center;
-}
-
-.testWrapper { 
-  margin-left: $spacing-medium;
-  @include light-box-shadow();
 }
 
 .addHighlight {
@@ -35,13 +26,6 @@
   font-size: $font-size-medium;
   word-break: break-word;
   padding-bottom: $spacing-small;
-}
-
-.gridWrapper {
-  margin: $spacing-medium;
-  background-color: $color-white;
-  @include light-box-shadow();
-  margin-top: 0px;
 }
 
 .rejected{
@@ -68,9 +52,6 @@
     margin-top: 0px;
     padding-top: 0px;
     padding-bottom: 0px;
-  }
-  .gridWrapper {
-    margin: 0px;
   }
 
   .videoIdHint {

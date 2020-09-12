@@ -103,7 +103,7 @@ const Fixtures = props => {
                     </Fade>
                 </div>
             </Paper>
-            <div className={props.styles.gridWrapper}>
+            <Paper elevation={4} className={classes.paper}>
                 <Grid
                     columns={columns}
                     csvTitle={generateCsvTitle('Fixtures')}
@@ -131,7 +131,7 @@ const Fixtures = props => {
                     maxHeight={600}
                     gridStyles={gridStyles}
                 />
-            </div>
+            </Paper>
         </div>
     );
 };

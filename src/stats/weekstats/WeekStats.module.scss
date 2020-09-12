@@ -30,9 +30,6 @@
 }
 
 .spinnerWrapper{
-  margin: $spacing-medium;
-  padding: $spacing-small;
-  @include light-box-shadow();
   @include vertical-center-div();
 }
 

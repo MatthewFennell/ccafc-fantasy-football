@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { CSVLink } from 'react-csv';
 import fp from 'lodash/fp';
-import classNames from 'classnames';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import defaultStyles from './WeekStats.module.scss';
@@ -55,16 +54,19 @@ const WeekStats = props => {
     return (
         props.loading
             ? (
-                <div className={props.styles.spinnerWrapper}>
-                    <Spinner color="primary" />
-                </div>
+                <Paper
+                    elevation={4}
+                    className={classes.paper}
+                >
+                    <div className={props.styles.spinnerWrapper}>
+                        <Spinner color="primary" />
+                    </div>
+                </Paper>
             ) : (
                 <>
                     <Paper
                         elevation={4}
-                        className={classNames({
-                            [classes.paper]: true
-                        })}
+                        className={classes.paper}
                     >
                         <div className={props.styles.weekStatsHeader}>
                             {props.title}

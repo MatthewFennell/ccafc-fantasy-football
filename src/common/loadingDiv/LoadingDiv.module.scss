@@ -39,10 +39,6 @@
 .padding {
   padding: $spacing-small !important;
 }
-
-.boxShadow {
-  @include light-box-shadow();
-}
   
   .firstSpan {
     position: absolute;

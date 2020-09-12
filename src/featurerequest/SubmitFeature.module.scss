@@ -1,39 +1,31 @@
 @import "../common/Styles.scss";
 
-.featureRequestWrapper{
-    padding: $spacing-medium;
-    text-align: center;
-    background-color: $color-white;
-    margin: $spacing-medium;
-    @include light-box-shadow();
+.switchWrapper {
+    margin-top: $spacing-average;
+    display: flex;
+    justify-content: center;
 
-    .switchWrapper {
-        margin-top: $spacing-average;
-        display: flex;
-        justify-content: center;
-
-        .bugMessage {
-            @include vertical-center-div();
-            color: $color-green;
-            font-weight: bold;
-        }
-    }
-
-    .header{
-        color: $color-blue;
+    .bugMessage {
+        @include vertical-center-div();
+        color: $color-green;
         font-weight: bold;
-        margin-bottom: $spacing-small;
     }
+}
 
-    .textArea {
-        width: 80%;
-    }
+.header{
+    color: $color-blue;
+    font-weight: bold;
+    margin-bottom: $spacing-small;
+}
 
-    .charactersRemaining{
-        font-weight: bold;
-        color: $color-gray;
-        padding: $spacing-small;
-    }
+.textArea {
+    width: 80%;
+}
+
+.charactersRemaining{
+    font-weight: bold;
+    color: $color-gray;
+    padding: $spacing-small;
 }
 
 .backIcon{

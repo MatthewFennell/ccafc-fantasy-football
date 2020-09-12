@@ -2,15 +2,20 @@ import React, { useEffect, useCallback, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import { fetchUsersInLeagueRequest, leaveLeagueRequest } from './actions';
 import * as selectors from './selectors';
 import Grid from '../common/grid/Grid';
 import defaultStyles from './styles/Leagues.module.scss';
-import * as constants from '../constants';
+import * as appConstants from '../constants';
 import StyledButton from '../common/StyledButton/StyledButton';
 import Spinner from '../common/spinner/Spinner';
 import { generatePointsRoute } from '../helperFunctions';
 import ConfirmModal from '../common/modal/ConfirmModal';
+import materialStyles from '../materialStyles';
 
 const columns = gameWeek => [
     {
@@ -36,6 +41,8 @@ const columns = gameWeek => [
 ];
 
 const UsersInLeague = props => {
+    const classes = makeStyles(materialStyles)();
+    const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
     const generateRows = rows => rows.map(row => ({
         ...row,
         username:
@@ -47,16 +54,16 @@ const UsersInLeague = props => {
     </div>
     }));
 
-    const [rowsPerPage, setRowsPerPage] = useState(constants.LEAGUE_INITIAL_ROWS_PER_PAGE);
+    const [rowsPerPage, setRowsPerPage] = useState(appConstants.LEAGUE_INITIAL_ROWS_PER_PAGE);
     const [pageNumber, setPageNumber] = useState(0);
 
     useEffect(() => {
         if (props.maxGameWeek || props.maxGameWeek === 0) {
             props.fetchUsersInLeagueRequest(props.leagueId,
                 props.maxGameWeek,
-                pageNumber === 0 ? constants.LEAGUE_INITIAL_ROWS_PER_PAGE
-                * constants.LEAGUE_INITIAL_NUMBER_OF_PAGES_TO_LOAD
-                    : constants.LEAGUE_INITIAL_ROWS_PER_PAGE,
+                pageNumber === 0 ? appConstants.LEAGUE_INITIAL_ROWS_PER_PAGE
+                * appConstants.LEAGUE_INITIAL_NUMBER_OF_PAGES_TO_LOAD
+                    : appConstants.LEAGUE_INITIAL_ROWS_PER_PAGE,
                 pageNumber + 1,
                 rowsPerPage);
         }
@@ -66,7 +73,7 @@ const UsersInLeague = props => {
     const [leaveLeagueOpen, setLeaveLeagueOpen] = useState(false);
 
     const redirect = useCallback(() => {
-        props.history.push(constants.URL.LEAGUES);
+        props.history.push(appConstants.URL.LEAGUES);
     }, [props.history]);
 
     const leaveLeague = useCallback(() => {
@@ -90,7 +97,12 @@ const UsersInLeague = props => {
     }, [setPageNumber]);
 
     return (
-        <div className={props.styles.usersInLeagueWrapper}>
+        <Paper
+            elevation={4}
+            className={classNames({
+                [classes.paperNoPadding]: !isMobile
+            })}
+        >
             <div className={props.styles.myLeaguesWrapper}>
                 <div className={props.styles.myLeaguesTable}>
                     <Grid
@@ -106,7 +118,7 @@ const UsersInLeague = props => {
                         onRowClick={loadUserPage}
                         renderBackButton
                         rows={generateRows(props.usersInLeague)}
-                        rowsPerPageOptions={[constants.LEAGUE_INITIAL_ROWS_PER_PAGE]}
+                        rowsPerPageOptions={[appConstants.LEAGUE_INITIAL_ROWS_PER_PAGE]}
                     />
                 </div>
             </div>
@@ -130,7 +142,7 @@ const UsersInLeague = props => {
                         <Spinner color="secondary" />
                     </div>
                 )}
-        </div>
+        </Paper>
     );
 };
 

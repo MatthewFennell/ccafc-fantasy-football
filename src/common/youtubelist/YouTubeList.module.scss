@@ -35,13 +35,6 @@
   margin-left: $spacing-small;
 }
 
-.loadingSpinner{
-  margin: $spacing-medium;
-  background-color: $color-white;
-  @include light-box-shadow();
-  text-align: center;
-}
-
 .collapsedVideoWrapper{
   width: 100%;
   height: 100%;
