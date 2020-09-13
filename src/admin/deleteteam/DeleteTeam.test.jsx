@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { noop } from 'lodash';
 import { Provider } from 'react-redux';
@@ -49,19 +48,6 @@ describe('Delete Team', () => {
         />);
         wrapper.find(StyledButton).simulate('click');
         expect(mockFn.mock.calls.length).toBe(1);
-    });
-
-    it('There is a class with hidden only if the team is not being deleted', () => {
-        const wrapper = shallow(<DeleteTeamUnconnected
-            closeSuccessMessage={noop}
-            closeAdminError={noop}
-            deletingTeam={false}
-            deleteTeamRequest={noop}
-            fetchTeamsRequest={noop}
-            deleteTeamError=""
-            deleteTeamErrorCode=""
-        />);
-        expect(wrapper.find({ className: styles.hidden })).toHaveLength(1);
     });
 
     it('There is not a class with hidden only if the team being deleted', () => {

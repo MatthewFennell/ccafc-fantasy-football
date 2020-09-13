@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { noop } from 'lodash';
 import { Provider } from 'react-redux';
@@ -72,36 +71,6 @@ describe('Delete Player', () => {
         />);
         wrapper.find(StyledButton).simulate('click');
         expect(mockFn.mock.calls.length).toBe(1);
-    });
-
-    it('There is a class with hidden only if the player is not being deleted', () => {
-        const wrapper = shallow(<DeletePlayerUnconnected
-            closeSuccessMessage={noop}
-            closeAdminError={noop}
-            deletingPlayer={false}
-            deletePlayerRequest={noop}
-            fetchTeamsRequest={noop}
-            fetchPlayersForTeamRequest={noop}
-            deletePlayerError=""
-            deletePlayerErrorCode=""
-            teamsWithPlayers={{}}
-        />);
-        expect(wrapper.find({ className: styles.hidden })).toHaveLength(1);
-    });
-
-    it('There is not a class with hidden only if the player being deleted', () => {
-        const wrapper = shallow(<DeletePlayerUnconnected
-            closeSuccessMessage={noop}
-            closeAdminError={noop}
-            deletingPlayer
-            deletePlayerRequest={noop}
-            fetchTeamsRequest={noop}
-            fetchPlayersForTeamRequest={noop}
-            deletePlayerError=""
-            deletePlayerErrorCode=""
-            teamsWithPlayers={{}}
-        />);
-        expect(wrapper.find({ className: styles.hidden })).toHaveLength(0);
     });
 });
 
