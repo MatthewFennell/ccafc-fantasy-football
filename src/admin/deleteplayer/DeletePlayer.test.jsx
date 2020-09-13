@@ -5,7 +5,6 @@ import configureMockStore from 'redux-mock-store';
 import { shallow, mount } from '../../enzyme';
 import DeletePlayer, { DeletePlayerUnconnected } from './DeletePlayer';
 import StyledButton from '../../common/StyledButton/StyledButton';
-import styles from './DeletePlayer.module.scss';
 import { initialState } from '../reducer';
 
 describe('Delete Player', () => {
