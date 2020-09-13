@@ -18,6 +18,15 @@
   white-space: nowrap;
 }
 
+.yearFinishedMessage {
+  text-align: center;
+}
+
+.yearFinishedButtons {
+  justify-content: space-evenly;
+  text-align: center;
+}
+
 .modalWrapper{
   > div {
     text-align: center;

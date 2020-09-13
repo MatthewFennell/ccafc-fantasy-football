@@ -65,7 +65,8 @@ const TriggerWeek = props => {
             </div>
             <div className={classNames({
                 [props.styles.hidden]: !props.triggeringWeek
-                    && !props.isRecalculatingLeaguePositions
+                    && !props.isRecalculatingLeaguePositions,
+                [props.styles.spinner]: true
             })}
             >
                 <Spinner color="secondary" />

@@ -275,7 +275,8 @@ const SubmitResult = props => {
                     </div>
                 </LoadingDiv>
                 <div className={classNames({
-                    [props.styles.hidden]: !props.submittingResult
+                    [props.styles.hidden]: !props.submittingResult,
+                    [props.styles.spinner]: true
                 })}
                 >
                     <Spinner color="secondary" />

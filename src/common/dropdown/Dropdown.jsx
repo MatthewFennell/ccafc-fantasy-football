@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
+
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import PropTypes from 'prop-types';
-import { noop } from 'lodash';
+import _, { noop } from 'lodash';
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -34,6 +35,8 @@ const Dropdown = props => {
         setOpen(true);
     };
 
+    const sortedOptions = _.orderBy(props.options, 'text', 'asc');
+
     return (
         <form autoComplete="off">
             <FormControl className={classes.formControl}>
@@ -55,7 +58,7 @@ const Dropdown = props => {
                     <MenuItem value="">
                         <em>None</em>
                     </MenuItem>
-                    {props.options.map(entry => (
+                    {sortedOptions.map(entry => (
                         <MenuItem
                             key={entry.id}
                             value={entry.value}

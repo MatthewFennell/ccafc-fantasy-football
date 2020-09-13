@@ -222,21 +222,23 @@ const ManageUsers = props => {
                         [classes.paperMobile]: isMobile
                     })}
                 >
-                    <StyledButton
-                        onClick={props.clearDatabaseRequest}
-                        color="secondary"
-                        text="Clear DB"
-                    />
-                    <StyledButton
-                        onClick={() => setIsRollingOverToNextYear(true)}
-                        color="secondary"
-                        text="Roll Over to Next Year"
-                    />
-                    <StyledButton
-                        onClick={props.deleteAllOldUsersRequest}
-                        color="secondary"
-                        text="Delete all old users"
-                    />
+                    <div className={props.styles.yearFinishedMessage}>
+                        When the year is finished, first delete all old users.
+                        Wait a minute and then click roll over to next year
+                    </div>
+                    <div className={props.styles.yearFinishedButtons}>
+
+                        <StyledButton
+                            onClick={() => setIsRollingOverToNextYear(true)}
+                            color="secondary"
+                            text="Roll Over to Next Year"
+                        />
+                        <StyledButton
+                            onClick={props.deleteAllOldUsersRequest}
+                            color="secondary"
+                            text="Delete all old users"
+                        />
+                    </div>
                 </Paper>
             </div>
             <ConfirmModal
@@ -264,7 +266,6 @@ ManageUsers.defaultProps = {
 ManageUsers.propTypes = {
     allRoles: PropTypes.arrayOf(PropTypes.string),
     addUserRoleRequest: PropTypes.func.isRequired,
-    clearDatabaseRequest: PropTypes.func.isRequired,
     deleteAllOldUsersRequest: PropTypes.func.isRequired,
     fetchingUsersWithExtraRoles: PropTypes.bool,
     fetchUsersWithExtraRolesRequest: PropTypes.func.isRequired,

@@ -39,6 +39,7 @@ exports.scheduledFirestoreExport = functions.region(constants.region).pubsub
 
 // This command exported the current firestore data into a GCP bucket named <facebook-users-test-data>
 // gcloud firestore export gs://facebook-users-test-data
+// gcloud firestore export gs://nick-test-data
 
 // Run this from https://console.cloud.google.com/home/dashboard?project=ccafc-fantasy-football-dev&cloudshell=true
 // To import the test data back -

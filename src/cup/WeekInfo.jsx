@@ -1,11 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import _ from 'lodash';
+import _, { noop } from 'lodash';
 import defaultStyles from './WeekInfo.module.scss';
 import FadingCollapsable from '../common/fadingCollapsable/FadingCollapsable';
 
 export const getName = (displayNameMappings, name) => displayNameMappings[name];
+
+const WeekInfoTitle = props => (
+    <div className={props.styles.matchupsHeader} onClick={() => props.setIsCollapsableOpen(true)} role="button" tabIndex={0}>
+        {`Week ${props.week} ${props.isFinalWeek ? 'Matchups' : 'Results'}`}
+    </div>
+);
+
+WeekInfoTitle.defaultProps = {
+    isFinalWeek: false,
+    setIsCollapsableOpen: noop,
+    styles: defaultStyles,
+    week: 0
+};
+
+WeekInfoTitle.propTypes = {
+    isFinalWeek: PropTypes.bool,
+    setIsCollapsableOpen: PropTypes.func,
+    styles: PropTypes.objectOf(PropTypes.string),
+    week: PropTypes.number
+};
 
 const WeekInfo = props => {
     const generateByesColumns = (byes, numColumns) => {
@@ -31,14 +51,16 @@ const WeekInfo = props => {
     return (
         <FadingCollapsable
             title={(
-                <div className={props.styles.matchupsHeader}>
-                    {`Week ${props.week} ${props.isFinalWeek ? 'Matchups' : 'Results'}`}
-                </div>
+                <WeekInfoTitle
+                    isFinalWeek={props.isFinalWeek}
+                    week={props.week}
+                    styles={props.styles}
+                />
             )}
             isBigSideMargins
             isBorderRadiusTiny
         >
-            <div className={props.styles.weekInfoWrapper}>
+            <>
                 {props.byes.length > 0 && (
                     <>
                         <div className={props.styles.byesHeader}>
@@ -101,7 +123,7 @@ const WeekInfo = props => {
                         </div>
                     ))}
                 </div>
-            </div>
+            </>
         </FadingCollapsable>
     );
 };

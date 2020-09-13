@@ -21,6 +21,7 @@ const FadingCollapsable = props => {
             elevation={4}
             className={classNames({
                 [classes.fadingCollapsable]: !isMobile && !props.desktopClass,
+                [classes.fadingCollapsableHover]: !isMobile && !isOpen,
                 [classes.fadingCollapsableMobile]: isMobile && !props.mobileClass,
                 [classes[props.desktopClass]]: props.desktopClass && !isMobile,
                 [classes[props.mobileClass]]: props.mobileClass && isMobile
