@@ -1,9 +1,16 @@
 @import "../common/Styles.scss";
 
-.backIcon{
+.backIcon {
   padding: $spacing-small;
   display: flex;
   align-items: center;
+  cursor: pointer;
+  width: fit-content;
+  border-radius: $spacing-small;
+}
+
+.backIcon:hover {
+  background-color: $color-light-blue-hover;
 }
 
 .addHighlight {

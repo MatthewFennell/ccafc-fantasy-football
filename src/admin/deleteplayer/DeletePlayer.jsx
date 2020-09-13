@@ -92,6 +92,7 @@ const DeletePlayer = props => {
             </div>
 
             <div className={classNames({
+                [props.styles.spinner]: true,
                 [props.styles.hidden]: !props.deletingPlayer
             })}
             >

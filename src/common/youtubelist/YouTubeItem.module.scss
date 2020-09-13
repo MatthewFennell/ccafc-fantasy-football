@@ -1,7 +1,7 @@
 @import "../Styles.scss";
 
-.expandedWrapper{
-    cursor: pointer;
+.expandedWrapper {
+  cursor: pointer;
     outline: none;
     display: flex;
     flex-wrap: wrap;
@@ -16,6 +16,9 @@
     .youtubeButton {
       @include vertical-center-div();
     }
+  }
+  .videoTitle {
+    padding-top: $spacing-small;
   }
 
 .videoTitle, .email, .dateCreated {

@@ -34,12 +34,18 @@ export default theme => ({
     fadingCollapsable: {
         position: 'relative',
         margin: theme.spacing(4)
+
     },
     fadingCollapsableMobile: {
         position: 'relative',
         margin: theme.spacing(1),
         marginTop: theme.spacing(3),
         marginBottom: theme.spacing(3)
+    },
+    fadingCollapsableHover: {
+        '&:hover': {
+            backgroundColor: 'rgba(173,216,230,0.3)'
+        }
     },
     thirtyWidth: {
         width: '30%'

@@ -11,32 +11,33 @@ const FeatureRequest = props => {
 
     return (
         <div className={props.styles.featureRequestWrapper}>
-            {props.showAuthor && (
-                <div
-                    className={props.styles.author}
-                    onClick={() => props.setIsCollapsableOpen(false)}
-                    role="button"
-                    tabIndex={0}
-                >
-                    <div className={props.styles.key}>
-                        Author:
-                    </div>
-                    <div className={props.styles.value}>
-                        {displayName}
-                    </div>
-                </div>
-            )}
             <div
-                className={props.styles.featureDescription}
+                className={props.styles.authorDescriptionWrapper}
                 onClick={() => props.setIsCollapsableOpen(false)}
                 role="button"
                 tabIndex={0}
             >
-                <div className={props.styles.key}>
-                    Description:
-                </div>
-                <div className={props.styles.value}>
-                    {description}
+                {props.showAuthor && (
+                    <div
+                        className={props.styles.author}
+                    >
+                        <div className={props.styles.key}>
+                            Author:
+                        </div>
+                        <div className={props.styles.value}>
+                            {displayName}
+                        </div>
+                    </div>
+                )}
+                <div
+                    className={props.styles.featureDescription}
+                >
+                    <div className={props.styles.key}>
+                        Description:
+                    </div>
+                    <div className={props.styles.value}>
+                        {description}
+                    </div>
                 </div>
             </div>
             <div className={props.styles.commentsWrapper}>

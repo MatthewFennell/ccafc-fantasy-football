@@ -2,11 +2,10 @@
 
 .featureRequestWrapper {
     background-color: $color-white;
-
-    .author {
-        margin-top: $spacing-small;
+    .authorDescriptionWrapper {
+        outline: none;
+        cursor: pointer;
     }
-
     .author, .featureDescription {
         display: flex;
         text-align: center;
@@ -14,8 +13,7 @@
         font-size: $font-size-large;
         margin-left: auto;
         margin-right: auto;
-        cursor: pointer;
-        outline: none;
+        
 
         .key {
             font-weight: bold;

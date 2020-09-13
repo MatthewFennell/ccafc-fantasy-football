@@ -48,6 +48,7 @@ const CreateTeam = props => {
                 />
             </div>
             <div className={classNames({
+                [props.styles.spinner]: true,
                 [props.styles.hidden]: !props.creatingTeam
             })}
             >

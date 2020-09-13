@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { noop } from 'lodash';
 import { Provider } from 'react-redux';
@@ -66,19 +65,6 @@ describe('Create Player', () => {
         expect(mockFn.mock.calls.length).toBe(1);
     });
 
-    it('There is a class with hidden only if the player is not being created', () => {
-        const wrapper = shallow(<CreatePlayerUnconnected
-            closeSuccessMessage={noop}
-            closeAdminError={noop}
-            creatingPlayer={false}
-            createPlayerRequest={noop}
-            fetchTeamsRequest={noop}
-            createPlayerError=""
-            createPlayerErrorCode=""
-        />);
-        expect(wrapper.find({ className: styles.hidden })).toHaveLength(1);
-    });
-
     it('There is not a class with hidden only if the player being created', () => {
         const wrapper = shallow(<CreatePlayerUnconnected
             closeSuccessMessage={noop}
@@ -92,7 +78,6 @@ describe('Create Player', () => {
         expect(wrapper.find({ className: styles.hidden })).toHaveLength(0);
     });
 });
-
 
 describe('Create Player connected', () => {
     it('Connected create player', () => {
