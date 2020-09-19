@@ -7,6 +7,11 @@
     }
 }
 
+.spinnerWrapper {
+  @include vertical-center-div();
+  margin-top: $spacing-medium;;
+}
+
 .transfersHeader{
     padding: $spacing-tiny;
     display: flex;

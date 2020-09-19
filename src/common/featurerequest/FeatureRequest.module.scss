@@ -3,6 +3,7 @@
 .featureRequestWrapper {
     background-color: $color-white;
     .authorDescriptionWrapper {
+        padding-top: $spacing-small;
         outline: none;
         cursor: pointer;
     }

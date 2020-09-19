@@ -13,6 +13,7 @@ import Table from './Table';
 import NextFixtures from '../nextfixtures/NextFixtures';
 import { teamsAreDifferent } from '../helpers';
 import materialStyles from '../../materialStyles';
+import Spinner from '../../common/spinner/Spinner';
 
 const calculateSquadValue = (currentTeam, remainingBudget) => currentTeam
     .reduce((acc, cur) => Number(acc) + Number(cur.price), 0) + remainingBudget;
@@ -20,6 +21,7 @@ const calculateSquadValue = (currentTeam, remainingBudget) => currentTeam
 const Desktop = props => {
     const classes = makeStyles(materialStyles)();
     const teamsDiffer = teamsAreDifferent(props.originalTeam, props.currentTeam);
+
     return (
         <>
             <div className={props.styles.transfersWrapperDesktop}>
@@ -70,20 +72,24 @@ const Desktop = props => {
                             </div>
                         </div>
                     </div>
-                    <Pitch
-                        // additionalInfo={player => `£${player.price} mil`}
-                        additionalInfo={player => `${player.team} (£${player.price} mil)`}
-                        activeTeam={props.currentTeam}
-                        loading={props.fetchingOriginalTeam}
-                        maxInPos={{
-                            GOALKEEPER: constants.maxPerPosition.GOALKEEPER,
-                            DEFENDER: constants.maxPerPosition.DEFENDER,
-                            MIDFIELDER: constants.maxPerPosition.MIDFIELDER,
-                            ATTACKER: constants.maxPerPosition.ATTACKER
-                        }}
-                        onPlayerClick={props.onPlayerClick}
-                        renderEmptyPlayers
-                    />
+                    {props.fetchingOriginalTeam
+                        ? <div className={props.styles.spinnerWrapper}><Spinner /></div>
+                        : (
+                            <Pitch
+                                // additionalInfo={player => `£${player.price} mil`}
+                                additionalInfo={player => `${player.team} (£${player.price} mil)`}
+                                activeTeam={props.currentTeam}
+                                loading={props.fetchingOriginalTeam}
+                                maxInPos={{
+                                    GOALKEEPER: constants.maxPerPosition.GOALKEEPER,
+                                    DEFENDER: constants.maxPerPosition.DEFENDER,
+                                    MIDFIELDER: constants.maxPerPosition.MIDFIELDER,
+                                    ATTACKER: constants.maxPerPosition.ATTACKER
+                                }}
+                                onPlayerClick={props.onPlayerClick}
+                                renderEmptyPlayers
+                            />
+                        )}
                 </Paper>
                 <Table
                     allPlayers={props.allPlayers}
