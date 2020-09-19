@@ -1,5 +1,7 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { noop } from 'lodash';
 import defaultStyles from './LeagueTable.module.scss';
 import Grid from '../../common/grid/Grid';
 import * as helpers from '../helpers';
@@ -9,7 +11,13 @@ const LeagueTable = props => {
         [props.fixtures]);
 
     return (
-        <div className={props.styles.leagueTableWrapper}>
+        <>
+            <div
+                className={props.styles.leagueTableBuffer}
+                onClick={() => props.setIsCollapsableOpen(false)}
+                tabIndex={0}
+                role="button"
+            />
             <Grid
                 columns={helpers.columns}
                 gridHeader="League Table"
@@ -19,13 +27,14 @@ const LeagueTable = props => {
                 rowsPerPageOptions={[20]}
                 showPagination={false}
             />
-        </div>
+        </>
     );
 };
 
 LeagueTable.defaultProps = {
     fixtures: [],
     loadingFixtures: false,
+    setIsCollapsableOpen: noop,
     styles: defaultStyles
 };
 
@@ -40,6 +49,7 @@ LeagueTable.propTypes = {
         league: PropTypes.string
     })),
     loadingFixtures: PropTypes.bool,
+    setIsCollapsableOpen: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 

@@ -1,7 +1,8 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Chart } from 'react-google-charts';
-import _ from 'lodash';
+import _, { noop } from 'lodash';
 import defaultStyles from './Graph.module.scss';
 import Spinner from '../../common/spinner/Spinner';
 import * as helpers from '../helpers';
@@ -57,6 +58,12 @@ const Graph = props => {
 
     return (
         <>
+            <div
+                className={props.styles.graphBuffer}
+                onClick={() => props.setIsCollapsableOpen(false)}
+                tabIndex={0}
+                role="button"
+            />
             <div className={props.styles.graphChoiceWrapper}>
                 <Autocompletecheckbox
                     loading={props.loadingFixtures}
@@ -137,12 +144,14 @@ Graph.propTypes = {
         league: PropTypes.string
     })),
     loadingFixtures: PropTypes.bool,
+    setIsCollapsableOpen: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string)
 };
 
 Graph.defaultProps = {
     fixtures: [],
     loadingFixtures: false,
+    setIsCollapsableOpen: noop,
     styles: defaultStyles
 };
 
