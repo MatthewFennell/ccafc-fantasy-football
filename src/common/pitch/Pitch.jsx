@@ -62,7 +62,8 @@ const Pitch = props => {
     return (
         <div className={classNames({
             [props.styles.pitchBackground]: true,
-            [props.styles.maxHeightDefault]: props.loading
+            [props.styles.maxHeightDefault]: props.loading,
+            [props.styles.maxHeight]: props.isMaxHeight
         })}
         >
             {props.loading ? (
@@ -99,6 +100,7 @@ Pitch.defaultProps = {
     activeTeam: [],
     additionalInfo: noop,
     captain: '',
+    isMaxHeight: false,
     loading: false,
     maxInPos: {
         GOALKEEPER: 1,
@@ -119,6 +121,7 @@ Pitch.propTypes = {
     })),
     additionalInfo: PropTypes.func,
     captain: PropTypes.string,
+    isMaxHeight: PropTypes.bool,
     loading: PropTypes.bool,
     maxInPos: PropTypes.shape({
         GOALKEEPER: PropTypes.number,

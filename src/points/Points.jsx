@@ -67,6 +67,7 @@ const Points = props => {
             captain={captainId}
             goalkeeperStyles={goalkeeperStyles}
             loading={props.loading}
+            isMaxHeight
             onPlayerClick={playerClick}
             renderEmptyPlayers
             showCaptain

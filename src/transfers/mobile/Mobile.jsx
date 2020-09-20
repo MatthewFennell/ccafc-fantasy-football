@@ -75,6 +75,7 @@ const Mobile = props => {
                         additionalInfo={player => `${player.team} (£${player.price} mil)`}
                         activeTeam={props.currentTeam}
                         loading={props.fetchingOriginalTeam}
+                        isMaxHeight={props.fetchingOriginalTeam}
                         maxInPos={{
                             GOALKEEPER: constants.maxPerPosition.GOALKEEPER,
                             DEFENDER: constants.maxPerPosition.DEFENDER,

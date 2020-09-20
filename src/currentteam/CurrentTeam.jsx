@@ -78,6 +78,7 @@ const CurrentTeam = props => {
                         activePlayerStyles={activePlayerStyles}
                         captain={props.captain}
                         loading={props.fetchingForUser}
+                        isMaxHeight
                         goalkeeperStyles={goalkeeperStyles}
                         onPlayerClick={onPlayerClick}
                         renderEmptyPlayers
@@ -100,6 +101,7 @@ const CurrentTeam = props => {
                             activePlayerStyles={activePlayerStyles}
                             captain={props.captain}
                             loading={props.fetchingForUser}
+                            isMaxHeight={props.fetchingForUser}
                             goalkeeperStyles={goalkeeperStyles}
                             onPlayerClick={onPlayerClick}
                             renderEmptyPlayers
