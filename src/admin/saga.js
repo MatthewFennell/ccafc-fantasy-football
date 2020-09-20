@@ -254,6 +254,8 @@ export function* deleteAllOldUsers(api) {
         yield call(api.deleteAllOldUsers);
     } catch (error) {
         yield put(setErrorMessage('Error Deleting All Users', error));
+    } finally {
+        yield put(actions.deleteAllOldUsersSuccess());
     }
 }
 

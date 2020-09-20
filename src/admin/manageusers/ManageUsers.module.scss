@@ -23,8 +23,12 @@
 }
 
 .yearFinishedButtons {
+  display: flex;
   justify-content: space-evenly;
   text-align: center;
+  width: 50%;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .modalWrapper{

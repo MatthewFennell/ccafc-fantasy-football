@@ -17,6 +17,7 @@ import StyledButton from '../../common/StyledButton/StyledButton';
 import Dropdown from '../../common/dropdown/Dropdown';
 import Menu from '../../common/menu/Menu';
 import SuccessModal from '../../common/modal/SuccessModal';
+import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
 import RolesToPermissions from './RolesToPermissions';
 import ConfirmModal from '../../common/modal/ConfirmModal';
 import TextInput from '../../common/TextInput/TextInput';
@@ -227,16 +228,21 @@ const ManageUsers = props => {
                         Wait a minute and then click roll over to next year
                     </div>
                     <div className={props.styles.yearFinishedButtons}>
-
+                        <LoadingDiv
+                            isLoading={props.isDeletingOldUsers}
+                            isBorderRadius
+                            isNoPadding
+                        >
+                            <StyledButton
+                                onClick={props.deleteAllOldUsersRequest}
+                                color="secondary"
+                                text="Delete all old users"
+                            />
+                        </LoadingDiv>
                         <StyledButton
                             onClick={() => setIsRollingOverToNextYear(true)}
                             color="secondary"
                             text="Roll Over to Next Year"
-                        />
-                        <StyledButton
-                            onClick={props.deleteAllOldUsersRequest}
-                            color="secondary"
-                            text="Delete all old users"
                         />
                     </div>
                 </Paper>
@@ -257,6 +263,7 @@ const ManageUsers = props => {
 ManageUsers.defaultProps = {
     allRoles: [],
     fetchingUsersWithExtraRoles: false,
+    isDeletingOldUsers: false,
     isRollingOverToNextYear: false,
     styles: defaultStyles,
     usersWithExtraRoles: [],
@@ -269,6 +276,7 @@ ManageUsers.propTypes = {
     deleteAllOldUsersRequest: PropTypes.func.isRequired,
     fetchingUsersWithExtraRoles: PropTypes.bool,
     fetchUsersWithExtraRolesRequest: PropTypes.func.isRequired,
+    isDeletingOldUsers: PropTypes.bool,
     isRollingOverToNextYear: PropTypes.bool,
     removeUserRoleRequest: PropTypes.func.isRequired,
     rollOverToNextYearRequest: PropTypes.func.isRequired,
@@ -292,6 +300,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
     allRoles: state.auth.allRoles,
+    isDeletingOldUsers: state.admin.isDeletingOldUsers,
     fetchingUsersWithExtraRoles: state.admin.fetchingUsersWithExtraRoles,
     isRollingOverToNextYear: state.admin.isRollingOverToNextYear,
     usersWithExtraRoles: state.admin.usersWithExtraRoles,

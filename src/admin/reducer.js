@@ -45,7 +45,9 @@ export const initialState = {
     isRollingOverToNextYear: false,
 
     addingNotification: false,
-    isEditingPlayerPrice: false
+    isEditingPlayerPrice: false,
+
+    isDeletingOldUsers: false
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -82,6 +84,12 @@ const adminReducer = (state = initialState, action) => {
     }
     case actions.CANCEL_EDITING_PLAYER_PRICE: {
         return fp.set('isEditingPlayerPrice', false)(state);
+    }
+    case actions.DELETE_ALL_OLD_USERS_REQUEST: {
+        return fp.set('isDeletingOldUsers', true)(state);
+    }
+    case actions.DELETE_ALL_OLD_USERS_SUCCESS: {
+        return fp.set('isDeletingOldUsers', false)(state);
     }
     case actions.ADD_NOTIFICATION_REQUEST: {
         return fp.set('addingNotification', true)(state);

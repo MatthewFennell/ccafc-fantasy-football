@@ -57,6 +57,7 @@ export const ROLL_OVER_TO_NEXT_YEAR_REQUEST = `${pre}ROLL_OVER_TO_NEXT_YEAR_REQU
 export const SET_ROLLING_OVER_TO_NEXT_YEAR = `${pre}SET_ROLLING_OVER_TO_NEXT_YEAR`;
 
 export const DELETE_ALL_OLD_USERS_REQUEST = `${pre}DELETE_ALL_OLD_USERS_REQUEST`;
+export const DELETE_ALL_OLD_USERS_SUCCESS = `${pre}DELETE_ALL_OLD_USERS_SUCCESS`;
 
 export const FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST = `${pre}FETCH_HIGHLIGHTS_FOR_APPROVAL_REQUEST`;
 export const FETCH_HIGHLIGHTS_FOR_APPROVAL_SUCCESS = `${pre}FETCH_HIGHLIGHTS_FOR_APPROVAL_SUCCESS`;
@@ -246,6 +247,10 @@ export const fetchHighlightsForApprovalRequest = () => ({
 
 export const deleteAllOldUsersRequest = () => ({
     type: DELETE_ALL_OLD_USERS_REQUEST
+});
+
+export const deleteAllOldUsersSuccess = () => ({
+    type: DELETE_ALL_OLD_USERS_SUCCESS
 });
 
 export const rollOverToNextYearRequest = () => ({
