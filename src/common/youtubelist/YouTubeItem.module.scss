@@ -1,9 +1,10 @@
 @import "../Styles.scss";
 
-.expandedWrapper{
+.expandedWrapper {
+  cursor: pointer;
+    outline: none;
     display: flex;
     flex-wrap: wrap;
-    margin-top: $spacing-tiny;
     > div {
       flex-grow: 1;
     }
@@ -15,6 +16,9 @@
     .youtubeButton {
       @include vertical-center-div();
     }
+  }
+  .videoTitle {
+    padding-top: $spacing-small;
   }
 
 .videoTitle, .email, .dateCreated {
@@ -35,9 +39,10 @@
     padding: 0px $spacing-medium $spacing-average $spacing-medium;
   }
 
-.closedVideoItemWrapper{
-  margin-top: $spacing-tiny;
+.closedVideoItemWrapper {
   padding: $spacing-average;
+  cursor: pointer;
+  outline: none;
     > div {
         font-weight: bold;
         margin-left: auto;
@@ -45,6 +50,10 @@
         outline-width: 0px;
         text-align: center;
     }
+}
+
+.closedVideoItemWrapper:hover {
+  background-color: $color-light-blue-hover;
 }
 
 .commentsWrapper{

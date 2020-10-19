@@ -2,6 +2,8 @@ import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import defaultStyles from './TriggerWeek.module.scss';
 import {
     triggerWeekRequest, recalculateLeaguePositionsRequest
@@ -9,8 +11,10 @@ import {
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
 import Dropdown from '../../common/dropdown/Dropdown';
+import materialStyles from '../../materialStyles';
 
 const TriggerWeek = props => {
+    const classes = makeStyles(materialStyles)();
     const [week, setWeek] = useState('');
 
     const triggerWeek = useCallback(() => {
@@ -26,46 +30,48 @@ const TriggerWeek = props => {
     }] : [];
 
     return (
-        <>
-            <div className={props.styles.triggerWeekWrapper}>
-                <div className={props.styles.triggerWeekForm}>
-                    <Dropdown
-                        value={week}
-                        onChange={setWeek}
-                        options={calculateOptions}
-                        title="Week"
-                        key="Week"
-                    />
-                </div>
-                <div className={props.styles.triggerWeekHeader}>
-                    <StyledButton
-                        color="primary"
-                        onClick={triggerWeek}
-                        text="Trigger Week"
-                        disabled={!(week && week !== 0)}
-                    />
-                </div>
-                <div className={props.styles.recalculateLeaguePositions}>
-                    <StyledButton
-                        color="primary"
-                        onClick={() => props.recalculateLeaguePositionsRequest()}
-                        text="Recalculate League Positions"
-                        disabled={props.isRecalculatingLeaguePositions}
-                    />
-                    <div className={props.styles.recalculateInfo}>
-                        Please do this only after submitting results
-                        for all teams - expensive operation
-                    </div>
-                </div>
-                <div className={classNames({
-                    [props.styles.hidden]: !props.triggeringWeek
-                    && !props.isRecalculatingLeaguePositions
-                })}
-                >
-                    <Spinner color="secondary" />
+        <Paper
+            elevation={4}
+            className={classes.paper}
+        >
+            <div className={props.styles.triggerWeekForm}>
+                <Dropdown
+                    value={week}
+                    onChange={setWeek}
+                    options={calculateOptions}
+                    title="Week"
+                    key="Week"
+                />
+            </div>
+            <div className={props.styles.triggerWeekHeader}>
+                <StyledButton
+                    color="primary"
+                    onClick={triggerWeek}
+                    text="Trigger Week"
+                    disabled={!(week && week !== 0)}
+                />
+            </div>
+            <div className={props.styles.recalculateLeaguePositions}>
+                <StyledButton
+                    color="primary"
+                    onClick={() => props.recalculateLeaguePositionsRequest()}
+                    text="Recalculate League Positions"
+                    disabled={props.isRecalculatingLeaguePositions}
+                />
+                <div className={props.styles.recalculateInfo}>
+                    Please do this only after submitting results
+                    for all teams - expensive operation
                 </div>
             </div>
-        </>
+            <div className={classNames({
+                [props.styles.hidden]: !props.triggeringWeek
+                    && !props.isRecalculatingLeaguePositions,
+                [props.styles.spinner]: true
+            })}
+            >
+                <Spinner color="secondary" />
+            </div>
+        </Paper>
     );
 };
 

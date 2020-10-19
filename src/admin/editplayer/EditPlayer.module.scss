@@ -1,39 +1,20 @@
 @import "../../common/Styles.scss";
 
-.findPlayerDropdowns{
-  justify-content: center;
-  display: flex;
-  @include light-box-shadow();
-  padding: $spacing-medium;
-  margin: $spacing-medium;
-  background-color: $color-white;
-  flex-wrap: wrap;
-  border-radius: $spacing-tiny;
-  > div { 
+  .teamDropdown, .playerDropdown, .weekOptions  { 
     justify-content: center;
     text-align: center;
     flex-grow: 1;
   }
-}
 
 .oldValueCell {
   color: $color-blue;
   font-weight: bold;
 }
 
-.oldStatsWrapper {
-  justify-content: center;
-  display: flex;
-  @include light-box-shadow();
-  margin: $spacing-medium;
-  background-color: $color-white;
-  flex-wrap: wrap;
-  border-radius: $spacing-tiny;
-
-  .buttonWrapper{
-    margin-top: $spacing-small;
-    margin-bottom: $spacing-small;
-  }
+.buttonWrapper{
+  margin-top: $spacing-small;
+  margin-bottom: $spacing-small;
+  text-align: center;
 }
 
 .divWrapper {
@@ -43,7 +24,7 @@
   text-align: center;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
   .findPlayerDropdowns {
     padding: 0px;
     margin: 0px;

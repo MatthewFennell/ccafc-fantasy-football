@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import fp from 'lodash/fp';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import defaultStyles from './SubmitResult.module.scss';
 import {
     fetchTeamsRequest, fetchPlayersForTeamRequest, submitResultRequest,
@@ -18,6 +20,7 @@ import TextInput from '../../common/TextInput/TextInput';
 import * as textInputConstants from '../../common/TextInput/constants';
 import { fetchMaxGameWeekRequest } from '../../overview/actions';
 import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
+import materialStyles from '../../materialStyles';
 
 const generateWeekOptions = maxGameWeek => {
     const options = [];
@@ -32,6 +35,7 @@ const generateWeekOptions = maxGameWeek => {
 };
 
 const SubmitResult = props => {
+    const classes = makeStyles(materialStyles)();
     useEffect(() => {
         props.fetchTeamsRequest();
         // eslint-disable-next-line
@@ -178,15 +182,18 @@ const SubmitResult = props => {
 
     return (
         <>
-            <div className={props.styles.submitResultWrapper}>
-                {(!process.env.NODE_ENV || process.env.NODE_ENV === 'development') && (
-                    <StyledButton
-                        text="Custom submit"
-                        onClick={() => props.submitCustumResults(gameWeek)}
-                        disabled={!gameWeek}
-                    />
-                )}
+            <Paper
+                elevation={4}
+                className={classes.paper}
+            >
                 <div className={props.styles.submitButtonWrapper}>
+                    {(!process.env.NODE_ENV || process.env.NODE_ENV === 'development') && (
+                        <StyledButton
+                            text="Custom submit"
+                            onClick={() => props.submitCustumResults(gameWeek)}
+                            disabled={!gameWeek}
+                        />
+                    )}
                     <StyledButton
                         color="primary"
                         onClick={submitResult}
@@ -268,12 +275,13 @@ const SubmitResult = props => {
                     </div>
                 </LoadingDiv>
                 <div className={classNames({
-                    [props.styles.hidden]: !props.submittingResult
+                    [props.styles.hidden]: !props.submittingResult,
+                    [props.styles.spinner]: true
                 })}
                 >
                     <Spinner color="secondary" />
                 </div>
-            </div>
+            </Paper>
             <ExtraStats
                 allTeams={props.allTeams}
                 fetchPlayersForTeamRequest={props.fetchPlayersForTeamRequest}

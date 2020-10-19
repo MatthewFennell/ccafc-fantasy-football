@@ -1,41 +1,23 @@
 @import "../common/Styles.scss";
 
 .overviewWrapper {
-  margin-left: 10%;
-  margin-right: 10%;
-
-  .pointsWrapper {
-    padding-bottom: $spacing-medium;
-    background-color: $color-white;
-    text-align: center;
-    color: $color-white;
-    padding-top: $spacing-medium;
-    margin-top: $spacing-medium;
-    @include light-box-shadow();
-    border-radius: $spacing-small;
-
-    .totalPointsWrapper {
-      justify-content: center;
-
-      .totalPointsText{
-        @include vertical-center-div();
-        font-size: $font-size-small;
-        color: $color-gray;
-      }
-      .totalPointsValue {
-        font-size: $font-size-gigantic;
-        color: $color-blue;
-      }
-    }    
-  }
-
-  .gameweekPointsWrapper {
-    border-radius: $spacing-small;
-    margin-top: $spacing-huge;
-    padding: $spacing-average;
+  text-align: center;
+  .totalPointsWrapper {
     justify-content: center;
-    @include light-box-shadow();
-    background-color: $color-white;
+
+    .totalPointsText{
+      @include vertical-center-div();
+      font-size: $font-size-small;
+      color: $color-gray;
+    }
+    .totalPointsValue {
+      font-size: $font-size-gigantic;
+      color: $color-blue;
+    }
+  }    
+
+    border-radius: $spacing-small;
+    justify-content: center;
     text-align: center;
 
     .gameWeekText{
@@ -65,6 +47,7 @@
       .highestPointsWrapper, .yourPointsWrapper {
         border-radius: $spacing-medium;
         cursor: pointer;
+        outline: none;
       }
       .highestPointsWrapper:hover, .yourPointsWrapper:hover {
         background-color: $color-very-very-light-blue;
@@ -77,16 +60,9 @@
         color: $color-blue;
       }
     }
-  }
 
   .userInfoWrapper {
-    border-radius: $spacing-small;
-    margin-top: $spacing-huge;
-    margin-bottom: $spacing-huge;
-    padding: $spacing-average;
     justify-content: center;
-    @include light-box-shadow();
-    background-color: $color-white;
     text-align: center;
     display: flex;
     color: $color-gray;
@@ -108,17 +84,16 @@
   }
 
   .desktopRulesWrapper {
-    border-radius: $spacing-small;
     padding: $spacing-average;
     justify-content: center;
-    @include light-box-shadow();
-    background-color: $color-white;
 
     .desktopRulesHeader {     
       color: $color-green;
       font-weight: bold;
       text-align: center;
       font-size: $font-size-large;
+      outline: none;
+      cursor: pointer;
     }
   }
 
@@ -128,6 +103,12 @@
     text-align: center;
     padding: $spacing-average;
     font-size: $font-size-large;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .rulesTitle:hover {
+    background-color: $color-light-blue-hover;
   }
 
   .rulesWrapper {
@@ -136,8 +117,8 @@
   } 
 }
 
-@media only screen and (max-width: 600px) { 
-  .gameweekPointsWrapper, .userInfoWrapper, .rulesWrapper, .pointsWrapper {
+@media only screen and (max-width: 800px) { 
+  .userInfoWrapper, .rulesWrapper, .pointsWrapper {
     margin-top: $spacing-average !important;
   }
 
@@ -145,8 +126,4 @@
     margin-bottom: $spacing-average !important;
   }
 
-  .overviewWrapper {
-    margin-left: 5%;
-    margin-right: 5%;
-  }
 }

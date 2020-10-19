@@ -1,11 +1,5 @@
 @import "../../common/Styles.scss";
 
-.extraRolesWrapper, .rolesToPermissionsWrapper, .clearDatabaseWrapper {
-  margin: $spacing-large;
-  @include light-box-shadow();
-  border-radius: $spacing-tiny;
-}
-
 .manageUserGridHeaderWrapper{
   display: flex;
 }
@@ -22,6 +16,19 @@
   margin-left: auto;
   margin-right: $spacing-medium;
   white-space: nowrap;
+}
+
+.yearFinishedMessage {
+  text-align: center;
+}
+
+.yearFinishedButtons {
+  display: flex;
+  justify-content: space-evenly;
+  text-align: center;
+  width: 50%;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .modalWrapper{
@@ -43,7 +50,7 @@
   padding: $spacing-small;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
   .extraRolesWrapper {
     padding: 0px;
     margin: 0px;

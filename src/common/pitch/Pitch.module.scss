@@ -1,13 +1,25 @@
 @import "../Styles.scss";
 
 .pitchBackground{
-    height: 100%;
     padding: $spacing-average;
     justify-content: center;
+    border-radius: $spacing-small;
     
     text-align: center;
     background-image: url("../../common/images/CCAFC.png");
     background-size: 100% 100%;
+    // height: 100%;
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  .maxHeight {
+    height: 100%;
+  }
+
+  .maxHeightDefault {
+    height: 100%;
   }
 
   .goalKeepers{
@@ -18,7 +30,6 @@
     width: 75%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 5%;
     display: flex;
     justify-content: center;
     > div {
@@ -43,13 +54,13 @@
     }
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 800px) {
     .defenders, .midfielders, .attackers{
       margin-top: 8%
     }
   }
 
-  @media only screen and (max-height: 600px) {
+  @media only screen and (max-height: 800px) {
     .midfielders, .attackers{
       margin-top: 5%
     }

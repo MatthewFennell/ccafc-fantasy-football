@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
+import classNames from 'classnames';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import defaultStyles from './Table.module.scss';
 import Grid from '../../common/grid/Grid';
 import inputStyles from '../common/InputStyles.module.scss';
@@ -10,6 +13,7 @@ import { generateMarks, sortListAscDescDesktop } from '../common/helpers';
 import TextInput from '../../common/TextInput/TextInput';
 import * as textInputConstants from '../../common/TextInput/constants';
 import { generateCsvTitle } from '../../helperFunctions';
+import materialStyles from '../../materialStyles';
 
 const positionOptions = [
     {
@@ -35,6 +39,7 @@ const positionOptions = [
 ];
 
 const Table = props => {
+    const classes = makeStyles(materialStyles)();
     const {
         maxPrice,
         minPrice,
@@ -89,7 +94,12 @@ const Table = props => {
     };
 
     return (
-        <div className={props.styles.tableWrapper}>
+        <Paper
+            elevation={4}
+            className={classNames({
+                [classes.paperSmallMargin]: true
+            })}
+        >
             <div className={props.styles.filterWrapper}>
                 <div className={props.styles.sliderWrapper}>
                     <Slider showMarker={false} marks={generateMarks(0, 16, 2)} min={0} max={16} step={1} text="Min Price" onChange={setMinPrice} defaultValue={0} />
@@ -150,7 +160,7 @@ const Table = props => {
                     maxHeight={550}
                 />
             </div>
-        </div>
+        </Paper>
     );
 };
 

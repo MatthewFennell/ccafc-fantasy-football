@@ -18,13 +18,12 @@
 }
 
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
   .videoWrapper{
     min-width: 100%;
     margin-left: auto;
   }
   .videoListWrapper {
-    padding: $spacing-small;
     margin: 0px;
     margin-bottom: $spacing-medium;
   }
@@ -34,13 +33,6 @@
 .userInfo{
   width: 50%;
   margin-left: $spacing-small;
-}
-
-.loadingSpinner{
-  margin: $spacing-medium;
-  background-color: $color-white;
-  @include light-box-shadow();
-  text-align: center;
 }
 
 .collapsedVideoWrapper{

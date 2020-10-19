@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import Media from 'react-media';
+import classNames from 'classnames';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import { fetchFixturesRequest } from '../fixtures/actions';
 import defaultStyles from './CurrentTeam.module.scss';
 import * as selectors from './selectors';
@@ -18,8 +21,13 @@ import ConfirmModal from '../common/modal/ConfirmModal';
 import SuccessModal from '../common/modal/SuccessModal';
 import Summary from './components/Summary';
 import NextMatch from './components/NextMatch';
+import * as appConstants from '../constants';
+import materialStyles from '../materialStyles';
 
 const CurrentTeam = props => {
+    const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
+    const classes = makeStyles(materialStyles)();
+
     useEffect(() => {
         props.fetchActiveTeamRequest(props.userId);
         // eslint-disable-next-line
@@ -62,67 +70,71 @@ const CurrentTeam = props => {
 
     return (
         <div className={props.styles.pitchWrapper}>
-            <Media queries={{
-                mobile: '(max-width: 599px)',
-                desktop: '(min-width: 600px)'
-            }}
-            >
-                {matches => (
-                    <>
-                        {matches.mobile && (
-                            <div className={props.styles.currentTeamWrapper}>
-                                <Pitch
-                                    additionalInfo={player => player.team}
-                                    activeTeam={props.activeTeam}
-                                    activePlayerStyles={activePlayerStyles}
-                                    captain={props.captain}
-                                    loading={props.fetchingForUser}
-                                    goalkeeperStyles={goalkeeperStyles}
-                                    onPlayerClick={onPlayerClick}
-                                    renderEmptyPlayers
-                                    showCaptain
-                                />
-                            </div>
-                        )}
-                        {matches.desktop && (
-                            <div className={props.styles.desktopWrapper}>
-                                <div className={props.styles.desktopPitch}>
-                                    <Pitch
-                                        additionalInfo={player => player.team}
-                                        activeTeam={props.activeTeam}
-                                        activePlayerStyles={activePlayerStyles}
-                                        captain={props.captain}
-                                        loading={props.fetchingForUser}
-                                        goalkeeperStyles={goalkeeperStyles}
-                                        onPlayerClick={onPlayerClick}
-                                        renderEmptyPlayers
-                                        showCaptain
-                                    />
-                                </div>
-                                <div className={props.styles.summary}>
-                                    <Summary
-                                        captain={props.captain}
-                                        captainToUpdate={props.captainToUpdate}
-                                        isUpdatingCaptain={props.isUpdatingCaptain}
-                                        loading={props.fetchingForUser}
-                                        players={props.activeTeam}
-                                        makePlayerCaptain={makePlayerCaptain}
-                                        setCaptainToUpdate={props.setCaptainToUpdate}
-                                    />
+            {isMobile && (
+                <div className={props.styles.currentTeamWrapper}>
+                    <Pitch
+                        additionalInfo={player => player.team}
+                        activeTeam={props.activeTeam}
+                        activePlayerStyles={activePlayerStyles}
+                        captain={props.captain}
+                        loading={props.fetchingForUser}
+                        isMaxHeight
+                        goalkeeperStyles={goalkeeperStyles}
+                        onPlayerClick={onPlayerClick}
+                        renderEmptyPlayers
+                        showCaptain
+                    />
+                </div>
+            )}
+            {!isMobile && (
+                <div className={props.styles.desktopWrapper}>
+                    <Paper
+                        elevation={4}
+                        className={classNames({
+                            [classes.paper]: true,
+                            [classes.maxWidth]: true
+                        })}
+                    >
+                        <Pitch
+                            additionalInfo={player => player.team}
+                            activeTeam={props.activeTeam}
+                            activePlayerStyles={activePlayerStyles}
+                            captain={props.captain}
+                            loading={props.fetchingForUser}
+                            isMaxHeight={props.fetchingForUser}
+                            goalkeeperStyles={goalkeeperStyles}
+                            onPlayerClick={onPlayerClick}
+                            renderEmptyPlayers
+                            showCaptain
+                        />
+                    </Paper>
+                    <Paper
+                        elevation={4}
+                        className={classNames({
+                            [classes.paper]: true,
+                            [classes.thirtyWidth]: true
+                        })}
+                    >
+                        <Summary
+                            captain={props.captain}
+                            captainToUpdate={props.captainToUpdate}
+                            isUpdatingCaptain={props.isUpdatingCaptain}
+                            loading={props.fetchingForUser}
+                            players={props.activeTeam}
+                            makePlayerCaptain={makePlayerCaptain}
+                            setCaptainToUpdate={props.setCaptainToUpdate}
+                        />
 
-                                    <NextMatch
-                                        fetchFixturesRequest={props.fetchFixturesRequest}
-                                        fixtures={props.fixtures}
-                                        loadingFixtures={props.loadingFixtures}
-                                        players={props.activeTeam}
-                                    />
-                                </div>
+                        <NextMatch
+                            fetchFixturesRequest={props.fetchFixturesRequest}
+                            fixtures={props.fixtures}
+                            loadingFixtures={props.loadingFixtures}
+                            players={props.activeTeam}
+                        />
+                    </Paper>
 
-                            </div>
-                        )}
-                    </>
-                )}
-            </Media>
+                </div>
+            )}
             <ConfirmModal
                 cancel={closeModal}
                 closeModal={closeModal}

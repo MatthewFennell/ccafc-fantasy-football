@@ -7,15 +7,9 @@
     }
 }
 
-.pitchWrapper{
-    overflow: hidden;
-    // height: 90vh;
-    margin: $spacing-small;
-    // padding: $spacing-medium;
-    background-color: $color-white;
-    @include light-box-shadow();
-    min-height: 100vh;
-    border-radius: $spacing-tiny;
+.spinnerWrapper {
+  @include vertical-center-div();
+  margin-top: $spacing-medium;;
 }
 
 .transfersHeader{

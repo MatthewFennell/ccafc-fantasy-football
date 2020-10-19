@@ -2,12 +2,16 @@
 
 .bugWrapper {
     padding: $spacing-medium;
+    cursor: pointer;
+    outline: none;
 }
 
 .bugTitle {
     padding: $spacing-medium;
     text-align: center;
     color: $color-green;
+    outline: none;
+    cursor: pointer;
 }
 
 .deleteBug{

@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import classNames from 'classnames';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import defaultStyles from './Desktop.module.scss';
 import Pitch from '../../common/pitch/Pitch';
 import StyledButton from '../../common/StyledButton/StyledButton';
@@ -10,16 +12,25 @@ import Modals from '../common/Modals';
 import Table from './Table';
 import NextFixtures from '../nextfixtures/NextFixtures';
 import { teamsAreDifferent } from '../helpers';
+import materialStyles from '../../materialStyles';
+import Spinner from '../../common/spinner/Spinner';
 
 const calculateSquadValue = (currentTeam, remainingBudget) => currentTeam
     .reduce((acc, cur) => Number(acc) + Number(cur.price), 0) + remainingBudget;
 
 const Desktop = props => {
+    const classes = makeStyles(materialStyles)();
     const teamsDiffer = teamsAreDifferent(props.originalTeam, props.currentTeam);
+
     return (
         <>
             <div className={props.styles.transfersWrapperDesktop}>
-                <div className={props.styles.pitchWrapper}>
+                <Paper
+                    elevation={4}
+                    className={classNames({
+                        [classes.paperSmallMargin]: true
+                    })}
+                >
                     <div className={props.styles.transfersHeader}>
                         <div className={props.styles.remainingBudget}>
                             <div className={props.styles.remainingBudgetValue}>
@@ -61,21 +72,26 @@ const Desktop = props => {
                             </div>
                         </div>
                     </div>
-                    <Pitch
-                        // additionalInfo={player => `£${player.price} mil`}
-                        additionalInfo={player => player.team}
-                        activeTeam={props.currentTeam}
-                        loading={props.fetchingOriginalTeam}
-                        maxInPos={{
-                            GOALKEEPER: constants.maxPerPosition.GOALKEEPER,
-                            DEFENDER: constants.maxPerPosition.DEFENDER,
-                            MIDFIELDER: constants.maxPerPosition.MIDFIELDER,
-                            ATTACKER: constants.maxPerPosition.ATTACKER
-                        }}
-                        onPlayerClick={props.onPlayerClick}
-                        renderEmptyPlayers
-                    />
-                </div>
+                    {props.fetchingOriginalTeam
+                        ? <div className={props.styles.spinnerWrapper}><Spinner /></div>
+                        : (
+                            <Pitch
+                                // additionalInfo={player => `£${player.price} mil`}
+                                additionalInfo={player => `${player.team} (£${player.price} mil)`}
+                                activeTeam={props.currentTeam}
+                                loading={props.fetchingOriginalTeam}
+                                isMaxHeight={props.fetchingOriginalTeam}
+                                maxInPos={{
+                                    GOALKEEPER: constants.maxPerPosition.GOALKEEPER,
+                                    DEFENDER: constants.maxPerPosition.DEFENDER,
+                                    MIDFIELDER: constants.maxPerPosition.MIDFIELDER,
+                                    ATTACKER: constants.maxPerPosition.ATTACKER
+                                }}
+                                onPlayerClick={props.onPlayerClick}
+                                renderEmptyPlayers
+                            />
+                        )}
+                </Paper>
                 <Table
                     allPlayers={props.allPlayers}
                     allTeams={props.allTeams}

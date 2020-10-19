@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
+import classNames from 'classnames';
 import defaultStyles from './Pitch.module.scss';
 import Player from '../player/Player';
 import Spinner from '../spinner/Spinner';
@@ -59,7 +60,12 @@ const Pitch = props => {
     };
 
     return (
-        <div className={props.styles.pitchBackground}>
+        <div className={classNames({
+            [props.styles.pitchBackground]: true,
+            [props.styles.maxHeightDefault]: props.loading,
+            [props.styles.maxHeight]: props.isMaxHeight
+        })}
+        >
             {props.loading ? (
                 <div className={props.styles.loadingSpinner}>
                     <Spinner color="secondary" />
@@ -94,6 +100,7 @@ Pitch.defaultProps = {
     activeTeam: [],
     additionalInfo: noop,
     captain: '',
+    isMaxHeight: false,
     loading: false,
     maxInPos: {
         GOALKEEPER: 1,
@@ -114,6 +121,7 @@ Pitch.propTypes = {
     })),
     additionalInfo: PropTypes.func,
     captain: PropTypes.string,
+    isMaxHeight: PropTypes.bool,
     loading: PropTypes.bool,
     maxInPos: PropTypes.shape({
         GOALKEEPER: PropTypes.number,

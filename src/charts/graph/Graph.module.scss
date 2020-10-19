@@ -7,13 +7,21 @@
   color: $color-red;
 }
 
+.graphBuffer {
+  padding-top: $spacing-medium;
+  cursor: pointer;
+  outline: none;
+}
+
+.graphBuffer:hover {
+  background-color: $color-light-green-hover;
+}
 
 .graphSpinner{
   @include vertical-center-div();
 }
 
 .graphChoiceWrapper{
-  padding-top: $spacing-small;
   text-align: center;
 
   .radioWrapper{

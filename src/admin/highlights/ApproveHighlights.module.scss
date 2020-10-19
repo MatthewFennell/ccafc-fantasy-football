@@ -1,15 +1,10 @@
 @import "../../common/Styles.scss";
 
-.approveHighlightsWrapper{
+.highlightInfo{
   color: $color-blue;
   font-size: $font-size-large;
   text-align: center;
   font-weight: bold;
-  padding: $spacing-medium;
-  margin: $spacing-medium;
-  background-color: $color-white;
-  @include light-box-shadow();
-  border-radius: $spacing-tiny;
 }
 
 .highlightsHeaderMessage{
@@ -42,28 +37,17 @@
   margin-right: auto;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
   .highlightInfo {
     width: 100%;
   }
-}
-
-.youTubeVid{
-  padding: $spacing-medium;
-  margin: $spacing-medium;
-  background-color: $color-white;
-  @include light-box-shadow();
 }
 
 .modalButtons{
   text-align: center;
 }
 
-.noHighlights{
-  padding: $spacing-medium;
-  margin: $spacing-medium;
-  background-color: $color-white;
-  @include light-box-shadow();
+.noHighlights {
   text-align: center;
   font-weight: bold;
   color: $color-gray;
@@ -74,13 +58,6 @@
   padding: $spacing-medium;
   margin: $spacing-medium;
   text-align: center;
-}
-
-.allVideos {
-  margin: $spacing-medium;
-  background-color: $color-white;
-  @include light-box-shadow();
-  border-radius: $spacing-tiny;
 }
 
 .deleteIcon{
@@ -101,14 +78,7 @@
   margin-right: auto;
 }
 
-.allRejectedVideos{
-  margin: $spacing-medium;
-  background-color: $color-white;
-  @include light-box-shadow();
-}
-
-
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
   .approveHighlightsWrapper {
     margin: 0px;
   }

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import fp from 'lodash/fp';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import defaultStyles from './EditPlayerPrice.module.scss';
 import Dropdown from '../../common/dropdown/Dropdown';
 import {
@@ -14,8 +16,10 @@ import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
 import TextInput from '../../common/TextInput/TextInput';
 import * as textInputConstants from '../../common/TextInput/constants';
 import Fade from '../../common/Fade/Fade';
+import materialStyles from '../../materialStyles';
 
 const EditPlayerPrice = props => {
+    const classes = makeStyles(materialStyles)();
     const [playerName, setPlayerName] = useState('');
     const [playerTeam, setPlayerTeam] = useState('');
     const [newPrice, setNewPrice] = useState('');
@@ -37,6 +41,9 @@ const EditPlayerPrice = props => {
     const nameToPrice = name => fp.get('price')(playersForActiveTeam.find(a => a.value === name));
 
     const editPlayerPrice = useCallback(() => {
+        if (!playerTeam || !playerName || !newPrice) {
+            return;
+        }
         props.editPlayerPriceRequest(nameToId(playerName), newPrice, playerTeam);
         setPlayerName('');
         setPlayerTeam('');
@@ -45,76 +52,79 @@ const EditPlayerPrice = props => {
     }, [playerName, props.editPlayerPriceRequest, nameToId]);
 
     return (
-        <>
-            <div className={props.styles.editPlayerPriceWrapper}>
-                <div className={props.styles.editPlayerPriceForm}>
-                    <div className={props.styles.editPlayerPriceDropdowns}>
-                        <LoadingDiv
-                            isLoading={props.isFetchingTeams}
-                            isBorderRadius
-                        >
-                            <Dropdown
-                                value={playerTeam}
-                                onChange={setTeam}
-                                options={props.allTeams}
-                                title="Team"
-                                key="Team"
-                            />
-                        </LoadingDiv>
-                        <LoadingDiv
-                            isLoading={props.isFetchingPlayersForTeam}
-                            isBorderRadius
-                        >
-                            <Dropdown
-                                value={playerName}
-                                onChange={setPlayerName}
-                                options={playersForActiveTeam}
-                                title="Player"
-                                key="Player"
-                            />
-                        </LoadingDiv>
-                    </div>
-                </div>
-
-                <Fade checked={Boolean(playerName)}>
-                    <div className={props.styles.currentPrice}>
-                        <div className={props.styles.currentPriceKey}>
-                            Current Price:
-                        </div>
-                        <div className={props.styles.currentPriceValue}>
-                            {`£${nameToPrice(playerName)}m`}
-                        </div>
-                    </div>
-
-                    <div className={props.styles.newPrice}>
-                        <TextInput
-                            icon={textInputConstants.textInputIcons.money}
-                            onChange={setNewPrice}
-                            value={newPrice}
-                            iconColor="primary"
-                            type="number"
-                            label="Set new price"
+        <Paper
+            elevation={4}
+            className={classes.paper}
+        >
+            <div className={props.styles.editPlayerPriceForm}>
+                <div className={props.styles.editPlayerPriceDropdowns}>
+                    <LoadingDiv
+                        isLoading={props.isFetchingTeams}
+                        isBorderRadius
+                    >
+                        <Dropdown
+                            value={playerTeam}
+                            onChange={setTeam}
+                            options={props.allTeams}
+                            title="Team"
+                            key="Team"
                         />
-                    </div>
-                </Fade>
-
-                <div className={props.styles.editPlayerPriceHeader}>
-                    <StyledButton
-                        color="primary"
-                        onClick={editPlayerPrice}
-                        text="Edit Player Price"
-                        disabled={!playerTeam || !playerName || !newPrice}
-                    />
-                </div>
-
-                <div className={classNames({
-                    [props.styles.hidden]: !props.isEditingPlayerPrice
-                })}
-                >
-                    <Spinner color="secondary" />
+                    </LoadingDiv>
+                    <LoadingDiv
+                        isLoading={props.isFetchingPlayersForTeam}
+                        isBorderRadius
+                    >
+                        <Dropdown
+                            value={playerName}
+                            onChange={setPlayerName}
+                            options={playersForActiveTeam}
+                            title="Player"
+                            key="Player"
+                        />
+                    </LoadingDiv>
                 </div>
             </div>
-        </>
+
+            <Fade checked={Boolean(playerName)}>
+                <div className={props.styles.currentPrice}>
+                    <div className={props.styles.currentPriceKey}>
+                        Current Price:
+                    </div>
+                    <div className={props.styles.currentPriceValue}>
+                        {`£${nameToPrice(playerName)}m`}
+                    </div>
+                </div>
+
+                <div className={props.styles.newPrice}>
+                    <TextInput
+                        icon={textInputConstants.textInputIcons.money}
+                        onChange={setNewPrice}
+                        value={newPrice}
+                        iconColor="primary"
+                        type="number"
+                        label="Set new price"
+                        onSubmit={editPlayerPrice}
+                    />
+                </div>
+            </Fade>
+
+            <div className={props.styles.editPlayerPriceHeader}>
+                <StyledButton
+                    color="primary"
+                    onClick={editPlayerPrice}
+                    text="Edit Player Price"
+                    disabled={!playerTeam || !playerName || !newPrice}
+                />
+            </div>
+
+            <div className={classNames({
+                [props.styles.spinner]: true,
+                [props.styles.hidden]: !props.isEditingPlayerPrice
+            })}
+            >
+                <Spinner color="secondary" />
+            </div>
+        </Paper>
     );
 };
 

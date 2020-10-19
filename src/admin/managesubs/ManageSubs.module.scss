@@ -1,35 +1,27 @@
 @import "../../common/Styles.scss";
 
-.subsWrapper{
-    padding: $spacing-medium;
-    margin: $spacing-medium;
-    background-color: $color-white;
-    @include light-box-shadow();
-    border-radius: $spacing-tiny;
+.subsHeader{
+    font-size: $font-size-huge;
+    text-align: center;
+    color: $color-blue;
+    font-weight: bold;
+}
 
-    .subsHeader{
-        font-size: $font-size-huge;
-        text-align: center;
-        color: $color-blue;
-        font-weight: bold;
-    }
+.playersGridWrapper{
+    margin-top: $spacing-small;
+}
 
-    .playersGridWrapper{
-        margin-top: $spacing-small;
-    }
+.iconPositive {
+    color: $color-green;
+}
 
-    .iconPositive {
-        color: $color-green;
-    }
+.iconNegative{
+    color: $color-red;
+}
 
-    .iconNegative{
-        color: $color-red;
-    }
-
-    .editSubsIcon:hover{
-        color: $color-blue;
-        cursor: pointer;
-    }
+.editSubsIcon:hover{
+    color: $color-blue;
+    cursor: pointer;
 }
 
 .helperMessage {
@@ -70,11 +62,7 @@
     flex-wrap: wrap;
 }
 
-@media only screen and (max-width: 600px) {
-    .subsWrapper {
-        margin: 0px;
-        padding: 0px;
-    }
+@media only screen and (max-width: 800px) {
     .subsHeader {
         padding-top: $spacing-small;
     }

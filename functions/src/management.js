@@ -26,7 +26,6 @@ exports.rollOverToNextYear = functions
             }));
         })
             .then(() => db.collection('teams').get().then(teams => {
-                console.log('deleting teams');
                 const numberOfBatches = Math.ceil(teams.docs.length / constants.maxBatchSize);
                 const teamBatches = [];
                 for (let x = 0; x < numberOfBatches; x += 1) {
@@ -201,12 +200,9 @@ exports.rollOverToNextYear = functions
                     userRolesBatches.push(db.batch());
                 }
                 userRolesDocs.docs.forEach((userRoles, index) => {
-                    console.log('number of docs', userRolesDocs.docs.length);
                     const batchToTarget = Math.floor(index / constants.maxBatchSize);
-                    console.log('info', userRoles.data());
                     const { email } = userRoles.data();
                     if (email !== config.admin.email) {
-                        console.log('not admin');
                         admin.auth().getUserByEmail(email).then(user => admin.auth()
                             .setCustomUserClaims(user.uid, null))
                             .then(() => {

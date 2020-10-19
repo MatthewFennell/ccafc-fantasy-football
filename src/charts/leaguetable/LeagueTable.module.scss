@@ -1,17 +1,24 @@
 @import "../../common/Styles.scss";
 
-.leagueTableWrapper{
-  margin-top: $spacing-medium;
-  .sliderWrapper{
-    padding: $spacing-medium;
-    text-align: center;
-    width: 70%;
-    margin-left: auto;
-    margin-right: auto;
-  }
+.sliderWrapper{
+  padding: $spacing-medium;
+  text-align: center;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-@media only screen and (max-width: 600px) {
+.leagueTableBuffer {
+  padding-top: $spacing-medium;
+  cursor: pointer;
+  outline: none;
+}
+
+.leagueTableBuffer:hover {
+  background-color: $color-light-green-hover;
+}
+
+@media only screen and (max-width: 800px) {
   .leagueTableWrapper {
       margin-top: 0px;
   }

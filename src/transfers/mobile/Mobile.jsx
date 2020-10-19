@@ -43,7 +43,7 @@ const Mobile = props => {
                     <div className={props.styles.transfersHeader}>
                         <div className={props.styles.remainingBudget}>
                             <div className={props.styles.remainingBudgetValue}>
-                                {`£${props.remainingBudget}m`}
+                                {`£${((props.remainingBudget || 0).toFixed(1))}m`}
                             </div>
                         </div>
                         <div>
@@ -72,9 +72,10 @@ const Mobile = props => {
                     </div>
                     <Pitch
                         // additionalInfo={player => `£${player.price} mil`}
-                        additionalInfo={player => player.team}
+                        additionalInfo={player => `${player.team} (£${player.price} mil)`}
                         activeTeam={props.currentTeam}
                         loading={props.fetchingOriginalTeam}
+                        isMaxHeight={props.fetchingOriginalTeam}
                         maxInPos={{
                             GOALKEEPER: constants.maxPerPosition.GOALKEEPER,
                             DEFENDER: constants.maxPerPosition.DEFENDER,

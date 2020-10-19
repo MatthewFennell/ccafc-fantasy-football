@@ -1,6 +1,6 @@
 {
   "name": "collingwood-fantasy",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.11.2",
@@ -33,7 +33,6 @@
     "react-firebaseui": "^4.0.0",
     "react-google-charts": "^3.0.15",
     "react-google-login": "^5.0.5",
-    "react-media": "^1.10.0",
     "react-modal": "^3.10.1",
     "react-notifications-component": "^2.4.0",
     "react-redux": "^6.0.0",

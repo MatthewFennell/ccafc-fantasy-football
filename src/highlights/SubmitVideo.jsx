@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import defaultStyles from './SubmitVideo.module.scss';
@@ -11,6 +13,7 @@ import Grid from '../common/grid/Grid';
 import { generateTimeSinceNow, generateYouTubeLinkFromId } from '../helperFunctions';
 import TextInput from '../common/TextInput/TextInput';
 import mobileCollapsableStyles from './MobileCollapsableStyles.module.scss';
+import materialStyles from '../materialStyles';
 
 const widthForSmallColumns = 600;
 
@@ -55,6 +58,7 @@ const opts = {
 };
 
 const SubmitVideo = props => {
+    const classes = makeStyles(materialStyles)();
     useEffect(() => {
         if (props.submitVideoOpen) {
             props.fetchUserHighlightsToBeApproved();
@@ -82,6 +86,10 @@ const SubmitVideo = props => {
     }, [setVideoTitle, setExampleOpen]);
 
     const submitVideo = useCallback(() => {
+        if (!videoTitle || !video) {
+            return;
+        }
+
         setExampleOpen(false);
         if (videoTitle.length && video.length > 3) {
             props.submitHighlightRequest(video, videoTitle);
@@ -133,54 +141,59 @@ const SubmitVideo = props => {
             onClose={props.closeSubmitVideo}
             onOpen={noop}
         >
-            <div className={props.styles.drawerWrapper}>
-                <div className={props.styles.testWrapper}>
-                    {window.innerWidth < widthForSmallColumns && (
-                        <div className={props.styles.backIcon}>
-                            <ArrowBackIcon
-                                onClick={props.closeSubmitVideo}
-                                fontSize="large"
-                            />
-                        </div>
-                    )}
-
-                    <div className={props.styles.addHighlight}>
-                        <div className={props.styles.inputWrapper}>
-                            <TextInput
-                                onChange={updateVideoTitle}
-                                value={videoTitle}
-                                label="Video Title"
-                            />
-                            <TextInput
-                                onChange={updateId}
-                                value={video}
-                                label="YouTube Video ID"
-                                onBlur={openExample}
-                            />
-                            <StyledButton
-                                onClick={submitVideo}
-                                text="Submit Video for Approval"
-                                color="primary"
-                                disabled={!videoTitle || !video}
-                            />
-                        </div>
+            <Paper
+                elevation={4}
+                className={classes.paper}
+            >
+                {true && (
+                    <div className={props.styles.backIcon}>
+                        <ArrowBackIcon
+                            onClick={props.closeSubmitVideo}
+                            fontSize="large"
+                        />
                     </div>
-                    <div className={props.styles.videoIdHint}>
-                        e.g. The ID is the section in bold https://www.youtube.com/watch?v=
-                        <b>LYMGGgbOz1k</b>
+                )}
+
+                <div className={props.styles.addHighlight}>
+                    <div className={props.styles.inputWrapper}>
+                        <TextInput
+                            onChange={updateVideoTitle}
+                            value={videoTitle}
+                            label="Video Title"
+                        />
+                        <TextInput
+                            onChange={updateId}
+                            value={video}
+                            label="YouTube Video ID"
+                            onBlur={openExample}
+                            onSubmit={submitVideo}
+                        />
+                        <StyledButton
+                            onClick={submitVideo}
+                            text="Submit Video for Approval"
+                            color="primary"
+                            disabled={!videoTitle || !video}
+                        />
                     </div>
                 </div>
-                <CollapsableYouTube
-                    isOpen={exampleOpen}
-                    toggle={setExampleOpen}
-                    title="Check your video ID works"
-                    videoId={video}
-                    opts={opts}
-                    onReady={onReady}
-                    styles={mobileCollapsableStyles}
-                />
-            </div>
-            <div className={props.styles.gridWrapper}>
+                <div className={props.styles.videoIdHint}>
+                    e.g. The ID is the section in bold https://www.youtube.com/watch?v=
+                    <b>LYMGGgbOz1k</b>
+                </div>
+            </Paper>
+            <CollapsableYouTube
+                isOpen={exampleOpen}
+                toggle={setExampleOpen}
+                title="Check your video ID works"
+                videoId={video}
+                opts={opts}
+                onReady={onReady}
+                styles={mobileCollapsableStyles}
+            />
+            <Paper
+                elevation={4}
+                className={classes.paper}
+            >
                 <Grid
                     gridHeader="My Video Requests"
                     loading={props.loadingVideosToBeApproved || props.loadingRejectedVideos}
@@ -192,7 +205,7 @@ const SubmitVideo = props => {
                     rowsPerPageOptions={[5, 50, 100]}
                 />
 
-            </div>
+            </Paper>
         </SwipeableDrawer>
     );
 };

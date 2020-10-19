@@ -1,18 +1,16 @@
 @import "../common/Styles.scss";
 
-.drawerWrapper{
-  width: 80vw;
-}
-
-.backIcon{
+.backIcon {
   padding: $spacing-small;
   display: flex;
   align-items: center;
+  cursor: pointer;
+  width: fit-content;
+  border-radius: $spacing-small;
 }
 
-.testWrapper { 
-  margin-left: $spacing-medium;
-  @include light-box-shadow();
+.backIcon:hover {
+  background-color: $color-light-blue-hover;
 }
 
 .addHighlight {
@@ -21,6 +19,7 @@
   background-color: $color-white;
   margin-bottom: 0px;
   padding-bottom: 0px;
+  margin-top: 0px;
 
   .inputWrapper {
     text-align: center;
@@ -35,13 +34,6 @@
   font-size: $font-size-medium;
   word-break: break-word;
   padding-bottom: $spacing-small;
-}
-
-.gridWrapper {
-  margin: $spacing-medium;
-  background-color: $color-white;
-  @include light-box-shadow();
-  margin-top: 0px;
 }
 
 .rejected{
@@ -59,7 +51,7 @@
   font-weight: bold;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
   .drawerWrapper{
     width: 100vw;
   }
@@ -68,9 +60,6 @@
     margin-top: 0px;
     padding-top: 0px;
     padding-bottom: 0px;
-  }
-  .gridWrapper {
-    margin: 0px;
   }
 
   .videoIdHint {

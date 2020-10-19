@@ -1,23 +1,23 @@
 @import "../common/Styles.scss";
 
-.gameWeekText{
+.gameWeekText {
   font-size: $font-size-large;
   color: $color-gray;
   display: flex;
   justify-content: center;
-  .arrowBackWrapper{
+  .arrowBackWrapper {
     margin-right: $spacing-medium;
     cursor: pointer;
     @include vertical-center-div();
   }
-  .arrowForwardWrapper{
+  .arrowForwardWrapper {
     margin-left: $spacing-medium;
     cursor: pointer;
     @include vertical-center-div();
   }
 }
 
-.noStats{
+.noStats {
   text-align: center;
   font-weight: bold;
 }
@@ -29,25 +29,11 @@
 
 .desktopWrapper {
   display: flex;
-  margin-top: $spacing-medium;
   min-height: 100vh;
+  justify-content: center;
 }
 
-.desktopPitch {
-  @include light-box-shadow();
-  margin-left: $spacing-medium;
-  margin-right: $spacing-medium;
-  width: 70%;
-}
-
-.summary {
-  @include light-box-shadow();
-  padding: $spacing-medium;
-  width: 25%;
-  height: fit-content;
-}
-
-.pitchWrapper{
+.pitchWrapper {
   right: 0px;
   width: 100%;
   overflow-x: hidden;
@@ -55,7 +41,7 @@
   min-height: 100vh;
 }
 
-.currentTeamWrapper{
+.currentTeamWrapper {
   height: 90vh;
   background-color: $color-white;  
   margin-left: auto;;
@@ -63,8 +49,7 @@
   width: 70%;
 }
 
-@media only screen and (max-width: 600px) {
-
+@media only screen and (max-width: 800px) {
   .gameWeekText {
     padding: $spacing-small;
   }

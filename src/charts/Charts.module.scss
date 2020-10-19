@@ -5,6 +5,12 @@
     font-weight: bold;
     color: $color-blue;
     padding: $spacing-average;
+    cursor: pointer;
+    outline: none;
+}
+
+.titleMessage:hover {
+    background-color: $color-light-blue-hover;
 }
 
 .leagueWrapper {

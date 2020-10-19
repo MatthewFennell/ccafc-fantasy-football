@@ -1,1 +1,47 @@
 @import "../common/Styles.scss";
+
+.navbarRoutes {
+    display: flex;
+
+    width: 100%;
+    margin-left: 5% !important;
+    margin-right: 5% !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    white-space: nowrap;
+
+    > div {
+        text-align: center;
+        padding-left: $spacing-tiny !important;
+        padding-right: $spacing-tiny !important;
+    }
+
+    overflow-x: scroll;
+
+    &::-webkit-scrollbar {
+        width: 0.5em;
+        height: 0.5em;
+       }
+     
+       &::-webkit-scrollbar-thumb {
+        background-color: rgba(255,255,255,.1);
+        border-radius: 3px;
+     
+        &:hover {
+         background: rgba(255,255,255,.2);
+        }
+       }
+}
+
+.titleWrapper {
+    margin-right: $spacing-medium;
+}
+
+.navbarIcon {
+    margin-left: auto;
+}
+
+.activeRoute {
+    background-color: rgba(0, 0, 0, 0.1) !important; 
+    border-radius: $spacing-small !important;
+}

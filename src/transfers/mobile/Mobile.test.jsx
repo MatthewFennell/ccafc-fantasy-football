@@ -265,6 +265,6 @@ describe('Transfers - Mobile', () => {
             remainingBudget={50}
         />);
         expect(() => wrapper).not.toThrow();
-        expect(wrapper.find('.remainingBudgetValue').text()).toBe('£50m');
+        expect(wrapper.find('.remainingBudgetValue').text()).toBe('£50.0m');
     });
 });

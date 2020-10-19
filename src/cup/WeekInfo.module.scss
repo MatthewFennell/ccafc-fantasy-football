@@ -19,6 +19,8 @@
 .matchupsHeader {
     font-size: $font-size-large;
     color: $color-blue;
+    cursor: pointer;
+    outline: none;
 }
 
 .byesWrapper {
@@ -73,7 +75,7 @@
     }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
     .byesHeader {
       padding-bottom: 0px;
     }

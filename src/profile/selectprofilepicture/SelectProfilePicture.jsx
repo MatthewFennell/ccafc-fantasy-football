@@ -3,13 +3,17 @@ import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import classNames from 'classnames';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import defaultStyles from './SelectProfilePicture.module.scss';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import TextInput from '../../common/TextInput/TextInput';
 import * as textInputConstants from '../../common/TextInput/constants';
 import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
+import materialStyles from '../../materialStyles';
 
 const SelectProfilePicture = props => {
+    const classes = makeStyles(materialStyles)();
     const [ownPhotoUrl, setOwnPhotoUrl] = useState(props.currentPhotoUrl);
 
     const updateImage = useCallback(photoUrl => {
@@ -20,7 +24,10 @@ const SelectProfilePicture = props => {
     }, [props.updateProfilePicture, setOwnPhotoUrl, props.currentPhotoUrl]);
 
     return (
-        <div className={props.styles.selectProfilePictureWrapper}>
+        <Paper
+            elevation={4}
+            className={classes.paper}
+        >
             <div className={props.styles.selectAvatar}>
                 Select your own avatar
             </div>
@@ -90,7 +97,7 @@ const SelectProfilePicture = props => {
                     </div>
                 </div>
             </div>
-        </div>
+        </Paper>
     );
 };
 

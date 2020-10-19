@@ -2,8 +2,12 @@ import React, { useEffect, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Media from 'react-media';
+import classNames from 'classnames';
+import { noop } from 'lodash';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import defaultStyles from './Overview.module.scss';
 import {
@@ -12,11 +16,34 @@ import {
 import * as selectors from './selectors';
 import Spinner from '../common/spinner/Spinner';
 import { generateOverviewRoute } from '../helperFunctions';
-import * as constants from '../constants';
 import RulesAndSettings from './RulesAndSettings';
 import FadingCollapsable from '../common/fadingCollapsable/FadingCollapsable';
+import materialStyles from '../materialStyles';
+import * as appConstants from '../constants';
+
+const RulesAndSettingsTitle = props => (
+    <div
+        className={defaultStyles.rulesTitle}
+        onClick={() => props.setIsCollapsableOpen(true)}
+        tabIndex={0}
+        role="button"
+    >
+        Rules and Settings
+    </div>
+);
+
+RulesAndSettingsTitle.defaultProps = {
+    setIsCollapsableOpen: noop
+};
+
+RulesAndSettingsTitle.propTypes = {
+    setIsCollapsableOpen: PropTypes.func
+};
 
 const Overview = props => {
+    const classes = makeStyles(materialStyles)();
+    const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
+
     useEffect(() => {
         if (props.currentGameWeek || props.currentGameWeek === 0) {
             props.fetchUserInfoForWeekRequest(props.userId, props.currentGameWeek);
@@ -57,16 +84,36 @@ const Overview = props => {
     }, [props.currentGameWeek, props.maxGameWeek, props.history, props.userId]);
 
     const onHighestPointClick = useCallback(() => {
-        props.history.push(`${constants.URL.POINTS}/${props.highestPoints.userId}/${props.currentGameWeek}`);
+        props.history.push(`${appConstants.URL.POINTS}/${props.highestPoints.userId}/${props.currentGameWeek}`);
     }, [props.highestPoints.userId, props.currentGameWeek, props.history]);
 
     const onyMyPointsClick = useCallback(() => {
-        props.history.push(`${constants.URL.POINTS}/${props.auth.uid}/${props.currentGameWeek}`);
+        props.history.push(`${appConstants.URL.POINTS}/${props.auth.uid}/${props.currentGameWeek}`);
     }, [props.auth.uid, props.currentGameWeek, props.history]);
+
+    const ExpandedRulesAndSettings = newProps => (
+        <div className={props.styles.desktopRulesWrapper}>
+            <div
+                className={props.styles.desktopRulesHeader}
+                onClick={() => newProps.setIsCollapsableOpen(false)}
+                role="button"
+                tabIndex={0}
+            >
+                Rules and Settings
+            </div>
+            <RulesAndSettings isTwoColumns={isMobile} />
+        </div>
+    );
 
     return (
         <div className={props.styles.overviewWrapper}>
-            <div className={props.styles.pointsWrapper}>
+            <Paper
+                elevation={4}
+                className={classNames({
+                    [classes.paperBigSideMargins]: !isMobile,
+                    [classes.paper]: isMobile
+                })}
+            >
                 <div className={props.styles.totalPointsWrapper}>
                     {props.fetchingUserStats ? <Spinner color="secondary" /> : (
                         <>
@@ -77,9 +124,15 @@ const Overview = props => {
                         </>
                     )}
                 </div>
-            </div>
+            </Paper>
 
-            <div className={props.styles.gameweekPointsWrapper}>
+            <Paper
+                elevation={4}
+                className={classNames({
+                    [classes.paperBigSideMargins]: !isMobile,
+                    [classes.paper]: isMobile
+                })}
+            >
                 {props.fetchingUserInfo ? <Spinner color="secondary" /> : (
                     <>
                         <div className={props.styles.gameWeekText}>
@@ -125,63 +178,39 @@ const Overview = props => {
                         </div>
                     </>
                 )}
-            </div>
-            <div className={props.styles.userInfoWrapper}>
+            </Paper>
+            <Paper
+                elevation={4}
+                className={classNames({
+                    [classes.paperBigSideMargins]: !isMobile,
+                    [classes.paper]: isMobile
+                })}
+            >
                 {props.fetchingUserStats ? <Spinner color="secondary" /> : (
-                    <>
+                    <div className={props.styles.userInfoWrapper}>
                         <div className={props.styles.remainingTransfersWrapper}>
                             <div className={props.styles.remainingTransfersValue}>
-                                {/* {props.remainingTransfers} */}
-                                {'Unlimited'}
+                                Unlimited
                             </div>
                             <div>Remaining Transfers</div>
                         </div>
                         <div className={props.styles.remainingBudgetWrapper}>
                             <div className={props.styles.remainingBudgetValue}>
-                                {`£${props.remainingBudget}m`}
+                                {`£${((props.remainingBudget || 0).toFixed(1))}m`}
                             </div>
                             <div>Remaining Budget</div>
                         </div>
-                    </>
-                )}
-            </div>
-
-            <Media queries={{
-                mobile: '(max-width: 599px)',
-                desktop: '(min-width: 600px)'
-            }}
-            >
-                {matches => (
-                    <div className={props.styles.rulesWrapper}>
-                        <FadingCollapsable
-                            title={(
-                                <div className={props.styles.rulesTitle}>
-                                    Rules and Settings
-                                </div>
-                            )}
-                            isBorderRadiusSmall
-                        >
-                            {matches.mobile && (
-                                <div className={props.styles.desktopRulesWrapper}>
-                                    <div className={props.styles.desktopRulesHeader}>
-                                        Rules and Settings
-                                    </div>
-                                    <RulesAndSettings isTwoColumns />
-                                </div>
-                            )}
-                            {matches.desktop && (
-                                <div className={props.styles.desktopRulesWrapper}>
-                                    <div className={props.styles.desktopRulesHeader}>
-                                        Rules and Settings
-                                    </div>
-                                    <RulesAndSettings />
-                                </div>
-
-                            )}
-                        </FadingCollapsable>
                     </div>
                 )}
-            </Media>
+            </Paper>
+            <FadingCollapsable
+                desktopClass="paperBigSideMarginsFadingCollapsable"
+                mobileClass="fadingCollapsable"
+                title={<RulesAndSettingsTitle />}
+                isBorderRadiusSmall
+            >
+                <ExpandedRulesAndSettings />
+            </FadingCollapsable>
         </div>
     );
 };
@@ -201,7 +230,6 @@ Overview.defaultProps = {
     },
     maxGameWeek: null,
     remainingBudget: null,
-    // remainingTransfers: null,
     styles: defaultStyles,
     totalPoints: null,
     userId: '',
@@ -229,7 +257,6 @@ Overview.propTypes = {
     }).isRequired,
     maxGameWeek: PropTypes.number,
     remainingBudget: PropTypes.number,
-    // remainingTransfers: PropTypes.number,
     styles: PropTypes.objectOf(PropTypes.string),
     totalPoints: PropTypes.number,
     userId: PropTypes.string,

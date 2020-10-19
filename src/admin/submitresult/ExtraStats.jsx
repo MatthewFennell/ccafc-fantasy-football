@@ -3,11 +3,14 @@ import fp from 'lodash/fp';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 import classNames from 'classnames';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import defaultStyles from './ExtraStats.module.scss';
 import Dropdown from '../../common/dropdown/Dropdown';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
 import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
+import materialStyles from '../../materialStyles';
 
 const generateWeekOptions = maxGameWeek => {
     const options = [];
@@ -22,6 +25,7 @@ const generateWeekOptions = maxGameWeek => {
 };
 
 const ExtraStats = props => {
+    const classes = makeStyles(materialStyles)();
     const [teamName, setTeamName] = useState('');
     const [yellowCard, setYellowCard] = useState('');
     const [redCard, setRedCard] = useState('');
@@ -58,7 +62,10 @@ const ExtraStats = props => {
         penaltyMissed, ownGoals, props.submitExtraStatsRequest, nameToId]);
 
     return (
-        <div className={props.styles.extraStatsWrapper}>
+        <Paper
+            elevation={4}
+            className={classes.paper}
+        >
             <div className={props.styles.extraStatsTitle}>
                 Extra Stats
             </div>
@@ -122,7 +129,7 @@ const ExtraStats = props => {
             >
                 <Spinner color="secondary" />
             </div>
-        </div>
+        </Paper>
     );
 };
 

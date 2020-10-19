@@ -1,11 +1,5 @@
 @import "../Styles.scss";
 
-.collapsableWrapper {
-    position: relative;
-    @include light-box-shadow();
-    margin-top: $spacing-average;
-}
-
 .sideMargins {
     margin-left: $spacing-small;
     margin-right: $spacing-small;
@@ -24,13 +18,14 @@
     border-radius: $spacing-tiny;
 }
 
-.icon {
+.iconWrapper {
+    cursor: pointer;
     position: absolute;
     right: $spacing-tiny;
-    cursor: pointer;
+    outline: none;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
     .noPhoneMargin {
         margin-left: 0px;
         margin-right: 0px;

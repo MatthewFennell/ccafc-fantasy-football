@@ -1,11 +1,14 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Media from 'react-media';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import classNames from 'classnames';
 import { withRouter } from 'react-router-dom';
 import fp from 'lodash/fp';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import defaultStyles from './Points.module.scss';
 import * as selectors from './selectors';
 import { fetchUserPointsForWeekRequest, fetchUserPointsForWeekRequestBackground } from './actions';
@@ -16,10 +19,14 @@ import SuccessModal from '../common/modal/SuccessModal';
 import PointsTable from './PointsTable/PointsTable';
 import { generatePointsRoute } from '../helperFunctions';
 import UserInfo from './UserInfo';
+import * as appConstants from '../constants';
+import materialStyles from '../materialStyles';
 
 const Points = props => {
     const [playerModalOpen, setPlayerModalOpen] = useState(false);
     const [playerObj, setPlayerObj] = useState({});
+    const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
+    const classes = makeStyles(materialStyles)();
 
     useEffect(() => {
         props.fetchUserPointsForWeekRequest(props.userId, props.currentGameWeek);
@@ -60,19 +67,20 @@ const Points = props => {
             captain={captainId}
             goalkeeperStyles={goalkeeperStyles}
             loading={props.loading}
+            isMaxHeight
             onPlayerClick={playerClick}
             renderEmptyPlayers
             showCaptain
         />
     );
 
-    const arrowSection = isMobile => (
+    const arrowSection = isMobileApp => (
         <div className={props.styles.gameWeekText}>
             <div className={props.styles.arrowBackWrapper}>
                 <ArrowBackIcon
                     color={props.currentGameWeek > 1 ? 'secondary' : 'disabled'}
                     onClick={loadPreviousWeek}
-                    fontSize={isMobile ? 'default' : 'large'}
+                    fontSize={isMobileApp ? 'default' : 'large'}
                 />
             </div>
             <div className={props.styles.gameWeekTextWrapper}>
@@ -82,7 +90,7 @@ const Points = props => {
                 <ArrowForwardIcon
                     color={props.currentGameWeek === props.maxGameWeek ? 'disabled' : 'secondary'}
                     onClick={loadNextWeek}
-                    fontSize={isMobile ? 'default' : 'large'}
+                    fontSize={isMobileApp ? 'default' : 'large'}
                 />
             </div>
         </div>
@@ -90,41 +98,43 @@ const Points = props => {
 
     return (
         <div className={props.styles.pitchWrapper}>
-            <Media queries={{
-                mobile: '(max-width: 599px)',
-                desktop: '(min-width: 600px)'
-            }}
-            >
-                {matches => (
-                    <>
-                        {matches.mobile && (
-                            <>
-                                {arrowSection(true)}
-                                <div className={props.styles.currentTeamWrapper}>
-                                    {pitch}
-                                </div>
-                            </>
-                        )}
-                        {matches.desktop && (
-                            <div className={props.styles.desktopWrapper}>
-                                <div className={props.styles.desktopPitch}>
-                                    {pitch}
-                                </div>
-                                <div className={props.styles.summary}>
-                                    {arrowSection(false)}
-                                    <UserInfo
-                                        displayName={props.displayName}
-                                        fetchingDetails={props.fetchingDetails || props.loading}
-                                        photoUrl={props.photoUrl}
-                                        team={props.currentTeam}
-                                        teamName={props.teamName}
-                                    />
-                                </div>
-                            </div>
-                        )}
-                    </>
-                )}
-            </Media>
+            {isMobile && (
+                <>
+                    {arrowSection(true)}
+                    <div className={props.styles.currentTeamWrapper}>
+                        {pitch}
+                    </div>
+                </>
+            )}
+            {!isMobile && (
+                <div className={props.styles.desktopWrapper}>
+                    <Paper
+                        elevation={4}
+                        className={classNames({
+                            [classes.paper]: !isMobile,
+                            [classes.maxWidth]: true
+                        })}
+                    >
+                        {pitch}
+                    </Paper>
+                    <Paper
+                        elevation={4}
+                        className={classNames({
+                            [classes.paper]: !isMobile,
+                            [classes.thirtyWidth]: true
+                        })}
+                    >
+                        {arrowSection(false)}
+                        <UserInfo
+                            displayName={props.displayName}
+                            fetchingDetails={props.fetchingDetails || props.loading}
+                            photoUrl={props.photoUrl}
+                            team={props.currentTeam}
+                            teamName={props.teamName}
+                        />
+                    </Paper>
+                </div>
+            )}
             <SuccessModal
                 backdrop
                 closeModal={() => setPlayerModalOpen(false)}

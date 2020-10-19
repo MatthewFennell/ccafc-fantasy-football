@@ -12,7 +12,12 @@ const YouTubeItemOpen = props => {
     const onReady = e => e.target.pauseVideo();
     return (
         <div className={props.styles.openVideoItemWrapper}>
-            <div className={props.styles.expandedWrapper}>
+            <div
+                className={props.styles.expandedWrapper}
+                role="button"
+                tabIndex={0}
+                onClick={() => props.setIsCollapsableOpen(false)}
+            >
                 <div className={props.styles.userInfo}>
                     <div className={props.styles.videoTitle}>
                         {`Title: ${props.youTubeTitle}`}
@@ -35,6 +40,7 @@ const YouTubeItemOpen = props => {
                                 isFitContent
                                 isMargin
                                 isBorderRadius
+                                onClick={e => e.stopPropagation()}
                             >
                                 <StyledButton
                                     text="Approve"
@@ -49,6 +55,7 @@ const YouTubeItemOpen = props => {
                                 isFitContent
                                 isMargin
                                 isBorderRadius
+                                onClick={e => e.stopPropagation()}
                             >
                                 <StyledButton
                                     text="Reject"
@@ -112,6 +119,7 @@ YouTubeItemOpen.defaultProps = {
     openConfirm: noop,
     openReject: noop,
     opts: {},
+    setIsCollapsableOpen: noop,
     styles: defaultStyles,
     upvote: noop,
     upvoteHighlightRequest: noop,
@@ -140,6 +148,7 @@ YouTubeItemOpen.propTypes = {
     openConfirm: PropTypes.func,
     openReject: PropTypes.func,
     opts: PropTypes.shape({}),
+    setIsCollapsableOpen: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string),
     upvote: PropTypes.func,
     upvoteHighlightRequest: PropTypes.func,

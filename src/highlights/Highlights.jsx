@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import _, { noop } from 'lodash';
+import classNames from 'classnames';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import defaultStyles from './Highlights.module.scss';
 import StyledButton from '../common/StyledButton/StyledButton';
 import {
@@ -22,8 +26,13 @@ import Dropdown from '../common/dropdown/Dropdown';
 import LoadingDiv from '../common/loadingDiv/LoadingDiv';
 import Spinner from '../common/spinner/Spinner';
 import ConfirmModal from '../common/modal/ConfirmModal';
+import * as appConstants from '../constants';
+import materialStyles from '../materialStyles';
 
 const Highlights = props => {
+    const classes = makeStyles(materialStyles)();
+    const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
+
     useEffect(() => {
         props.fetchHighlightsRequest();
         // eslint-disable-next-line
@@ -80,7 +89,13 @@ const Highlights = props => {
 
     return (
         <>
-            <div className={props.styles.highlightsWrapper}>
+            <Paper
+                elevation={4}
+                className={classNames({
+                    [classes.paper]: !isMobile,
+                    [classes.paperNoMargin]: isMobile
+                })}
+            >
                 <div className={props.styles.highlightsHeader}>
                     <div className={props.styles.infoWrapper}>
                         <div className={props.styles.highlightsMessage}>
@@ -143,7 +158,7 @@ const Highlights = props => {
                         <div className={props.styles.karmaText}>Karma</div>
                     </div>
                 </div>
-            </div>
+            </Paper>
             {props.loadingVideos && (
                 <div className={props.styles.loadingVideos}>
                     <Spinner color="secondary" />

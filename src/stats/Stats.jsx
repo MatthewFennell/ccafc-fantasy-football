@@ -3,11 +3,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import fp from 'lodash/fp';
 import EditIcon from '@material-ui/icons/Edit';
+import { withRouter } from 'react-router-dom';
+import classNames from 'classnames';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import defaultStyles from './Stats.module.scss';
 import { fetchTeamsRequest } from '../admin/actions';
 import Dropdown from '../common/dropdown/Dropdown';
 import * as selectors from './selectors';
-import * as constants from '../constants';
+import * as appConstants from '../constants';
 import { fetchTeamStatsByWeekRequest } from './actions';
 import SuccessModal from '../common/modal/SuccessModal';
 import EditFilter from './editfilter/EditFilter';
@@ -15,8 +19,11 @@ import { columns, weeksToRequest, combinePlayers } from './helpers';
 import WeekStats from './weekstats/WeekStats';
 import Switch from '../common/Switch/Switch';
 import LoadingDiv from '../common/loadingDiv/LoadingDiv';
+import materialStyles from '../materialStyles';
 
 const Stats = props => {
+    const classes = makeStyles(materialStyles)();
+
     useEffect(() => {
         props.fetchTeamsRequest();
         // eslint-disable-next-line
@@ -38,13 +45,13 @@ const Stats = props => {
 
     const loadNewTeam = useCallback(team => {
         const id = fp.get('id')(props.allTeams.find(x => x.text === team));
-        props.history.push(`${constants.URL.STATS}/${id}/${props.minWeek}/${props.maxWeek}`);
+        props.history.push(`${appConstants.URL.STATS}/${id}/${props.minWeek}/${props.maxWeek}`);
     }, [props.allTeams,
         props.history, props.maxWeek, props.minWeek]);
 
     const confirmFilter = useCallback((minWeek, maxWeek, active) => {
         setActiveColumns(active);
-        props.history.push(`${constants.URL.STATS}/${props.currentTeam}/${minWeek}/${maxWeek}`);
+        props.history.push(`${appConstants.URL.STATS}/${props.currentTeam}/${minWeek}/${maxWeek}`);
         setEditFilterModalOpen(false);
     }, [props.currentTeam, props.history]);
 
@@ -57,12 +64,15 @@ const Stats = props => {
                 <div>
                     <LoadingDiv
                         isLoading={props.isFetchingTeams}
-                        isFitContent
-                        isBorderRadius
-                        isBoxShadow
-                        isWhiteBackground
+                        isNoPadding
+                        isPaperMargin
                     >
-                        <div className={props.styles.statsHeader}>
+                        <Paper
+                            elevation={4}
+                            className={classNames({
+                                [classes.paperNoMargin]: true
+                            })}
+                        >
                             <div className={props.styles.dropdownWrapper}>
                                 <Dropdown
                                     value={fp.getOr('', 'text')(props.allTeams.find(x => x.id === props.currentTeam))}
@@ -95,7 +105,7 @@ const Stats = props => {
                                 </div>
                                 <EditIcon color="primary" />
                             </div>
-                        </div>
+                        </Paper>
                     </LoadingDiv>
                 </div>
                 {combineWeeks ? (
@@ -183,6 +193,6 @@ const mapStateToProps = (state, props) => ({
     weeksFetched: selectors.getProperty(state, props, 'weeksFetched')
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Stats);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Stats));
 
 export { Stats as StatsUnconnected };

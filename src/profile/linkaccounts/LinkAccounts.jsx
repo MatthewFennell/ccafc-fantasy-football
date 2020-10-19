@@ -1,41 +1,66 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import { noop } from 'lodash';
 import defaultStyles from './LinkAccounts.module.scss';
 import GoogleImage from '../../common/images/google-image.jpg';
 import FacebookImage from '../../common/images/facebook-image.jpg';
+import materialStyles from '../../materialStyles';
 
-const LinkAccounts = props => (
-    <div className={props.styles.linkAccountsWrapper}>
-        <div className={props.styles.facebookLinkWrapper}>
-            <div
-                className={props.styles.facebookLinkMessage}
-                onClick={props.linkProfileToFacebook}
-                role="button"
-                tabIndex={0}
+const LinkAccounts = props => {
+    const classes = makeStyles(materialStyles)();
+    return (
+        <div className={props.styles.linkAccountsWrapper}>
+            <Paper
+                elevation={4}
+                className={classes.paperNoPadding}
             >
-                {props.isSignedInWithFacebook ? 'You have linked your Facebook account ' : 'Link your Facebook account'}
-            </div>
-            <div className={props.styles.facebookLinkImage}>
-                <img alt="Facebook" className={props.styles.facebookImage} src={FacebookImage} onClick={props.linkProfileToFacebook} />
-            </div>
-        </div>
-        <div className={props.styles.googleLinkWrapper}>
-            <div
-                className={props.styles.googleLinkMessage}
-                onClick={props.linkProfileToGoogle}
-                role="button"
-                tabIndex={0}
+                <div className={classNames({
+                    [props.styles.facebookLinkWrapper]: true,
+                    [props.styles.clickFacebook]: !props.isSignedInWithFacebook
+                })}
+                >
+                    <div
+                        className={props.styles.facebookLinkMessage}
+                        onClick={props.linkProfileToFacebook}
+                        role="button"
+                        tabIndex={0}
+                    >
+                        {props.isSignedInWithFacebook ? 'You have linked your Facebook account ' : 'Link your Facebook account'}
+                    </div>
+                    <div className={props.styles.facebookLinkImage}>
+                        <img alt="Facebook" className={props.styles.facebookImage} src={FacebookImage} onClick={props.linkProfileToFacebook} />
+                    </div>
+                </div>
+            </Paper>
+            <Paper
+                elevation={4}
+                className={classes.paperNoPadding}
             >
-                {props.isSignedInWithGoogle ? 'You have linked your Google account ' : 'Link your Google account'}
-            </div>
-            <div className={props.styles.googleLinkImage}>
-                <img alt="Google" className={props.styles.googleImage} src={GoogleImage} onClick={props.linkProfileToGoogle} />
-            </div>
+                <div className={classNames({
+                    [props.styles.googleLinkWrapper]: true,
+                    [props.styles.clickGoogle]: !props.isSignedInWithGoogle
+                })}
+                >
+                    <div
+                        className={props.styles.googleLinkMessage}
+                        onClick={props.linkProfileToGoogle}
+                        role="button"
+                        tabIndex={0}
+                    >
+                        {props.isSignedInWithGoogle ? 'You have linked your Google account ' : 'Link your Google account'}
+                    </div>
+                    <div className={props.styles.googleLinkImage}>
+                        <img alt="Google" className={props.styles.googleImage} src={GoogleImage} onClick={props.linkProfileToGoogle} />
+                    </div>
+                </div>
+            </Paper>
         </div>
-    </div>
-);
+    );
+};
 
 LinkAccounts.propTypes = {
     isSignedInWithFacebook: PropTypes.bool,

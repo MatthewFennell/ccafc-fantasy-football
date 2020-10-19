@@ -1,16 +1,10 @@
 @import "../common//Styles.scss";
 
 .verifyEmailMessage {
-    @include light-box-shadow();
-    padding: $spacing-huge;
     color: $color-light-blue;
     font-size: $font-size-huge;
     font-weight: $font-weight-normal;
     text-align: center;
-    margin-top: 5%;
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
     word-break: break-word;
 
   .resendEmailButtonWrapper{
@@ -20,11 +14,5 @@
   .spinnerWrapper{
     min-height: $spacing-massive;
     max-height: $spacing-massive;
-  }
-}
-
-@media only screen and (max-width: 600px) {
-  .verifyEmailMessage {
-    padding: $spacing-medium;
   }
 }

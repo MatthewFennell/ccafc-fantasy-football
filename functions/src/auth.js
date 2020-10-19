@@ -57,7 +57,7 @@ exports.removeUserRole = functions
     .region(constants.region)
     .https.onCall((data, context) => common.hasPermission(context.auth.uid,
         constants.PERMISSIONS.MANAGE_USERS).then(() => {
-        if (!Object.values(constants.ROLES).includes(data.role)) {
+        if (!Object.values(constants.ROLES).includes(data.role) && data.role !== 'ALL') {
             throw new functions.https.HttpsError('not-found', 'That is not a known role');
         }
         if (data.email === config.admin.email) {

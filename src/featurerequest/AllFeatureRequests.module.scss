@@ -3,9 +3,6 @@
 
 .allFeatureRequests{
     flex-wrap: wrap;
-    margin: $spacing-medium;
-    // @include light-box-shadow();
-    padding: $spacing-small;
 }
 
 .featuresWrapper{
@@ -19,37 +16,27 @@
     }
 }
 
-.featureRequestHeader {
-    padding: $spacing-medium;
+> div {
+    flex-grow: 1;
+}
+
+.searchFilter {
+    margin-top: $spacing-small;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.featureRequestMessage {
+    font-size: $font-size-gigantic;
     text-align: center;
-    background-color: $color-white;
-    margin: $spacing-medium;
-    @include light-box-shadow();
-    display: flex;
-    flex-wrap: wrap;
-    border-radius: $spacing-small;
-    > div {
-        flex-grow: 1;
-    }
+    color: $color-blue;
+    font-weight: bold;
+}
 
-    .searchFilter {
-        margin-top: $spacing-small;
-        width: 70%;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .featureRequestMessage {
-        font-size: $font-size-gigantic;
-        text-align: center;
-        color: $color-blue;
-        font-weight: bold;
-    }
-
-    .openSubmitVideo {
-        text-align: center;
-        margin-bottom: $spacing-tiny;
-    }
+.openSubmitVideo {
+    text-align: center;
+    margin-bottom: $spacing-tiny;
 }
 
 .sortByWrapper{
@@ -61,15 +48,22 @@
 .featureTitle {
     text-align: center;
     font-weight: bold;
+    cursor: pointer;
     padding: $spacing-small;
+    outline: none;
+}
+
+.featureTitle:hover {
+    background-color: $color-light-blue-hover;
 }
 
 .reportBugsMessage {
     margin-top: $spacing-small;
     color: $color-gray;
+    text-align: center;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
     .allFeatureRequests {
         margin: 0px;
         padding: 0px;

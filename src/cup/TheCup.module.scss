@@ -4,15 +4,6 @@
     margin-bottom: 150px;
   }
 
-  .cupDescription {
-    border-radius: $spacing-small;
-    padding: $spacing-medium;
-    padding-bottom: 0px;
-    background-color: $color-white;
-    margin: $spacing-medium;
-    @include light-box-shadow();    
-  }
-
   .cupWinner {
     padding: $spacing-medium;
     background-color: $color-white;
@@ -33,7 +24,7 @@
 }
 
 .cupWinnerValue {
-    color: $color-blue;
+    color: $color-black;
     margin-left: 4px;
 }
 
@@ -58,7 +49,7 @@
     color: $color-trophy;
   }
   
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 800px) {
     .cupWrapper {
       margin-bottom: 150px;
     }

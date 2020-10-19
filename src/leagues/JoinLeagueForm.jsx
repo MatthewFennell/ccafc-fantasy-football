@@ -14,6 +14,7 @@ const JoinLeague = props => (
                 onChange={props.setLeagueName}
                 styles={inputOverrideStyles}
                 value={props.leagueNameToJoin}
+                onSubmit={props.onJoin}
             />
         </div>
         <StyledButton
