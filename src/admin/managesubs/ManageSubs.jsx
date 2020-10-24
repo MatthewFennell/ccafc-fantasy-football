@@ -25,6 +25,8 @@ import * as textInputConstants from '../../common/TextInput/constants';
 import { generateCsvTitle } from '../../helperFunctions';
 import materialStyles from '../../materialStyles';
 import * as appConstants from '../../constants';
+import SuccessModal from '../../common/modal/SuccessModal';
+import SubsHistory from './SubsHistory';
 
 const getSubsHistory = history => _.get(history, [appConstants.CLUB_SUBS_HISTORY_ID, 'history']);
 
@@ -41,10 +43,15 @@ const ManageSubs = props => {
     const [nameFilter, setNameFilter] = useState('');
     const [toggleFilter, setToggleFilter] = useState('All');
     const [csvLink, setLink] = useState(null);
+    const [showingHistory, setShowingHistory] = useState(false);
 
     useEffect(() => {
         setLink(React.createRef());
     }, [setLink]);
+
+    const toggleShowingHistory = useCallback(() => {
+        setShowingHistory(!showingHistory);
+    }, [showingHistory, setShowingHistory]);
 
     const getCurrentPaidForId = id => {
         if (differences.includes(id)) {
@@ -180,6 +187,11 @@ const ManageSubs = props => {
                 </div>
                 <div className={props.styles.confirmChangesWrapper}>
                     <StyledButton
+                        onClick={toggleShowingHistory}
+                        text="Show History"
+                        color="primary"
+                    />
+                    <StyledButton
                         onClick={downloadAsCsv}
                         text="Download as CSV"
                         color="primary"
@@ -205,6 +217,17 @@ const ManageSubs = props => {
                 ref={csvLink}
                 target="_blank"
             />
+            <SuccessModal
+                backdrop
+                closeModal={() => setShowingHistory(false)}
+                isOpen={showingHistory}
+                headerMessage="Update History"
+                toggleModal={toggleShowingHistory}
+            >
+                <SubsHistory
+                    subsHistory={props.subsHistory}
+                />
+            </SuccessModal>
         </>
     );
 };

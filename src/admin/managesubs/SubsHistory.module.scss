@@ -1,0 +1,34 @@
+@import "../../common/Styles.scss";
+
+.updatesWrapper {
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+.iconInfo {
+    display: flex;
+
+    > div {
+        width: 50%;
+    }
+}
+
+.tickInfo, .crossInfo {
+    display: flex;
+    justify-content: center;    
+}
+
+.checkText, .crossText {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.checkIcon {
+    color: $color-green;
+    @include vertical-center-div();
+}
+
+.crossIcon {
+    color: $color-red;
+    @include vertical-center-div();
+}

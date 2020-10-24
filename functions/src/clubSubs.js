@@ -31,20 +31,31 @@ exports.setHasPaidSubs = functions
                     }
                 ));
             });
-            return Promise.all(setPaidSubsPromises).then(() => db.collection('club-subs').doc(constants.clubSubsHistoryId).get().then(doc => {
-                const update = {
-                    ...getUpdate(data.changes),
-                    date: new Date()
-                };
-                if (!doc.exists) {
-                    return db.collection('club-subs').doc(constants.clubSubsHistoryId).set({
-                        history: [{
-                            update
-                        }]
+
+            const getDisplayName = id => db.collection('users').doc(id).get()
+                .then(user => ({
+                    displayName: user.data().displayName,
+                    email: user.data().email
+                }));
+
+            return Promise.all(setPaidSubsPromises).then(() => db.collection('club-subs').doc(constants.clubSubsHistoryId).get()
+                .then(doc => getDisplayName(context.auth.uid).then(user => {
+                    const update = {
+                        ...getUpdate(data.changes),
+                        date: new Date(),
+                        author: {
+                            displayName: user.displayName,
+                            email: user.email,
+                            uid: context.auth.uid
+                        }
+                    };
+                    if (!doc.exists) {
+                        return db.collection('club-subs').doc(constants.clubSubsHistoryId).set({
+                            history: [update]
+                        });
+                    }
+                    return db.collection('club-subs').doc(constants.clubSubsHistoryId).update({
+                        history: [update, ...doc.data().history]
                     });
-                }
-                return db.collection('club-subs').doc(constants.clubSubsHistoryId).update({
-                    history: [update, ...doc.data().history]
-                });
-            }));
+                })));
         }));
