@@ -1,6 +1,6 @@
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
-const lodash = require('lodash');
+const _ = require('lodash');
 const common = require('./common');
 const constants = require('./constants');
 
@@ -28,10 +28,10 @@ const updateComments = (database, newUrl, userId) => {
     return db.collection(database).get().then(
         documents => documents.docs.forEach(doc => {
             if (doc.data().comments.some(y => y.userId === userId)) {
-                documentsToUpdate = lodash.union(documentsToUpdate, [doc.id]);
+                documentsToUpdate = _.union(documentsToUpdate, [doc.id]);
             }
             if (doc.data().comments.some(y => y.comments.some(z => z.userId === userId))) {
-                documentsToUpdate = lodash.union(documentsToUpdate, [doc.id]);
+                documentsToUpdate = _.union(documentsToUpdate, [doc.id]);
             }
         })
     ).then(() => {
@@ -123,6 +123,43 @@ exports.updateHighlightsDisplayNames = functions.region(constants.region).firest
         );
     });
 
+// Update club subs history display names
+exports.updateClubSubsDisplayNames = functions.region(constants.region).firestore
+    .document('users/{id}')
+    .onWrite(change => {
+        if (!change.after.exists) {
+            return Promise.resolve();
+        }
+
+        const displayNameBefore = change.before.data().displayName;
+        const displayNameAfter = change.after.data().displayName;
+        const userId = change.after.id;
+
+        console.log('before', displayNameBefore);
+        console.log('after', displayNameAfter);
+
+        if (displayNameBefore === displayNameAfter) {
+            return Promise.resolve();
+        }
+
+        return db.collection('club-subs').doc(constants.clubSubsHistoryId).get()
+            .then(history => db.collection('club-subs').doc(constants.clubSubsHistoryId).update({
+                history: history.data().history.map(entry => {
+                    console.log('entry', entry);
+                    if (_.get(entry, ['author', 'uid']) === userId) {
+                        return {
+                            ...entry,
+                            author: {
+                                ...entry.author,
+                                displayName: displayNameAfter
+                            }
+                        };
+                    }
+                    return entry;
+                })
+            }));
+    });
+
 // Update highlights display names
 exports.updateFeatures = functions.region(constants.region).firestore
     .document('users/{id}')
@@ -160,6 +197,10 @@ exports.updateCupDisplayNameMapping = functions.region(constants.region).firesto
         }
 
         return db.collection('the-cup').doc(constants.cupDatabaseId).get().then(cup => {
+            if (!cup.exists) {
+                return Promise.resolve();
+            }
+
             const userId = change.after.id;
             const { displayNameMappings } = cup.data();
             if (displayNameMappings[userId]) {
