@@ -1,0 +1,44 @@
+@import "../../common/Styles.scss";
+
+.updateWrapper {
+    display: flex;
+    padding: $spacing-small;
+    margin: $spacing-small;
+    border: 2px solid $color-black;
+    background-color: $color-light-blue-hover;
+}
+
+.authorWrapper {
+    text-align: center;
+    margin-right: $spacing-small;
+    width: 40%;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.playersWrapper {
+    width: 60%;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.playersPaid, .playersNotPaid {
+    display: flex;
+}
+
+.tick {
+    color: $color-green;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.cross {
+    color: $color-red;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.playerList {
+    margin-top: auto;
+    margin-bottom: auto;
+}

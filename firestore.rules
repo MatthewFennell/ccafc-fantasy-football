@@ -20,5 +20,9 @@ service cloud.firestore {
     match /application-info/{appInfo} {
       allow read, write: if request.auth.token.ADMIN == true
     }
+
+    match /club-subs/{history} {
+      allow read, write: if request.auth.token.ADMIN == true || request.auth.token.TREASURER == true
+    }
   }
 }

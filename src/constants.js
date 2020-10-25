@@ -111,5 +111,6 @@ export const LEAGUE_INITIAL_NUMBER_OF_PAGES_TO_LOAD = 3;
 export const LEAGUE_PAGE_BUFFER = 3;
 
 export const APPLICATION_INFO_ID = 'application-info-id';
+export const CLUB_SUBS_HISTORY_ID = 'club-subs-history-id';
 
 export const mobileScreenSize = 800;
