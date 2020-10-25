@@ -5,18 +5,18 @@ import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import defaultStyles from './Update.module.scss';
 
-const generateTime = date => moment(new Date(date.seconds * 1000)).format('MMM Do YYYY, h:mm:ss a');
+const generateTime = date => (date ? moment(new Date(date.seconds * 1000)).format('MMM Do YYYY, h:mm:ss a') : '');
 
 const Update = props => (
     <div className={props.styles.updateWrapper}>
         <div className={props.styles.authorWrapper}>
-            <div>
+            <div className={props.styles.authorDate}>
                 {`${generateTime(props.date)}`}
             </div>
-            <div>
+            <div className={props.styles.authorDisplayName}>
                 {props.author.displayName}
             </div>
-            <div>
+            <div className={props.styles.authorEmail}>
                 {props.author.email}
             </div>
         </div>
@@ -59,12 +59,14 @@ Update.defaultProps = {
 };
 
 Update.propTypes = {
-    author: {
+    author: PropTypes.shape({
         displayName: PropTypes.string,
         email: PropTypes.string,
         uid: PropTypes.string
-    },
-    date: PropTypes.objectOf(PropTypes.shape({})),
+    }),
+    date: PropTypes.shape({
+        seconds: PropTypes.number
+    }),
     haveNotPaid: PropTypes.arrayOf(PropTypes.string),
     havePaid: PropTypes.arrayOf(PropTypes.string),
     styles: PropTypes.objectOf(PropTypes.string)
