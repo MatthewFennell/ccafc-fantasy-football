@@ -1,6 +1,7 @@
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 const lodash = require('lodash');
+const fp = require('lodash/fp');
 const common = require('./common');
 const constants = require('./constants');
 
@@ -88,6 +89,97 @@ exports.pointsForWeek = functions
             );
     });
 
+const getDisplayName = id => db.collection('users').doc(id).get()
+    .then(user => ({
+        displayName: user.data().displayName,
+        email: user.data().email
+    }));
+
+const updateResultsHistory = (playerStats, uid, teamId, week) => {
+    getDisplayName(uid).then(user => {
+        db.collection('results-history').doc(constants.resultsHistoryId).get().then(doc => {
+            if (!doc.exists) {
+                return Promise.resolve();
+            }
+
+            const goalsHistory = [];
+            const assistsHistory = [];
+            const cleanSheetsHistory = [];
+            const teamName = fp.get('team')(fp.head(Object.values(playerStats)));
+            let manOfTheMatchHistory = {
+                id: null,
+                name: null
+            };
+
+            let dickOfTheDayHistory = {
+                id: null,
+                name: null
+            };
+
+            Object.keys(playerStats).forEach(key => {
+                const {
+                    cleanSheet, goals, assists, name, manOfTheMatch, dickOfTheDay
+                } = fp.get(key)(playerStats);
+
+                if (cleanSheet) {
+                    cleanSheetsHistory.push({
+                        id: key,
+                        name
+                    });
+                }
+                if (goals) {
+                    goalsHistory.push({
+                        id: key,
+                        name,
+                        amount: goals
+                    });
+                }
+                if (assists) {
+                    assistsHistory.push({
+                        id: key,
+                        name,
+                        amount: assists
+                    });
+                }
+                if (manOfTheMatch) {
+                    manOfTheMatchHistory = {
+                        id: key,
+                        name
+                    };
+                }
+                if (dickOfTheDay) {
+                    dickOfTheDayHistory = {
+                        id: key,
+                        name
+                    };
+                }
+            });
+
+            const update = {
+                assists: assistsHistory,
+                author: {
+                    uid,
+                    displayName: user.displayName,
+                    email: user.email
+                },
+                cleanSheets: cleanSheetsHistory,
+                date: new Date(),
+                dickOfTheDay: dickOfTheDayHistory,
+                goals: goalsHistory,
+                manOfTheMatch: manOfTheMatchHistory,
+                teamId,
+                teamName,
+                type: constants.resultHistoryTypes.STANDARD_RESULT,
+                week
+            };
+
+            return db.collection('results-history').doc(constants.resultsHistoryId).update({
+                history: [update, ...doc.data().history]
+            });
+        });
+    });
+};
+
 // Creates PlayerPoints entries
 // Listeners on those do the rest
 exports.submitResult = functions
@@ -168,6 +260,9 @@ exports.submitResult = functions
                     name: playerNames[cur.id]
                 })
             }), {});
+
+            updateResultsHistory(playerStats, context.auth.uid, data.team, data.week);
+
             // Update or create player points object
             playerIds.forEach(playerId => {
                 const {
@@ -239,6 +334,47 @@ exports.teamStatsByWeek = functions
                 ));
     });
 
+const updateExtraResultsHistory = (uid, data) => {
+    getDisplayName(uid).then(user => {
+        db.collection('results-history').doc(constants.resultsHistoryId).get().then(doc => {
+            if (!doc.exists) {
+                return Promise.resolve();
+            }
+
+            const uniqueKeys = lodash.uniq(Object.keys(data).filter(x => data[x] !== null).filter(x => !common.isNumber(data[x])));
+            const playerPromises = [];
+
+            uniqueKeys.map(key => playerPromises.push(db.collection('players').doc(data[key]).get()
+                .then(player => {
+                    if (player.exists) return ({ name: player.data().name, id: player.id, stat: key });
+                    throw new functions.https.HttpsError('not-found', 'Invalid player ID');
+                })));
+
+            return Promise.all(playerPromises).then(players => {
+                const update = {
+                    author: {
+                        uid,
+                        displayName: user.displayName,
+                        email: user.email
+                    },
+                    date: new Date(),
+                    type: constants.resultHistoryTypes.EXTRA_STATS,
+                    week: data.gameWeek
+                };
+
+                players.forEach(playerStats => {
+                    const { stat, ...rest } = playerStats;
+                    update[stat] = rest;
+                });
+
+                return db.collection('results-history').doc(constants.resultsHistoryId).update({
+                    history: [update, ...doc.data().history]
+                });
+            });
+        });
+    });
+};
+
 // This is used to add own goals, yellow cards, red cards, penalties missed, penalties saved only
 exports.submitExtraResults = functions
     .region(constants.region)
@@ -246,6 +382,7 @@ exports.submitExtraResults = functions
         constants.PERMISSIONS.SUBMIT_RESULT)
         .then(() => {
             const uniqueKeys = lodash.uniq(Object.values(data).filter(x => x !== null).filter(x => !common.isNumber(x)));
+
             uniqueKeys.forEach(id => {
                 const points = common.calculatePoints(null,
                     0, 0, false, data.redCard === id, data.yellowCard === id, false, data.ownGoal === id ? 1 : 0,
@@ -287,5 +424,6 @@ exports.submitExtraResults = functions
                         }
                     });
             });
+            updateExtraResultsHistory(context.auth.uid, data);
             return Promise.resolve();
         }));

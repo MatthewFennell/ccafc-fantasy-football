@@ -121,6 +121,42 @@ exports.deletePlayer = functions
             );
         }));
 
+const getDisplayName = id => db.collection('users').doc(id).get()
+    .then(user => ({
+        displayName: user.data().displayName,
+        email: user.data().email
+    }));
+
+const updateResultsHistory = (uid, week, difference, name, oldStats) => {
+    getDisplayName(uid).then(user => {
+        db.collection('results-history').doc(constants.resultsHistoryId).get().then(doc => {
+            const update = {
+                author: {
+                    displayName: user.displayName,
+                    email: user.email,
+                    uid
+                },
+                date: new Date(),
+                name,
+                oldStats,
+                type: constants.resultHistoryTypes.EDIT_STATS,
+                update: difference,
+                week
+            };
+
+            if (!doc.exists) {
+                db.collection('results-history').doc(constants.resultsHistoryId).set({
+                    history: [update]
+                });
+            } else {
+                db.collection('results-history').doc(constants.resultsHistoryId).update({
+                    history: [update, ...doc.data().history]
+                });
+            }
+        });
+    });
+};
+
 exports.editPlayerStats = functions
     .region(constants.region)
     .https.onCall((data, context) => common.hasPermission(context.auth.uid,
@@ -150,6 +186,20 @@ exports.editPlayerStats = functions
                                 if (result.size === 0) {
                                     const points = common.calculatePointDifference(data.difference,
                                         player.position);
+
+                                    updateResultsHistory(context.auth.uid, data.week, data.difference, player.name, {
+                                        goals: 0,
+                                        assists: 0,
+                                        cleanSheet: false,
+                                        redCard: false,
+                                        yellowCard: false,
+                                        manOfTheMatch: false,
+                                        dickOfTheDay: false,
+                                        penaltyMisses: 0,
+                                        penaltySaves: 0,
+                                        ownGoals: 0
+                                    });
+
                                     return db.collection('player-points').add({
                                         week: data.week,
                                         player_id: data.playerId,
@@ -174,6 +224,19 @@ exports.editPlayerStats = functions
                                     data.difference);
                                 const points = common.calculatePointDifference(difference,
                                     player.position);
+
+                                updateResultsHistory(context.auth.uid, data.week, data.difference, player.name, {
+                                    goals: doc.data().goals,
+                                    assists: doc.data().assists,
+                                    cleanSheet: doc.data().cleanSheet,
+                                    redCard: doc.data().redCard,
+                                    yellowCard: doc.data().yellowCard,
+                                    manOfTheMatch: doc.data().manOfTheMatch,
+                                    dickOfTheDay: doc.data().dickOfTheDay,
+                                    penaltyMisses: doc.data().penaltyMisses,
+                                    penaltySaves: doc.data().penaltySaves,
+                                    ownGoals: doc.data().ownGoals
+                                });
 
                                 return result.docs[0].ref.update({
                                     goals: fp.has('goals')(data.difference) ? data.difference.goals : doc.data().goals,

@@ -6,6 +6,39 @@ const constants = require('./constants');
 const operations = admin.firestore.FieldValue;
 const db = admin.firestore();
 
+const getDisplayName = id => db.collection('users').doc(id).get()
+    .then(user => ({
+        displayName: user.data().displayName,
+        email: user.data().email
+    }));
+
+const updateHistory = (uid, week) => {
+    getDisplayName(uid).then(user => {
+        db.collection('results-history').doc(constants.resultsHistoryId).get().then(doc => {
+            const update = {
+                author: {
+                    displayName: user.displayName,
+                    email: user.email,
+                    uid
+                },
+                date: new Date(),
+                type: constants.resultHistoryTypes.TRIGGER_WEEK,
+                week
+            };
+
+            if (!doc.exists) {
+                db.collection('results-history').doc(constants.resultsHistoryId).set({
+                    history: [update]
+                });
+            } else {
+                db.collection('results-history').doc(constants.resultsHistoryId).update({
+                    history: [update, ...doc.data().history]
+                });
+            }
+        });
+    });
+};
+
 exports.triggerWeeklyTeams = functions
     .region(constants.region)
     .https.onCall((data, context) => common.hasPermission(context.auth.uid,
@@ -23,6 +56,7 @@ exports.triggerWeeklyTeams = functions
                         doc.ref.update({
                             total_weeks: operations.increment(1)
                         });
+                        updateHistory(context.auth.uid, data.week);
                     } else {
                         throw new functions.https.HttpsError('invalid-argument', 'Server Error. Something has gone wrong');
                     }

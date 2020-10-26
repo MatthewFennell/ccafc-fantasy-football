@@ -24,5 +24,9 @@ service cloud.firestore {
     match /club-subs/{history} {
       allow read, write: if request.auth.token.ADMIN == true || request.auth.token.TREASURER == true
     }
+
+    match /results-history/{history} {
+      allow read, write: if request.auth.token.ADMIN == true || request.auth.token.MAINTAINER == true
+    }
   }
 }

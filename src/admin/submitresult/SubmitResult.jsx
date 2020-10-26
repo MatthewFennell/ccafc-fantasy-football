@@ -1,7 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import classNames from 'classnames';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 import fp from 'lodash/fp';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
@@ -21,6 +24,9 @@ import * as textInputConstants from '../../common/TextInput/constants';
 import { fetchMaxGameWeekRequest } from '../../overview/actions';
 import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
 import materialStyles from '../../materialStyles';
+import SuccessModal from '../../common/modal/SuccessModal';
+import ResultsHistory from './ResultsHistory';
+import * as appConstants from '../../constants';
 
 const generateWeekOptions = maxGameWeek => {
     const options = [];
@@ -33,6 +39,8 @@ const generateWeekOptions = maxGameWeek => {
     }
     return options;
 };
+
+const getResultsHistory = history => _.get(history, [appConstants.RESULTS_HISTORY_ID, 'history']);
 
 const SubmitResult = props => {
     const classes = makeStyles(materialStyles)();
@@ -47,6 +55,7 @@ const SubmitResult = props => {
     const [gameWeek, setGameWeek] = useState('');
     const [motm, setMotm] = useState('');
     const [dotd, setDotd] = useState('');
+    const [isShowingHistory, setIsShowingHistory] = useState(false);
 
     const [goalScorers, setGoalscorers] = useState({});
     const [assisters, setAssisters] = useState({});
@@ -57,6 +66,10 @@ const SubmitResult = props => {
 
         // eslint-disable-next-line
     }, [props.fetchMaxGameWeekRequest])
+
+    const toggleShowingHistory = useCallback(() => {
+        setIsShowingHistory(!isShowingHistory);
+    }, [setIsShowingHistory, isShowingHistory]);
 
     const setTeam = useCallback(name => {
         setTeamName(name);
@@ -203,6 +216,11 @@ const SubmitResult = props => {
                             || !(goalsFor && goalsFor !== 0)
                             || !(goalsAgainst && goalsAgainst !== 0)}
                     />
+                    <StyledButton
+                        color="primary"
+                        onClick={toggleShowingHistory}
+                        text="Results history"
+                    />
                 </div>
                 <LoadingDiv
                     isLoading={props.isFetchingTeams}
@@ -292,6 +310,15 @@ const SubmitResult = props => {
                 submittingExtraResult={props.submittingExtraResult}
                 teamsWithPlayers={props.teamsWithPlayers}
             />
+            <SuccessModal
+                backdrop
+                closeModal={() => setIsShowingHistory(false)}
+                isOpen={isShowingHistory}
+                headerMessage="Results History"
+                toggleModal={toggleShowingHistory}
+            >
+                <ResultsHistory resultsHistory={props.resultsHistory} />
+            </SuccessModal>
         </>
     );
 };
@@ -301,6 +328,7 @@ SubmitResult.defaultProps = {
     isFetchingTeams: false,
     isFetchingPlayersForTeam: false,
     maxGameWeek: null,
+    resultsHistory: [],
     styles: defaultStyles
 };
 
@@ -312,6 +340,15 @@ SubmitResult.propTypes = {
     isFetchingTeams: PropTypes.bool,
     isFetchingPlayersForTeam: PropTypes.bool,
     maxGameWeek: PropTypes.number,
+    resultsHistory: PropTypes.arrayOf(PropTypes.shape({
+        author: PropTypes.shape({
+            displayName: PropTypes.string,
+            email: PropTypes.string,
+            uid: PropTypes.string
+        }),
+        type: PropTypes.string,
+        week: PropTypes.number
+    })),
     styles: PropTypes.objectOf(PropTypes.string),
     submitResultRequest: PropTypes.func.isRequired,
     submittingResult: PropTypes.bool.isRequired,
@@ -330,11 +367,12 @@ const mapDispatchToProps = {
     submitCustumResults
 };
 
-const mapStateToprops = state => ({
+const mapStateToProps = state => ({
     allTeams: state.admin.allTeams,
     isFetchingTeams: state.admin.isFetchingTeams,
     isFetchingPlayersForTeam: state.admin.isFetchingPlayersForTeam,
     maxGameWeek: state.overview.maxGameWeek,
+    resultsHistory: getResultsHistory(state.firestore.data.resultsHistory),
     submittingResult: state.admin.submittingResult,
     submittingExtraResult: state.admin.submittingExtraResults,
     submitResultError: state.admin.submitResultError,
@@ -342,6 +380,14 @@ const mapStateToprops = state => ({
     teamsWithPlayers: state.admin.teamsWithPlayers
 });
 
-export default connect(mapStateToprops, mapDispatchToProps)(SubmitResult);
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    firestoreConnect(() => [
+        {
+            collection: 'results-history',
+            storeAs: 'resultsHistory'
+        }
+    ])
+)(SubmitResult);
 
 export { SubmitResult as SubmitResultUnconnected };
