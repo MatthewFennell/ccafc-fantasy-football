@@ -1,0 +1,84 @@
+@import "../../common//Styles.scss";
+
+.triggerWeekWrapper, .standardResultWrapper, .editStatsWrapper, .extraStatsWrapper {
+    padding: $spacing-small;
+    border: 2px solid $color-black;
+    border-radius: $spacing-small;
+    margin: $spacing-average;
+}
+
+.triggerWeekWrapper {
+    background-color: $color-light-gray;
+}
+
+.extraStatsWrapper {
+    background-color: $color-light-red-hover;
+}
+
+.standardResultWrapper {
+    background-color: $color-very-very-light-blue;
+}
+
+.editStatsWrapper {
+    background-color: $color-light-green-hover;
+}
+
+.triggerWeekHeader, .standardResultHeader, .editStatsHeader {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: $spacing-tiny;
+}
+
+.renderAuthorWrapper {
+    display: flex;
+
+    > div {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+.separator {
+    margin-top: $spacing-small;
+    margin-bottom: $spacing-small;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    border-bottom: 2px solid $color-separator;
+}
+
+.goalsTitle, .assistsTitle, .cleanSheetsTitle {
+    font-weight: bold;
+}
+
+.extraResultsInfo {
+    display: flex;
+    > div {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+.editStatsInfo {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.oldStatsHeader, .newStatsHeader {
+    text-align: center;
+    font-weight: bold;
+}
+
+.stat {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.statTitle {
+    margin-right: $spacing-tiny;;
+}
+
+.statValue {
+    font-weight: bold;
+}
