@@ -193,6 +193,12 @@ exports.rollOverToNextYear = functions
                     console.log('Commited batch at index: ', index, ' for rolling over to next year - Updating Active Teams');
                 }));
             }))
+            .then(() => db.collection('club-subs').doc(constants.clubSubsHistoryId).delete().then(() => {
+                console.log('Deleting club subs history');
+            }))
+            .then(() => db.collection('results-history').doc(constants.resultsHistoryId).delete().then(() => {
+                console.log('Deleting results history');
+            }))
             .then(() => db.collection('users-with-roles').get().then(userRolesDocs => {
                 const numberOfBatches = Math.ceil(userRolesDocs.docs.length / constants.maxBatchSize);
                 const userRolesBatches = [];

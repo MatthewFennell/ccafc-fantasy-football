@@ -5,7 +5,15 @@ const constants = require('./constants');
 
 const db = admin.firestore();
 
-// TO;DO permissions for this function
+const getUpdate = changes => {
+    const havePaid = changes.filter(c => c.hasPaidSubs).map(p => p.name);
+    const haveNotPaid = changes.filter(c => !c.hasPaidSubs).map(p => p.name);
+    return {
+        havePaid,
+        haveNotPaid
+    };
+};
+
 exports.setHasPaidSubs = functions
     .region(constants.region)
     .https.onCall((data, context) => common.hasPermission(context.auth.uid, constants.PERMISSIONS.MANAGE_SUBS)
@@ -23,5 +31,31 @@ exports.setHasPaidSubs = functions
                     }
                 ));
             });
-            Promise.all(setPaidSubsPromises);
+
+            const getDisplayName = id => db.collection('users').doc(id).get()
+                .then(user => ({
+                    displayName: user.data().displayName,
+                    email: user.data().email
+                }));
+
+            return Promise.all(setPaidSubsPromises).then(() => db.collection('club-subs').doc(constants.clubSubsHistoryId).get()
+                .then(doc => getDisplayName(context.auth.uid).then(user => {
+                    const update = {
+                        ...getUpdate(data.changes),
+                        date: new Date(),
+                        author: {
+                            displayName: user.displayName,
+                            email: user.email,
+                            uid: context.auth.uid
+                        }
+                    };
+                    if (!doc.exists) {
+                        return db.collection('club-subs').doc(constants.clubSubsHistoryId).set({
+                            history: [update]
+                        });
+                    }
+                    return db.collection('club-subs').doc(constants.clubSubsHistoryId).update({
+                        history: [update, ...doc.data().history]
+                    });
+                })));
         }));

@@ -3,6 +3,8 @@ import { CSVLink } from 'react-csv';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import { compose } from 'redux';
+import { firestoreConnect } from 'react-redux-firebase';
 import _ from 'lodash';
 import classNames from 'classnames';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -23,6 +25,10 @@ import * as textInputConstants from '../../common/TextInput/constants';
 import { generateCsvTitle } from '../../helperFunctions';
 import materialStyles from '../../materialStyles';
 import * as appConstants from '../../constants';
+import SuccessModal from '../../common/modal/SuccessModal';
+import SubsHistory from './SubsHistory';
+
+const getSubsHistory = history => _.get(history, [appConstants.CLUB_SUBS_HISTORY_ID, 'history']);
 
 const ManageSubs = props => {
     const classes = makeStyles(materialStyles)();
@@ -37,10 +43,15 @@ const ManageSubs = props => {
     const [nameFilter, setNameFilter] = useState('');
     const [toggleFilter, setToggleFilter] = useState('All');
     const [csvLink, setLink] = useState(null);
+    const [showingHistory, setShowingHistory] = useState(false);
 
     useEffect(() => {
         setLink(React.createRef());
     }, [setLink]);
+
+    const toggleShowingHistory = useCallback(() => {
+        setShowingHistory(!showingHistory);
+    }, [showingHistory, setShowingHistory]);
 
     const getCurrentPaidForId = id => {
         if (differences.includes(id)) {
@@ -76,10 +87,13 @@ const ManageSubs = props => {
         setDifferences([]);
     }, [setToggleFilter, setDifferences]);
 
+    const getPlayerName = useCallback(playerId => _.get(props.allPlayers.find(p => p.id === playerId), 'name'), [props.allPlayers]);
+
     const saveChanges = useCallback(() => {
         const changes = differences.map(playerId => ({
             playerId,
-            hasPaidSubs: !props.allPlayers.find(x => x.id === playerId).hasPaidSubs
+            hasPaidSubs: !props.allPlayers.find(x => x.id === playerId).hasPaidSubs,
+            name: getPlayerName(playerId)
         }));
         props.setHasPaidSubsRequest(changes);
         setDifferences([]);
@@ -173,6 +187,11 @@ const ManageSubs = props => {
                 </div>
                 <div className={props.styles.confirmChangesWrapper}>
                     <StyledButton
+                        onClick={toggleShowingHistory}
+                        text="Show History"
+                        color="primary"
+                    />
+                    <StyledButton
                         onClick={downloadAsCsv}
                         text="Download as CSV"
                         color="primary"
@@ -198,6 +217,17 @@ const ManageSubs = props => {
                 ref={csvLink}
                 target="_blank"
             />
+            <SuccessModal
+                backdrop
+                closeModal={() => setShowingHistory(false)}
+                isOpen={showingHistory}
+                headerMessage="Update History"
+                toggleModal={toggleShowingHistory}
+            >
+                <SubsHistory
+                    subsHistory={props.subsHistory}
+                />
+            </SuccessModal>
         </>
     );
 };
@@ -206,6 +236,7 @@ ManageSubs.defaultProps = {
     allPlayers: [],
     fetchingAllPlayers: false,
     styles: defaultStyles,
+    subsHistory: [],
     updatingSubs: false
 };
 
@@ -215,6 +246,10 @@ ManageSubs.propTypes = {
     fetchingAllPlayers: PropTypes.bool,
     setHasPaidSubsRequest: PropTypes.func.isRequired,
     styles: PropTypes.objectOf(PropTypes.string),
+    subsHistory: PropTypes.arrayOf(PropTypes.shape({
+        haveNotPaid: PropTypes.arrayOf(PropTypes.string),
+        havePaid: PropTypes.arrayOf(PropTypes.string)
+    })),
     updatingSubs: PropTypes.bool
 };
 
@@ -225,10 +260,21 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
     allPlayers: state.transfers.allPlayers,
+    subsHistory: getSubsHistory(state.firestore.data.clubSubs),
     fetchingAllPlayers: state.transfers.fetchingAllPlayers,
     updatingSubs: state.admin.updatingSubs
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageSubs);
+// export default connect(mapStateToProps, mapDispatchToProps)(ManageSubs);
+
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    firestoreConnect(() => [
+        {
+            collection: 'club-subs',
+            storeAs: 'clubSubs'
+        }
+    ])
+)(ManageSubs);
 
 export { ManageSubs as ManageSubsUnconnected };

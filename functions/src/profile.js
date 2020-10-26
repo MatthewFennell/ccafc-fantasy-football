@@ -1,6 +1,6 @@
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
-const lodash = require('lodash');
+const _ = require('lodash');
 const common = require('./common');
 const constants = require('./constants');
 
@@ -28,10 +28,10 @@ const updateComments = (database, newUrl, userId) => {
     return db.collection(database).get().then(
         documents => documents.docs.forEach(doc => {
             if (doc.data().comments.some(y => y.userId === userId)) {
-                documentsToUpdate = lodash.union(documentsToUpdate, [doc.id]);
+                documentsToUpdate = _.union(documentsToUpdate, [doc.id]);
             }
             if (doc.data().comments.some(y => y.comments.some(z => z.userId === userId))) {
-                documentsToUpdate = lodash.union(documentsToUpdate, [doc.id]);
+                documentsToUpdate = _.union(documentsToUpdate, [doc.id]);
             }
         })
     ).then(() => {
@@ -101,48 +101,85 @@ exports.updateDisplayName = functions
         );
     });
 
-// Update highlights display names
-exports.updateHighlightsDisplayNames = functions.region(constants.region).firestore
+const updateHistoryNames = (collection, documentId, change) => {
+    if (!change.after.exists) {
+        return Promise.resolve();
+    }
+
+    const displayNameBefore = change.before.data().displayName;
+    const displayNameAfter = change.after.data().displayName;
+    const userId = change.after.id;
+
+    if (displayNameBefore === displayNameAfter) {
+        return Promise.resolve();
+    }
+
+    return db.collection(collection).doc(documentId).get()
+        .then(history => {
+            if (!history.exists) {
+                return Promise.resolve();
+            }
+            return db.collection(collection).doc(documentId).update({
+                history: history.data().history.map(entry => {
+                    if (_.get(entry, ['author', 'uid']) === userId) {
+                        return {
+                            ...entry,
+                            author: {
+                                ...entry.author,
+                                displayName: displayNameAfter
+                            }
+                        };
+                    }
+                    return entry;
+                })
+            });
+        });
+};
+
+// Update club subs history display names
+exports.updateClubSubsDisplayNames = functions.region(constants.region).firestore
     .document('users/{id}')
     .onWrite(change => {
-        if (!change.after.exists) {
-            return Promise.resolve();
-        }
-        const displayNameBefore = change.before.data().displayName;
-        const displayNameAfter = change.after.data().displayName;
-        const userId = change.after.id;
-
-        if (displayNameBefore === displayNameAfter) {
-            return Promise.resolve();
-        }
-
-        return db.collection('highlights').where('userId', '==', userId).get().then(
-            result => result.docs.forEach(doc => doc.ref.update({
-                displayName: displayNameAfter
-            }))
-        );
+        updateHistoryNames('club-subs', constants.clubSubsHistoryId, change);
     });
 
-// Update highlights display names
+// Update results history display names
+exports.updateResultsDisplayNames = functions.region(constants.region).firestore
+    .document('users/{id}')
+    .onWrite(change => {
+        updateHistoryNames('results-history', constants.resultsHistoryId, change);
+    });
+
+const updateFeaturesAndHighlightsDisplayNames = (collection, change) => {
+    if (!change.after.exists) {
+        return Promise.resolve();
+    }
+    const displayNameBefore = change.before.data().displayName;
+    const displayNameAfter = change.after.data().displayName;
+    const userId = change.after.id;
+
+    if (displayNameBefore === displayNameAfter) {
+        return Promise.resolve();
+    }
+
+    return db.collection(collection).where('userId', '==', userId).get().then(
+        result => result.docs.forEach(doc => doc.ref.update({
+            displayName: displayNameAfter
+        }))
+    );
+};
+
+// Update features display names
 exports.updateFeatures = functions.region(constants.region).firestore
     .document('users/{id}')
     .onWrite(change => {
-        if (!change.after.exists) {
-            return Promise.resolve();
-        }
-        const displayNameBefore = change.before.data().displayName;
-        const displayNameAfter = change.after.data().displayName;
-        const userId = change.after.id;
+        updateFeaturesAndHighlightsDisplayNames('feature-requests', change);
+    });
 
-        if (displayNameBefore === displayNameAfter) {
-            return Promise.resolve();
-        }
-
-        return db.collection('feature-requests').where('userId', '==', userId).get().then(
-            result => result.docs.forEach(doc => doc.ref.update({
-                displayName: displayNameAfter
-            }))
-        );
+exports.updateHighlightsDisplayNames = functions.region(constants.region).firestore
+    .document('users/{id}')
+    .onWrite(change => {
+        updateFeaturesAndHighlightsDisplayNames('highlights', change);
     });
 
 // Update cup display name mapping
@@ -160,6 +197,10 @@ exports.updateCupDisplayNameMapping = functions.region(constants.region).firesto
         }
 
         return db.collection('the-cup').doc(constants.cupDatabaseId).get().then(cup => {
+            if (!cup.exists) {
+                return Promise.resolve();
+            }
+
             const userId = change.after.id;
             const { displayNameMappings } = cup.data();
             if (displayNameMappings[userId]) {

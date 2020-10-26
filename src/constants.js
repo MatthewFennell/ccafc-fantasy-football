@@ -110,6 +110,16 @@ export const LEAGUE_INITIAL_ROWS_PER_PAGE = 20;
 export const LEAGUE_INITIAL_NUMBER_OF_PAGES_TO_LOAD = 3;
 export const LEAGUE_PAGE_BUFFER = 3;
 
+// mirrored in the functions constants
 export const APPLICATION_INFO_ID = 'application-info-id';
+export const CLUB_SUBS_HISTORY_ID = 'club-subs-history-id';
+export const RESULTS_HISTORY_ID = 'results-history-id';
 
 export const mobileScreenSize = 800;
+
+export const resultHistoryTypes = {
+    STANDARD_RESULT: 'STANDARD_RESULT',
+    EXTRA_STATS: 'EXTRA_STATS',
+    EDIT_STATS: 'EDIT_STATS',
+    TRIGGER_WEEK: 'TRIGGER_WEEK'
+};

@@ -125,5 +125,14 @@ module.exports.cupDatabaseId = 'ccafc-cup-id';
 module.exports.collingwoodLeagueId = 'collingwood-league-id';
 module.exports.collingwoodLeagueName = 'Collingwood';
 module.exports.applicationInfoId = 'application-info-id';
+module.exports.clubSubsHistoryId = 'club-subs-history-id';
+module.exports.resultsHistoryId = 'results-history-id';
+
+module.exports.resultHistoryTypes = {
+    STANDARD_RESULT: 'STANDARD_RESULT',
+    EXTRA_STATS: 'EXTRA_STATS',
+    EDIT_STATS: 'EDIT_STATS',
+    TRIGGER_WEEK: 'TRIGGER_WEEK'
+};
 
 module.exports.cupStartingWeek = 3;

@@ -1,0 +1,11 @@
+@import "../../common//Styles.scss";
+
+.noUpdates {
+    text-align: center;
+    font-weight: bold;
+}
+
+.updatesWrapper {
+    max-height: 450px;
+    overflow-y: scroll;
+}
