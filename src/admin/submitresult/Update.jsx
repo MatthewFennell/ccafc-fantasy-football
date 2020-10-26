@@ -14,13 +14,13 @@ const Update = props => {
 
     const RenderAuthor = (
         <div className={props.styles.renderAuthorWrapper}>
-            <div>
+            <div className={props.styles.authorDate}>
                 {`${generateTime(date)}`}
             </div>
-            <div>
+            <div className={props.styles.authorDisplayName}>
                 {fp.get('displayName')(author)}
             </div>
-            <div>
+            <div className={props.styles.authorEmail}>
                 {fp.get('email')(author)}
             </div>
         </div>
@@ -38,6 +38,7 @@ const Update = props => {
     }
 
     if (props.type === appConstants.resultHistoryTypes.STANDARD_RESULT) {
+        console.log('props', props);
         return (
             <div className={props.styles.standardResultWrapper}>
                 <div className={props.styles.standardResultHeader}>
@@ -45,13 +46,39 @@ const Update = props => {
                 </div>
                 {RenderAuthor}
                 <div className={props.styles.separator} />
+                <div className={props.styles.motmDotd}>
+                    {props.manOfTheMatch && (
+                        <div className={props.styles.manOfTheMatchWrapper}>
+                            <div className={props.styles.motmTitle}>
+                                Man of the Match:
+                            </div>
+                            <div className={props.styles.motmValue}>
+                                {fp.get('name')(props.manOfTheMatch)}
+                            </div>
+                        </div>
+                    )}
+
+                    {props.dickOfTheDay && (
+                        <div className={props.styles.dickOfTheDayWrapper}>
+                            <div className={props.styles.dotdTitle}>
+                                Dick of the Day:
+                            </div>
+                            <div className={props.styles.dotdValue}>
+                                {fp.get('name')(props.dickOfTheDay)}
+                            </div>
+                        </div>
+                    )}
+                </div>
                 <div className={props.styles.extraResultsInfo}>
                     <div>
                         <div className={props.styles.goalsTitle}>
                             Goals
                         </div>
                         {props.goals.map(goal => (
-                            <div>
+                            <div
+                                key={goal.id + goal.name + goal.amount}
+                                className={props.styles.goalName}
+                            >
                                 {`${goal.name} (${goal.amount})`}
                             </div>
                         ))}
@@ -61,7 +88,10 @@ const Update = props => {
                             Assists
                         </div>
                         {props.assists.map(assist => (
-                            <div>
+                            <div
+                                key={assist.id + assist.name + assist.amount}
+                                className={props.styles.assistName}
+                            >
                                 {`${assist.name} (${assist.amount})`}
                             </div>
                         ))}
@@ -71,7 +101,10 @@ const Update = props => {
                             Clean Sheets
                         </div>
                         {props.cleanSheets.map(cleanSheet => (
-                            <div>
+                            <div
+                                key={cleanSheet.id + cleanSheet.name}
+                                className={props.styles.cleanSheetName}
+                            >
                                 {`${cleanSheet.name}`}
                             </div>
                         ))}
@@ -161,7 +194,7 @@ const Update = props => {
     if (props.type === appConstants.resultHistoryTypes.EXTRA_STATS) {
         return (
             <div className={props.styles.extraStatsWrapper}>
-                <div className={props.styles.triggerWeekHeader}>
+                <div className={props.styles.extraStatsHeader}>
                     {`Extra Stats - Week ${props.week}`}
                 </div>
                 {RenderAuthor}
@@ -177,7 +210,7 @@ const Update = props => {
 
     return (
         <div>
-            Update
+            An error has occured
         </div>
     );
 };
@@ -191,7 +224,9 @@ Update.defaultProps = {
     },
     cleanSheets: [],
     date: null,
+    dickOfTheDay: null,
     goals: [],
+    manOfTheMatch: null,
     name: '',
     oldStats: null,
     styles: defaultStyles,
@@ -219,11 +254,19 @@ Update.propTypes = {
     date: PropTypes.shape({
         seconds: PropTypes.number
     }),
+    dickOfTheDay: PropTypes.shape({
+        id: PropTypes.string,
+        name: PropTypes.string
+    }),
     goals: PropTypes.arrayOf(PropTypes.shape({
         amount: PropTypes.number,
         id: PropTypes.string,
         name: PropTypes.string
     })),
+    manOfTheMatch: PropTypes.shape({
+        id: PropTypes.string,
+        name: PropTypes.string
+    }),
     name: PropTypes.string,
     oldStats: PropTypes.shape({
         assists: PropTypes.number,

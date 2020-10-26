@@ -23,7 +23,7 @@
     background-color: $color-light-green-hover;
 }
 
-.triggerWeekHeader, .standardResultHeader, .editStatsHeader {
+.triggerWeekHeader, .standardResultHeader, .editStatsHeader, .extraStatsHeader {
     text-align: center;
     font-weight: bold;
     margin-bottom: $spacing-tiny;
@@ -80,5 +80,23 @@
 }
 
 .statValue {
+    font-weight: bold;
+}
+
+.manOfTheMatchWrapper, .dickOfTheDayWrapper {
+    display: flex;
+}
+
+.motmDotd {
+    display: flex;
+    justify-content: space-evenly;
+    padding-bottom: $spacing-small;
+}
+
+.motmTitle, .dotdTitle {
+    margin-right: $spacing-tiny;
+}
+
+.motmValue, .dotdValue {
     font-weight: bold;
 }
