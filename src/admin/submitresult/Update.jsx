@@ -38,7 +38,6 @@ const Update = props => {
     }
 
     if (props.type === appConstants.resultHistoryTypes.STANDARD_RESULT) {
-        console.log('props', props);
         return (
             <div className={props.styles.standardResultWrapper}>
                 <div className={props.styles.standardResultHeader}>
