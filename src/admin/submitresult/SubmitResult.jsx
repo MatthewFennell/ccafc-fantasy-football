@@ -61,8 +61,6 @@ const SubmitResult = props => {
     const [assisters, setAssisters] = useState({});
     const [cleanSheets, setCleanSheets] = useState({});
 
-    console.log('resultsHistory', props.resultsHistory);
-
     useEffect(() => {
         props.fetchMaxGameWeekRequest();
 
