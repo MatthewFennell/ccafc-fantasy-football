@@ -11,8 +11,8 @@ jobs:
     name: A job to say hello
     steps:
     - uses: actions/checkout@v2
-    - id: foo
-      uses: actions/ccafc-fantasy-football@v1
+    - id: foo 
+      uses: MatthewFennell/ccafc-fantasy-football@v1
       with:
         who-to-greet: 'Mona the Octocat'
     - run: echo random-number ${{ steps.foo.outputs.random-number }}
