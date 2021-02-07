@@ -253,6 +253,15 @@ const edgeCase = [
 const activeTeams = ['teamOne', 'teamTwo'];
 
 describe('Generating graph data for charts', () => {
+    beforeEach(() => {
+        process.env.REACT_APP_COLLEGE_NAME = 'Collingwood';
+        process.env.REACT_APP_COLLEGE_ACRONYM = 'CCAFC';
+    });
+
+    afterEach(() => {
+        delete process.env.REACT_APP_COLLEGE_NAME;
+        delete process.env.REACT_APP_COLLEGE_ACRONYM;
+    });
     it('Goals For extending to the correct week', () => {
         expect(helpers.findGraphData(allTeams, activeTeams, 'goalsFor', 5)).toEqual([
             ['x', 'England', 'Brazil'],
