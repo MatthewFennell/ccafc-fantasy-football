@@ -2,8 +2,10 @@ const functions = require('firebase-functions');
 const firestore = require('@google-cloud/firestore');
 const constants = require('./constants');
 
+const config = functions.config();
+
 const client = new firestore.v1.FirestoreAdminClient();
-const bucket = 'gs://daily-backup-ccafc-fantasy-football';
+const bucket = college => `gs://daily-backup-${college}-fantasy-football`;
 
 exports.scheduledFirestoreExport = functions.region(constants.region).pubsub
     .schedule('every 24 hours')
@@ -13,7 +15,7 @@ exports.scheduledFirestoreExport = functions.region(constants.region).pubsub
 
         return client.exportDocuments({
             name: databaseName,
-            outputUriPrefix: bucket,
+            outputUriPrefix: bucket(config.bucket.name),
             // Leave collectionIds empty to export all collections
             // or set to a list of collection IDs to export,
             // collectionIds: ['users', 'posts']
@@ -30,7 +32,7 @@ exports.scheduledFirestoreExport = functions.region(constants.region).pubsub
             });
     });
 
-// Buckets saved here -- https://console.cloud.google.com/storage/browser?project=ccafc-fantasy-football-dev
+// Buckets saved here -- https://console.cloud.google.com/storage/browser?project=ccafc-fantasy-football
 
 // database import / export - https://firebase.google.com/docs/firestore/manage-data/export-import
 // regular exports - https://firebase.google.com/docs/firestore/solutions/schedule-export

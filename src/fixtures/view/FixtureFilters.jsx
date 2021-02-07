@@ -32,7 +32,7 @@ const FixtureFilters = props => (
             </div>
             <div className={props.styles.collingwoodOnly}>
                 <div>
-                    Collingwood Only
+                    {`${process.env.REACT_APP_COLLEGE_NAME} Only`}
                 </div>
                 <div>
                     <Switch

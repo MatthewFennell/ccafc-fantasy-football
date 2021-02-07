@@ -40,6 +40,8 @@ jobs:
           echo 'REACT_APP_CONFIRMATION_EMAIL_REDIRECT=${{ secrets.EMAIL_REDIRECT_DEV }}' >> .env.production
           echo 'REACT_APP_SENTRY_DSN=${{ secrets.SENTRY_DSN }}' >> .env.production
           echo 'REACT_APP_VERSION=${{ steps.package-version.outputs.current-version}}' >> .env.production
+          echo 'REACT_APP_COLLEGE_ACRONYM=CCAFC' >> .env.production
+          echo 'REACT_APP_COLLEGE_NAME=Collingwood' >> .env.production
 
     - name: Build
       run: 

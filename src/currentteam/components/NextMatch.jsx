@@ -28,7 +28,8 @@ const NextMatch = props => {
         // eslint-disable-next-line
     }, [props.fetchFixturesRequest]);
 
-    const nextMatchPerTeam = helpers.getNextMatchPerTeam(props.fixtures, 'Collingwood');
+    const nextMatchPerTeam = helpers.getNextMatchPerTeam(props.fixtures,
+        process.env.REACT_APP_COLLEGE_NAME);
     return (
         <div className={props.styles.nextMatchesWrapper}>
             <div className={props.styles.nextFixturesWrapper}>Next Fixtures</div>

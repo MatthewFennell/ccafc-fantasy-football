@@ -17,7 +17,8 @@ const convertToDay = d => moment(d, 'DD-MM-YYYY')
     .format('ddd, MMMM Do YYYY');
 
 const NextFixtures = props => {
-    const nextMatchPerTeam = helpers.getNextMatchPerTeam(props.fixtures, 'Collingwood');
+    const nextMatchPerTeam = helpers.getNextMatchPerTeam(props.fixtures,
+        process.env.REACT_APP_COLLEGE_NAME);
     const removedDuplicatedSorted = helpers.sortMatchesByDate(nextMatchPerTeam, false);
     const daysOfYear = _.uniq(nextMatchPerTeam.map(x => convertToDay(x.time)));
     const classes = makeStyles(materialStyles)();

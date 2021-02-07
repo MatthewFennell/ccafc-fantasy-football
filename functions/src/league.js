@@ -4,6 +4,8 @@ const fp = require('lodash/fp');
 const common = require('./common');
 const constants = require('./constants');
 
+const config = functions.config();
+
 const db = admin.firestore();
 
 const operations = admin.firestore.FieldValue;
@@ -91,7 +93,7 @@ exports.leaveLeague = functions
                     throw new functions.https.HttpsError('invalid-argument', 'Server Error (somehow in the same league twice)');
                 }
                 const docToDelete = docs.docs[0];
-                if (docToDelete.data().name === constants.collingwoodLeagueName) {
+                if (docToDelete.data().name === config.league.name) {
                     throw new functions.https.HttpsError('invalid-argument', 'You cannot leave that league');
                 }
                 return docToDelete.ref.delete();

@@ -5,6 +5,16 @@ import MatchRow from './MatchRow';
 import Spinner from '../../common/spinner/Spinner';
 
 describe('NextFixtures - NextFixtures', () => {
+    beforeEach(() => {
+        process.env.REACT_APP_COLLEGE_NAME = 'Collingwood';
+        process.env.REACT_APP_COLLEGE_ACRONYM = 'CCAFC';
+    });
+
+    afterEach(() => {
+        delete process.env.REACT_APP_COLLEGE_NAME;
+        delete process.env.REACT_APP_COLLEGE_ACRONYM;
+    });
+
     // Only 2 Collingwood teams
     const fixtures = [
         {

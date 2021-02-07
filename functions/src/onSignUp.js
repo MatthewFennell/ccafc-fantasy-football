@@ -16,7 +16,7 @@ exports.createInitialLeague = functions
                 return db.collection('leagues').doc(constants.collingwoodLeagueId).set({
                     owner: user.uid,
                     start_week: 0,
-                    name: constants.collingwoodLeagueName,
+                    name: config.league.name,
                     number_of_users: 0
                 });
             }
@@ -28,16 +28,16 @@ exports.joinInitialLeague = functions
     .region(constants.region)
     .auth.user()
     .onCreate(user => db.collection('leagues-points')
-        .where('name', '==', constants.collingwoodLeagueName).where('user_id', '==', user.uid)
+        .where('name', '==', config.league.name).where('user_id', '==', user.uid)
         .get()
         .then(result => {
             if (result.empty) {
-                return db.collection('leagues-points').where('name', '==', constants.collingwoodLeagueName).get().then(
+                return db.collection('leagues-points').where('name', '==', config.league.name).get().then(
                     query => db.collection('leagues-points').add({
                         league_id: constants.collingwoodLeagueId,
                         user_id: user.uid,
                         start_week: 0,
-                        name: constants.collingwoodLeagueName,
+                        name: config.league.name,
                         user_points: 0,
                         username: user.displayName,
                         position: query.size + 1,

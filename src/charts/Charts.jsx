@@ -38,7 +38,8 @@ const Charts = props => {
     }, [props.fetchAllTeamsRequest]);
 
     const filterFixtures = useCallback(() => props.fixtures
-        .filter(x => x.teamOne.includes('Collingwood') || x.teamTwo.includes('Collingwood'))
+        .filter(x => x.teamOne.includes(process.env.REACT_APP_COLLEGE_NAME)
+        || x.teamTwo.includes(process.env.REACT_APP_COLLEGE_NAME))
         .filter(x => x.completed)
         .filter(x => !x.isCup),
     [props.fixtures]);

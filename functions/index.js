@@ -38,4 +38,10 @@ exports.weeklyTeam = require('./src/weeklyTeam');
 
 const operations = admin.firestore.FieldValue;
 
-// // https://firebase.google.com/docs/reference/js/firebase.functions.html#functionserrorcod
+// https://firebase.google.com/docs/reference/js/firebase.functions.html#functionserrorcod
+// https://console.cloud.google.com/functions/list?project=ccafc-fantasy-football&folder=&organizationId=
+
+// config that needs setting
+// admin.email
+// bucket.name
+// league.name
