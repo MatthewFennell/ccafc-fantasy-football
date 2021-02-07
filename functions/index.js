@@ -36,6 +36,11 @@ exports.team = require('./src/team');
 exports.users = require('./src/users');
 exports.weeklyTeam = require('./src/weeklyTeam');
 
+// firebase functions:config:set admin.email="pampoomiofennell@gmail.com"
+// firebase functions:config:set league.name="ENTER_OVERALL_LEAGUE_NAME"
+// firebase functions:config:set bucket.name="ENTER_STORAGE_BUCKET_PREFIX_FOR_BACKUPS"
+// setup Facebook login
+
 const operations = admin.firestore.FieldValue;
 
 // https://firebase.google.com/docs/reference/js/firebase.functions.html#functionserrorcod
