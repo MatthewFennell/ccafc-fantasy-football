@@ -234,6 +234,15 @@ const fixturesWithSearchString = [
 const myTeam = 'Collingwood A';
 
 describe('Generates Collingwood teams from all fixtures correctly', () => {
+    beforeEach(() => {
+        process.env.REACT_APP_COLLEGE_NAME = 'Collingwood';
+        process.env.REACT_APP_COLLEGE_ACRONYM = 'CCAFC';
+    });
+
+    afterEach(() => {
+        delete process.env.REACT_APP_COLLEGE_NAME;
+        delete process.env.REACT_APP_COLLEGE_ACRONYM;
+    });
     it('returns empty array', () => {
         expect(helpers.generateCollingwoodTeams([])).toEqual([]);
     });
@@ -381,6 +390,15 @@ describe('Generates Radio Options for filtering fixtures', () => {
 // ------------------------------------------------------------------------- //
 
 describe('Filtering fixtures', () => {
+    beforeEach(() => {
+        process.env.REACT_APP_COLLEGE_NAME = 'Collingwood';
+        process.env.REACT_APP_COLLEGE_ACRONYM = 'CCAFC';
+    });
+
+    afterEach(() => {
+        delete process.env.REACT_APP_COLLEGE_NAME;
+        delete process.env.REACT_APP_COLLEGE_ACRONYM;
+    });
     it('Does not remove any fixtures when league filter is all', () => {
         expect(helpers.filterFixtures(fixturesWithUncompletedMatches, 'All', false, false, ''))
             .toEqual([

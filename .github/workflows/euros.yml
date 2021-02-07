@@ -1,11 +1,14 @@
 name: Build and Deploy
-on:
+on: 
   push:
-    branches:
+    branches-ignore:
+      - master
       - develop
 
 jobs:
   build:
+    environment: 
+      name: Euros
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -27,21 +30,19 @@ jobs:
       with:
         path: .
 
-    - name: Load API Config
+    - name: Load API Config       # no database url?
       run: |
-          echo 'REACT_APP_API_KEY=${{ secrets.FIREBASE_API_KEY_DEV }}' >> .env.production
-          echo 'REACT_APP_AUTH_DOMAIN=${{ secrets.FIREBASE_AUTH_DOMAIN_DEV }}' >> .env.production
-          echo 'REACT_APP_DATABASE_URL=${{ secrets.FIREBASE_DATABASE_URL_DEV }}' >> .env.production
-          echo 'REACT_APP_PROJECT_ID=${{ secrets.FIREBASE_PROJECT_ID_DEV }}' >> .env.production
-          echo 'REACT_APP_STORAGE_BUCKET=${{ secrets.FIREBASE_STORAGE_BUCKET_DEV }}' >> .env.production
-          echo 'REACT_APP_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_MESSAGING_SENDER_ID_DEV }}' >> .env.production
-          echo 'REACT_APP_APP_ID=${{ secrets.FIREBASE_APP_ID_DEV }}' >> .env.production
-          echo 'REACT_APP_MEASUREMENT_ID=${{ secrets.FIREBASE_MEASUREMENT_ID_DEV }}' >> .env.production
-          echo 'REACT_APP_CONFIRMATION_EMAIL_REDIRECT=${{ secrets.EMAIL_REDIRECT_DEV }}' >> .env.production
+          echo 'REACT_APP_API_KEY=${{ secrets.FIREBASE_API_KEY }}' >> .env.production
+          echo 'REACT_APP_AUTH_DOMAIN=${{ secrets.FIREBASE_AUTH_DOMAIN }}' >> .env.production
+          echo 'REACT_APP_PROJECT_ID=${{ secrets.FIREBASE_PROJECT_ID }}' >> .env.production
+          echo 'REACT_APP_STORAGE_BUCKET=${{ secrets.FIREBASE_STORAGE_BUCKET }}' >> .env.production
+          echo 'REACT_APP_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}' >> .env.production
+          echo 'REACT_APP_APP_ID=${{ secrets.FIREBASE_APP_ID }}' >> .env.production
+          echo 'REACT_APP_MEASUREMENT_ID=${{ secrets.FIREBASE_MEASUREMENT_ID }}' >> .env.production
           echo 'REACT_APP_SENTRY_DSN=${{ secrets.SENTRY_DSN }}' >> .env.production
           echo 'REACT_APP_VERSION=${{ steps.package-version.outputs.current-version}}' >> .env.production
-          echo 'REACT_APP_COLLEGE_ACRONYM=CCAFC' >> .env.production
-          echo 'REACT_APP_COLLEGE_NAME=Collingwood' >> .env.production
+          echo 'REACT_APP_COLLEGE_ACRONYM=Euros' >> .env.production
+          echo 'REACT_APP_COLLEGE_NAME=Euros' >> .env.production
 
     - name: Build
       run: 
@@ -49,17 +50,17 @@ jobs:
       env:
         CI: true
 
-    # - name: Lint
-    #   run:
-    #     npm run lint
-      # env:
-      #   CI: true
+    - name: Lint
+      run:
+        npm run lint
+      env:
+        CI: true 
 
-    # - name: Testing
-    #   run:
-    #     npm test
-    #   env:
-    #     CI: true
+    - name: Testing
+      run:
+        npm test
+      env:
+        CI: true
 
     - name: Archive Production Artifact
       uses: actions/upload-artifact@master
@@ -81,14 +82,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    # - name: Deploy Firebase Functions
-    #   run: |
-    #     cd functions
-    #     npm ci
-    #     npx firebase use ccafc-fantasy-football-dev
-    #     npx firebase deploy --only functions
-    #   env:
-    #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
     - name: Download Artifact
       uses: actions/download-artifact@master
       with:
@@ -97,22 +90,21 @@ jobs:
     - name: Deploy Firebase Hosting
       run: |
         npm ci
-        npx firebase use ccafc-fantasy-football-dev
+        npx firebase use euros-fantasy-football
         npx firebase deploy --only hosting
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
     - name: Deploy Firebase Security Rules
       run: |
         npm ci
-        npx firebase use ccafc-fantasy-football-dev
+        npx firebase use euros-fantasy-football
         npx firebase deploy --only firestore:rules
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
     - name: Deploy Firebase Indexes
       run: |
         npm ci
-        npx firebase use ccafc-fantasy-football-dev
+        npx firebase use euros-fantasy-football
         npx firebase deploy --only firestore:indexes
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-

@@ -75,7 +75,7 @@ serviceWorker.register({
         store.dispatch({
             type: notificationActions.ADD_NOTIFICATION,
             notificationType: notificationTypes.NOTIFICATION_TYPE_INFO,
-            notification: 'There are new updates available. Close all tabs of CCAFC Fantasy to receive the updates.',
+            notification: `There are new updates available. Close all tabs of ${process.env.REACT_APP_COLLEGE_ACRONYM} Fantasy to receive the updates.`,
             duration: 0,
             title: 'Updates Available'
         });

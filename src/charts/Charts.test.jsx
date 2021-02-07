@@ -12,6 +12,15 @@ import { initialState as fixturesInitialState } from '../fixtures/reducer';
 import { fixtures } from '../test/fixtures';
 
 describe('Charts', () => {
+    beforeEach(() => {
+        process.env.REACT_APP_COLLEGE_NAME = 'Collingwood';
+        process.env.REACT_APP_COLLEGE_ACRONYM = 'CCAFC';
+    });
+
+    afterEach(() => {
+        delete process.env.REACT_APP_COLLEGE_NAME;
+        delete process.env.REACT_APP_COLLEGE_ACRONYM;
+    });
     it('The Charts component renders without crashing', () => {
         const wrapper = shallow(<ChartsUnconnected
             fetchAllTeamsRequest={noop}
