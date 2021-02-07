@@ -6,8 +6,9 @@ on:
       - develop
 
 jobs:
-  environment: Euros
   build:
+    environment: 
+      name: Euros
     runs-on: ubuntu-latest
     strategy:
       matrix:
