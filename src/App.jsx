@@ -78,5 +78,3 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, null)(App);
-
-// Error message on get Active Team
