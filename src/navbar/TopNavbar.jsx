@@ -92,7 +92,7 @@ const TopNavbar = props => {
                 ) }
                 <Typography variant="h6" className={classes.title}>
                     <div className={props.styles.titleWrapper}>
-                        CCAFC
+                        {process.env.REACT_APP_COLLEGE_ACRONYM}
                     </div>
                 </Typography>
 

@@ -17,9 +17,11 @@ exports.updateTeam = functions
             .then(userBudget => db.collection('active-teams').where('user_id', '==', context.auth.uid).get().then(
                 activeTeams => {
                     if (activeTeams.size === 0) {
+                        common.log(context.auth.uid, 'No Active Team');
                         throw new functions.https.HttpsError('not-found', 'Somehow you have no active team');
                     }
                     if (activeTeams.size > 1) {
+                        common.log(context.auth.uid, 'Multiple Active Teams');
                         throw new functions.https.HttpsError('invalid-argument', 'You have multiple active teams');
                     }
 
@@ -31,12 +33,14 @@ exports.updateTeam = functions
                     playersBeingAdded.map(playerId => promises.push(db.collection('players').doc(playerId).get()
                         .then(doc => {
                             if (doc.exists) return ({ data: doc.data(), id: doc.id, adding: true });
+                            common.log(context.auth.uid, 'Invalid Player ID (Player being added)', { PlayerId: doc.id });
                             throw new functions.https.HttpsError('not-found', 'Invalid player ID');
                         })));
 
                     playersBeingRemoved.map(playerId => promises.push(db.collection('players').doc(playerId).get()
                         .then(doc => {
                             if (doc.exists) return ({ data: doc.data(), id: doc.id, adding: false });
+                            common.log(context.auth.uid, 'Invalid Player ID (Player being removed)', { PlayerId: doc.id });
                             throw new functions.https.HttpsError('not-found', 'Invalid player ID');
                         })));
 
@@ -55,6 +59,7 @@ exports.updateTeam = functions
                             data.newTeam.map(playerId => newTeamPromises.push(db.collection('players').doc(playerId).get()
                                 .then(doc => {
                                     if (doc.exists) return ({ data: doc.data(), id: doc.id, adding: false });
+                                    common.log(context.auth.uid, 'Invalid Player ID (New Team Promises)', { PlayerId: doc.id });
                                     throw new functions.https.HttpsError('not-found', 'Invalid player ID');
                                 })));
                             return Promise.all(newTeamPromises).then(players => {
@@ -77,11 +82,12 @@ exports.getActiveTeam = functions
         common.isAuthenticated(context);
         return db.collection('active-teams').where('user_id', '==', context.auth.uid).get().then(
             result => {
-                console.log('context', context.auth.uid);
                 if (result.size === 0) {
+                    common.log(context.auth.uid, 'No Active Team');
                     throw new functions.https.HttpsError('not-found', 'Somehow you have no active team');
                 }
                 if (result.size > 1) {
+                    common.log(context.auth.uid, 'Multiple Active Teams');
                     throw new functions.https.HttpsError('invalid-argument', 'You have multiple active teams');
                 }
                 return ({ player_ids: result.docs[0].data().player_ids, captain: result.docs[0].data().captain });
@@ -93,6 +99,7 @@ exports.getActiveTeam = functions
                     result.player_ids.map(playerId => promises.push(db.collection('players').doc(playerId).get()
                         .then(doc => {
                             if (doc.exists) return ({ ...doc.data(), id: doc.id });
+                            common.log(context.auth.uid, 'Invalid Player ID', { PlayerId: doc.id });
                             throw new functions.https.HttpsError('not-found', 'Invalid player ID');
                         })));
                     return Promise.all(promises).then(
@@ -109,9 +116,11 @@ exports.makeCaptain = functions
         return db.collection('active-teams').where('user_id', '==', context.auth.uid).get().then(
             result => {
                 if (result.size > 1) {
+                    common.log(context.auth.uid, 'Multiple Active Teams');
                     throw new functions.https.HttpsError('invalid-argument', 'Server Error. You have multiple active teams');
                 }
                 if (result.size === 0) {
+                    common.log(context.auth.uid, 'No Active Team');
                     throw new functions.https.HttpsError('invalid-argument', 'Server Error. You don\'t have an active team');
                 }
                 return result.docs[0].ref.update({

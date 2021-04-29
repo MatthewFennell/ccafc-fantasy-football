@@ -69,7 +69,7 @@ export const generateCollingwoodTeams = fixtures => fixtures
     .reduce((prev, curr) => _.uniqBy(
         [...prev, curr.teamOne, curr.teamTwo]
     ), [])
-    .filter(x => x.includes('Collingwood'))
+    .filter(x => x.includes(process.env.REACT_APP_COLLEGE_NAME))
     .sort()
     .map(x => ({
         id: x,
@@ -85,7 +85,8 @@ export const filterFixtures = (fixtures, league, collingwoodOnly, upcomingOnly, 
         : x => x.league === league || x.teamOne === league || x.teamTwo === league;
 
     const collingwoodOnlyFilter = collingwoodOnly
-        ? x => x.teamOne.includes('Collingwood') || x.teamTwo.includes('Collingwood') : () => true;
+        ? x => x.teamOne.includes(process.env.REACT_APP_COLLEGE_NAME)
+        || x.teamTwo.includes(process.env.REACT_APP_COLLEGE_NAME) : () => true;
 
     const upcomingOnlyFilter = upcomingOnly ? x => !x.completed && isDateInFuture(x.time)
         : () => true;

@@ -34,7 +34,7 @@ const App = props => (
                         ) : (
                             <div className={props.styles.loadingWrapper}>
                                 <div className={props.styles.loadingMessage}>
-                                    Loading CCAFC Fantasy Football
+                                    {`Loading ${process.env.REACT_APP_COLLEGE_ACRONYM} Fantasy Football`}
                                     <div className={props.styles.fennellTag}>
                                         Created by Matthew Fennell
                                     </div>
@@ -78,5 +78,3 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, null)(App);
-
-// Error message on get Active Team

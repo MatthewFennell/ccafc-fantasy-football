@@ -35,7 +35,26 @@ module.exports = {
     "react/jsx-indent-props": ["error", 4],
     "react-hooks/exhaustive-deps": "off",
     "linebreak-style": ["off"],
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts", ".jsx", ".js"] }],
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "import/extensions": [
+          "error",
+          "ignorePackages",
+          {
+            "js": "never",
+            "jsx": "never",
+            "ts": "never",
+            "tsx": "never"
+          }
+    ],
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
   },
   "overrides": [
     {

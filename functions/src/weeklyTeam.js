@@ -58,6 +58,7 @@ exports.triggerWeeklyTeams = functions
                         });
                         updateHistory(context.auth.uid, data.week);
                     } else {
+                        common.log(context.auth.uid, 'Application Info doc does not exist');
                         throw new functions.https.HttpsError('invalid-argument', 'Server Error. Something has gone wrong');
                     }
                 });

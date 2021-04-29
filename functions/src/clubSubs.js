@@ -23,6 +23,7 @@ exports.setHasPaidSubs = functions
                 setPaidSubsPromises.push(db.collection('players').doc(change.playerId).get().then(
                     player => {
                         if (!player.exists) {
+                            common.log(context.auth.uid, 'Invalid Player ID', { PlayerId: change.playerId });
                             throw new functions.https.HttpsError('not-found', 'Invalid player ID');
                         }
                         return player.ref.update({

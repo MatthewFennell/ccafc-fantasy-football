@@ -118,7 +118,8 @@ const sortLeagueTable = leagueTable => leagueTable.sort((a, b) => {
 
 export const makeBold = val => <div style={{ fontWeight: 'bold' }}>{val}</div>;
 
-const collingwoodOnly = x => x.teamOne.includes('Collingwood') || x.teamTwo.includes('Collingwood');
+const collingwoodOnly = x => x.teamOne.includes(process.env.REACT_APP_COLLEGE_NAME)
+    || x.teamTwo.includes(process.env.REACT_APP_COLLEGE_NAME);
 
 // goalDifference: 8
 // wins: 4
@@ -198,11 +199,11 @@ export const generateNewTable = fixtures => {
     }), {});
 
     filteredFixtures.forEach(fixture => {
-        if (fixture.teamOne.includes('Collingwood')) {
+        if (fixture.teamOne.includes(process.env.REACT_APP_COLLEGE_NAME)) {
             const result = generateResult(fixture, true);
             initialRowObject = combineResult(fixture, result, initialRowObject, 'teamOne');
         }
-        if (fixture.teamTwo.includes('Collingwood')) {
+        if (fixture.teamTwo.includes(process.env.REACT_APP_COLLEGE_NAME)) {
             const result = generateResult(fixture, false);
             initialRowObject = combineResult(fixture, result, initialRowObject, 'teamTwo');
         }

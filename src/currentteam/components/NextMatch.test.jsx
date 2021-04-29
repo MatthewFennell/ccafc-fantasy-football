@@ -4,6 +4,15 @@ import NextMatch from './NextMatch';
 import Spinner from '../../common/spinner/Spinner';
 
 describe('Current Team Components - Next Fixtures', () => {
+    beforeEach(() => {
+        process.env.REACT_APP_COLLEGE_NAME = 'Collingwood';
+        process.env.REACT_APP_COLLEGE_ACRONYM = 'CCAFC';
+    });
+
+    afterEach(() => {
+        delete process.env.REACT_APP_COLLEGE_NAME;
+        delete process.env.REACT_APP_COLLEGE_ACRONYM;
+    });
     const fixtures = [
         {
             teamOne: 'Collingwood D',

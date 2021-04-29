@@ -4,6 +4,8 @@ const fp = require('lodash/fp');
 const common = require('./common');
 const constants = require('./constants');
 
+const config = functions.config();
+
 const db = admin.firestore();
 
 const operations = admin.firestore.FieldValue;
@@ -88,10 +90,11 @@ exports.leaveLeague = functions
                     throw new functions.https.HttpsError('not-found', `You are not in a league with that ID (${data.leagueId})`);
                 }
                 if (docs.docs.length > 1) {
+                    common.log(context.auth.uid, 'Somehow in the same league twice', { LeagueId: data.leagueId });
                     throw new functions.https.HttpsError('invalid-argument', 'Server Error (somehow in the same league twice)');
                 }
                 const docToDelete = docs.docs[0];
-                if (docToDelete.data().name === constants.collingwoodLeagueName) {
+                if (docToDelete.data().name === config.league.name) {
                     throw new functions.https.HttpsError('invalid-argument', 'You cannot leave that league');
                 }
                 return docToDelete.ref.delete();
@@ -108,6 +111,7 @@ exports.joinLeague = functions
                     throw new functions.https.HttpsError('not-found', 'There is no league with that name');
                 }
                 if (docs.docs.length > 1) {
+                    common.log(context.auth.uid, 'Found league multiple times', { LeagueName: data.leagueName });
                     throw new functions.https.HttpsError('invalid-argument', 'Server Error');
                 }
                 const doc = docs.docs[0];
@@ -153,7 +157,7 @@ exports.orderedUsers = functions
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
         if (!common.isIntegerGreaterThanEqualZero(data.week)) {
-            throw new functions.https.HttpsError('invalid-argument', `Invalid week of${data.week}`);
+            throw new functions.https.HttpsError('invalid-argument', `Invalid week of ${data.week}`);
         }
 
         const adaptData = query => query.get()

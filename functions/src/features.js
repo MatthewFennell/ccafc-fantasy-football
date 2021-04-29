@@ -41,6 +41,5 @@ exports.deleteFeatureRequest = functions
         constants.PERMISSIONS.MANAGE_BUGS)
         .then(() => {
             common.isAuthenticated(context);
-
             return db.collection('feature-requests').doc(data.featureId).delete();
         }));

@@ -107,6 +107,7 @@ exports.getUser = functions
                     photoUrl
                 });
             }
+            common.log(context.auth.uid, 'User does not exist', { UserId: data.userId });
             throw new functions.https.HttpsError('invalid-argument', 'Server Error. User does not exist');
         });
     });

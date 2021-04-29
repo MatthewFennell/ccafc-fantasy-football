@@ -113,7 +113,7 @@ exports.rollOverToNextYear = functions
                 }
                 leaguesDocs.docs.forEach((league, index) => {
                     const batchToTarget = Math.floor(index / constants.maxBatchSize);
-                    if (league.data().name !== constants.collingwoodLeagueName) {
+                    if (league.data().name !== config.league.name) {
                         leaguesBatches[batchToTarget].delete(league.ref);
                     }
                 });
@@ -159,7 +159,7 @@ exports.rollOverToNextYear = functions
                         league_id: constants.collingwoodLeagueId,
                         user_id: user.id,
                         start_week: 0,
-                        name: constants.collingwoodLeagueName,
+                        name: config.league.name,
                         user_points: 0,
                         username: user.data().displayName,
                         position: index + 1,

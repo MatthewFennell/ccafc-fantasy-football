@@ -18,6 +18,8 @@ exports.pointsForWeek = functions
             .then(
                 result => {
                     if (result.size > 1) {
+                        common.log(context.auth.uid, 'Multiple weekly teams',
+                            { Week: data.week, UserId: data.userId });
                         throw new functions.https.HttpsError('invalid-argument', 'Somehow you have multiple weekly teams');
                     }
                     if (result.size === 0) {
@@ -35,6 +37,7 @@ exports.pointsForWeek = functions
                         .get()
                         .then(doc => {
                             if (doc.size > 1) {
+                                common.log(context.auth.uid, 'Identical weekly players', { Week: data.week, UserId: data.userId });
                                 throw new functions.https.HttpsError('invalid-argument', 'Server Error. Cannot have identical weekly player entries in a single week');
                             }
                             if (doc.size === 0) {
@@ -294,6 +297,7 @@ exports.submitResult = functions
                                 penaltySaves: 0
                             });
                         } else if (playerDocs.size > 1) {
+                            common.log(context.auth.uid, 'Multiple player points entries', { PlayerId: playerId, Week: data.week });
                             throw new functions.https.HttpsError('invalid-argument', 'Somehow that player points has multiple entries');
                         } else {
                             playerDocs.docs[0].ref.update({
@@ -411,6 +415,7 @@ exports.submitExtraResults = functions
                                 });
                             });
                         } else if (playerDocs.size > 1) {
+                            common.log(context.auth.uid, 'Multiple player points entries', { PlayerId: id, Week: data.gameWeek });
                             throw new functions.https.HttpsError('invalid-argument', 'Somehow that player points has multiple entries');
                         } else {
                             playerDocs.docs[0].ref.update({
