@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     environment: 
-      name: Euros
+      name: Euros # make list awesome
     runs-on: ubuntu-latest
     strategy:
       matrix:

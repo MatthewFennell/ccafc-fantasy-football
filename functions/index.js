@@ -50,3 +50,21 @@ const operations = admin.firestore.FieldValue;
 // admin.email
 // bucket.name
 // league.name
+
+// Collingwood
+// Grey
+// Hatfield
+// John Snow
+// Josephine Butler
+// Staff
+// Stephenson Rangers
+// St. Aidan's
+// St. Chad's
+// St. Cuthbert's
+// St. Hild & St. Bede
+// St. John's
+// St. Mary's
+// Trevelyan
+// Van Mildert
+// University
+// Ustinov

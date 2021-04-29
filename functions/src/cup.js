@@ -124,7 +124,6 @@ exports.manageCup = functions.region(constants.region).firestore
                         }, []).concat(byes);
 
                         if (remainingPlayers.length === 1) {
-                            console.log('only 1 remaining player');
                             return db.collection('the-cup').doc(constants.cupDatabaseId).update({
                                 [previousWeek]: {
                                     ...doc.data()[previousWeek],

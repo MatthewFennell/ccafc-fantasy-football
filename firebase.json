@@ -35,5 +35,8 @@
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
+  },
+  "functions": {
+    "ignore": ["node_modules", ".git", ".gitignore", ".nyc_output", ".runtimeconfig.json", "firebase-debug.log", "tslint.json", "tests"]
   }
 }
