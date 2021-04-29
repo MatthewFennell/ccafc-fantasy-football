@@ -7,6 +7,8 @@ const constants = require('./constants');
 
 const db = admin.firestore();
 
+const config = functions.config();
+
 exports.findFixtures = functions
     .region(constants.region)
     .https.onCall((data, context) => {
@@ -81,7 +83,9 @@ exports.setMyTeam = functions
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
 
-        if (!data.team || !data.team.includes('Collingwood')) {
+        if (!data.team || !data.team.includes(config.league.name)) {
+            common.log(context.auth.uid, 'Invalid team set',
+                { RequestedTeam: data.team, ConfigTeamValue: config.league.name });
             throw new functions.https.HttpsError('invalid-argument', 'Please select a valid team');
         }
 

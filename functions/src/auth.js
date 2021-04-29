@@ -26,12 +26,14 @@ exports.addUserRole = functions
         constants.PERMISSIONS.MANAGE_USERS)
         .then(() => {
             if (!Object.values(constants.ROLES).includes(data.role)) {
+                common.log(context.auth.uid, 'Unknown role', { Role: data.role });
                 throw new functions.https.HttpsError('not-found', 'That is not a known role');
             }
             return admin.auth().getUserByEmail(data.email)
                 .then(user => db.collection('users-with-roles').where('email', '==', data.email).get()
                     .then(result => {
                         if (result.size > 1) {
+                            common.log(context.auth.uid, 'Duplicate entry', { Email: data.email });
                             throw new functions.https.HttpsError('invalid-argument', 'Duplicate entries');
                         }
 

@@ -20,6 +20,8 @@ exports.addComment = functions
         return db.collection(data.collection).doc(data.collectionId).get()
             .then(item => {
                 if (!item.exists) {
+                    common.log(context.auth.uid, 'Item to comment on not found',
+                        { Collection: data.collection, CollectionID: data.collectionId });
                     throw new functions.https.HttpsError('not-found', 'Invalid ID');
                 }
                 const getDisplayName = id => db.collection('users').doc(id).get()
@@ -59,6 +61,8 @@ exports.addReply = functions
         return db.collection(data.collection).doc(data.collectionId).get()
             .then(item => {
                 if (!item.exists) {
+                    common.log(context.auth.uid, 'Item to comment on not found',
+                        { Collection: data.collection, CollectionID: data.collectionId });
                     throw new functions.https.HttpsError('not-found', 'Invalid ID');
                 }
                 const getDisplayName = id => db.collection('users').doc(id).get()
@@ -94,6 +98,8 @@ exports.deleteComment = functions
         return db.collection(data.collection).doc(data.collectionId).get()
             .then(item => {
                 if (!item.exists) {
+                    common.log(context.auth.uid, 'Item to comment on not found',
+                        { Collection: data.collection, CollectionID: data.collectionId });
                     throw new functions.https.HttpsError('not-found', 'Invalid ID');
                 }
                 if (!lodash.get(item.data().comments.find(x => x.id === data.commentId), 'userId') === context.auth.uid) {
@@ -112,6 +118,8 @@ exports.deleteReply = functions
         return db.collection(data.collection).doc(data.collectionId).get()
             .then(item => {
                 if (!item.exists) {
+                    common.log(context.auth.uid, 'Item to comment on not found',
+                        { Collection: data.collection, CollectionID: data.collectionId });
                     throw new functions.https.HttpsError('not-found', 'Invalid ID');
                 }
 
