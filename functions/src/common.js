@@ -239,24 +239,20 @@ module.exports.teamIsValid = players => {
     return true;
 };
 
-module.exports.blobifyPlayers = (database) => database
+module.exports.blobifyPlayers = database => database
     .collection('players')
     .get()
     .then(querySnapshot => querySnapshot.docs
         .map(doc => ({ id: doc.id, ...doc.data() })))
-        .then(playersInfo => {
-            return database.collection('players-blob').doc(constants.playersBlobId).get().then(doc => {
-                if (doc.exists) {
-                    return database.collection('players-blob').doc(constants.playersBlobId).update({
-                        blob: JSON.stringify(playersInfo)
-                    })
-                }
-                else {
-                    return database.collection('players-blob').doc(constants.playersBlobId).set({
-                        blob: JSON.stringify(playersInfo)
-                    })
-                }
-            }).then(() => {
-                return database.collection('players-blob').doc(constants.playersBlobId).get().then(response => response.data());
-            })
-        })
+    .then(playersInfo => database.collection('players-blob').doc(constants.playersBlobId).get().then(doc => {
+        if (doc.exists) {
+            return database.collection('players-blob').doc(constants.playersBlobId).update({
+                blob: JSON.stringify(playersInfo)
+            });
+        }
+
+        return database.collection('players-blob').doc(constants.playersBlobId).set({
+            blob: JSON.stringify(playersInfo)
+        });
+    })
+        .then(() => database.collection('players-blob').doc(constants.playersBlobId).get().then(response => response.data())));

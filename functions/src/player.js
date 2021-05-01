@@ -73,13 +73,6 @@ exports.getAllPlayers = functions
 
 exports.blobifyManually = functions
     .region(constants.region)
-    .https.onCall((data, context) => {
-        common.isAuthenticated(context);
-        return common.blobifyPlayers(db);
-    });
-
-exports.blobifyManually = functions
-    .region(constants.region)
     .https.onCall((data, context) => common.hasPermission(context.auth.uid,
         constants.PERMISSIONS.SUBMIT_RESULT)
         .then(() => common.blobifyPlayers(db)));
