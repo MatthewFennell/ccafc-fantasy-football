@@ -68,7 +68,7 @@ exports.getAllPlayers = functions
         return db.collection('players-blob').doc(constants.playersBlobId).get().then(doc => {
             const { blob } = doc.data();
             return JSON.parse(blob);
-        })
+        });
     });
 
 exports.blobifyManually = functions
@@ -77,6 +77,12 @@ exports.blobifyManually = functions
         common.isAuthenticated(context);
         return common.blobifyPlayers(db);
     });
+
+exports.blobifyManually = functions
+    .region(constants.region)
+    .https.onCall((data, context) => common.hasPermission(context.auth.uid,
+        constants.PERMISSIONS.SUBMIT_RESULT)
+        .then(() => common.blobifyPlayers(db)));
 
 exports.editPlayerPrice = functions
     .region(constants.region)
@@ -100,7 +106,7 @@ exports.editPlayerPrice = functions
                     price: data.newPrice
                 }).then(() => {
                     common.blobifyPlayers(db);
-                })
+                });
             });
         }));
 
@@ -124,7 +130,7 @@ exports.deletePlayer = functions
                             }
                             return db.collection('players').doc(data.playerId).delete().then(() => {
                                 common.blobifyPlayers(db);
-                            })
+                            });
                         });
                 }
 
