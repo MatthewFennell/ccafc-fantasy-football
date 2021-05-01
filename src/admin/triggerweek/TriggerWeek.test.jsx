@@ -45,7 +45,18 @@ describe('Trigger Week connected', () => {
             triggerWeekRequest={noop}
         />);
 
-        wrapper.find('.recalculateLeaguePositions').find(StyledButton).simulate('click');
+        wrapper.find('.recalculateLeaguePositions').find(StyledButton).at(1).simulate('click');
+        expect(mockFn.mock.calls.length).toBe(1);
+    });
+
+    it('Clicks compress players database', () => {
+        const mockFn = jest.fn(noop);
+        const wrapper = mount(<TriggerWeekUnconnected
+            compressPlayersDatabase={mockFn}
+            triggerWeekRequest={noop}
+        />);
+
+        wrapper.find('.recalculateLeaguePositions').find(StyledButton).at(0).simulate('click');
         expect(mockFn.mock.calls.length).toBe(1);
     });
 });

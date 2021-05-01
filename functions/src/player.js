@@ -65,12 +65,17 @@ exports.getAllPlayers = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db
-            .collection('players')
-            .get()
-            .then(querySnapshot => querySnapshot.docs
-                .map(doc => ({ id: doc.id, ...doc.data() })));
+        return db.collection('players-blob').doc(constants.playersBlobId).get().then(doc => {
+            const { blob } = doc.data();
+            return JSON.parse(blob);
+        });
     });
+
+exports.blobifyManually = functions
+    .region(constants.region)
+    .https.onCall((data, context) => common.hasPermission(context.auth.uid,
+        constants.PERMISSIONS.SUBMIT_RESULT)
+        .then(() => common.blobifyPlayers(db)));
 
 exports.editPlayerPrice = functions
     .region(constants.region)
@@ -92,6 +97,8 @@ exports.editPlayerPrice = functions
                 }
                 return player.ref.update({
                     price: data.newPrice
+                }).then(() => {
+                    common.blobifyPlayers(db);
                 });
             });
         }));
@@ -114,7 +121,9 @@ exports.deletePlayer = functions
                             if (docs.size > 0) {
                                 throw new functions.https.HttpsError('invalid-argument', 'That player exists in somebodys team. Cannot be deleted');
                             }
-                            return db.collection('players').doc(data.playerId).delete();
+                            return db.collection('players').doc(data.playerId).delete().then(() => {
+                                common.blobifyPlayers(db);
+                            });
                         });
                 }
 

@@ -15,6 +15,7 @@ import Mobile from './mobile/Mobile';
 import { getColumns } from './mobile/helpers';
 import Desktop from './desktop/Desktop';
 import { desktopColumns } from './helpers';
+
 import defaultStyles from './Transfers.module.scss';
 import SuccessModal from '../common/modal/SuccessModal';
 import * as appConstants from '../constants';
@@ -181,7 +182,6 @@ const Transfers = props => {
 
     return (
         <>
-
             {isMobile && (
                 <Mobile
                     allPlayers={props.allPlayers}
@@ -321,7 +321,7 @@ const mapDispatchToProps = {
     restorePlayerRequest,
     removePlayerFromCurrentTeam,
     undoTransferChanges,
-    updateTeamRequest
+    updateTeamRequest,
 };
 
 const mapStateToProps = state => ({

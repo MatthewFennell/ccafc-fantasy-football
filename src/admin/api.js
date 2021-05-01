@@ -54,3 +54,4 @@ export const deleteBug = request => functionToCall('features-deleteFeatureReques
 
 export const addNotification = request => functionToCall('notification-addNotification')(request);
 export const editPlayerPrice = request => functionToCall('player-editPlayerPrice')(request);
+export const compressPlayersDatabase = request => functionToCall('player-blobifyManually')(request);

@@ -97,6 +97,17 @@ export function* editPlayerPrice(api, action) {
     }
 }
 
+export function* compressPlayersDatabase(api) {
+    try {
+        yield call(api.compressPlayersDatabase);
+        yield put(addNotification('Database successfully compressed'));
+    } catch (error) {
+        yield put(setErrorMessage('Error Compressing Database', error));
+    } finally {
+        yield put(actions.cancelCompressingPlayersDatabase());
+    }
+}
+
 export function* submitResult(api, action) {
     try {
         yield call(api.submitResult,
@@ -1035,6 +1046,7 @@ export default function* adminSaga() {
         takeEvery(actions.DELETE_FEATURE_REQUEST, deleteBug, adminApi),
         takeEvery(actions.ADD_NOTIFICATION_REQUEST, addNotif, adminApi),
         takeEvery(actions.EDIT_PLAYER_PRICE_REQUEST, editPlayerPrice, adminApi),
+        takeEvery(actions.COMPRESS_PLAYERS_DATABASE, compressPlayersDatabase, adminApi),
         takeEvery(actions.RECALCULATE_LEAGUE_POSITIONS_REQUEST, recalculateLeaguePositions,
             adminApi)
     ]);

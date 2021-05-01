@@ -6,7 +6,12 @@
   text-align: center;
 }
 .recalculateLeaguePositions {
+  justify-content: center;
   margin-top: $spacing-small;
+}
+.databaseButtons {
+  display: flex;
+  justify-content: center
 }
 .recalculateInfo {
   color: $color-gray;
