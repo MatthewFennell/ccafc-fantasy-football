@@ -28,6 +28,7 @@
 
 ## Tech
 
+- Node v10.13.0
 - React Redux
 - Material UI for styling
 - Firebase backend

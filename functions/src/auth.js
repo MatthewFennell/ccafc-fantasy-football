@@ -163,6 +163,7 @@ exports.clearDatabase = functions
             db.collection('highlight-requests').get().then(highlights => highlights.forEach(highlight => highlight.ref.delete()));
             db.collection('feature-requests').get().then(features => features.forEach(feature => feature.ref.delete()));
             db.collection('users-teams').get().then(users => users.forEach(userTeam => userTeam.ref.delete()));
+            db.collection('players-blob').get().then(blobs => blobs.forEach(blob => blob.ref.delete()));
         }));
 
 exports.editDisabledPages = functions

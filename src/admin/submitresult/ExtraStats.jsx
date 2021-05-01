@@ -70,7 +70,7 @@ const ExtraStats = props => {
                 Extra Stats
             </div>
             <LoadingDiv
-                isLoading={props.isFetchingPlayersForTeam && teamName}
+                isLoading={Boolean(props.isFetchingPlayersForTeam && teamName)}
                 isBorderRadius
                 isMargin
             >

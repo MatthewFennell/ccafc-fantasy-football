@@ -98,6 +98,17 @@ export const SET_BUG_ID_TO_DELETE = `${pre}SET_BUG_ID_TO_DELETE`;
 
 export const SUBMIT_CUSTOM_RESULTS = `${pre}SUBMIT_CUSTOM_RESULTS`;
 
+export const COMPRESS_PLAYERS_DATABASE = `${pre}COMPRESS_PLAYERS_DATABASE`;
+export const CANCEL_COMPRESSING_PLAYERS_DATABASE = `${pre}CANCEL_COMPRESSING_PLAYERS_DATABASE`;
+
+export const compressPlayersDatabase = () => ({
+    type: COMPRESS_PLAYERS_DATABASE
+});
+
+export const cancelCompressingPlayersDatabase = () => ({
+    type: CANCEL_COMPRESSING_PLAYERS_DATABASE
+});
+
 export const addNotificationRequest = notification => ({
     type: ADD_NOTIFICATION_REQUEST,
     notification

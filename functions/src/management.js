@@ -199,6 +199,9 @@ exports.rollOverToNextYear = functions
             .then(() => db.collection('results-history').doc(constants.resultsHistoryId).delete().then(() => {
                 console.log('Deleting results history');
             }))
+            .then(() => db.collection('players-blob').doc(constants.playersBlobId).delete().then(() => {
+                console.log('Deleting players blob');
+            }))
             .then(() => db.collection('users-with-roles').get().then(userRolesDocs => {
                 const numberOfBatches = Math.ceil(userRolesDocs.docs.length / constants.maxBatchSize);
                 const userRolesBatches = [];
