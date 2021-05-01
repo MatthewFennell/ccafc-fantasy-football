@@ -102,11 +102,11 @@ export const COMPRESS_PLAYERS_DATABASE = `${pre}COMPRESS_PLAYERS_DATABASE`;
 export const CANCEL_COMPRESSING_PLAYERS_DATABASE = `${pre}CANCEL_COMPRESSING_PLAYERS_DATABASE`;
 
 export const compressPlayersDatabase = () => ({
-    type: COMPRESS_PLAYERS_DATABASE,
+    type: COMPRESS_PLAYERS_DATABASE
 });
 
 export const cancelCompressingPlayersDatabase = () => ({
-    type: CANCEL_COMPRESSING_PLAYERS_DATABASE,
+    type: CANCEL_COMPRESSING_PLAYERS_DATABASE
 });
 
 export const addNotificationRequest = notification => ({

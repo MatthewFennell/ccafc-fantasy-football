@@ -9,6 +9,7 @@ import * as helpers from './helpers';
 import * as currentTeamActions from '../currentteam/actions';
 import { setErrorMessage } from '../modalHandling/actions';
 import { addNotification } from '../notifications/actions';
+
 export function* fetchAllPlayers(api) {
     try {
         const alreadyFetched = yield select(selectors.getAllPlayers);
