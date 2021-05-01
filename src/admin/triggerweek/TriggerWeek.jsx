@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import defaultStyles from './TriggerWeek.module.scss';
 import {
-    triggerWeekRequest, recalculateLeaguePositionsRequest
+    triggerWeekRequest, recalculateLeaguePositionsRequest, compressPlayersDatabase
 } from '../actions';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
@@ -52,20 +52,31 @@ const TriggerWeek = props => {
                 />
             </div>
             <div className={props.styles.recalculateLeaguePositions}>
-                <StyledButton
-                    color="primary"
-                    onClick={() => props.recalculateLeaguePositionsRequest()}
-                    text="Recalculate League Positions"
-                    disabled={props.isRecalculatingLeaguePositions}
-                />
+                <div className={props.styles.databaseButtons}>
+                    <StyledButton
+                        color="primary"
+                        onClick={() => props.compressPlayersDatabase()}
+                        text="Compress Players Database"
+                        disabled={props.isRecalculatingLeaguePositions || props.isCompressingDatabase}
+                    />
+                    <StyledButton
+                        color="primary"
+                        onClick={() => props.recalculateLeaguePositionsRequest()}
+                        text="Recalculate League Positions"
+                        disabled={props.isRecalculatingLeaguePositions || props.isCompressingDatabase}
+                    />
+                </div>
                 <div className={props.styles.recalculateInfo}>
-                    Please do this only after submitting results
-                    for all teams - expensive operation
+                    Please do these only after submitting results
+                    for all teams - expensive operation.
+                </div>
+                <div className={props.styles.recalculateInfo}>
+                    You will need to compress the players database after creating players for them to appear.
                 </div>
             </div>
             <div className={classNames({
                 [props.styles.hidden]: !props.triggeringWeek
-                    && !props.isRecalculatingLeaguePositions,
+                    && !props.isRecalculatingLeaguePositions && !props.isCompressingDatabase,
                 [props.styles.spinner]: true
             })}
             >
@@ -92,12 +103,14 @@ TriggerWeek.propTypes = {
 };
 
 const mapDispatchToProps = {
+    compressPlayersDatabase,
     recalculateLeaguePositionsRequest,
     triggerWeekRequest
 };
 
 const mapStateToProps = state => ({
     isRecalculatingLeaguePositions: state.admin.isRecalculatingLeaguePositions,
+    isCompressingDatabase: state.admin.isCompressingDatabase,
     triggeringWeek: state.admin.triggeringWeek,
     triggerWeekError: state.admin.triggerWeekError,
     triggerWeekErrorCode: state.admin.triggerWeekErrorCode,

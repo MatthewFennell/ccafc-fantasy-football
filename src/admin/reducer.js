@@ -14,6 +14,7 @@ export const initialState = {
     deletingPlayer: false,
     creatingTeam: false,
     deletingTeam: false,
+    isCompressingDatabase: false,
 
     submittingResult: false,
     submittingExtraResults: false,
@@ -307,6 +308,12 @@ const adminReducer = (state = initialState, action) => {
     }
     case actions.CANCEL_UPDATING_SUBS: {
         return fp.set('updatingSubs', false)(state);
+    }
+    case actions.COMPRESS_PLAYERS_DATABASE: {
+        return fp.set('isCompressingDatabase', true)(state);
+    }
+    case actions.CANCEL_COMPRESSING_PLAYERS_DATABASE: {
+        return fp.set('isCompressingDatabase', false)(state);
     }
     default:
         return state;

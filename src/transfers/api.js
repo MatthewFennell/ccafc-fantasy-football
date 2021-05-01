@@ -6,5 +6,4 @@ export const getAllTeams = request => functionToCall('team-getAllTeams')(request
 
 export const updateTeam = request => functionToCall('activeTeam-updateTeam')(request).then(response => response.data);
 
-export const fetchActiveTeam = request => functionToCall('activeTeam-getActiveTeam')(request)
-    .then(data => data.data);
+export const fetchActiveTeam = request => functionToCall('activeTeam-getActiveTeam')(request).then(data => data.data);
