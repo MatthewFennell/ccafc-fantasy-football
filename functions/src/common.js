@@ -250,9 +250,23 @@ module.exports.blobifyPlayers = database => database
                 blob: JSON.stringify(playersInfo)
             });
         }
-
         return database.collection('players-blob').doc(constants.playersBlobId).set({
             blob: JSON.stringify(playersInfo)
         });
-    })
-        .then(() => database.collection('players-blob').doc(constants.playersBlobId).get().then(response => response.data())));
+    }));
+
+module.exports.blobifyTeams = database => database
+    .collection('teams')
+    .get()
+    .then(querySnapshot => querySnapshot.docs
+        .map(doc => ({ id: doc.id, ...doc.data() })))
+    .then(teamsInfo => database.collection('teams-blob').doc(constants.teamsBlobId).get().then(doc => {
+        if (doc.exists) {
+            return database.collection('teams-blob').doc(constants.teamsBlobId).update({
+                blob: JSON.stringify(teamsInfo)
+            });
+        }
+        return database.collection('teams-blob').doc(constants.teamsBlobId).set({
+            blob: JSON.stringify(teamsInfo)
+        });
+    }));

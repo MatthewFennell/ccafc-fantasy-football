@@ -40,7 +40,6 @@ const Charts = props => {
     const filterFixtures = useCallback(() => props.fixtures
         .filter(x => x.teamOne.includes(process.env.REACT_APP_COLLEGE_NAME)
         || x.teamTwo.includes(process.env.REACT_APP_COLLEGE_NAME))
-        .filter(x => x.completed)
         .filter(x => !x.isCup),
     [props.fixtures]);
 
