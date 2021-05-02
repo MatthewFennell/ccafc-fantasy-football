@@ -321,7 +321,7 @@ const mapDispatchToProps = {
     restorePlayerRequest,
     removePlayerFromCurrentTeam,
     undoTransferChanges,
-    updateTeamRequest,
+    updateTeamRequest
 };
 
 const mapStateToProps = state => ({
