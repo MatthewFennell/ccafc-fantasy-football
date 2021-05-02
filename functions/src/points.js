@@ -108,7 +108,8 @@ const updateResultsHistory = (playerStats, uid, teamId, week) => {
             const goalsHistory = [];
             const assistsHistory = [];
             const cleanSheetsHistory = [];
-            const teamName = fp.get('team')(fp.head(Object.values(playerStats)));
+            const teamName = fp.get('team')(fp.head(Object.values(playerStats))) || 'Unknown';
+            console.log('team name', teamName);
             let manOfTheMatchHistory = {
                 id: null,
                 name: null
@@ -214,6 +215,8 @@ exports.submitResult = functions
                         goalsFor: data.goalsFor,
                         goalsAgainst: data.goalsAgainst
                     })
+                }).then(() => {
+                    common.blobifyTeams(db);
                 });
             }
         });

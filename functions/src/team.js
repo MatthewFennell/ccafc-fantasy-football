@@ -24,6 +24,8 @@ exports.createTeam = functions
                     goalsFor: 0,
                     goalsAgainst: 0,
                     results: []
+                }).then(() => {
+                    common.blobifyTeams(db);
                 });
             }
             throw new functions.https.HttpsError('invalid-argument', 'A team with that name already exists');
@@ -34,11 +36,10 @@ exports.getAllTeams = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db
-            .collection('teams')
-            .get()
-            .then(querySnapshot => querySnapshot.docs
-                .map(doc => ({ id: doc.id, ...doc.data() })));
+        return db.collection('teams-blob').doc(constants.teamsBlobId).get().then(doc => {
+            const { blob } = doc.data();
+            return JSON.parse(blob);
+        });
     });
 
 exports.getPlayersInTeam = functions
@@ -70,6 +71,8 @@ exports.deleteTeam = functions
                 if (docs.size > 0) {
                     throw new functions.https.HttpsError('invalid-argument', 'A player is associated with that team, so it cannot be deleted');
                 }
-                return db.collection('teams').doc(data.teamId).delete();
+                return db.collection('teams').doc(data.teamId).delete().then(() => {
+                    common.blobifyTeams(db);
+                });
             });
     }));
