@@ -46,9 +46,9 @@ exports.updateTeam = functions
 
                     return Promise.all(promises).then(players => {
                         const removedPrice = players.filter(p => !p.adding)
-                            .reduce((acc, curVal) => acc + curVal.data.price, 0);
+                            .reduce((acc, curVal) => Number(acc) + Number(curVal.data.price), 0);
                         const addedPrice = players.filter(p => p.adding)
-                            .reduce((acc, curVal) => acc + curVal.data.price, 0);
+                            .reduce((acc, curVal) => Number(acc) + Number(curVal.data.price), 0);
                         if (userBudget + removedPrice - addedPrice < 0) {
                             throw new functions.https.HttpsError('invalid-argument', 'Not enough $$$');
                         }

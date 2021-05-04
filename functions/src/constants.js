@@ -142,6 +142,7 @@ module.exports.clubSubsHistoryId = 'club-subs-history-id';
 module.exports.resultsHistoryId = 'results-history-id';
 module.exports.playersBlobId = 'players-blob-id';
 module.exports.teamsBlobId = 'teams-blob-id';
+module.exports.fixturesBlobId = 'fixtures-blob-id';
 
 module.exports.resultHistoryTypes = {
     STANDARD_RESULT: 'STANDARD_RESULT',
@@ -150,4 +151,4 @@ module.exports.resultHistoryTypes = {
     TRIGGER_WEEK: 'TRIGGER_WEEK'
 };
 
-module.exports.cupStartingWeek = 3;
+module.exports.cupStartingWeek = 2;

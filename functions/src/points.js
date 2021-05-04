@@ -109,7 +109,6 @@ const updateResultsHistory = (playerStats, uid, teamId, week) => {
             const assistsHistory = [];
             const cleanSheetsHistory = [];
             const teamName = fp.get('team')(fp.head(Object.values(playerStats))) || 'Unknown';
-            console.log('team name', teamName);
             let manOfTheMatchHistory = {
                 id: null,
                 name: null
