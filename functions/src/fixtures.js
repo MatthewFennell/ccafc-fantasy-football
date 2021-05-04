@@ -9,73 +9,95 @@ const db = admin.firestore();
 
 const config = functions.config();
 
+const generateFixture = (teamOne, result, teamTwo, location, time) => {
+    if (teamOne && teamOne.length > 2 && teamTwo && teamTwo.length > 2) {
+        if (result === 'vs') {
+            return {
+                teamOne, result, teamTwo, location, time, completed: false
+            };
+        }
+        return {
+            teamOne, result, teamTwo, location, time, completed: true
+        };
+    }
+    return null;
+};
+
+const generateLeagueFixtures = (list, league) => {
+    const fixtures = [];
+    for (let x = 0; x < list.length; x += 5) {
+        fixtures.push(
+            generateFixture(list[x], list[x + 1], list[x + 2], list[x + 3], list[x + 4])
+        );
+    }
+    return fixtures.filter(x => x !== null).map(x => ({ ...x, league, isCup: false }));
+};
+
+const generateCupFixtures = (list, league) => {
+    const fixtures = [];
+    for (let x = 0; x < list.length; x += 6) {
+        fixtures.push(
+            generateFixture(list[x + 1], list[x + 2], list[x + 3], list[x + 4], list[x + 5])
+        );
+    }
+    return fixtures.filter(x => x !== null).map(x => ({ ...x, league, isCup: true }));
+};
+
+const transformHtml = html => {
+    const $ = cheerio.load(html);
+    const arr = [];
+
+    const format = $('h1').text();
+
+    const splitLeague = $('h3').text().split('-');
+    let league = splitLeague.length > 1 ? splitLeague[1].trimLeft() : null;
+
+    if (splitLeague.some(x => x.includes('Floodlit'))) {
+        league = 'Floodlit';
+    }
+    if (splitLeague.some(x => x.includes('Trophy'))) {
+        league = 'Trophy';
+    }
+
+    $('td').each((i, el) => {
+        const item = $(el).text();
+        arr.push(item.trim().trimLeft().trimRight().replace(/(\r\n|\n|\r)/gm, '')
+            .replace(/\s\s+/g, ' '));
+    });
+
+    return format === 'Knockout' ? generateCupFixtures(arr, league) : generateLeagueFixtures(arr, league);
+};
+
+const generateAllFixtures = () => {
+    const promises = constants.leaguesForFixtures.map(leagueUrl => axios.get(leagueUrl));
+    return Promise.all(promises)
+        .then(result => result.reduce((prev, cur) => prev.concat(transformHtml(cur.data)), []));
+};
+
+exports.scheduledFirestoreExport = functions.region(constants.region).pubsub
+    .schedule('every 24 hours')
+    .onRun(() => generateAllFixtures().then(fixtures => db.collection('fixtures-blob').doc(constants.fixturesBlobId).get().then(doc => {
+        if (doc.exists) {
+            return db.collection('fixtures-blob').doc(constants.fixturesBlobId).update({
+                blob: JSON.stringify(fixtures)
+            });
+        }
+        return db.collection('fixtures-blob').doc(constants.fixturesBlobId).set({
+            blob: JSON.stringify(fixtures)
+        });
+    })));
+
 exports.findFixtures = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        const generateFixture = (teamOne, result, teamTwo, location, time) => {
-            if (teamOne && teamOne.length > 2 && teamTwo && teamTwo.length > 2) {
-                if (result === 'vs') {
-                    return {
-                        teamOne, result, teamTwo, location, time, completed: false
-                    };
-                }
-                return {
-                    teamOne, result, teamTwo, location, time, completed: true
-                };
+        return db.collection('fixtures-blob').doc(constants.fixturesBlobId).get().then(doc => {
+            if (doc.exists) {
+                const { blob } = doc.data();
+                return JSON.parse(blob);
             }
-            return null;
-        };
-
-        const generateLeagueFixtures = (list, league) => {
-            const fixtures = [];
-            for (let x = 0; x < list.length; x += 5) {
-                fixtures.push(
-                    generateFixture(list[x], list[x + 1], list[x + 2], list[x + 3], list[x + 4])
-                );
-            }
-            return fixtures.filter(x => x !== null).map(x => ({ ...x, league, isCup: false }));
-        };
-
-        const generateCupFixtures = (list, league) => {
-            const fixtures = [];
-            for (let x = 0; x < list.length; x += 6) {
-                fixtures.push(
-                    generateFixture(list[x + 1], list[x + 2], list[x + 3], list[x + 4], list[x + 5])
-                );
-            }
-            return fixtures.filter(x => x !== null).map(x => ({ ...x, league, isCup: true }));
-        };
-
-        const transformHtml = html => {
-            const $ = cheerio.load(html);
-            const arr = [];
-
-            const format = $('h1').text();
-
-            const splitLeague = $('h3').text().split('-');
-            let league = splitLeague.length > 1 ? splitLeague[1].trimLeft() : null;
-
-            if (splitLeague.some(x => x.includes('Floodlit'))) {
-                league = 'Floodlit';
-            }
-            if (splitLeague.some(x => x.includes('Trophy'))) {
-                league = 'Trophy';
-            }
-
-            $('td').each((i, el) => {
-                const item = $(el).text();
-                arr.push(item.trim().trimLeft().trimRight().replace(/(\r\n|\n|\r)/gm, '')
-                    .replace(/\s\s+/g, ' '));
-            });
-
-            return format === 'Knockout' ? generateCupFixtures(arr, league) : generateLeagueFixtures(arr, league);
-        };
-
-        const promises = constants.leaguesForFixtures.map(leagueUrl => axios.get(leagueUrl));
-
-        return Promise.all(promises)
-            .then(result => result.reduce((prev, cur) => prev.concat(transformHtml(cur.data)), []));
+            return [];
+        });
     });
 
 exports.setMyTeam = functions
