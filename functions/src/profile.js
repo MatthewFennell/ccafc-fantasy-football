@@ -102,7 +102,7 @@ exports.updateDisplayName = functions
     });
 
 const updateHistoryNames = (collection, documentId, change) => {
-    if (!change.after.exists) {
+    if (!change.after.exists || !change.before.exists) {
         return Promise.resolve();
     }
 
@@ -151,7 +151,7 @@ exports.updateResultsDisplayNames = functions.region(constants.region).firestore
     });
 
 const updateFeaturesAndHighlightsDisplayNames = (collection, change) => {
-    if (!change.after.exists) {
+    if (!change.after.exists || !change.before.exists) {
         return Promise.resolve();
     }
     const displayNameBefore = change.before.data().displayName;
@@ -186,7 +186,7 @@ exports.updateHighlightsDisplayNames = functions.region(constants.region).firest
 exports.updateCupDisplayNameMapping = functions.region(constants.region).firestore
     .document('users/{id}')
     .onWrite(change => {
-        if (!change.after.exists) {
+        if (!change.after.exists || !change.before.exists) {
             return Promise.resolve();
         }
         const displayNameBefore = change.before.data().displayName;
