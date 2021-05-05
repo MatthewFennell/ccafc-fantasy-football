@@ -57,6 +57,10 @@ exports.manageCup = functions.region(constants.region).firestore
             return Promise.resolve();
         }
 
+        if (previousWeek === newWeek) {
+            return Promise.resolve();
+        }
+
         if (newWeek === constants.cupStartingWeek) {
             // Change >= 0
             return db.collection('weekly-teams').where('week', '==', previousWeek).where('points', '>', 0).get()
@@ -90,6 +94,10 @@ exports.manageCup = functions.region(constants.region).firestore
         }
         return db.collection('the-cup').doc(constants.cupDatabaseId).get().then(
             doc => {
+                if (!doc.exists) {
+                    return Promise.resolve();
+                }
+
                 const { hasFinished } = doc.data();
                 if (hasFinished) {
                     return Promise.resolve();
