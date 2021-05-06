@@ -23,6 +23,7 @@ describe('Highlights', () => {
             deleteCommentRequest={noop}
             addReplyToVideoRequest={noop}
             deleteReplyRequest={noop}
+            setErrorMessage={noop}
             submitHighlightRequest={noop}
             downvoteHighlightRequest={noop}
             fetchRejectedHighlightsRequest={noop}
@@ -46,7 +47,7 @@ describe('Highlights connected', () => {
         const wrapper = mount(
             <Provider store={mockStoreInitialized}>
                 <Router>
-                    <Highlights />
+                    <Highlights setErrorMessage={noop} />
                 </Router>
             </Provider>
         );

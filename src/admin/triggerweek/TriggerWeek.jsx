@@ -57,13 +57,15 @@ const TriggerWeek = props => {
                         color="primary"
                         onClick={() => props.compressPlayersDatabase()}
                         text="Compress Players Database"
-                        disabled={props.isRecalculatingLeaguePositions || props.isCompressingDatabase}
+                        disabled={props.isRecalculatingLeaguePositions
+                             || props.isCompressingDatabase}
                     />
                     <StyledButton
                         color="primary"
                         onClick={() => props.recalculateLeaguePositionsRequest()}
                         text="Recalculate League Positions"
-                        disabled={props.isRecalculatingLeaguePositions || props.isCompressingDatabase}
+                        disabled={props.isRecalculatingLeaguePositions
+                            || props.isCompressingDatabase}
                     />
                 </div>
                 <div className={props.styles.recalculateInfo}>
@@ -71,7 +73,8 @@ const TriggerWeek = props => {
                     for all teams - expensive operation.
                 </div>
                 <div className={props.styles.recalculateInfo}>
-                    You will need to compress the players database after creating players for them to appear.
+                    You will need to compress the players database after
+                    creating players for them to appear.
                 </div>
             </div>
             <div className={classNames({
@@ -88,13 +91,17 @@ const TriggerWeek = props => {
 
 TriggerWeek.defaultProps = {
     isRecalculatingLeaguePositions: false,
+    compressPlayersDatabase: false,
     maxGameWeek: null,
+    isCompressingDatabase: false,
     styles: defaultStyles,
     triggeringWeek: false
 };
 
 TriggerWeek.propTypes = {
     isRecalculatingLeaguePositions: PropTypes.bool,
+    isCompressingDatabase: PropTypes.bool,
+    compressPlayersDatabase: PropTypes.func,
     maxGameWeek: PropTypes.number,
     styles: PropTypes.objectOf(PropTypes.string),
     triggeringWeek: PropTypes.bool,

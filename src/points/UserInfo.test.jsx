@@ -226,13 +226,37 @@ describe('Points - UserInfo', () => {
             team={team}
             teamName={teamName}
             photoUrl="photoUrl"
+            loggedInTeamName="logged in team name"
         />);
 
         expect(wrapper.find('.detailWrapper')).toHaveLength(5);
         expect(wrapper.find('.detailWrapper').at(0).find('.key').text()).toBe('User');
         expect(wrapper.find('.detailWrapper').at(0).find('.value').text()).toBe(displayName);
-        expect(wrapper.find('.detailWrapper').at(1).find('.value').text()).toBe(teamName);
+        expect(wrapper.find('.detailWrapper').at(1).find('.customValue').text()).toBe('logged in team name');
         expect(wrapper.find('.detailWrapper').at(2).find('.value').text()).toBe('39');
+
+        expect(wrapper.find('.photoWrapper')).toHaveLength(1);
+    });
+
+    it('The UserInfo renders different team name', () => {
+        const displayName = 'displayName';
+
+        const teamName = 'teamName';
+
+        const wrapper = mount(<UserInfo
+            displayName={displayName}
+            team={[]}
+            teamName={teamName}
+            photoUrl="photoUrl"
+            loggedInTeamName="logged in team name"
+            userBeingViewed="testing"
+            loggedInUser="different"
+        />);
+
+        expect(wrapper.find('.detailWrapper')).toHaveLength(5);
+        expect(wrapper.find('.detailWrapper').at(0).find('.key').text()).toBe('User');
+        expect(wrapper.find('.detailWrapper').at(0).find('.value').text()).toBe(displayName);
+        expect(wrapper.find('.detailWrapper').at(1).find('.customValue').text()).toBe(teamName);
 
         expect(wrapper.find('.photoWrapper')).toHaveLength(1);
     });

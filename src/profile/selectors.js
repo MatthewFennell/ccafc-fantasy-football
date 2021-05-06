@@ -13,7 +13,7 @@ export const isSignedIn = (state, provider) => {
 
 export const getProfile = state => {
     const { profile } = state.firebase;
-    if (!profile.isEmpty) {
+    if (!fp.isEmpty(profile) && !profile.isEmpty) {
         return profile;
     }
     const { auth } = state.firebase;

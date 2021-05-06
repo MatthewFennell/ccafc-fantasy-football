@@ -39,9 +39,17 @@ describe('Points connected', () => {
     it('Connected points', () => {
         const mockStore = configureMockStore([]);
         const mockStoreInitialized = mockStore({
+            firebase: {
+                auth: {
+                    uid: ''
+                }
+            },
             overview: overviewinitialState,
             points: initialState,
-            history: mockHistory
+            history: mockHistory,
+            profile: {
+                updatingTeamName: false
+            }
         });
 
         window.matchMedia = window.matchMedia || function () {
