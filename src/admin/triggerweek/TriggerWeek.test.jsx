@@ -13,6 +13,7 @@ describe('Trigger Week', () => {
         const wrapper = shallow(<TriggerWeekUnconnected
             closeSuccessMessage={noop}
             closeAdminError={noop}
+            compressPlayersDatabase={noop}
             triggerWeekRequest={noop}
             recalculateLeaguePositionsRequest={noop}
             maxGameWeek={5}
@@ -31,7 +32,10 @@ describe('Trigger Week connected', () => {
 
         const wrapper = mount(
             <Provider store={mockStoreInitialized}>
-                <TriggerWeek />
+                <TriggerWeek
+                    recalculateLeaguePositionsRequest={noop}
+                    compressPlayersDatabase={noop}
+                />
             </Provider>
         );
 
@@ -42,6 +46,7 @@ describe('Trigger Week connected', () => {
         const mockFn = jest.fn(noop);
         const wrapper = mount(<TriggerWeekUnconnected
             recalculateLeaguePositionsRequest={mockFn}
+            compressPlayersDatabase={noop}
             triggerWeekRequest={noop}
         />);
 
@@ -52,6 +57,7 @@ describe('Trigger Week connected', () => {
     it('Clicks compress players database', () => {
         const mockFn = jest.fn(noop);
         const wrapper = mount(<TriggerWeekUnconnected
+            recalculateLeaguePositionsRequest={noop}
             compressPlayersDatabase={mockFn}
             triggerWeekRequest={noop}
         />);

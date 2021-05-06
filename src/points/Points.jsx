@@ -9,9 +9,11 @@ import { withRouter } from 'react-router-dom';
 import fp from 'lodash/fp';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
+import { getProfile } from '../profile/selectors';
 import defaultStyles from './Points.module.scss';
 import * as selectors from './selectors';
 import { fetchUserPointsForWeekRequest, fetchUserPointsForWeekRequestBackground } from './actions';
+import { updateTeamNameRequest } from '../profile/actions';
 import Pitch from '../common/pitch/Pitch';
 import activePlayerStyles from './ShirtStyles/ActivePlayer.module.scss';
 import goalkeeperStyles from './ShirtStyles/Goalkeeper.module.scss';
@@ -96,6 +98,8 @@ const Points = props => {
         </div>
     );
 
+    console.log('profile', props.profile);
+
     return (
         <div className={props.styles.pitchWrapper}>
             {isMobile && (
@@ -131,6 +135,11 @@ const Points = props => {
                             photoUrl={props.photoUrl}
                             team={props.currentTeam}
                             teamName={props.teamName}
+                            loggedInUser={props.auth.uid}
+                            userBeingViewed={props.userId}
+                            loggedInTeamName={props.profile.teamName}
+                            updateTeamNameRequest={props.updateTeamNameRequest}
+                            updatingTeamName={props.updatingTeamName}
                         />
                     </Paper>
                 </div>
@@ -159,6 +168,9 @@ const Points = props => {
 };
 
 Points.defaultProps = {
+    auth: {
+        uid: ''
+    },
     currentGameWeek: null,
     currentTeam: [],
     displayName: '',
@@ -166,12 +178,22 @@ Points.defaultProps = {
     loading: false,
     maxGameWeek: null,
     photoUrl: '',
+    profile: {
+        displayName: '',
+        email: '',
+        teamName: ''
+    },
+    updatingTeamName: false,
+    updateTeamNameRequest: fp.noop,
     styles: defaultStyles,
     teamName: '',
     userId: null
 };
 
 Points.propTypes = {
+    auth: PropTypes.shape({
+        uid: PropTypes.string
+    }),
     currentGameWeek: PropTypes.number,
     currentTeam: PropTypes.arrayOf(PropTypes.shape({
         assists: PropTypes.number,
@@ -194,6 +216,14 @@ Points.propTypes = {
     loading: PropTypes.bool,
     maxGameWeek: PropTypes.number,
     photoUrl: PropTypes.string,
+    profile: PropTypes.shape({
+        displayName: PropTypes.string,
+        email: PropTypes.string,
+        photoUrl: PropTypes.string,
+        teamName: PropTypes.string
+    }),
+    updatingTeamName: PropTypes.bool,
+    updateTeamNameRequest: PropTypes.func,
     styles: PropTypes.objectOf(PropTypes.string),
     teamName: PropTypes.string,
     userId: PropTypes.string
@@ -201,16 +231,20 @@ Points.propTypes = {
 
 const mapDispatchToProps = {
     fetchUserPointsForWeekRequest,
-    fetchUserPointsForWeekRequestBackground
+    fetchUserPointsForWeekRequestBackground,
+    updateTeamNameRequest
 };
 
 const mapStateToProps = (state, props) => ({
+    auth: state.firebase.auth,
     currentGameWeek: selectors.getCurrentGameWeek(props),
     currentTeam: selectors.getCurrentInfo(state, props, 'team'),
     displayName: selectors.getUserDetailsProperty(state, props, 'displayName'),
     fetchingDetails: Boolean(selectors.getUserDetailsProperty(state, props, 'fetching')),
     loading: selectors.getCurrentInfo(state, props, 'fetching'),
     maxGameWeek: state.overview.maxGameWeek,
+    profile: getProfile(state),
+    updatingTeamName: state.profile.updatingTeamName,
     photoUrl: selectors.getUserDetailsProperty(state, props, 'photoUrl'),
     teamName: selectors.getUserDetailsProperty(state, props, 'teamName'),
     userId: selectors.getUserId(props)

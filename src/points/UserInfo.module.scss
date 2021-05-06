@@ -30,11 +30,37 @@
     @include vertical-center-div();
 }
 
-.value {
+.value, .customValue {
     font-weight: bold;
     margin-bottom: $spacing-small;
     border-bottom: 2px solid $color-separator;
 }
+
+.customValue {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+}
+
+.myTeamName {
+    text-align: center;
+}
+
+.editIcon {
+    margin-left: $spacing-tiny;
+}
+
+.editIcon:hover{
+    cursor: pointer;
+    :first-child {
+        color: $color-dark-blue;
+    }
+}
+
+.modalButtons{
+    text-align: center;
+  }
 
 .spacing {
     margin-bottom: $spacing-average;
