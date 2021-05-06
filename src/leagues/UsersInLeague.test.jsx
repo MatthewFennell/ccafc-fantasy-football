@@ -22,7 +22,11 @@ const mockfirebaseStore = {
 
 describe('Users In League', () => {
     it('The Users In League component renders without crashing', () => {
-        const wrapper = shallow(<UsersInLeagueUnconnected />);
+        const wrapper = shallow(<UsersInLeagueUnconnected
+            usersInLeague={[]}
+            leaveLeagueRequest={noop}
+            fetchUsersInLeagueRequest={noop}
+        />);
         expect(() => wrapper).not.toThrow();
     });
 });
@@ -50,6 +54,7 @@ describe('Notifications connected', () => {
                         history={mockHistory}
                         leaveLeagueRequest={noop}
                         fetchUsersInLeagueRequest={noop}
+                        usersInLeague={[]}
                     />
                 </Router>
             </Provider>
