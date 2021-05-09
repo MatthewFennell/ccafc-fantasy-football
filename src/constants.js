@@ -104,11 +104,11 @@ export const PERMISSIONS = {
 export const successDelay = 3500;
 export const matchLengthMinutes = 100;
 
-export const LEAGUE_INITIAL_ROWS_PER_PAGE = 20;
+export const LEAGUE_INITIAL_ROWS_PER_PAGE = 10;
 
 // Ideally, these two should be the same
-export const LEAGUE_INITIAL_NUMBER_OF_PAGES_TO_LOAD = 3;
-export const LEAGUE_PAGE_BUFFER = 3;
+export const LEAGUE_INITIAL_NUMBER_OF_PAGES_TO_LOAD = 2;
+export const LEAGUE_PAGE_BUFFER = 1;
 
 // mirrored in the functions constants
 export const APPLICATION_INFO_ID = 'application-info-id';
