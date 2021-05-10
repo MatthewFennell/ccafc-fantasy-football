@@ -4,7 +4,7 @@ import moment from 'moment';
 import _ from 'lodash';
 import * as constants from './constants';
 
-export const isDefensive = position => position.toLowerCase() === 'goalkeeper' || position.toLowerCase() === 'defender';
+export const isDefensive = position => position.toLowerCase() === 'goalkeeper' || position.toLowerCase() === 'defender' || position.toLowerCase() === 'midfielder';
 export const generatePointsRoute = (userId, week) => `${constants.URL.POINTS}/${userId}/${week}`;
 export const generateOverviewRoute = (userId, week) => `${constants.URL.OVERVIEW}/${userId}/${week}`;
 
