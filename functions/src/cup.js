@@ -125,6 +125,13 @@ exports.manageCup = functions.region(constants.region).firestore
                             if (cur.playerTwoScore > cur.playerOneScore) {
                                 return [...acc, cur.playerTwoId];
                             }
+                            if (cur.playerTwoScore === cur.playerOneScore) {
+                                const randomNumber = Math.floor(Math.random() * 10);
+                                if (randomNumber % 2 === 0) {
+                                    return [...acc, cur.playerOneId];
+                                }
+                                return [...acc, cur.playerTwoId];
+                            }
                             // If they are the final 2 and they draw - cant have no winner
                             if (updatedPairings.length === 1) {
                                 return [cur.playerOneId, cur.playerTwoId];

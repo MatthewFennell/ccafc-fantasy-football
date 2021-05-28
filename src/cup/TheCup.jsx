@@ -22,6 +22,10 @@ const TheCup = props => {
         // eslint-disable-next-line
     }, [props.fetchCupRequest]);
 
+    const generateNextPairings = pairings => (pairings ? Object.keys(pairings)
+        .reduce((acc, key) => [...acc, pairings[key].playerOneId,
+            pairings[key].playerTwoId], []) : []);
+
     return (
         <>
             <div className={props.styles.cupWrapper}>
@@ -68,6 +72,8 @@ const TheCup = props => {
                         displayNameMappings={displayNameMappings}
                         week={Number(key)}
                         pairings={fp.get('pairings')(props.cup[key])}
+                        nextByes={fp.get('byes')(props.cup[Number(key) + 1])}
+                        nextPlayersInPairings={generateNextPairings(fp.get('pairings')(props.cup[Number(key) + 1]))}
                         isFinalWeek={index === 0 && hasFinished === false}
                         key={key}
                     />
