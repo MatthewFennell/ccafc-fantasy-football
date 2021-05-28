@@ -48,6 +48,11 @@ const WeekInfo = props => {
     const numByesColumns = 2;
     const byesColumns = generateByesColumns(props.byes, numByesColumns);
 
+    const isPlayerIdInNextRound = playerId => ((props.nextPlayersInPairings
+        && props.nextPlayersInPairings.includes(playerId))
+    || (props.nextByes
+        && props.nextByes.includes(playerId)));
+
     return (
         <FadingCollapsable
             title={(
@@ -97,7 +102,7 @@ const WeekInfo = props => {
                             <div className={classNames({
                                 [props.styles.pairingItem]: true,
                                 [props.styles.winningPlayer]: pairing.playerOneScore
-                            >= pairing.playerTwoScore
+                            > pairing.playerTwoScore || isPlayerIdInNextRound(pairing.playerOneId)
                             })}
                             >
                                 {getName(props.displayNameMappings, pairing.playerOneId)}
@@ -110,7 +115,7 @@ const WeekInfo = props => {
                             <div className={classNames({
                                 [props.styles.pairingItem]: true,
                                 [props.styles.winningPlayer]: pairing.playerTwoScore
-                            >= pairing.playerOneScore
+                            > pairing.playerOneScore || isPlayerIdInNextRound(pairing.playerTwoId)
                             })}
                             >
                                 {getName(props.displayNameMappings, pairing.playerTwoId)}
@@ -136,6 +141,8 @@ WeekInfo.defaultProps = {
     displayNameMappings: {},
     isFinalWeek: false,
     pairings: [],
+    nextByes: [],
+    nextPlayersInPairings: [],
     styles: defaultStyles,
     week: 0
 };
@@ -148,6 +155,8 @@ WeekInfo.propTypes = {
     displayNameMappings: PropTypes.shape({}),
     isFinalWeek: PropTypes.bool,
     pairings: PropTypes.arrayOf(PropTypes.shape({})),
+    nextByes: PropTypes.arrayOf(PropTypes.shape({})),
+    nextPlayersInPairings: PropTypes.arrayOf(PropTypes.string),
     styles: PropTypes.objectOf(PropTypes.string),
     week: PropTypes.number
 };

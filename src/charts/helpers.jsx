@@ -131,7 +131,7 @@ const collingwoodOnly = x => x.teamOne.includes(process.env.REACT_APP_COLLEGE_NA
 
 // Calculated from the point of teamOne
 const generateResult = (fixture, isTeamOne) => {
-    let goals = fixture.result.split(' - ').map(x => parseInt(x, 10));
+    let goals = fixture.result.split('-').map(x => parseInt(x, 10));
     goals = isTeamOne ? goals : goals.reverse();
     if (goals[0] > goals[1]) {
         return ({
@@ -310,10 +310,10 @@ const convertToDay = d => moment(d, 'DD-MM-YYYY');
 // for every "dayIncrements" number of days
 const enumerateDaysBetweenDates = (startDate, endDate, dayIncrements) => {
     const dates = [];
-
     const currDate = moment(startDate).startOf('day');
     const lastDate = moment(endDate).startOf('day');
 
+    dates.push(currDate.clone().toDate());
     while (currDate.add(dayIncrements, 'days').diff(lastDate) <= 0) {
         dates.push(currDate.clone().toDate());
     }

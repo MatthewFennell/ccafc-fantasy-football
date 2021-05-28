@@ -1,5 +1,6 @@
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
+const fp = require('lodash/fp');
 const common = require('./common');
 const constants = require('./constants');
 
@@ -65,7 +66,7 @@ exports.manageCup = functions.region(constants.region).firestore
             // Change >= 0
             return db.collection('weekly-teams').where('week', '==', previousWeek).where('points', '>', 0).get()
                 .then(weeklyDocs => {
-                    const userIds = weeklyDocs.docs.map(doc => doc.data().user_id);
+                    const userIds = fp.shuffle(weeklyDocs.docs.map(doc => doc.data().user_id));
 
                     const promises = userIds.map(id => db.collection('users').doc(id).get().then(user => ({
                         userId: id,
@@ -105,10 +106,10 @@ exports.manageCup = functions.region(constants.region).firestore
 
                 return db.collection('weekly-teams').where('week', '==', previousWeek).get().then(
                     weeklyDocs => {
-                        const docsWithScore = weeklyDocs.docs.map(x => ({
+                        const docsWithScore = fp.shuffle(weeklyDocs.docs.map(x => ({
                             userId: x.data().user_id,
                             points: x.data().points
-                        }));
+                        })));
                         const { pairings, byes } = doc.data()[previousWeek];
 
                         const updatedPairings = pairings.map(pairing => ({
@@ -122,6 +123,13 @@ exports.manageCup = functions.region(constants.region).firestore
                                 return [...acc, cur.playerOneId];
                             }
                             if (cur.playerTwoScore > cur.playerOneScore) {
+                                return [...acc, cur.playerTwoId];
+                            }
+                            if (cur.playerTwoScore === cur.playerOneScore) {
+                                const randomNumber = Math.floor(Math.random() * 10);
+                                if (randomNumber % 2 === 0) {
+                                    return [...acc, cur.playerOneId];
+                                }
                                 return [...acc, cur.playerTwoId];
                             }
                             // If they are the final 2 and they draw - cant have no winner
