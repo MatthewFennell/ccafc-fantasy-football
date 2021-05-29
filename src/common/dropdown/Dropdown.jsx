@@ -35,7 +35,7 @@ const Dropdown = props => {
         setOpen(true);
     };
 
-    const sortedOptions = _.orderBy(props.options, 'text', 'asc');
+    const sortedOptions = props.orderInput ? _.orderBy(props.options, 'text', 'asc') : props.options;
 
     return (
         <form autoComplete="off">
@@ -74,6 +74,7 @@ const Dropdown = props => {
 
 Dropdown.defaultProps = {
     value: '',
+    orderInput: true,
     onChange: noop,
     options: [],
     title: ''
@@ -85,6 +86,7 @@ Dropdown.propTypes = {
         PropTypes.number
     ]),
     onChange: PropTypes.func,
+    orderInput: PropTypes.bool,
     options: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.oneOfType([
             PropTypes.string,

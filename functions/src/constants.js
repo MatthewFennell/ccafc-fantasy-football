@@ -109,7 +109,7 @@ module.exports.ROLE_PERMISSIONS = {
     ]
 };
 
-module.exports.leaguesForFixtures = [
+module.exports.mensLeagueFixtures = [
     'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=131',
     'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=132',
     'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=133',
@@ -133,6 +133,11 @@ module.exports.leaguesForFixtures = [
     'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=151'
     // 'https://www.dur.ac.uk/teamdurham/participation/collegesport/knockout/?knockout=111', // Floodlit
     // 'https://www.dur.ac.uk/teamdurham/participation/collegesport/knockout/?knockout=113' // Cup
+];
+
+module.exports.womensLeagueFixtures = [
+    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=32',
+    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=33'
 ];
 
 module.exports.cupDatabaseId = 'ccafc-cup-id';

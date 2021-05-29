@@ -9,7 +9,8 @@ const fixturesWithDuplicates = [
         time: '12/10/2019 10:45',
         completed: true,
         league: 'Premiership',
-        isCup: false
+        isCup: false,
+        isMen: true
     },
     {
         teamOne: 'Collingwood A',
@@ -19,7 +20,8 @@ const fixturesWithDuplicates = [
         time: '12/10/2019 10:45',
         completed: true,
         league: 'Premiership',
-        isCup: false
+        isCup: false,
+        isMen: true
     },
     {
         teamOne: 'Collingwood D',
@@ -29,7 +31,8 @@ const fixturesWithDuplicates = [
         time: '12/10/2019 10:45',
         completed: true,
         league: 'Premiership',
-        isCup: false
+        isCup: false,
+        isMen: true
     }
 ];
 
@@ -42,7 +45,8 @@ const fixturesWithUnsorted = [
         time: '12/10/2019 10:45',
         completed: true,
         league: 'Premiership',
-        isCup: false
+        isCup: false,
+        isMen: true
     },
     {
         teamOne: 'Collingwood F',
@@ -52,7 +56,8 @@ const fixturesWithUnsorted = [
         time: '12/10/2019 10:45',
         completed: true,
         league: 'Premiership',
-        isCup: false
+        isCup: false,
+        isMen: true
     },
     {
         teamOne: 'Collingwood K',
@@ -62,7 +67,8 @@ const fixturesWithUnsorted = [
         time: '12/10/2019 10:45',
         completed: true,
         league: 'Premiership',
-        isCup: false
+        isCup: false,
+        isMen: true
     }
 ];
 
@@ -75,7 +81,8 @@ const fixturesWithMultipleLeagues = [
         time: '12/10/2019 10:45',
         completed: true,
         league: 'Premiership',
-        isCup: false
+        isCup: false,
+        isMen: true
     },
     {
         teamOne: 'Collingwood B',
@@ -85,7 +92,8 @@ const fixturesWithMultipleLeagues = [
         time: '12/10/2019 10:45',
         completed: true,
         league: 'League One',
-        isCup: false
+        isCup: false,
+        isMen: true
     },
     {
         teamOne: 'Collingwood B',
@@ -95,7 +103,8 @@ const fixturesWithMultipleLeagues = [
         time: '12/10/2019 10:45',
         completed: true,
         league: 'League Two',
-        isCup: false
+        isCup: false,
+        isMen: true
     }
 ];
 
@@ -108,7 +117,8 @@ const fixturesWithDuplicateLeagues = [
         time: '12/10/2019 10:45',
         completed: true,
         league: 'Premiership',
-        isCup: false
+        isCup: false,
+        isMen: true
     },
     {
         teamOne: 'Collingwood B',
@@ -118,7 +128,8 @@ const fixturesWithDuplicateLeagues = [
         time: '12/10/2019 10:45',
         completed: true,
         league: 'Premiership',
-        isCup: false
+        isCup: false,
+        isMen: true
     },
     {
         teamOne: 'Collingwood B',
@@ -128,7 +139,8 @@ const fixturesWithDuplicateLeagues = [
         time: '12/10/2019 10:45',
         completed: true,
         league: 'League Two',
-        isCup: false
+        isCup: false,
+        isMen: true
     }
 ];
 
@@ -141,7 +153,8 @@ const fixturesWithUncompletedMatches = [
         time: '12/10/2019 10:45',
         completed: false,
         league: 'Premiership',
-        isCup: false
+        isCup: false,
+        isMen: true
     },
     {
         teamOne: 'Collingwood B',
@@ -151,7 +164,8 @@ const fixturesWithUncompletedMatches = [
         time: '12/10/2019 10:45',
         completed: false,
         league: 'Premiership',
-        isCup: false
+        isCup: false,
+        isMen: true
     },
     {
         teamOne: 'Collingwood B',
@@ -161,7 +175,8 @@ const fixturesWithUncompletedMatches = [
         time: '12/10/2019 10:45',
         completed: true,
         league: 'League Two',
-        isCup: false
+        isCup: false,
+        isMen: true
     }
 ];
 
@@ -174,7 +189,8 @@ const fixturesWithNonCollingwoodMatches = [
         time: '12/10/2019 10:45',
         completed: false,
         league: 'Premiership',
-        isCup: false
+        isCup: false,
+        isMen: true
     },
     {
         teamOne: 'Trevs',
@@ -184,7 +200,8 @@ const fixturesWithNonCollingwoodMatches = [
         time: '12/10/2019 10:45',
         completed: false,
         league: 'Premiership',
-        isCup: false
+        isCup: false,
+        isMen: true
     },
     {
         teamOne: 'Mildert',
@@ -194,7 +211,8 @@ const fixturesWithNonCollingwoodMatches = [
         time: '12/10/2019 10:45',
         completed: true,
         league: 'League Two',
-        isCup: false
+        isCup: false,
+        isMen: true
     }
 ];
 
@@ -207,7 +225,8 @@ const fixturesWithSearchString = [
         time: '12/10/2019 10:45',
         completed: false,
         league: 'Premiership',
-        isCup: false
+        isCup: false,
+        isMen: true
     },
     {
         teamOne: 'Collingwood B',
@@ -217,7 +236,8 @@ const fixturesWithSearchString = [
         time: '12/10/2019 10:45',
         completed: false,
         league: 'Premiership',
-        isCup: false
+        isCup: false,
+        isMen: true
     },
     {
         teamOne: 'Collingwood B',
@@ -227,7 +247,8 @@ const fixturesWithSearchString = [
         time: '12/10/2019 10:45',
         completed: true,
         league: 'League Two',
-        isCup: false
+        isCup: false,
+        isMen: true
     }
 ];
 
@@ -411,6 +432,7 @@ describe('Filtering fixtures', () => {
                     completed: false,
                     league: 'Premiership',
                     isCup: false,
+                    isMen: true,
                     id: 'Collingwood A vs St. Aidan\'s A-12/10/2019 10:45'
                 },
                 {
@@ -422,6 +444,7 @@ describe('Filtering fixtures', () => {
                     completed: false,
                     league: 'Premiership',
                     isCup: false,
+                    isMen: true,
                     id: 'Collingwood B vs St. Aidan\'s A-12/10/2019 10:45'
                 },
                 {
@@ -433,6 +456,7 @@ describe('Filtering fixtures', () => {
                     completed: true,
                     league: 'League Two',
                     isCup: false,
+                    isMen: true,
                     id: 'Collingwood B vs St. Aidan\'s A-12/10/2019 10:45'
                 }
             ]);
@@ -450,6 +474,7 @@ describe('Filtering fixtures', () => {
                     completed: true,
                     league: 'League Two',
                     isCup: false,
+                    isMen: true,
                     id: 'Collingwood B vs St. Aidan\'s A-12/10/2019 10:45'
                 }
             ]);
@@ -467,6 +492,7 @@ describe('Filtering fixtures', () => {
                     completed: false,
                     league: 'Premiership',
                     isCup: false,
+                    isMen: true,
                     id: 'Collingwood A vs St. Aidan\'s A-12/10/2019 10:45'
                 },
                 {
@@ -478,6 +504,7 @@ describe('Filtering fixtures', () => {
                     completed: true,
                     league: 'League Two',
                     isCup: false,
+                    isMen: true,
                     id: 'Mildert vs Collingwood A-12/10/2019 10:45'
                 }
             ]);
@@ -500,6 +527,7 @@ describe('Filtering fixtures', () => {
                     completed: false,
                     league: 'Premiership',
                     isCup: false,
+                    isMen: true,
                     id: 'pre abcdef after vs St. Aidan\'s A-12/10/2019 10:45'
                 },
                 {
@@ -511,6 +539,7 @@ describe('Filtering fixtures', () => {
                     completed: true,
                     league: 'League Two',
                     isCup: false,
+                    isMen: true,
                     id: 'Collingwood B vs abcdef and stuff-12/10/2019 10:45'
                 }
             ]);
