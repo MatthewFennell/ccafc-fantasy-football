@@ -13,7 +13,7 @@ import Grid from '../common/grid/Grid';
 import FixtureFilter from './view/FixtureFilters';
 import SetTeam from './view/SetTeam';
 import {
-    generateCollingwoodTeams, gridStyles, fixturesFilters, columns, filterFixtures
+    generateBothCollingwoodTeams, gridStyles, fixturesFilters, columns, filterFixtures
 } from './helpers';
 import Fade from '../common/Fade/Fade';
 import { generateCsvTitle } from '../helperFunctions';
@@ -79,7 +79,7 @@ const Fixtures = props => {
                     loadingFixtures={props.loadingFixtures}
                     myTeam={props.myTeam}
                     setActiveTeam={setMyTeam}
-                    teamOptions={generateCollingwoodTeams(props.fixtures)}
+                    teamOptions={generateBothCollingwoodTeams(props.fixtures)}
                     updateMyTeam={updateMyTeam}
                 />
                 <div className={props.styles.editFiltersWrapper}>

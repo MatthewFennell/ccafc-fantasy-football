@@ -56,7 +56,7 @@ describe('NextFixtures - NextFixtures', () => {
 
     it('The NextFixtures component renders a spinner', () => {
         const wrapper = mount(<NextFixtures loadingFixtures />);
-        expect(wrapper.find(Spinner)).toHaveLength(1);
+        expect(wrapper.find(Spinner)).toHaveLength(2);
     });
 
     it('The NextFixtures component renders Match Rows', () => {

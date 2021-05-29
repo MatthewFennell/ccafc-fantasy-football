@@ -9,41 +9,41 @@ const db = admin.firestore();
 
 const config = functions.config();
 
-const generateFixture = (teamOne, result, teamTwo, location, time) => {
+const generateFixture = (teamOne, result, teamTwo, location, time, isMen) => {
     if (teamOne && teamOne.length > 2 && teamTwo && teamTwo.length > 2) {
         if (result === 'vs') {
             return {
-                teamOne, result, teamTwo, location, time, completed: false
+                teamOne, result, teamTwo, location, time, completed: false, isMen
             };
         }
         return {
-            teamOne, result, teamTwo, location, time, completed: true
+            teamOne, result, teamTwo, location, time, completed: true, isMen
         };
     }
     return null;
 };
 
-const generateLeagueFixtures = (list, league) => {
+const generateLeagueFixtures = (list, league, isMen) => {
     const fixtures = [];
     for (let x = 0; x < list.length; x += 5) {
         fixtures.push(
-            generateFixture(list[x], list[x + 1], list[x + 2], list[x + 3], list[x + 4])
+            generateFixture(list[x], list[x + 1], list[x + 2], list[x + 3], list[x + 4], isMen)
         );
     }
     return fixtures.filter(x => x !== null).map(x => ({ ...x, league, isCup: false }));
 };
 
-const generateCupFixtures = (list, league) => {
+const generateCupFixtures = (list, league, isMen) => {
     const fixtures = [];
     for (let x = 0; x < list.length; x += 6) {
         fixtures.push(
-            generateFixture(list[x + 1], list[x + 2], list[x + 3], list[x + 4], list[x + 5])
+            generateFixture(list[x + 1], list[x + 2], list[x + 3], list[x + 4], list[x + 5], isMen)
         );
     }
     return fixtures.filter(x => x !== null).map(x => ({ ...x, league, isCup: true }));
 };
 
-const transformHtml = html => {
+const transformHtml = (html, isMen) => {
     const $ = cheerio.load(html);
     const arr = [];
 
@@ -65,13 +65,17 @@ const transformHtml = html => {
             .replace(/\s\s+/g, ' '));
     });
 
-    return format === 'Knockout' ? generateCupFixtures(arr, league) : generateLeagueFixtures(arr, league);
+    return format === 'Knockout' ? generateCupFixtures(arr, league, isMen) : generateLeagueFixtures(arr, league, isMen);
 };
 
 const generateAllFixtures = () => {
-    const promises = constants.leaguesForFixtures.map(leagueUrl => axios.get(leagueUrl));
+    const promises = constants.mensLeagueFixtures.map(leagueUrl => axios.get(leagueUrl));
     return Promise.all(promises)
-        .then(result => result.reduce((prev, cur) => prev.concat(transformHtml(cur.data)), []));
+        .then(mensResult => mensResult.reduce((prev, cur) => prev.concat(transformHtml(cur.data, true)), [])).then(mensResults => {
+            const promisesWomen = constants.womensLeagueFixtures.map(leagueUrl => axios.get(leagueUrl));
+            return Promise.all(promisesWomen)
+                .then(womensResult => mensResults.concat(womensResult.reduce((prev, cur) => prev.concat(transformHtml(cur.data, false)), [])));
+        });
 };
 
 exports.scheduledFirestoreExport = functions.region(constants.region).pubsub
