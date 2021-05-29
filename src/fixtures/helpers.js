@@ -65,24 +65,45 @@ export const fixturesFilters = (myTeam, fixtures) => {
     }))).filter(x => x.value !== 'No team set' && x.value);
 };
 
-export const generateCollingwoodTeams = fixtures => fixtures
+export const generateCollingwoodTeams = (fixtures, isMen = true) => fixtures
     .reduce((prev, curr) => _.uniqBy(
         [...prev, curr.teamOne, curr.teamTwo]
     ), [])
     .filter(x => x.includes(process.env.REACT_APP_COLLEGE_NAME))
     .sort()
     .map(x => ({
-        id: x,
-        value: x,
-        text: x
+        id: isMen ? x : `${x} (Women)`,
+        value: isMen ? x : `${x} (Women)`,
+        text: isMen ? x : `${x} (Women)`
     }));
+
+export const generateBothCollingwoodTeams = fixtures => {
+    const mens = generateCollingwoodTeams(fixtures.filter(x => x.isMen), true);
+    const womens = generateCollingwoodTeams(fixtures.filter(x => !x.isMen), false);
+    return mens.concat(womens);
+};
 
 const isDateInFuture = date => helpers.convertToDate(date).isAfter(moment());
 
+const transformTeamName = (teamName, isMen) => {
+    if (teamName.includes(process.env.REACT_APP_COLLEGE_NAME) && !isMen) {
+        return `${teamName} (Women)`;
+    }
+    return teamName;
+};
+
 export const filterFixtures = (fixtures, league, collingwoodOnly, upcomingOnly, teamName) => {
     // My team could be selected - causes the league to be the name of their team
-    const leagueFilter = league === 'All' || league === '' ? () => true
-        : x => x.league === league || x.teamOne === league || x.teamTwo === league;
+    const leagueFilter = x => {
+        let copyLeague = league;
+        if (copyLeague === 'All' || copyLeague === '') {
+            return true;
+        }
+        if (copyLeague && copyLeague.includes(' (Women')) {
+            copyLeague = league.replace(' (Women)', '');
+        }
+        return x.league === copyLeague || x.teamOne === copyLeague || x.teamTwo === copyLeague;
+    };
 
     const collingwoodOnlyFilter = collingwoodOnly
         ? x => x.teamOne.includes(process.env.REACT_APP_COLLEGE_NAME)
@@ -91,14 +112,38 @@ export const filterFixtures = (fixtures, league, collingwoodOnly, upcomingOnly, 
     const upcomingOnlyFilter = upcomingOnly ? x => !x.completed && isDateInFuture(x.time)
         : () => true;
 
-    const teamNameFilter = x => x.teamOne.includes(teamName) || x.teamTwo.includes(teamName);
+    const teamNameFilter = x => {
+        const teamOneName = x.isMen ? x.teamOne : `${x} (Women)`;
+        const teamTwoName = x.isMen ? x.teamTwo : `${x} (Women)`;
+        return teamOneName.toLowerCase().includes(teamName.toLowerCase())
+        || teamTwoName.toLowerCase().includes(teamName.toLowerCase());
+    };
+
+    const isWomens = x => {
+        if (!league) {
+            return true;
+        }
+        if (league === 'All') {
+            return true;
+        }
+        if (league.includes(' (Women)')) {
+            return !x.isMen;
+        }
+        return x.isMen;
+    };
 
     const filteredFixtures = fixtures
         .filter(leagueFilter)
         .filter(collingwoodOnlyFilter)
         .filter(upcomingOnlyFilter)
         .filter(teamNameFilter)
-        .map(fixture => ({ ...fixture, id: `${fixture.teamOne} vs ${fixture.teamTwo}-${fixture.time}` }));
+        .filter(isWomens)
+        .map(fixture => ({
+            ...fixture,
+            teamOne: transformTeamName(fixture.teamOne, fixture.isMen),
+            teamTwo: transformTeamName(fixture.teamTwo, fixture.isMen),
+            id: `${fixture.teamOne} vs ${fixture.teamTwo}-${fixture.time}`
+        }));
 
     return helpers.sortMatchesByDate(filteredFixtures, false);
 };

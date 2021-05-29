@@ -56,3 +56,6 @@ export const generateCsvTitle = title => {
     const day = date.getDate();
     return `${title}_${day}_${month}_${year}.csv`;
 };
+
+export const getMensFixtures = fixtures => fixtures.filter(fixture => fixture.isMen);
+export const getWomensFixtures = fixtures => fixtures.filter(fixture => !fixture.isMen);

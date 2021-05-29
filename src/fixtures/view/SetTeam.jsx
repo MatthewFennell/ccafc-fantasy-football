@@ -28,6 +28,7 @@ const Button = props => (
                     value={props.activeTeam}
                     onChange={props.setActiveTeam}
                     options={props.teamOptions}
+                    orderInput={false}
                     title="Set Team"
                     key="Set Team"
                 />
