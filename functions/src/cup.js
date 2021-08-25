@@ -64,11 +64,11 @@ exports.manageCup = functions.region(constants.region).firestore
 
         if (newWeek === constants.cupStartingWeek) {
             // Change >= 0
-            return db.collection('weekly-teams').where('week', '==', previousWeek).where('points', '>', 0).get()
+            return common.getCorrectYear(db).collection('weekly-teams').where('week', '==', previousWeek).where('points', '>', 0).get()
                 .then(weeklyDocs => {
                     const userIds = fp.shuffle(weeklyDocs.docs.map(doc => doc.data().user_id));
 
-                    const promises = userIds.map(id => db.collection('users').doc(id).get().then(user => ({
+                    const promises = userIds.map(id => common.getCorrectYear(db).collection('users').doc(id).get().then(user => ({
                         userId: id,
                         displayName: user.data().displayName
                     })));
@@ -81,7 +81,7 @@ exports.manageCup = functions.region(constants.region).firestore
 
                         const { byes, pairings } = generatePairingsAndByes(userIds);
 
-                        return db.collection('the-cup').doc(constants.cupDatabaseId).set({
+                        return common.getCorrectYear(db).collection('the-cup').doc(constants.cupDatabaseId).set({
                             [constants.cupStartingWeek]: {
                                 pairings,
                                 byes
@@ -93,7 +93,7 @@ exports.manageCup = functions.region(constants.region).firestore
                     });
                 });
         }
-        return db.collection('the-cup').doc(constants.cupDatabaseId).get().then(
+        return common.getCorrectYear(db).collection('the-cup').doc(constants.cupDatabaseId).get().then(
             doc => {
                 if (!doc.exists) {
                     return Promise.resolve();
@@ -104,7 +104,7 @@ exports.manageCup = functions.region(constants.region).firestore
                     return Promise.resolve();
                 }
 
-                return db.collection('weekly-teams').where('week', '==', previousWeek).get().then(
+                return common.getCorrectYear(db).collection('weekly-teams').where('week', '==', previousWeek).get().then(
                     weeklyDocs => {
                         const docsWithScore = fp.shuffle(weeklyDocs.docs.map(x => ({
                             userId: x.data().user_id,
@@ -140,7 +140,7 @@ exports.manageCup = functions.region(constants.region).firestore
                         }, []).concat(byes);
 
                         if (remainingPlayers.length === 1) {
-                            return db.collection('the-cup').doc(constants.cupDatabaseId).update({
+                            return common.getCorrectYear(db).collection('the-cup').doc(constants.cupDatabaseId).update({
                                 [previousWeek]: {
                                     ...doc.data()[previousWeek],
                                     pairings: updatedPairings
@@ -152,7 +152,7 @@ exports.manageCup = functions.region(constants.region).firestore
 
                         const newResult = generatePairingsAndByes(remainingPlayers);
 
-                        return db.collection('the-cup').doc(constants.cupDatabaseId).update({
+                        return common.getCorrectYear(db).collection('the-cup').doc(constants.cupDatabaseId).update({
                             [previousWeek]: {
                                 ...doc.data()[previousWeek],
                                 pairings: updatedPairings
@@ -172,5 +172,5 @@ exports.fetchCup = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('the-cup').doc(constants.cupDatabaseId).get().then(response => response.data());
+        return common.getCorrectYear(db).collection('the-cup').doc(constants.cupDatabaseId).get().then(response => response.data());
     });

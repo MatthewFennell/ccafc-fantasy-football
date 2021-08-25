@@ -11,10 +11,10 @@ exports.updateTeam = functions
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
 
-        return db.collection('users').doc(context.auth.uid).get().then(
+        return common.getCorrectYear(db).collection('users').doc(context.auth.uid).get().then(
             user => user.data().remaining_budget
         )
-            .then(userBudget => db.collection('active-teams').where('user_id', '==', context.auth.uid).get().then(
+            .then(userBudget => common.getCorrectYear(db).collection('active-teams').where('user_id', '==', context.auth.uid).get().then(
                 activeTeams => {
                     if (activeTeams.size === 0) {
                         common.log(context.auth.uid, 'No Active Team');
@@ -30,14 +30,14 @@ exports.updateTeam = functions
                     const playersBeingRemoved = playerIds.filter(p => !data.newTeam.includes(p));
                     const promises = [];
 
-                    playersBeingAdded.map(playerId => promises.push(db.collection('players').doc(playerId).get()
+                    playersBeingAdded.map(playerId => promises.push(common.getCorrectYear(db).collection('players').doc(playerId).get()
                         .then(doc => {
                             if (doc.exists) return ({ data: doc.data(), id: doc.id, adding: true });
                             common.log(context.auth.uid, 'Invalid Player ID (Player being added)', { PlayerId: doc.id });
                             throw new functions.https.HttpsError('not-found', 'Invalid player ID');
                         })));
 
-                    playersBeingRemoved.map(playerId => promises.push(db.collection('players').doc(playerId).get()
+                    playersBeingRemoved.map(playerId => promises.push(common.getCorrectYear(db).collection('players').doc(playerId).get()
                         .then(doc => {
                             if (doc.exists) return ({ data: doc.data(), id: doc.id, adding: false });
                             common.log(context.auth.uid, 'Invalid Player ID (Player being removed)', { PlayerId: doc.id });
@@ -56,7 +56,7 @@ exports.updateTeam = functions
                     }).then(
                         newBudget => {
                             const newTeamPromises = [];
-                            data.newTeam.map(playerId => newTeamPromises.push(db.collection('players').doc(playerId).get()
+                            data.newTeam.map(playerId => newTeamPromises.push(common.getCorrectYear(db).collection('players').doc(playerId).get()
                                 .then(doc => {
                                     if (doc.exists) return ({ data: doc.data(), id: doc.id, adding: false });
                                     common.log(context.auth.uid, 'Invalid Player ID (New Team Promises)', { PlayerId: doc.id });
@@ -66,7 +66,7 @@ exports.updateTeam = functions
                                 common.teamIsValid(players);
                                 return activeTeams.docs[0].ref.update({
                                     player_ids: data.newTeam
-                                }).then(() => db.collection('users').doc(context.auth.uid).update({
+                                }).then(() => common.getCorrectYear(db).collection('users').doc(context.auth.uid).update({
                                     remaining_budget: parseFloat(newBudget.toFixed(1), 10)
                                 }));
                             });
@@ -80,7 +80,7 @@ exports.getActiveTeam = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('active-teams').where('user_id', '==', context.auth.uid).get().then(
+        return common.getCorrectYear(db).collection('active-teams').where('user_id', '==', context.auth.uid).get().then(
             result => {
                 if (result.size === 0) {
                     common.log(context.auth.uid, 'No Active Team');
@@ -96,7 +96,7 @@ exports.getActiveTeam = functions
             .then(
                 result => {
                     const promises = [];
-                    result.player_ids.map(playerId => promises.push(db.collection('players').doc(playerId).get()
+                    result.player_ids.map(playerId => promises.push(common.getCorrectYear(db).collection('players').doc(playerId).get()
                         .then(doc => {
                             if (doc.exists) return ({ ...doc.data(), id: doc.id });
                             common.log(context.auth.uid, 'Invalid Player ID', { PlayerId: doc.id });
@@ -113,7 +113,7 @@ exports.makeCaptain = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('active-teams').where('user_id', '==', context.auth.uid).get().then(
+        return common.getCorrectYear(db).collection('active-teams').where('user_id', '==', context.auth.uid).get().then(
             result => {
                 if (result.size > 1) {
                     common.log(context.auth.uid, 'Multiple Active Teams');
@@ -136,7 +136,7 @@ exports.removeCaptainWhenTeamUpdated = functions.region(constants.region).firest
         if (change.after.exists) {
             const { player_ids, captain } = change.after.data();
             if (!player_ids.includes(captain)) {
-                return db.collection('active-teams').doc(change.after.id).update({
+                return common.getCorrectYear(db).collection('active-teams').doc(change.after.id).update({
                     captain: null
                 }).then(() => Promise.resolve('Captain set to null'));
             }
@@ -148,7 +148,7 @@ exports.createActiveTeam = functions.region(constants.region).firestore
     .document('users/{id}')
     .onWrite((change, context) => {
         if (!change.before.exists) {
-            db.collection('active-teams').add({
+            common.getCorrectYear(db).collection('active-teams').add({
                 user_id: context.params.id,
                 player_ids: [],
                 captain: ''

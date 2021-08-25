@@ -80,13 +80,13 @@ const generateAllFixtures = () => {
 
 exports.scheduledFirestoreExport = functions.region(constants.region).pubsub
     .schedule('every 24 hours')
-    .onRun(() => generateAllFixtures().then(fixtures => db.collection('fixtures-blob').doc(constants.fixturesBlobId).get().then(doc => {
+    .onRun(() => generateAllFixtures().then(fixtures => common.getCorrectYear(db).collection('fixtures-blob').doc(constants.fixturesBlobId).get().then(doc => {
         if (doc.exists) {
-            return db.collection('fixtures-blob').doc(constants.fixturesBlobId).update({
+            return common.getCorrectYear(db).collection('fixtures-blob').doc(constants.fixturesBlobId).update({
                 blob: JSON.stringify(fixtures)
             });
         }
-        return db.collection('fixtures-blob').doc(constants.fixturesBlobId).set({
+        return common.getCorrectYear(db).collection('fixtures-blob').doc(constants.fixturesBlobId).set({
             blob: JSON.stringify(fixtures)
         });
     })));
@@ -95,7 +95,7 @@ exports.findFixtures = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('fixtures-blob').doc(constants.fixturesBlobId).get().then(doc => {
+        return common.getCorrectYear(db).collection('fixtures-blob').doc(constants.fixturesBlobId).get().then(doc => {
             if (doc.exists) {
                 const { blob } = doc.data();
                 return JSON.parse(blob);
@@ -115,7 +115,7 @@ exports.setMyTeam = functions
             throw new functions.https.HttpsError('invalid-argument', 'Please select a valid team');
         }
 
-        return db.collection('users-teams').doc(context.auth.uid).set({
+        return common.getCorrectYear(db).collection('users-teams').doc(context.auth.uid).set({
             team: data.team
         });
     });
@@ -124,7 +124,7 @@ exports.getMyTeam = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('users-teams').doc(context.auth.uid).get().then(
+        return common.getCorrectYear(db).collection('users-teams').doc(context.auth.uid).get().then(
             doc => {
                 if (doc.exists) {
                     return doc.data().team || 'No team set';

@@ -17,20 +17,20 @@ exports.addComment = functions
             throw new functions.https.HttpsError('invalid-argument', 'Must provide a valid comment');
         }
         common.isAuthenticated(context);
-        return db.collection(data.collection).doc(data.collectionId).get()
+        return common.getCorrectYear(db).collection(data.collection).doc(data.collectionId).get()
             .then(item => {
                 if (!item.exists) {
                     common.log(context.auth.uid, 'Item to comment on not found',
                         { Collection: data.collection, CollectionID: data.collectionId });
                     throw new functions.https.HttpsError('not-found', 'Invalid ID');
                 }
-                const getDisplayName = id => db.collection('users').doc(id).get()
+                const getDisplayName = id => common.getCorrectYear(db).collection('users').doc(id).get()
                     .then(user => ({
                         displayName: user.data().displayName,
                         photoUrl: user.data().photoUrl
                     }));
 
-                const { id } = db.collection('users').doc();
+                const { id } = common.getCorrectYear(db).collection('users').doc();
                 return getDisplayName(context.auth.uid)
                     .then(user => item.ref.update({
                         comments: [...item.data().comments, {
@@ -44,7 +44,7 @@ exports.addComment = functions
                         }]
                     }));
             })
-            .then(() => db.collection(data.collection).doc(data.collectionId).get().then(item => ({
+            .then(() => common.getCorrectYear(db).collection(data.collection).doc(data.collectionId).get().then(item => ({
                 ...item.data(), id: item.id
             })));
     });
@@ -58,19 +58,19 @@ exports.addReply = functions
             throw new functions.https.HttpsError('invalid-argument', 'Must provide a valid reply');
         }
 
-        return db.collection(data.collection).doc(data.collectionId).get()
+        return common.getCorrectYear(db).collection(data.collection).doc(data.collectionId).get()
             .then(item => {
                 if (!item.exists) {
                     common.log(context.auth.uid, 'Item to comment on not found',
                         { Collection: data.collection, CollectionID: data.collectionId });
                     throw new functions.https.HttpsError('not-found', 'Invalid ID');
                 }
-                const getDisplayName = id => db.collection('users').doc(id).get()
+                const getDisplayName = id => common.getCorrectYear(db).collection('users').doc(id).get()
                     .then(user => ({
                         displayName: user.data().displayName,
                         photoUrl: user.data().photoUrl
                     }));
-                const { id } = db.collection('users').doc();
+                const { id } = common.getCorrectYear(db).collection('users').doc();
                 return getDisplayName(context.auth.uid)
                     .then(user => item.ref.update({
                         comments: item.data().comments.map(x => (x.id === data.commentId ? {
@@ -86,7 +86,7 @@ exports.addReply = functions
                         } : x))
                     }));
             })
-            .then(() => db.collection(data.collection).doc(data.collectionId).get().then(item => ({
+            .then(() => common.getCorrectYear(db).collection(data.collection).doc(data.collectionId).get().then(item => ({
                 ...item.data(), id: item.id
             })));
     });
@@ -95,7 +95,7 @@ exports.deleteComment = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection(data.collection).doc(data.collectionId).get()
+        return common.getCorrectYear(db).collection(data.collection).doc(data.collectionId).get()
             .then(item => {
                 if (!item.exists) {
                     common.log(context.auth.uid, 'Item to comment on not found',
@@ -115,7 +115,7 @@ exports.deleteReply = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection(data.collection).doc(data.collectionId).get()
+        return common.getCorrectYear(db).collection(data.collection).doc(data.collectionId).get()
             .then(item => {
                 if (!item.exists) {
                     common.log(context.auth.uid, 'Item to comment on not found',

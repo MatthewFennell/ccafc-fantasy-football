@@ -10,22 +10,22 @@ const db = admin.firestore();
 
 const operations = admin.firestore.FieldValue;
 
-const getDisplayName = id => db.collection('users').doc(id).get().then(user => ({
+const getDisplayName = id => common.getCorrectYear(db).collection('users').doc(id).get().then(user => ({
     displayName: user.data().displayName,
     teamName: user.data().teamName
 }));
 
-const joinLeaguePointsWithCorrectPoints = (uid, week, leagueName, leagueId) => db.collection('weekly-teams')
+const joinLeaguePointsWithCorrectPoints = (uid, week, leagueName, leagueId) => common.getCorrectYear(db).collection('weekly-teams')
     .where('user_id', '==', uid).where('week', '>=', week).get()
     .then(weeklyDocs => weeklyDocs.docs
         .reduce((acc, curVal) => acc + curVal.data().points, 0))
-    .then(result => db.collection('leagues-points').where('name', '==', leagueName).where('user_id', '==', uid)
+    .then(result => common.getCorrectYear(db).collection('leagues-points').where('name', '==', leagueName).where('user_id', '==', uid)
         .get()
         .then(leagues => {
             if (!leagues.empty) {
                 throw new functions.https.HttpsError('already-exists', 'You are already in that league');
             }
-            return getDisplayName(uid).then(userInfo => db.collection('leagues-points').add({
+            return getDisplayName(uid).then(userInfo => common.getCorrectYear(db).collection('leagues-points').add({
                 league_id: leagueId,
                 user_id: uid,
                 start_week: week,
@@ -50,11 +50,11 @@ exports.createLeague = functions
             throw new functions.https.HttpsError('invalid-argument', 'Start week must be a positive integer');
         }
 
-        const leagueWithThatName = name => db.collection('leagues').where('name', '==', name);
+        const leagueWithThatName = name => common.getCorrectYear(db).collection('leagues').where('name', '==', name);
 
         return leagueWithThatName(data.leagueName).get().then(docs => {
             if (docs.empty) {
-                return db.collection('leagues')
+                return common.getCorrectYear(db).collection('leagues')
                     .add({
                         owner: context.auth.uid,
                         start_week: data.startWeek || 0,
@@ -105,7 +105,7 @@ exports.joinLeague = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('leagues').where('name', '==', data.leagueName).get().then(
+        return common.getCorrectYear(db).collection('leagues').where('name', '==', data.leagueName).get().then(
             docs => {
                 if (docs.empty) {
                     throw new functions.https.HttpsError('not-found', 'There is no league with that name');
@@ -118,7 +118,7 @@ exports.joinLeague = functions
 
                 return joinLeaguePointsWithCorrectPoints(context.auth.uid,
                     doc.data().start_week, data.leagueName, doc.id)
-                    .then(() => db.collection('leagues-points').where('league_id', '==', doc.id).get()
+                    .then(() => common.getCorrectYear(db).collection('leagues-points').where('league_id', '==', doc.id).get()
                         .then(query => query.docs
                             .map(leagueDoc => ({ data: leagueDoc.data(), id: leagueDoc.id })))
                         .then(result => {
@@ -132,12 +132,12 @@ exports.joinLeague = functions
 
                             const batches = [];
                             for (let x = 0; x < numberOfBatches; x += 1) {
-                                batches.push(db.batch());
+                                batches.push(common.getCorrectYear(db).batch());
                             }
 
                             positions.forEach((pos, index) => {
                                 const batchToTarget = Math.floor(index / constants.maxBatchSize);
-                                const docRef = db.collection('leagues-points').doc(pos.id);
+                                const docRef = common.getCorrectYear(db).collection('leagues-points').doc(pos.id);
                                 batches[batchToTarget].update(docRef, {
                                     position: pos.position
                                 });
@@ -165,7 +165,7 @@ exports.orderedUsers = functions
                 .map(doc => ({ data: doc.data(), id: doc.id })))
             .then(result => {
                 const leaguePromises = [];
-                result.map(user => leaguePromises.push(db.collection('weekly-teams').where('user_id', '==', user.data.user_id).where('week', '==', data.week)
+                result.map(user => leaguePromises.push(common.getCorrectYear(db).collection('weekly-teams').where('user_id', '==', user.data.user_id).where('week', '==', data.week)
                     .get()
                     .then(weeklyTeam => {
                         if (weeklyTeam.size > 1) {
@@ -185,7 +185,7 @@ exports.orderedUsers = functions
                 .collection('leagues-points')
                 .where('league_id', '==', data.leagueId)
                 .orderBy('position', 'asc')
-                .limit(Math.min(maximumRequestSize, data.requestedSize))).then(result => db.collection('leagues').doc(data.leagueId).get().then(
+                .limit(Math.min(maximumRequestSize, data.requestedSize))).then(result => common.getCorrectYear(db).collection('leagues').doc(data.leagueId).get().then(
                 league => ({
                     users: result,
                     numberOfUsers: league.data().number_of_users,
@@ -193,7 +193,7 @@ exports.orderedUsers = functions
                 })
             ));
         }
-        return db.collection('leagues-points').doc(data.previousId).get().then(
+        return common.getCorrectYear(db).collection('leagues-points').doc(data.previousId).get().then(
             query => adaptData(db
                 .collection('leagues-points')
                 .where('league_id', '==', data.leagueId)
@@ -244,12 +244,12 @@ exports.calculatePositions = functions
 
                 const batches = [];
                 for (let x = 0; x < numberOfBatches; x += 1) {
-                    batches.push(db.batch());
+                    batches.push(common.getCorrectYear(db).batch());
                 }
 
                 positions.forEach((pos, index) => {
                     const batchToTarget = Math.floor(index / constants.maxBatchSize);
-                    const docRef = db.collection('leagues-points').doc(pos.id);
+                    const docRef = common.getCorrectYear(db).collection('leagues-points').doc(pos.id);
                     batches[batchToTarget].update(docRef, {
                         position: pos.position
                     });
@@ -263,12 +263,12 @@ exports.calculatePositions = functions
 // Increase number of users in league
 exports.onUserJoinLeague = functions.region(constants.region).firestore
     .document('leagues-points/{id}')
-    .onCreate(snapshot => db.collection('leagues').doc(snapshot.data().league_id).update({
+    .onCreate(snapshot => common.getCorrectYear(db).collection('leagues').doc(snapshot.data().league_id).update({
         number_of_users: operations.increment(1)
     }));
 
 exports.onUserLeaveLeague = functions.region(constants.region).firestore
     .document('leagues-points/{id}')
-    .onDelete(snapshot => db.collection('leagues').doc(snapshot.data().league_id).update({
+    .onDelete(snapshot => common.getCorrectYear(db).collection('leagues').doc(snapshot.data().league_id).update({
         number_of_users: operations.increment(-1)
     }));

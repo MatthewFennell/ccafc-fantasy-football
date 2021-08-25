@@ -15,7 +15,7 @@ exports.addStatsToPlayer = functions.region(constants.region).firestore
             return Promise.resolve();
         }
         const difference = common.calculateDifference(change.before.data(), change.after.data());
-        return db.collection('players').doc(change.after.data().player_id).get().then(doc => {
+        return common.getCorrectYear(db).collection('players').doc(change.after.data().player_id).get().then(doc => {
             const points = common.calculatePointDifference(difference,
                 change.after.data().position);
             return doc.ref.update({
@@ -35,7 +35,7 @@ exports.updateWeeklyTeams = functions.region(constants.region).firestore
         const difference = common.calculateDifference(change.before.data(), change.after.data());
         const points = common.calculatePointDifference(difference,
             change.after.data().position);
-        return db.collection('weekly-teams').where('week', '==', change.after.data().week)
+        return common.getCorrectYear(db).collection('weekly-teams').where('week', '==', change.after.data().week)
             .where('player_ids', 'array-contains', change.after.data().player_id)
             .get()
             .then(result => {
@@ -54,7 +54,7 @@ exports.updateWeeklyPlayers = functions.region(constants.region).firestore
         const difference = common.calculateDifference(change.before.data(), change.after.data());
         const points = common.calculatePointDifference(difference,
             change.after.data().position);
-        return db.collection('weekly-players').where('player_id', '==', change.after.data().player_id)
+        return common.getCorrectYear(db).collection('weekly-players').where('player_id', '==', change.after.data().player_id)
             .where('week', '==', change.after.data().week).get()
             .then(
                 result => {
@@ -85,11 +85,11 @@ exports.updateUserScores = functions.region(constants.region).firestore
         const difference = common.calculateDifference(change.before.data(), change.after.data());
         const points = common.calculatePointDifference(difference,
             change.after.data().position);
-        return db.collection('weekly-teams').where('player_ids', 'array-contains', change.after.data().player_id)
+        return common.getCorrectYear(db).collection('weekly-teams').where('player_ids', 'array-contains', change.after.data().player_id)
             .where('week', '==', change.after.data().week).get()
             .then(result => result.docs.map(id => id.data().user_id))
             .then(
-                result => result.forEach(userId => db.collection('users').doc(userId).update({
+                result => result.forEach(userId => common.getCorrectYear(db).collection('users').doc(userId).update({
                     total_points: operations.increment(points)
                 }))
             );
@@ -105,11 +105,11 @@ exports.updateLeaguesPoints = functions.region(constants.region).firestore
         const difference = common.calculateDifference(change.before.data(), change.after.data());
         const points = common.calculatePointDifference(difference,
             change.after.data().position);
-        return db.collection('weekly-players').where('player_id', '==', change.after.data().player_id)
+        return common.getCorrectYear(db).collection('weekly-players').where('player_id', '==', change.after.data().player_id)
             .where('week', '==', change.after.data().week).get()
             .then(result => result.docs.map(id => id.data().user_id))
             .then(
-                result => result.forEach(userId => db.collection('leagues-points')
+                result => result.forEach(userId => common.getCorrectYear(db).collection('leagues-points')
                     .where('user_id', '==', userId).where('start_week', '<=', change.after.data().week)
                     .get()
                     .then(leagues => leagues.docs.forEach(league => {
@@ -129,19 +129,19 @@ exports.addExtraCaptainPoints = functions.region(constants.region).firestore
         const difference = common.calculateDifference(change.before.data(), change.after.data());
         const points = common.calculatePointDifference(difference,
             change.after.data().position);
-        return db.collection('weekly-teams').where('captain', '==', change.after.data().player_id)
+        return common.getCorrectYear(db).collection('weekly-teams').where('captain', '==', change.after.data().player_id)
             .where('week', '==', change.after.data().week).get()
             .then(result => result.docs.map(weeklyTeam => weeklyTeam.data().user_id))
             .then(
                 userIds => {
                     userIds.forEach(uid => {
                         // Add score to user
-                        db.collection('users').doc(uid).update({
+                        common.getCorrectYear(db).collection('users').doc(uid).update({
                             total_points: operations.increment(points)
                         });
 
                         // Add score to their weekly team
-                        db.collection('weekly-teams').where('user_id', '==', uid).where('week', '==', change.after.data().week).get()
+                        common.getCorrectYear(db).collection('weekly-teams').where('user_id', '==', uid).where('week', '==', change.after.data().week).get()
                             .then(weeklyTeamDoc => {
                                 if (weeklyTeamDoc.size === 0) {
                                     throw new functions.https.HttpsError('not-found', 'User has no weekly team in that week');
@@ -155,7 +155,7 @@ exports.addExtraCaptainPoints = functions.region(constants.region).firestore
                             });
 
                         // Add score to their weekly player
-                        db.collection('weekly-players').where('user_id', '==', uid).where('player_id', '==', change.after.data().player_id)
+                        common.getCorrectYear(db).collection('weekly-players').where('user_id', '==', uid).where('player_id', '==', change.after.data().player_id)
                             .where('week', '==', change.after.data().week)
                             .get()
                             .then(weeklyPlayerDoc => {
@@ -171,7 +171,7 @@ exports.addExtraCaptainPoints = functions.region(constants.region).firestore
                             });
 
                         // Add score to their leagues
-                        db.collection('leagues-points').where('user_id', '==', uid).where('start_week', '<=', change.after.data().week).get()
+                        common.getCorrectYear(db).collection('leagues-points').where('user_id', '==', uid).where('start_week', '<=', change.after.data().week).get()
                             .then(leagueDoc => leagueDoc.docs.forEach(doc => doc.ref.update({
                                 user_points: operations.increment(points)
                             })));
@@ -191,13 +191,13 @@ exports.onWeeklyTeamCreate = functions.region(constants.region).firestore
 
         const promises = [];
 
-        player_ids.forEach(playerId => promises.push(db.collection('players').doc(playerId).get()
+        player_ids.forEach(playerId => promises.push(common.getCorrectYear(db).collection('players').doc(playerId).get()
             .then(p => {
                 if (p.exists) return ({ ...p.data(), id: p.id });
                 throw new functions.https.HttpsError('not-found', 'Invalid player ID');
             })));
         return Promise.all(promises).then(allPlayers => {
-            allPlayers.forEach(p => db.collection('weekly-players').add({
+            allPlayers.forEach(p => common.getCorrectYear(db).collection('weekly-players').add({
                 name: p.name,
                 player_id: p.id,
                 week,

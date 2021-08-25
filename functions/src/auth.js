@@ -15,7 +15,7 @@ exports.usersWithExtraRoles = functions
     .https.onCall((data, context) => common.hasPermission(context.auth.uid, constants.PERMISSIONS.MANAGE_USERS)
         .then(() => {
             common.isAuthenticated(context);
-            return db.collection('users-with-roles').get().then(
+            return common.getCorrectYear(db).collection('users-with-roles').get().then(
                 result => result.docs.map(doc => ({ id: doc.id, ...doc.data() }))
             );
         }));
@@ -30,7 +30,7 @@ exports.addUserRole = functions
                 throw new functions.https.HttpsError('not-found', 'That is not a known role');
             }
             return admin.auth().getUserByEmail(data.email)
-                .then(user => db.collection('users-with-roles').where('email', '==', data.email).get()
+                .then(user => common.getCorrectYear(db).collection('users-with-roles').where('email', '==', data.email).get()
                     .then(result => {
                         if (result.size > 1) {
                             common.log(context.auth.uid, 'Duplicate entry', { Email: data.email });
@@ -38,7 +38,7 @@ exports.addUserRole = functions
                         }
 
                         if (result.size === 0) {
-                            return db.collection('users-with-roles').add({
+                            return common.getCorrectYear(db).collection('users-with-roles').add({
                                 roles: [data.role],
                                 email: data.email,
                                 displayName: user.displayName
@@ -65,7 +65,7 @@ exports.removeUserRole = functions
         if (data.email === config.admin.email) {
             throw new functions.https.HttpsError('invalid-argument', 'Cannot remove role from that user');
         }
-        return db.collection('users-with-roles').where('email', '==', data.email).get()
+        return common.getCorrectYear(db).collection('users-with-roles').where('email', '==', data.email).get()
             .then(result => {
                 if (result.size === 0) {
                     throw new functions.https.HttpsError('not-found', 'No user with that email');
@@ -132,7 +132,7 @@ exports.deleteUser = functions
         return admin.auth().getUser(context.auth.uid).then(user => {
             if (user.email === data.email) {
                 return admin.auth().deleteUser(context.auth.uid).then(
-                    () => db.collection('users').doc(context.auth.uid).delete()
+                    () => common.getCorrectYear(db).collection('users').doc(context.auth.uid).delete()
                 );
             }
             throw new functions.https.HttpsError('not-found', 'That is not your email');
@@ -174,7 +174,7 @@ exports.editDisabledPages = functions
         if (!data.page) {
             throw new functions.https.HttpsError('invalid-argument', 'Invalid page');
         }
-        return db.collection('application-info').doc(constants.applicationInfoId).get().then(
+        return common.getCorrectYear(db).collection('application-info').doc(constants.applicationInfoId).get().then(
             result => {
                 if (!result.exists) {
                     throw new functions.https.HttpsError('invalid-argument', 'Server Error. Something has gone wrong');
@@ -192,3 +192,44 @@ exports.editDisabledPages = functions
             }
         );
     }));
+
+const doItForCollection = collection => common.getCorrectYear(db).collection(collection).get().then(activeTeams => {
+    activeTeams.docs.map(doc => {
+        console.log('done doc', doc.id);
+        common.getCorrectYear(db).collection('fantasy-years').doc('2020').collection(collection).doc(doc.id)
+            .set({
+                ...doc.data()
+            });
+    });
+});
+
+exports.myBigTest = functions
+    .region(constants.region)
+    .https.onCall(() => {
+        console.log('made it');
+        // common.getCorrectYear(db).collection('active-teams').get().then(activeTeams => {
+        //     activeTeams.docs.map(doc => {
+        //         common.getCorrectYear(db).collection('fantasy-years').doc('2020').collection('active-teams').doc(doc.id).set({
+        //             ...doc.data()
+        //         })
+        //     })
+        // })
+        // doItForCollection('active-teams');
+        // doItForCollection('application-info');
+        // doItForCollection('leagues');
+        // doItForCollection('players-blob');
+        // doItForCollection('results-history');
+        // doItForCollection('teams');
+        // doItForCollection('the-cup');
+        // doItForCollection('users-teams');
+        // doItForCollection('users-with-roles');
+
+        // doItForCollection('fixtures-blob');
+        // doItForCollection('leagues-points');
+        // doItForCollection('player-points');
+        // doItForCollection('players');
+        // doItForCollection('teams-blob');
+        // doItForCollection('users');
+        doItForCollection('weekly-players');
+        // doItForCollection('weekly-teams');
+    });

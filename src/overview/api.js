@@ -19,3 +19,6 @@ export const getMaxGameWeek = request => functionToCall('users-maxGameWeek')(req
 
 export const scrapeData = request => functionToCall('scrapeData')(request)
     .then(data => data.data);
+
+export const testing = request => functionToCall('auth-myBigTest')(request)
+    .then(data => data.data);

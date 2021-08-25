@@ -28,9 +28,24 @@ Sentry.init({
 
 const history = createBrowserHistory();
 
+// MUST BE SYNCED WITH CLOUD FUNCTION
+const getCorrectYear = () => {
+    const currentDate = new Date();
+
+    const month = currentDate.getMonth();
+    const year = currentDate.getFullYear();
+    // 07 = August -> Once we reach August, start serving the next year
+    // If we are January 2022, then the season started in 2021, so we return 2021
+
+    if (month >= 7) {
+        return String(year);
+    }
+    return String(year - 1);
+};
+
 // react-redux-firebase config
 const rrfConfig = {
-    userProfile: 'users',
+    userProfile: `fantasy-years/${getCorrectYear()}/users`,
     useFirestoreForProfile: true,
     logErrors: false
 };

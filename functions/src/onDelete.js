@@ -8,13 +8,13 @@ const operations = admin.firestore.FieldValue;
 
 exports.deleteUsersActiveTeam = functions.region(constants.region).firestore
     .document('users/{id}')
-    .onDelete(snapshot => db.collection('active-teams').where('user_id', '==', snapshot.id).get().then(
+    .onDelete(snapshot => dcommon.getCorrectYear(db).collection('active-teams').where('user_id', '==', snapshot.id).get().then(
         result => result.docs.map(doc => doc.ref.delete())
     ));
 
 exports.deleteUsersLeaguesPoints = functions.region(constants.region).firestore
     .document('users/{id}')
-    .onDelete(snapshot => db.collection('leagues-points').where('user_id', '==', snapshot.id).get().then(
+    .onDelete(snapshot => dcommon.getCorrectYear(db).collection('leagues-points').where('user_id', '==', snapshot.id).get().then(
         result => result.docs.map(doc => doc.ref.delete())
     ));
 
@@ -22,7 +22,7 @@ exports.deleteUsersLeaguesPoints = functions.region(constants.region).firestore
 // Could reimplement to find all users where position > deleted position and update them
 exports.reorderPositions = functions.region(constants.region).firestore
     .document('leagues-points/{id}')
-    .onDelete(snapshot => db.collection('leagues-points').where('league_id', '==', snapshot.data().league_id).get()
+    .onDelete(snapshot => dcommon.getCorrectYear(db).collection('leagues-points').where('league_id', '==', snapshot.data().league_id).get()
         .then(query => query.docs
             .map(leagueDoc => ({ data: leagueDoc.data(), id: leagueDoc.id })))
         .then(result => {
@@ -32,7 +32,7 @@ exports.reorderPositions = functions.region(constants.region).firestore
                 positions.push({ id: pos.id, position: index + 1 });
             });
             const leagueUpdatePromises = [];
-            positions.map(pos => leagueUpdatePromises.push(db.collection('leagues-points')
+            positions.map(pos => leagueUpdatePromises.push(dcommon.getCorrectYear(db).collection('leagues-points')
                 .doc(pos.id).update({
                     position: pos.position
                 })));
@@ -40,23 +40,23 @@ exports.reorderPositions = functions.region(constants.region).firestore
 
 exports.deleteUsersWithRoles = functions.region(constants.region).firestore
     .document('users/{id}')
-    .onDelete(snapshot => db.collection('users-with-roles').doc(snapshot.id).delete());
+    .onDelete(snapshot => dcommon.getCorrectYear(db).collection('users-with-roles').doc(snapshot.id).delete());
 
 exports.deleteWeeklyPlayers = functions.region(constants.region).firestore
     .document('users/{id}')
-    .onDelete(snapshot => db.collection('weekly-players').where('user_id', '==', snapshot.id).get().then(
+    .onDelete(snapshot => dcommon.getCorrectYear(db).collection('weekly-players').where('user_id', '==', snapshot.id).get().then(
         result => result.docs.map(doc => doc.ref.delete())
     ));
 
 exports.deleteWeeklyTeams = functions.region(constants.region).firestore
     .document('users/{id}')
-    .onDelete(snapshot => db.collection('weekly-teams').where('user_id', '==', snapshot.id).get().then(
+    .onDelete(snapshot => dcommon.getCorrectYear(db).collection('weekly-teams').where('user_id', '==', snapshot.id).get().then(
         result => result.docs.map(doc => doc.ref.delete())
     ));
 
 exports.reduceNumberOfUsers = functions.region(constants.region).firestore
     .document('users/{id}')
-    .onDelete(() => db.collection('application-info').doc(constants.applicationInfoId).get().then(
+    .onDelete(() => dcommon.getCorrectYear(db).collection('application-info').doc(constants.applicationInfoId).get().then(
         result => {
             if (result.exists) {
                 result.ref.update({

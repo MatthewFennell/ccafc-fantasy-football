@@ -270,3 +270,20 @@ module.exports.blobifyTeams = database => database
             blob: JSON.stringify(teamsInfo)
         });
     }));
+
+
+
+// MUST BE SYNCED WITH CLOUD FUNCTION
+module.exports.getCorrectYear = (db) => {
+    const currentDate = new Date();
+
+    const month = currentDate.getMonth();
+    const year = currentDate.getFullYear();
+    // 07 = August -> Once we reach August, start serving the next year
+    // If we are January 2022, then the season started in 2021, so we return 2021
+
+    // const yearToUse = month >= 7 ? String(year) : String(year-1);
+    const yearToUse = month >= 7 ? String(year-1) : String(year-2);
+    console.log("year to use", yearToUse);
+    return db.collection('fantasy-years').doc(yearToUse)
+};

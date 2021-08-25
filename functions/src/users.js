@@ -9,7 +9,7 @@ exports.userInfoForWeek = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('weekly-teams').where('week', '==', data.week).where('user_id', '==', data.userId).get()
+        return common.getCorrectYear(db).collection('weekly-teams').where('week', '==', data.week).where('user_id', '==', data.userId).get()
             .then(
                 query => {
                     if (query.size > 1) {
@@ -26,7 +26,7 @@ exports.userInfoForWeek = functions
                     });
                 }
             )
-            .then(result => db.collection('weekly-teams').where('week', '==', data.week).get().then(weeklyDocs => {
+            .then(result => common.getCorrectYear(db).collection('weekly-teams').where('week', '==', data.week).get().then(weeklyDocs => {
                 if (weeklyDocs.size === 0) {
                     return {
                         ...result,
@@ -61,7 +61,7 @@ exports.userStats = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('users').doc(data.userId).get().then(
+        return common.getCorrectYear(db).collection('users').doc(data.userId).get().then(
             user => {
                 if (!user.exists) {
                     return ({
@@ -83,7 +83,7 @@ exports.maxGameWeek = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('application-info').doc(constants.applicationInfoId).get().then(
+        return common.getCorrectYear(db).collection('application-info').doc(constants.applicationInfoId).get().then(
             result => {
                 if (!result.exists) {
                     throw new functions.https.HttpsError('invalid-argument', 'Server Error. Something has gone wrong');
@@ -97,7 +97,7 @@ exports.getUser = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('users').doc(data.userId).get().then(doc => {
+        return common.getCorrectYear(db).collection('users').doc(data.userId).get().then(doc => {
             if (doc.exists) {
                 const { displayName, teamName, photoUrl } = doc.data();
 
