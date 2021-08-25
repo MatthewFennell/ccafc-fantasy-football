@@ -9,25 +9,26 @@ const db = admin.firestore();
 const operations = admin.firestore.FieldValue;
 
 exports.addStatsToPlayer = functions.region(constants.region).firestore
-    .document('player-points/{id}')
+    .document('fantasy-years/{year}/player-points/{id}')
     .onWrite(change => {
         if (!change.after.exists) {
             return Promise.resolve();
         }
         const difference = common.calculateDifference(change.before.data(), change.after.data());
-        return common.getCorrectYear(db).collection('players').doc(change.after.data().player_id).get().then(doc => {
-            const points = common.calculatePointDifference(difference,
-                change.after.data().position);
-            return doc.ref.update({
-                goals: operations.increment(difference.goals),
-                assists: operations.increment(difference.assists),
-                points: operations.increment(points)
+        return common.getCorrectYear(db).collection('players').doc(change.after.data().player_id).get()
+            .then(doc => {
+                const points = common.calculatePointDifference(difference,
+                    change.after.data().position);
+                return doc.ref.update({
+                    goals: operations.increment(difference.goals),
+                    assists: operations.increment(difference.assists),
+                    points: operations.increment(points)
+                });
             });
-        });
     });
 
 exports.updateWeeklyTeams = functions.region(constants.region).firestore
-    .document('player-points/{id}')
+    .document('fantasy-years/{year}/player-points/{id}')
     .onWrite(change => {
         if (!change.after.exists) {
             return Promise.resolve();
@@ -46,7 +47,7 @@ exports.updateWeeklyTeams = functions.region(constants.region).firestore
     });
 
 exports.updateWeeklyPlayers = functions.region(constants.region).firestore
-    .document('player-points/{id}')
+    .document('fantasy-years/{year}/player-points/{id}')
     .onWrite(change => {
         if (!change.after.exists) {
             return Promise.resolve();
@@ -55,7 +56,8 @@ exports.updateWeeklyPlayers = functions.region(constants.region).firestore
         const points = common.calculatePointDifference(difference,
             change.after.data().position);
         return common.getCorrectYear(db).collection('weekly-players').where('player_id', '==', change.after.data().player_id)
-            .where('week', '==', change.after.data().week).get()
+            .where('week', '==', change.after.data().week)
+            .get()
             .then(
                 result => {
                     result.docs.forEach(x => x.ref.update({
@@ -77,7 +79,7 @@ exports.updateWeeklyPlayers = functions.region(constants.region).firestore
 
 // Can merge this into function above if struggling on reads
 exports.updateUserScores = functions.region(constants.region).firestore
-    .document('player-points/{id}')
+    .document('fantasy-years/{year}/player-points/{id}')
     .onWrite(change => {
         if (!change.after.exists) {
             return Promise.resolve();
@@ -86,7 +88,8 @@ exports.updateUserScores = functions.region(constants.region).firestore
         const points = common.calculatePointDifference(difference,
             change.after.data().position);
         return common.getCorrectYear(db).collection('weekly-teams').where('player_ids', 'array-contains', change.after.data().player_id)
-            .where('week', '==', change.after.data().week).get()
+            .where('week', '==', change.after.data().week)
+            .get()
             .then(result => result.docs.map(id => id.data().user_id))
             .then(
                 result => result.forEach(userId => common.getCorrectYear(db).collection('users').doc(userId).update({
@@ -97,7 +100,7 @@ exports.updateUserScores = functions.region(constants.region).firestore
 
 // Can merge this one too
 exports.updateLeaguesPoints = functions.region(constants.region).firestore
-    .document('player-points/{id}')
+    .document('fantasy-years/{year}/player-points/{id}')
     .onWrite(change => {
         if (!change.after.exists) {
             return Promise.resolve();
@@ -106,7 +109,8 @@ exports.updateLeaguesPoints = functions.region(constants.region).firestore
         const points = common.calculatePointDifference(difference,
             change.after.data().position);
         return common.getCorrectYear(db).collection('weekly-players').where('player_id', '==', change.after.data().player_id)
-            .where('week', '==', change.after.data().week).get()
+            .where('week', '==', change.after.data().week)
+            .get()
             .then(result => result.docs.map(id => id.data().user_id))
             .then(
                 result => result.forEach(userId => common.getCorrectYear(db).collection('leagues-points')
@@ -121,7 +125,7 @@ exports.updateLeaguesPoints = functions.region(constants.region).firestore
     });
 
 exports.addExtraCaptainPoints = functions.region(constants.region).firestore
-    .document('player-points/{id}')
+    .document('fantasy-years/{year}/player-points/{id}')
     .onWrite(change => {
         if (!change.after.exists) {
             return Promise.resolve();
@@ -130,7 +134,8 @@ exports.addExtraCaptainPoints = functions.region(constants.region).firestore
         const points = common.calculatePointDifference(difference,
             change.after.data().position);
         return common.getCorrectYear(db).collection('weekly-teams').where('captain', '==', change.after.data().player_id)
-            .where('week', '==', change.after.data().week).get()
+            .where('week', '==', change.after.data().week)
+            .get()
             .then(result => result.docs.map(weeklyTeam => weeklyTeam.data().user_id))
             .then(
                 userIds => {
@@ -141,7 +146,8 @@ exports.addExtraCaptainPoints = functions.region(constants.region).firestore
                         });
 
                         // Add score to their weekly team
-                        common.getCorrectYear(db).collection('weekly-teams').where('user_id', '==', uid).where('week', '==', change.after.data().week).get()
+                        common.getCorrectYear(db).collection('weekly-teams').where('user_id', '==', uid).where('week', '==', change.after.data().week)
+                            .get()
                             .then(weeklyTeamDoc => {
                                 if (weeklyTeamDoc.size === 0) {
                                     throw new functions.https.HttpsError('not-found', 'User has no weekly team in that week');
@@ -171,7 +177,8 @@ exports.addExtraCaptainPoints = functions.region(constants.region).firestore
                             });
 
                         // Add score to their leagues
-                        common.getCorrectYear(db).collection('leagues-points').where('user_id', '==', uid).where('start_week', '<=', change.after.data().week).get()
+                        common.getCorrectYear(db).collection('leagues-points').where('user_id', '==', uid).where('start_week', '<=', change.after.data().week)
+                            .get()
                             .then(leagueDoc => leagueDoc.docs.forEach(doc => doc.ref.update({
                                 user_points: operations.increment(points)
                             })));
@@ -183,7 +190,7 @@ exports.addExtraCaptainPoints = functions.region(constants.region).firestore
 // Listens for when a week is triggered
 // For each weekly-team that is made, it makes a weekly-player for that entry
 exports.onWeeklyTeamCreate = functions.region(constants.region).firestore
-    .document('weekly-teams/{id}')
+    .document('fantasy-years/{year}/weekly-teams/{id}')
     .onCreate(snapshot => {
         const {
             week, captain, player_ids, user_id

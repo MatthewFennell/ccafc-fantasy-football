@@ -17,7 +17,8 @@ exports.submitFeature = functions
 
         return getDisplayName(context.auth.uid)
             .then(displayName => common.getCorrectYear(db).collection('feature-requests')
-                .where('userId', '==', context.auth.uid).get().then(
+                .where('userId', '==', context.auth.uid).get()
+                .then(
                     requests => {
                         if (requests.size >= 10) {
                             throw new functions.https.HttpsError('invalid-argument', 'A maximum 10 requests are allowed to be active');

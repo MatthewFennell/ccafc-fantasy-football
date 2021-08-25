@@ -174,62 +174,22 @@ exports.editDisabledPages = functions
         if (!data.page) {
             throw new functions.https.HttpsError('invalid-argument', 'Invalid page');
         }
-        return common.getCorrectYear(db).collection('application-info').doc(constants.applicationInfoId).get().then(
-            result => {
-                if (!result.exists) {
-                    throw new functions.https.HttpsError('invalid-argument', 'Server Error. Something has gone wrong');
-                }
+        return common.getCorrectYear(db).collection('application-info').doc(constants.applicationInfoId).get()
+            .then(
+                result => {
+                    if (!result.exists) {
+                        throw new functions.https.HttpsError('invalid-argument', 'Server Error. Something has gone wrong');
+                    }
 
-                const { disabledPages } = result.data();
-                if (data.isDisabled) {
+                    const { disabledPages } = result.data();
+                    if (data.isDisabled) {
+                        return result.ref.update({
+                            disabledPages: operations.arrayUnion(data.page)
+                        });
+                    }
                     return result.ref.update({
-                        disabledPages: operations.arrayUnion(data.page)
+                        disabledPages: disabledPages.filter(page => page !== data.page)
                     });
                 }
-                return result.ref.update({
-                    disabledPages: disabledPages.filter(page => page !== data.page)
-                });
-            }
-        );
+            );
     }));
-
-const doItForCollection = collection => common.getCorrectYear(db).collection(collection).get().then(activeTeams => {
-    activeTeams.docs.map(doc => {
-        console.log('done doc', doc.id);
-        common.getCorrectYear(db).collection('fantasy-years').doc('2020').collection(collection).doc(doc.id)
-            .set({
-                ...doc.data()
-            });
-    });
-});
-
-exports.myBigTest = functions
-    .region(constants.region)
-    .https.onCall(() => {
-        console.log('made it');
-        // common.getCorrectYear(db).collection('active-teams').get().then(activeTeams => {
-        //     activeTeams.docs.map(doc => {
-        //         common.getCorrectYear(db).collection('fantasy-years').doc('2020').collection('active-teams').doc(doc.id).set({
-        //             ...doc.data()
-        //         })
-        //     })
-        // })
-        // doItForCollection('active-teams');
-        // doItForCollection('application-info');
-        // doItForCollection('leagues');
-        // doItForCollection('players-blob');
-        // doItForCollection('results-history');
-        // doItForCollection('teams');
-        // doItForCollection('the-cup');
-        // doItForCollection('users-teams');
-        // doItForCollection('users-with-roles');
-
-        // doItForCollection('fixtures-blob');
-        // doItForCollection('leagues-points');
-        // doItForCollection('player-points');
-        // doItForCollection('players');
-        // doItForCollection('teams-blob');
-        // doItForCollection('users');
-        doItForCollection('weekly-players');
-        // doItForCollection('weekly-teams');
-    });

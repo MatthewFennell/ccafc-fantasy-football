@@ -46,17 +46,3 @@ exports.profile = require('./src/profile');
 exports.team = require('./src/team');
 exports.users = require('./src/users');
 exports.weeklyTeam = require('./src/weeklyTeam');
-
-
-// exports.duplicateAllYears = functions
-//     .region(constants.region)
-//     .https.onCall(() => {
-//         return db.collection('active-teams').get().then(activeTeams => {
-//             return activeTeams.docs.map(doc => {
-//                 return db.collection('fantasy-years').doc('2020').collection('active-teams').doc(doc.id).set({
-//                     ...doc.data()
-//                 })
-//             })
-//         })
-//     });
-

@@ -10,10 +10,6 @@ export function* getUserStats(api, action) {
     try {
         const fetchedStats = yield select(selectors.alreadyFetchedUserStats, action.userId);
 
-        const stat = yield call(api.testing, {
-            userId: action.userId
-        });
-
         if (!fetchedStats) {
             const stats = yield call(api.getUserStats, {
                 userId: action.userId

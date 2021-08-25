@@ -40,11 +40,12 @@ exports.rollOverToNextYear = functions
                     console.log('Commited batch at index: ', index, ' for rolling over to next year - Deleting Teams');
                 }));
             }))
-            .then(() => common.getCorrectYear(db).collection('the-cup').doc(constants.cupDatabaseId).get().then(doc => {
-                if (doc.exists) {
-                    doc.ref.delete();
-                }
-            }))
+            .then(() => common.getCorrectYear(db).collection('the-cup').doc(constants.cupDatabaseId).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        doc.ref.delete();
+                    }
+                }))
             .then(() => common.getCorrectYear(db).collection('weekly-teams').get().then(weeklyTeams => {
                 const numberOfBatches = Math.ceil(weeklyTeams.docs.length / constants.maxBatchSize);
                 const weeklyTeamBatches = [];
@@ -193,18 +194,22 @@ exports.rollOverToNextYear = functions
                     console.log('Commited batch at index: ', index, ' for rolling over to next year - Updating Active Teams');
                 }));
             }))
-            .then(() => common.getCorrectYear(db).collection('club-subs').doc(constants.clubSubsHistoryId).delete().then(() => {
-                console.log('Deleting club subs history');
-            }))
-            .then(() => common.getCorrectYear(db).collection('results-history').doc(constants.resultsHistoryId).delete().then(() => {
-                console.log('Deleting results history');
-            }))
-            .then(() => common.getCorrectYear(db).collection('players-blob').doc(constants.playersBlobId).delete().then(() => {
-                console.log('Deleting players blob');
-            }))
-            .then(() => common.getCorrectYear(db).collection('teams-blob').doc(constants.teamsBlobId).delete().then(() => {
-                console.log('Deleting teams blob');
-            }))
+            .then(() => common.getCorrectYear(db).collection('club-subs').doc(constants.clubSubsHistoryId).delete()
+                .then(() => {
+                    console.log('Deleting club subs history');
+                }))
+            .then(() => common.getCorrectYear(db).collection('results-history').doc(constants.resultsHistoryId).delete()
+                .then(() => {
+                    console.log('Deleting results history');
+                }))
+            .then(() => common.getCorrectYear(db).collection('players-blob').doc(constants.playersBlobId).delete()
+                .then(() => {
+                    console.log('Deleting players blob');
+                }))
+            .then(() => common.getCorrectYear(db).collection('teams-blob').doc(constants.teamsBlobId).delete()
+                .then(() => {
+                    console.log('Deleting teams blob');
+                }))
             .then(() => common.getCorrectYear(db).collection('users-with-roles').get().then(userRolesDocs => {
                 const numberOfBatches = Math.ceil(userRolesDocs.docs.length / constants.maxBatchSize);
                 const userRolesBatches = [];
@@ -233,7 +238,7 @@ exports.rollOverToNextYear = functions
 exports.deleteAllOldUsers = functions
     .region(constants.region)
     .https.onCall((data, context) => common.isAdmin(context.auth.uid).then(() => {
-     common.getCorrectYear(db).collection('active-teams').get().then(activeTeams => {
+        common.getCorrectYear(db).collection('active-teams').get().then(activeTeams => {
             activeTeams.docs.forEach(team => {
                 if (team.data().player_ids && team.data().player_ids.length === 0) {
                     admin.auth().deleteUser(team.data().user_id).then(

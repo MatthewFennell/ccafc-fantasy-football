@@ -44,9 +44,10 @@ exports.addComment = functions
                         }]
                     }));
             })
-            .then(() => common.getCorrectYear(db).collection(data.collection).doc(data.collectionId).get().then(item => ({
-                ...item.data(), id: item.id
-            })));
+            .then(() => common.getCorrectYear(db).collection(data.collection).doc(data.collectionId).get()
+                .then(item => ({
+                    ...item.data(), id: item.id
+                })));
     });
 
 exports.addReply = functions
@@ -86,9 +87,10 @@ exports.addReply = functions
                         } : x))
                     }));
             })
-            .then(() => common.getCorrectYear(db).collection(data.collection).doc(data.collectionId).get().then(item => ({
-                ...item.data(), id: item.id
-            })));
+            .then(() => common.getCorrectYear(db).collection(data.collection).doc(data.collectionId).get()
+                .then(item => ({
+                    ...item.data(), id: item.id
+                })));
     });
 
 exports.deleteComment = functions

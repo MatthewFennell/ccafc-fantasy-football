@@ -3,6 +3,21 @@ const admin = require('firebase-admin');
 const fp = require('lodash/fp');
 const constants = require('./constants');
 
+// MUST BE SYNCED WITH CLOUD FUNCTION
+module.exports.getCorrectYear = db => {
+    const currentDate = new Date();
+
+    const month = currentDate.getMonth();
+    const year = currentDate.getFullYear();
+    // 07 = August -> Once we reach August, start serving the next year
+    // If we are January 2022, then the season started in 2021, so we return 2021
+
+    // const yearToUse = month >= 7 ? String(year) : String(year-1);
+    const yearToUse = month >= 7 ? String(year - 1) : String(year - 2);
+    console.log('year to use', yearToUse);
+    return db.collection('fantasy-years').doc(yearToUse);
+};
+
 module.exports.isAuthenticated = context => {
     if (!context.auth) {
         throw new functions.https.HttpsError('unauthenticated', 'You must be authenticated to call this function');
@@ -239,51 +254,36 @@ module.exports.teamIsValid = players => {
     return true;
 };
 
-module.exports.blobifyPlayers = database => database
+module.exports.blobifyPlayers = database => this.getCorrectYear(database)
     .collection('players')
     .get()
     .then(querySnapshot => querySnapshot.docs
         .map(doc => ({ id: doc.id, ...doc.data() })))
-    .then(playersInfo => database.collection('players-blob').doc(constants.playersBlobId).get().then(doc => {
-        if (doc.exists) {
-            return database.collection('players-blob').doc(constants.playersBlobId).update({
+    .then(playersInfo => this.getCorrectYear(database).collection('players-blob').doc(constants.playersBlobId).get()
+        .then(doc => {
+            if (doc.exists) {
+                return this.getCorrectYear(database).collection('players-blob').doc(constants.playersBlobId).update({
+                    blob: JSON.stringify(playersInfo)
+                });
+            }
+            return this.getCorrectYear(database).collection('players-blob').doc(constants.playersBlobId).set({
                 blob: JSON.stringify(playersInfo)
             });
-        }
-        return database.collection('players-blob').doc(constants.playersBlobId).set({
-            blob: JSON.stringify(playersInfo)
-        });
-    }));
+        }));
 
-module.exports.blobifyTeams = database => database
+module.exports.blobifyTeams = database => this.getCorrectYear(database)
     .collection('teams')
     .get()
     .then(querySnapshot => querySnapshot.docs
         .map(doc => ({ id: doc.id, ...doc.data() })))
-    .then(teamsInfo => database.collection('teams-blob').doc(constants.teamsBlobId).get().then(doc => {
-        if (doc.exists) {
-            return database.collection('teams-blob').doc(constants.teamsBlobId).update({
+    .then(teamsInfo => this.getCorrectYear(database).collection('teams-blob').doc(constants.teamsBlobId).get()
+        .then(doc => {
+            if (doc.exists) {
+                return this.getCorrectYear(database).collection('teams-blob').doc(constants.teamsBlobId).update({
+                    blob: JSON.stringify(teamsInfo)
+                });
+            }
+            return this.getCorrectYear(database).collection('teams-blob').doc(constants.teamsBlobId).set({
                 blob: JSON.stringify(teamsInfo)
             });
-        }
-        return database.collection('teams-blob').doc(constants.teamsBlobId).set({
-            blob: JSON.stringify(teamsInfo)
-        });
-    }));
-
-
-
-// MUST BE SYNCED WITH CLOUD FUNCTION
-module.exports.getCorrectYear = (db) => {
-    const currentDate = new Date();
-
-    const month = currentDate.getMonth();
-    const year = currentDate.getFullYear();
-    // 07 = August -> Once we reach August, start serving the next year
-    // If we are January 2022, then the season started in 2021, so we return 2021
-
-    // const yearToUse = month >= 7 ? String(year) : String(year-1);
-    const yearToUse = month >= 7 ? String(year-1) : String(year-2);
-    console.log("year to use", yearToUse);
-    return db.collection('fantasy-years').doc(yearToUse)
-};
+        }));

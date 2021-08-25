@@ -16,11 +16,12 @@ exports.removeNotification = functions
         if (!data.notification) {
             throw new functions.https.HttpsError('invalid-argument', 'No notification provided');
         }
-        return common.getCorrectYear(db).collection('users').doc(context.auth.uid).get().then(user => {
-            user.ref.update({
-                notifications: operations.arrayRemove(data.notification)
+        return common.getCorrectYear(db).collection('users').doc(context.auth.uid).get()
+            .then(user => {
+                user.ref.update({
+                    notifications: operations.arrayRemove(data.notification)
+                });
             });
-        });
     });
 
 exports.addNotification = functions

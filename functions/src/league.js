@@ -10,13 +10,15 @@ const db = admin.firestore();
 
 const operations = admin.firestore.FieldValue;
 
-const getDisplayName = id => common.getCorrectYear(db).collection('users').doc(id).get().then(user => ({
-    displayName: user.data().displayName,
-    teamName: user.data().teamName
-}));
+const getDisplayName = id => common.getCorrectYear(db).collection('users').doc(id).get()
+    .then(user => ({
+        displayName: user.data().displayName,
+        teamName: user.data().teamName
+    }));
 
 const joinLeaguePointsWithCorrectPoints = (uid, week, leagueName, leagueId) => common.getCorrectYear(db).collection('weekly-teams')
-    .where('user_id', '==', uid).where('week', '>=', week).get()
+    .where('user_id', '==', uid).where('week', '>=', week)
+    .get()
     .then(weeklyDocs => weeklyDocs.docs
         .reduce((acc, curVal) => acc + curVal.data().points, 0))
     .then(result => common.getCorrectYear(db).collection('leagues-points').where('name', '==', leagueName).where('user_id', '==', uid)
@@ -105,50 +107,51 @@ exports.joinLeague = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return common.getCorrectYear(db).collection('leagues').where('name', '==', data.leagueName).get().then(
-            docs => {
-                if (docs.empty) {
-                    throw new functions.https.HttpsError('not-found', 'There is no league with that name');
-                }
-                if (docs.docs.length > 1) {
-                    common.log(context.auth.uid, 'Found league multiple times', { LeagueName: data.leagueName });
-                    throw new functions.https.HttpsError('invalid-argument', 'Server Error');
-                }
-                const doc = docs.docs[0];
+        return common.getCorrectYear(db).collection('leagues').where('name', '==', data.leagueName).get()
+            .then(
+                docs => {
+                    if (docs.empty) {
+                        throw new functions.https.HttpsError('not-found', 'There is no league with that name');
+                    }
+                    if (docs.docs.length > 1) {
+                        common.log(context.auth.uid, 'Found league multiple times', { LeagueName: data.leagueName });
+                        throw new functions.https.HttpsError('invalid-argument', 'Server Error');
+                    }
+                    const doc = docs.docs[0];
 
-                return joinLeaguePointsWithCorrectPoints(context.auth.uid,
-                    doc.data().start_week, data.leagueName, doc.id)
-                    .then(() => common.getCorrectYear(db).collection('leagues-points').where('league_id', '==', doc.id).get()
-                        .then(query => query.docs
-                            .map(leagueDoc => ({ data: leagueDoc.data(), id: leagueDoc.id })))
-                        .then(result => {
-                            const positions = [];
-                            const sortedResult = fp.sortBy('data.user_points')(result).reverse();
-                            sortedResult.forEach((pos, index) => {
-                                positions.push({ id: pos.id, position: index + 1 });
-                            });
-
-                            const numberOfBatches = Math.ceil(positions.length / constants.maxBatchSize);
-
-                            const batches = [];
-                            for (let x = 0; x < numberOfBatches; x += 1) {
-                                batches.push(common.getCorrectYear(db).batch());
-                            }
-
-                            positions.forEach((pos, index) => {
-                                const batchToTarget = Math.floor(index / constants.maxBatchSize);
-                                const docRef = common.getCorrectYear(db).collection('leagues-points').doc(pos.id);
-                                batches[batchToTarget].update(docRef, {
-                                    position: pos.position
+                    return joinLeaguePointsWithCorrectPoints(context.auth.uid,
+                        doc.data().start_week, data.leagueName, doc.id)
+                        .then(() => common.getCorrectYear(db).collection('leagues-points').where('league_id', '==', doc.id).get()
+                            .then(query => query.docs
+                                .map(leagueDoc => ({ data: leagueDoc.data(), id: leagueDoc.id })))
+                            .then(result => {
+                                const positions = [];
+                                const sortedResult = fp.sortBy('data.user_points')(result).reverse();
+                                sortedResult.forEach((pos, index) => {
+                                    positions.push({ id: pos.id, position: index + 1 });
                                 });
-                            });
 
-                            batches.forEach((batch, index) => batch.commit().then(() => {
-                                console.log('Commited batch at index: ', index, ' for creating updating leagues positions when joining league');
+                                const numberOfBatches = Math.ceil(positions.length / constants.maxBatchSize);
+
+                                const batches = [];
+                                for (let x = 0; x < numberOfBatches; x += 1) {
+                                    batches.push(db.batch());
+                                }
+
+                                positions.forEach((pos, index) => {
+                                    const batchToTarget = Math.floor(index / constants.maxBatchSize);
+                                    const docRef = common.getCorrectYear(db).collection('leagues-points').doc(pos.id);
+                                    batches[batchToTarget].update(docRef, {
+                                        position: pos.position
+                                    });
+                                });
+
+                                batches.forEach((batch, index) => batch.commit().then(() => {
+                                    console.log('Commited batch at index: ', index, ' for creating updating leagues positions when joining league');
+                                }));
                             }));
-                        }));
-            }
-        );
+                }
+            );
     });
 
 const maximumRequestSize = 100;
@@ -185,26 +188,28 @@ exports.orderedUsers = functions
                 .collection('leagues-points')
                 .where('league_id', '==', data.leagueId)
                 .orderBy('position', 'asc')
-                .limit(Math.min(maximumRequestSize, data.requestedSize))).then(result => common.getCorrectYear(db).collection('leagues').doc(data.leagueId).get().then(
-                league => ({
-                    users: result,
-                    numberOfUsers: league.data().number_of_users,
-                    leagueName: league.data().name
-                })
-            ));
+                .limit(Math.min(maximumRequestSize, data.requestedSize))).then(result => common.getCorrectYear(db).collection('leagues').doc(data.leagueId).get()
+                .then(
+                    league => ({
+                        users: result,
+                        numberOfUsers: league.data().number_of_users,
+                        leagueName: league.data().name
+                    })
+                ));
         }
-        return common.getCorrectYear(db).collection('leagues-points').doc(data.previousId).get().then(
-            query => adaptData(db
-                .collection('leagues-points')
-                .where('league_id', '==', data.leagueId)
-                .orderBy('position', 'asc')
-                .startAfter(query)
-                .limit(Math.min(20, data.requestedSize)))
-                .then(result => ({
-                    users: result,
-                    numberOfUsers: null
-                }))
-        );
+        return common.getCorrectYear(db).collection('leagues-points').doc(data.previousId).get()
+            .then(
+                query => adaptData(db
+                    .collection('leagues-points')
+                    .where('league_id', '==', data.leagueId)
+                    .orderBy('position', 'asc')
+                    .startAfter(query)
+                    .limit(Math.min(20, data.requestedSize)))
+                    .then(result => ({
+                        users: result,
+                        numberOfUsers: null
+                    }))
+            );
     });
 
 // Adds a position tag to each league to order them correctly
@@ -244,7 +249,7 @@ exports.calculatePositions = functions
 
                 const batches = [];
                 for (let x = 0; x < numberOfBatches; x += 1) {
-                    batches.push(common.getCorrectYear(db).batch());
+                    batches.push(db.batch());
                 }
 
                 positions.forEach((pos, index) => {
@@ -262,13 +267,13 @@ exports.calculatePositions = functions
 
 // Increase number of users in league
 exports.onUserJoinLeague = functions.region(constants.region).firestore
-    .document('leagues-points/{id}')
+    .document('fantasy-years/{year}/leagues-points/{id}')
     .onCreate(snapshot => common.getCorrectYear(db).collection('leagues').doc(snapshot.data().league_id).update({
         number_of_users: operations.increment(1)
     }));
 
 exports.onUserLeaveLeague = functions.region(constants.region).firestore
-    .document('leagues-points/{id}')
+    .document('fantasy-years/{year}/leagues-points/{id}')
     .onDelete(snapshot => common.getCorrectYear(db).collection('leagues').doc(snapshot.data().league_id).update({
         number_of_users: operations.increment(-1)
     }));
