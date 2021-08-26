@@ -55,3 +55,13 @@ exports.scheduledFirestoreExport = functions.region(constants.region).pubsub
 // So will have 30 backups alive at once max
 
 // fantasypassword for all dummy accounts
+
+exports.rollOverToNextYear = functions.region(constants.region).pubsub
+    .schedule('59 23 31 7 *').timeZone('Europe/London')
+    .onRun(() => {
+        console.log("SCHEDULED RUN")
+    });
+
+    // cron timetable
+    // *               *               *                        *               *
+    // min (0-59)      hour (0-23)     day of month (1-31)      month (1-12)    day of week (0-6) (Sun - Sat??)

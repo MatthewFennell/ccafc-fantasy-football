@@ -47,7 +47,8 @@ const generatePairingsAndByes = playerIds => {
 
 exports.manageCup = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/application-info/{id}')
-    .onWrite(change => {
+    .onWrite((change, context) => {
+        const { year } = context.params
         if (!change.after.exists) {
             return Promise.resolve();
         }
@@ -64,12 +65,12 @@ exports.manageCup = functions.region(constants.region).firestore
 
         if (newWeek === constants.cupStartingWeek) {
             // Change >= 0
-            return common.getCorrectYear(db).collection('weekly-teams').where('week', '==', previousWeek).where('points', '>', 0)
+            return common.getCorrectYear(db, year).collection('weekly-teams').where('week', '==', previousWeek).where('points', '>', 0)
                 .get()
                 .then(weeklyDocs => {
                     const userIds = fp.shuffle(weeklyDocs.docs.map(doc => doc.data().user_id));
 
-                    const promises = userIds.map(id => common.getCorrectYear(db).collection('users').doc(id).get()
+                    const promises = userIds.map(id => common.getCorrectYear(db, year).collection('users').doc(id).get()
                         .then(user => ({
                             userId: id,
                             displayName: user.data().displayName
@@ -83,7 +84,7 @@ exports.manageCup = functions.region(constants.region).firestore
 
                         const { byes, pairings } = generatePairingsAndByes(userIds);
 
-                        return common.getCorrectYear(db).collection('the-cup').doc(constants.cupDatabaseId).set({
+                        return common.getCorrectYear(db, year).collection('the-cup').doc(constants.cupDatabaseId).set({
                             [constants.cupStartingWeek]: {
                                 pairings,
                                 byes
@@ -95,7 +96,7 @@ exports.manageCup = functions.region(constants.region).firestore
                     });
                 });
         }
-        return common.getCorrectYear(db).collection('the-cup').doc(constants.cupDatabaseId).get()
+        return common.getCorrectYear(db, year).collection('the-cup').doc(constants.cupDatabaseId).get()
             .then(
                 doc => {
                     if (!doc.exists) {
@@ -107,7 +108,7 @@ exports.manageCup = functions.region(constants.region).firestore
                         return Promise.resolve();
                     }
 
-                    return common.getCorrectYear(db).collection('weekly-teams').where('week', '==', previousWeek).get()
+                    return common.getCorrectYear(db, year).collection('weekly-teams').where('week', '==', previousWeek).get()
                         .then(
                             weeklyDocs => {
                                 const docsWithScore = fp.shuffle(weeklyDocs.docs.map(x => ({
@@ -144,7 +145,7 @@ exports.manageCup = functions.region(constants.region).firestore
                                 }, []).concat(byes);
 
                                 if (remainingPlayers.length === 1) {
-                                    return common.getCorrectYear(db).collection('the-cup').doc(constants.cupDatabaseId).update({
+                                    return common.getCorrectYear(db, year).collection('the-cup').doc(constants.cupDatabaseId).update({
                                         [previousWeek]: {
                                             ...doc.data()[previousWeek],
                                             pairings: updatedPairings
@@ -156,7 +157,7 @@ exports.manageCup = functions.region(constants.region).firestore
 
                                 const newResult = generatePairingsAndByes(remainingPlayers);
 
-                                return common.getCorrectYear(db).collection('the-cup').doc(constants.cupDatabaseId).update({
+                                return common.getCorrectYear(db, year).collection('the-cup').doc(constants.cupDatabaseId).update({
                                     [previousWeek]: {
                                         ...doc.data()[previousWeek],
                                         pairings: updatedPairings

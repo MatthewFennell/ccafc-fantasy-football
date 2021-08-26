@@ -38,9 +38,9 @@ const getCorrectYear = () => {
     // If we are January 2022, then the season started in 2021, so we return 2021
 
     if (month >= 7) {
-        return String(year);
+        return String(year - 1);
     }
-    return String(year - 1);
+    return String(year - 2);
 };
 
 // react-redux-firebase config

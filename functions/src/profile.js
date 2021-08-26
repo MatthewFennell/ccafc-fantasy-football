@@ -106,7 +106,7 @@ exports.updateDisplayName = functions
             );
     });
 
-const updateHistoryNames = (collection, documentId, change) => {
+const updateHistoryNames = (collection, documentId, change, year) => {
     if (!change.after.exists || !change.before.exists) {
         return Promise.resolve();
     }
@@ -119,12 +119,12 @@ const updateHistoryNames = (collection, documentId, change) => {
         return Promise.resolve();
     }
 
-    return common.getCorrectYear(db).collection(collection).doc(documentId).get()
+    return common.getCorrectYear(db, year).collection(collection).doc(documentId).get()
         .then(history => {
             if (!history.exists) {
                 return Promise.resolve();
             }
-            return common.getCorrectYear(db).collection(collection).doc(documentId).update({
+            return common.getCorrectYear(db, year).collection(collection).doc(documentId).update({
                 history: history.data().history.map(entry => {
                     if (_.get(entry, ['author', 'uid']) === userId) {
                         return {
@@ -144,14 +144,16 @@ const updateHistoryNames = (collection, documentId, change) => {
 // Update club subs history display names
 exports.updateClubSubsDisplayNames = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/users/{id}')
-    .onWrite(change => {
-        updateHistoryNames('club-subs', constants.clubSubsHistoryId, change);
+    .onWrite((change, context) => {
+        const { year } = context.params;
+        updateHistoryNames('club-subs', constants.clubSubsHistoryId, change, year);
     });
 
 // Update club subs history display names
 exports.updateUserWithRolesDisplayNames = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/users/{id}')
-    .onWrite(change => {
+    .onWrite((change, context) => {
+        const { year } = context.params;
         if (!change.after.exists || !change.before.exists) {
             return Promise.resolve();
         }
@@ -163,12 +165,12 @@ exports.updateUserWithRolesDisplayNames = functions.region(constants.region).fir
         if (displayNameBefore === displayNameAfter) {
             return Promise.resolve();
         }
-        return common.getCorrectYear(db).collection('users-with-roles').doc(userId).get()
+        return common.getCorrectYear(db, year).collection('users-with-roles').doc(userId).get()
             .then(userWithRole => {
                 if (!userWithRole.exists) {
                     return Promise.resolve();
                 }
-                return common.getCorrectYear(db).collection('users-with-roles').doc(userId).update({
+                return common.getCorrectYear(db, year).collection('users-with-roles').doc(userId).update({
                     displayName: displayNameAfter
                 });
             });
@@ -177,8 +179,9 @@ exports.updateUserWithRolesDisplayNames = functions.region(constants.region).fir
 // Update results history display names
 exports.updateResultsDisplayNames = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/users/{id}')
-    .onWrite(change => {
-        updateHistoryNames('results-history', constants.resultsHistoryId, change);
+    .onWrite((change, context) => {
+        const { year } = context.params;
+        updateHistoryNames('results-history', constants.resultsHistoryId, change, year);
     });
 
 const updateFeaturesAndHighlightsDisplayNames = (collection, change) => {
@@ -193,7 +196,7 @@ const updateFeaturesAndHighlightsDisplayNames = (collection, change) => {
         return Promise.resolve();
     }
 
-    return common.getCorrectYear(db).collection(collection).where('userId', '==', userId).get()
+    return common.getCorrectYear(db, year).collection(collection).where('userId', '==', userId).get()
         .then(
             result => result.docs.forEach(doc => doc.ref.update({
                 displayName: displayNameAfter
@@ -204,20 +207,23 @@ const updateFeaturesAndHighlightsDisplayNames = (collection, change) => {
 // Update features display names
 exports.updateFeatures = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/users/{id}')
-    .onWrite(change => {
-        updateFeaturesAndHighlightsDisplayNames('feature-requests', change);
+    .onWrite((change, context) => {
+        const { year } = context.params
+        updateFeaturesAndHighlightsDisplayNames('feature-requests', change, year);
     });
 
 exports.updateHighlightsDisplayNames = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/users/{id}')
-    .onWrite(change => {
-        updateFeaturesAndHighlightsDisplayNames('highlights', change);
+    .onWrite((change, context) => {
+        const { year } = context.params
+        updateFeaturesAndHighlightsDisplayNames('highlights', change, year);
     });
 
 // Update cup display name mapping
 exports.updateCupDisplayNameMapping = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/users/{id}')
-    .onWrite(change => {
+    .onWrite((change, context) => {
+        const { year } = context.params
         if (!change.after.exists || !change.before.exists) {
             return Promise.resolve();
         }
@@ -228,7 +234,7 @@ exports.updateCupDisplayNameMapping = functions.region(constants.region).firesto
             return Promise.resolve();
         }
 
-        return common.getCorrectYear(db).collection('the-cup').doc(constants.cupDatabaseId).get()
+        return common.getCorrectYear(db, year).collection('the-cup').doc(constants.cupDatabaseId).get()
             .then(cup => {
                 if (!cup.exists) {
                     return Promise.resolve();

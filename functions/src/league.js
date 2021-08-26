@@ -73,7 +73,7 @@ exports.getLeaguesIAmIn = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db
+        return common.getCorrectYear(db)
             .collection('leagues-points')
             .where('user_id', '==', context.auth.uid)
             .get()
@@ -85,7 +85,7 @@ exports.leaveLeague = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db
+        return common.getCorrectYear(db)
             .collection('leagues-points').where('user_id', '==', context.auth.uid).where('league_id', '==', data.leagueId).get()
             .then(docs => {
                 if (docs.empty) {
@@ -184,7 +184,7 @@ exports.orderedUsers = functions
             });
 
         if (data.previousId === null) {
-            return adaptData(db
+            return adaptData(common.getCorrectYear(db)
                 .collection('leagues-points')
                 .where('league_id', '==', data.leagueId)
                 .orderBy('position', 'asc')
@@ -199,7 +199,7 @@ exports.orderedUsers = functions
         }
         return common.getCorrectYear(db).collection('leagues-points').doc(data.previousId).get()
             .then(
-                query => adaptData(db
+                query => adaptData(common.getCorrectYear(db)
                     .collection('leagues-points')
                     .where('league_id', '==', data.leagueId)
                     .orderBy('position', 'asc')
@@ -216,7 +216,7 @@ exports.orderedUsers = functions
 exports.calculatePositions = functions
     .region(constants.region)
     .https.onCall((data, context) => common.hasPermission(context.auth.uid, constants.PERMISSIONS.SORT_LEAGUES)
-        .then(() => db
+        .then(() => common.getCorrectYear(db)
             .collection('leagues-points')
             .get()
             .then(querySnapshot => querySnapshot.docs
@@ -268,12 +268,12 @@ exports.calculatePositions = functions
 // Increase number of users in league
 exports.onUserJoinLeague = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/leagues-points/{id}')
-    .onCreate(snapshot => common.getCorrectYear(db).collection('leagues').doc(snapshot.data().league_id).update({
+    .onCreate((snapshot, context) => common.getCorrectYear(db, context.params.year).collection('leagues').doc(snapshot.data().league_id).update({
         number_of_users: operations.increment(1)
     }));
 
 exports.onUserLeaveLeague = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/leagues-points/{id}')
-    .onDelete(snapshot => common.getCorrectYear(db).collection('leagues').doc(snapshot.data().league_id).update({
+    .onDelete((snapshot, context) => common.getCorrectYear(db, context.params.year).collection('leagues').doc(snapshot.data().league_id).update({
         number_of_users: operations.increment(-1)
     }));

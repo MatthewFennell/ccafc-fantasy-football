@@ -136,11 +136,12 @@ exports.makeCaptain = functions
 
 exports.removeCaptainWhenTeamUpdated = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/active-teams/{id}')
-    .onWrite(change => {
+    .onWrite((change, context) => {
+        const { year } = context.params
         if (change.after.exists) {
             const { player_ids, captain } = change.after.data();
             if (!player_ids.includes(captain)) {
-                return common.getCorrectYear(db).collection('active-teams').doc(change.after.id).update({
+                return common.getCorrectYear(db, year).collection('active-teams').doc(change.after.id).update({
                     captain: null
                 })
                     .then(() => Promise.resolve('Captain set to null'));
@@ -152,9 +153,10 @@ exports.removeCaptainWhenTeamUpdated = functions.region(constants.region).firest
 exports.createActiveTeam = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/users/{id}')
     .onWrite((change, context) => {
+        const { year, id} = context.params
         if (!change.before.exists) {
-            common.getCorrectYear(db).collection('active-teams').add({
-                user_id: context.params.id,
+            common.getCorrectYear(db, year).collection('active-teams').add({
+                user_id: id,
                 player_ids: [],
                 captain: ''
             });

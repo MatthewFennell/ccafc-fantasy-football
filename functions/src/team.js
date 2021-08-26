@@ -50,7 +50,7 @@ exports.getPlayersInTeam = functions
             throw new functions.https.HttpsError('invalid-argument', 'You must enter a team name');
         }
         common.isAuthenticated(context);
-        return db
+        return common.getCorrectYear(db)
             .collection('players').where('team', '==', data.teamName).get()
             .then(docs => docs.docs.map(doc => ({
                 name: doc.data().name,

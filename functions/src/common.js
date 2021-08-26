@@ -4,7 +4,12 @@ const fp = require('lodash/fp');
 const constants = require('./constants');
 
 // MUST BE SYNCED WITH CLOUD FUNCTION
-module.exports.getCorrectYear = db => {
+module.exports.getCorrectYear = (db, forceSpecificYear) => {
+
+    if (forceSpecificYear) {
+        return db.collection('fantasy-years').doc(forceSpecificYear);
+    }
+
     const currentDate = new Date();
 
     const month = currentDate.getMonth();
@@ -14,7 +19,6 @@ module.exports.getCorrectYear = db => {
 
     // const yearToUse = month >= 7 ? String(year) : String(year-1);
     const yearToUse = month >= 7 ? String(year - 1) : String(year - 2);
-    console.log('year to use', yearToUse);
     return db.collection('fantasy-years').doc(yearToUse);
 };
 
