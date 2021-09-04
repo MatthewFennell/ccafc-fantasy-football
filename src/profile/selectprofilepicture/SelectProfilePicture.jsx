@@ -1,16 +1,16 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
-import { noop } from 'lodash';
-import classNames from 'classnames';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import defaultStyles from './SelectProfilePicture.module.scss';
-import StyledButton from '../../common/StyledButton/StyledButton';
-import TextInput from '../../common/TextInput/TextInput';
-import * as textInputConstants from '../../common/TextInput/constants';
+import classNames from 'classnames';
+import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React, { useCallback, useState } from 'react';
 import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
+import StyledButton from '../../common/StyledButton/StyledButton';
+import * as textInputConstants from '../../common/TextInput/constants';
+import TextInput from '../../common/TextInput/TextInput';
 import materialStyles from '../../materialStyles';
+import defaultStyles from './SelectProfilePicture.module.scss';
 
 const SelectProfilePicture = props => {
     const classes = makeStyles(materialStyles)();

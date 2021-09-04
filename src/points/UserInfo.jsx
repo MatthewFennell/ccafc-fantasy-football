@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import fp from 'lodash/fp';
 import EditIcon from '@material-ui/icons/Edit';
-import defaultStyles from './UserInfo.module.scss';
-import StyledButton from '../common/StyledButton/StyledButton';
+import fp from 'lodash/fp';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import LoadingDiv from '../common/loadingDiv/LoadingDiv';
-import TextInput from '../common/TextInput/TextInput';
 import SuccessModal from '../common/modal/SuccessModal';
 import Spinner from '../common/spinner/Spinner';
+import StyledButton from '../common/StyledButton/StyledButton';
+import TextInput from '../common/TextInput/TextInput';
+import defaultStyles from './UserInfo.module.scss';
 
 const getTotalOfStat = (team, stat) => team.reduce((prev, cur) => prev + cur[stat], 0);
 

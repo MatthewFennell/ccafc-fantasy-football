@@ -1,16 +1,16 @@
-import React, { useState, useCallback } from 'react';
+import PropTypes from 'prop-types';
+import React, { useCallback, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import TopNavbar from './TopNavbar';
-import SideNavbar from './SideNavbar';
 import { signOut } from '../auth/actions';
-import { teamsAreDifferent } from '../transfers/helpers';
-import * as constants from '../constants';
-import StyledButton from '../common/StyledButton/StyledButton';
 import SuccessModal from '../common/modal/SuccessModal';
-import defaultStyles from './SideList.module.scss';
+import StyledButton from '../common/StyledButton/StyledButton';
+import * as constants from '../constants';
 import { MyContext } from '../Context';
+import { teamsAreDifferent } from '../transfers/helpers';
+import defaultStyles from './SideList.module.scss';
+import SideNavbar from './SideNavbar';
+import TopNavbar from './TopNavbar';
 
 const NewNavbar = props => {
     const [sidebarOpen, setSidebarOpen] = useState(false);

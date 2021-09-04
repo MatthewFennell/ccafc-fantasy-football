@@ -1,10 +1,10 @@
-import React from 'react';
 import { noop } from 'lodash';
+import React from 'react';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import { shallow, mount } from '../../enzyme';
-import EditPlayerPrice, { EditPlayerPriceUnconnected } from './EditPlayerPrice';
+import { mount, shallow } from '../../enzyme';
 import { initialState } from '../reducer';
+import EditPlayerPrice, { EditPlayerPriceUnconnected } from './EditPlayerPrice';
 
 describe('Edit Player Price', () => {
     it('The Edit Player Price component renders without crashing', () => {

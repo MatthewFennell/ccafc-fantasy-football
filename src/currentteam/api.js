@@ -4,3 +4,5 @@ export const fetchActiveTeam = request => functionToCall('activeTeam-getActiveTe
     .then(data => data.data);
 
 export const makeCaptain = request => functionToCall('activeTeam-makeCaptain')(request);
+
+export const attemptToFixAccount = request => functionToCall('activeTeam-fixAccount')(request);

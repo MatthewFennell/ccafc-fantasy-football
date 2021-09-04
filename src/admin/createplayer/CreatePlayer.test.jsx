@@ -1,12 +1,12 @@
-import React from 'react';
 import { noop } from 'lodash';
+import React from 'react';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import { shallow, mount } from '../../enzyme';
-import CreatePlayer, { CreatePlayerUnconnected } from './CreatePlayer';
 import StyledButton from '../../common/StyledButton/StyledButton';
-import styles from './CreatePlayer.module.scss';
+import { mount, shallow } from '../../enzyme';
 import { initialState } from '../reducer';
+import CreatePlayer, { CreatePlayerUnconnected } from './CreatePlayer';
+import styles from './CreatePlayer.module.scss';
 
 describe('Create Player', () => {
     it('The Create Player component renders without crashing', () => {

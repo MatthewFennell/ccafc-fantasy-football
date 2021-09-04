@@ -1,10 +1,10 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { noop } from 'lodash';
-import defaultStyles from './AddReply.module.scss';
-import TextInput from '../TextInput/TextInput';
-import * as textInputConstants from '../TextInput/constants';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState } from 'react';
 import LoadingDiv from '../loadingDiv/LoadingDiv';
+import * as textInputConstants from '../TextInput/constants';
+import TextInput from '../TextInput/TextInput';
+import defaultStyles from './AddReply.module.scss';
 
 const AddReply = props => {
     const { submitReply, isAddingCommentToItem } = props;

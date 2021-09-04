@@ -1,19 +1,19 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { noop } from 'lodash';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import defaultStyles from './SubmitVideo.module.scss';
-import StyledButton from '../common/StyledButton/StyledButton';
-import CustomYouTube from '../common/youtube/YouTube';
+import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState } from 'react';
 import WithCollapsable from '../common/collapsableHOC/WithCollapsable';
 import Grid from '../common/grid/Grid';
-import { generateTimeSinceNow, generateYouTubeLinkFromId } from '../helperFunctions';
+import StyledButton from '../common/StyledButton/StyledButton';
 import TextInput from '../common/TextInput/TextInput';
-import mobileCollapsableStyles from './MobileCollapsableStyles.module.scss';
+import CustomYouTube from '../common/youtube/YouTube';
+import { generateTimeSinceNow, generateYouTubeLinkFromId } from '../helperFunctions';
 import materialStyles from '../materialStyles';
+import mobileCollapsableStyles from './MobileCollapsableStyles.module.scss';
+import defaultStyles from './SubmitVideo.module.scss';
 
 const widthForSmallColumns = 600;
 

@@ -1,13 +1,13 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import React, { useState, useCallback, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { Chart } from 'react-google-charts';
 import _, { noop } from 'lodash';
-import defaultStyles from './Graph.module.scss';
-import Spinner from '../../common/spinner/Spinner';
-import * as helpers from '../helpers';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Chart } from 'react-google-charts';
 import Autocompletecheckbox from '../../common/Autocomplete/AutocompleteCheckbox';
 import RadioButton from '../../common/radio/RadioButton';
+import Spinner from '../../common/spinner/Spinner';
+import * as helpers from '../helpers';
+import defaultStyles from './Graph.module.scss';
 
 const graphTitle = {
     goalsFor: 'Goals Scored Per Week',

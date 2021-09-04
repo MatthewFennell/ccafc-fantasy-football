@@ -1,15 +1,15 @@
-import React from 'react';
-import { noop } from 'lodash';
-import { Provider } from 'react-redux';
 import TableRow from '@material-ui/core/TableRow';
+import { noop } from 'lodash';
+import React from 'react';
+import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import { shallow, mount } from '../enzyme';
-import Charts, { ChartsUnconnected } from './Charts';
-import { initialState } from './reducer';
-import Graph from './graph/Graph';
-import { initialState as overviewinitialState } from '../overview/reducer';
+import { mount, shallow } from '../enzyme';
 import { initialState as fixturesInitialState } from '../fixtures/reducer';
+import { initialState as overviewinitialState } from '../overview/reducer';
 import { fixtures } from '../test/fixtures';
+import Charts, { ChartsUnconnected } from './Charts';
+import Graph from './graph/Graph';
+import { initialState } from './reducer';
 
 describe('Charts', () => {
     beforeEach(() => {

@@ -1,13 +1,13 @@
 /* eslint-disable func-names */
-import React from 'react';
 import { noop } from 'lodash';
+import React from 'react';
 import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { shallow, mount } from '../enzyme';
+import configureMockStore from 'redux-mock-store';
+import { mount, shallow } from '../enzyme';
+import { initialState as overviewinitialState } from '../overview/reducer';
 import Points, { PointsUnconnected } from './Points';
 import { initialState } from './reducer';
-import { initialState as overviewinitialState } from '../overview/reducer';
 
 const mockHistory = {
     location: {

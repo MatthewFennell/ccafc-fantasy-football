@@ -1,21 +1,21 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import fp from 'lodash/fp';
-import { withRouter } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import defaultStyles from './EditPlayer.module.scss';
-import {
-    fetchTeamsRequest, fetchPlayersForTeamRequest, fetchPlayerStatsRequest, editPlayerStatsRequest
-} from '../actions';
+import fp from 'lodash/fp';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import Dropdown from '../../common/dropdown/Dropdown';
 import Grid from '../../common/grid/Grid';
-import StyledButton from '../../common/StyledButton/StyledButton';
-import Spinner from '../../common/spinner/Spinner';
-import TextInput from '../../common/TextInput/TextInput';
 import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
+import Spinner from '../../common/spinner/Spinner';
+import StyledButton from '../../common/StyledButton/StyledButton';
+import TextInput from '../../common/TextInput/TextInput';
 import materialStyles from '../../materialStyles';
+import {
+    editPlayerStatsRequest, fetchPlayersForTeamRequest, fetchPlayerStatsRequest, fetchTeamsRequest
+} from '../actions';
+import defaultStyles from './EditPlayer.module.scss';
 
 const generateWeekOptions = maxGameWeek => {
     const options = [];

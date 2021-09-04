@@ -1,11 +1,11 @@
-import React, { useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
 import { noop } from 'lodash';
-import defaultStyles from './EditFilter.module.scss';
+import PropTypes from 'prop-types';
+import React, { useCallback, useState } from 'react';
 import Slider from '../../common/slider/Slider';
 import StyledButton from '../../common/StyledButton/StyledButton';
-import { marks } from '../helpers';
 import Switch from '../../common/Switch/Switch';
+import { marks } from '../helpers';
+import defaultStyles from './EditFilter.module.scss';
 
 const EditFilter = props => {
     const [minWeek, setMinWeek] = useState(props.minWeek);

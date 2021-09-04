@@ -1,8 +1,8 @@
 import fp from 'lodash/fp';
-import * as overviewActions from '../overview/actions';
-import * as currentTeamActions from '../currentteam/actions';
-import * as actions from './actions';
 import * as adminActions from '../admin/actions';
+import * as currentTeamActions from '../currentteam/actions';
+import * as overviewActions from '../overview/actions';
+import * as actions from './actions';
 
 export const initialState = {
     remainingTransfers: 0,

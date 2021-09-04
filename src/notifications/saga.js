@@ -1,11 +1,11 @@
-import {
-    all, takeEvery, call, put
-} from 'redux-saga/effects';
 import { store } from 'react-notifications-component';
+import {
+    all, call, put, takeEvery
+} from 'redux-saga/effects';
+import { setErrorMessage } from '../modalHandling/actions';
 import * as actions from './actions';
 import * as notificationsApi from './api';
 import * as constants from './constants';
-import { setErrorMessage } from '../modalHandling/actions';
 
 let notificationId = 0;
 

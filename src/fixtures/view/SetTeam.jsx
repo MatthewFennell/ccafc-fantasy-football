@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { noop } from 'lodash';
-import defaultStyles from './SetTeam.module.scss';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Dropdown from '../../common/dropdown/Dropdown';
-import StyledButton from '../../common/StyledButton/StyledButton';
-import Spinner from '../../common/spinner/Spinner';
 import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
+import Spinner from '../../common/spinner/Spinner';
+import StyledButton from '../../common/StyledButton/StyledButton';
+import defaultStyles from './SetTeam.module.scss';
 
 const Button = props => (
     <div className={props.styles.selectTeamWrapper}>

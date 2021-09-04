@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import PropTypes from 'prop-types';
 import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React, { useCallback } from 'react';
 import defaultStyles from './Menu.module.scss';
 
 const ITEM_HEIGHT = 48;

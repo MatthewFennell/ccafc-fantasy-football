@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _, { noop } from 'lodash';
-import defaultStyles from './WeekInfo.module.scss';
+import PropTypes from 'prop-types';
+import React from 'react';
 import FadingCollapsable from '../common/fadingCollapsable/FadingCollapsable';
+import defaultStyles from './WeekInfo.module.scss';
 
 export const getName = (displayNameMappings, name) => displayNameMappings[name];
 

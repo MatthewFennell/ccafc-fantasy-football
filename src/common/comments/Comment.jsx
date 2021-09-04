@@ -1,10 +1,10 @@
-import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
-import { noop } from 'lodash';
 import FaceIcon from '@material-ui/icons/Face';
 import classNames from 'classnames';
-import defaultStyles from './Comment.module.scss';
+import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React, { useCallback, useState } from 'react';
 import AddReply from './AddReply';
+import defaultStyles from './Comment.module.scss';
 import CommentInfo from './CommentInfo';
 
 const Comment = props => {

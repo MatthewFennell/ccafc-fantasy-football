@@ -1,30 +1,30 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import DeleteIcon from '@material-ui/icons/Delete';
-import classNames from 'classnames';
-import AddIcon from '@material-ui/icons/Add';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import defaultStyles from './ApproveHighlights.module.scss';
-import {
-    fetchHighlightsForApprovalRequest, approveHighlightRequest, rejectHighlightRequest,
-    deleteHighlightRequest, fetchAllRejectedHighlightsRequest, reapproveRejectedHighlightRequest
-} from '../actions';
-import YouTubeList from '../../common/youtubelist/YouTubeList';
-import StyledButton from '../../common/StyledButton/StyledButton';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import Dropdown from '../../common/dropdown/Dropdown';
+import Grid from '../../common/grid/Grid';
 import SuccessModal from '../../common/modal/SuccessModal';
 import Spinner from '../../common/spinner/Spinner';
-import { fetchHighlightsRequest } from '../../highlights/actions';
-import Grid from '../../common/grid/Grid';
-import { generateTimeSinceNow, generateYouTubeLinkFromId } from '../../helperFunctions';
-import * as helpers from './helpers';
-import TextInput from '../../common/TextInput/TextInput';
+import StyledButton from '../../common/StyledButton/StyledButton';
 import * as textInputConstants from '../../common/TextInput/constants';
-import Dropdown from '../../common/dropdown/Dropdown';
-import materialStyles from '../../materialStyles';
+import TextInput from '../../common/TextInput/TextInput';
+import YouTubeList from '../../common/youtubelist/YouTubeList';
 import * as appConstants from '../../constants';
+import { generateTimeSinceNow, generateYouTubeLinkFromId } from '../../helperFunctions';
+import { fetchHighlightsRequest } from '../../highlights/actions';
+import materialStyles from '../../materialStyles';
+import {
+    approveHighlightRequest, deleteHighlightRequest, fetchAllRejectedHighlightsRequest,
+    fetchHighlightsForApprovalRequest, reapproveRejectedHighlightRequest, rejectHighlightRequest
+} from '../actions';
+import defaultStyles from './ApproveHighlights.module.scss';
+import * as helpers from './helpers';
 
 const columns = [
     {

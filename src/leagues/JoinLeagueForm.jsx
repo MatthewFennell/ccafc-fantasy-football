@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { noop } from 'lodash';
-import inputOverrideStyles from './styles/InputOverride.module.scss';
+import PropTypes from 'prop-types';
+import React from 'react';
 import StyledButton from '../common/StyledButton/StyledButton';
-import defaultStyles from './styles/LeagueForm.module.scss';
 import TextInput from '../common/TextInput/TextInput';
+import inputOverrideStyles from './styles/InputOverride.module.scss';
+import defaultStyles from './styles/LeagueForm.module.scss';
 
 const JoinLeague = props => (
     <div className={props.styles.joinLeagueWrapper}>

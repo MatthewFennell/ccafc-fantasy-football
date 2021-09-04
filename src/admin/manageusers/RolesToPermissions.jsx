@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
-import * as constants from '../../constants';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Grid from '../../common/grid/Grid';
+import * as constants from '../../constants';
 
 const columns = allRoles => [{
     id: 'permission',

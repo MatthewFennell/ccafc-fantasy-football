@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
 import defaultStyles from './ErrorBoundary.module.scss';
 import * as selectors from './selectors';
 

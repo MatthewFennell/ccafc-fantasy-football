@@ -1,21 +1,21 @@
-import React, { useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { noop } from 'lodash';
-import classNames from 'classnames';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import defaultStyles from './AllFeatureRequests.module.scss';
-import FeatureRequest from '../common/featurerequest/FeatureRequest';
-import * as helpers from './helpers';
-import StyledButton from '../common/StyledButton/StyledButton';
-import TextInput from '../common/TextInput/TextInput';
-import * as textInputConstants from '../common/TextInput/constants';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import classNames from 'classnames';
+import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React, { useCallback, useState } from 'react';
 import Dropdown from '../common/dropdown/Dropdown';
 import FadingCollapsable from '../common/fadingCollapsable/FadingCollapsable';
+import FeatureRequest from '../common/featurerequest/FeatureRequest';
 import LoadingDiv from '../common/loadingDiv/LoadingDiv';
-import materialStyles from '../materialStyles';
+import StyledButton from '../common/StyledButton/StyledButton';
+import * as textInputConstants from '../common/TextInput/constants';
+import TextInput from '../common/TextInput/TextInput';
 import * as appConstants from '../constants';
+import materialStyles from '../materialStyles';
+import defaultStyles from './AllFeatureRequests.module.scss';
+import * as helpers from './helpers';
 
 const Title = props => (
     <div

@@ -1,21 +1,21 @@
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import _, { noop } from 'lodash';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import classNames from 'classnames';
-import defaultStyles from './Table.module.scss';
-import Grid from '../../common/grid/Grid';
-import inputStyles from '../common/InputStyles.module.scss';
-import SuccessModal from '../../common/modal/SuccessModal';
-import TableModal from './TableModal';
+import _, { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React, { useCallback } from 'react';
 import Dropdown from '../../common/dropdown/Dropdown';
+import Grid from '../../common/grid/Grid';
+import SuccessModal from '../../common/modal/SuccessModal';
 import Slider from '../../common/slider/Slider';
+import * as textInputConstants from '../../common/TextInput/constants';
+import TextInput from '../../common/TextInput/TextInput';
+import { marks, sortListAscDesc } from '../common/helpers';
+import inputStyles from '../common/InputStyles.module.scss';
 import {
     RadioAscDesc, RadioPosition
 } from './helpers';
-import { marks, sortListAscDesc } from '../common/helpers';
-import TextInput from '../../common/TextInput/TextInput';
-import * as textInputConstants from '../../common/TextInput/constants';
+import defaultStyles from './Table.module.scss';
+import TableModal from './TableModal';
 
 const Table = props => {
     const {

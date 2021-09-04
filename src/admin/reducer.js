@@ -1,6 +1,6 @@
 import fp from 'lodash/fp';
-import * as actions from './actions';
 import * as modalHandlingActions from '../modalHandling/actions';
+import * as actions from './actions';
 
 export const initialState = {
     allTeams: [],

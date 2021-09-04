@@ -1,10 +1,10 @@
 /* eslint-disable max-len */
 import {
-    all, call, takeEvery, put, select
+    all, call, put, select, takeEvery
 } from 'redux-saga/effects';
+import { setErrorMessage } from '../modalHandling/actions';
 import * as actions from './actions';
 import * as cupApi from './api';
-import { setErrorMessage } from '../modalHandling/actions';
 import * as selectors from './selectors';
 
 export function* fetchCup(api) {

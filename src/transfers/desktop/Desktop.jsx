@@ -1,19 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { noop } from 'lodash';
-import classNames from 'classnames';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import defaultStyles from './Desktop.module.scss';
+import classNames from 'classnames';
+import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Pitch from '../../common/pitch/Pitch';
+import Spinner from '../../common/spinner/Spinner';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import * as constants from '../../constants';
-import Modals from '../common/Modals';
-import Table from './Table';
-import NextFixtures from '../nextfixtures/NextFixtures';
-import { teamsAreDifferent } from '../helpers';
 import materialStyles from '../../materialStyles';
-import Spinner from '../../common/spinner/Spinner';
+import Modals from '../common/Modals';
+import { teamsAreDifferent } from '../helpers';
+import NextFixtures from '../nextfixtures/NextFixtures';
+import defaultStyles from './Desktop.module.scss';
+import Table from './Table';
 
 const calculateSquadValue = (currentTeam, remainingBudget) => currentTeam
     .reduce((acc, cur) => Number(acc) + Number(cur.price), 0) + remainingBudget;

@@ -1,7 +1,7 @@
 import React from 'react';
+import Spinner from '../../common/spinner/Spinner';
 import { mount, shallow } from '../../enzyme';
 import NextMatch from './NextMatch';
-import Spinner from '../../common/spinner/Spinner';
 
 describe('Current Team Components - Next Fixtures', () => {
     beforeEach(() => {

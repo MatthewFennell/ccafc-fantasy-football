@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { noop } from 'lodash';
-import defaultStyles from './FixtureFilters.module.scss';
-import TextInput from '../../common/TextInput/TextInput';
-import Switch from '../../common/Switch/Switch';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Dropdown from '../../common/dropdown/Dropdown';
+import Switch from '../../common/Switch/Switch';
 import * as textInputConstants from '../../common/TextInput/constants';
+import TextInput from '../../common/TextInput/TextInput';
+import defaultStyles from './FixtureFilters.module.scss';
 
 const FixtureFilters = props => (
     <>

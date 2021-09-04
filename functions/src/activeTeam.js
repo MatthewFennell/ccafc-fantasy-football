@@ -4,7 +4,10 @@ const functions = require('firebase-functions');
 const common = require('./common');
 const constants = require('./constants');
 
+const config = functions.config();
 const db = admin.firestore();
+
+const operations = admin.firestore.FieldValue;
 
 exports.updateTeam = functions
     .region(constants.region)
@@ -137,7 +140,7 @@ exports.makeCaptain = functions
 exports.removeCaptainWhenTeamUpdated = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/active-teams/{id}')
     .onWrite((change, context) => {
-        const { year } = context.params
+        const { year } = context.params;
         if (change.after.exists) {
             const { player_ids, captain } = change.after.data();
             if (!player_ids.includes(captain)) {
@@ -153,7 +156,7 @@ exports.removeCaptainWhenTeamUpdated = functions.region(constants.region).firest
 exports.createActiveTeam = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/users/{id}')
     .onWrite((change, context) => {
-        const { year, id} = context.params
+        const { year, id } = context.params;
         if (!change.before.exists) {
             common.getCorrectYear(db, year).collection('active-teams').add({
                 user_id: id,
@@ -162,4 +165,51 @@ exports.createActiveTeam = functions.region(constants.region).firestore
             });
         }
         return Promise.resolve();
+    });
+
+const tryFindUserInYear = (userId, year) => {
+    if (year < 2018) {
+        return Promise.resolve();
+    }
+    return common.getCorrectYear(db, String(year)).collection('users').doc(userId).get()
+        .then(user => {
+            if (user.exists) {
+                common.getCorrectYear(db).collection('application-info').doc(constants.applicationInfoId).get()
+                    .then(appInfo => {
+                        if (appInfo.exists) {
+                            appInfo.ref.update({
+                                number_of_users: operations.increment(1)
+                            });
+                        }
+                        common.getCorrectYear(db).collection('users').doc(userId).set({
+                            ...user.data(),
+                            total_points: 0,
+                            remaining_transfers: 0,
+                            remaining_budget: 100
+                        });
+                        common.getCorrectYear(db).collection('leagues-points').add({
+                            league_id: constants.collingwoodLeagueId,
+                            user_id: userId,
+                            start_week: 0,
+                            name: config.league.name,
+                            user_points: 0,
+                            username: user.data().displayName,
+                            position: appInfo.data().number_of_users,
+                            teamName: user.data().teamName
+                        });
+                    });
+                return Promise.resolve();
+            }
+            return tryFindUserInYear(userId, year - 1);
+        });
+};
+
+exports.fixAccount = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+
+        const currentYear = new Date().getFullYear();
+
+        return tryFindUserInYear(context.auth.uid, currentYear);
     });

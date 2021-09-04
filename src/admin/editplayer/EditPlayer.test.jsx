@@ -1,12 +1,12 @@
-import React from 'react';
 import { noop } from 'lodash';
+import React from 'react';
 import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { shallow, mount } from '../../enzyme';
-import EditPlayer, { EditPlayerUnconnected } from './EditPlayer';
-import { initialState } from '../reducer';
+import configureMockStore from 'redux-mock-store';
+import { mount, shallow } from '../../enzyme';
 import { initialState as overviewinitialState } from '../../overview/reducer';
+import { initialState } from '../reducer';
+import EditPlayer, { EditPlayerUnconnected } from './EditPlayer';
 
 describe('Edit Player', () => {
     it('The Edit Player component renders without crashing', () => {

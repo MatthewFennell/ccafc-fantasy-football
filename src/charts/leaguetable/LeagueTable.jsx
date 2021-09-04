@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
 import { noop } from 'lodash';
-import defaultStyles from './LeagueTable.module.scss';
+import PropTypes from 'prop-types';
+import React, { useCallback } from 'react';
 import Grid from '../../common/grid/Grid';
 import * as helpers from '../helpers';
+import defaultStyles from './LeagueTable.module.scss';
 
 const LeagueTable = props => {
     const leagueTable = useCallback(() => helpers.generateNewTable(props.fixtures),

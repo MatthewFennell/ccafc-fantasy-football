@@ -1,15 +1,15 @@
-import React, { useCallback } from 'react';
-import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import PropTypes from 'prop-types';
-import { noop } from 'lodash';
 import classNames from 'classnames';
-import * as routes from '../routes';
+import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React, { useCallback } from 'react';
 import * as constants from '../constants';
+import * as routes from '../routes';
 import defaultStyles from './SideList.module.scss';
 
 const SideList = props => {

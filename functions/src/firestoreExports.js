@@ -1,8 +1,12 @@
 const functions = require('firebase-functions');
+const admin = require('firebase-admin');
 const firestore = require('@google-cloud/firestore');
 const constants = require('./constants');
+const common = require('./common');
 
 const config = functions.config();
+
+const db = admin.firestore();
 
 const client = new firestore.v1.FirestoreAdminClient();
 const bucket = college => `gs://daily-backup-${college}-fantasy-football`;
@@ -56,12 +60,66 @@ exports.scheduledFirestoreExport = functions.region(constants.region).pubsub
 
 // fantasypassword for all dummy accounts
 
-exports.rollOverToNextYear = functions.region(constants.region).pubsub
-    .schedule('59 23 31 7 *').timeZone('Europe/London')
-    .onRun(() => {
-        console.log("SCHEDULED RUN")
-    });
 
-    // cron timetable
-    // *               *               *                        *               *
-    // min (0-59)      hour (0-23)     day of month (1-31)      month (1-12)    day of week (0-6) (Sun - Sat??)
+// cron timetable
+// *               *               *                        *               *
+// min (0-59)      hour (0-23)     day of month (1-31)      month (1-12)    day of week (0-6) (Sun - Sat??)
+
+exports.rollOverToNextYear = functions.region(constants.region).pubsub
+    .schedule('27 22 1 9 *').timeZone('Europe/London')
+    .onRun(() => {
+        return common.getCorrectYear(db).collection('leagues').doc(constants.collingwoodLeagueId).set({
+            owner: 'owner',
+            start_week: 0,
+            name: config.league.name,
+            number_of_users: 0
+        }).then(() => {
+        // league created
+        return common.getPreviousYear(db).collection('users').get().then(users => {
+
+            const usersToUse = users.docs.filter(user => user.data().total_points > 0);
+
+            common.getCorrectYear(db).collection('application-info').doc(constants.applicationInfoId).set({
+                total_weeks: 0,
+                number_of_users: usersToUse.length
+            });
+
+            usersToUse.map((user, index) => {
+                common.getCorrectYear(db).collection('users').doc(user.id).set({
+                    ...user.data(),
+                    total_points: 0,
+                    remaining_transfers: 0,
+                    remaining_budget: 100,
+                })
+                common.getCorrectYear(db).collection('leagues-points').add({
+                    league_id: constants.collingwoodLeagueId,
+                    user_id: user.id,
+                    start_week: 0,
+                    name: config.league.name,
+                    user_points: 0,
+                    username: user.data().displayName,
+                    position: index + 1,
+                    teamName: user.data().teamName
+                })
+
+                if (user.data().email === config.admin.email) {
+                    common.getCorrectYear(db).collection('users-with-roles').doc(user.id).set({
+                        displayName: user.data().displayName,
+                        email: user.data().email,
+                        roles: [constants.ROLES.ADMIN]
+                    });
+                }
+            })
+        }).then(() => {
+            return common.getPreviousYear(db).collection('users-with-roles').get().then(roles => {
+                roles.docs.map(role => {
+                    if (role.data().email !== config.admin.email) {
+                        return admin.auth().getUserByEmail(role.data().email)
+                            .then(user => admin.auth().setCustomUserClaims(user.uid, {}))
+                    }
+                })
+            })
+        })
+    })
+});
+

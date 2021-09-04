@@ -1,5 +1,5 @@
-import React from 'react';
 import { noop } from 'lodash';
+import React from 'react';
 import Switch from '../../common/Switch/Switch';
 import { shallow } from '../../enzyme';
 import TableModal from './TableModal';

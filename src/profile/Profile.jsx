@@ -1,25 +1,25 @@
-import React, { useCallback, useState } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import firebase from 'firebase';
-import _ from 'lodash';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import {
-    linkProfileToFacebook, linkProfileToGoogle, updateTeamNameRequest,
-    updateDisplayNameRequest, deleteAccountRequest, updateProfilePictureRequest
-} from './actions';
-import defaultStyles from './Profile.module.scss';
-import LinkAccounts from './linkaccounts/LinkAccounts';
-import Update from './update/Update';
+import firebase from 'firebase';
+import _ from 'lodash';
+import PropTypes from 'prop-types';
+import React, { useCallback, useState } from 'react';
+import { connect } from 'react-redux';
 import LoadingDiv from '../common/loadingDiv/LoadingDiv';
-import SelectProfilePicture from './selectprofilepicture/SelectProfilePicture';
-import * as textInputConstants from '../common/TextInput/constants';
-import * as selectors from './selectors';
 import SuccessModal from '../common/modal/SuccessModal';
-import TextInput from '../common/TextInput/TextInput';
 import StyledButton from '../common/StyledButton/StyledButton';
+import * as textInputConstants from '../common/TextInput/constants';
+import TextInput from '../common/TextInput/TextInput';
 import materialStyles from '../materialStyles';
+import {
+    deleteAccountRequest, linkProfileToFacebook, linkProfileToGoogle,
+    updateDisplayNameRequest, updateProfilePictureRequest, updateTeamNameRequest
+} from './actions';
+import LinkAccounts from './linkaccounts/LinkAccounts';
+import defaultStyles from './Profile.module.scss';
+import * as selectors from './selectors';
+import SelectProfilePicture from './selectprofilepicture/SelectProfilePicture';
+import Update from './update/Update';
 
 const Profile = props => {
     const classes = makeStyles(materialStyles)();

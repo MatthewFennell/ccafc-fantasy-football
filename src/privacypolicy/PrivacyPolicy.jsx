@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import defaultStyles from './PrivacyPolicy.module.scss';
 
 const RadioButton = props => (

@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { noop } from 'lodash';
-import defaultStyles from './YouTubeItem.module.scss';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Voting from './Voting';
+import defaultStyles from './YouTubeItem.module.scss';
 
 const YouTubeItemClosed = props => (
     <div

@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { noop } from 'lodash';
-import defaultStyles from './Modals.module.scss';
+import PropTypes from 'prop-types';
+import React from 'react';
 import SuccessModal from '../../common/modal/SuccessModal';
 import StyledButton from '../../common/StyledButton/StyledButton';
+import defaultStyles from './Modals.module.scss';
 
 const Modals = props => (
     <>

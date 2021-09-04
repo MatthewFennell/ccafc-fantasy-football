@@ -1,29 +1,28 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
-import classNames from 'classnames';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import defaultStyles from './ManageUsers.module.scss';
-import {
-    fetchUsersWithExtraRolesRequest, addUserRoleRequest, removeUserRoleRequest,
-    clearDatabaseRequest, rollOverToNextYearRequest,
-    deleteAllOldUsersRequest
-} from '../actions';
-import Grid from '../../common/grid/Grid';
-import StyledButton from '../../common/StyledButton/StyledButton';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import Dropdown from '../../common/dropdown/Dropdown';
-import Menu from '../../common/menu/Menu';
-import SuccessModal from '../../common/modal/SuccessModal';
+import Grid from '../../common/grid/Grid';
 import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
-import RolesToPermissions from './RolesToPermissions';
+import Menu from '../../common/menu/Menu';
 import ConfirmModal from '../../common/modal/ConfirmModal';
-import TextInput from '../../common/TextInput/TextInput';
+import SuccessModal from '../../common/modal/SuccessModal';
+import StyledButton from '../../common/StyledButton/StyledButton';
 import * as textInputConstants from '../../common/TextInput/constants';
-import materialStyles from '../../materialStyles';
+import TextInput from '../../common/TextInput/TextInput';
 import * as appConstants from '../../constants';
+import materialStyles from '../../materialStyles';
+import {
+    addUserRoleRequest, clearDatabaseRequest, deleteAllOldUsersRequest,
+    fetchUsersWithExtraRolesRequest, removeUserRoleRequest, rollOverToNextYearRequest
+} from '../actions';
+import defaultStyles from './ManageUsers.module.scss';
+import RolesToPermissions from './RolesToPermissions';
 
 const columnsForAllUsers = allRoles => [
     {

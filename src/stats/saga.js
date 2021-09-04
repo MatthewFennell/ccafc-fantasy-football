@@ -1,9 +1,9 @@
 import {
-    all, takeEvery, put, call
+    all, call, put, takeEvery
 } from 'redux-saga/effects';
+import { setErrorMessage } from '../modalHandling/actions';
 import * as actions from './actions';
 import * as statsApi from './api';
-import { setErrorMessage } from '../modalHandling/actions';
 
 export function* fetchStats(api, action) {
     try {

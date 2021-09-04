@@ -1,11 +1,11 @@
 import {
-    all, takeEvery, put, call, takeLatest, select
+    all, call, put, select, takeEvery, takeLatest
 } from 'redux-saga/effects';
+import { setErrorMessage } from '../modalHandling/actions';
+import { addNotification } from '../notifications/actions';
 import * as actions from './actions';
 import * as fixturesApi from './api';
 import * as selectors from './selectors';
-import { setErrorMessage } from '../modalHandling/actions';
-import { addNotification } from '../notifications/actions';
 
 export function* fetchFixtures(api) {
     try {

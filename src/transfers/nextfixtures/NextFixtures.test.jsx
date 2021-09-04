@@ -1,8 +1,8 @@
 import React from 'react';
-import { mount, shallow } from '../../enzyme';
-import NextFixtures from './NextFixtures';
-import MatchRow from './MatchRow';
 import Spinner from '../../common/spinner/Spinner';
+import { mount, shallow } from '../../enzyme';
+import MatchRow from './MatchRow';
+import NextFixtures from './NextFixtures';
 
 describe('NextFixtures - NextFixtures', () => {
     beforeEach(() => {

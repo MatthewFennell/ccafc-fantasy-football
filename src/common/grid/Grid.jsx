@@ -1,20 +1,20 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { CSVLink } from 'react-csv';
-import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import _, { noop } from 'lodash';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import classNames from 'classnames';
-import defaultStyles from './Grid.module.scss';
+import _, { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState } from 'react';
+import { CSVLink } from 'react-csv';
 import Linear from '../spinner/LinearSpinner';
 import StyledButton from '../StyledButton/StyledButton';
+import defaultStyles from './Grid.module.scss';
 
 const defaultGridStyles = maxHeight => ({
     root: {

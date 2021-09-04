@@ -1,16 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { noop } from 'lodash';
-import classNames from 'classnames';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import defaultStyles from './Mobile.module.scss';
+import classNames from 'classnames';
+import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Pitch from '../../common/pitch/Pitch';
 import StyledButton from '../../common/StyledButton/StyledButton';
-import Table from './Table';
 import * as constants from '../../constants';
 import Modals from '../common/Modals';
-import NextFixtures from '../nextfixtures/NextFixtures';
 import { teamsAreDifferent } from '../helpers';
+import NextFixtures from '../nextfixtures/NextFixtures';
+import defaultStyles from './Mobile.module.scss';
+import Table from './Table';
 
 const Mobile = props => {
     const teamsDiffer = teamsAreDifferent(props.originalTeam, props.currentTeam);

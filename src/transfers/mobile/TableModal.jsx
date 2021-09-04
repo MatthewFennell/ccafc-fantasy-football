@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { noop } from 'lodash';
-import defaultStyles from './TableModal.module.scss';
-import Switch from '../../common/Switch/Switch';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Dropdown from '../../common/dropdown/Dropdown';
+import Switch from '../../common/Switch/Switch';
+import defaultStyles from './TableModal.module.scss';
 
 const TableModal = props => (
     <div className={props.styles.tableModalWrapper}>

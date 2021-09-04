@@ -1,16 +1,16 @@
-import React, { useState, useCallback } from 'react';
-import fp from 'lodash/fp';
-import PropTypes from 'prop-types';
-import { noop } from 'lodash';
-import classNames from 'classnames';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import defaultStyles from './ExtraStats.module.scss';
+import classNames from 'classnames';
+import { noop } from 'lodash';
+import fp from 'lodash/fp';
+import PropTypes from 'prop-types';
+import React, { useCallback, useState } from 'react';
 import Dropdown from '../../common/dropdown/Dropdown';
-import StyledButton from '../../common/StyledButton/StyledButton';
-import Spinner from '../../common/spinner/Spinner';
 import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
+import Spinner from '../../common/spinner/Spinner';
+import StyledButton from '../../common/StyledButton/StyledButton';
 import materialStyles from '../../materialStyles';
+import defaultStyles from './ExtraStats.module.scss';
 
 const generateWeekOptions = maxGameWeek => {
     const options = [];

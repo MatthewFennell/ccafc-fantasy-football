@@ -1,9 +1,9 @@
-import React from 'react';
 import { noop } from 'lodash';
+import React from 'react';
 import { mount, shallow } from '../../enzyme';
-import YouTubeItemOpen from './YouTubeItemOpen';
-import Voting from './Voting';
 import StyledButton from '../StyledButton/StyledButton';
+import Voting from './Voting';
+import YouTubeItemOpen from './YouTubeItemOpen';
 
 describe('Common - YouTubeItemOpen', () => {
     it('The YouTubeItemOpen component renders without crashing', () => {

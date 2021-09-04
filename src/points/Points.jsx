@@ -1,28 +1,28 @@
-import React, { useEffect, useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import classNames from 'classnames';
-import { withRouter } from 'react-router-dom';
-import fp from 'lodash/fp';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import { getProfile } from '../profile/selectors';
-import defaultStyles from './Points.module.scss';
-import * as selectors from './selectors';
-import { fetchUserPointsForWeekRequest, fetchUserPointsForWeekRequestBackground } from './actions';
-import { updateTeamNameRequest } from '../profile/actions';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import classNames from 'classnames';
+import fp from 'lodash/fp';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import SuccessModal from '../common/modal/SuccessModal';
 import Pitch from '../common/pitch/Pitch';
+import * as appConstants from '../constants';
+import { generatePointsRoute } from '../helperFunctions';
+import materialStyles from '../materialStyles';
+import { updateTeamNameRequest } from '../profile/actions';
+import { getProfile } from '../profile/selectors';
+import { fetchUserPointsForWeekRequest, fetchUserPointsForWeekRequestBackground } from './actions';
+import defaultStyles from './Points.module.scss';
+import PointsTable from './PointsTable/PointsTable';
+import * as selectors from './selectors';
 import activePlayerStyles from './ShirtStyles/ActivePlayer.module.scss';
 import goalkeeperStyles from './ShirtStyles/Goalkeeper.module.scss';
-import SuccessModal from '../common/modal/SuccessModal';
-import PointsTable from './PointsTable/PointsTable';
-import { generatePointsRoute } from '../helperFunctions';
 import UserInfo from './UserInfo';
-import * as appConstants from '../constants';
-import materialStyles from '../materialStyles';
 
 const Points = props => {
     const [playerModalOpen, setPlayerModalOpen] = useState(false);
@@ -97,8 +97,6 @@ const Points = props => {
             </div>
         </div>
     );
-
-    console.log('profile', props.profile);
 
     return (
         <div className={props.styles.pitchWrapper}>

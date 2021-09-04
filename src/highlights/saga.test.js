@@ -1,12 +1,12 @@
+import { noop } from 'lodash';
 import { expectSaga } from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
-import { noop } from 'lodash';
-import * as sagas from './saga';
-import * as actions from './actions';
-import * as selectors from './selectors';
 import { setErrorMessage } from '../modalHandling/actions';
 import { addNotification } from '../notifications/actions';
+import * as actions from './actions';
+import * as sagas from './saga';
+import * as selectors from './selectors';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
