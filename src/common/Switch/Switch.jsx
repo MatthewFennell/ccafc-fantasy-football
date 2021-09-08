@@ -1,7 +1,7 @@
-import React from 'react';
 import Switch from '@material-ui/core/Switch';
-import PropTypes from 'prop-types';
 import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 const CustomSwitch = props => (
     <Switch

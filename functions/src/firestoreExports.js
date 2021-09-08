@@ -1,8 +1,12 @@
 const functions = require('firebase-functions');
+const admin = require('firebase-admin');
 const firestore = require('@google-cloud/firestore');
 const constants = require('./constants');
+const common = require('./common');
 
 const config = functions.config();
+
+const db = admin.firestore();
 
 const client = new firestore.v1.FirestoreAdminClient();
 const bucket = college => `gs://daily-backup-${college}-fantasy-football`;
@@ -55,3 +59,60 @@ exports.scheduledFirestoreExport = functions.region(constants.region).pubsub
 // So will have 30 backups alive at once max
 
 // fantasypassword for all dummy accounts
+
+// cron timetable
+// *               *               *                        *               *
+// min (0-59)      hour (0-23)     day of month (1-31)      month (1-12)    day of week (0-6) (Sun - Sat??)
+
+// run this on the 1st August every year - synced with the common.getCorrectYear
+exports.rollOverToNextYear = functions.region(constants.region).pubsub
+    .schedule('5 1 1 8 *').timeZone('Europe/London')
+    .onRun(() => common.getCorrectYear(db).collection('leagues').doc(constants.collingwoodLeagueId).set({
+        owner: 'owner',
+        start_week: 0,
+        name: config.league.name,
+        number_of_users: 0
+    })
+        .then(() => common.getPreviousYear(db).collection('users').get().then(users => {
+            const usersToUse = users.docs.filter(user => user.data().total_points > 0);
+
+            common.getCorrectYear(db).collection('application-info').doc(constants.applicationInfoId).set({
+                total_weeks: 0,
+                number_of_users: usersToUse.length
+            });
+
+            usersToUse.map((user, index) => {
+                common.getCorrectYear(db).collection('users').doc(user.id).set({
+                    ...user.data(),
+                    total_points: 0,
+                    remaining_transfers: 0,
+                    remaining_budget: 100
+                });
+                common.getCorrectYear(db).collection('leagues-points').add({
+                    league_id: constants.collingwoodLeagueId,
+                    user_id: user.id,
+                    start_week: 0,
+                    name: config.league.name,
+                    user_points: 0,
+                    username: user.data().displayName,
+                    position: index + 1,
+                    teamName: user.data().teamName
+                });
+
+                if (user.data().email === config.admin.email) {
+                    common.getCorrectYear(db).collection('users-with-roles').doc(user.id).set({
+                        displayName: user.data().displayName,
+                        email: user.data().email,
+                        roles: [constants.ROLES.ADMIN]
+                    });
+                }
+            });
+        })
+            .then(() => common.getPreviousYear(db).collection('users-with-roles').get().then(roles => {
+                roles.docs.map(role => {
+                    if (role.data().email !== config.admin.email) {
+                        return admin.auth().getUserByEmail(role.data().email)
+                            .then(user => admin.auth().setCustomUserClaims(user.uid, {}));
+                    }
+                });
+            }))));

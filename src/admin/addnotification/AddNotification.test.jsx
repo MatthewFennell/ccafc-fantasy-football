@@ -1,12 +1,12 @@
-import React from 'react';
 import { noop } from 'lodash';
+import React from 'react';
 import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { shallow, mount } from '../../enzyme';
+import configureMockStore from 'redux-mock-store';
+import Spinner from '../../common/spinner/Spinner';
+import { mount, shallow } from '../../enzyme';
 import { initialState } from '../reducer';
 import AddNotification, { AddNotificationUnconnected } from './AddNotification';
-import Spinner from '../../common/spinner/Spinner';
 
 const mockHistory = {
     location: {

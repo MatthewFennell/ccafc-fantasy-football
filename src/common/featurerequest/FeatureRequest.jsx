@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { noop } from 'lodash';
-import defaultStyles from './FeatureRequest.module.scss';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Comments from '../comments/Comments';
+import defaultStyles from './FeatureRequest.module.scss';
 
 const FeatureRequest = props => {
     const {

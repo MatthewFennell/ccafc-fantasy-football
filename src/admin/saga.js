@@ -1,13 +1,13 @@
 import {
-    all, call, takeEvery, put, select, delay, takeLatest
+    all, call, delay, put, select, takeEvery, takeLatest
 } from 'redux-saga/effects';
-import * as actions from './actions';
-import * as adminApi from './api';
-import * as selectors from './selectors';
-import { fetchMaxGameWeekRequest } from '../overview/actions';
 import { signOut } from '../auth/actions';
 import { setErrorMessage } from '../modalHandling/actions';
 import { addNotification } from '../notifications/actions';
+import { fetchMaxGameWeekRequest } from '../overview/actions';
+import * as actions from './actions';
+import * as adminApi from './api';
+import * as selectors from './selectors';
 
 export function* fetchTeams(api) {
     try {

@@ -1,12 +1,12 @@
-import React from 'react';
 import { noop } from 'lodash';
+import React from 'react';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import { shallow, mount } from '../../enzyme';
-import DeleteTeam, { DeleteTeamUnconnected } from './DeleteTeam';
 import StyledButton from '../../common/StyledButton/StyledButton';
-import styles from './DeleteTeam.module.scss';
+import { mount, shallow } from '../../enzyme';
 import { initialState } from '../reducer';
+import DeleteTeam, { DeleteTeamUnconnected } from './DeleteTeam';
+import styles from './DeleteTeam.module.scss';
 
 describe('Delete Team', () => {
     it('The Delete Team component renders without crashing', () => {

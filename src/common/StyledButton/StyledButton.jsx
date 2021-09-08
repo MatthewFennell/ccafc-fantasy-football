@@ -1,11 +1,11 @@
-import React from 'react';
+import Button from '@material-ui/core/Button';
+import { indigo, red } from '@material-ui/core/colors';
 import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
-import Button from '@material-ui/core/Button';
-import { red, indigo } from '@material-ui/core/colors';
+import classNames from 'classnames';
 import { noop } from 'lodash';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import React from 'react';
 
 const useStyles = makeStyles(theme => ({
     margin: {

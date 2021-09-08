@@ -1,12 +1,11 @@
-
-import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
 import { noop } from 'lodash';
-import { shallow, mount } from '../../enzyme';
-import UnauthenticatedEmailRoute, { UnauthenticatedEmailRouteUnconnected } from './UnauthenticatedEmailRoute';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
+import configureMockStore from 'redux-mock-store';
+import { mount, shallow } from '../../enzyme';
 import { initialState } from '../reducer';
+import UnauthenticatedEmailRoute, { UnauthenticatedEmailRouteUnconnected } from './UnauthenticatedEmailRoute';
 
 const mockfirebaseStore = {
     auth: {

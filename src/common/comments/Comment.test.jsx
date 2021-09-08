@@ -1,8 +1,8 @@
-import React from 'react';
 import { noop } from 'lodash';
+import React from 'react';
 import { mount, shallow } from '../../enzyme';
-import Comment from './Comment';
 import AddReply from './AddReply';
+import Comment from './Comment';
 import CommentInfo from './CommentInfo';
 
 describe('Common - Comment', () => {

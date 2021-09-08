@@ -1,7 +1,7 @@
-import React from 'react';
 import MaterialCheckbox from '@material-ui/core/Checkbox';
-import PropTypes from 'prop-types';
 import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React from 'react';
 import defaultStyles from './Checkbox.module.scss';
 
 const Checkbox = props => (

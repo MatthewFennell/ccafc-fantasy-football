@@ -1,15 +1,15 @@
-import {
-    all, call, takeEvery, put, delay, fork
-} from 'redux-saga/effects';
-import firebase from 'firebase';
 import { push } from 'connected-react-router';
+import firebase from 'firebase';
 import { constants } from 'react-redux-firebase';
-import * as actions from './actions';
-import * as authApi from './api';
+import {
+    all, call, delay, fork, put, takeEvery
+} from 'redux-saga/effects';
 import * as consts from '../constants';
-import { fetchMaxGameWeekRequest } from '../overview/actions';
 import { setErrorMessage } from '../modalHandling/actions';
 import { addNotification } from '../notifications/actions';
+import { fetchMaxGameWeekRequest } from '../overview/actions';
+import * as actions from './actions';
+import * as authApi from './api';
 
 const actionCodeSettings = {
     url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT,

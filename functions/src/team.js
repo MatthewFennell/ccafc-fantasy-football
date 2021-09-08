@@ -12,11 +12,11 @@ exports.createTeam = functions
         if (!data.teamName) {
             throw new functions.https.HttpsError('invalid-argument', 'Cannot have an empty team name');
         }
-        const alreadyExistsRef = db.collection('teams')
+        const alreadyExistsRef = common.getCorrectYear(db).collection('teams')
             .where('team_name', '==', data.teamName);
         return alreadyExistsRef.get().then(doc => {
             if (doc.empty) {
-                return db.collection('teams').add({
+                return common.getCorrectYear(db).collection('teams').add({
                     team_name: data.teamName,
                     wins: 0,
                     draws: 0,
@@ -36,10 +36,11 @@ exports.getAllTeams = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('teams-blob').doc(constants.teamsBlobId).get().then(doc => {
-            const { blob } = doc.data();
-            return JSON.parse(blob);
-        });
+        return common.getCorrectYear(db).collection('teams-blob').doc(constants.teamsBlobId).get()
+            .then(doc => {
+                const { blob } = doc.data();
+                return JSON.parse(blob);
+            });
     });
 
 exports.getPlayersInTeam = functions
@@ -49,7 +50,7 @@ exports.getPlayersInTeam = functions
             throw new functions.https.HttpsError('invalid-argument', 'You must enter a team name');
         }
         common.isAuthenticated(context);
-        return db
+        return common.getCorrectYear(db)
             .collection('players').where('team', '==', data.teamName).get()
             .then(docs => docs.docs.map(doc => ({
                 name: doc.data().name,
@@ -66,13 +67,14 @@ exports.deleteTeam = functions
         if (!data.teamName || !data.teamId) {
             throw new functions.https.HttpsError('invalid-argument', 'Must provide a valid team id and name');
         }
-        return db.collection('players').where('team', '==', data.teamName).get()
+        return common.getCorrectYear(db).collection('players').where('team', '==', data.teamName).get()
             .then(docs => {
                 if (docs.size > 0) {
                     throw new functions.https.HttpsError('invalid-argument', 'A player is associated with that team, so it cannot be deleted');
                 }
-                return db.collection('teams').doc(data.teamId).delete().then(() => {
-                    common.blobifyTeams(db);
-                });
+                return common.getCorrectYear(db).collection('teams').doc(data.teamId).delete()
+                    .then(() => {
+                        common.blobifyTeams(db);
+                    });
             });
     }));

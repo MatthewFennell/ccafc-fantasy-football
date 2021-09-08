@@ -1,11 +1,11 @@
-import React from 'react';
 import { noop } from 'lodash';
+import React from 'react';
 import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { shallow, mount } from '../enzyme';
-import ModalHandling, { ModalHandlingUnconnected } from './ModalHandling';
+import configureMockStore from 'redux-mock-store';
 import ErrorModal from '../common/modal/ErrorModal';
+import { mount, shallow } from '../enzyme';
+import ModalHandling, { ModalHandlingUnconnected } from './ModalHandling';
 
 describe('Modal Handling', () => {
     it('The Leagues component renders without crashing', () => {

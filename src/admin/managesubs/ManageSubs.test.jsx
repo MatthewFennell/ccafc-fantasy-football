@@ -1,5 +1,5 @@
-import React from 'react';
 import { noop } from 'lodash';
+import React from 'react';
 import { shallow } from '../../enzyme';
 import { ManageSubsUnconnected } from './ManageSubs';
 

@@ -1,10 +1,10 @@
 import {
-    all, takeEvery, put, call, select
+    all, call, put, select, takeEvery
 } from 'redux-saga/effects';
+import { setErrorMessage } from '../modalHandling/actions';
 import * as actions from './actions';
 import * as chartsApi from './api';
 import * as selectors from './selectors';
-import { setErrorMessage } from '../modalHandling/actions';
 
 export function* fetchAllTeams(api) {
     try {

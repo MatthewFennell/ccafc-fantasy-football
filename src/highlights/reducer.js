@@ -1,7 +1,7 @@
 import fp from 'lodash/fp';
-import * as actions from './actions';
 import * as adminActions from '../admin/actions';
 import * as profileActions from '../profile/actions';
+import * as actions from './actions';
 
 export const initialState = {
     loadingVideos: false,

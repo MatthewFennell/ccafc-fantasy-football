@@ -1,10 +1,10 @@
 import {
-    all, takeEvery, put, call, takeLatest
+    all, call, put, takeEvery, takeLatest
 } from 'redux-saga/effects';
-import * as actions from './actions';
-import * as featuresApi from './api';
 import { setErrorMessage } from '../modalHandling/actions';
 import { addNotification } from '../notifications/actions';
+import * as actions from './actions';
+import * as featuresApi from './api';
 
 export function* addReplyToComment(api, action) {
     try {

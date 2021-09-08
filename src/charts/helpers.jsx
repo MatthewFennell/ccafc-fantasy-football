@@ -1,7 +1,7 @@
-import React from 'react';
 import _ from 'lodash';
 import fp from 'lodash/fp';
 import moment from 'moment';
+import React from 'react';
 import { generateCollingwoodTeams } from '../fixtures/helpers';
 
 export const generateUniqueTeams = fixtures => fixtures

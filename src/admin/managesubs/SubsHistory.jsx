@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
+import PropTypes from 'prop-types';
+import React from 'react';
 import defaultStyles from './SubsHistory.module.scss';
 import Update from './Update';
 

@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import noop from 'lodash';
-import defaultStyles from './NextMatch.module.scss';
-import * as helpers from '../../helperFunctions';
+import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 import Spinner from '../../common/spinner/Spinner';
+import * as helpers from '../../helperFunctions';
+import defaultStyles from './NextMatch.module.scss';
 
 const teamMappings = {
     'A Team': `${process.env.REACT_APP_COLLEGE_NAME} A`,

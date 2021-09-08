@@ -1,7 +1,7 @@
-import React from 'react';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import { noop } from 'lodash';
+import React from 'react';
 import { mount, shallow } from '../../enzyme';
 import Voting from './Voting';
 

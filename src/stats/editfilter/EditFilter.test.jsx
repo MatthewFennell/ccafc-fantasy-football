@@ -1,8 +1,8 @@
-import React from 'react';
 import { noop } from 'lodash';
-import { mount, shallow } from '../../enzyme';
+import React from 'react';
 import Slider from '../../common/slider/Slider';
 import StyledButton from '../../common/StyledButton/StyledButton';
+import { mount, shallow } from '../../enzyme';
 import EditFilter from './EditFilter';
 
 describe('Stats - EditFilter', () => {

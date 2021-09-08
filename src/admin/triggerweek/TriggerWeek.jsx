@@ -1,17 +1,15 @@
-import React, { useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import classNames from 'classnames';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import defaultStyles from './TriggerWeek.module.scss';
-import {
-    triggerWeekRequest, recalculateLeaguePositionsRequest, compressPlayersDatabase
-} from '../actions';
-import StyledButton from '../../common/StyledButton/StyledButton';
-import Spinner from '../../common/spinner/Spinner';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import React, { useCallback, useState } from 'react';
+import { connect } from 'react-redux';
 import Dropdown from '../../common/dropdown/Dropdown';
+import Spinner from '../../common/spinner/Spinner';
+import StyledButton from '../../common/StyledButton/StyledButton';
 import materialStyles from '../../materialStyles';
+import { compressPlayersDatabase, recalculateLeaguePositionsRequest, triggerWeekRequest } from '../actions';
+import defaultStyles from './TriggerWeek.module.scss';
 
 const TriggerWeek = props => {
     const classes = makeStyles(materialStyles)();

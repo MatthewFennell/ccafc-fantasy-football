@@ -1,8 +1,8 @@
-import React from 'react';
 import { noop } from 'lodash';
+import React from 'react';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import { shallow, mount } from '../enzyme';
+import { mount, shallow } from '../enzyme';
 import PasswordReset, { PasswordResetUnconnected } from './PasswordReset';
 import { initialState } from './reducer';
 

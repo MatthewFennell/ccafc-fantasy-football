@@ -1,14 +1,14 @@
 /* eslint-disable max-len */
-import {
-    all, call, takeEvery, put, select
-} from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 import fp from 'lodash/fp';
+import {
+    all, call, put, select, takeEvery
+} from 'redux-saga/effects';
+import * as constants from '../constants';
+import { setErrorMessage } from '../modalHandling/actions';
 import * as actions from './actions';
 import * as leaguesApi from './api';
 import * as selectors from './selectors';
-import * as constants from '../constants';
-import { setErrorMessage } from '../modalHandling/actions';
 
 export function* fetchLeagues(api) {
     try {

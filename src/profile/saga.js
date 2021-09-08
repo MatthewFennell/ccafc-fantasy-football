@@ -1,12 +1,12 @@
-import {
-    all, takeEvery, put, call
-} from 'redux-saga/effects';
 import firebase from 'firebase';
-import * as actions from './actions';
-import * as profileApi from './api';
+import {
+    all, call, put, takeEvery
+} from 'redux-saga/effects';
 import { signOut } from '../auth/actions';
 import { setErrorMessage } from '../modalHandling/actions';
 import { addNotification } from '../notifications/actions';
+import * as actions from './actions';
+import * as profileApi from './api';
 
 export function* linkProfileToGoogle() {
     try {

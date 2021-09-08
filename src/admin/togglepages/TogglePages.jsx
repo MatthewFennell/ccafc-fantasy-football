@@ -1,18 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import _, { noop } from 'lodash';
-import { firestoreConnect } from 'react-redux-firebase';
-import { compose } from 'redux';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import * as routes from '../../routes';
-import defaultStyles from './TogglePages.module.scss';
-import Switch from '../../common/Switch/Switch';
+import _, { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 import { editDisabledPageRequest } from '../../auth/actions';
 import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
-import materialStyles from '../../materialStyles';
+import Switch from '../../common/Switch/Switch';
 import * as appConstants from '../../constants';
+import materialStyles from '../../materialStyles';
+import * as routes from '../../routes';
+import defaultStyles from './TogglePages.module.scss';
 
 const getDisabledPages = appInfo => _.get(appInfo, [appConstants.APPLICATION_INFO_ID, 'disabledPages']) || [];
 
@@ -90,5 +90,4 @@ export default compose(
 const connected = connect(mapStateToProps, mapDispatchToProps)(TogglePages);
 
 export { connected as TogglePagesConnected };
-
 export { TogglePages as TogglePagesUnconnected };

@@ -1,8 +1,8 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import defaultStyles from './PointsTable.module.scss';
+import React from 'react';
 import Grid from '../../common/grid/Grid';
 import { POINTS } from '../../constants';
+import defaultStyles from './PointsTable.module.scss';
 
 const columns = [
     {

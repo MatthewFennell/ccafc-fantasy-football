@@ -1,14 +1,14 @@
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { noop } from 'lodash';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import defaultStyles from './SubmitFeature.module.scss';
+import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React, { useCallback } from 'react';
 import StyledButton from '../common/StyledButton/StyledButton';
 import Switch from '../common/Switch/Switch';
 import materialStyles from '../materialStyles';
+import defaultStyles from './SubmitFeature.module.scss';
 
 const maxLength = 256;
 const charactersLeft = description => `${maxLength - (description.length || 0)} characters left`;

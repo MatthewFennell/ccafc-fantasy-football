@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import { noop } from 'lodash';
-import defaultStyles from './Voting.module.scss';
+import PropTypes from 'prop-types';
+import React, { useCallback } from 'react';
 import LoadingDiv from '../loadingDiv/LoadingDiv';
+import defaultStyles from './Voting.module.scss';
 
 const formatKarma = video => {
     const val = video.upvotes.length - video.downvotes.length;

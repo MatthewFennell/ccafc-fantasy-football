@@ -30,9 +30,9 @@ exports.createPlayer = functions
             if (!common.isNumber(data.previousScore)) {
                 throw new functions.https.HttpsError('invalid-argument', 'Invalid previous score');
             }
-            const teamExistsRef = db.collection('teams')
+            const teamExistsRef = common.getCorrectYear(db).collection('teams')
                 .where('team_name', '==', data.team);
-            const playerAlreadyExistsRef = db.collection('players')
+            const playerAlreadyExistsRef = common.getCorrectYear(db).collection('players')
                 .where('name', '==', data.name)
                 .where('team', '==', data.team);
             return playerAlreadyExistsRef.get().then(doc => {
@@ -40,7 +40,7 @@ exports.createPlayer = functions
                     return teamExistsRef.get()
                         .then(leagueDoc => {
                             if (!leagueDoc.empty) {
-                                db.collection('players')
+                                common.getCorrectYear(db).collection('players')
                                     .add({
                                         name: data.name,
                                         position: data.position,
@@ -65,10 +65,11 @@ exports.getAllPlayers = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('players-blob').doc(constants.playersBlobId).get().then(doc => {
-            const { blob } = doc.data();
-            return JSON.parse(blob);
-        });
+        return common.getCorrectYear(db).collection('players-blob').doc(constants.playersBlobId).get()
+            .then(doc => {
+                const { blob } = doc.data();
+                return JSON.parse(blob);
+            });
     });
 
 exports.blobifyManually = functions
@@ -91,16 +92,17 @@ exports.editPlayerPrice = functions
             if (!common.isNumber(data.newPrice)) {
                 throw new functions.https.HttpsError('invalid-argument', 'Invalid price');
             }
-            return db.collection('players').doc(data.playerId).get().then(player => {
-                if (!player.exists) {
-                    throw new functions.https.HttpsError('invalid-argument', 'Can\'t find that player');
-                }
-                return player.ref.update({
-                    price: data.newPrice
-                }).then(() => {
-                    common.blobifyPlayers(db);
+            return common.getCorrectYear(db).collection('players').doc(data.playerId).get()
+                .then(player => {
+                    if (!player.exists) {
+                        throw new functions.https.HttpsError('invalid-argument', 'Can\'t find that player');
+                    }
+                    return player.ref.update({
+                        price: data.newPrice
+                    }).then(() => {
+                        common.blobifyPlayers(db);
+                    });
                 });
-            });
         }));
 
 exports.deletePlayer = functions
@@ -111,26 +113,28 @@ exports.deletePlayer = functions
             if (!data.playerId) {
                 throw new functions.https.HttpsError('invalid-argument', 'Must provide a valid player id');
             }
-            return db.collection('active-teams').where('player_ids', 'array-contains', data.playerId).get().then(
-                activeTeamDocs => {
-                    if (activeTeamDocs.size > 0) {
-                        throw new functions.https.HttpsError('invalid-argument', 'That player exists in somebodys team. Cannot be deleted');
-                    }
-                    return db.collection('weekly-teams').where('player_ids', 'array-contains', data.playerId).get()
-                        .then(docs => {
-                            if (docs.size > 0) {
-                                throw new functions.https.HttpsError('invalid-argument', 'That player exists in somebodys team. Cannot be deleted');
-                            }
-                            return db.collection('players').doc(data.playerId).delete().then(() => {
-                                common.blobifyPlayers(db);
+            return common.getCorrectYear(db).collection('active-teams').where('player_ids', 'array-contains', data.playerId).get()
+                .then(
+                    activeTeamDocs => {
+                        if (activeTeamDocs.size > 0) {
+                            throw new functions.https.HttpsError('invalid-argument', 'That player exists in somebodys team. Cannot be deleted');
+                        }
+                        return common.getCorrectYear(db).collection('weekly-teams').where('player_ids', 'array-contains', data.playerId).get()
+                            .then(docs => {
+                                if (docs.size > 0) {
+                                    throw new functions.https.HttpsError('invalid-argument', 'That player exists in somebodys team. Cannot be deleted');
+                                }
+                                return common.getCorrectYear(db).collection('players').doc(data.playerId).delete()
+                                    .then(() => {
+                                        common.blobifyPlayers(db);
+                                    });
                             });
-                        });
-                }
+                    }
 
-            );
+                );
         }));
 
-const getDisplayName = id => db.collection('users').doc(id).get()
+const getDisplayName = id => common.getCorrectYear(db).collection('users').doc(id).get()
     .then(user => ({
         displayName: user.data().displayName,
         email: user.data().email
@@ -138,31 +142,32 @@ const getDisplayName = id => db.collection('users').doc(id).get()
 
 const updateResultsHistory = (uid, week, difference, name, oldStats) => {
     getDisplayName(uid).then(user => {
-        db.collection('results-history').doc(constants.resultsHistoryId).get().then(doc => {
-            const update = {
-                author: {
-                    displayName: user.displayName,
-                    email: user.email,
-                    uid
-                },
-                date: new Date(),
-                name,
-                oldStats,
-                type: constants.resultHistoryTypes.EDIT_STATS,
-                update: difference,
-                week
-            };
+        common.getCorrectYear(db).collection('results-history').doc(constants.resultsHistoryId).get()
+            .then(doc => {
+                const update = {
+                    author: {
+                        displayName: user.displayName,
+                        email: user.email,
+                        uid
+                    },
+                    date: new Date(),
+                    name,
+                    oldStats,
+                    type: constants.resultHistoryTypes.EDIT_STATS,
+                    update: difference,
+                    week
+                };
 
-            if (!doc.exists) {
-                db.collection('results-history').doc(constants.resultsHistoryId).set({
-                    history: [update]
-                });
-            } else {
-                db.collection('results-history').doc(constants.resultsHistoryId).update({
-                    history: [update, ...doc.data().history]
-                });
-            }
-        });
+                if (!doc.exists) {
+                    common.getCorrectYear(db).collection('results-history').doc(constants.resultsHistoryId).set({
+                        history: [update]
+                    });
+                } else {
+                    common.getCorrectYear(db).collection('results-history').doc(constants.resultsHistoryId).update({
+                        history: [update, ...doc.data().history]
+                    });
+                }
+            });
     });
 };
 
@@ -177,15 +182,17 @@ exports.editPlayerStats = functions
             if (!data.playerId) {
                 throw new functions.https.HttpsError('invalid-argument', 'Invalid player id');
             }
-            return db.collection('players').doc(data.playerId).get().then(doc => {
-                if (doc.exists) {
-                    return doc.data();
-                }
-                throw new functions.https.HttpsError('not-found', `There is no player with that id (${data.playerId})`);
-            })
+            return common.getCorrectYear(db).collection('players').doc(data.playerId).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        return doc.data();
+                    }
+                    throw new functions.https.HttpsError('not-found', `There is no player with that id (${data.playerId})`);
+                })
                 .then(
-                    player => db.collection('player-points').where('player_id', '==', data.playerId)
-                        .where('week', '==', data.week).get()
+                    player => common.getCorrectYear(db).collection('player-points').where('player_id', '==', data.playerId)
+                        .where('week', '==', data.week)
+                        .get()
                         .then(
                             result => {
                                 if (result.size > 1) {
@@ -209,7 +216,7 @@ exports.editPlayerStats = functions
                                         ownGoals: 0
                                     });
 
-                                    return db.collection('player-points').add({
+                                    return common.getCorrectYear(db).collection('player-points').add({
                                         week: data.week,
                                         player_id: data.playerId,
                                         goals: fp.has('goals')(data.difference) ? data.difference.goals : 0,
@@ -269,8 +276,9 @@ exports.playerStats = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('player-points')
-            .where('player_id', '==', data.playerId).where('week', '==', data.week).get()
+        return common.getCorrectYear(db).collection('player-points')
+            .where('player_id', '==', data.playerId).where('week', '==', data.week)
+            .get()
             .then(
                 result => {
                     if (result.size === 0) {

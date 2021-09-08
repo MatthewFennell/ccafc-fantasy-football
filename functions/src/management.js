@@ -10,7 +10,7 @@ const db = admin.firestore();
 exports.rollOverToNextYear = functions
     .region(constants.region)
     .https.onCall((data, context) => common.isAdmin(context.auth.uid)
-        .then(() => db.collection('players').get().then(players => {
+        .then(() => common.getCorrectYear(db).collection('players').get().then(players => {
             const numberOfBatches = Math.ceil(players.docs.length / constants.maxBatchSize);
             const playerBatches = [];
             for (let x = 0; x < numberOfBatches; x += 1) {
@@ -25,7 +25,7 @@ exports.rollOverToNextYear = functions
                 console.log('Commited batch at index: ', index, ' for rolling over to next year - Deleting Players');
             }));
         })
-            .then(() => db.collection('teams').get().then(teams => {
+            .then(() => common.getCorrectYear(db).collection('teams').get().then(teams => {
                 const numberOfBatches = Math.ceil(teams.docs.length / constants.maxBatchSize);
                 const teamBatches = [];
                 for (let x = 0; x < numberOfBatches; x += 1) {
@@ -40,12 +40,13 @@ exports.rollOverToNextYear = functions
                     console.log('Commited batch at index: ', index, ' for rolling over to next year - Deleting Teams');
                 }));
             }))
-            .then(() => db.collection('the-cup').doc(constants.cupDatabaseId).get().then(doc => {
-                if (doc.exists) {
-                    doc.ref.delete();
-                }
-            }))
-            .then(() => db.collection('weekly-teams').get().then(weeklyTeams => {
+            .then(() => common.getCorrectYear(db).collection('the-cup').doc(constants.cupDatabaseId).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        doc.ref.delete();
+                    }
+                }))
+            .then(() => common.getCorrectYear(db).collection('weekly-teams').get().then(weeklyTeams => {
                 const numberOfBatches = Math.ceil(weeklyTeams.docs.length / constants.maxBatchSize);
                 const weeklyTeamBatches = [];
                 for (let x = 0; x < numberOfBatches; x += 1) {
@@ -60,7 +61,7 @@ exports.rollOverToNextYear = functions
                     console.log('Commited batch at index: ', index, ' for rolling over to next year - Deleting Weekly Teams');
                 }));
             }))
-            .then(() => db.collection('weekly-players').get().then(weeklyPlayers => {
+            .then(() => common.getCorrectYear(db).collection('weekly-players').get().then(weeklyPlayers => {
                 const numberOfBatches = Math.ceil(weeklyPlayers.docs.length / constants.maxBatchSize);
                 const weeklyPlayerBatches = [];
                 for (let x = 0; x < numberOfBatches; x += 1) {
@@ -75,7 +76,7 @@ exports.rollOverToNextYear = functions
                     console.log('Commited batch at index: ', index, ' for rolling over to next year - Deleting Weekly Players');
                 }));
             }))
-            .then(() => db.collection('leagues-points').get().then(leaguesPoints => {
+            .then(() => common.getCorrectYear(db).collection('leagues-points').get().then(leaguesPoints => {
                 const numberOfBatches = Math.ceil(leaguesPoints.docs.length / constants.maxBatchSize);
                 const leaguesPointsBatches = [];
                 for (let x = 0; x < numberOfBatches; x += 1) {
@@ -90,7 +91,7 @@ exports.rollOverToNextYear = functions
                     console.log('Commited batch at index: ', index, ' for rolling over to next year - Deleting League Points');
                 }));
             }))
-            .then(() => db.collection('player-points').get().then(playerPointsDocs => {
+            .then(() => common.getCorrectYear(db).collection('player-points').get().then(playerPointsDocs => {
                 const numberOfBatches = Math.ceil(playerPointsDocs.docs.length / constants.maxBatchSize);
                 const playerPointsBatches = [];
                 for (let x = 0; x < numberOfBatches; x += 1) {
@@ -105,7 +106,7 @@ exports.rollOverToNextYear = functions
                     console.log('Commited batch at index: ', index, ' for rolling over to next year - Deleting Player Points');
                 }));
             }))
-            .then(() => db.collection('leagues').get().then(leaguesDocs => {
+            .then(() => common.getCorrectYear(db).collection('leagues').get().then(leaguesDocs => {
                 const numberOfBatches = Math.ceil(leaguesDocs.docs.length / constants.maxBatchSize);
                 const leaguesBatches = [];
                 for (let x = 0; x < numberOfBatches; x += 1) {
@@ -122,7 +123,7 @@ exports.rollOverToNextYear = functions
                     console.log('Commited batch at index: ', index, ' for rolling over to next year - Deleting Leagues');
                 }));
             }))
-            .then(() => db.collection('users-teams').get().then(usersTeamsDocs => {
+            .then(() => common.getCorrectYear(db).collection('users-teams').get().then(usersTeamsDocs => {
                 const numberOfBatches = Math.ceil(usersTeamsDocs.docs.length / constants.maxBatchSize);
                 const usersTeamsBatches = [];
                 for (let x = 0; x < numberOfBatches; x += 1) {
@@ -137,7 +138,7 @@ exports.rollOverToNextYear = functions
                     console.log('Commited batch at index: ', index, ' for rolling over to next year - Deleting Users Teams');
                 }));
             }))
-            .then(() => db.collection('users').get().then(userDocs => {
+            .then(() => common.getCorrectYear(db).collection('users').get().then(userDocs => {
                 const numberOfBatches = Math.ceil(userDocs.docs.length / constants.maxBatchSize);
                 const userBatches = [];
                 const userLeagueBatches = [];
@@ -147,14 +148,14 @@ exports.rollOverToNextYear = functions
                 }
                 userDocs.docs.forEach((user, index) => {
                     const batchToTarget = Math.floor(index / constants.maxBatchSize);
-                    const docRef = db.collection('users').doc(user.id);
+                    const docRef = common.getCorrectYear(db).collection('users').doc(user.id);
                     userBatches[batchToTarget].update(docRef, {
                         remaining_budget: 100,
                         remaining_transfers: 0,
                         total_points: 0,
                         notifications: []
                     });
-                    const leaguePointsRef = db.collection('leagues-points').doc();
+                    const leaguePointsRef = common.getCorrectYear(db).collection('leagues-points').doc();
                     userLeagueBatches[batchToTarget].set(leaguePointsRef, {
                         league_id: constants.collingwoodLeagueId,
                         user_id: user.id,
@@ -174,7 +175,7 @@ exports.rollOverToNextYear = functions
                     console.log('Commited batch at index: ', index, ' for rolling over to next year - Generating League Points');
                 }));
             }))
-            .then(() => db.collection('active-teams').get().then(activeTeamDocs => {
+            .then(() => common.getCorrectYear(db).collection('active-teams').get().then(activeTeamDocs => {
                 const numberOfBatches = Math.ceil(activeTeamDocs.docs.length / constants.maxBatchSize);
                 const activeTeamBatches = [];
                 for (let x = 0; x < numberOfBatches; x += 1) {
@@ -182,7 +183,7 @@ exports.rollOverToNextYear = functions
                 }
                 activeTeamDocs.docs.forEach((activeTeam, index) => {
                     const batchToTarget = Math.floor(index / constants.maxBatchSize);
-                    const docRef = db.collection('active-teams').doc(activeTeam.id);
+                    const docRef = common.getCorrectYear(db).collection('active-teams').doc(activeTeam.id);
                     activeTeamBatches[batchToTarget].update(docRef, {
                         player_ids: [],
                         captain: ''
@@ -193,19 +194,23 @@ exports.rollOverToNextYear = functions
                     console.log('Commited batch at index: ', index, ' for rolling over to next year - Updating Active Teams');
                 }));
             }))
-            .then(() => db.collection('club-subs').doc(constants.clubSubsHistoryId).delete().then(() => {
-                console.log('Deleting club subs history');
-            }))
-            .then(() => db.collection('results-history').doc(constants.resultsHistoryId).delete().then(() => {
-                console.log('Deleting results history');
-            }))
-            .then(() => db.collection('players-blob').doc(constants.playersBlobId).delete().then(() => {
-                console.log('Deleting players blob');
-            }))
-            .then(() => db.collection('teams-blob').doc(constants.teamsBlobId).delete().then(() => {
-                console.log('Deleting teams blob');
-            }))
-            .then(() => db.collection('users-with-roles').get().then(userRolesDocs => {
+            .then(() => common.getCorrectYear(db).collection('club-subs').doc(constants.clubSubsHistoryId).delete()
+                .then(() => {
+                    console.log('Deleting club subs history');
+                }))
+            .then(() => common.getCorrectYear(db).collection('results-history').doc(constants.resultsHistoryId).delete()
+                .then(() => {
+                    console.log('Deleting results history');
+                }))
+            .then(() => common.getCorrectYear(db).collection('players-blob').doc(constants.playersBlobId).delete()
+                .then(() => {
+                    console.log('Deleting players blob');
+                }))
+            .then(() => common.getCorrectYear(db).collection('teams-blob').doc(constants.teamsBlobId).delete()
+                .then(() => {
+                    console.log('Deleting teams blob');
+                }))
+            .then(() => common.getCorrectYear(db).collection('users-with-roles').get().then(userRolesDocs => {
                 const numberOfBatches = Math.ceil(userRolesDocs.docs.length / constants.maxBatchSize);
                 const userRolesBatches = [];
                 for (let x = 0; x < numberOfBatches; x += 1) {
@@ -233,11 +238,11 @@ exports.rollOverToNextYear = functions
 exports.deleteAllOldUsers = functions
     .region(constants.region)
     .https.onCall((data, context) => common.isAdmin(context.auth.uid).then(() => {
-        db.collection('active-teams').get().then(activeTeams => {
+        common.getCorrectYear(db).collection('active-teams').get().then(activeTeams => {
             activeTeams.docs.forEach(team => {
                 if (team.data().player_ids && team.data().player_ids.length === 0) {
                     admin.auth().deleteUser(team.data().user_id).then(
-                        () => db.collection('users').doc(team.data().user_id).delete()
+                        () => common.getCorrectYear(db).collection('users').doc(team.data().user_id).delete()
                     );
                     team.ref.delete();
                 }

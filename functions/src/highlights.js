@@ -12,38 +12,39 @@ exports.submitHighlightForApproval = functions
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
         return admin.auth().getUser(context.auth.uid)
-            .then(user => db.collection('highlight-requests').where('userId', '==', context.auth.uid).get().then(
-                requests => {
-                    if (requests.size >= 3) {
-                        throw new functions.https.HttpsError('invalid-argument', 'A maximum 3 requests are allowed to be active');
+            .then(user => common.getCorrectYear(db).collection('highlight-requests').where('userId', '==', context.auth.uid).get()
+                .then(
+                    requests => {
+                        if (requests.size >= 3) {
+                            throw new functions.https.HttpsError('invalid-argument', 'A maximum 3 requests are allowed to be active');
+                        }
+                        return common.getCorrectYear(db).collection('highlight-requests').add({
+                            userId: context.auth.uid,
+                            videoId: data.videoId,
+                            title: data.title,
+                            email: user.email,
+                            dateCreated: operations.serverTimestamp(),
+                            upvotes: [context.auth.uid],
+                            downvotes: [],
+                            displayName: user.displayName,
+                            comments: []
+                        });
                     }
-                    return db.collection('highlight-requests').add({
-                        userId: context.auth.uid,
-                        videoId: data.videoId,
-                        title: data.title,
-                        email: user.email,
-                        dateCreated: operations.serverTimestamp(),
-                        upvotes: [context.auth.uid],
-                        downvotes: [],
-                        displayName: user.displayName,
-                        comments: []
-                    });
-                }
-            ));
+                ));
     });
 
 exports.getHighlightsForApproval = functions
     .region(constants.region)
     .https.onCall((data, context) => common.hasPermission(context.auth.uid,
         constants.PERMISSIONS.APPROVE_HIGHLIGHTS)
-        .then(() => db.collection('highlight-requests').get()
+        .then(() => common.getCorrectYear(db).collection('highlight-requests').get()
             .then(result => result.docs.map(x => ({ ...x.data(), id: x.id })))));
 
 exports.getHighlights = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('highlights').orderBy('dateCreated', 'desc').get()
+        return common.getCorrectYear(db).collection('highlights').orderBy('dateCreated', 'desc').get()
             .then(result => result.docs.map(x => ({ ...x.data(), id: x.id })));
     });
 
@@ -51,8 +52,8 @@ exports.approveHighlight = functions
     .region(constants.region)
     .https.onCall((data, context) => common.hasPermission(context.auth.uid,
         constants.PERMISSIONS.APPROVE_HIGHLIGHTS)
-        .then(() => db.collection('highlight-requests').doc(data.highlightId).get()
-            .then(doc => db.collection('highlights').doc(doc.id).set({ ...doc.data() })
+        .then(() => common.getCorrectYear(db).collection('highlight-requests').doc(data.highlightId).get()
+            .then(doc => common.getCorrectYear(db).collection('highlights').doc(doc.id).set({ ...doc.data() })
                 .then(() => doc.ref.delete())
                 .then(() => ({ ...doc.data(), id: doc.id })))));
 
@@ -60,9 +61,9 @@ exports.rejectHighlight = functions
     .region(constants.region)
     .https.onCall((data, context) => common.hasPermission(context.auth.uid,
         constants.PERMISSIONS.APPROVE_HIGHLIGHTS)
-        .then(() => db.collection('highlight-requests').doc(data.highlightId).get()
+        .then(() => common.getCorrectYear(db).collection('highlight-requests').doc(data.highlightId).get()
             .then(doc => admin.auth().getUser(context.auth.uid).then(user => user.email)
-                .then(email => db.collection('highlights-rejected')
+                .then(email => common.getCorrectYear(db).collection('highlights-rejected')
                     .add({
                         ...doc.data(), rejectedBy: email, reason: data.reason
                     })
@@ -73,29 +74,31 @@ exports.upvoteHighlight = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('highlights').doc(data.highlightId).update({
+        return common.getCorrectYear(db).collection('highlights').doc(data.highlightId).update({
             upvotes: operations.arrayUnion(context.auth.uid),
             downvotes: operations.arrayRemove(context.auth.uid)
-        }).then(() => db.collection('highlights').doc(data.highlightId).get()
-            .then(doc => ({ ...doc.data(), id: doc.id })));
+        })
+            .then(() => common.getCorrectYear(db).collection('highlights').doc(data.highlightId).get()
+                .then(doc => ({ ...doc.data(), id: doc.id })));
     });
 
 exports.downvoteHighlight = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('highlights').doc(data.highlightId).update({
+        return common.getCorrectYear(db).collection('highlights').doc(data.highlightId).update({
             upvotes: operations.arrayRemove(context.auth.uid),
             downvotes: operations.arrayUnion(context.auth.uid)
-        }).then(() => db.collection('highlights').doc(data.highlightId).get()
-            .then(doc => ({ ...doc.data(), id: doc.id })));
+        })
+            .then(() => common.getCorrectYear(db).collection('highlights').doc(data.highlightId).get()
+                .then(doc => ({ ...doc.data(), id: doc.id })));
     });
 
 exports.fetchUserHighlightsToBeApproved = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('highlight-requests').where('userId', '==', context.auth.uid).get()
+        return common.getCorrectYear(db).collection('highlight-requests').where('userId', '==', context.auth.uid).get()
             .then(result => result.docs.map(x => ({ ...x.data(), id: x.id })));
     });
 
@@ -103,7 +106,7 @@ exports.fetchRejectedHighlights = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return db.collection('highlights-rejected').where('userId', '==', context.auth.uid).get()
+        return common.getCorrectYear(db).collection('highlights-rejected').where('userId', '==', context.auth.uid).get()
             .then(result => result.docs.map(x => ({ ...x.data(), id: x.id })));
     });
 
@@ -111,24 +114,25 @@ exports.deleteHighlight = functions
     .region(constants.region)
     .https.onCall((data, context) => common.hasPermission(context.auth.uid,
         constants.PERMISSIONS.APPROVE_HIGHLIGHTS)
-        .then(() => db.collection('highlights').doc(data.highlightId).get()
+        .then(() => common.getCorrectYear(db).collection('highlights').doc(data.highlightId).get()
             .then(doc => admin.auth().getUser(context.auth.uid).then(user => user.email)
-                .then(email => db.collection('highlights-rejected').add({ ...doc.data(), rejectedBy: email, reason: data.reason })
-                    .then(() => doc.ref.delete()).then(() => ({ ...doc.data(), id: doc.id }))))));
+                .then(email => common.getCorrectYear(db).collection('highlights-rejected').add({ ...doc.data(), rejectedBy: email, reason: data.reason })
+                    .then(() => doc.ref.delete())
+                    .then(() => ({ ...doc.data(), id: doc.id }))))));
 
 exports.getRejectedHighlights = functions
     .region(constants.region)
     .https.onCall((data, context) => common.hasPermission(context.auth.uid,
         constants.PERMISSIONS.APPROVE_HIGHLIGHTS)
-        .then(() => db.collection('highlights-rejected').get()
+        .then(() => common.getCorrectYear(db).collection('highlights-rejected').get()
             .then(result => result.docs.map(x => ({ ...x.data(), id: x.id })))));
 
 exports.reapproveRejectedHighlight = functions
     .region(constants.region)
     .https.onCall((data, context) => common.hasPermission(context.auth.uid,
         constants.PERMISSIONS.APPROVE_HIGHLIGHTS)
-        .then(() => db.collection('highlights-rejected').doc(data.highlightId).get()
-            .then(doc => db.collection('highlights').add({
+        .then(() => common.getCorrectYear(db).collection('highlights-rejected').doc(data.highlightId).get()
+            .then(doc => common.getCorrectYear(db).collection('highlights').add({
                 userId: doc.data().userId,
                 title: doc.data().title,
                 email: doc.data().email,
@@ -145,6 +149,6 @@ exports.cleanupRejectedHighlights = functions.region(constants.region).pubsub
         const date = new Date();
         date.setDate(date.getDate() - 1);
         const lastMonth = admin.firestore.Timestamp.fromDate(date);
-        db.collection('highlights-rejected').where('dateCreated', '<=', lastMonth).get()
+        common.getCorrectYear(db).collection('highlights-rejected').where('dateCreated', '<=', lastMonth).get()
             .then(result => result.docs.forEach(doc => doc.ref.delete()));
     });

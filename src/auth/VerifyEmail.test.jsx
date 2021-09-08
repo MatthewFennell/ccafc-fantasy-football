@@ -1,11 +1,10 @@
-
-import React from 'react';
 import { noop } from 'lodash';
+import React from 'react';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import { shallow, mount } from '../enzyme';
-import VerifyEmail, { VerifyEmailUnconnected } from './VerifyEmail';
+import { mount, shallow } from '../enzyme';
 import { initialState } from './reducer';
+import VerifyEmail, { VerifyEmailUnconnected } from './VerifyEmail';
 
 const mockfirebaseStore = {
     auth: {
@@ -25,7 +24,6 @@ describe('Reset Password', () => {
         expect(() => wrapper).not.toThrow();
     });
 });
-
 
 describe('Verify Email connected', () => {
     it('Connected verify email', () => {

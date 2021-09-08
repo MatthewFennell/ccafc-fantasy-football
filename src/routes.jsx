@@ -1,35 +1,32 @@
-import React, { Suspense } from 'react';
-
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
-import HomeIcon from '@material-ui/icons/Home';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
-import GradeIcon from '@material-ui/icons/Grade';
-import LayersIcon from '@material-ui/icons/Layers';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import DehazeIcon from '@material-ui/icons/Dehaze';
 import DeleteIcon from '@material-ui/icons/Delete';
-import WhatshotIcon from '@material-ui/icons/Whatshot';
-import MessageIcon from '@material-ui/icons/Message';
+import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
 import EditIcon from '@material-ui/icons/Edit';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
-import TransferWithinAStationIcon from '@material-ui/icons/TransferWithinAStation';
-import WavesIcon from '@material-ui/icons/Waves';
-import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
-import VideoLabelIcon from '@material-ui/icons/VideoLabel';
-import DehazeIcon from '@material-ui/icons/Dehaze';
+import GradeIcon from '@material-ui/icons/Grade';
+import HomeIcon from '@material-ui/icons/Home';
+import LayersIcon from '@material-ui/icons/Layers';
+import LocalCafeIcon from '@material-ui/icons/LocalCafe';
+import MessageIcon from '@material-ui/icons/Message';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import LocalCafeIcon from '@material-ui/icons/LocalCafe';
-
+import TransferWithinAStationIcon from '@material-ui/icons/TransferWithinAStation';
+import VideoLabelIcon from '@material-ui/icons/VideoLabel';
+import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
+import WavesIcon from '@material-ui/icons/Waves';
+import WhatshotIcon from '@material-ui/icons/Whatshot';
 import fp from 'lodash/fp';
+import React, { Suspense } from 'react';
 import * as adminComponents from './adminComponents';
-import * as rootComponents from './rootComponents';
-import * as constants from './constants';
 import Spinner from './common/spinner/Spinner';
-
+import * as constants from './constants';
 import ErrorBoundary from './errorboundary/ErrorBoundary';
+import * as rootComponents from './rootComponents';
 
 const generateLazyComponent = (Component, moduleName) => () => (
     <Suspense fallback={<div style={{ textAlign: 'center', marginTop: '30px' }}><Spinner /></div>}>

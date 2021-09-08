@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { noop } from 'lodash';
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import CloseIcon from '@material-ui/icons/Close';
-import classNames from 'classnames';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
+import Modal from '@material-ui/core/Modal';
+import { makeStyles } from '@material-ui/core/styles';
+import CloseIcon from '@material-ui/icons/Close';
+import classNames from 'classnames';
+import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import defaultStyles from './WithModal.module.scss';
 
 const getModalStyle = () => ({

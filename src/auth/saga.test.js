@@ -1,17 +1,17 @@
+import { push } from 'connected-react-router';
+import firebase from 'firebase';
+import { noop } from 'lodash';
+import { constants } from 'react-redux-firebase';
 import { expectSaga } from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
-import firebase from 'firebase';
-import { noop } from 'lodash';
-import { push } from 'connected-react-router';
-import { constants } from 'react-redux-firebase';
-import * as sagas from './saga';
 import * as consts from '../constants';
-import * as actions from './actions';
 import { successDelay } from '../constants';
-import { fetchMaxGameWeekRequest } from '../overview/actions';
 import { setErrorMessage } from '../modalHandling/actions';
 import { addNotification } from '../notifications/actions';
+import { fetchMaxGameWeekRequest } from '../overview/actions';
+import * as actions from './actions';
+import * as sagas from './saga';
 
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 

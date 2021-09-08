@@ -1,5 +1,5 @@
-import * as helpers from './helpers';
 import { fixtures } from '../test/fixtures';
+import * as helpers from './helpers';
 
 const allTeams = [
     {

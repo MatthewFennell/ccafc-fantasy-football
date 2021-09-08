@@ -1,12 +1,11 @@
-
-import React from 'react';
 import { noop } from 'lodash';
+import React from 'react';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import { shallow, mount } from '../../enzyme';
-import ApproveHighlights, { ApproveHighlightsUnconnected } from './ApproveHighlights';
-import { initialState } from '../reducer';
+import { mount, shallow } from '../../enzyme';
 import { initialState as highlightsinitialState } from '../../highlights/reducer';
+import { initialState } from '../reducer';
+import ApproveHighlights, { ApproveHighlightsUnconnected } from './ApproveHighlights';
 
 describe('Approve Highlights', () => {
     it('The Approve Highlights component renders without crashing', () => {

@@ -1,14 +1,14 @@
-import React, { useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { noop } from 'lodash';
-import classNames from 'classnames';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import defaultStyles from './Update.module.scss';
-import StyledButton from '../../common/StyledButton/StyledButton';
+import classNames from 'classnames';
+import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React, { useCallback, useState } from 'react';
 import Spinner from '../../common/spinner/Spinner';
+import StyledButton from '../../common/StyledButton/StyledButton';
 import TextInput from '../../common/TextInput/TextInput';
 import materialStyles from '../../materialStyles';
+import defaultStyles from './Update.module.scss';
 
 const Update = props => {
     const classes = makeStyles(materialStyles)();

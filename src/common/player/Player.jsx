@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { noop } from 'lodash';
 import fp from 'lodash/fp';
-import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import React from 'react';
+import * as constants from '../../constants';
 import defaultStyles from './Player.module.scss';
 import defaultShirtStyles from './ShirtStyles.module.scss';
 import playerPositionsObject from './TeamMappings';
-import * as constants from '../../constants';
 
 const generateClassName = (inactive, team, position) => {
     if (inactive) {

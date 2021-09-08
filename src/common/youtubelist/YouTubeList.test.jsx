@@ -1,6 +1,5 @@
 import React from 'react';
 import { mount, shallow } from '../../enzyme';
-import Spinner from '../spinner/Spinner';
 import YouTubeList from './YouTubeList';
 
 describe('Common - YouTubeList', () => {

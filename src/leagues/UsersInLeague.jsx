@@ -1,21 +1,21 @@
-import React, { useEffect, useCallback, useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import Grid from '../common/grid/Grid';
+import ConfirmModal from '../common/modal/ConfirmModal';
+import Spinner from '../common/spinner/Spinner';
+import StyledButton from '../common/StyledButton/StyledButton';
+import * as appConstants from '../constants';
+import { generatePointsRoute } from '../helperFunctions';
+import materialStyles from '../materialStyles';
 import { fetchUsersInLeagueRequest, leaveLeagueRequest } from './actions';
 import * as selectors from './selectors';
-import Grid from '../common/grid/Grid';
 import defaultStyles from './styles/Leagues.module.scss';
-import * as appConstants from '../constants';
-import StyledButton from '../common/StyledButton/StyledButton';
-import Spinner from '../common/spinner/Spinner';
-import { generatePointsRoute } from '../helperFunctions';
-import ConfirmModal from '../common/modal/ConfirmModal';
-import materialStyles from '../materialStyles';
 
 const columns = gameWeek => [
     {

@@ -1,15 +1,15 @@
 /* eslint-disable no-use-before-define */
 
-import React from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import TextField from '@material-ui/core/TextField';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import classNames from 'classnames';
 import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React from 'react';
 import defaultStyles from './Autocomplete.module.scss';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;

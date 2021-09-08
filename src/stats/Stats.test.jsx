@@ -1,14 +1,13 @@
-
-import React from 'react';
 import { noop } from 'lodash';
+import React from 'react';
 import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { shallow, mount } from '../enzyme';
-import Stats, { StatsUnconnected } from './Stats';
-import { initialState } from './reducer';
+import configureMockStore from 'redux-mock-store';
 import { initialState as admininitialState } from '../admin/reducer';
+import { mount, shallow } from '../enzyme';
 import { initialState as overviewinitialState } from '../overview/reducer';
+import { initialState } from './reducer';
+import Stats, { StatsUnconnected } from './Stats';
 
 const mockHistory = {
     location: {

@@ -1,16 +1,16 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useCallback } from 'react';
-import firebase from 'firebase';
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
+import firebase from 'firebase';
 import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React, { useCallback } from 'react';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import defaultStyles from './SignUp.module.scss';
 import * as constants from '../constants';
 import materialStyles from '../materialStyles';
+import defaultStyles from './SignUp.module.scss';
 
 const SignUp = props => {
     const classes = makeStyles(materialStyles)();

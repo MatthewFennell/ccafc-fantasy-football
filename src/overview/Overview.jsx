@@ -1,25 +1,23 @@
-import React, { useEffect, useCallback } from 'react';
-import { withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import classNames from 'classnames';
-import { noop } from 'lodash';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import defaultStyles from './Overview.module.scss';
-import {
-    fetchUserStatsRequest, fetchUserInfoForWeekRequest, fetchUserInfoForWeekRequestBackground
-} from './actions';
-import * as selectors from './selectors';
-import Spinner from '../common/spinner/Spinner';
-import { generateOverviewRoute } from '../helperFunctions';
-import RulesAndSettings from './RulesAndSettings';
+import classNames from 'classnames';
+import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import FadingCollapsable from '../common/fadingCollapsable/FadingCollapsable';
-import materialStyles from '../materialStyles';
+import Spinner from '../common/spinner/Spinner';
 import * as appConstants from '../constants';
+import { generateOverviewRoute } from '../helperFunctions';
+import materialStyles from '../materialStyles';
+import { fetchUserInfoForWeekRequest, fetchUserInfoForWeekRequestBackground, fetchUserStatsRequest } from './actions';
+import defaultStyles from './Overview.module.scss';
+import RulesAndSettings from './RulesAndSettings';
+import * as selectors from './selectors';
 
 const RulesAndSettingsTitle = props => (
     <div

@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import YouTube from 'react-youtube';
 import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React from 'react';
+import YouTube from 'react-youtube';
 import defaultStyles from './YouTube.module.scss';
 
 const defaultOpts = {

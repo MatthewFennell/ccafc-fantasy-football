@@ -1,12 +1,12 @@
 /* eslint-disable max-len */
-import React from 'react';
-import PropTypes from 'prop-types';
-import { noop } from 'lodash';
 import classNames from 'classnames';
-import defaultStyles from './Pitch.module.scss';
+import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React from 'react';
+import * as constants from '../../constants';
 import Player from '../player/Player';
 import Spinner from '../spinner/Spinner';
-import * as constants from '../../constants';
+import defaultStyles from './Pitch.module.scss';
 
 const Pitch = props => {
     const numberOfSpareSpots = position => {

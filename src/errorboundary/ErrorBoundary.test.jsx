@@ -1,10 +1,10 @@
+import { noop } from 'lodash';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { noop } from 'lodash';
-import configureMockStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
+import configureMockStore from 'redux-mock-store';
 import StyledButton from '../common/StyledButton/StyledButton';
-import { shallow, mount } from '../enzyme';
+import { mount, shallow } from '../enzyme';
 import ErrorBoundary, { ErrorBoundaryUnconnected } from './ErrorBoundary';
 
 describe('ErrorBoundary', () => {

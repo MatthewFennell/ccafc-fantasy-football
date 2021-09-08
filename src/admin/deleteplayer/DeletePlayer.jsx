@@ -1,21 +1,19 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import classNames from 'classnames';
-import fp from 'lodash/fp';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import defaultStyles from './DeletePlayer.module.scss';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import classNames from 'classnames';
+import fp from 'lodash/fp';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import Dropdown from '../../common/dropdown/Dropdown';
-import {
-    fetchTeamsRequest, fetchPlayersForTeamRequest, deletePlayerRequest
-} from '../actions';
-import StyledButton from '../../common/StyledButton/StyledButton';
-import Spinner from '../../common/spinner/Spinner';
 import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
-import materialStyles from '../../materialStyles';
+import Spinner from '../../common/spinner/Spinner';
+import StyledButton from '../../common/StyledButton/StyledButton';
 import * as appConstants from '../../constants';
+import materialStyles from '../../materialStyles';
+import { deletePlayerRequest, fetchPlayersForTeamRequest, fetchTeamsRequest } from '../actions';
+import defaultStyles from './DeletePlayer.module.scss';
 
 const DeletePlayer = props => {
     const classes = makeStyles(materialStyles)();

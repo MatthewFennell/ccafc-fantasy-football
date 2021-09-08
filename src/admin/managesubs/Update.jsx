@@ -1,8 +1,8 @@
-import React from 'react';
-import moment from 'moment';
-import PropTypes from 'prop-types';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
+import moment from 'moment';
+import PropTypes from 'prop-types';
+import React from 'react';
 import defaultStyles from './Update.module.scss';
 
 const generateTime = date => (date ? moment(new Date(date.seconds * 1000)).format('MMM Do YYYY, h:mm:ss a') : '');
