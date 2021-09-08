@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import { store } from 'react-notifications-component';
-import * as selectors from './selectors';
+import { connect } from 'react-redux';
 import { closeNotification } from './actions';
 import * as constants from './constants';
+import * as selectors from './selectors';
 
 const Notifications = props => {
     const [activeNotifications, setActiveNotifications] = useState([]);

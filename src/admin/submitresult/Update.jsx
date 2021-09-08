@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import fp from 'lodash/fp';
 import moment from 'moment';
-import defaultStyles from './Update.module.scss';
+import PropTypes from 'prop-types';
+import React from 'react';
 import * as appConstants from '../../constants';
+import defaultStyles from './Update.module.scss';
 
 const generateTime = date => (date ? moment(new Date(date.seconds * 1000)).format('MMM Do YYYY, h:mm:ss a') : '');
 

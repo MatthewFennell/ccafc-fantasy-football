@@ -1,12 +1,12 @@
-import React from 'react';
 import { noop } from 'lodash';
+import React from 'react';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import { shallow, mount } from '../../enzyme';
-import CreateTeam, { CreateTeamUnconnected } from './CreateTeam';
 import StyledButton from '../../common/StyledButton/StyledButton';
-import styles from './CreateTeam.module.scss';
+import { mount, shallow } from '../../enzyme';
 import { initialState } from '../reducer';
+import CreateTeam, { CreateTeamUnconnected } from './CreateTeam';
+import styles from './CreateTeam.module.scss';
 
 describe('Create Team', () => {
     it('The Create Team component renders without crashing', () => {

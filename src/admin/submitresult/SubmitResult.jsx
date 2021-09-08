@@ -1,32 +1,31 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import _ from 'lodash';
-import classNames from 'classnames';
-import { firestoreConnect } from 'react-redux-firebase';
-import { compose } from 'redux';
-import fp from 'lodash/fp';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import defaultStyles from './SubmitResult.module.scss';
-import {
-    fetchTeamsRequest, fetchPlayersForTeamRequest, submitResultRequest,
-    submitExtraStatsRequest,
-    submitCustumResults
-} from '../actions';
+import classNames from 'classnames';
+import _ from 'lodash';
+import fp from 'lodash/fp';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 import Dropdown from '../../common/dropdown/Dropdown';
-import { isDefensive } from '../../helperFunctions';
-import StyledButton from '../../common/StyledButton/StyledButton';
-import Spinner from '../../common/spinner/Spinner';
-import ExtraStats from './ExtraStats';
-import TextInput from '../../common/TextInput/TextInput';
-import * as textInputConstants from '../../common/TextInput/constants';
-import { fetchMaxGameWeekRequest } from '../../overview/actions';
 import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
-import materialStyles from '../../materialStyles';
 import SuccessModal from '../../common/modal/SuccessModal';
-import ResultsHistory from './ResultsHistory';
+import Spinner from '../../common/spinner/Spinner';
+import StyledButton from '../../common/StyledButton/StyledButton';
+import * as textInputConstants from '../../common/TextInput/constants';
+import TextInput from '../../common/TextInput/TextInput';
 import * as appConstants from '../../constants';
+import { isDefensive } from '../../helperFunctions';
+import materialStyles from '../../materialStyles';
+import { fetchMaxGameWeekRequest } from '../../overview/actions';
+import {
+    fetchPlayersForTeamRequest, fetchTeamsRequest, submitCustumResults,
+    submitExtraStatsRequest, submitResultRequest
+} from '../actions';
+import ExtraStats from './ExtraStats';
+import ResultsHistory from './ResultsHistory';
+import defaultStyles from './SubmitResult.module.scss';
 
 const generateWeekOptions = maxGameWeek => {
     const options = [];

@@ -1,10 +1,10 @@
-import React from 'react';
-import { noop } from 'lodash';
-import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
-import { BrowserRouter as Router } from 'react-router-dom';
 import * as firebase from 'firebase';
-import { shallow, mount } from '../enzyme';
+import { noop } from 'lodash';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
+import configureMockStore from 'redux-mock-store';
+import { mount, shallow } from '../enzyme';
 import Profile, { ProfileUnconnected } from './Profile';
 import { initialState } from './reducer';
 

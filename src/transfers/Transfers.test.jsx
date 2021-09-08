@@ -1,12 +1,12 @@
-import React from 'react';
 import { noop } from 'lodash';
+import React from 'react';
 import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { shallow, mount } from '../enzyme';
-import Transfers, { TransfersUnconnected } from './Transfers';
-import { initialState } from './reducer';
+import configureMockStore from 'redux-mock-store';
+import { mount, shallow } from '../enzyme';
 import { initialState as fixturesinitialState } from '../fixtures/reducer';
+import { initialState } from './reducer';
+import Transfers, { TransfersUnconnected } from './Transfers';
 
 const mockHistory = {
     location: {

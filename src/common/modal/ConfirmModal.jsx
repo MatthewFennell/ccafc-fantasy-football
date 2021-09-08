@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { noop } from 'lodash';
-import defaultStyles from './ConfirmModal.module.scss';
-import StyledButton from '../StyledButton/StyledButton';
-import WithModal from './WithModal';
+import PropTypes from 'prop-types';
+import React from 'react';
 import LoadingDiv from '../loadingDiv/LoadingDiv';
+import StyledButton from '../StyledButton/StyledButton';
+import defaultStyles from './ConfirmModal.module.scss';
+import WithModal from './WithModal';
 
 const ConfirmModal = props => (
     <>

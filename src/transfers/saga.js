@@ -1,14 +1,14 @@
-import {
-    all, takeEvery, put, call, select
-} from 'redux-saga/effects';
 import firebase from 'firebase';
-import * as actions from './actions';
-import * as transfersApi from './api';
-import * as selectors from './selectors';
-import * as helpers from './helpers';
+import {
+    all, call, put, select, takeEvery
+} from 'redux-saga/effects';
 import * as currentTeamActions from '../currentteam/actions';
 import { setErrorMessage } from '../modalHandling/actions';
 import { addNotification } from '../notifications/actions';
+import * as actions from './actions';
+import * as transfersApi from './api';
+import * as helpers from './helpers';
+import * as selectors from './selectors';
 
 export function* fetchAllPlayers(api) {
     try {

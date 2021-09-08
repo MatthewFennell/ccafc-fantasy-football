@@ -1,25 +1,22 @@
-import React, { useEffect, useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import classNames from 'classnames';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import defaultStyles from './styles/Leagues.module.scss';
-import {
-    fetchLeaguesRequest, createLeagueRequest,
-    joinLeagueRequest
-} from './actions';
-import * as selectors from './selectors';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import Grid from '../common/grid/Grid';
-import * as appConstants from '../constants';
+import SuccessModal from '../common/modal/SuccessModal';
+import Spinner from '../common/spinner/Spinner';
 import StyledButton from '../common/StyledButton/StyledButton';
+import * as appConstants from '../constants';
+import materialStyles from '../materialStyles';
+import { createLeagueRequest, fetchLeaguesRequest, joinLeagueRequest } from './actions';
 import CreateLeagueForm from './CreateLeagueForm';
 import JoinLeagueForm from './JoinLeagueForm';
-import Spinner from '../common/spinner/Spinner';
-import SuccessModal from '../common/modal/SuccessModal';
-import materialStyles from '../materialStyles';
+import * as selectors from './selectors';
+import defaultStyles from './styles/Leagues.module.scss';
 
 const columns = [
     {

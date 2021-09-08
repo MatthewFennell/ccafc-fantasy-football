@@ -1,14 +1,14 @@
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
 import _, { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React, { useCallback } from 'react';
+import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
-import defaultStyles from './ManageBugs.module.scss';
-import { deleteFeatureRequest, setBugIdToDelete } from '../actions';
+import { compose } from 'redux';
 import { editDisabledPageRequest } from '../../auth/actions';
 import ConfirmModal from '../../common/modal/ConfirmModal';
+import { deleteFeatureRequest, setBugIdToDelete } from '../actions';
 import Bug from './Bug';
+import defaultStyles from './ManageBugs.module.scss';
 
 const convertToBugs = bugs => (bugs ? Object.keys(bugs)
     .filter(x => !_.isEmpty(bugs[x])).map(bug => ({
@@ -100,5 +100,4 @@ export default compose(
 const connected = connect(mapStateToProps, mapDispatchToProps)(ManageBugs);
 
 export { connected as ManageBugsConnected };
-
 export { ManageBugs as ManageBugsUnconnected };

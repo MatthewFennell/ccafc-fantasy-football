@@ -1,5 +1,5 @@
-import React from 'react';
 import classNames from 'classnames';
+import React from 'react';
 import * as constants from '../constants';
 import { invalidFormations } from './invalidFormations';
 

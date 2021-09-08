@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -41,6 +41,5 @@ TimedLoader.defaultProps = {
 TimedLoader.propTypes = {
     numberOfSeconds: PropTypes.number
 };
-
 
 export default TimedLoader;

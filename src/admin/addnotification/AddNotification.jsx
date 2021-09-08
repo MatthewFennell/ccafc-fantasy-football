@@ -1,18 +1,18 @@
-import React, { useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import classNames from 'classnames';
 import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React, { useCallback, useState } from 'react';
 import { connect } from 'react-redux';
-import defaultStyles from './AddNotification.module.scss';
-import TextInput from '../../common/TextInput/TextInput';
-import StyledButton from '../../common/StyledButton/StyledButton';
 import Spinner from '../../common/spinner/Spinner';
-import { addNotificationRequest } from '../actions';
-import materialStyles from '../../materialStyles';
+import StyledButton from '../../common/StyledButton/StyledButton';
+import TextInput from '../../common/TextInput/TextInput';
 import * as appConstants from '../../constants';
+import materialStyles from '../../materialStyles';
+import { addNotificationRequest } from '../actions';
+import defaultStyles from './AddNotification.module.scss';
 
 const AddNotification = props => {
     const classes = makeStyles(materialStyles)();

@@ -3,6 +3,59 @@ const admin = require('firebase-admin');
 const fp = require('lodash/fp');
 const constants = require('./constants');
 
+// MUST BE SYNCED WITH CLOUD FUNCTION
+module.exports.getCorrectYear = (db, forceSpecificYear) => {
+    if (forceSpecificYear) {
+        return db.collection('fantasy-years').doc(forceSpecificYear);
+    }
+    const currentDate = new Date();
+
+    const dateToSwitch = new Date();
+    // dateToSwitch.setMonth(7) // August
+    // dateToSwitch.setDate(1) // 1st August
+    // dateToSwitch.setHours(0);
+
+    dateToSwitch.setMonth(7); // August
+    dateToSwitch.setDate(1); // 1st August
+    dateToSwitch.setHours(1);
+
+    const year = currentDate.getFullYear();
+    // 07 = August -> Once we reach August, start serving the next year
+    // If we are January 2022, then the season started in 2021, so we return 2021
+
+    if (currentDate > dateToSwitch) {
+        console.log('getting year a', year);
+        return db.collection('fantasy-years').doc(String(year));
+    }
+    console.log('getting year b', year - 1);
+    return db.collection('fantasy-years').doc(String(year - 1));
+};
+
+// MUST BE SYNCED WITH CLOUD FUNCTION
+module.exports.getPreviousYear = db => {
+    const currentDate = new Date();
+
+    const dateToSwitch = new Date();
+    // dateToSwitch.setMonth(7) // August
+    // dateToSwitch.setDate(1) // 1st August
+    // dateToSwitch.setHours(0);
+
+    dateToSwitch.setMonth(7); // August
+    dateToSwitch.setDate(1); // 1st August
+    dateToSwitch.setHours(1);
+
+    const year = currentDate.getFullYear();
+    // 07 = August -> Once we reach August, start serving the next year
+    // If we are January 2022, then the season started in 2021, so we return 2021
+
+    if (currentDate > dateToSwitch) {
+        console.log('previous year A', year - 1);
+        return db.collection('fantasy-years').doc(String(year - 1));
+    }
+    console.log('previous year B', year - 2);
+    return db.collection('fantasy-years').doc(String(year - 2));
+};
+
 module.exports.isAuthenticated = context => {
     if (!context.auth) {
         throw new functions.https.HttpsError('unauthenticated', 'You must be authenticated to call this function');
@@ -239,34 +292,36 @@ module.exports.teamIsValid = players => {
     return true;
 };
 
-module.exports.blobifyPlayers = database => database
+module.exports.blobifyPlayers = database => this.getCorrectYear(database)
     .collection('players')
     .get()
     .then(querySnapshot => querySnapshot.docs
         .map(doc => ({ id: doc.id, ...doc.data() })))
-    .then(playersInfo => database.collection('players-blob').doc(constants.playersBlobId).get().then(doc => {
-        if (doc.exists) {
-            return database.collection('players-blob').doc(constants.playersBlobId).update({
+    .then(playersInfo => this.getCorrectYear(database).collection('players-blob').doc(constants.playersBlobId).get()
+        .then(doc => {
+            if (doc.exists) {
+                return this.getCorrectYear(database).collection('players-blob').doc(constants.playersBlobId).update({
+                    blob: JSON.stringify(playersInfo)
+                });
+            }
+            return this.getCorrectYear(database).collection('players-blob').doc(constants.playersBlobId).set({
                 blob: JSON.stringify(playersInfo)
             });
-        }
-        return database.collection('players-blob').doc(constants.playersBlobId).set({
-            blob: JSON.stringify(playersInfo)
-        });
-    }));
+        }));
 
-module.exports.blobifyTeams = database => database
+module.exports.blobifyTeams = database => this.getCorrectYear(database)
     .collection('teams')
     .get()
     .then(querySnapshot => querySnapshot.docs
         .map(doc => ({ id: doc.id, ...doc.data() })))
-    .then(teamsInfo => database.collection('teams-blob').doc(constants.teamsBlobId).get().then(doc => {
-        if (doc.exists) {
-            return database.collection('teams-blob').doc(constants.teamsBlobId).update({
+    .then(teamsInfo => this.getCorrectYear(database).collection('teams-blob').doc(constants.teamsBlobId).get()
+        .then(doc => {
+            if (doc.exists) {
+                return this.getCorrectYear(database).collection('teams-blob').doc(constants.teamsBlobId).update({
+                    blob: JSON.stringify(teamsInfo)
+                });
+            }
+            return this.getCorrectYear(database).collection('teams-blob').doc(constants.teamsBlobId).set({
                 blob: JSON.stringify(teamsInfo)
             });
-        }
-        return database.collection('teams-blob').doc(constants.teamsBlobId).set({
-            blob: JSON.stringify(teamsInfo)
-        });
-    }));
+        }));

@@ -1,8 +1,8 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
-import { closeErrorMessage } from './actions';
 import ErrorModal from '../common/modal/ErrorModal';
+import { closeErrorMessage } from './actions';
 
 const ModalHandling = props => (
     <ErrorModal

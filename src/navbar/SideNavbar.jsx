@@ -1,7 +1,7 @@
-import React from 'react';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import PropTypes from 'prop-types';
 import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React from 'react';
 import SideList from './SideList';
 
 const SideNavbar = props => (

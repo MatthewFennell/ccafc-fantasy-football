@@ -1,13 +1,13 @@
-import React, { useEffect, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect } from 'react';
+import { connect } from 'react-redux';
+import FadingCollapsable from '../common/fadingCollapsable/FadingCollapsable';
+import { fetchFixturesRequest } from '../fixtures/actions';
 import { fetchAllTeamsRequest } from './actions';
+import defaultStyles from './Charts.module.scss';
 import Graph from './graph/Graph';
 import LeagueTable from './leaguetable/LeagueTable';
-import { fetchFixturesRequest } from '../fixtures/actions';
-import FadingCollapsable from '../common/fadingCollapsable/FadingCollapsable';
-import defaultStyles from './Charts.module.scss';
 
 const Heading = props => (
     <div

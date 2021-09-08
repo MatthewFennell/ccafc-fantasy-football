@@ -1,33 +1,33 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import WhatshotIcon from '@material-ui/icons/Whatshot';
-import _, { noop } from 'lodash';
-import classNames from 'classnames';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import defaultStyles from './Highlights.module.scss';
-import StyledButton from '../common/StyledButton/StyledButton';
-import {
-    submitHighlightRequest, fetchHighlightsRequest,
-    upvoteHighlightRequest, downvoteHighlightRequest, fetchUserHighlightsToBeApprovedRequest,
-    fetchRejectedHighlightsRequest, addCommentToVideoRequest, addReplyToVideoRequest,
-    deleteCommentRequest, deleteReplyRequest, closeSuccessMessage
-} from './actions';
-import { setErrorMessage } from '../modalHandling/actions';
-import SuccessModal from '../common/modal/SuccessModal';
-import YouTubeList from '../common/youtubelist/YouTubeList';
-import SubmitVideo from './SubmitVideo';
-import * as helpers from './helpers';
-import TextInput from '../common/TextInput/TextInput';
-import * as textInputConstants from '../common/TextInput/constants';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import WhatshotIcon from '@material-ui/icons/Whatshot';
+import classNames from 'classnames';
+import _, { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import Dropdown from '../common/dropdown/Dropdown';
 import LoadingDiv from '../common/loadingDiv/LoadingDiv';
-import Spinner from '../common/spinner/Spinner';
 import ConfirmModal from '../common/modal/ConfirmModal';
+import SuccessModal from '../common/modal/SuccessModal';
+import Spinner from '../common/spinner/Spinner';
+import StyledButton from '../common/StyledButton/StyledButton';
+import * as textInputConstants from '../common/TextInput/constants';
+import TextInput from '../common/TextInput/TextInput';
+import YouTubeList from '../common/youtubelist/YouTubeList';
 import * as appConstants from '../constants';
 import materialStyles from '../materialStyles';
+import { setErrorMessage } from '../modalHandling/actions';
+import {
+    addCommentToVideoRequest, addReplyToVideoRequest, closeSuccessMessage, deleteCommentRequest,
+    deleteReplyRequest, downvoteHighlightRequest, fetchHighlightsRequest,
+    fetchRejectedHighlightsRequest,
+    fetchUserHighlightsToBeApprovedRequest, submitHighlightRequest, upvoteHighlightRequest
+} from './actions';
+import * as helpers from './helpers';
+import defaultStyles from './Highlights.module.scss';
+import SubmitVideo from './SubmitVideo';
 
 const Highlights = props => {
     const classes = makeStyles(materialStyles)();

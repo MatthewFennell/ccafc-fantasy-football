@@ -1,7 +1,7 @@
 import React from 'react';
+import * as appConstants from '../../constants';
 import { shallow } from '../../enzyme';
 import Update from './Update';
-import * as appConstants from '../../constants';
 
 describe('Results update', () => {
     const author = {

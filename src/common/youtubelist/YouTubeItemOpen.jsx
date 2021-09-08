@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { noop } from 'lodash';
-import defaultStyles from './YouTubeItem.module.scss';
-import CustomYouTube from '../youtube/YouTube';
-import StyledButton from '../StyledButton/StyledButton';
-import Voting from './Voting';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Comments from '../comments/Comments';
 import LoadingDiv from '../loadingDiv/LoadingDiv';
+import StyledButton from '../StyledButton/StyledButton';
+import CustomYouTube from '../youtube/YouTube';
+import Voting from './Voting';
+import defaultStyles from './YouTubeItem.module.scss';
 
 const YouTubeItemOpen = props => {
     const onReady = e => e.target.pauseVideo();

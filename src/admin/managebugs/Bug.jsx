@@ -1,10 +1,10 @@
-import React from 'react';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { noop } from 'lodash';
 import moment from 'moment';
-import DeleteIcon from '@material-ui/icons/Delete';
 import PropTypes from 'prop-types';
-import defaultStyles from './Bug.module.scss';
+import React from 'react';
 import FadingCollapsable from '../../common/fadingCollapsable/FadingCollapsable';
+import defaultStyles from './Bug.module.scss';
 
 // eslint-disable-next-line no-underscore-dangle
 const generateTime = date => moment(new Date(date.seconds * 1000)).startOf('second').fromNow();

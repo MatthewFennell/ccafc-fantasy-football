@@ -1,11 +1,11 @@
-import React from 'react';
 import { noop } from 'lodash';
+import React from 'react';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import { shallow, mount } from '../../enzyme';
-import DeletePlayer, { DeletePlayerUnconnected } from './DeletePlayer';
 import StyledButton from '../../common/StyledButton/StyledButton';
+import { mount, shallow } from '../../enzyme';
 import { initialState } from '../reducer';
+import DeletePlayer, { DeletePlayerUnconnected } from './DeletePlayer';
 
 describe('Delete Player', () => {
     it('The Delete Player component renders without crashing', () => {

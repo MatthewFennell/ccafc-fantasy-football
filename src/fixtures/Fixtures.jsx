@@ -1,23 +1,23 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import fp from 'lodash/fp';
-import { noop } from 'lodash';
-import { connect } from 'react-redux';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import defaultStyles from './Fixtures.module.scss';
-import {
-    fetchFixturesRequest, setMyTeamRequest, fetchMyTeamRequest
-} from './actions';
-import Grid from '../common/grid/Grid';
-import FixtureFilter from './view/FixtureFilters';
-import SetTeam from './view/SetTeam';
-import {
-    generateBothCollingwoodTeams, gridStyles, fixturesFilters, columns, filterFixtures
-} from './helpers';
+import { noop } from 'lodash';
+import fp from 'lodash/fp';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import Fade from '../common/Fade/Fade';
+import Grid from '../common/grid/Grid';
 import { generateCsvTitle } from '../helperFunctions';
 import materialStyles from '../materialStyles';
+import {
+    fetchFixturesRequest, fetchMyTeamRequest, setMyTeamRequest
+} from './actions';
+import defaultStyles from './Fixtures.module.scss';
+import {
+    columns, filterFixtures, fixturesFilters, generateBothCollingwoodTeams, gridStyles
+} from './helpers';
+import FixtureFilter from './view/FixtureFilters';
+import SetTeam from './view/SetTeam';
 
 const convertResult = result => {
     const split = result.split(' - ');

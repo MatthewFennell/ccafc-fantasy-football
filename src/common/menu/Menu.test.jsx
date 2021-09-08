@@ -1,6 +1,6 @@
-import React from 'react';
-import { noop } from 'lodash';
 import MenuItem from '@material-ui/core/MenuItem';
+import { noop } from 'lodash';
+import React from 'react';
 import { mount, shallow } from '../../enzyme';
 import Menu from './Menu';
 

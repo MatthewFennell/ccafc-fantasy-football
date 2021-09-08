@@ -1,24 +1,23 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import _, { noop } from 'lodash';
-import { fetchUserStatsRequest } from '../overview/actions';
-import { fetchActiveTeamRequest } from '../currentteam/actions';
-import {
-    fetchAllPlayersRequest, fetchAllTeamsRequest, addPlayerToCurrentTeamRequest,
-    undoTransferChanges, removePlayerFromCurrentTeam,
-    updateTeamRequest, restorePlayerRequest, replacePlayerRequest, closeSuccessMessage
-} from './actions';
-import { fetchFixturesRequest } from '../fixtures/actions';
-import Mobile from './mobile/Mobile';
-import { getColumns } from './mobile/helpers';
-import Desktop from './desktop/Desktop';
-import { desktopColumns } from './helpers';
-
-import defaultStyles from './Transfers.module.scss';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import SuccessModal from '../common/modal/SuccessModal';
 import * as appConstants from '../constants';
+import { fetchActiveTeamRequest } from '../currentteam/actions';
+import { fetchFixturesRequest } from '../fixtures/actions';
+import { fetchUserStatsRequest } from '../overview/actions';
+import {
+    addPlayerToCurrentTeamRequest, closeSuccessMessage, fetchAllPlayersRequest,
+    fetchAllTeamsRequest, removePlayerFromCurrentTeam, replacePlayerRequest,
+    restorePlayerRequest, undoTransferChanges, updateTeamRequest
+} from './actions';
+import Desktop from './desktop/Desktop';
+import { desktopColumns } from './helpers';
+import { getColumns } from './mobile/helpers';
+import Mobile from './mobile/Mobile';
+import defaultStyles from './Transfers.module.scss';
 
 const Transfers = props => {
     useEffect(() => {

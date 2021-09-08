@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import moment from 'moment';
 import { noop } from 'lodash';
-import defaultStyles from './YouTubeList.module.scss';
-import YouTubeItemOpen from './YouTubeItemOpen';
-import YouTubeItemClosed from './YouTubeItemClosed';
+import moment from 'moment';
+import PropTypes from 'prop-types';
+import React from 'react';
 import FadingCollapsable from '../fadingCollapsable/FadingCollapsable';
+import YouTubeItemClosed from './YouTubeItemClosed';
+import YouTubeItemOpen from './YouTubeItemOpen';
+import defaultStyles from './YouTubeList.module.scss';
 
 const defaultOpts = {
     height: '390',

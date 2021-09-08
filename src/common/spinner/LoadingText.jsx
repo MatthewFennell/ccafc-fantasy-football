@@ -1,5 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import defaultStyles from './LoadingText.module.scss';
 
 const LoadingText = props => (

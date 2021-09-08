@@ -1,22 +1,20 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import classNames from 'classnames';
-import fp from 'lodash/fp';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import defaultStyles from './EditPlayerPrice.module.scss';
+import classNames from 'classnames';
+import fp from 'lodash/fp';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import Dropdown from '../../common/dropdown/Dropdown';
-import {
-    fetchTeamsRequest, fetchPlayersForTeamRequest, editPlayerPriceRequest
-} from '../actions';
-import StyledButton from '../../common/StyledButton/StyledButton';
-import Spinner from '../../common/spinner/Spinner';
-import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
-import TextInput from '../../common/TextInput/TextInput';
-import * as textInputConstants from '../../common/TextInput/constants';
 import Fade from '../../common/Fade/Fade';
+import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
+import Spinner from '../../common/spinner/Spinner';
+import StyledButton from '../../common/StyledButton/StyledButton';
+import * as textInputConstants from '../../common/TextInput/constants';
+import TextInput from '../../common/TextInput/TextInput';
 import materialStyles from '../../materialStyles';
+import { editPlayerPriceRequest, fetchPlayersForTeamRequest, fetchTeamsRequest } from '../actions';
+import defaultStyles from './EditPlayerPrice.module.scss';
 
 const EditPlayerPrice = props => {
     const classes = makeStyles(materialStyles)();

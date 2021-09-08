@@ -1,13 +1,13 @@
-import React from 'react';
 import { noop } from 'lodash';
+import React from 'react';
 import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { shallow, mount } from '../../enzyme';
-import { initialState } from '../reducer';
-import { ManageBugsConnected, ManageBugsUnconnected } from './ManageBugs';
+import configureMockStore from 'redux-mock-store';
 import ConfirmModal from '../../common/modal/ConfirmModal';
+import { mount, shallow } from '../../enzyme';
+import { initialState } from '../reducer';
 import Bug from './Bug';
+import { ManageBugsConnected, ManageBugsUnconnected } from './ManageBugs';
 
 const mockHistory = {
     location: {

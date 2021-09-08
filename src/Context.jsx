@@ -1,7 +1,7 @@
-import React, { createContext } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
+import React, { createContext } from 'react';
+import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 

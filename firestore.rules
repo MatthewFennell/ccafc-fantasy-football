@@ -4,28 +4,28 @@ service cloud.firestore {
     match /{document=**} {
       allow read, write: if false;
     }
-    
-    match /users/{userId} {
+
+    match /fantasy-years/{document=**}/users/{userId} {
       allow read: if request.auth.uid == userId;
     }
 
-    match /feature-requests/{feature} {
+    match /fantasy-years/{document=**}/feature-requests/{feature} {
       allow read: if request.auth.uid != null;
     }
 
-    match/application-info/{app} {
+    match /fantasy-years/{document=**}/application-info/{app} {
     	allow read: if request.auth.uid != null;
     }
     
-    match /application-info/{appInfo} {
+    match /fantasy-years/{document=**}/application-info/{appInfo} {
       allow read, write: if request.auth.token.ADMIN == true
     }
 
-    match /club-subs/{history} {
+    match /fantasy-years/{document=**}/club-subs/{history} {
       allow read, write: if request.auth.token.ADMIN == true || request.auth.token.TREASURER == true
     }
 
-    match /results-history/{history} {
+    match /fantasy-years/{document=**}/results-history/{history} {
       allow read, write: if request.auth.token.ADMIN == true || request.auth.token.MAINTAINER == true
     }
   }

@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import defaultStyles from './PasswordReset.module.scss';
-import { sendPasswordResetEmail } from './actions';
-import StyledButton from '../common/StyledButton/StyledButton';
-import TextInput from '../common/TextInput/TextInput';
-import * as textInputConstants from '../common/TextInput/constants';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import LoadingDiv from '../common/loadingDiv/LoadingDiv';
+import StyledButton from '../common/StyledButton/StyledButton';
+import * as textInputConstants from '../common/TextInput/constants';
+import TextInput from '../common/TextInput/TextInput';
 import materialStyles from '../materialStyles';
+import { sendPasswordResetEmail } from './actions';
+import defaultStyles from './PasswordReset.module.scss';
 
 const PasswordReset = props => {
     const [email, setEmail] = useState('');

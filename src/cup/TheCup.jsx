@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import fp from 'lodash/fp';
-import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
+import fp from 'lodash/fp';
+import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import Spinner from '../common/spinner/Spinner';
+import materialStyles from '../materialStyles';
 import { fetchCupRequest } from './actions';
 import defaultStyles from './TheCup.module.scss';
 import WeekInfo, { getName } from './WeekInfo';
-import Spinner from '../common/spinner/Spinner';
-import materialStyles from '../materialStyles';
 
 const TheCup = props => {
     const {

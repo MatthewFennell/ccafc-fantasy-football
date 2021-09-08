@@ -16,11 +16,12 @@ exports.removeNotification = functions
         if (!data.notification) {
             throw new functions.https.HttpsError('invalid-argument', 'No notification provided');
         }
-        return db.collection('users').doc(context.auth.uid).get().then(user => {
-            user.ref.update({
-                notifications: operations.arrayRemove(data.notification)
+        return common.getCorrectYear(db).collection('users').doc(context.auth.uid).get()
+            .then(user => {
+                user.ref.update({
+                    notifications: operations.arrayRemove(data.notification)
+                });
             });
-        });
     });
 
 exports.addNotification = functions
@@ -30,7 +31,7 @@ exports.addNotification = functions
             if (!data.notification) {
                 throw new functions.https.HttpsError('invalid-argument', 'No notification provided');
             }
-            return db.collection('users').get().then(users => {
+            return common.getCorrectYear(db).collection('users').get().then(users => {
                 const numberOfBatches = Math.ceil(users.docs.length / constants.maxBatchSize);
                 const userBatches = [];
                 for (let x = 0; x < numberOfBatches; x += 1) {
@@ -38,7 +39,7 @@ exports.addNotification = functions
                 }
                 users.docs.forEach((user, index) => {
                     const batchToTarget = Math.floor(index / constants.maxBatchSize);
-                    const docRef = db.collection('users').doc(user.id);
+                    const docRef = common.getCorrectYear(db).collection('users').doc(user.id);
                     userBatches[batchToTarget].update(docRef, {
                         notifications: operations.arrayUnion(data.notification)
                     });

@@ -1,22 +1,19 @@
-import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import * as constants from './constants';
+import React from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import PasswordReset from './auth/PasswordReset';
 import AdminRoute from './auth/routes/AdminRoute';
 import AuthenticatedRoute from './auth/routes/AuthenticatedRoute';
-import UnauthenticatedRoute from './auth/routes/UnauthenticatedRoute';
 import UnauthenticatedEmailRoute from './auth/routes/UnauthenticatedEmailRoute';
-
+import UnauthenticatedRoute from './auth/routes/UnauthenticatedRoute';
 import SignIn from './auth/SignIn';
 import SignUp from './auth/SignUp';
-import Profile from './profile/Profile';
 import VerifyEmail from './auth/VerifyEmail';
-import PasswordReset from './auth/PasswordReset';
-import PrivacyPolicy from './privacypolicy/PrivacyPolicy';
+import * as constants from './constants';
 import { MyContext } from './Context';
-
 import UsersInLeague from './leagues/UsersInLeague';
-
+import PrivacyPolicy from './privacypolicy/PrivacyPolicy';
+import Profile from './profile/Profile';
 import * as routes from './routes';
 
 const RenderRoutes = props => (

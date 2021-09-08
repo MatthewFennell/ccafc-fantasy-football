@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import fp from 'lodash/fp';
 import noop from 'lodash';
+import fp from 'lodash/fp';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Dropdown from '../../common/dropdown/Dropdown';
+import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
+import Spinner from '../../common/spinner/Spinner';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import defaultStyles from './Summary.module.scss';
-import Spinner from '../../common/spinner/Spinner';
-import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
 
 const findCaptainName = (players, captainId) => {
     const captain = players.find(p => p.id === captainId);

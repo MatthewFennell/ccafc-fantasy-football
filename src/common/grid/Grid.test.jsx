@@ -1,11 +1,11 @@
-import React from 'react';
-import { noop } from 'lodash';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import TableRow from '@material-ui/core/TableRow';
-import Linear from '../spinner/LinearSpinner';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { noop } from 'lodash';
+import React from 'react';
 import { mount, shallow } from '../../enzyme';
-import Grid from './Grid';
+import Linear from '../spinner/LinearSpinner';
 import StyledButton from '../StyledButton/StyledButton';
+import Grid from './Grid';
 
 describe('Common - Grid', () => {
     const columns = [

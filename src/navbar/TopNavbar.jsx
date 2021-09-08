@@ -1,22 +1,22 @@
-import React, { useCallback } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import MenuItem from '@material-ui/core/MenuItem';
-import classNames from 'classnames';
-import Menu from '@material-ui/core/Menu';
-import PropTypes from 'prop-types';
-import { noop } from 'lodash';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import * as routes from '../routes';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import { makeStyles } from '@material-ui/core/styles';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import MenuIcon from '@material-ui/icons/Menu';
+import classNames from 'classnames';
+import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React, { useCallback } from 'react';
 import * as appConstants from '../constants';
+import * as routes from '../routes';
 import defaultStyles from './TopNavbar.module.scss';
 
 const useStyles = makeStyles(theme => ({

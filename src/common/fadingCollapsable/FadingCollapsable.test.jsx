@@ -1,7 +1,7 @@
-import React from 'react';
-import { noop } from 'lodash';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { noop } from 'lodash';
+import React from 'react';
 import { mount, shallow } from '../../enzyme';
 import FadingCollapsable from './FadingCollapsable';
 

@@ -1,8 +1,8 @@
 import firebase from 'firebase';
 import React from 'react';
 import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
+import configureMockStore from 'redux-mock-store';
 import { shallow } from '../enzyme';
 import SignIn from './SignIn';
 

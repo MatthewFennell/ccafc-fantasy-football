@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { noop } from 'lodash';
 import moment from 'moment';
-import DeleteIcon from '@material-ui/icons/Delete';
+import PropTypes from 'prop-types';
+import React from 'react';
 import defaultStyles from './CommentInfo.module.scss';
 
 const CommentInfo = props => (

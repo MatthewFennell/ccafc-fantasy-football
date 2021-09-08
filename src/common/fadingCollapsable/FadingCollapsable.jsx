@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import Paper from '@material-ui/core/Paper';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { makeStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import { makeStyles } from '@material-ui/core/styles';
-import defaultStyles from './FadingCollapsable.module.scss';
-import Fade from '../Fade/Fade';
-import materialStyles from '../../materialStyles';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import * as appConstants from '../../constants';
+import materialStyles from '../../materialStyles';
+import Fade from '../Fade/Fade';
+import defaultStyles from './FadingCollapsable.module.scss';
 
 const FadingCollapsable = props => {
     const [isOpen, setIsOpen] = useState(false);

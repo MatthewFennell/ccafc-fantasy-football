@@ -1,9 +1,9 @@
-import React from 'react';
-import Switch from '@material-ui/core/Switch';
 import Collapse from '@material-ui/core/Collapse';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import PropTypes from 'prop-types';
+import Switch from '@material-ui/core/Switch';
 import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 const Fade = props => (
     <>

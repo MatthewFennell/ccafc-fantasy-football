@@ -28,6 +28,11 @@
   text-align: center;
 }
 
+.helpFullMessage {
+  text-align: center;
+  color: $color-blue;
+}
+
 
 @media only screen and (max-width: 800px) { 
   .createPlayerWrapper {

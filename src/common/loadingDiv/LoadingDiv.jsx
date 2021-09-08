@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React from 'react';
 import defaultStyles from './LoadingDiv.module.scss';
 
 const LoadingDiv = props => (

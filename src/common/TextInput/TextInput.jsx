@@ -1,17 +1,17 @@
-import React, { useCallback } from 'react';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import PropTypes from 'prop-types';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import EmailIcon from '@material-ui/icons/Email';
-import LockIcon from '@material-ui/icons/Lock';
-import SportsSoccerIcon from '@material-ui/icons/SportsSoccer';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import SearchIcon from '@material-ui/icons/Search';
-import MessageIcon from '@material-ui/icons/Message';
+import EmailIcon from '@material-ui/icons/Email';
 import FaceIcon from '@material-ui/icons/Face';
+import LockIcon from '@material-ui/icons/Lock';
+import MessageIcon from '@material-ui/icons/Message';
+import SearchIcon from '@material-ui/icons/Search';
+import SportsSoccerIcon from '@material-ui/icons/SportsSoccer';
 import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React, { useCallback } from 'react';
 import * as constants from './constants';
 
 const useStyles = makeStyles(theme => ({

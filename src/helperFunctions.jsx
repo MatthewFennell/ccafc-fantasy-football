@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
-import React from 'react';
-import moment from 'moment';
 import _ from 'lodash';
+import moment from 'moment';
+import React from 'react';
 import * as constants from './constants';
 
 export const isDefensive = position => position.toLowerCase() === 'goalkeeper' || position.toLowerCase() === 'defender' || position.toLowerCase() === 'midfielder';

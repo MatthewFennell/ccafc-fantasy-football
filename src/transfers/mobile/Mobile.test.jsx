@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from '../../enzyme';
-import Mobile from './Mobile';
 import fixtures from '../../test/fixtures';
+import Mobile from './Mobile';
 
 describe('Transfers - Mobile', () => {
     const currentTeam = [

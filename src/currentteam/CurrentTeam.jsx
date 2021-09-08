@@ -1,28 +1,27 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import _ from 'lodash';
-import classNames from 'classnames';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import { fetchFixturesRequest } from '../fixtures/actions';
-import defaultStyles from './CurrentTeam.module.scss';
-import * as selectors from './selectors';
-import {
-    fetchActiveTeamRequest, makeCaptainRequest, setPlayerModalOpen,
-    setCaptainToUpdate
-} from './actions';
-import goalkeeperStyles from './ShirtStyles/Goalkeeper.module.scss';
-import activePlayerStyles from './ShirtStyles/ActivePlayer.module.scss';
-import Pitch from '../common/pitch/Pitch';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import classNames from 'classnames';
+import _ from 'lodash';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import ConfirmModal from '../common/modal/ConfirmModal';
 import SuccessModal from '../common/modal/SuccessModal';
-import Summary from './components/Summary';
-import NextMatch from './components/NextMatch';
+import Pitch from '../common/pitch/Pitch';
 import * as appConstants from '../constants';
+import { fetchFixturesRequest } from '../fixtures/actions';
 import materialStyles from '../materialStyles';
+import {
+    fetchActiveTeamRequest, makeCaptainRequest, setCaptainToUpdate, setPlayerModalOpen
+} from './actions';
+import NextMatch from './components/NextMatch';
+import Summary from './components/Summary';
+import defaultStyles from './CurrentTeam.module.scss';
+import * as selectors from './selectors';
+import activePlayerStyles from './ShirtStyles/ActivePlayer.module.scss';
+import goalkeeperStyles from './ShirtStyles/Goalkeeper.module.scss';
 
 const CurrentTeam = props => {
     const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);

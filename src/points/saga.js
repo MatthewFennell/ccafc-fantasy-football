@@ -1,10 +1,10 @@
 import {
-    all, takeEvery, put, select, call, fork
+    all, call, fork, put, select, takeEvery
 } from 'redux-saga/effects';
-import * as actions from './actions';
-import * as selectors from './selectors';
-import * as pointsApi from './api';
 import { setErrorMessage } from '../modalHandling/actions';
+import * as actions from './actions';
+import * as pointsApi from './api';
+import * as selectors from './selectors';
 
 export function* getUsername(userId, api) {
     try {

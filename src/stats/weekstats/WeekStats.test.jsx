@@ -1,7 +1,7 @@
 import React from 'react';
+import Spinner from '../../common/spinner/Spinner';
 import { mount, shallow } from '../../enzyme';
 import WeekStats from './WeekStats';
-import Spinner from '../../common/spinner/Spinner';
 
 describe('Stats - WeekStats', () => {
     it('The WeekStats component renders without crashing', () => {

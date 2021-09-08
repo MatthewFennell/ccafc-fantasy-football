@@ -20,26 +20,27 @@ exports.setHasPaidSubs = functions
         .then(() => {
             const setPaidSubsPromises = [];
             data.changes.forEach(change => {
-                setPaidSubsPromises.push(db.collection('players').doc(change.playerId).get().then(
-                    player => {
-                        if (!player.exists) {
-                            common.log(context.auth.uid, 'Invalid Player ID', { PlayerId: change.playerId });
-                            throw new functions.https.HttpsError('not-found', 'Invalid player ID');
+                setPaidSubsPromises.push(common.getCorrectYear(db).collection('players').doc(change.playerId).get()
+                    .then(
+                        player => {
+                            if (!player.exists) {
+                                common.log(context.auth.uid, 'Invalid Player ID', { PlayerId: change.playerId });
+                                throw new functions.https.HttpsError('not-found', 'Invalid player ID');
+                            }
+                            return player.ref.update({
+                                hasPaidSubs: change.hasPaidSubs
+                            });
                         }
-                        return player.ref.update({
-                            hasPaidSubs: change.hasPaidSubs
-                        });
-                    }
-                ));
+                    ));
             });
 
-            const getDisplayName = id => db.collection('users').doc(id).get()
+            const getDisplayName = id => common.getCorrectYear(db).collection('users').doc(id).get()
                 .then(user => ({
                     displayName: user.data().displayName,
                     email: user.data().email
                 }));
 
-            return Promise.all(setPaidSubsPromises).then(() => db.collection('club-subs').doc(constants.clubSubsHistoryId).get()
+            return Promise.all(setPaidSubsPromises).then(() => common.getCorrectYear(db).collection('club-subs').doc(constants.clubSubsHistoryId).get()
                 .then(doc => getDisplayName(context.auth.uid).then(user => {
                     const update = {
                         ...getUpdate(data.changes),
@@ -51,11 +52,11 @@ exports.setHasPaidSubs = functions
                         }
                     };
                     if (!doc.exists) {
-                        return db.collection('club-subs').doc(constants.clubSubsHistoryId).set({
+                        return common.getCorrectYear(db).collection('club-subs').doc(constants.clubSubsHistoryId).set({
                             history: [update]
                         });
                     }
-                    return db.collection('club-subs').doc(constants.clubSubsHistoryId).update({
+                    return common.getCorrectYear(db).collection('club-subs').doc(constants.clubSubsHistoryId).update({
                         history: [update, ...doc.data().history]
                     });
                 })));

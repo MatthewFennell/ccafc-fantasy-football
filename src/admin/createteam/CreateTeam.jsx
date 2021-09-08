@@ -1,17 +1,17 @@
-import React, { useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import classNames from 'classnames';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import defaultStyles from './CreateTeam.module.scss';
-import { createTeamRequest } from '../actions';
-import StyledButton from '../../common/StyledButton/StyledButton';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import React, { useCallback, useState } from 'react';
+import { connect } from 'react-redux';
 import Spinner from '../../common/spinner/Spinner';
+import StyledButton from '../../common/StyledButton/StyledButton';
 import TextInput from '../../common/TextInput/TextInput';
-import materialStyles from '../../materialStyles';
 import * as appConstants from '../../constants';
+import materialStyles from '../../materialStyles';
+import { createTeamRequest } from '../actions';
+import defaultStyles from './CreateTeam.module.scss';
 
 const CreateTeam = props => {
     const classes = makeStyles(materialStyles)();

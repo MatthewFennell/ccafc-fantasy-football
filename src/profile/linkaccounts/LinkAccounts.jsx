@@ -1,14 +1,14 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
 import { noop } from 'lodash';
-import defaultStyles from './LinkAccounts.module.scss';
-import GoogleImage from '../../common/images/google-image.jpg';
+import PropTypes from 'prop-types';
+import React from 'react';
 import FacebookImage from '../../common/images/facebook-image.jpg';
+import GoogleImage from '../../common/images/google-image.jpg';
 import materialStyles from '../../materialStyles';
+import defaultStyles from './LinkAccounts.module.scss';
 
 const LinkAccounts = props => {
     const classes = makeStyles(materialStyles)();

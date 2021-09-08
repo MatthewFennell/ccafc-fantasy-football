@@ -1,9 +1,9 @@
-import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
 import { noop } from 'lodash';
-import defaultStyles from './Comments.module.scss';
-import Comment from './Comment';
+import PropTypes from 'prop-types';
+import React, { useCallback, useState } from 'react';
 import AddReply from './AddReply';
+import Comment from './Comment';
+import defaultStyles from './Comments.module.scss';
 
 const hasChildren = comment => comment.comments && comment.comments.length;
 

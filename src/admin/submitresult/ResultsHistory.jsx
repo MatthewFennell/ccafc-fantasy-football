@@ -1,7 +1,7 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import Update from './Update';
+import React from 'react';
 import defaultStyles from './ResultsHistory.module.scss';
+import Update from './Update';
 
 const ResultsHistory = props => {
     if (props.resultsHistory && props.resultsHistory.length === 0) {

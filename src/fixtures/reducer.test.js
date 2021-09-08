@@ -1,5 +1,5 @@
-import reducer, { initialState } from './reducer';
 import * as actions from './actions';
+import reducer, { initialState } from './reducer';
 
 describe('Fixtures reducer', () => {
     it('should return the initial state', () => {

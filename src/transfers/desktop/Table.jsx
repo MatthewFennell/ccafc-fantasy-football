@@ -1,19 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { noop } from 'lodash';
-import classNames from 'classnames';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import defaultStyles from './Table.module.scss';
-import Grid from '../../common/grid/Grid';
-import inputStyles from '../common/InputStyles.module.scss';
+import classNames from 'classnames';
+import { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Dropdown from '../../common/dropdown/Dropdown';
+import Grid from '../../common/grid/Grid';
 import Slider from '../../common/slider/Slider';
-import { generateMarks, sortListAscDescDesktop } from '../common/helpers';
-import TextInput from '../../common/TextInput/TextInput';
 import * as textInputConstants from '../../common/TextInput/constants';
+import TextInput from '../../common/TextInput/TextInput';
 import { generateCsvTitle } from '../../helperFunctions';
 import materialStyles from '../../materialStyles';
+import { generateMarks, sortListAscDescDesktop } from '../common/helpers';
+import inputStyles from '../common/InputStyles.module.scss';
+import defaultStyles from './Table.module.scss';
 
 const positionOptions = [
     {

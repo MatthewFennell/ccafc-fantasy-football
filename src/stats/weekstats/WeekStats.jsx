@@ -1,14 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { CSVLink } from 'react-csv';
-import fp from 'lodash/fp';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import defaultStyles from './WeekStats.module.scss';
+import fp from 'lodash/fp';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState } from 'react';
+import { CSVLink } from 'react-csv';
 import Spinner from '../../common/spinner/Spinner';
 import StyledButton from '../../common/StyledButton/StyledButton';
 import { generateCsvTitle } from '../../helperFunctions';
 import materialStyles from '../../materialStyles';
+import defaultStyles from './WeekStats.module.scss';
 
 const WeekStats = props => {
     const classes = makeStyles(materialStyles)();

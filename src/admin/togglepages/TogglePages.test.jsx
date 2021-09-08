@@ -1,12 +1,12 @@
-import React from 'react';
 import { noop } from 'lodash';
+import React from 'react';
 import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { shallow, mount } from '../../enzyme';
+import configureMockStore from 'redux-mock-store';
+import Switch from '../../common/Switch/Switch';
+import { mount, shallow } from '../../enzyme';
 import { initialState } from '../reducer';
 import { TogglePagesConnected, TogglePagesUnconnected } from './TogglePages';
-import Switch from '../../common/Switch/Switch';
 
 const mockHistory = {
     location: {

@@ -1,13 +1,13 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import defaultStyles from './VerifyEmail.module.scss';
-import { resendEmailVerificationRequest } from './actions';
-import StyledButton from '../common/StyledButton/StyledButton';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
 import Spinner from '../common/spinner/Spinner';
+import StyledButton from '../common/StyledButton/StyledButton';
 import materialStyles from '../materialStyles';
+import { resendEmailVerificationRequest } from './actions';
+import defaultStyles from './VerifyEmail.module.scss';
 
 const VerifyEmail = props => {
     const classes = makeStyles(materialStyles)();

@@ -1,21 +1,21 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import classNames from 'classnames';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import Dropdown from '../../common/dropdown/Dropdown';
-import defaultStyles from './CreatePlayer.module.scss';
+import Spinner from '../../common/spinner/Spinner';
+import StyledButton from '../../common/StyledButton/StyledButton';
+import * as textInputConstants from '../../common/TextInput/constants';
+import TextInput from '../../common/TextInput/TextInput';
+import * as appConstants from '../../constants';
+import materialStyles from '../../materialStyles';
 import {
     createPlayerRequest, fetchTeamsRequest
 } from '../actions';
-import StyledButton from '../../common/StyledButton/StyledButton';
-import Spinner from '../../common/spinner/Spinner';
-import TextInput from '../../common/TextInput/TextInput';
-import * as textInputConstants from '../../common/TextInput/constants';
-import materialStyles from '../../materialStyles';
-import * as appConstants from '../../constants';
+import defaultStyles from './CreatePlayer.module.scss';
 
 const options = [
     { value: 'GOALKEEPER', text: 'Goalkeeper', id: 'GOALKEEPER' },
@@ -98,6 +98,10 @@ const CreatePlayer = props => {
             })}
             >
                 <Spinner color="secondary" />
+            </div>
+            <div className={props.styles.helpFullMessage}>
+                Remember after creating a player, you need to click
+                compress players in the trigger week tab for them to appear
             </div>
         </Paper>
     );

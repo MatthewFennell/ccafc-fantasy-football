@@ -1,6 +1,6 @@
-import reducer, { initialState } from './reducer';
-import * as actions from './actions';
 import * as modalHandlingActions from '../modalHandling/actions';
+import * as actions from './actions';
+import reducer, { initialState } from './reducer';
 
 describe('Admin reducer', () => {
     it('should return the initial state', () => {

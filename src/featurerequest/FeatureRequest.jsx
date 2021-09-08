@@ -1,16 +1,16 @@
-import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
 import _, { noop } from 'lodash';
+import PropTypes from 'prop-types';
+import React, { useCallback, useState } from 'react';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
+import ConfirmModal from '../common/modal/ConfirmModal';
 import {
-    addReplyToCommentRequest, submitFeatureRequest, addCommentToFeatureRequest,
-    deleteCommentRequest, deleteReplyRequest
+    addCommentToFeatureRequest, addReplyToCommentRequest, deleteCommentRequest,
+    deleteReplyRequest, submitFeatureRequest
 } from './actions';
 import AllFeatureRequests from './AllFeatureRequests';
 import SubmitFeature from './SubmitFeature';
-import ConfirmModal from '../common/modal/ConfirmModal';
 
 const FeatureRequest = props => {
     const [description, setDescription] = useState('');

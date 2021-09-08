@@ -1,8 +1,8 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { shallow, mount } from '../enzyme';
+import configureMockStore from 'redux-mock-store';
+import { mount, shallow } from '../enzyme';
 import Fixtures, { FixturesUnconnected } from './Fixtures';
 import { initialState } from './reducer';
 

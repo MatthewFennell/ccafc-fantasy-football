@@ -1,12 +1,12 @@
-import {
-    all, call, takeEvery, put, select
-} from 'redux-saga/effects';
 import firebase from 'firebase';
+import {
+    all, call, put, select, takeEvery
+} from 'redux-saga/effects';
+import { setErrorMessage } from '../modalHandling/actions';
+import { addNotification } from '../notifications/actions';
 import * as actions from './actions';
 import * as teamApi from './api';
 import * as selectors from './selectors';
-import { setErrorMessage } from '../modalHandling/actions';
-import { addNotification } from '../notifications/actions';
 
 export function* fetchActiveTeam(forced, api, action) {
     try {
@@ -17,7 +17,10 @@ export function* fetchActiveTeam(forced, api, action) {
                 activeTeam.players, activeTeam.captain));
         }
     } catch (error) {
-        yield put(setErrorMessage('Error Fetching Active Team', error));
+        yield put(setErrorMessage('Error Fetching Active Team. Trying to fix. Refresh the page in 60 seconds. If this does not work, contact the admin.', error));
+        if (error.message === 'Somehow you have no active team') {
+            yield call(api.attemptToFixAccount);
+        }
     } finally {
         yield put(actions.setPlayerModalOpen(false));
         yield put(actions.cancelFetchingActiveTeam(action.userId));

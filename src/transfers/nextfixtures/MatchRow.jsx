@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import moment from 'moment';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import { MDBIcon } from 'mdbreact';
-import defaultStyles from './MatchRow.module.scss';
+import moment from 'moment';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { renderCollegeIcon } from './helpers';
+import defaultStyles from './MatchRow.module.scss';
 
 const covertToTime = d => moment(d, 'DD-MM-YYYY hh:mm').format('HH:mm');
 

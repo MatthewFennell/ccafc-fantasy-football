@@ -1,14 +1,15 @@
 import {
-    all, takeEvery, put, select, call
+    all, call, put, select, takeEvery
 } from 'redux-saga/effects';
-import * as actions from './actions';
-import * as selectors from './selectors';
-import * as overviewApi from './api';
 import { setErrorMessage } from '../modalHandling/actions';
+import * as actions from './actions';
+import * as overviewApi from './api';
+import * as selectors from './selectors';
 
 export function* getUserStats(api, action) {
     try {
         const fetchedStats = yield select(selectors.alreadyFetchedUserStats, action.userId);
+
         if (!fetchedStats) {
             const stats = yield call(api.getUserStats, {
                 userId: action.userId
