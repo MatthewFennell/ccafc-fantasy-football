@@ -29,63 +29,26 @@ Sentry.init({
 
 const history = createBrowserHistory();
 
-const getCorrectYearTest = () => {
-    const dateToSet = new Date();
-
-    dateToSet.setMonth(8); // August
-    dateToSet.setDate(1); // 1st August
-    dateToSet.setHours(20);
-
-    const newDate = new Date();
-
-    if (newDate > dateToSet) {
-        return true;
-    }
-    return false;
-};
-
 // MUST BE SYNCED WITH CLOUD FUNCTION
 const getCorrectYear = () => {
-    const currentDate = new Date();
-    if (currentDate.getDate() === 4) {
-        console.log('getting 2021');
-        return '2021';
-    }
+    const switchOverDate = new Date();
 
-    if (currentDate.getDate() === 5) {
-        console.log('getting 2022');
-        return '2022';
-    }
-
-    const dateToSet = new Date();
-
-    dateToSet.setMonth(8); // August
-    dateToSet.setDate(4); // 1st August
-    dateToSet.setHours(20);
+    switchOverDate.setMonth(7); // August
+    switchOverDate.setDate(1); // 1st August
+    switchOverDate.setHours(1);
 
     const newDate = new Date();
 
-    if (newDate > dateToSet) {
+    if (newDate > switchOverDate) {
         return String(newDate.getFullYear());
     }
     return String(newDate.getFullYear() - 1);
 
-    // const currentDate = new Date();
-
-    // const month = currentDate.getMonth();
-    // const year = currentDate.getFullYear();
     // // 07 = August -> Once we reach August, start serving the next year
     // // This means that at the beginning of August, we must convert over the previous year
 
     // // If we are January 2022, then the season started in 2021, so we return 2021
-
-    // if (month >= 7) {
-    //     return String(year);
-    // }
-    // return String(year - 1);
 };
-
-console.log('a', getCorrectYear());
 
 // react-redux-firebase config
 const rrfConfig = {
@@ -123,7 +86,10 @@ const currentDate = new Date();
 const month = currentDate.getMonth();
 const dayOfMonth = currentDate.getDate();
 
-const isDownForMaintenance = () => month === 9 && dayOfMonth < 5;
+// Disable for first 5 days of August
+// Roll over will happen on 1st August
+// Cloud functions start serving next year on 1st August
+const isDownForMaintenance = () => month === 7 && dayOfMonth < 5;
 
 ReactDOM.render(
     <Provider store={store}>

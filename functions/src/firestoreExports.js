@@ -60,23 +60,20 @@ exports.scheduledFirestoreExport = functions.region(constants.region).pubsub
 
 // fantasypassword for all dummy accounts
 
-
 // cron timetable
 // *               *               *                        *               *
 // min (0-59)      hour (0-23)     day of month (1-31)      month (1-12)    day of week (0-6) (Sun - Sat??)
 
+// run this on the 1st August every year - synced with the common.getCorrectYear
 exports.rollOverToNextYear = functions.region(constants.region).pubsub
-    .schedule('27 22 1 9 *').timeZone('Europe/London')
-    .onRun(() => {
-        return common.getCorrectYear(db).collection('leagues').doc(constants.collingwoodLeagueId).set({
-            owner: 'owner',
-            start_week: 0,
-            name: config.league.name,
-            number_of_users: 0
-        }).then(() => {
-        // league created
-        return common.getPreviousYear(db).collection('users').get().then(users => {
-
+    .schedule('5 1 1 8 *').timeZone('Europe/London')
+    .onRun(() => common.getCorrectYear(db).collection('leagues').doc(constants.collingwoodLeagueId).set({
+        owner: 'owner',
+        start_week: 0,
+        name: config.league.name,
+        number_of_users: 0
+    })
+        .then(() => common.getPreviousYear(db).collection('users').get().then(users => {
             const usersToUse = users.docs.filter(user => user.data().total_points > 0);
 
             common.getCorrectYear(db).collection('application-info').doc(constants.applicationInfoId).set({
@@ -89,8 +86,8 @@ exports.rollOverToNextYear = functions.region(constants.region).pubsub
                     ...user.data(),
                     total_points: 0,
                     remaining_transfers: 0,
-                    remaining_budget: 100,
-                })
+                    remaining_budget: 100
+                });
                 common.getCorrectYear(db).collection('leagues-points').add({
                     league_id: constants.collingwoodLeagueId,
                     user_id: user.id,
@@ -100,7 +97,7 @@ exports.rollOverToNextYear = functions.region(constants.region).pubsub
                     username: user.data().displayName,
                     position: index + 1,
                     teamName: user.data().teamName
-                })
+                });
 
                 if (user.data().email === config.admin.email) {
                     common.getCorrectYear(db).collection('users-with-roles').doc(user.id).set({
@@ -109,17 +106,13 @@ exports.rollOverToNextYear = functions.region(constants.region).pubsub
                         roles: [constants.ROLES.ADMIN]
                     });
                 }
-            })
-        }).then(() => {
-            return common.getPreviousYear(db).collection('users-with-roles').get().then(roles => {
+            });
+        })
+            .then(() => common.getPreviousYear(db).collection('users-with-roles').get().then(roles => {
                 roles.docs.map(role => {
                     if (role.data().email !== config.admin.email) {
                         return admin.auth().getUserByEmail(role.data().email)
-                            .then(user => admin.auth().setCustomUserClaims(user.uid, {}))
+                            .then(user => admin.auth().setCustomUserClaims(user.uid, {}));
                     }
-                })
-            })
-        })
-    })
-});
-
+                });
+            }))));

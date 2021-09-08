@@ -10,65 +10,50 @@ module.exports.getCorrectYear = (db, forceSpecificYear) => {
     }
     const currentDate = new Date();
 
-    if (currentDate.getDate() === 4) {
-        console.log("getting 2021")
-        return db.collection('fantasy-years').doc(String('2021'))
-    }
-
-    if (currentDate.getDate() === 5) {
-        console.log("getting 2022")
-        return db.collection('fantasy-years').doc(String('2022'))
-    }
-
-    
-
     const dateToSwitch = new Date();
     // dateToSwitch.setMonth(7) // August
     // dateToSwitch.setDate(1) // 1st August
-    // dateToSwitch.setHours(0); 
+    // dateToSwitch.setHours(0);
 
-    dateToSwitch.setMonth(8) // August
-    dateToSwitch.setDate(4) // 1st August
-    dateToSwitch.setHours(20); 
-
-    
-
+    dateToSwitch.setMonth(7); // August
+    dateToSwitch.setDate(1); // 1st August
+    dateToSwitch.setHours(1);
 
     const year = currentDate.getFullYear();
     // 07 = August -> Once we reach August, start serving the next year
     // If we are January 2022, then the season started in 2021, so we return 2021
 
     if (currentDate > dateToSwitch) {
-        console.log("getting year a", year);
-        return db.collection('fantasy-years').doc(String(year))
+        console.log('getting year a', year);
+        return db.collection('fantasy-years').doc(String(year));
     }
-    console.log("getting year b", year-1);
-    return db.collection('fantasy-years').doc(String(year-1))
+    console.log('getting year b', year - 1);
+    return db.collection('fantasy-years').doc(String(year - 1));
 };
 
 // MUST BE SYNCED WITH CLOUD FUNCTION
-module.exports.getPreviousYear = (db) => {
+module.exports.getPreviousYear = db => {
     const currentDate = new Date();
 
     const dateToSwitch = new Date();
     // dateToSwitch.setMonth(7) // August
     // dateToSwitch.setDate(1) // 1st August
-    // dateToSwitch.setHours(0); 
+    // dateToSwitch.setHours(0);
 
-    dateToSwitch.setMonth(8) // August
-    dateToSwitch.setDate(4) // 1st August
-    dateToSwitch.setHours(20); 
+    dateToSwitch.setMonth(7); // August
+    dateToSwitch.setDate(1); // 1st August
+    dateToSwitch.setHours(1);
 
     const year = currentDate.getFullYear();
     // 07 = August -> Once we reach August, start serving the next year
     // If we are January 2022, then the season started in 2021, so we return 2021
 
     if (currentDate > dateToSwitch) {
-        console.log("previous year A", year-1)
-        return db.collection('fantasy-years').doc(String(year-1))
+        console.log('previous year A', year - 1);
+        return db.collection('fantasy-years').doc(String(year - 1));
     }
-    console.log("previous year B", year-2)
-    return db.collection('fantasy-years').doc(String(year-2))
+    console.log('previous year B', year - 2);
+    return db.collection('fantasy-years').doc(String(year - 2));
 };
 
 module.exports.isAuthenticated = context => {
