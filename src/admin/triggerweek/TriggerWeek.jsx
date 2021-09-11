@@ -83,6 +83,92 @@ const TriggerWeek = props => {
             >
                 <Spinner color="secondary" />
             </div>
+
+            <div className={props.styles.instructionsWrapper}>
+                <div className={props.styles.instructionsHeader}>
+                    Instructions on how to setup and run the app
+                </div>
+
+                <div>
+                    <ul>
+                        <li>
+                            First you will need to create all of the teams in the Create Team tab.
+                            May take a refresh or two for them to start coming through
+                        </li>
+                        <li>
+                            Then create all of the players in the Create Player tab.
+                            After creating ALL of the players, make sure to click
+                            {' '}
+                            <b>Compresss Players Database</b>
+                            {' '}
+                            in the Trigger week page (above).
+                            (You will need to click compress for any new players added later on too)
+                        </li>
+                        <li>
+                            Give people time to make their initial teams
+                        </li>
+                        <li>
+                            Before the kick off of the first match of each week, use this page to
+                            Trigger the week. This essentially locks in users teams for that week
+                        </li>
+                        <li>
+                            Be careful when triggering weeks.
+                            It is very tricky to undo that so just pay attention to the timing
+                        </li>
+                        <li>
+                            Any transfers that users make will now apply for the following week
+                        </li>
+                        <li>
+                            Once results come in, you can add them whenever you like
+                            for the previous gameweeks.
+                            I would recommend adding them all at the same time.
+                        </li>
+                        <li>
+                            Additional info such as Red / Yellow cards needs to be
+                            added separately to the normal goals / assists
+                        </li>
+                        <li>
+                            After adding in all the results, click
+                            {' '}
+                            <b>Recalculate League Positions</b>
+                        </li>
+                        <li>
+                            I try to make a copy of the database once per day and store it for 2
+                            weeks, so it should be possible to go back in time if something goes
+                            wrong. Although this would also undo any recent transfers users make
+                        </li>
+
+                        <li>
+                            The cup should just run automatically without you needing to do anything
+                        </li>
+                        <li>
+                            Player pricing is totally up to you
+                        </li>
+                        <li>
+                            Any questions just message me on Facebook or email to
+                            {' '}
+                            <a href="mailto:m.fennell@live.co.uk">m.fennell@live.co.uk</a>
+                        </li>
+                    </ul>
+
+                    <div className={props.styles.instructionsHeader}>
+                        Weekly order of operations
+                    </div>
+
+                    <div>
+                        1) Trigger Week
+                    </div>
+
+                    <div>
+                        2) Submit all results
+                    </div>
+
+                    <div>
+                        3) Click recalculate league positions
+                        (wait a minute after entering the last result)
+                    </div>
+                </div>
+            </div>
         </Paper>
     );
 };

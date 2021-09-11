@@ -40,3 +40,9 @@
 .hidden {
   visibility: hidden;
 }
+
+.instructionsHeader {
+  font-weight: bold;
+  color: $color-green;
+  font-size: $font-size-large;
+}
