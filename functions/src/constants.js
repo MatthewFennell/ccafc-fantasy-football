@@ -110,27 +110,14 @@ module.exports.ROLE_PERMISSIONS = {
 };
 
 module.exports.mensLeagueFixtures = [
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=131',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=132',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=133',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=134',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=135',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=136',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=137',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=138',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=139',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=140',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=141',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=142',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=143',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=144',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=145',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=146',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=147',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=148',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=149',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=150',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=151'
+    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=19',
+    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=20',
+    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=21',
+    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=22',
+    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=23',
+    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=24',
+    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=77',
+    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=202'
     // 'https://www.dur.ac.uk/teamdurham/participation/collegesport/knockout/?knockout=111', // Floodlit
     // 'https://www.dur.ac.uk/teamdurham/participation/collegesport/knockout/?knockout=113' // Cup
 ];

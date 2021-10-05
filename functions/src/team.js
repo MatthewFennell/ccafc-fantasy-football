@@ -38,8 +38,11 @@ exports.getAllTeams = functions
         common.isAuthenticated(context);
         return common.getCorrectYear(db).collection('teams-blob').doc(constants.teamsBlobId).get()
             .then(doc => {
-                const { blob } = doc.data();
-                return JSON.parse(blob);
+                if (doc.exists) {
+                    const { blob } = doc.data();
+                    return JSON.parse(blob);
+                }
+                return Promise.resolve([])
             });
     });
 
