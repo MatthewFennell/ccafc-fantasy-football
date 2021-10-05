@@ -14,7 +14,7 @@ service cloud.firestore {
     }
 
     match /fantasy-years/{document=**}/application-info/{app} {
-    	allow read: if true;
+    	allow read: if request.auth.uid != null;
     }
     
     match /fantasy-years/{document=**}/application-info/{appInfo} {
