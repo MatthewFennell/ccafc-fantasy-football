@@ -4,8 +4,10 @@ import React, { createContext } from 'react';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
+import * as appConstants from './constants';
+import { getCorrectYear } from './common';
 
-const getDisabledPages = appInfo => _.head(_.map(appInfo, value => (value.disabledPages)));
+const getDisabledPages = appInfo => _.get(appInfo, 'disabledPages') || [];
 
 export const MyContext = createContext();
 
@@ -38,7 +40,11 @@ export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect(() => [
         {
-            collection: 'application-info',
+            collection: 'fantasy-years',
+            doc: getCorrectYear(),
+            subcollections: [
+                { collection: 'application-info', doc: appConstants.APPLICATION_INFO_ID }
+            ],
             storeAs: 'appInfo'
         }
     ])

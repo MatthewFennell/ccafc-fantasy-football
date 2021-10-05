@@ -13,8 +13,9 @@ import * as appConstants from '../../constants';
 import materialStyles from '../../materialStyles';
 import * as routes from '../../routes';
 import defaultStyles from './TogglePages.module.scss';
+import { getCorrectYear } from '../../common';
 
-const getDisabledPages = appInfo => _.get(appInfo, [appConstants.APPLICATION_INFO_ID, 'disabledPages']) || [];
+const getDisabledPages = appInfo => _.get(appInfo, 'disabledPages') || [];
 
 const TogglePages = props => {
     const classes = makeStyles(materialStyles)();
@@ -81,7 +82,11 @@ export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect(() => [
         {
-            collection: 'application-info',
+            collection: 'fantasy-years',
+            doc: getCorrectYear(),
+            subcollections: [
+                { collection: 'application-info', doc: appConstants.APPLICATION_INFO_ID }
+            ],
             storeAs: 'appInfo'
         }
     ])
