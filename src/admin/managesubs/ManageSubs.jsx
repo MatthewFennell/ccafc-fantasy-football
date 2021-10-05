@@ -10,6 +10,7 @@ import { CSVLink } from 'react-csv';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
+import { getCorrectYear } from '../../common';
 import Checkbox from '../../common/Checkbox/Checkbox';
 import Dropdown from '../../common/dropdown/Dropdown';
 import Grid from '../../common/grid/Grid';
@@ -28,7 +29,7 @@ import * as helpers from './helpers';
 import defaultStyles from './ManageSubs.module.scss';
 import SubsHistory from './SubsHistory';
 
-const getSubsHistory = history => _.get(history, [appConstants.CLUB_SUBS_HISTORY_ID, 'history']);
+const getSubsHistory = history => _.get(history, 'history') ?? [];
 
 const ManageSubs = props => {
     const classes = makeStyles(materialStyles)();
@@ -265,13 +266,15 @@ const mapStateToProps = state => ({
     updatingSubs: state.admin.updatingSubs
 });
 
-// export default connect(mapStateToProps, mapDispatchToProps)(ManageSubs);
-
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect(() => [
         {
-            collection: 'club-subs',
+            collection: 'fantasy-years',
+            doc: getCorrectYear(),
+            subcollections: [
+                { collection: 'club-subs', doc: appConstants.CLUB_SUBS_HISTORY_ID }
+            ],
             storeAs: 'clubSubs'
         }
     ])

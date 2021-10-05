@@ -20,11 +20,15 @@ exports.submitFeature = functions
                 .where('userId', '==', context.auth.uid).get()
                 .then(
                     requests => {
+                        console.log("displayName", displayName);
+                        console.log("isBug", data.isBug);
+                        console.log("description", data.description);
+                        console.log("dateCreated", operations.serverTimestamp());
                         if (requests.size >= 10) {
                             throw new functions.https.HttpsError('invalid-argument', 'A maximum 10 requests are allowed to be active');
                         }
 
-                        return common.getCorrectYear(db).collection('feature-requests').add({
+                        common.getCorrectYear(db).collection('feature-requests').add({
                             isBug: data.isBug,
                             userId: context.auth.uid,
                             description: data.description,

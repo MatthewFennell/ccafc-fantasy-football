@@ -67,8 +67,11 @@ exports.getAllPlayers = functions
         common.isAuthenticated(context);
         return common.getCorrectYear(db).collection('players-blob').doc(constants.playersBlobId).get()
             .then(doc => {
-                const { blob } = doc.data();
-                return JSON.parse(blob);
+                if (doc.exists) {
+                    const { blob } = doc.data();
+                    return JSON.parse(blob);
+                }
+                return Promise.resolve([])
             });
     });
 

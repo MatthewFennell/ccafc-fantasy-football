@@ -11,6 +11,7 @@ import {
 } from './actions';
 import AllFeatureRequests from './AllFeatureRequests';
 import SubmitFeature from './SubmitFeature';
+import { getCorrectYear } from '../common';
 
 const FeatureRequest = props => {
     const [description, setDescription] = useState('');
@@ -187,7 +188,11 @@ export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect(() => [
         {
-            collection: 'feature-requests',
+            collection: 'fantasy-years',
+            doc: getCorrectYear(),
+            subcollections: [
+                { collection: 'feature-requests' }
+            ],
             storeAs: 'featureRequests'
         }
     ])

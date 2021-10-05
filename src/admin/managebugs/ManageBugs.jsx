@@ -9,6 +9,7 @@ import ConfirmModal from '../../common/modal/ConfirmModal';
 import { deleteFeatureRequest, setBugIdToDelete } from '../actions';
 import Bug from './Bug';
 import defaultStyles from './ManageBugs.module.scss';
+import { getCorrectYear } from '../../common';
 
 const convertToBugs = bugs => (bugs ? Object.keys(bugs)
     .filter(x => !_.isEmpty(bugs[x])).map(bug => ({
@@ -90,9 +91,12 @@ export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect(() => [
         {
-            collection: 'feature-requests',
-            storeAs: 'featureRequestBugs',
-            where: ['isBug', '==', true]
+            collection: 'fantasy-years',
+            doc: getCorrectYear(),
+            subcollections: [
+                { collection: 'feature-requests', where: ['isBug', '==', true] }
+            ],
+            storeAs: 'featureRequestBugs'
         }
     ])
 )(ManageBugs);

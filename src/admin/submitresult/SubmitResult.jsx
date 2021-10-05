@@ -8,6 +8,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
+import { getCorrectYear } from '../../common';
 import Dropdown from '../../common/dropdown/Dropdown';
 import LoadingDiv from '../../common/loadingDiv/LoadingDiv';
 import SuccessModal from '../../common/modal/SuccessModal';
@@ -383,7 +384,11 @@ export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect(() => [
         {
-            collection: 'results-history',
+            collection: 'fantasy-years',
+            doc: getCorrectYear(),
+            subcollections: [
+                { collection: 'results-history', doc: appConstants.RESULTS_HISTORY_ID }
+            ],
             storeAs: 'resultsHistory'
         }
     ])
