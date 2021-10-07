@@ -1,7 +1,6 @@
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import _ from 'lodash';
 import fp from 'lodash/fp';
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -39,8 +38,6 @@ const generateWeekOptions = maxGameWeek => {
     }
     return options;
 };
-
-const getResultsHistory = history => _.get(history, [appConstants.RESULTS_HISTORY_ID, 'history']);
 
 const SubmitResult = props => {
     const classes = makeStyles(materialStyles)();
@@ -192,6 +189,8 @@ const SubmitResult = props => {
             />
         );
     });
+
+    console.log('test', props.resultsHistory);
 
     return (
         <>
@@ -372,7 +371,7 @@ const mapStateToProps = state => ({
     isFetchingTeams: state.admin.isFetchingTeams,
     isFetchingPlayersForTeam: state.admin.isFetchingPlayersForTeam,
     maxGameWeek: state.overview.maxGameWeek,
-    resultsHistory: getResultsHistory(state.firestore.data.resultsHistory),
+    resultsHistory: state.firestore.data.resultsHistory?.history,
     submittingResult: state.admin.submittingResult,
     submittingExtraResult: state.admin.submittingExtraResults,
     submitResultError: state.admin.submitResultError,
