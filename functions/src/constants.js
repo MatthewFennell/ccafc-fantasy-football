@@ -59,7 +59,8 @@ const PERMISSIONS = {
     MANAGE_BUGS: 'MANAGE_BUGS',
     TOGGLE_PAGES: 'TOGGLE_PAGES',
     SORT_LEAGUES: 'SORT_LEAGUES',
-    ADD_NOTIFICATIONS: 'ADD_NOTIFICATIONS'
+    ADD_NOTIFICATIONS: 'ADD_NOTIFICATIONS',
+    SET_DIVISIONS: 'SET_DIVISIONS'
 };
 
 module.exports.PERMISSIONS = PERMISSIONS;
@@ -130,6 +131,7 @@ module.exports.womensLeagueFixtures = [
 module.exports.cupDatabaseId = 'ccafc-cup-id';
 module.exports.collingwoodLeagueId = 'collingwood-league-id';
 module.exports.applicationInfoId = 'application-info-id';
+module.exports.divisionsId = 'divisions-id';
 module.exports.clubSubsHistoryId = 'club-subs-history-id';
 module.exports.resultsHistoryId = 'results-history-id';
 module.exports.playersBlobId = 'players-blob-id';

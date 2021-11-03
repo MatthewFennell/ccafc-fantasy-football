@@ -16,6 +16,10 @@ service cloud.firestore {
     match /fantasy-years/{document=**}/application-info/{app} {
     	allow read: if request.auth.uid != null;
     }
+
+    match /fantasy-years/{document=**}/divisions/{app} {
+    	allow read: if request.auth.uid != null;
+    }
     
     match /fantasy-years/{document=**}/application-info/{appInfo} {
       allow read, write: if request.auth.token.ADMIN == true
