@@ -90,6 +90,7 @@ module.exports.ROLE_PERMISSIONS = {
         PERMISSIONS.EDIT_PLAYER,
         PERMISSIONS.ADD_NOTIFICATIONS,
         PERMISSIONS.APPROVE_HIGHLIGHTS,
+        PERMISSIONS.SET_DIVISIONS,
         PERMISSIONS.MANAGE_SUBS],
     MAINTAINER: [
         PERMISSIONS.CREATE_PLAYER,
@@ -101,6 +102,7 @@ module.exports.ROLE_PERMISSIONS = {
         PERMISSIONS.SUBMIT_RESULT,
         PERMISSIONS.TRIGGER_WEEK,
         PERMISSIONS.EDIT_PLAYER,
+        PERMISSIONS.SET_DIVISIONS,
         PERMISSIONS.APPROVE_HIGHLIGHTS],
     HIGHLIGHT_APPROVER: [
         PERMISSIONS.APPROVE_HIGHLIGHTS
@@ -109,24 +111,6 @@ module.exports.ROLE_PERMISSIONS = {
         PERMISSIONS.MANAGE_SUBS
     ]
 };
-
-module.exports.mensLeagueFixtures = [
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=19',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=20',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=21',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=22',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=23',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=24',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=77',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=202'
-    // 'https://www.dur.ac.uk/teamdurham/participation/collegesport/knockout/?knockout=111', // Floodlit
-    // 'https://www.dur.ac.uk/teamdurham/participation/collegesport/knockout/?knockout=113' // Cup
-];
-
-module.exports.womensLeagueFixtures = [
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=32',
-    'https://www.dur.ac.uk/teamdurham/participation/collegesport/league/?league=33'
-];
 
 module.exports.cupDatabaseId = 'ccafc-cup-id';
 module.exports.collingwoodLeagueId = 'collingwood-league-id';

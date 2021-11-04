@@ -86,12 +86,12 @@ export const adminLinks = [
         permissionRequired: constants.PERMISSIONS.TRIGGER_WEEK
     },
     {
-        title: 'Edit Fixtures',
+        title: 'Edit Divisions',
         icon: <EditIcon color="primary" />,
-        component: generateLazyComponent(adminComponents.Fixtures, 'Trigger Week'),
+        component: generateLazyComponent(adminComponents.Fixtures, 'Divisions'),
         path: () => constants.URL.DIVISIONS,
         urlIncludes: constants.URL.DIVISIONS,
-        permissionRequired: constants.PERMISSIONS.ADD_NOTIFICATIONS
+        permissionRequired: constants.PERMISSIONS.SET_DIVISIONS
     },
     {
         title: 'Edit Player Stats',

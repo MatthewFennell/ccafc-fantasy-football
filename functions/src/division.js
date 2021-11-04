@@ -11,11 +11,11 @@ const operations = admin.firestore.FieldValue;
 exports.addDivision = functions
     .region(constants.region)
     .https.onCall((data, context) => common.hasPermission(context.auth.uid,
-        constants.PERMISSIONS.ADD_NOTIFICATIONS).then(() => {
+        constants.PERMISSIONS.SET_DIVISIONS).then(() => {
         if (!data.link || !data.division) {
             throw new functions.https.HttpsError('invalid-argument', 'Must provide a valid link and division');
         }
-        if (!data.link.includes("dur.ac.uk/teamdurham")) {
+        if (!data.link.includes('dur.ac.uk/teamdurham')) {
             throw new functions.https.HttpsError('invalid-argument', 'That does not look like a Team Durham link');
         }
         return common.getCorrectYear(db).collection('divisions').doc(constants.divisionsId).get()
@@ -43,7 +43,7 @@ exports.addDivision = functions
 exports.deleteDivision = functions
     .region(constants.region)
     .https.onCall((data, context) => common.hasPermission(context.auth.uid,
-        constants.PERMISSIONS.ADD_NOTIFICATIONS).then(() => {
+        constants.PERMISSIONS.SET_DIVISIONS).then(() => {
         if (!data.link) {
             throw new functions.https.HttpsError('invalid-argument', 'Must provide a valid link');
         }
@@ -64,4 +64,3 @@ exports.deleteDivision = functions
                 }
             );
     }));
-

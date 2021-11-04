@@ -35,6 +35,7 @@ const Divisions = props => {
     const addDivision = React.useCallback(() => {
         props.addDivisionRequest(link, isMen, div);
         closeAddingDivision();
+        // eslint-disable-next-line
     }, [link, div, isMen]);
 
     const [divToDelete, setDivToDelete] = React.useState('');
@@ -45,6 +46,7 @@ const Divisions = props => {
     const deleteDiv = React.useCallback(() => {
         props.deleteDivisionRequest(divToDelete);
         setDivToDelete('');
+        // eslint-disable-next-line
     }, [divToDelete, setDivToDelete]);
 
     React.useEffect(() => {
@@ -53,9 +55,8 @@ const Divisions = props => {
             setLink('');
             setIsMen(true);
         }
+        // eslint-disable-next-line
     }, [props.isAddingDivision]);
-
-    console.log('isAddingDivision', props.isAddingDivision);
 
     return (
         <>

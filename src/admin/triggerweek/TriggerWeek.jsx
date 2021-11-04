@@ -145,7 +145,15 @@ const TriggerWeek = props => {
                             Player pricing is totally up to you
                         </li>
                         <li>
-                            Any questions just message me on Facebook or email to
+                            On the divisions page, you will need to add the links for each of the
+                            divisons (Prem, Div 1 ...etc) for both men and women. This will
+                            generate the fixtures list. Usually available somewhere
+                            at
+                            {' '}
+                            <a href="https://www.dur.ac.uk/teamdurham/participation/collegesport/sport/">https://www.dur.ac.uk/teamdurham/participation/collegesport/sport</a>
+                        </li>
+                        <li>
+                            Any questions just message me on Facebook or email me at
                             {' '}
                             <a href="mailto:m.fennell@live.co.uk">m.fennell@live.co.uk</a>
                         </li>
