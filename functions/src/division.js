@@ -22,8 +22,17 @@ exports.addDivision = functions
             .then(
                 result => {
                     if (!result.exists) {
-                        throw new functions.https.HttpsError('invalid-argument', 'Server Error. Something has gone wrong');
+                        return common.getCorrectYear(db).collection('divisions').doc(constants.divisionsId).set({
+                            Divisions: [
+                                {
+                                    link: data.link,
+                                    division: data.division,
+                                    isMen: Boolean(data.isMen)
+                                }
+                            ]
+                        })
                     }
+                    
 
                     if (_.some(result.data().Divisions, division => division.link === data.link)) {
                         throw new functions.https.HttpsError('invalid-argument', 'You have already added that division');
