@@ -101,6 +101,26 @@ export const SUBMIT_CUSTOM_RESULTS = `${pre}SUBMIT_CUSTOM_RESULTS`;
 export const COMPRESS_PLAYERS_DATABASE = `${pre}COMPRESS_PLAYERS_DATABASE`;
 export const CANCEL_COMPRESSING_PLAYERS_DATABASE = `${pre}CANCEL_COMPRESSING_PLAYERS_DATABASE`;
 
+export const ADD_DIVISION_REQUEST = `${pre}ADD_DIVISION_REQUEST`;
+export const DELETE_DIVISION_REQUEST = `${pre}DELETE_DIVISION_REQUEST`;
+export const CANCEL_DIVISION_REQUEST = `${pre}CANCEL_DIVISION_REQUEST`;
+
+export const cancelDivisionRequest = () => ({
+    type: CANCEL_DIVISION_REQUEST
+});
+
+export const addDivisionRequest = (link, isMen, division) => ({
+    type: ADD_DIVISION_REQUEST,
+    link,
+    isMen,
+    division
+});
+
+export const deleteDivisionRequest = link => ({
+    type: DELETE_DIVISION_REQUEST,
+    link
+});
+
 export const compressPlayersDatabase = () => ({
     type: COMPRESS_PLAYERS_DATABASE
 });

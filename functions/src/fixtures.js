@@ -68,15 +68,22 @@ const transformHtml = (html, isMen) => {
     return format === 'Knockout' ? generateCupFixtures(arr, league, isMen) : generateLeagueFixtures(arr, league, isMen);
 };
 
-const generateAllFixtures = () => {
-    const promises = constants.mensLeagueFixtures.map(leagueUrl => axios.get(leagueUrl));
-    return Promise.all(promises)
-        .then(mensResult => mensResult.reduce((prev, cur) => prev.concat(transformHtml(cur.data, true)), [])).then(mensResults => {
-            const promisesWomen = constants.womensLeagueFixtures.map(leagueUrl => axios.get(leagueUrl));
-            return Promise.all(promisesWomen)
-                .then(womensResult => mensResults.concat(womensResult.reduce((prev, cur) => prev.concat(transformHtml(cur.data, false)), [])));
-        });
-};
+const generateAllFixtures = () => common.getCorrectYear(db).collection('divisions').doc(constants.divisionsId).get()
+    .then(divisions => {
+        if (!divisions.exists) {
+            throw new functions.https.HttpsError('invalid-argument', 'Divisions don\'t exist');
+        }
+        const mensLeagueFixtures = divisions.data().Divisions.filter(div => div.isMen).map(div => div.link);
+        const womensLeagueFixtures = divisions.data().Divisions.filter(div => !div.isMen).map(div => div.link);
+
+        const promises = mensLeagueFixtures.map(leagueUrl => axios.get(leagueUrl));
+        return Promise.all(promises)
+            .then(mensResult => mensResult.reduce((prev, cur) => prev.concat(transformHtml(cur.data, true)), [])).then(mensResults => {
+                const promisesWomen = womensLeagueFixtures.map(leagueUrl => axios.get(leagueUrl));
+                return Promise.all(promisesWomen)
+                    .then(womensResult => mensResults.concat(womensResult.reduce((prev, cur) => prev.concat(transformHtml(cur.data, false)), [])));
+            });
+    });
 
 exports.scheduledFirestoreExport = functions.region(constants.region).pubsub
     .schedule('every 24 hours')

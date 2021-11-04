@@ -1,0 +1,52 @@
+@import "../../common//Styles.scss";
+
+.headerMessage {
+    font-size: $font-size-large;
+    color: $color-green;
+    text-align: center;
+    font-weight: bold;
+}
+
+.routesWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.optionWrapper {
+    margin: $spacing-small;
+    text-align: center;
+}
+
+.divisionWrapper {
+    display: flex;
+}
+
+.division {
+    margin-left: $spacing-small;
+    color: $color-blue;
+    font-weight: bold;
+}
+
+.modalButtons{
+    text-align: center;
+}
+
+.divisionButtons {
+    text-align: center;
+}
+
+.optionWrapper {
+    margin: $spacing-small;
+    text-align: center;
+    color: $color-blue;
+}
+
+.deleteDivision {
+    margin-left: auto;
+    cursor: pointer;
+
+    :hover {
+        color: $color-blue;
+    }
+}
