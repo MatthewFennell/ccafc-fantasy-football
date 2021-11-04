@@ -17,13 +17,13 @@ const ConfirmModal = props => (
                     color="primary"
                     onClick={props.submit}
                     text="Yes"
-                    disabled={props.isButtonsDisabled}
+                    disabled={Boolean(props.isButtonsDisabled || props.isLoading)}
                 />
                 <StyledButton
                     color="secondary"
                     onClick={props.cancel}
                     text="No"
-                    disabled={props.isButtonsDisabled}
+                    disabled={Boolean(props.isButtonsDisabled || props.isLoading)}
                 />
             </LoadingDiv>
         </div>

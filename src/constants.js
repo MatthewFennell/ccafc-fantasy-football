@@ -25,6 +25,7 @@ export const URL = {
     DELETE_TEAM: '/delete-team',
     SUBMIT_RESULT: '/submit-result',
     TRIGGER_WEEK: '/trigger-week',
+    DIVISIONS: '/divisions',
     EDIT_PLAYER_STATS: '/edit-player-stats',
     EDIT_PLAYER_PRICE: '/edit-player-price',
     APPROVE_HIGHLIGHTS: '/approve-highlights',
@@ -98,7 +99,8 @@ export const PERMISSIONS = {
     MANAGE_BUGS: 'MANAGE_BUGS',
     TOGGLE_PAGES: 'TOGGLE_PAGES',
     SORT_LEAGUES: 'SORT_LEAGUES',
-    ADD_NOTIFICATIONS: 'ADD_NOTIFICATIONS'
+    ADD_NOTIFICATIONS: 'ADD_NOTIFICATIONS',
+    SET_DIVISIONS: 'SET_DIVISIONS'
 };
 
 export const successDelay = 3500;
@@ -114,6 +116,7 @@ export const LEAGUE_PAGE_BUFFER = 1;
 export const APPLICATION_INFO_ID = 'application-info-id';
 export const CLUB_SUBS_HISTORY_ID = 'club-subs-history-id';
 export const RESULTS_HISTORY_ID = 'results-history-id';
+export const DIVISIONS_ID = 'divisions-id';
 
 export const mobileScreenSize = 800;
 

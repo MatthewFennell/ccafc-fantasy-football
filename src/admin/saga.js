@@ -406,6 +406,32 @@ export function* setHasPaidSubs(api, action) {
     }
 }
 
+export function* addDivision(api, action) {
+    try {
+        yield call(api.addDivision, ({
+            link: action.link,
+            isMen: action.isMen,
+            division: action.division
+        }));
+    } catch (error) {
+        yield put(setErrorMessage('Error Adding Division', error));
+    } finally {
+        yield put(actions.cancelDivisionRequest());
+    }
+}
+
+export function* deleteDivision(api, action) {
+    try {
+        yield call(api.deleteDivision, ({
+            link: action.link
+        }));
+    } catch (error) {
+        yield put(setErrorMessage('Error Deleting Division', error));
+    } finally {
+        yield put(actions.cancelDivisionRequest());
+    }
+}
+
 const getRandomInt = max => Math.floor(Math.random() * Math.floor(max));
 
 const noxus = week => ({
@@ -1047,6 +1073,8 @@ export default function* adminSaga() {
         takeEvery(actions.ADD_NOTIFICATION_REQUEST, addNotif, adminApi),
         takeEvery(actions.EDIT_PLAYER_PRICE_REQUEST, editPlayerPrice, adminApi),
         takeEvery(actions.COMPRESS_PLAYERS_DATABASE, compressPlayersDatabase, adminApi),
+        takeEvery(actions.ADD_DIVISION_REQUEST, addDivision, adminApi),
+        takeEvery(actions.DELETE_DIVISION_REQUEST, deleteDivision, adminApi),
         takeEvery(actions.RECALCULATE_LEAGUE_POSITIONS_REQUEST, recalculateLeaguePositions,
             adminApi)
     ]);

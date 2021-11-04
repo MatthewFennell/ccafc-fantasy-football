@@ -48,7 +48,10 @@ export const initialState = {
     addingNotification: false,
     isEditingPlayerPrice: false,
 
-    isDeletingOldUsers: false
+    isDeletingOldUsers: false,
+
+    isAddingDivision: false,
+    isDeletingDivision: false
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -64,6 +67,19 @@ const adminReducer = (state = initialState, action) => {
     }
     case actions.SET_ROLLING_OVER_TO_NEXT_YEAR: {
         return fp.set('isRollingOverToNextYear', action.isRollingOver)(state);
+    }
+    case actions.ADD_DIVISION_REQUEST: {
+        return fp.set('isAddingDivision', true)(state);
+    }
+    case actions.DELETE_DIVISION_REQUEST: {
+        return fp.set('isDeletingDivision', true)(state);
+    }
+    case actions.CANCEL_DIVISION_REQUEST: {
+        return {
+            ...state,
+            isAddingDivision: false,
+            isDeletingDivision: false
+        };
     }
     case actions.EDIT_PLAYER_PRICE_REQUEST: {
         return fp.set('isEditingPlayerPrice', true)(state);
