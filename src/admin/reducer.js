@@ -51,7 +51,9 @@ export const initialState = {
     isDeletingOldUsers: false,
 
     isAddingDivision: false,
-    isDeletingDivision: false
+    isDeletingDivision: false,
+
+    isTransferingMaintainer: false
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -113,6 +115,12 @@ const adminReducer = (state = initialState, action) => {
     }
     case actions.CANCEL_ADDING_NOTIFICATION: {
         return fp.set('addingNotification', false)(state);
+    }
+    case actions.TRANSFER_MAINTAINER_REQUEST: {
+        return fp.set('isTransferingMaintainer', true)(state);
+    }
+    case actions.CANCEL_TRANSFER_MAINTAINER: {
+        return fp.set('isTransferingMaintainer', false)(state);
     }
     case actions.SET_BUG_ID_TO_DELETE: {
         return fp.set('bugIdToDelete', action.bugId)(state);

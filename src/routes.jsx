@@ -9,6 +9,7 @@ import GradeIcon from '@material-ui/icons/Grade';
 import HomeIcon from '@material-ui/icons/Home';
 import LayersIcon from '@material-ui/icons/Layers';
 import LocalCafeIcon from '@material-ui/icons/LocalCafe';
+import LoopIcon from '@material-ui/icons/Loop';
 import MessageIcon from '@material-ui/icons/Message';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
@@ -135,6 +136,15 @@ export const adminLinks = [
         path: () => constants.URL.ADD_NOTIFICATIONS,
         urlIncludes: constants.URL.ADD_NOTIFICATIONS,
         permissionRequired: constants.PERMISSIONS.ADD_NOTIFICATIONS
+    },
+    {
+        title: 'Transfer Maintainer',
+        icon: <LoopIcon color="primary" />,
+        component: generateLazyComponent(adminComponents.TransferMaintainer, 'Transfer Maintainer'),
+        addUserId: false,
+        path: () => constants.URL.TRANSFER_MAINTAINER,
+        urlIncludes: constants.URL.TRANSFER_MAINTAINER,
+        permissionRequired: constants.PERMISSIONS.TRANSFER_MAINTAINER
     },
     {
         title: 'Toggle Pages',

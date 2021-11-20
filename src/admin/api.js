@@ -57,3 +57,4 @@ export const editPlayerPrice = request => functionToCall('player-editPlayerPrice
 export const compressPlayersDatabase = request => functionToCall('player-blobifyManually')(request);
 export const addDivision = request => functionToCall('division-addDivision')(request);
 export const deleteDivision = request => functionToCall('division-deleteDivision')(request);
+export const transferMaintainer = request => functionToCall('auth-transferMaintainer')(request);
