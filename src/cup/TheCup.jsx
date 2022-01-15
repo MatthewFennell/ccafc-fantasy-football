@@ -5,15 +5,34 @@ import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Spinner from '../common/spinner/Spinner';
+import Tabs from '../common/tabs/Tabs';
 import materialStyles from '../materialStyles';
 import { fetchCupRequest } from './actions';
 import defaultStyles from './TheCup.module.scss';
 import WeekInfo, { getName } from './WeekInfo';
 
 const TheCup = props => {
+    const [isViewingFirstCup, setIsViewingFirstCup] = React.useState(!props.cup.cup?.hasFinished);
+
+    useEffect(() => {
+        if (props.cup.cup?.hasFinished) {
+            setIsViewingFirstCup(false);
+        }
+    }, [props.cup]);
+
+    const handleChange = (ev, newValue) => {
+        if (newValue) {
+            setIsViewingFirstCup(false);
+        } else {
+            setIsViewingFirstCup(true);
+        }
+    };
+
+    const cupToUse = isViewingFirstCup ? props.cup.cup : props.cup.cupTwo;
+
     const {
         displayNameMappings, hasFinished, winner, ...rest
-    } = props.cup;
+    } = cupToUse;
 
     const classes = makeStyles(materialStyles)();
 
@@ -33,6 +52,12 @@ const TheCup = props => {
                     elevation={4}
                     className={classes.paper}
                 >
+                    {props.cup.cup?.hasFinished
+                    && (
+                        <div className={props.styles.tabsWrapper}>
+                            <Tabs options={['First Cup', 'Second Cup']} handleChange={handleChange} value={isViewingFirstCup ? 0 : 1} />
+                        </div>
+                    )}
                     <div className={props.styles.cupHeader}>
                         The Cup
                     </div>
@@ -49,6 +74,7 @@ const TheCup = props => {
                                 <li>Must score more than 0 points in Week 1 to take part</li>
                             </ul>
                         </div>
+
                         {hasFinished && (
                             <div className={props.styles.cupWinnerWrapper}>
                                 <div>Cup Finished!</div>
@@ -68,12 +94,12 @@ const TheCup = props => {
                 {Object.keys(rest).reverse().map((key, index) => (
                     <WeekInfo
                         auth={props.auth}
-                        byes={fp.get('byes')(props.cup[key])}
+                        byes={fp.get('byes')(cupToUse[key])}
                         displayNameMappings={displayNameMappings}
                         week={Number(key)}
-                        pairings={fp.get('pairings')(props.cup[key])}
-                        nextByes={fp.get('byes')(props.cup[Number(key) + 1])}
-                        nextPlayersInPairings={generateNextPairings(fp.get('pairings')(props.cup[Number(key) + 1]))}
+                        pairings={fp.get('pairings')(cupToUse[key])}
+                        nextByes={fp.get('byes')(cupToUse[Number(key) + 1])}
+                        nextPlayersInPairings={generateNextPairings(fp.get('pairings')(cupToUse[Number(key) + 1]))}
                         isFinalWeek={index === 0 && hasFinished === false}
                         key={key}
                     />
@@ -87,7 +113,10 @@ TheCup.defaultProps = {
     auth: {
         uid: ''
     },
-    cup: {},
+    cup: {
+        cup: {},
+        cupTwo: {}
+    },
     isFetchingCup: false,
     styles: defaultStyles
 };
@@ -97,9 +126,16 @@ TheCup.propTypes = {
         uid: PropTypes.string
     }),
     cup: PropTypes.shape({
-        displayNameMappings: PropTypes.shape({ }),
-        hasFinished: PropTypes.bool,
-        winner: PropTypes.string
+        cup: PropTypes.shape({
+            displayNameMappings: PropTypes.shape({ }),
+            hasFinished: PropTypes.bool,
+            winner: PropTypes.string
+        }),
+        cupTwo: PropTypes.shape({
+            displayNameMappings: PropTypes.shape({ }),
+            hasFinished: PropTypes.bool,
+            winner: PropTypes.string
+        })
     }),
     fetchCupRequest: PropTypes.func.isRequired,
     isFetchingCup: PropTypes.bool,
@@ -108,7 +144,7 @@ TheCup.propTypes = {
 
 const mapStateToProps = state => ({
     auth: state.firebase.auth,
-    cup: state.cup.cup,
+    cup: state.cup,
     isFetchingCup: state.cup.isFetchingCup
 });
 

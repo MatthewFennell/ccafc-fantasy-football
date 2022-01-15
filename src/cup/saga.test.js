@@ -9,7 +9,10 @@ import * as selectors from './selectors';
 // https://github.com/jfairbank/redux-saga-test-plan - Docs
 
 const api = {
-    fetchCup: () => 'cup'
+    fetchCup: () => ({
+        cupOne: 'cup',
+        cupTwo: 'cupTwo'
+    })
 };
 
 describe('Cup saga', () => {
@@ -29,7 +32,7 @@ describe('Cup saga', () => {
                 }
             ])
             .call(api.fetchCup)
-            .put(actions.fetchCupSuccess('cup'))
+            .put(actions.fetchCupSuccess('cup', 'cupTwo'))
             .put(actions.setIsFetchingCup(false))
             .run({ silenceTimeout: true });
     });

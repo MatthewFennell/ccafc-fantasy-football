@@ -60,7 +60,8 @@ const PERMISSIONS = {
     TOGGLE_PAGES: 'TOGGLE_PAGES',
     SORT_LEAGUES: 'SORT_LEAGUES',
     ADD_NOTIFICATIONS: 'ADD_NOTIFICATIONS',
-    SET_DIVISIONS: 'SET_DIVISIONS'
+    SET_DIVISIONS: 'SET_DIVISIONS',
+    TRANSFER_MAINTAINER: 'TRANSFER_MAINTAINER'
 };
 
 module.exports.PERMISSIONS = PERMISSIONS;
@@ -103,7 +104,8 @@ module.exports.ROLE_PERMISSIONS = {
         PERMISSIONS.TRIGGER_WEEK,
         PERMISSIONS.EDIT_PLAYER,
         PERMISSIONS.SET_DIVISIONS,
-        PERMISSIONS.APPROVE_HIGHLIGHTS],
+        PERMISSIONS.APPROVE_HIGHLIGHTS,
+        PERMISSIONS.TRANSFER_MAINTAINER],
     HIGHLIGHT_APPROVER: [
         PERMISSIONS.APPROVE_HIGHLIGHTS
     ],
@@ -113,6 +115,7 @@ module.exports.ROLE_PERMISSIONS = {
 };
 
 module.exports.cupDatabaseId = 'ccafc-cup-id';
+module.exports.cupDatabaseIdRoundTwo = 'ccafc-cup-id-two';
 module.exports.collingwoodLeagueId = 'collingwood-league-id';
 module.exports.applicationInfoId = 'application-info-id';
 module.exports.divisionsId = 'divisions-id';

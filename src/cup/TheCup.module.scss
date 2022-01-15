@@ -23,6 +23,13 @@
     width: 50%;
 }
 
+.tabsWrapper {
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: $spacing-medium;
+}
+
 .cupWinnerValue {
     color: $color-black;
     margin-left: 4px;

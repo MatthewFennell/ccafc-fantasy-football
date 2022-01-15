@@ -45,132 +45,221 @@ const generatePairingsAndByes = playerIds => {
     return { byes, pairings };
 };
 
+const createInitialPairings = (year, previousWeek, documentId, startingWeek) => common.getCorrectYear(db, year).collection('weekly-teams')
+    .where('week', '==', previousWeek).where('points', '>', 0)
+    .get()
+    .then(weeklyDocs => {
+        const userIds = fp.shuffle(weeklyDocs.docs.map(doc => doc.data().user_id));
+
+        const promises = userIds.map(id => common.getCorrectYear(db, year).collection('users').doc(id).get()
+            .then(user => ({
+                userId: id,
+                displayName: user.data().displayName
+            })));
+
+        return Promise.all(promises).then(mappings => {
+            const displayNameMappings = mappings.reduce((acc, cur) => ({
+                ...acc,
+                [cur.userId]: cur.displayName
+            }), {});
+
+            const { byes, pairings } = generatePairingsAndByes(userIds);
+
+            return common.getCorrectYear(db, year).collection('the-cup').doc(documentId).set({
+                [startingWeek]: {
+                    pairings,
+                    byes
+                },
+                displayNameMappings,
+                hasFinished: false,
+                winner: null
+            });
+        });
+    });
+
+const updateResults = (year, previousWeek, newWeek, documentId) => common.getCorrectYear(db, year).collection('the-cup').doc(documentId).get()
+    .then(
+        doc => {
+            if (!doc.exists) {
+                return Promise.resolve();
+            }
+
+            const { hasFinished } = doc.data();
+            if (hasFinished) {
+                return Promise.resolve();
+            }
+            return common.getCorrectYear(db, year).collection('weekly-teams').where('week', '==', previousWeek).get()
+                .then(
+                    weeklyDocs => {
+                        const docsWithScore = fp.shuffle(weeklyDocs.docs.map(x => ({
+                            userId: x.data().user_id,
+                            points: x.data().points
+                        })));
+                        const { pairings, byes } = doc.data()[previousWeek];
+
+                        const updatedPairings = pairings.map(pairing => ({
+                            ...pairing,
+                            playerOneScore: docsWithScore.find(x => x.userId === pairing.playerOneId).points,
+                            playerTwoScore: docsWithScore.find(x => x.userId === pairing.playerTwoId).points
+                        }));
+
+                        const remainingPlayers = updatedPairings.reduce((acc, cur) => {
+                            if (cur.playerOneScore > cur.playerTwoScore) {
+                                return [...acc, cur.playerOneId];
+                            }
+                            if (cur.playerTwoScore > cur.playerOneScore) {
+                                return [...acc, cur.playerTwoId];
+                            }
+                            if (cur.playerTwoScore === cur.playerOneScore) {
+                                const randomNumber = Math.floor(Math.random() * 10);
+                                if (randomNumber % 2 === 0) {
+                                    return [...acc, cur.playerOneId];
+                                }
+                                return [...acc, cur.playerTwoId];
+                            }
+                            // If they are the final 2 and they draw - cant have no winner
+                            if (updatedPairings.length === 1) {
+                                return [cur.playerOneId, cur.playerTwoId];
+                            }
+                            return acc;
+                        }, []).concat(byes);
+
+                        if (remainingPlayers.length === 1) {
+                            return common.getCorrectYear(db, year).collection('the-cup').doc(documentId).update({
+                                [previousWeek]: {
+                                    ...doc.data()[previousWeek],
+                                    pairings: updatedPairings
+                                },
+                                hasFinished: true,
+                                winner: remainingPlayers[0]
+                            });
+                        }
+
+                        const newResult = generatePairingsAndByes(remainingPlayers);
+
+                        return common.getCorrectYear(db, year).collection('the-cup').doc(documentId).update({
+                            [previousWeek]: {
+                                ...doc.data()[previousWeek],
+                                pairings: updatedPairings
+                            },
+                            [newWeek]: {
+                                byes: newResult.byes,
+                                pairings: newResult.pairings
+                            }
+                        });
+                    }
+                );
+        }
+    );
+
 exports.manageCup = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/application-info/{id}')
     .onWrite((change, context) => {
-        const { year } = context.params
+        const { year } = context.params;
         if (!change.after.exists) {
             return Promise.resolve();
         }
         const previousWeek = change.before.data().total_weeks;
         const newWeek = change.after.data().total_weeks;
 
-        if (change.after.data().hasFinished) {
-            return Promise.resolve();
-        }
-
         if (previousWeek === newWeek) {
             return Promise.resolve();
         }
 
-        if (newWeek === constants.cupStartingWeek) {
-            // Change >= 0
-            return common.getCorrectYear(db, year).collection('weekly-teams').where('week', '==', previousWeek).where('points', '>', 0)
-                .get()
-                .then(weeklyDocs => {
-                    const userIds = fp.shuffle(weeklyDocs.docs.map(doc => doc.data().user_id));
-
-                    const promises = userIds.map(id => common.getCorrectYear(db, year).collection('users').doc(id).get()
-                        .then(user => ({
-                            userId: id,
-                            displayName: user.data().displayName
-                        })));
-
-                    return Promise.all(promises).then(mappings => {
-                        const displayNameMappings = mappings.reduce((acc, cur) => ({
-                            ...acc,
-                            [cur.userId]: cur.displayName
-                        }), {});
-
-                        const { byes, pairings } = generatePairingsAndByes(userIds);
-
-                        return common.getCorrectYear(db, year).collection('the-cup').doc(constants.cupDatabaseId).set({
-                            [constants.cupStartingWeek]: {
-                                pairings,
-                                byes
-                            },
-                            displayNameMappings,
-                            hasFinished: false,
-                            winner: null
-                        });
-                    });
-                });
-        }
         return common.getCorrectYear(db, year).collection('the-cup').doc(constants.cupDatabaseId).get()
-            .then(
-                doc => {
-                    if (!doc.exists) {
-                        return Promise.resolve();
-                    }
-
-                    const { hasFinished } = doc.data();
-                    if (hasFinished) {
-                        return Promise.resolve();
-                    }
-
-                    return common.getCorrectYear(db, year).collection('weekly-teams').where('week', '==', previousWeek).get()
-                        .then(
-                            weeklyDocs => {
-                                const docsWithScore = fp.shuffle(weeklyDocs.docs.map(x => ({
-                                    userId: x.data().user_id,
-                                    points: x.data().points
-                                })));
-                                const { pairings, byes } = doc.data()[previousWeek];
-
-                                const updatedPairings = pairings.map(pairing => ({
-                                    ...pairing,
-                                    playerOneScore: docsWithScore.find(x => x.userId === pairing.playerOneId).points,
-                                    playerTwoScore: docsWithScore.find(x => x.userId === pairing.playerTwoId).points
-                                }));
-
-                                const remainingPlayers = updatedPairings.reduce((acc, cur) => {
-                                    if (cur.playerOneScore > cur.playerTwoScore) {
-                                        return [...acc, cur.playerOneId];
-                                    }
-                                    if (cur.playerTwoScore > cur.playerOneScore) {
-                                        return [...acc, cur.playerTwoId];
-                                    }
-                                    if (cur.playerTwoScore === cur.playerOneScore) {
-                                        const randomNumber = Math.floor(Math.random() * 10);
-                                        if (randomNumber % 2 === 0) {
-                                            return [...acc, cur.playerOneId];
-                                        }
-                                        return [...acc, cur.playerTwoId];
-                                    }
-                                    // If they are the final 2 and they draw - cant have no winner
-                                    if (updatedPairings.length === 1) {
-                                        return [cur.playerOneId, cur.playerTwoId];
-                                    }
-                                    return acc;
-                                }, []).concat(byes);
-
-                                if (remainingPlayers.length === 1) {
-                                    return common.getCorrectYear(db, year).collection('the-cup').doc(constants.cupDatabaseId).update({
-                                        [previousWeek]: {
-                                            ...doc.data()[previousWeek],
-                                            pairings: updatedPairings
-                                        },
-                                        hasFinished: true,
-                                        winner: remainingPlayers[0]
-                                    });
-                                }
-
-                                const newResult = generatePairingsAndByes(remainingPlayers);
-
-                                return common.getCorrectYear(db, year).collection('the-cup').doc(constants.cupDatabaseId).update({
-                                    [previousWeek]: {
-                                        ...doc.data()[previousWeek],
-                                        pairings: updatedPairings
-                                    },
-                                    [newWeek]: {
-                                        byes: newResult.byes,
-                                        pairings: newResult.pairings
-                                    }
-                                });
+            .then(originalDoc => {
+                // If the first cup has finished, start a 2nd cup
+                if (originalDoc.data().hasFinished) {
+                    return common.getCorrectYear(db, year).collection('the-cup').doc(constants.cupDatabaseIdRoundTwo).get()
+                        .then(newCup => {
+                            if (!newCup.exists) {
+                                return createInitialPairings(year, previousWeek, constants.cupDatabaseIdRoundTwo, newWeek);
                             }
-                        );
+                            return updateResults(year, previousWeek, newWeek, constants.cupDatabaseIdRoundTwo);
+                        });
                 }
-            );
+
+                if (newWeek === constants.cupStartingWeek) {
+                    return createInitialPairings(year, previousWeek, constants.cupDatabaseId, constants.cupStartingWeek);
+                    // Change >= 0
+                }
+                // return updateResults(year, previousWeek, newWeek, constants.cupDatabaseId);
+                return common.getCorrectYear(db, year).collection('the-cup').doc(constants.cupDatabaseId).get()
+                    .then(
+                        doc => {
+                            if (!doc.exists) {
+                                return Promise.resolve();
+                            }
+
+                            const { hasFinished } = doc.data();
+                            if (hasFinished) {
+                                return Promise.resolve();
+                            }
+
+                            return common.getCorrectYear(db, year).collection('weekly-teams').where('week', '==', previousWeek).get()
+                                .then(
+                                    weeklyDocs => {
+                                        const docsWithScore = fp.shuffle(weeklyDocs.docs.map(x => ({
+                                            userId: x.data().user_id,
+                                            points: x.data().points
+                                        })));
+                                        const { pairings, byes } = doc.data()[previousWeek];
+
+                                        const updatedPairings = pairings.map(pairing => ({
+                                            ...pairing,
+                                            playerOneScore: docsWithScore.find(x => x.userId === pairing.playerOneId).points,
+                                            playerTwoScore: docsWithScore.find(x => x.userId === pairing.playerTwoId).points
+                                        }));
+
+                                        const remainingPlayers = updatedPairings.reduce((acc, cur) => {
+                                            if (cur.playerOneScore > cur.playerTwoScore) {
+                                                return [...acc, cur.playerOneId];
+                                            }
+                                            if (cur.playerTwoScore > cur.playerOneScore) {
+                                                return [...acc, cur.playerTwoId];
+                                            }
+                                            if (cur.playerTwoScore === cur.playerOneScore) {
+                                                const randomNumber = Math.floor(Math.random() * 10);
+                                                if (randomNumber % 2 === 0) {
+                                                    return [...acc, cur.playerOneId];
+                                                }
+                                                return [...acc, cur.playerTwoId];
+                                            }
+                                            // If they are the final 2 and they draw - cant have no winner
+                                            if (updatedPairings.length === 1) {
+                                                return [cur.playerOneId, cur.playerTwoId];
+                                            }
+                                            return acc;
+                                        }, []).concat(byes);
+
+                                        if (remainingPlayers.length === 1) {
+                                            return common.getCorrectYear(db, year).collection('the-cup').doc(constants.cupDatabaseId).update({
+                                                [previousWeek]: {
+                                                    ...doc.data()[previousWeek],
+                                                    pairings: updatedPairings
+                                                },
+                                                hasFinished: true,
+                                                winner: remainingPlayers[0]
+                                            });
+                                        }
+
+                                        const newResult = generatePairingsAndByes(remainingPlayers);
+
+                                        return common.getCorrectYear(db, year).collection('the-cup').doc(constants.cupDatabaseId).update({
+                                            [previousWeek]: {
+                                                ...doc.data()[previousWeek],
+                                                pairings: updatedPairings
+                                            },
+                                            [newWeek]: {
+                                                byes: newResult.byes,
+                                                pairings: newResult.pairings
+                                            }
+                                        });
+                                    }
+                                );
+                        }
+                    );
+            });
     });
 
 exports.fetchCup = functions
@@ -178,5 +267,10 @@ exports.fetchCup = functions
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
         return common.getCorrectYear(db).collection('the-cup').doc(constants.cupDatabaseId).get()
-            .then(response => response.data());
+            .then(response => {
+                return common.getCorrectYear(db).collection('the-cup').doc(constants.cupDatabaseIdRoundTwo).get().then(res => ({
+                    cupOne: response.exists ? response.data() : null,
+                    cupTwo: res.exists ? res.data() : null,
+                }))
+            });
     });
