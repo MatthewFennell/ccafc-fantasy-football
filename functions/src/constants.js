@@ -115,6 +115,7 @@ module.exports.ROLE_PERMISSIONS = {
 };
 
 module.exports.cupDatabaseId = 'ccafc-cup-id';
+module.exports.cupDatabaseIdRoundTwo = 'ccafc-cup-id-two';
 module.exports.collingwoodLeagueId = 'collingwood-league-id';
 module.exports.applicationInfoId = 'application-info-id';
 module.exports.divisionsId = 'divisions-id';

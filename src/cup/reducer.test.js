@@ -23,11 +23,12 @@ describe('Cup reducer', () => {
     });
 
     it('fetch cup success', () => {
-        const action = actions.fetchCupSuccess('cup');
+        const action = actions.fetchCupSuccess('cup', 'cupTwo');
         expect(reducer(initialState, action)).toEqual({
             ...initialState,
             hasFetchedCup: true,
-            cup: 'cup'
+            cup: 'cup',
+            cupTwo: 'cupTwo'
         });
     });
 });

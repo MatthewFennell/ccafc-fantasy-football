@@ -3,6 +3,7 @@ import * as actions from './actions';
 
 export const initialState = {
     cup: {},
+    cupTwo: {},
     isFetchingCup: false,
     hasFetchedCup: false
 };
@@ -19,6 +20,7 @@ const cupReducer = (state = initialState, action) => {
         return {
             ...state,
             cup: action.cup,
+            cupTwo: action.cupTwo,
             hasFetchedCup: true
         };
     }

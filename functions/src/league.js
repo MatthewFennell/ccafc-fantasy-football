@@ -61,7 +61,8 @@ exports.createLeague = functions
                         owner: context.auth.uid,
                         start_week: data.startWeek || 0,
                         name: data.leagueName,
-                        number_of_users: 0
+                        number_of_users: 0,
+                        inactiveUsers: 0
                     }).then(docRef => joinLeaguePointsWithCorrectPoints(context.auth.uid,
                         data.startWeek || 0, data.leagueName, docRef.id));
             }
@@ -296,34 +297,31 @@ exports.onUserLeaveLeague = functions.region(constants.region).firestore
 exports.tallyInactiveLeagueUsers = functions.region(constants.region).pubsub
     .schedule('30 1 1,15 * *').timeZone('Europe/London') // cron for every 2weeks(on 1st and 15th of every month at 1:30AM)
     .onRun(() => common.getCorrectYear(db).collection('leagues').doc(constants.collingwoodLeagueId).get()
-        .then(collingwoodLeague => {
-            console.log('league', collingwoodLeague.data());
-            return common.getCorrectYear(db).collection('leagues-points').where('league_id', '==', constants.collingwoodLeagueId).get()
-                .then(leaguePointDocs => {
-                    console.log('number of docs', leaguePointDocs.docs.length);
+        .then(collingwoodLeague => common.getCorrectYear(db).collection('leagues-points').where('league_id', '==', constants.collingwoodLeagueId).get()
+            .then(leaguePointDocs => {
+                console.log('number of docs', leaguePointDocs.docs.length);
 
-                    const emptyPlayers = [];
-                    leaguePointDocs.docs.map(user => emptyPlayers.push(common.getCorrectYear(db)
-                        .collection('active-teams').where('user_id', '==', user.data().user_id)
-                        .get()
-                        .then(activeTeam => {
-                            if (activeTeam.size > 1) {
-                                throw new functions.https.HttpsError('invalid-argument', 'Somehow you have multiple active teams');
-                            }
-                            if (activeTeam.size === 0) {
-                                return true;
-                            }
-                            const activeTeamObj = activeTeam.docs[0];
-                            const length = activeTeamObj.data().player_ids ? activeTeamObj.data().player_ids.length : 0;
+                const emptyPlayers = [];
+                leaguePointDocs.docs.map(user => emptyPlayers.push(common.getCorrectYear(db)
+                    .collection('active-teams').where('user_id', '==', user.data().user_id)
+                    .get()
+                    .then(activeTeam => {
+                        if (activeTeam.size > 1) {
+                            throw new functions.https.HttpsError('invalid-argument', 'Somehow you have multiple active teams');
+                        }
+                        if (activeTeam.size === 0) {
+                            return true;
+                        }
+                        const activeTeamObj = activeTeam.docs[0];
+                        const length = activeTeamObj.data().player_ids ? activeTeamObj.data().player_ids.length : 0;
 
-                            return Boolean(length === 0);
-                        })));
+                        return Boolean(length === 0);
+                    })));
 
-                    return Promise.all(emptyPlayers).then(league => {
-                        const emptyTeamCount = league.filter(Boolean).length;
-                        return collingwoodLeague.ref.update({
-                            inactiveUsers: emptyTeamCount
-                        });
+                return Promise.all(emptyPlayers).then(league => {
+                    const emptyTeamCount = league.filter(Boolean).length;
+                    return collingwoodLeague.ref.update({
+                        inactiveUsers: emptyTeamCount
                     });
                 });
-        }));
+            })));
