@@ -14,6 +14,7 @@ const ManageSubs = lazy(() => import('./admin/managesubs/ManageSubs'));
 const ManageUsers = lazy(() => import('./admin/manageusers/ManageUsers'));
 const SubmitResult = lazy(() => import('./admin/submitresult/SubmitResult'));
 const TogglePages = lazy(() => import('./admin/togglepages/TogglePages'));
+const TransferMaintainer = lazy(() => import('./admin/transferMaintainer/TransferMaintainer'));
 const TriggerWeek = lazy(() => import('./admin/triggerweek/TriggerWeek'));
 
 export {
@@ -31,5 +32,6 @@ export {
     ManageUsers,
     SubmitResult,
     TogglePages,
+    TransferMaintainer,
     TriggerWeek
 };

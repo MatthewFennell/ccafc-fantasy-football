@@ -61,7 +61,8 @@ exports.createLeague = functions
                         owner: context.auth.uid,
                         start_week: data.startWeek || 0,
                         name: data.leagueName,
-                        number_of_users: 0
+                        number_of_users: 0,
+                        inactiveUsers: 0
                     }).then(docRef => joinLeaguePointsWithCorrectPoints(context.auth.uid,
                         data.startWeek || 0, data.leagueName, docRef.id));
             }
@@ -86,7 +87,8 @@ exports.leaveLeague = functions
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
         return common.getCorrectYear(db)
-            .collection('leagues-points').where('user_id', '==', context.auth.uid).where('league_id', '==', data.leagueId).get()
+            .collection('leagues-points').where('user_id', '==', context.auth.uid).where('league_id', '==', data.leagueId)
+            .get()
             .then(docs => {
                 if (docs.empty) {
                     throw new functions.https.HttpsError('not-found', `You are not in a league with that ID (${data.leagueId})`);
@@ -168,19 +170,29 @@ exports.orderedUsers = functions
                 .map(doc => ({ data: doc.data(), id: doc.id })))
             .then(result => {
                 const leaguePromises = [];
-                result.map(user => leaguePromises.push(common.getCorrectYear(db).collection('weekly-teams').where('user_id', '==', user.data.user_id).where('week', '==', data.week)
+                result.map(user => leaguePromises.push(common.getCorrectYear(db)
+                    .collection('weekly-teams').where('user_id', '==', user.data.user_id).where('week', '==', data.week)
                     .get()
                     .then(weeklyTeam => {
                         if (weeklyTeam.size > 1) {
                             throw new functions.https.HttpsError('invalid-argument', 'Somehow you have multiple weekly teams');
                         }
                         if (weeklyTeam.size === 0) {
-                            return fp.set('data.week_points', 0)(user);
+                            return fp.flow(
+                                fp.set('data.week_points', 0),
+                                fp.set('data.hasPlayersInTeam', false),
+                            )(user);
                         }
                         const weeklyTeamObj = weeklyTeam.docs[0];
-                        return fp.set('data.week_points', weeklyTeamObj.data().points)(user);
+                        const length = weeklyTeamObj.data().player_ids ? weeklyTeamObj.data().player_ids.length : 0;
+                        console.log('length', length);
+
+                        return fp.flow(
+                            fp.set('data.week_points', weeklyTeamObj.data().points),
+                            fp.set('data.hasPlayersInTeam', Boolean(length)),
+                        )(user);
                     })));
-                return Promise.all(leaguePromises).then(leagueRow => leagueRow);
+                return Promise.all(leaguePromises).then(leagueRow => leagueRow.filter(row => row.data.hasPlayersInTeam));
             });
 
         if (data.previousId === null) {
@@ -192,7 +204,7 @@ exports.orderedUsers = functions
                 .then(
                     league => ({
                         users: result,
-                        numberOfUsers: league.data().number_of_users,
+                        numberOfUsers: league.data().number_of_users - league.data().inactiveUsers,
                         leagueName: league.data().name
                     })
                 ));
@@ -277,3 +289,39 @@ exports.onUserLeaveLeague = functions.region(constants.region).firestore
     .onDelete((snapshot, context) => common.getCorrectYear(db, context.params.year).collection('leagues').doc(snapshot.data().league_id).update({
         number_of_users: operations.increment(-1)
     }));
+
+// This goes through the main league and finds all users who have an empty active team
+// Sets the number of inactive users
+// In ordered users, it filters out those users so we don't get loads of entries
+// (In this scheduler it checks active team. In ordered users it checks latest weekly team. Should be fine)
+exports.tallyInactiveLeagueUsers = functions.region(constants.region).pubsub
+    .schedule('30 1 1,15 * *').timeZone('Europe/London') // cron for every 2weeks(on 1st and 15th of every month at 1:30AM)
+    .onRun(() => common.getCorrectYear(db).collection('leagues').doc(constants.collingwoodLeagueId).get()
+        .then(collingwoodLeague => common.getCorrectYear(db).collection('leagues-points').where('league_id', '==', constants.collingwoodLeagueId).get()
+            .then(leaguePointDocs => {
+                console.log('number of docs', leaguePointDocs.docs.length);
+
+                const emptyPlayers = [];
+                leaguePointDocs.docs.map(user => emptyPlayers.push(common.getCorrectYear(db)
+                    .collection('active-teams').where('user_id', '==', user.data().user_id)
+                    .get()
+                    .then(activeTeam => {
+                        if (activeTeam.size > 1) {
+                            throw new functions.https.HttpsError('invalid-argument', 'Somehow you have multiple active teams');
+                        }
+                        if (activeTeam.size === 0) {
+                            return true;
+                        }
+                        const activeTeamObj = activeTeam.docs[0];
+                        const length = activeTeamObj.data().player_ids ? activeTeamObj.data().player_ids.length : 0;
+
+                        return Boolean(length === 0);
+                    })));
+
+                return Promise.all(emptyPlayers).then(league => {
+                    const emptyTeamCount = league.filter(Boolean).length;
+                    return collingwoodLeague.ref.update({
+                        inactiveUsers: emptyTeamCount
+                    });
+                });
+            })));

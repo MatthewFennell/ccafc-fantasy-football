@@ -1,10 +1,12 @@
 import {
     all, call, delay, put, select, takeEvery, takeLatest
 } from 'redux-saga/effects';
+import firebase from 'firebase';
 import { signOut } from '../auth/actions';
 import { setErrorMessage } from '../modalHandling/actions';
 import { addNotification } from '../notifications/actions';
 import { fetchMaxGameWeekRequest } from '../overview/actions';
+import * as authActions from '../auth/actions';
 import * as actions from './actions';
 import * as adminApi from './api';
 import * as selectors from './selectors';
@@ -1040,6 +1042,20 @@ export function* customSubmit(api, action) {
     }
 }
 
+export function* transferMaintainer(api, action) {
+    try {
+        yield call(api.transferMaintainer, {
+            newMaintainerEmail: action.newMaintainerEmail
+        });
+        yield firebase.auth().signOut();
+        yield put(authActions.signOutSuccess());
+    } catch (error) {
+        yield put(setErrorMessage('Error Transferring Maintainer', error));
+    } finally {
+        yield put(actions.cancelTransferMaintainer());
+    }
+}
+
 export default function* adminSaga() {
     yield all([
         takeEvery(actions.FETCH_TEAMS_REQUEST, fetchTeams, adminApi),
@@ -1075,6 +1091,7 @@ export default function* adminSaga() {
         takeEvery(actions.COMPRESS_PLAYERS_DATABASE, compressPlayersDatabase, adminApi),
         takeEvery(actions.ADD_DIVISION_REQUEST, addDivision, adminApi),
         takeEvery(actions.DELETE_DIVISION_REQUEST, deleteDivision, adminApi),
+        takeEvery(actions.TRANSFER_MAINTAINER_REQUEST, transferMaintainer, adminApi),
         takeEvery(actions.RECALCULATE_LEAGUE_POSITIONS_REQUEST, recalculateLeaguePositions,
             adminApi)
     ]);

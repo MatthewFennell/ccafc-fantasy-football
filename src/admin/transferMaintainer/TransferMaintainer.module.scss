@@ -1,0 +1,14 @@
+@import "../../common/Styles.scss";
+
+.transferMaintainerWrapper {
+  text-align: center;
+  font-weight: bold;
+  color: $color-blue;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.confirmTransferButton {
+  text-align: center;
+}

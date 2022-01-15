@@ -153,6 +153,12 @@ const TriggerWeek = props => {
                             <a href="https://www.dur.ac.uk/teamdurham/participation/collegesport/sport/">https://www.dur.ac.uk/teamdurham/participation/collegesport/sport</a>
                         </li>
                         <li>
+                            At the end of the year, use the Transfer Maintainer page to add the new
+                            Web Maintainer. Please do this before
+                            {' '}
+                            <b>August 1st</b>
+                        </li>
+                        <li>
                             Any questions just message me on Facebook or email me at
                             {' '}
                             <a href="mailto:m.fennell@live.co.uk">m.fennell@live.co.uk</a>

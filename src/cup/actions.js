@@ -8,9 +8,10 @@ export const fetchCupRequest = () => ({
     type: FETCH_CUP_REQUEST
 });
 
-export const fetchCupSuccess = cup => ({
+export const fetchCupSuccess = (cup, cupTwo) => ({
     type: FETCH_CUP_SUCCESS,
-    cup
+    cup,
+    cupTwo
 });
 
 export const setIsFetchingCup = isFetching => ({

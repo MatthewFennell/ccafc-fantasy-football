@@ -51,7 +51,9 @@ exports.addUserRole = functions
                     .then(() => admin.auth().setCustomUserClaims(user.uid, {
                         ...user.customClaims,
                         [data.role]: true
-                    })));
+                    }))).catch(() => {
+                    throw new functions.https.HttpsError('not-found', 'There is no user with that email');
+                });
         }));
 
 // Removing role `ALL` removes all of their roles
@@ -192,4 +194,65 @@ exports.editDisabledPages = functions
                     });
                 }
             );
+    }));
+
+exports.transferMaintainer = functions
+    .region(constants.region)
+    .https.onCall((data, context) => common.hasPermission(context.auth.uid,
+        constants.PERMISSIONS.TRANSFER_MAINTAINER).then(() => {
+        if (!data.newMaintainerEmail) {
+            throw new functions.https.HttpsError('invalid-argument', 'Invalid email');
+        }
+
+        return admin.auth().getUserByEmail(data.newMaintainerEmail)
+            .then(user => common.getCorrectYear(db).collection('users-with-roles').where('email', '==', data.newMaintainerEmail).get()
+                .then(result => {
+                    if (result.size > 1) {
+                        common.log(context.auth.uid, 'Duplicate entry', { Email: data.newMaintainerEmail });
+                        return Promise.resolve();
+                    }
+
+                    if (result.size === 0) {
+                        return common.getCorrectYear(db).collection('users-with-roles').add({
+                            roles: [constants.ROLES.MAINTAINER],
+                            email: data.newMaintainerEmail,
+                            displayName: user.displayName
+                        });
+                    }
+                    return result.docs[0].ref.update({
+                        roles: operations.arrayUnion(constants.ROLES.MAINTAINER)
+                    });
+                })
+                .then(() => admin.auth().setCustomUserClaims(user.uid, {
+                    ...user.customClaims,
+                    [constants.ROLES.MAINTAINER]: true
+                }).then(() => admin.auth().getUser(context.auth.uid)
+                    .then(userToRemoveRoleFrom => common.getCorrectYear(db).collection('users-with-roles').where('email', '==', userToRemoveRoleFrom.email).get()
+                        .then(result => {
+                            if (result.size === 0) {
+                                throw new functions.https.HttpsError('not-found', 'No user with that email');
+                            }
+                            if (result.size > 1) {
+                                throw new functions.https.HttpsError('invalid-argument', 'Duplicate entries');
+                            }
+                            if (userToRemoveRoleFrom.email === config.admin.email) {
+                                throw new functions.https.HttpsError('not-found', 'Cannot remove role from this account');
+                            }
+
+                            const { roles } = result.docs[0].data();
+
+                            if ((roles.includes(constants.ROLES.MAINTAINER) && roles.length <= 1)) {
+                                return result.docs[0].ref.delete();
+                            }
+                            if (roles.includes(constants.ROLES.MAINTAINER)) {
+                                return result.docs[0].ref.update({
+                                    roles: operations.arrayRemove(constants.ROLES.MAINTAINER)
+                                });
+                            }
+                            throw new functions.https.HttpsError('not-found', 'They do not have that role');
+                        })
+                        .then(() => {
+                            admin.auth().setCustomUserClaims(userToRemoveRoleFrom.uid,
+                                fp.unset(constants.ROLES.MAINTAINER)(userToRemoveRoleFrom.customClaims));
+                        })))));
     }));

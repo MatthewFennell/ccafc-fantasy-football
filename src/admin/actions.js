@@ -105,6 +105,18 @@ export const ADD_DIVISION_REQUEST = `${pre}ADD_DIVISION_REQUEST`;
 export const DELETE_DIVISION_REQUEST = `${pre}DELETE_DIVISION_REQUEST`;
 export const CANCEL_DIVISION_REQUEST = `${pre}CANCEL_DIVISION_REQUEST`;
 
+export const TRANSFER_MAINTAINER_REQUEST = `${pre}TRANSFER_MAINTAINER_REQUEST`;
+export const CANCEL_TRANSFER_MAINTAINER = `${pre}CANCEL_TRANSFER_MAINTAINER`;
+
+export const transferMaintainerRequest = newMaintainerEmail => ({
+    type: TRANSFER_MAINTAINER_REQUEST,
+    newMaintainerEmail
+});
+
+export const cancelTransferMaintainer = () => ({
+    type: CANCEL_TRANSFER_MAINTAINER
+});
+
 export const cancelDivisionRequest = () => ({
     type: CANCEL_DIVISION_REQUEST
 });

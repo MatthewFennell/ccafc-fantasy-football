@@ -33,6 +33,7 @@ export const URL = {
     MANAGE_BUGS: '/manage-bugs',
     MANAGE_USERS: '/manage-users',
     ADD_NOTIFICATIONS: '/add-notifications',
+    TRANSFER_MAINTAINER: '/transfer-maintainer',
     TOGGLE_PAGES: '/toggle-pages'
 };
 
@@ -100,7 +101,8 @@ export const PERMISSIONS = {
     TOGGLE_PAGES: 'TOGGLE_PAGES',
     SORT_LEAGUES: 'SORT_LEAGUES',
     ADD_NOTIFICATIONS: 'ADD_NOTIFICATIONS',
-    SET_DIVISIONS: 'SET_DIVISIONS'
+    SET_DIVISIONS: 'SET_DIVISIONS',
+    TRANSFER_MAINTAINER: 'TRANSFER_MAINTAINER'
 };
 
 export const successDelay = 3500;

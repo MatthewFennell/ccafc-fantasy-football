@@ -24,10 +24,8 @@ module.exports.getCorrectYear = (db, forceSpecificYear) => {
     // If we are January 2022, then the season started in 2021, so we return 2021
 
     if (currentDate > dateToSwitch) {
-        console.log('getting year a', year);
         return db.collection('fantasy-years').doc(String(year));
     }
-    console.log('getting year b', year - 1);
     return db.collection('fantasy-years').doc(String(year - 1));
 };
 

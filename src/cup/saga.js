@@ -12,7 +12,7 @@ export function* fetchCup(api) {
         const hasFetchedCup = yield select(selectors.getHasFetchedCup);
         if (!hasFetchedCup) {
             const cup = yield call(api.fetchCup);
-            yield put(actions.fetchCupSuccess(cup || {}));
+            yield put(actions.fetchCupSuccess(cup?.cupOne || {}, cup?.cupTwo || {}));
         }
     } catch (error) {
         yield put(setErrorMessage('Error Fetching Cup Info', error));
