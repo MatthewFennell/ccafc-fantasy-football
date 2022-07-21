@@ -8,6 +8,14 @@ const RadioButton = props => (
         <h1>{`Privacy Policy for ${process.env.REACT_APP_COLLEGE_ACRONYM} Fantasy Football`}</h1>
 
         <p>
+            If you wish to have your data deleted, please email
+            {' '}
+            <a href="mailto:m.fennell@live.co.uk">m.fennell@live.co.uk</a>
+            {' '}
+            and it will be deleted
+        </p>
+
+        <p>
             {`At ${process.env.REACT_APP_COLLEGE_ACRONYM} Fantasy Football, accessible from`}
             <a href={`https://${process.env.REACT_APP_AUTH_DOMAIN}`} className={props.styles.linkOne}>{`${process.env.REACT_APP_COLLEGE_ACRONYM} Fantasy Football`}</a>
             {`One of our main priorities is the privacy of our visitors. This Privacy Policy
