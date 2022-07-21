@@ -110,11 +110,16 @@ exports.rollOverToNextYear = functions.region(constants.region).pubsub
         })
             .then(() => common.getPreviousYear(db).collection('users-with-roles').get().then(roles => {
                 roles.docs.map(role => {
-                    if (role.data().email !== config.admin.email) {
-                        return admin.auth().getUserByEmail(role.data().email)
-                            .then(user => admin.auth().setCustomUserClaims(user.uid, {}));
-                    }
+                    common.getCorrectYear(db).collection('users-with-roles').add({
+                        displayName: role.data().displayName,
+                        email: role.data().email,
+                        roles: role.data().roles
+                    });
                 });
             }))));
 
 // https://console.cloud.google.com/cloudscheduler?project=ccafc-fantasy-football
+
+// nvm list
+// nvm use 12.14.1 or 10.13.0
+// nvm install 16.16.0
