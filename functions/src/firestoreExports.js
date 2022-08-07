@@ -66,19 +66,21 @@ exports.scheduledFirestoreExport = functions.region(constants.region).pubsub
 
 // run this on the 1st August every year - synced with the common.getCorrectYear
 exports.rollOverToNextYear = functions.region(constants.region).pubsub
-    .schedule('5 1 1 8 *').timeZone('Europe/London')
+    .schedule('5 1 2 8 *').timeZone('Europe/London')
     .onRun(() => common.getCorrectYear(db).collection('leagues').doc(constants.collingwoodLeagueId).set({
         owner: 'owner',
         start_week: 0,
         name: config.league.name,
-        number_of_users: 0
+        number_of_users: 0,
+        inactiveUsers: 0
     })
         .then(() => common.getPreviousYear(db).collection('users').get().then(users => {
             const usersToUse = users.docs.filter(user => user.data().total_points > 0);
 
             common.getCorrectYear(db).collection('application-info').doc(constants.applicationInfoId).set({
                 total_weeks: 0,
-                number_of_users: usersToUse.length
+                number_of_users: usersToUse.length,
+                disabledPages: ['Features', 'Highlights']
             });
 
             usersToUse.map((user, index) => {
