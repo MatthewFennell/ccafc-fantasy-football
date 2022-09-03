@@ -264,6 +264,16 @@ export const signedInLinks = [
         canToggle: true
     },
     {
+        title: 'Previous Years',
+        icon: <WavesIcon color="primary" />,
+        component: generateLazyComponent(rootComponents.PreviousYears, 'Previous Years'),
+        addUserId: false,
+        path: () => constants.URL.PREVIOUS_YEARS,
+        renderPath: constants.URL.PREVIOUS_YEARS,
+        urlIncludes: constants.URL.PREVIOUS_YEARS,
+        canToggle: true
+    },
+    {
         title: 'Charts',
         icon: <EqualizerIcon color="primary" />,
         component: generateLazyComponent(rootComponents.Charts, 'Charts'),

@@ -123,5 +123,7 @@ exports.rollOverToNextYear = functions.region(constants.region).pubsub
 // https://console.cloud.google.com/cloudscheduler?project=ccafc-fantasy-football
 
 // nvm list
-// nvm use 12.14.1 or 10.13.0
+// nvm use 12.14.1 or 10.13.0 or 16.16.0
 // nvm install 16.16.0
+// need 10.13.0 to run app
+// use 16.16.0 for deployment

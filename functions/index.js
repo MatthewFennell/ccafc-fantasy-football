@@ -47,3 +47,4 @@ exports.division = require('./src/division');
 exports.team = require('./src/team');
 exports.users = require('./src/users');
 exports.weeklyTeam = require('./src/weeklyTeam');
+exports.previousYears = require('./src/previousYears');

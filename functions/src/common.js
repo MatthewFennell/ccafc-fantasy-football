@@ -47,10 +47,8 @@ module.exports.getPreviousYear = db => {
     // If we are January 2022, then the season started in 2021, so we return 2021
 
     if (currentDate > dateToSwitch) {
-        console.log('previous year A', year - 1);
         return db.collection('fantasy-years').doc(String(year - 1));
     }
-    console.log('previous year B', year - 2);
     return db.collection('fantasy-years').doc(String(year - 2));
 };
 

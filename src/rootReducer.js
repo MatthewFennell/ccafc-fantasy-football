@@ -18,6 +18,7 @@ import points from './points/reducer';
 import profile from './profile/reducer';
 import stats from './stats/reducer';
 import transfers from './transfers/reducer';
+import previousYear from './previousyears/reducer';
 
 const appReducer = history => combineReducers({
     admin,
@@ -37,6 +38,7 @@ const appReducer = history => combineReducers({
     profile,
     transfers,
     stats,
+    previousYear,
     router: connectRouter(history)
 });
 

@@ -13,6 +13,7 @@ export const URL = {
     POINTS: '/points',
     TRANSFERS: '/transfers',
     STATS: '/stats',
+    PREVIOUS_YEARS: '/previous-years',
     CHARTS: '/charts',
     HIGHLIGHTS: '/highlights',
     FIXTURES: '/fixtures',
