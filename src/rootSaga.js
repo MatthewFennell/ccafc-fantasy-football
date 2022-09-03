@@ -11,6 +11,7 @@ import leagueSaga from './leagues/saga';
 import notificationSaga from './notifications/saga';
 import overviewSaga from './overview/saga';
 import pointsSaga from './points/saga';
+import previousyears from './previousyears/saga';
 import profileSaga from './profile/saga';
 import statsSaga from './stats/saga';
 import transfersSaga from './transfers/saga';
@@ -29,6 +30,7 @@ export default function* rootSaga() {
         notificationSaga(),
         overviewSaga(),
         pointsSaga(),
+        previousyears(),
         profileSaga(),
         transfersSaga(),
         statsSaga()

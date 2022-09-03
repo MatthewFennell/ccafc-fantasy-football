@@ -70,6 +70,6 @@ describe('Admin - Toggle Pages connected', () => {
         );
 
         expect(() => wrapper).not.toThrow();
-        expect(wrapper.find(Switch)).toHaveLength(11);
+        expect(wrapper.find(Switch)).toHaveLength(12);
     });
 });
