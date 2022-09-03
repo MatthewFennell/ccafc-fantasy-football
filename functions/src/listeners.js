@@ -11,11 +11,12 @@ const operations = admin.firestore.FieldValue;
 exports.addStatsToPlayer = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/player-points/{id}')
     .onWrite((change, context) => {
-        const { year } = context.params
+        const { year } = context.params;
         if (!change.after.exists) {
             return Promise.resolve();
         }
         const difference = common.calculateDifference(change.before.data(), change.after.data());
+
         return common.getCorrectYear(db, year).collection('players').doc(change.after.data().player_id).get()
             .then(doc => {
                 const points = common.calculatePointDifference(difference,
@@ -23,7 +24,15 @@ exports.addStatsToPlayer = functions.region(constants.region).firestore
                 return doc.ref.update({
                     goals: operations.increment(difference.goals),
                     assists: operations.increment(difference.assists),
-                    points: operations.increment(points)
+                    points: operations.increment(points),
+                    ownGoals: operations.increment(difference.ownGoals ? 1 : 0),
+                    penaltySaves: operations.increment(difference.penaltySaves ? 1 : 0),
+                    penaltyMisses: operations.increment(difference.penaltyMisses ? 1 : 0),
+                    cleanSheets: operations.increment(difference.cleanSheet ? 1 : 0),
+                    redCards: operations.increment(difference.redCard ? 1 : 0),
+                    yellowCards: operations.increment(difference.yellowCard ? 1 : 0),
+                    manOfTheMatchs: operations.increment(difference.manOfTheMatch ? 1 : 0),
+                    dickOfTheDays: operations.increment(difference.dickOfTheDay ? 1 : 0)
                 });
             });
     });
@@ -31,7 +40,7 @@ exports.addStatsToPlayer = functions.region(constants.region).firestore
 exports.updateWeeklyTeams = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/player-points/{id}')
     .onWrite((change, context) => {
-        const { year } = context.params
+        const { year } = context.params;
         if (!change.after.exists) {
             return Promise.resolve();
         }
@@ -51,7 +60,7 @@ exports.updateWeeklyTeams = functions.region(constants.region).firestore
 exports.updateWeeklyPlayers = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/player-points/{id}')
     .onWrite((change, context) => {
-        const { year } = context.params
+        const { year } = context.params;
         if (!change.after.exists) {
             return Promise.resolve();
         }
@@ -84,7 +93,7 @@ exports.updateWeeklyPlayers = functions.region(constants.region).firestore
 exports.updateUserScores = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/player-points/{id}')
     .onWrite((change, context) => {
-        const { year } = context.params
+        const { year } = context.params;
         if (!change.after.exists) {
             return Promise.resolve();
         }
@@ -106,7 +115,7 @@ exports.updateUserScores = functions.region(constants.region).firestore
 exports.updateLeaguesPoints = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/player-points/{id}')
     .onWrite((change, context) => {
-        const { year } = context.params
+        const { year } = context.params;
         if (!change.after.exists) {
             return Promise.resolve();
         }
@@ -132,7 +141,7 @@ exports.updateLeaguesPoints = functions.region(constants.region).firestore
 exports.addExtraCaptainPoints = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/player-points/{id}')
     .onWrite((change, context) => {
-        const { year } = context.params
+        const { year } = context.params;
         if (!change.after.exists) {
             return Promise.resolve();
         }
@@ -198,7 +207,7 @@ exports.addExtraCaptainPoints = functions.region(constants.region).firestore
 exports.onWeeklyTeamCreate = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/weekly-teams/{id}')
     .onCreate((snapshot, context) => {
-        const { year } = context.params
+        const { year } = context.params;
         const {
             week, captain, player_ids, user_id
         } = snapshot.data();

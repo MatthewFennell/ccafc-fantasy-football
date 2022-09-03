@@ -14,6 +14,7 @@ const Charts = lazy(() => import('./charts/Charts'));
 const Highlights = lazy(() => import('./highlights/Highlights'));
 const Fixtures = lazy(() => import('./fixtures/Fixtures'));
 const FeatureRequest = lazy(() => import('./featurerequest/FeatureRequest'));
+const PreviousYears = lazy(() => import('./previousyears/PreviousYears'));
 
 export {
     SignIn,
@@ -28,5 +29,6 @@ export {
     Charts,
     Highlights,
     Fixtures,
-    FeatureRequest
+    FeatureRequest,
+    PreviousYears
 };

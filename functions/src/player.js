@@ -50,6 +50,14 @@ exports.createPlayer = functions
                                         goals: 0,
                                         assists: 0,
                                         hasPaidSubs: false,
+                                        dickOfTheDays: 0,
+                                        manOfTheMatchs: 0,
+                                        cleanSheets: 0,
+                                        ownGoals: 0,
+                                        penaltyMisses: 0,
+                                        penaltySaves: 0,
+                                        redCards: 0,
+                                        yellowCards: 0,
                                         previousScore: parseFloat(data.previousScore, 10)
                                     });
                                 return Promise.resolve({ message: 'Player created', verified: true });
@@ -71,7 +79,7 @@ exports.getAllPlayers = functions
                     const { blob } = doc.data();
                     return JSON.parse(blob);
                 }
-                return Promise.resolve([])
+                return Promise.resolve([]);
             });
     });
 

@@ -31,3 +31,4 @@ export const createLeague = request => functionToCall('league-createLeague')(req
 export const joinLeague = request => functionToCall('league-joinLeague')(request);
 
 export const leaveLeague = request => functionToCall('league-leaveLeague')(request);
+export const updateOldStats = request => functionToCall('player-testingTheFucker')(request);

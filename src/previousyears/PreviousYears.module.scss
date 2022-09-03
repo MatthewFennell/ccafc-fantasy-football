@@ -1,0 +1,34 @@
+@import "../common/Styles.scss";
+
+.previousYears {
+  text-align: center;
+}
+
+.activeSort{
+    font-weight: bold;
+    color: $color-blue;
+}
+
+.headerCell {
+    cursor: pointer;
+}
+
+.headerCell:hover {
+    color: $color-dark-blue;
+}
+
+.headerCell:focus {
+    outline-width: 0px;
+}
+
+.textSearchWrapper {
+    display: flex;
+}
+
+.textSearchWrapper > * {
+    flex-grow: 1;
+}
+
+.restrictText {
+    width: 50%;
+}
