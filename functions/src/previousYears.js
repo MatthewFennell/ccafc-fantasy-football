@@ -5,16 +5,23 @@ const constants = require('./constants');
 
 const db = admin.firestore();
 
+const operations = admin.firestore.FieldValue;
+
 exports.previousYears = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
         return db.collection('fantasy-years').get()
-            .then(result => {
-                console.log(result.docs);
-                console.log('result', result);
-                return result.docs;
-            });
+            .then(result => result.docs);
+    });
+
+exports.getNumberOfYears = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return db.collection('fantasy-years').doc(constants.numberOfYearsId).get().then(
+            numberOfYears => numberOfYears.data().years 
+        )
     });
 
 exports.getHistoryForYear = functions

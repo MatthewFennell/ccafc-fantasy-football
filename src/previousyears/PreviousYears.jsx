@@ -99,8 +99,6 @@ const PreviousYears = props => {
         // eslint-disable-next-line
     }, [fetchHistoryForYear]);
 
-    const options = ['2021', '2022'];
-
     useEffect(() => {
         props.fetchPreviousYearsAvailable();
         // eslint-disable-next-line
@@ -135,7 +133,7 @@ const PreviousYears = props => {
                     <Dropdown
                         value={yearSelected}
                         onChange={setYear}
-                        options={generateOptions(options)}
+                        options={generateOptions(props.previousYears)}
                         title="Pick season"
                     />
 
@@ -172,6 +170,7 @@ PreviousYears.defaultProps = {
     fetchingHistory: false,
     fetchHistoryForYear: noop,
     fetchPreviousYearsAvailable: noop,
+    previousYears: [],
     styles: defaultStyles
 };
 
@@ -183,6 +182,7 @@ PreviousYears.propTypes = {
     fetchingHistory: PropTypes.bool,
     fetchHistoryForYear: PropTypes.func,
     fetchPreviousYearsAvailable: PropTypes.func,
+    previousYears: PropTypes.arrayOf(PropTypes.string),
     styles: PropTypes.objectOf(PropTypes.string)
 };
 
@@ -193,7 +193,8 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
     fetchingHistory: state.previousYear.fetchingHistory,
-    history: state.previousYear.history
+    history: state.previousYear.history,
+    previousYears: state.previousYear.previousYears
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PreviousYears);
