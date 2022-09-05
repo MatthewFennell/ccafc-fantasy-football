@@ -41,6 +41,14 @@ export const columns = (sortBy, activeSort, styles) => [
         align: 'center'
     },
     {
+        id: 'price',
+        name: 'Price',
+        label: headerCell(sortBy, activeSort, styles, 'Price'),
+        fixed: false,
+        active: true,
+        align: 'center'
+    },
+    {
         id: 'goals',
         name: 'Goals',
         label: headerCell(sortBy, activeSort, styles, 'Goals'),

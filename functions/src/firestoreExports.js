@@ -75,6 +75,12 @@ exports.rollOverToNextYear = functions.region(constants.region).pubsub
         inactiveUsers: 0
     })
         .then(() => common.getPreviousYear(db).collection('users').get().then(users => {
+
+            // Update total number of years
+            db.collection('fantasy-years').doc(constants.numberOfYearsId).update({
+                years: operations.arrayUnion(String(new Date().getFullYear()))
+            })
+
             const usersToUse = users.docs.filter(user => user.data().total_points > 0);
 
             common.getCorrectYear(db).collection('application-info').doc(constants.applicationInfoId).set({
