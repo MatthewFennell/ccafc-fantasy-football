@@ -8,7 +8,8 @@ import * as previousYearsApi from './api';
 
 export function* fetchAvailableYears(api) {
     try {
-        // const previousYears = yield call(api.fetchPreviousYearsAvailable);
+        const previousYears = yield call(api.fetchPreviousYearsAvailable);
+        yield put(actions.setPreviousYearsAvailable(previousYears));
 
         yield put(actions.setFetchingHistory(true));
         const currentYear = new Date().getFullYear();
