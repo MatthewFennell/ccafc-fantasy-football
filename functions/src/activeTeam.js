@@ -9,6 +9,15 @@ const db = admin.firestore();
 
 const operations = admin.firestore.FieldValue;
 
+const updateLeaguesPointsEntries = (user_id) => common.getCorrectYear(db).collection('leagues-points')
+    .where('user_id', '==', user_id).get().then(
+    leagues => {
+        leagues.docs.forEach(doc => doc.ref.update({
+            hasPlayerInActiveTeam: true
+        }))
+    }
+)
+
 exports.updateTeam = functions
     .region(constants.region)
     .https.onCall((data, context) => {
@@ -69,6 +78,7 @@ exports.updateTeam = functions
                                     })));
                                 return Promise.all(newTeamPromises).then(players => {
                                     common.teamIsValid(players);
+                                    updateLeaguesPointsEntries(context.auth.uid)
                                     return activeTeams.docs[0].ref.update({
                                         player_ids: data.newTeam
                                     }).then(() => common.getCorrectYear(db).collection('users').doc(context.auth.uid).update({
