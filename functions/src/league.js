@@ -28,6 +28,7 @@ const joinLeaguePointsWithCorrectPoints = (uid, week, leagueName, leagueId) => c
                 throw new functions.https.HttpsError('already-exists', 'You are already in that league');
             }
             return getDisplayName(uid).then(userInfo => common.getCorrectYear(db).collection('leagues-points').add({
+                hasPlayerInActiveTeam: true,
                 league_id: leagueId,
                 user_id: uid,
                 start_week: week,
@@ -180,25 +181,22 @@ exports.orderedUsers = functions
                         if (weeklyTeam.size === 0) {
                             return fp.flow(
                                 fp.set('data.week_points', 0),
-                                fp.set('data.hasPlayersInTeam', false),
                             )(user);
                         }
                         const weeklyTeamObj = weeklyTeam.docs[0];
-                        const length = weeklyTeamObj.data().player_ids ? weeklyTeamObj.data().player_ids.length : 0;
-                        console.log('length', length);
 
                         return fp.flow(
                             fp.set('data.week_points', weeklyTeamObj.data().points),
-                            fp.set('data.hasPlayersInTeam', Boolean(length)),
                         )(user);
                     })));
-                return Promise.all(leaguePromises).then(leagueRow => leagueRow.filter(row => row.data.hasPlayersInTeam));
+                return Promise.all(leaguePromises);
             });
 
         if (data.previousId === null) {
             return adaptData(common.getCorrectYear(db)
                 .collection('leagues-points')
                 .where('league_id', '==', data.leagueId)
+                .where('hasPlayerInActiveTeam', '==', true)
                 .orderBy('position', 'asc')
                 .limit(Math.min(maximumRequestSize, data.requestedSize))).then(result => common.getCorrectYear(db).collection('leagues').doc(data.leagueId).get()
                 .then(
@@ -214,6 +212,7 @@ exports.orderedUsers = functions
                 query => adaptData(common.getCorrectYear(db)
                     .collection('leagues-points')
                     .where('league_id', '==', data.leagueId)
+                    .where('hasPlayerInActiveTeam', '==', true)
                     .orderBy('position', 'asc')
                     .startAfter(query)
                     .limit(Math.min(20, data.requestedSize)))
