@@ -224,6 +224,7 @@ exports.orderedUsers = functions
     });
 
 // Adds a position tag to each league to order them correctly
+// Adds a position tag to each league to order them correctly
 exports.calculatePositions = functions
     .region(constants.region)
     .https.onCall((data, context) => common.hasPermission(context.auth.uid, constants.PERMISSIONS.SORT_LEAGUES)
@@ -235,6 +236,14 @@ exports.calculatePositions = functions
             .then(result => {
                 const leaguesAndUsers = {};
                 const positions = [];
+                const emptyTeamsPositions = [];
+                const emptyLeaguesAndUsers = {}
+                const numberOfUsersWithNegativePoints = {}
+                // Puts anybody without players in active team with the lowest position
+                // Essentially just dumps them at the end
+                // Even negative scores have a better position than empty teams
+                // This is because negative scores need to show in the table
+                // But would get removed due to the sorting in the limit filter
 
                 result.forEach(league => {
                     const entry = {
@@ -242,22 +251,48 @@ exports.calculatePositions = functions
                         points: league.data.user_points
                     };
 
-                    if (leaguesAndUsers[league.data.league_id]) {
-                        leaguesAndUsers[league.data.league_id].push(entry);
-                    } else {
-                        leaguesAndUsers[league.data.league_id] = [entry];
+                    if (league.data.hasPlayerInActiveTeam) {
+                        if (league.data.user_points < 0) {
+                            if (numberOfUsersWithNegativePoints[league.data.league_id]) {
+                                numberOfUsersWithNegativePoints[league.data.league_id] += 1
+                            } else {
+                                numberOfUsersWithNegativePoints[league.data.league_id] = 1
+                            }
+                        }
+                        if (leaguesAndUsers[league.data.league_id]) {
+                            leaguesAndUsers[league.data.league_id].push(entry);
+                        } else {
+                            leaguesAndUsers[league.data.league_id] = [entry];
+                        }
+                    }
+                    else {
+                        if (emptyLeaguesAndUsers[league.data.league_id]) {
+                            emptyLeaguesAndUsers[league.data.league_id].push(entry);
+                        } else {
+                            emptyLeaguesAndUsers[league.data.league_id] = [entry];
+                        }
                     }
                 });
 
                 Object.keys(leaguesAndUsers).forEach(key => {
                     leaguesAndUsers[key] = fp.sortBy('points')(leaguesAndUsers[key]).reverse();
-                    leaguesAndUsers[key].forEach((pos, index) => {
-                        positions.push({ id: pos.id, position: index + 1 });
+                    leaguesAndUsers[key].forEach((leaguePointsId, index) => {
+                        positions.push({ id: leaguePointsId.id, position: index + 1 });
                     });
                 });
 
-                const numberOfBatches = Math.ceil(positions.length / constants.maxBatchSize);
+                Object.keys(emptyLeaguesAndUsers).forEach(key => {
+                    const numberOfNegativeScorers = fp.getOr(0, key, numberOfUsersWithNegativePoints);
+                    const usersInLeagueWithTeam = fp.getOr([], key, leaguesAndUsers);
+                    const usersInLeagueWithoutTeam = fp.getOr([], key, emptyLeaguesAndUsers);
+                    const total = usersInLeagueWithTeam.length + usersInLeagueWithoutTeam.length
+                    emptyLeaguesAndUsers[key].forEach((leaguePointsId, index) => {
+                        emptyTeamsPositions.push({ id: leaguePointsId.id, position: total - numberOfNegativeScorers - index + 1 });
+                    });
+                });
 
+                const numberOfBatches = Math.ceil((positions.length + emptyTeamsPositions.length) / constants.maxBatchSize);
+    
                 const batches = [];
                 for (let x = 0; x < numberOfBatches; x += 1) {
                     batches.push(db.batch());
@@ -271,8 +306,16 @@ exports.calculatePositions = functions
                     });
                 });
 
+                emptyTeamsPositions.forEach((pos, index) => {
+                    const batchToTarget = Math.floor((index+positions.length) / constants.maxBatchSize);
+                    const docRef = common.getCorrectYear(db).collection('leagues-points').doc(pos.id);
+                    batches[batchToTarget].update(docRef, {
+                        position: pos.position
+                    });
+                });
+
                 batches.forEach((batch, index) => batch.commit().then(() => {
-                    console.log('Commited batch at index: ', index, ' for creating updating leagues positions');
+                    console.log('Commited batch at index: ', index, ' for updating leagues positions');
                 }));
             })));
 
