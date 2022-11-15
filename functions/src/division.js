@@ -30,9 +30,8 @@ exports.addDivision = functions
                                     isMen: Boolean(data.isMen)
                                 }
                             ]
-                        })
+                        });
                     }
-                    
 
                     if (_.some(result.data().Divisions, division => division.link === data.link)) {
                         throw new functions.https.HttpsError('invalid-argument', 'You have already added that division');
