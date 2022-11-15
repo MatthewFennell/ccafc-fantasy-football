@@ -165,10 +165,10 @@ exports.addExtraCaptainPoints = functions.region(constants.region).firestore
                             .get()
                             .then(weeklyTeamDoc => {
                                 if (weeklyTeamDoc.size === 0) {
-                                    throw new functions.https.HttpsError('not-found', 'User has no weekly team in that week');
+                                    throw new functions.https.HttpsError('not-found', `User ${uid} has no weekly team in that week (${change.after.data().week})`);
                                 }
                                 if (weeklyTeamDoc.size > 1) {
-                                    throw new functions.https.HttpsError('invalid-argument', 'User has too many weekly teams');
+                                    throw new functions.https.HttpsError('invalid-argument', `User ${uid} has too many weekly teams (${change.after.data().week})`);
                                 }
                                 weeklyTeamDoc.docs[0].ref.update({
                                     points: operations.increment(points)
@@ -181,7 +181,7 @@ exports.addExtraCaptainPoints = functions.region(constants.region).firestore
                             .get()
                             .then(weeklyPlayerDoc => {
                                 if (weeklyPlayerDoc.size === 0) {
-                                    throw new functions.https.HttpsError('not-found', 'Captain was not found for week');
+                                    throw new functions.https.HttpsError('not-found', `Captain ${change.after.data().player_id} was not found for week ${change.after.data().week} for user ${uid}`);
                                 }
                                 if (weeklyPlayerDoc.size > 1) {
                                     throw new functions.https.HttpsError('invalid-argument', 'Too many captains');

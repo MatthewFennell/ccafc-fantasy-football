@@ -20,8 +20,8 @@ exports.getNumberOfYears = functions
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
         return db.collection('fantasy-years').doc(constants.numberOfYearsId).get().then(
-            numberOfYears => numberOfYears.data().years 
-        )
+            numberOfYears => numberOfYears.data().years
+        );
     });
 
 exports.getHistoryForYear = functions

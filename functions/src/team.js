@@ -42,7 +42,7 @@ exports.getAllTeams = functions
                     const { blob } = doc.data();
                     return JSON.parse(blob);
                 }
-                return Promise.resolve([])
+                return Promise.resolve([]);
             });
     });
 
