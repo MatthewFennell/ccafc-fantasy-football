@@ -208,9 +208,11 @@ const tryFindUserInYear = (userId, year) => {
                             position: appInfo.data().number_of_users,
                             teamName: user.data().teamName
                         });
+                        common.log(userId, 'Fixing user', {year})
                     });
                 return Promise.resolve();
             }
+            common.log(user, 'Did not find user in year when trying to fix account', {year})
             return tryFindUserInYear(userId, year - 1);
         });
 };
@@ -221,6 +223,6 @@ exports.fixAccount = functions
         common.isAuthenticated(context);
 
         const currentYear = new Date().getFullYear();
-
+        common.log(context.auth.uid, 'Trying to fix user', {year: currentYear})
         return tryFindUserInYear(context.auth.uid, currentYear);
     });

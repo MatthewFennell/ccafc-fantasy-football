@@ -10,6 +10,7 @@ import * as selectors from './selectors';
 
 const api = {
     fetchPointsForUserInWeek: () => 'team',
+    attemptToFixAccount: () => '',
     getUserInfo: () => 'details'
 };
 
@@ -46,7 +47,7 @@ describe('Points saga', () => {
                 { select: alreadyFetchedData(false) }
             ])
             .put(actions.setUserDetailsFetching('userId', true))
-            .put(setErrorMessage('Error Fetching User Info', error))
+            .put(setErrorMessage('Error Fetching User Info. Trying to fix account...Refresh in 10 seconds', error))
             .put(actions.cancelFetchingUserDetails('userId'))
             .run({ silenceTimeout: true });
     });

@@ -289,7 +289,6 @@ exports.updateLeaguesPoints = functions
                         .then(
                             activeTeams => {
                                 if (activeTeams.docs.length === 0) {
-                                    console.log('No active team');
                                     return Promise.resolve();
                                 }
                                 const activeTeam = activeTeams.docs[0];
