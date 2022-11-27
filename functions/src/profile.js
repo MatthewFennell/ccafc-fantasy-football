@@ -146,7 +146,7 @@ exports.updateClubSubsDisplayNames = functions.region(constants.region).firestor
     .document('fantasy-years/{year}/users/{id}')
     .onWrite((change, context) => {
         const { year } = context.params;
-        updateHistoryNames('club-subs', constants.clubSubsHistoryId, change, year);
+        return updateHistoryNames('club-subs', constants.clubSubsHistoryId, change, year);
     });
 
 // Update club subs history display names
@@ -181,7 +181,7 @@ exports.updateResultsDisplayNames = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/users/{id}')
     .onWrite((change, context) => {
         const { year } = context.params;
-        updateHistoryNames('results-history', constants.resultsHistoryId, change, year);
+        return updateHistoryNames('results-history', constants.resultsHistoryId, change, year);
     });
 
 const updateFeaturesAndHighlightsDisplayNames = (collection, change) => {
@@ -196,7 +196,7 @@ const updateFeaturesAndHighlightsDisplayNames = (collection, change) => {
         return Promise.resolve();
     }
 
-    return common.getCorrectYear(db, year).collection(collection).where('userId', '==', userId).get()
+    return common.getCorrectYear(db).collection(collection).where('userId', '==', userId).get()
         .then(
             result => result.docs.forEach(doc => doc.ref.update({
                 displayName: displayNameAfter
@@ -208,22 +208,22 @@ const updateFeaturesAndHighlightsDisplayNames = (collection, change) => {
 exports.updateFeatures = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/users/{id}')
     .onWrite((change, context) => {
-        const { year } = context.params
-        updateFeaturesAndHighlightsDisplayNames('feature-requests', change, year);
+        const { year } = context.params;
+        return updateFeaturesAndHighlightsDisplayNames('feature-requests', change, year);
     });
 
 exports.updateHighlightsDisplayNames = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/users/{id}')
     .onWrite((change, context) => {
-        const { year } = context.params
-        updateFeaturesAndHighlightsDisplayNames('highlights', change, year);
+        const { year } = context.params;
+        return updateFeaturesAndHighlightsDisplayNames('highlights', change, year);
     });
 
 // Update cup display name mapping
 exports.updateCupDisplayNameMapping = functions.region(constants.region).firestore
     .document('fantasy-years/{year}/users/{id}')
     .onWrite((change, context) => {
-        const { year } = context.params
+        const { year } = context.params;
         if (!change.after.exists || !change.before.exists) {
             return Promise.resolve();
         }

@@ -28,6 +28,7 @@ const joinLeaguePointsWithCorrectPoints = (uid, week, leagueName, leagueId) => c
                 throw new functions.https.HttpsError('already-exists', 'You are already in that league');
             }
             return getDisplayName(uid).then(userInfo => common.getCorrectYear(db).collection('leagues-points').add({
+                hasPlayerInActiveTeam: true,
                 league_id: leagueId,
                 user_id: uid,
                 start_week: week,
@@ -180,25 +181,22 @@ exports.orderedUsers = functions
                         if (weeklyTeam.size === 0) {
                             return fp.flow(
                                 fp.set('data.week_points', 0),
-                                fp.set('data.hasPlayersInTeam', false),
                             )(user);
                         }
                         const weeklyTeamObj = weeklyTeam.docs[0];
-                        const length = weeklyTeamObj.data().player_ids ? weeklyTeamObj.data().player_ids.length : 0;
-                        console.log('length', length);
 
                         return fp.flow(
                             fp.set('data.week_points', weeklyTeamObj.data().points),
-                            fp.set('data.hasPlayersInTeam', Boolean(length)),
                         )(user);
                     })));
-                return Promise.all(leaguePromises).then(leagueRow => leagueRow.filter(row => row.data.hasPlayersInTeam));
+                return Promise.all(leaguePromises);
             });
 
         if (data.previousId === null) {
             return adaptData(common.getCorrectYear(db)
                 .collection('leagues-points')
                 .where('league_id', '==', data.leagueId)
+                .where('hasPlayerInActiveTeam', '==', true)
                 .orderBy('position', 'asc')
                 .limit(Math.min(maximumRequestSize, data.requestedSize))).then(result => common.getCorrectYear(db).collection('leagues').doc(data.leagueId).get()
                 .then(
@@ -214,6 +212,7 @@ exports.orderedUsers = functions
                 query => adaptData(common.getCorrectYear(db)
                     .collection('leagues-points')
                     .where('league_id', '==', data.leagueId)
+                    .where('hasPlayerInActiveTeam', '==', true)
                     .orderBy('position', 'asc')
                     .startAfter(query)
                     .limit(Math.min(20, data.requestedSize)))
@@ -224,6 +223,7 @@ exports.orderedUsers = functions
             );
     });
 
+// Adds a position tag to each league to order them correctly
 // Adds a position tag to each league to order them correctly
 exports.calculatePositions = functions
     .region(constants.region)
@@ -236,6 +236,14 @@ exports.calculatePositions = functions
             .then(result => {
                 const leaguesAndUsers = {};
                 const positions = [];
+                const emptyTeamsPositions = [];
+                const emptyLeaguesAndUsers = {};
+                const numberOfUsersWithNegativePoints = {};
+                // Puts anybody without players in active team with the lowest position
+                // Essentially just dumps them at the end
+                // Even negative scores have a better position than empty teams
+                // This is because negative scores need to show in the table
+                // But would get removed due to the sorting in the limit filter
 
                 result.forEach(league => {
                     const entry = {
@@ -243,21 +251,44 @@ exports.calculatePositions = functions
                         points: league.data.user_points
                     };
 
-                    if (leaguesAndUsers[league.data.league_id]) {
-                        leaguesAndUsers[league.data.league_id].push(entry);
+                    if (league.data.hasPlayerInActiveTeam) {
+                        if (league.data.user_points < 0) {
+                            if (numberOfUsersWithNegativePoints[league.data.league_id]) {
+                                numberOfUsersWithNegativePoints[league.data.league_id] += 1;
+                            } else {
+                                numberOfUsersWithNegativePoints[league.data.league_id] = 1;
+                            }
+                        }
+                        if (leaguesAndUsers[league.data.league_id]) {
+                            leaguesAndUsers[league.data.league_id].push(entry);
+                        } else {
+                            leaguesAndUsers[league.data.league_id] = [entry];
+                        }
+                    } else if (emptyLeaguesAndUsers[league.data.league_id]) {
+                        emptyLeaguesAndUsers[league.data.league_id].push(entry);
                     } else {
-                        leaguesAndUsers[league.data.league_id] = [entry];
+                        emptyLeaguesAndUsers[league.data.league_id] = [entry];
                     }
                 });
 
                 Object.keys(leaguesAndUsers).forEach(key => {
                     leaguesAndUsers[key] = fp.sortBy('points')(leaguesAndUsers[key]).reverse();
-                    leaguesAndUsers[key].forEach((pos, index) => {
-                        positions.push({ id: pos.id, position: index + 1 });
+                    leaguesAndUsers[key].forEach((leaguePointsId, index) => {
+                        positions.push({ id: leaguePointsId.id, position: index + 1 });
                     });
                 });
 
-                const numberOfBatches = Math.ceil(positions.length / constants.maxBatchSize);
+                Object.keys(emptyLeaguesAndUsers).forEach(key => {
+                    const numberOfNegativeScorers = fp.getOr(0, key, numberOfUsersWithNegativePoints);
+                    const usersInLeagueWithTeam = fp.getOr([], key, leaguesAndUsers);
+                    const usersInLeagueWithoutTeam = fp.getOr([], key, emptyLeaguesAndUsers);
+                    const total = usersInLeagueWithTeam.length + usersInLeagueWithoutTeam.length;
+                    emptyLeaguesAndUsers[key].forEach((leaguePointsId, index) => {
+                        emptyTeamsPositions.push({ id: leaguePointsId.id, position: total - numberOfNegativeScorers - index + 1 });
+                    });
+                });
+
+                const numberOfBatches = Math.ceil((positions.length + emptyTeamsPositions.length) / constants.maxBatchSize);
 
                 const batches = [];
                 for (let x = 0; x < numberOfBatches; x += 1) {
@@ -272,8 +303,16 @@ exports.calculatePositions = functions
                     });
                 });
 
+                emptyTeamsPositions.forEach((pos, index) => {
+                    const batchToTarget = Math.floor((index + positions.length) / constants.maxBatchSize);
+                    const docRef = common.getCorrectYear(db).collection('leagues-points').doc(pos.id);
+                    batches[batchToTarget].update(docRef, {
+                        position: pos.position
+                    });
+                });
+
                 batches.forEach((batch, index) => batch.commit().then(() => {
-                    console.log('Commited batch at index: ', index, ' for creating updating leagues positions');
+                    console.log('Commited batch at index: ', index, ' for updating leagues positions');
                 }));
             })));
 

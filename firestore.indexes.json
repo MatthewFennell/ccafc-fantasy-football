@@ -17,6 +17,15 @@
       ]
     },
     { 
+      "collectionGroup": "leagues-points",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "hasPlayerInActiveTeam", "order": "ASCENDING" },
+        { "fieldPath": "league_id", "order": "ASCENDING" },
+        { "fieldPath": "position", "order": "ASCENDING" }
+      ]
+    },
+    { 
       "collectionGroup": "weekly-teams",
       "queryScope": "COLLECTION",
       "fields": [

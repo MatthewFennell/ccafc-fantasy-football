@@ -267,10 +267,38 @@ exports.fetchCup = functions
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
         return common.getCorrectYear(db).collection('the-cup').doc(constants.cupDatabaseId).get()
-            .then(response => {
-                return common.getCorrectYear(db).collection('the-cup').doc(constants.cupDatabaseIdRoundTwo).get().then(res => ({
+            .then(response => common.getCorrectYear(db).collection('the-cup').doc(constants.cupDatabaseIdRoundTwo).get()
+                .then(res => ({
                     cupOne: response.exists ? response.data() : null,
-                    cupTwo: res.exists ? res.data() : null,
-                }))
+                    cupTwo: res.exists ? res.data() : null
+                })));
+    });
+
+exports.updateLeaguesPoints = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+        return common.getCorrectYear(db).collection('leagues-points')
+            .where('position', '<', 101).get()
+            .then(docs => {
+                console.log('docs length', docs.docs.length);
+                return docs.docs.forEach(doc => {
+                    const { user_id } = doc.data();
+                    console.log('Checking doc for ', user_id);
+                    return common.getCorrectYear(db).collection('active-teams').where('user_id', '==', user_id).get()
+                        .then(
+                            activeTeams => {
+                                if (activeTeams.docs.length === 0) {
+                                    return Promise.resolve();
+                                }
+                                const activeTeam = activeTeams.docs[0];
+                                const { player_ids } = activeTeam.data();
+                                console.log('Updating to be', player_ids.length > 0);
+                                return doc.ref.update({
+                                    hasPlayerInActiveTeam: player_ids.length > 0
+                                });
+                            }
+                        );
+                });
             });
     });

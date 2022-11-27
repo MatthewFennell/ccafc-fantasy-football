@@ -149,6 +149,6 @@ exports.cleanupRejectedHighlights = functions.region(constants.region).pubsub
         const date = new Date();
         date.setDate(date.getDate() - 1);
         const lastMonth = admin.firestore.Timestamp.fromDate(date);
-        common.getCorrectYear(db).collection('highlights-rejected').where('dateCreated', '<=', lastMonth).get()
+        return common.getCorrectYear(db).collection('highlights-rejected').where('dateCreated', '<=', lastMonth).get()
             .then(result => result.docs.forEach(doc => doc.ref.delete()));
     });

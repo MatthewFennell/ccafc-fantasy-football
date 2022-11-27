@@ -7,6 +7,7 @@ const common = require('./common');
 const config = functions.config();
 
 const db = admin.firestore();
+const operations = admin.firestore.FieldValue;
 
 const client = new firestore.v1.FirestoreAdminClient();
 const bucket = college => `gs://daily-backup-${college}-fantasy-football`;
@@ -75,11 +76,15 @@ exports.rollOverToNextYear = functions.region(constants.region).pubsub
         inactiveUsers: 0
     })
         .then(() => common.getPreviousYear(db).collection('users').get().then(users => {
-
             // Update total number of years
             db.collection('fantasy-years').doc(constants.numberOfYearsId).update({
                 years: operations.arrayUnion(String(new Date().getFullYear()))
-            })
+            });
+
+            common.getCorrectYear(db).collection('divisions').doc(constants.divisionsId).set({
+                Divisions: [
+                ]
+            });
 
             const usersToUse = users.docs.filter(user => user.data().total_points > 0);
 

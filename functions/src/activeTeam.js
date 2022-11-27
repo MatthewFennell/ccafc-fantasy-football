@@ -9,6 +9,16 @@ const db = admin.firestore();
 
 const operations = admin.firestore.FieldValue;
 
+const updateLeaguesPointsEntries = user_id => common.getCorrectYear(db).collection('leagues-points')
+    .where('user_id', '==', user_id).get()
+    .then(
+        leagues => {
+            leagues.docs.forEach(doc => doc.ref.update({
+                hasPlayerInActiveTeam: true
+            }));
+        }
+    );
+
 exports.updateTeam = functions
     .region(constants.region)
     .https.onCall((data, context) => {
@@ -69,6 +79,7 @@ exports.updateTeam = functions
                                     })));
                                 return Promise.all(newTeamPromises).then(players => {
                                     common.teamIsValid(players);
+                                    updateLeaguesPointsEntries(context.auth.uid);
                                     return activeTeams.docs[0].ref.update({
                                         player_ids: data.newTeam
                                     }).then(() => common.getCorrectYear(db).collection('users').doc(context.auth.uid).update({
@@ -197,9 +208,11 @@ const tryFindUserInYear = (userId, year) => {
                             position: appInfo.data().number_of_users,
                             teamName: user.data().teamName
                         });
+                        common.log(userId, 'Fixing user', {year})
                     });
                 return Promise.resolve();
             }
+            common.log(user, 'Did not find user in year when trying to fix account', {year})
             return tryFindUserInYear(userId, year - 1);
         });
 };
@@ -210,6 +223,6 @@ exports.fixAccount = functions
         common.isAuthenticated(context);
 
         const currentYear = new Date().getFullYear();
-
+        common.log(context.auth.uid, 'Trying to fix user', {year: currentYear})
         return tryFindUserInYear(context.auth.uid, currentYear);
     });

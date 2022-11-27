@@ -17,7 +17,8 @@ export function* getUsername(userId, api) {
             yield put(actions.setUserDetails(userId, userDetails));
         }
     } catch (error) {
-        yield put(setErrorMessage('Error Fetching User Info', error));
+        yield put(setErrorMessage('Error Fetching User Info. Trying to fix account...Refresh in 10 seconds', error));
+        yield call(api.attemptToFixAccount);
     } finally {
         yield put(actions.cancelFetchingUserDetails(userId));
     }

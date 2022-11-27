@@ -44,7 +44,8 @@ exports.joinInitialLeague = functions
                             user_points: 0,
                             username: user.displayName,
                             position: query.size + 1,
-                            teamName: 'Default Team Name'
+                            teamName: 'Default Team Name',
+                            hasPlayerInActiveTeam: false
                         })
                     );
             }
