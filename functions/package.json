@@ -16,7 +16,7 @@
   "dependencies": {
     "axios": "^0.21.2",
     "cheerio": "^1.0.0-rc.3",
-    "firebase-admin": "^9.2.0",
+    "firebase-admin": "^11.4.1",
     "firebase-functions": "^3.16.0",
     "lodash": "^4.17.19",
     "moment": "^2.29.4"
