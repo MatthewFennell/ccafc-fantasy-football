@@ -1,37 +1,50 @@
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
+import Switch from '@material-ui/core/Switch';
 import fp from 'lodash/fp';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Spinner from '../common/spinner/Spinner';
 import Tabs from '../common/tabs/Tabs';
 import materialStyles from '../materialStyles';
-import { fetchCupRequest } from './actions';
+import { fetchCupRequest, setAutoRenewCup } from './actions';
 import defaultStyles from './TheCup.module.scss';
 import WeekInfo, { getName } from './WeekInfo';
+import * as constants from "../constants"
+
 
 const TheCup = props => {
-    const [isViewingFirstCup, setIsViewingFirstCup] = React.useState(!props.cup.cup?.hasFinished);
+    const [cupBeingViewed, setCupBeingViewed] = React.useState(0);
+
+    const getCupBeingViewed = () => {
+        if (cupBeingViewed === 0) {
+            return props.cup.cup
+        }
+        if (cupBeingViewed === 1) {
+            return props.cup.cupTwo
+        }
+        return props.cup.cupThree
+    }
 
     useEffect(() => {
-        if (props.cup.cup?.hasFinished) {
-            setIsViewingFirstCup(false);
+        if (props.cup.cupTwo?.hasFinished && !_.isEmpty(props.cup.cupThree)) {
+            setCupBeingViewed(2)
+        }
+        else if (props.cup.cup?.hasFinished && !_.isEmpty(props.cup.cupTwo)) {
+            setCupBeingViewed(1);
         }
     }, [props.cup]);
 
     const handleChange = (ev, newValue) => {
-        if (newValue) {
-            setIsViewingFirstCup(false);
-        } else {
-            setIsViewingFirstCup(true);
-        }
+        setCupBeingViewed(newValue)
     };
 
-    const cupToUse = isViewingFirstCup ? props.cup.cup : props.cup.cupTwo;
+    const cupToUse = getCupBeingViewed()
 
     const {
-        displayNameMappings, hasFinished, winner, ...rest
+        displayNameMappings, hasFinished, winner, isAutoRenew, ...rest
     } = cupToUse;
 
     const classes = makeStyles(materialStyles)();
@@ -45,6 +58,10 @@ const TheCup = props => {
         .reduce((acc, key) => [...acc, pairings[key].playerOneId,
             pairings[key].playerTwoId], []) : []);
 
+    const onChange = (val) => {
+        props.setAutoRenewCup(cupBeingViewed, !cupToUse?.isAutoRenew)
+    }
+
     return (
         <>
             <div className={props.styles.cupWrapper}>
@@ -52,10 +69,11 @@ const TheCup = props => {
                     elevation={4}
                     className={classes.paper}
                 >
-                    {props.cup.cup?.hasFinished
+                    {props.cup.cup?.hasFinished && !_.isEmpty(props.cup.cupTwo)
                     && (
                         <div className={props.styles.tabsWrapper}>
-                            <Tabs options={['First Cup', 'Second Cup']} handleChange={handleChange} value={isViewingFirstCup ? 0 : 1} />
+                            <Tabs options={_.isEmpty(props.cup.cupThree) ? ['First Cup', 'Second Cup'] 
+                            : ['First Cup', 'Second Cup', 'Main Cup']} handleChange={handleChange} value={cupBeingViewed} />
                         </div>
                     )}
                     <div className={props.styles.cupHeader}>
@@ -105,6 +123,29 @@ const TheCup = props => {
                     />
                 ))}
             </div>
+            
+            {props.userPermissions.includes(constants.PERMISSIONS.CREATE_PLAYER) && (
+                <Paper  
+                    elevation={4}
+                    className={classes.paper}>
+                    <div className={props.styles.autoRenewCup}>
+                        <div>
+                            Automatically renew cup (Admin use only)
+                        </div>
+                        <div>
+                            Only if this is turned on, once this cup has finished, the next triggered week will create another cup (max 3 cups)
+                        </div>
+                        <div>
+                            Make sure it's switched on for the latest cup if you want another cup
+                        </div>
+                        <Switch
+                            checked={Boolean(cupToUse.isAutoRenew)}
+                            onChange={onChange}
+                            disabled={props.isFetchingCup}
+                        />
+                    </div>
+                </Paper>
+            )}
         </>
     );
 };
@@ -118,7 +159,8 @@ TheCup.defaultProps = {
         cupTwo: {}
     },
     isFetchingCup: false,
-    styles: defaultStyles
+    styles: defaultStyles,
+    userPermissions: [],
 };
 
 TheCup.propTypes = {
@@ -139,16 +181,19 @@ TheCup.propTypes = {
     }),
     fetchCupRequest: PropTypes.func.isRequired,
     isFetchingCup: PropTypes.bool,
-    styles: PropTypes.objectOf(PropTypes.string)
+    styles: PropTypes.objectOf(PropTypes.string),
+    userPermissions: PropTypes.arrayOf(PropTypes.string),
 };
 
 const mapStateToProps = state => ({
     auth: state.firebase.auth,
     cup: state.cup,
-    isFetchingCup: state.cup.isFetchingCup
+    isFetchingCup: state.cup.isFetchingCup,
+    userPermissions: state.auth.userPermissions
 });
 
 const mapDispatchToProps = {
+    setAutoRenewCup,
     fetchCupRequest
 };
 
