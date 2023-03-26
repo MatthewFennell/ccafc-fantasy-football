@@ -1,7 +1,13 @@
 @import "../common/Styles.scss";
 
+.autoRenewCup {
+  text-align: center;
+  color: $color-blue;
+  font-weight: bold;
+}
+
 .cupWrapper {
-    margin-bottom: 150px;
+    margin-bottom: 50px;
   }
 
   .cupWinner {

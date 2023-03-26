@@ -11,7 +11,8 @@ import * as selectors from './selectors';
 const api = {
     fetchCup: () => ({
         cupOne: 'cup',
-        cupTwo: 'cupTwo'
+        cupTwo: 'cupTwo',
+        cupThree: null
     })
 };
 
@@ -32,7 +33,7 @@ describe('Cup saga', () => {
                 }
             ])
             .call(api.fetchCup)
-            .put(actions.fetchCupSuccess('cup', 'cupTwo'))
+            .put(actions.fetchCupSuccess('cup', 'cupTwo', {}))
             .put(actions.setIsFetchingCup(false))
             .run({ silenceTimeout: true });
     });
