@@ -72,7 +72,8 @@ const createInitialPairings = (year, documentId, startingWeek) => common.getCorr
                 },
                 displayNameMappings,
                 hasFinished: false,
-                winner: null
+                winner: null,
+                isAutoRenew: false
             });
         });
     });
