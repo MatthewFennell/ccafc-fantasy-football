@@ -23,11 +23,10 @@ export function* fetchCup(api) {
 
 export function* setRenewCup(api, action) {
     try {
-        console.log('action', action)
         const cup = yield call(api.updateAutoRenew, {
             cupId: action.cupId,
             isAutoRenew: action.isAutoRenew
-        })
+        });
         yield put(actions.fetchCupSuccess(cup?.cupOne || {}, cup?.cupTwo || {}, cup?.cupThree || {}));
     } catch (error) {
         yield put(setErrorMessage('Error Updating auto renew cup', error));
@@ -39,6 +38,6 @@ export function* setRenewCup(api, action) {
 export default function* cupSaga() {
     yield all([
         takeEvery(actions.FETCH_CUP_REQUEST, fetchCup, cupApi),
-        takeEvery(actions.SET_AUTO_RENEW_CUP, setRenewCup, cupApi),
+        takeEvery(actions.SET_AUTO_RENEW_CUP, setRenewCup, cupApi)
     ]);
 }
