@@ -45,11 +45,11 @@ const generatePairingsAndByes = playerIds => {
     return { byes, pairings };
 };
 
-const createInitialPairings = (year, previousWeek, documentId, startingWeek) => common.getCorrectYear(db, year).collection('weekly-teams')
-    .where('week', '==', previousWeek).where('points', '>', 0)
+const createInitialPairings = (year, documentId, startingWeek) => common.getCorrectYear(db, year).collection('users')
+    .where('total_points', '>', 0)
     .get()
-    .then(weeklyDocs => {
-        const userIds = fp.shuffle(weeklyDocs.docs.map(doc => doc.data().user_id));
+    .then(users => {
+        const userIds = fp.shuffle(users.docs.map(doc => doc.id));
 
         const promises = userIds.map(id => common.getCorrectYear(db, year).collection('users').doc(id).get()
             .then(user => ({
@@ -169,18 +169,34 @@ exports.manageCup = functions.region(constants.region).firestore
         return common.getCorrectYear(db, year).collection('the-cup').doc(constants.cupDatabaseId).get()
             .then(originalDoc => {
                 // If the first cup has finished, start a 2nd cup
-                if (originalDoc.data().hasFinished) {
+                if (originalDoc.data().hasFinished && originalDoc.data().isAutoRenew) {
+                    common.log('no-user-id', 'first cup finished and is auto renewing')
                     return common.getCorrectYear(db, year).collection('the-cup').doc(constants.cupDatabaseIdRoundTwo).get()
                         .then(newCup => {
                             if (!newCup.exists) {
-                                return createInitialPairings(year, previousWeek, constants.cupDatabaseIdRoundTwo, newWeek);
+                                common.log('no-user-id', `second cup does not exist. creating...${previousWeek}, ${newWeek}`)
+                                return createInitialPairings(year, constants.cupDatabaseIdRoundTwo, newWeek);
                             }
+                            if (newCup.data().hasFinished && newCup.data().isAutoRenew) {
+                                common.log('no-user-id', 'second cup finished and is auto renewing')
+                                return common.getCorrectYear(db, year).collection('the-cup').doc(constants.cupDatabaseIdRoundThree).get().then(
+                                    thirdCup => {
+                                        if (!thirdCup.exists) {
+                                            common.log('no-user-id', `third cup does not exist. creating...${previousWeek}, ${newWeek}`)
+                                            return createInitialPairings(year, constants.cupDatabaseIdRoundThree, newWeek);
+                                        }
+                                        common.log('no-user-id', `updating third week...${previousWeek}, ${newWeek}`)
+                                        return updateResults(year, previousWeek, newWeek, constants.cupDatabaseIdRoundThree);
+                                    }
+                                )
+                            }
+                            common.log('no-user-id', `updating second week...${previousWeek}, ${newWeek}`)
                             return updateResults(year, previousWeek, newWeek, constants.cupDatabaseIdRoundTwo);
                         });
                 }
 
                 if (newWeek === constants.cupStartingWeek) {
-                    return createInitialPairings(year, previousWeek, constants.cupDatabaseId, constants.cupStartingWeek);
+                    return createInitialPairings(year, constants.cupDatabaseId, constants.cupStartingWeek);
                     // Change >= 0
                 }
                 // return updateResults(year, previousWeek, newWeek, constants.cupDatabaseId);
@@ -262,16 +278,43 @@ exports.manageCup = functions.region(constants.region).firestore
             });
     });
 
+const fetchCupSimple = () => 
+    common.getCorrectYear(db).collection('the-cup').doc(constants.cupDatabaseId).get()
+        .then(response => common.getCorrectYear(db).collection('the-cup').doc(constants.cupDatabaseIdRoundTwo).get()
+            .then(resTwo => common.getCorrectYear(db).collection('the-cup').doc(constants.cupDatabaseIdRoundThree).get()
+                .then(resThree => ({
+                    cupOne: response.exists ? response.data() : null,
+                    cupTwo: resTwo.exists ? resTwo.data() : null,
+                    cupThree: resThree.exists ? resThree.data() : null
+                }))));
+
+
 exports.fetchCup = functions
     .region(constants.region)
     .https.onCall((data, context) => {
         common.isAuthenticated(context);
-        return common.getCorrectYear(db).collection('the-cup').doc(constants.cupDatabaseId).get()
-            .then(response => common.getCorrectYear(db).collection('the-cup').doc(constants.cupDatabaseIdRoundTwo).get()
-                .then(res => ({
-                    cupOne: response.exists ? response.data() : null,
-                    cupTwo: res.exists ? res.data() : null
-                })));
+        return fetchCupSimple()
+    });
+
+
+exports.updateAutoRenew = functions
+    .region(constants.region)
+    .https.onCall((data, context) => {
+        common.isAuthenticated(context);
+
+        let cupId = constants.cupDatabaseId
+        if (data.cupId === 1) {
+            cupId = constants.cupDatabaseIdRoundTwo
+        }
+        if (data.cupId === 2) {
+            cupId = constants.cupDatabaseIdRoundThree
+        }
+
+        return common.getCorrectYear(db).collection('the-cup').doc(cupId).update({
+            isAutoRenew: Boolean(data.isAutoRenew)
+        }).then(() => {
+            return fetchCupSimple()
+        })
     });
 
 exports.updateLeaguesPoints = functions
@@ -281,10 +324,8 @@ exports.updateLeaguesPoints = functions
         return common.getCorrectYear(db).collection('leagues-points')
             .where('position', '<', 101).get()
             .then(docs => {
-                console.log('docs length', docs.docs.length);
                 return docs.docs.forEach(doc => {
                     const { user_id } = doc.data();
-                    console.log('Checking doc for ', user_id);
                     return common.getCorrectYear(db).collection('active-teams').where('user_id', '==', user_id).get()
                         .then(
                             activeTeams => {
@@ -293,7 +334,6 @@ exports.updateLeaguesPoints = functions
                                 }
                                 const activeTeam = activeTeams.docs[0];
                                 const { player_ids } = activeTeam.data();
-                                console.log('Updating to be', player_ids.length > 0);
                                 return doc.ref.update({
                                     hasPlayerInActiveTeam: player_ids.length > 0
                                 });
