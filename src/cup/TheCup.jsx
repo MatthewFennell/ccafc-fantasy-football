@@ -132,6 +132,12 @@ const TheCup = props => {
                         <div>
                             Automatically renew cup (Admin use only)
                         </div>
+                        <div>
+                            Only if this is turned on, once this cup has finished, the next triggered week will create another cup (max 3 cups)
+                        </div>
+                        <div>
+                            Make sure it's switched on for the latest cup if you want another cup
+                        </div>
                         <Switch
                             checked={Boolean(cupToUse.isAutoRenew)}
                             onChange={onChange}
