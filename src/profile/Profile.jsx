@@ -15,7 +15,7 @@ import {
     deleteAccountRequest, linkProfileToFacebook, linkProfileToGoogle,
     updateDisplayNameRequest, updateProfilePictureRequest, updateTeamNameRequest
 } from './actions';
-import LinkAccounts from './linkaccounts/LinkAccounts';
+// import LinkAccounts from './linkaccounts/LinkAccounts';
 import defaultStyles from './Profile.module.scss';
 import * as selectors from './selectors';
 import SelectProfilePicture from './selectprofilepicture/SelectProfilePicture';
@@ -90,12 +90,12 @@ const Profile = props => {
                 </div>
             </Paper>
             <div className={props.styles.bodyWrapper}>
-                <LinkAccounts
+                {/* <LinkAccounts
                     isSignedInWithFacebook={props.isSignedInWithFacebook}
                     isSignedInWithGoogle={props.isSignedInWithGoogle}
                     linkProfileToFacebook={props.linkProfileToFacebook}
                     linkProfileToGoogle={props.linkProfileToGoogle}
-                />
+                /> */}
                 <Update
                     loading={props.updatingDisplayName}
                     property="Display Name"
@@ -161,8 +161,8 @@ const Profile = props => {
 
 Profile.defaultProps = {
     deletingAccount: false,
-    isSignedInWithFacebook: false,
-    isSignedInWithGoogle: false,
+    // isSignedInWithFacebook: false,
+    // isSignedInWithGoogle: false,
     photoUrlBeingUpdated: '',
     profile: {
         displayName: '',
@@ -177,10 +177,10 @@ Profile.defaultProps = {
 Profile.propTypes = {
     deletingAccount: PropTypes.bool,
     deleteAccountRequest: PropTypes.func.isRequired,
-    isSignedInWithFacebook: PropTypes.bool,
-    isSignedInWithGoogle: PropTypes.bool,
-    linkProfileToFacebook: PropTypes.func.isRequired,
-    linkProfileToGoogle: PropTypes.func.isRequired,
+    // isSignedInWithFacebook: PropTypes.bool,
+    // isSignedInWithGoogle: PropTypes.bool,
+    // linkProfileToFacebook: PropTypes.func.isRequired,
+    // linkProfileToGoogle: PropTypes.func.isRequired,
     photoUrlBeingUpdated: PropTypes.string,
     profile: PropTypes.shape({
         displayName: PropTypes.string,
