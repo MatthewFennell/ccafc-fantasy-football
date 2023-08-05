@@ -4,11 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import firebase from 'firebase';
 import { noop } from 'lodash';
 import PropTypes from 'prop-types';
-import React, { useCallback } from 'react';
+import React from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import * as constants from '../constants';
 import materialStyles from '../materialStyles';
 import defaultStyles from './SignIn.module.scss';
 
@@ -17,17 +16,16 @@ const SignIn = props => {
     const uiConfig = {
         signInFlow: 'popup',
         signInOptions: [
-            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-            firebase.auth.FacebookAuthProvider.PROVIDER_ID
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID
         ],
         callbacks: {
             signInSuccess: noop
         }
     };
 
-    const redirectToPasswordReset = useCallback(() => {
-        props.history.push(constants.URL.RESET_PASSWORD);
-    }, [props.history]);
+    // const redirectToPasswordReset = useCallback(() => {
+    //     props.history.push(constants.URL.RESET_PASSWORD);
+    // }, [props.history]);
 
     return (
         <Paper
@@ -37,7 +35,7 @@ const SignIn = props => {
             <div className={props.styles.signInMessage}>
                 Sign In
             </div>
-            <div className={props.styles.passwordWrapper}>
+            {/* <div className={props.styles.passwordWrapper}>
                 <div
                     className={props.styles.forgotPasswordLink}
                     role="button"
@@ -46,7 +44,7 @@ const SignIn = props => {
                 >
                     Forgot your password?
                 </div>
-            </div>
+            </div> */}
             <StyledFirebaseAuth
                 uiConfig={uiConfig}
                 firebaseAuth={firebase.auth()}
