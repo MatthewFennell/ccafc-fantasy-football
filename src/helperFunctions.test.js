@@ -107,11 +107,11 @@ describe('Date functions', () => {
         expect(helpers.sortMatchesByDate(fixturesNotSortedByDate, true))
             .toEqual([
                 {
-                    teamOne: 'Trevs Z',
+                    teamOne: 'Collingwood A',
                     result: 'vs',
-                    teamTwo: 'Chads J',
-                    location: 'Rubber Crumb 1 (Track)',
-                    time: '2020-07-02 09:00AM',
+                    teamTwo: 'Butler C',
+                    location: 'Rubber Crumb 10 (Track)',
+                    time: '2020-09-02 09:00AM',
                     completed: false,
                     league: 'Division 3',
                     isCup: false
@@ -127,11 +127,11 @@ describe('Date functions', () => {
                     isCup: false
                 },
                 {
-                    teamOne: 'Collingwood A',
+                    teamOne: 'Trevs Z',
                     result: 'vs',
-                    teamTwo: 'Butler C',
-                    location: 'Rubber Crumb 10 (Track)',
-                    time: '2020-09-02 09:00AM',
+                    teamTwo: 'Chads J',
+                    location: 'Rubber Crumb 1 (Track)',
+                    time: '2020-07-02 09:00AM',
                     completed: false,
                     league: 'Division 3',
                     isCup: false
@@ -143,11 +143,11 @@ describe('Date functions', () => {
         expect(helpers.sortMatchesByDate(fixturesNotSortedByDate, false))
             .toEqual([
                 {
-                    teamOne: 'Collingwood A',
+                    teamOne: 'Trevs Z',
                     result: 'vs',
-                    teamTwo: 'Butler C',
-                    location: 'Rubber Crumb 10 (Track)',
-                    time: '2020-09-02 09:00AM',
+                    teamTwo: 'Chads J',
+                    location: 'Rubber Crumb 1 (Track)',
+                    time: '2020-07-02 09:00AM',
                     completed: false,
                     league: 'Division 3',
                     isCup: false
@@ -163,11 +163,11 @@ describe('Date functions', () => {
                     isCup: false
                 },
                 {
-                    teamOne: 'Trevs Z',
+                    teamOne: 'Collingwood A',
                     result: 'vs',
-                    teamTwo: 'Chads J',
-                    location: 'Rubber Crumb 1 (Track)',
-                    time: '2020-07-02 09:00AM',
+                    teamTwo: 'Butler C',
+                    location: 'Rubber Crumb 10 (Track)',
+                    time: '2020-09-02 09:00AM',
                     completed: false,
                     league: 'Division 3',
                     isCup: false
