@@ -34,8 +34,8 @@ export const filterFixturesByTime = (fixtures, isFuture) => fixtures
     .filter(x => (isFuture ? isFutureTense(x.time) : !isFutureTense(x.time)));
 
 export const sortMatchesByDate = (fixtures, isDesc) => (isDesc
-    ? fixtures.sort((a, b) => (convertToDate(a.time) > convertToDate(b.time) ? 1 : -1))
-    : fixtures.sort((a, b) => (convertToDate(a.time) > convertToDate(b.time) ? -1 : 1))
+    ? fixtures.sort((a, b) => (convertToDate(a.time) > convertToDate(b.time) ? -1 : 1))
+    : fixtures.sort((a, b) => (convertToDate(a.time) > convertToDate(b.time) ? 1 : -1))
 );
 
 export const getNextMatchPerTeam = (fixtures, team) => {

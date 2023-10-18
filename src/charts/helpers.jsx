@@ -304,7 +304,7 @@ export const marks = maxWeek => {
     return result;
 };
 
-const convertToDay = d => moment(d, 'DD-MM-YYYY');
+const convertToDay = d => moment(d, 'YYYY-MM-DD hh:mma');
 
 // Given start and end date, returns array with days between
 // for every "dayIncrements" number of days
