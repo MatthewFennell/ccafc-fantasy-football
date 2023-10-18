@@ -28,7 +28,6 @@ exports.scheduledFirestoreExport = functions.region(constants.region).pubsub
         })
             .then(responses => {
                 const response = responses[0];
-                console.log(`Operation Name: ${response.name}`);
                 return response;
             })
             .catch(err => {

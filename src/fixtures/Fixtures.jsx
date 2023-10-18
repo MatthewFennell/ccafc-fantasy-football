@@ -48,8 +48,6 @@ const Fixtures = props => {
         }
     }, [props.myTeam]);
 
-    console.log('fixtures', props.fixtures)
-
     const updateMyTeam = useCallback(() => {
         props.setMyTeamRequest(myTeam);
         // eslint-disable-next-line

@@ -19,7 +19,7 @@ describe('Current Team Components - Next Fixtures', () => {
             result: '1 - 2',
             teamTwo: 'St. Aidan\'s A',
             location: 'Rubber Crumb 1 (Old)',
-            time: '12/10/3019 10:45',
+            time: '3019-10-22 10:45AM',
             completed: true,
             league: 'Premiership',
             isCup: false
@@ -29,7 +29,7 @@ describe('Current Team Components - Next Fixtures', () => {
             result: '1 - 8',
             teamTwo: 'Grey A',
             location: 'Rubber Crumb 3 (Track)',
-            time: '12/10/3019 15:00',
+            time: '3019-10-22 03:00PM',
             completed: true,
             league: 'Premiership',
             isCup: true
@@ -39,7 +39,7 @@ describe('Current Team Components - Next Fixtures', () => {
             result: '0 - 5',
             teamTwo: 'Collingwood A',
             location: 'Rubber Crumb 1 (Old)',
-            time: '12/10/3019 16:45',
+            time: '3019-10-22 16:45PM',
             completed: true,
             league: 'Premiership',
             isCup: false

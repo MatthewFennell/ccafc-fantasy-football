@@ -147,7 +147,7 @@ export const filterFixtures = (fixtures, league, collingwoodOnly, upcomingOnly, 
             id: `${fixture.teamOne} vs ${fixture.teamTwo}-${fixture.time}`
         }));
 
-    return helpers.sortMatchesByDate(filteredFixtures).map(fixture => ({
+    return helpers.sortMatchesByDate(filteredFixtures, true).map(fixture => ({
         ...fixture,
         time: getTime(fixture.time),
     }));
