@@ -32,8 +32,6 @@ const NextFixtures = props => {
     const classes = makeStyles(materialStyles)();
     const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
 
-    console.log('fixtures', mensFixtures);
-
     return (
         <>
             <Paper

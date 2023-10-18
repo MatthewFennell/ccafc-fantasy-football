@@ -6,7 +6,7 @@ const fixturesNotSortedByDate = [
         result: 'vs',
         teamTwo: 'Collingwood J',
         location: 'Rubber Crumb 3 (Track)',
-        time: '08/02/2020 09:00',
+        time: '2020-08-02 09:00AM',
         completed: false,
         league: 'Division 3',
         isCup: false
@@ -16,7 +16,7 @@ const fixturesNotSortedByDate = [
         result: 'vs',
         teamTwo: 'Butler C',
         location: 'Rubber Crumb 10 (Track)',
-        time: '09/02/2020 09:00',
+        time: '2020-09-02 09:00AM',
         completed: false,
         league: 'Division 3',
         isCup: false
@@ -26,7 +26,7 @@ const fixturesNotSortedByDate = [
         result: 'vs',
         teamTwo: 'Chads J',
         location: 'Rubber Crumb 1 (Track)',
-        time: '07/02/2020 09:00',
+        time: '2020-07-02 09:00AM',
         completed: false,
         league: 'Division 3',
         isCup: false
@@ -40,7 +40,7 @@ const fixturesWithMatchesInPast = [
         result: 'vs',
         teamTwo: 'Collingwood J',
         location: 'Rubber Crumb 3 (Track)',
-        time: '08/02/1500 09:00',
+        time: '1500-08-02 09:00AM',
         completed: false,
         league: 'Division 3',
         isCup: false
@@ -50,7 +50,7 @@ const fixturesWithMatchesInPast = [
         result: 'vs',
         teamTwo: 'Butler C',
         location: 'Rubber Crumb 10 (Track)',
-        time: '09/02/1850 09:00',
+        time: '1500-09-02 09:00AM',
         completed: false,
         league: 'Division 3',
         isCup: false
@@ -60,7 +60,7 @@ const fixturesWithMatchesInPast = [
         result: 'vs',
         teamTwo: 'Chads J',
         location: 'Rubber Crumb 1 (Track)',
-        time: '07/02/2500 09:00',
+        time: '2500-07-02 09:00AM',
         completed: false,
         league: 'Division 3',
         isCup: false
@@ -104,14 +104,14 @@ const fixturesWithUnsorted = [
 
 describe('Date functions', () => {
     it('Sorts fixtures by date', () => {
-        expect(helpers.sortMatchesByDate(fixturesNotSortedByDate, false))
+        expect(helpers.sortMatchesByDate(fixturesNotSortedByDate, true))
             .toEqual([
                 {
                     teamOne: 'Trevs Z',
                     result: 'vs',
                     teamTwo: 'Chads J',
                     location: 'Rubber Crumb 1 (Track)',
-                    time: '07/02/2020 09:00',
+                    time: '2020-07-02 09:00AM',
                     completed: false,
                     league: 'Division 3',
                     isCup: false
@@ -121,7 +121,7 @@ describe('Date functions', () => {
                     result: 'vs',
                     teamTwo: 'Collingwood J',
                     location: 'Rubber Crumb 3 (Track)',
-                    time: '08/02/2020 09:00',
+                    time: '2020-08-02 09:00AM',
                     completed: false,
                     league: 'Division 3',
                     isCup: false
@@ -131,7 +131,7 @@ describe('Date functions', () => {
                     result: 'vs',
                     teamTwo: 'Butler C',
                     location: 'Rubber Crumb 10 (Track)',
-                    time: '09/02/2020 09:00',
+                    time: '2020-09-02 09:00AM',
                     completed: false,
                     league: 'Division 3',
                     isCup: false
@@ -140,14 +140,14 @@ describe('Date functions', () => {
     });
 
     it('Sorts fixtures by date reversed', () => {
-        expect(helpers.sortMatchesByDate(fixturesNotSortedByDate, true))
+        expect(helpers.sortMatchesByDate(fixturesNotSortedByDate, false))
             .toEqual([
                 {
                     teamOne: 'Collingwood A',
                     result: 'vs',
                     teamTwo: 'Butler C',
                     location: 'Rubber Crumb 10 (Track)',
-                    time: '09/02/2020 09:00',
+                    time: '2020-09-02 09:00AM',
                     completed: false,
                     league: 'Division 3',
                     isCup: false
@@ -157,7 +157,7 @@ describe('Date functions', () => {
                     result: 'vs',
                     teamTwo: 'Collingwood J',
                     location: 'Rubber Crumb 3 (Track)',
-                    time: '08/02/2020 09:00',
+                    time: '2020-08-02 09:00AM',
                     completed: false,
                     league: 'Division 3',
                     isCup: false
@@ -167,7 +167,7 @@ describe('Date functions', () => {
                     result: 'vs',
                     teamTwo: 'Chads J',
                     location: 'Rubber Crumb 1 (Track)',
-                    time: '07/02/2020 09:00',
+                    time: '2020-07-02 09:00AM',
                     completed: false,
                     league: 'Division 3',
                     isCup: false
@@ -183,7 +183,7 @@ describe('Date functions', () => {
                     result: 'vs',
                     teamTwo: 'Chads J',
                     location: 'Rubber Crumb 1 (Track)',
-                    time: '07/02/2500 09:00',
+                    time: '2500-07-02 09:00AM',
                     completed: false,
                     league: 'Division 3',
                     isCup: false

@@ -24,6 +24,8 @@ const convertResult = result => {
     return (`(${fp.head(split)}) - (${fp.tail(split)})`);
 };
 
+const getColumns = (columns, upcomingOnly) => upcomingOnly ? columns.filter(c => c.id !== "result") : columns
+
 const Fixtures = props => {
     const [myTeam, setMyTeam] = useState('');
     const [radioValue, setRadioValue] = useState('All');
@@ -105,7 +107,7 @@ const Fixtures = props => {
             </Paper>
             <Paper elevation={4} className={classes.paper}>
                 <Grid
-                    columns={columns}
+                    columns={getColumns(columns, upcomingMatchesOnly)}
                     csvTitle={generateCsvTitle('Fixtures')}
                     gridHeader="Fixtures"
                     loading={props.loadingFixtures}

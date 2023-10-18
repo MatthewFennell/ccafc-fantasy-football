@@ -6,7 +6,7 @@ const fixturesWithDuplicates = [
         result: '1 - 2',
         teamTwo: 'St. Aidan\'s A',
         location: 'Rubber Crumb 1 (Old)',
-        time: '12/10/2019 10:45',
+        time: '2023-10-22 07:45PM',
         completed: true,
         league: 'Premiership',
         isCup: false,
@@ -17,7 +17,7 @@ const fixturesWithDuplicates = [
         result: '1 - 2',
         teamTwo: 'St. Aidan\'s A',
         location: 'Rubber Crumb 1 (Old)',
-        time: '12/10/2019 10:45',
+        time: '2023-10-22 07:45PM',
         completed: true,
         league: 'Premiership',
         isCup: false,
@@ -28,7 +28,7 @@ const fixturesWithDuplicates = [
         result: '1 - 2',
         teamTwo: 'St. Aidan\'s A',
         location: 'Rubber Crumb 1 (Old)',
-        time: '12/10/2019 10:45',
+        time: '2023-10-22 07:45PM',
         completed: true,
         league: 'Premiership',
         isCup: false,
@@ -42,7 +42,7 @@ const fixturesWithUnsorted = [
         result: '1 - 2',
         teamTwo: 'St. Aidan\'s A',
         location: 'Rubber Crumb 1 (Old)',
-        time: '12/10/2019 10:45',
+        time: '2023-10-22 07:45PM',
         completed: true,
         league: 'Premiership',
         isCup: false,
@@ -53,7 +53,7 @@ const fixturesWithUnsorted = [
         result: '1 - 2',
         teamTwo: 'St. Aidan\'s A',
         location: 'Rubber Crumb 1 (Old)',
-        time: '12/10/2019 10:45',
+        time: '2023-10-22 07:45PM',
         completed: true,
         league: 'Premiership',
         isCup: false,
@@ -64,7 +64,7 @@ const fixturesWithUnsorted = [
         result: '1 - 2',
         teamTwo: 'St. Aidan\'s A',
         location: 'Rubber Crumb 1 (Old)',
-        time: '12/10/2019 10:45',
+        time: '2023-10-22 07:45PM',
         completed: true,
         league: 'Premiership',
         isCup: false,
@@ -78,7 +78,7 @@ const fixturesWithMultipleLeagues = [
         result: '1 - 2',
         teamTwo: 'St. Aidan\'s A',
         location: 'Rubber Crumb 1 (Old)',
-        time: '12/10/2019 10:45',
+        time: '2023-10-22 07:45PM',
         completed: true,
         league: 'Premiership',
         isCup: false,
@@ -89,7 +89,7 @@ const fixturesWithMultipleLeagues = [
         result: '1 - 2',
         teamTwo: 'St. Aidan\'s A',
         location: 'Rubber Crumb 1 (Old)',
-        time: '12/10/2019 10:45',
+        time: '2023-10-22 07:45PM',
         completed: true,
         league: 'League One',
         isCup: false,
@@ -100,7 +100,7 @@ const fixturesWithMultipleLeagues = [
         result: '1 - 2',
         teamTwo: 'St. Aidan\'s A',
         location: 'Rubber Crumb 1 (Old)',
-        time: '12/10/2019 10:45',
+        time: '2023-10-22 07:45PM',
         completed: true,
         league: 'League Two',
         isCup: false,
@@ -114,7 +114,7 @@ const fixturesWithDuplicateLeagues = [
         result: '1 - 2',
         teamTwo: 'St. Aidan\'s A',
         location: 'Rubber Crumb 1 (Old)',
-        time: '12/10/2019 10:45',
+        time: '2023-10-22 07:45PM',
         completed: true,
         league: 'Premiership',
         isCup: false,
@@ -125,7 +125,7 @@ const fixturesWithDuplicateLeagues = [
         result: '1 - 2',
         teamTwo: 'St. Aidan\'s A',
         location: 'Rubber Crumb 1 (Old)',
-        time: '12/10/2019 10:45',
+        time: '2023-10-22 07:45PM',
         completed: true,
         league: 'Premiership',
         isCup: false,
@@ -136,7 +136,7 @@ const fixturesWithDuplicateLeagues = [
         result: '1 - 2',
         teamTwo: 'St. Aidan\'s A',
         location: 'Rubber Crumb 1 (Old)',
-        time: '12/10/2019 10:45',
+        time: '2023-10-22 07:45PM',
         completed: true,
         league: 'League Two',
         isCup: false,
@@ -150,7 +150,7 @@ const fixturesWithUncompletedMatches = [
         result: '1 - 2',
         teamTwo: 'St. Aidan\'s A',
         location: 'Rubber Crumb 1 (Old)',
-        time: '12/10/2019 10:45',
+        time: '1000-10-22 07:45PM',
         completed: false,
         league: 'Premiership',
         isCup: false,
@@ -161,7 +161,7 @@ const fixturesWithUncompletedMatches = [
         result: '1 - 2',
         teamTwo: 'St. Aidan\'s A',
         location: 'Rubber Crumb 1 (Old)',
-        time: '12/10/2019 10:45',
+        time: '1000-10-22 07:45PM',
         completed: false,
         league: 'Premiership',
         isCup: false,
@@ -172,7 +172,7 @@ const fixturesWithUncompletedMatches = [
         result: '1 - 2',
         teamTwo: 'St. Aidan\'s A',
         location: 'Rubber Crumb 1 (Old)',
-        time: '12/10/2019 10:45',
+        time: '1000-10-22 07:45PM',
         completed: true,
         league: 'League Two',
         isCup: false,
@@ -186,7 +186,7 @@ const fixturesWithNonCollingwoodMatches = [
         result: '1 - 2',
         teamTwo: 'St. Aidan\'s A',
         location: 'Rubber Crumb 1 (Old)',
-        time: '12/10/2019 10:45',
+        time: '2023-10-22 07:45PM',
         completed: false,
         league: 'Premiership',
         isCup: false,
@@ -197,7 +197,7 @@ const fixturesWithNonCollingwoodMatches = [
         result: '1 - 2',
         teamTwo: 'St. Aidan\'s A',
         location: 'Rubber Crumb 1 (Old)',
-        time: '12/10/2019 10:45',
+        time: '2023-10-22 07:45PM',
         completed: false,
         league: 'Premiership',
         isCup: false,
@@ -208,7 +208,7 @@ const fixturesWithNonCollingwoodMatches = [
         result: '1 - 2',
         teamTwo: 'Collingwood A',
         location: 'Rubber Crumb 1 (Old)',
-        time: '12/10/2019 10:45',
+        time: '2023-10-22 07:45PM',
         completed: true,
         league: 'League Two',
         isCup: false,
@@ -222,7 +222,7 @@ const fixturesWithSearchString = [
         result: '1 - 2',
         teamTwo: 'St. Aidan\'s A',
         location: 'Rubber Crumb 1 (Old)',
-        time: '12/10/2019 10:45',
+        time: '2023-10-22 07:45PM',
         completed: false,
         league: 'Premiership',
         isCup: false,
@@ -233,7 +233,7 @@ const fixturesWithSearchString = [
         result: '1 - 2',
         teamTwo: 'St. Aidan\'s A',
         location: 'Rubber Crumb 1 (Old)',
-        time: '12/10/2019 10:45',
+        time: '2023-10-22 07:45PM',
         completed: false,
         league: 'Premiership',
         isCup: false,
@@ -244,7 +244,7 @@ const fixturesWithSearchString = [
         result: '1 - 2',
         teamTwo: 'abcdef and stuff',
         location: 'Rubber Crumb 1 (Old)',
-        time: '12/10/2019 10:45',
+        time: '2023-10-22 07:45PM',
         completed: true,
         league: 'League Two',
         isCup: false,
@@ -428,36 +428,36 @@ describe('Filtering fixtures', () => {
                     result: '1 - 2',
                     teamTwo: 'St. Aidan\'s A',
                     location: 'Rubber Crumb 1 (Old)',
-                    time: '12/10/2019 10:45',
+                    time: 'October 22, 1000 7:45 PM',
                     completed: false,
                     league: 'Premiership',
                     isCup: false,
                     isMen: true,
-                    id: 'Collingwood A vs St. Aidan\'s A-12/10/2019 10:45'
+                    id: 'Collingwood A vs St. Aidan\'s A-1000-10-22 07:45PM'
                 },
                 {
                     teamOne: 'Collingwood B',
                     result: '1 - 2',
                     teamTwo: 'St. Aidan\'s A',
                     location: 'Rubber Crumb 1 (Old)',
-                    time: '12/10/2019 10:45',
+                    time: 'October 22, 1000 7:45 PM',
                     completed: false,
                     league: 'Premiership',
                     isCup: false,
                     isMen: true,
-                    id: 'Collingwood B vs St. Aidan\'s A-12/10/2019 10:45'
+                    id: 'Collingwood B vs St. Aidan\'s A-1000-10-22 07:45PM'
                 },
                 {
                     teamOne: 'Collingwood B',
                     result: '1 - 2',
                     teamTwo: 'St. Aidan\'s A',
                     location: 'Rubber Crumb 1 (Old)',
-                    time: '12/10/2019 10:45',
+                    time: 'October 22, 1000 7:45 PM',
                     completed: true,
                     league: 'League Two',
                     isCup: false,
                     isMen: true,
-                    id: 'Collingwood B vs St. Aidan\'s A-12/10/2019 10:45'
+                    id: 'Collingwood B vs St. Aidan\'s A-1000-10-22 07:45PM'
                 }
             ]);
     });
@@ -470,12 +470,12 @@ describe('Filtering fixtures', () => {
                     result: '1 - 2',
                     teamTwo: 'St. Aidan\'s A',
                     location: 'Rubber Crumb 1 (Old)',
-                    time: '12/10/2019 10:45',
+                    time: 'October 22, 1000 7:45 PM',
                     completed: true,
                     league: 'League Two',
                     isCup: false,
                     isMen: true,
-                    id: 'Collingwood B vs St. Aidan\'s A-12/10/2019 10:45'
+                    id: 'Collingwood B vs St. Aidan\'s A-1000-10-22 07:45PM'
                 }
             ]);
     });
@@ -488,29 +488,29 @@ describe('Filtering fixtures', () => {
                     result: '1 - 2',
                     teamTwo: 'St. Aidan\'s A',
                     location: 'Rubber Crumb 1 (Old)',
-                    time: '12/10/2019 10:45',
+                    time: 'October 22, 2023 7:45 PM',
                     completed: false,
                     league: 'Premiership',
                     isCup: false,
                     isMen: true,
-                    id: 'Collingwood A vs St. Aidan\'s A-12/10/2019 10:45'
+                    id: 'Collingwood A vs St. Aidan\'s A-2023-10-22 07:45PM'
                 },
                 {
                     teamOne: 'Mildert',
                     result: '1 - 2',
                     teamTwo: 'Collingwood A',
                     location: 'Rubber Crumb 1 (Old)',
-                    time: '12/10/2019 10:45',
+                    time: 'October 22, 2023 7:45 PM',
                     completed: true,
                     league: 'League Two',
                     isCup: false,
                     isMen: true,
-                    id: 'Mildert vs Collingwood A-12/10/2019 10:45'
+                    id: 'Mildert vs Collingwood A-2023-10-22 07:45PM'
                 }
             ]);
     });
 
-    it('Filtering by a upcoming only removes completed matches in the past', () => {
+    it('Filtering by upcoming only removes completed matches in the past', () => {
         expect(helpers.filterFixtures(fixturesWithUncompletedMatches, 'All', false, true, ''))
             .toEqual([]);
     });
@@ -523,24 +523,24 @@ describe('Filtering fixtures', () => {
                     result: '1 - 2',
                     teamTwo: 'St. Aidan\'s A',
                     location: 'Rubber Crumb 1 (Old)',
-                    time: '12/10/2019 10:45',
+                    time: 'October 22, 2023 7:45 PM',
                     completed: false,
                     league: 'Premiership',
                     isCup: false,
                     isMen: true,
-                    id: 'pre abcdef after vs St. Aidan\'s A-12/10/2019 10:45'
+                    id: 'pre abcdef after vs St. Aidan\'s A-2023-10-22 07:45PM'
                 },
                 {
                     teamOne: 'Collingwood B',
                     result: '1 - 2',
                     teamTwo: 'abcdef and stuff',
                     location: 'Rubber Crumb 1 (Old)',
-                    time: '12/10/2019 10:45',
+                    time: 'October 22, 2023 7:45 PM',
                     completed: true,
                     league: 'League Two',
                     isCup: false,
                     isMen: true,
-                    id: 'Collingwood B vs abcdef and stuff-12/10/2019 10:45'
+                    id: 'Collingwood B vs abcdef and stuff-2023-10-22 07:45PM'
                 }
             ]);
     });

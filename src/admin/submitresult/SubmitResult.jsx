@@ -190,8 +190,6 @@ const SubmitResult = props => {
         );
     });
 
-    console.log('test', props.resultsHistory);
-
     return (
         <>
             <Paper
