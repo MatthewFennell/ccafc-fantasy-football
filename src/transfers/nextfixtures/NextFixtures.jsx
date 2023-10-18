@@ -13,7 +13,7 @@ import materialStyles from '../../materialStyles';
 import MatchRow from './MatchRow';
 import defaultStyles from './NextFixtures.module.scss';
 
-const convertToDay = d => moment(d, 'DD-MM-YYYY')
+const convertToDay = d => moment(d, 'YYYY-MM-DD hh:mma')
     .format('ddd, MMMM Do YYYY');
 
 const NextFixtures = props => {
@@ -31,8 +31,6 @@ const NextFixtures = props => {
 
     const classes = makeStyles(materialStyles)();
     const isMobile = useMediaQuery(`(max-width:${appConstants.mobileScreenSize}px)`);
-
-    console.log('fixtures', mensFixtures);
 
     return (
         <>

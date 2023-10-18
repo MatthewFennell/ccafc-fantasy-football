@@ -22,7 +22,7 @@ export const columns = [
     },
     {
         id: 'result',
-        label: 'Status',
+        label: 'Result',
         align: 'center'
     },
     {
@@ -119,6 +119,8 @@ export const filterFixtures = (fixtures, league, collingwoodOnly, upcomingOnly, 
         || teamTwoName.toLowerCase().includes(teamName.toLowerCase());
     };
 
+    const getTime = time => moment(time, 'YYYY-MM-DD hh:mma').format('LLL');
+
     const isWomens = x => {
         if (!league) {
             return true;
@@ -145,5 +147,8 @@ export const filterFixtures = (fixtures, league, collingwoodOnly, upcomingOnly, 
             id: `${fixture.teamOne} vs ${fixture.teamTwo}-${fixture.time}`
         }));
 
-    return helpers.sortMatchesByDate(filteredFixtures, false);
+    return helpers.sortMatchesByDate(filteredFixtures, false).map(fixture => ({
+        ...fixture,
+        time: getTime(fixture.time)
+    }));
 };

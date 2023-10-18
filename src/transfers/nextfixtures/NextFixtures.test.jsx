@@ -22,7 +22,7 @@ describe('NextFixtures - NextFixtures', () => {
             result: '1 - 2',
             teamTwo: 'St. Aidan\'s A',
             location: 'Rubber Crumb 1 (Old)',
-            time: '12/10/3019 10:45',
+            time: '2023-10-22 07:45PM',
             completed: true,
             league: 'Premiership',
             isCup: false
@@ -32,7 +32,7 @@ describe('NextFixtures - NextFixtures', () => {
             result: '1 - 8',
             teamTwo: 'Grey A',
             location: 'Rubber Crumb 3 (Track)',
-            time: '12/10/3019 15:00',
+            time: '3019-12-10 03:00PM',
             completed: true,
             league: 'Premiership',
             isCup: true
@@ -42,7 +42,7 @@ describe('NextFixtures - NextFixtures', () => {
             result: '0 - 5',
             teamTwo: 'Collingwood A',
             location: 'Rubber Crumb 1 (Old)',
-            time: '12/10/3019 16:45',
+            time: '3019-12-10 04:45PM',
             completed: true,
             league: 'Premiership',
             isCup: false
