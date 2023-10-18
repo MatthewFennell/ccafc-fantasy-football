@@ -6,11 +6,11 @@ import React from 'react';
 import { renderCollegeIcon } from './helpers';
 import defaultStyles from './MatchRow.module.scss';
 
-const covertToTime = d => moment(d, 'DD-MM-YYYY hh:mm').format('HH:mm');
+const covertToTime = d => moment(d, 'YYYY-MM-DD hh:mma').format('HH:mm');
 
 const isLive = date => moment()
-    .isAfter(moment(date, 'DD-MM-YYYY hh:mm'))
-    && moment().isBefore(moment(date, 'DD-MM-YYYY hh:mm').add(100, 'minutes'));
+    .isAfter(moment(date, 'YYYY-MM-DD hh:mma'))
+    && moment().isBefore(moment(date, 'YYYY-MM-DD hh:mma').add(100, 'minutes'));
 
 const renderTeamName = name => {
     if (!name) {

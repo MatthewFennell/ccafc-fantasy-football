@@ -9,9 +9,9 @@ const db = admin.firestore();
 
 const config = functions.config();
 
-const generateFixture = (teamOne, result, teamTwo, location, time, isMen) => {
+const generateFixture = (teamOne, result, teamTwo, location, league, time, isMen) => {
     if (teamOne && teamOne.length > 2 && teamTwo && teamTwo.length > 2) {
-        if (result === 'vs') {
+        if (result === '') {
             return {
                 teamOne, result, teamTwo, location, time, completed: false, isMen
             };
@@ -25,10 +25,10 @@ const generateFixture = (teamOne, result, teamTwo, location, time, isMen) => {
 
 const generateLeagueFixtures = (list, league, isMen) => {
     const fixtures = [];
-    for (let x = 0; x < list.length; x += 5) {
+    for (let x = 0; x < list.length; x += 6) {
         fixtures.push(
-            generateFixture(list[x], list[x + 1], list[x + 2], list[x + 3], list[x + 4], isMen)
-        );
+            generateFixture(list[x], list[x + 1], list[x + 2], list[x + 3], league, list[x+5], isMen)
+        ); // team1, result, team2, location, league, date
     }
     return fixtures.filter(x => x !== null).map(x => ({ ...x, league, isCup: false }));
 };
@@ -47,25 +47,17 @@ const transformHtml = (html, isMen) => {
     const $ = cheerio.load(html);
     const arr = [];
 
-    const format = $('h1').text();
+    const format = 'not cup'
 
-    const splitLeague = $('h3').text().split('-');
-    let league = splitLeague.length > 1 ? splitLeague[1].trimLeft() : null;
+    const league = $('h2').text().replace('Details for ', '').split(' (20')[0]
 
-    if (splitLeague.some(x => x.includes('Floodlit'))) {
-        league = 'Floodlit';
-    }
-    if (splitLeague.some(x => x.includes('Trophy'))) {
-        league = 'Trophy';
-    }
-
-    $('td').each((i, el) => {
+    $('div[id="collapse-fixtures-list"]').find('td').each((_, el) => {
         const item = $(el).text();
-        arr.push(item.trim().trimLeft().trimRight().replace(/(\r\n|\n|\r)/gm, '')
+        arr.push(item.trim().trimStart().trimEnd().replace(/(\r\n|\n|\r)/gm, '')
             .replace(/\s\s+/g, ' '));
-    });
+      });
 
-    return format === 'Knockout' ? generateCupFixtures(arr, league, isMen) : generateLeagueFixtures(arr, league, isMen);
+      return format === 'Knockout' ? generateCupFixtures(arr, league, isMen) : generateLeagueFixtures(arr, league, isMen);
 };
 
 const generateAllFixtures = () => common.getCorrectYear(db).collection('divisions').doc(constants.divisionsId).get()
